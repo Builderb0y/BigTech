@@ -1,0 +1,1 @@
+Tech mod for Minecraft inspired by PowerCraft. This mod is not a port or an updated version of PowerCraft; it has been re-written and re-textured from scratch with some blocks and items removed, and some new ones added. Some of my blocks are meant to look and function similarly to blocks in PowerCraft, but no code or assets have been copied directly.
