@@ -10,15 +10,15 @@
 	"icon": "assets/bigtech/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main":   [ "builderb0y.bigtech.BigTech" ],
+		"main":   [ "builderb0y.bigtech.BigTechMod" ],
 		"client": [ "builderb0y.bigtech.BigTechClient" ]
 	},
 	"mixins": [
 		"bigtech.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=${loader_version}",
+		"fabricloader": ">=0.14.23",
 		"fabric": "*",
-		"minecraft": "${minecraft_version}"
+		"minecraft": "1.20.2"
 	}
 }
