@@ -6,17 +6,24 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 public class ShapedRecipeBuilder {
 
+	public CraftingRecipeCategory category;
 	public String group;
 	public String[] pattern;
 	public Char2ObjectMap<String> ingredients = new Char2ObjectArrayMap<>(6);
 	public String result;
 	public int count = 1;
+
+	public ShapedRecipeBuilder category(CraftingRecipeCategory category) {
+		this.category = category;
+		return this;
+	}
 
 	public ShapedRecipeBuilder group(String group) {
 		this.group = group;
@@ -83,6 +90,7 @@ public class ShapedRecipeBuilder {
 		StringBuilder builder = new StringBuilder(512);
 		builder.append("{\n");
 		builder.append("\t\"type\": \"minecraft:crafting_shaped\",\n");
+		if (this.category != null) builder.append("\t\"category\": \"").append(this.category.asString()).append("\",\n");
 		if (this.group != null) builder.append("\t\"group\": \"").append(this.group).append("\",\n");
 		builder.append("\t\"pattern\": [\n");
 		builder.append("\t\t\"").append(this.pattern[0]).append('"');

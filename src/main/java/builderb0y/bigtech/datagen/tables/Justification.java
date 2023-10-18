@@ -7,6 +7,15 @@ public interface Justification {
 	public abstract void justify(ColumnFormatter.Context<?> context);
 
 	/**
+	does not justify text at all, and does not append whitspace to either side of it.
+	useful when all the text is known in advance to be the same length,
+	or if the text being justified is at the end of a line.
+	*/
+	public static Justification none() {
+		return context -> {};
+	}
+
+	/**
 	keeps text on the left, and whitespace on the right. for example:
 	|a  |
 	|ab |
@@ -115,7 +124,7 @@ public interface Justification {
 
 		@Override
 		public String toString() {
-			return "Justification.on(${builderb0y.bigtech.datagen.tables.ColumnFormatter.quoteAndEscape(this.align)})";
+			return "Justification.on(${ColumnFormatter.quoteAndEscape(this.align)})";
 		}
 	}
 }

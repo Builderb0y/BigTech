@@ -3,8 +3,8 @@ package builderb0y.bigtech.datagen.impl.belts;
 import java.util.Map;
 
 import net.minecraft.item.BlockItem;
+import net.minecraft.util.Identifier;
 
-import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
@@ -16,36 +16,43 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 		super(blockItem);
 	}
 
-	public void writeBeltBlockModel(DataGenContext context, String name) {
+	public void writeBeltBlockModel(DataGenContext context, Identifier id) {
 		context.writeToFile(
-			context.blockModelPath(BigTechMod.modID("belts/${name}")),
+			context.blockModelPath(id),
 			context.replace(
 				"""
 				{
-					"parent": "bigtech:block/belts/template",
+					"parent": "bigtech:block/template_belt",
 					"textures": {
-						"belt": "bigtech:block/belts/%TEX"
+						"belt": "%TEX"
 					}
 				}
 				""",
-				Map.of("TEX", name)
+				Map.of("TEX", context.prefixPath("block/", id).toString())
 			)
 		);
 	}
 
 	@Override
-	public abstract void writeItemModels(DataGenContext context);
+	public void writeBlockModels(DataGenContext context) {
+		this.writeBeltBlockModel(context, this.id);
+	}
 
-	public void writeBeltItemModel(DataGenContext context, String parent) {
+	@Override
+	public void writeItemModels(DataGenContext context) {
+		this.writeBeltItemModel(context, this.id);
+	}
+
+	public void writeBeltItemModel(DataGenContext context, Identifier parent) {
 		context.writeToFile(
 			context.itemModelPath(this.id),
 			context.replace(
 				"""
 				{
-					"parent": "bigtech:block/belts/%PARENT"
+					"parent": "%PARENT"
 				}
 				""",
-				Map.of("PARENT", parent)
+				Map.of("PARENT", context.prefixPath("block/", parent).toString())
 			)
 		);
 	}

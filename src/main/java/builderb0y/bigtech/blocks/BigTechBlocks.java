@@ -8,8 +8,10 @@ import net.minecraft.block.MapColor;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.state.property.Properties;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blocks.belts.BrakeBeltBlock;
 import builderb0y.bigtech.blocks.belts.DirectionalBeltBlock;
 import builderb0y.bigtech.blocks.belts.SpeedyBeltBlock;
 import builderb0y.bigtech.datagen.base.UseDataGen;
@@ -32,15 +34,28 @@ public class BigTechBlocks {
 		"speedy_belt",
 		new SpeedyBeltBlock(
 			AbstractBlock
-				.Settings
-				.create()
-				.mapColor(MapColor.STONE_GRAY)
-				.strength(0.2F)
+			.Settings
+			.create()
+			.mapColor(MapColor.STONE_GRAY)
+			.strength(0.2F)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final BrakeBeltBlock BRAKE_BELT = register(
+		"brake_belt",
+		new BrakeBeltBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.STONE_GRAY)
+			.strength(0.2F)
 		)
 	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(SPEEDY_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
 	}
 
 	public static <B extends Block> B register(String name, B block) {

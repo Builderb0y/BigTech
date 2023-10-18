@@ -9,6 +9,7 @@ import net.minecraft.registry.Registry;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.datagen.impl.belts.BrakeBeltDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.NormalBeltDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.SpeedyBeltDataGenerator;
 
@@ -18,6 +19,8 @@ public class BigTechItems {
 	public static final BeltBlockItem BELT = register("belt", new BeltBlockItem(BigTechBlocks.BELT, new Item.Settings()));
 	@UseDataGen(SpeedyBeltDataGenerator.class)
 	public static final BeltBlockItem SPEEDY_BELT = register("speedy_belt", new BeltBlockItem(BigTechBlocks.SPEEDY_BELT, new Item.Settings()));
+	@UseDataGen(BrakeBeltDataGenerator.class)
+	public static final BeltBlockItem BRAKE_BELT = register("brake_belt", new BeltBlockItem(BigTechBlocks.BRAKE_BELT, new Item.Settings()));
 
 	public static void init() {}
 

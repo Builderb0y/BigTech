@@ -3,6 +3,7 @@ bugs:
 
 where I left off:
 	the rest of the belts.
+	add to creative menu.
 
 features:
 	decoration:
@@ -12,9 +13,7 @@ features:
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
 	transport:
 		belts:
-			speedy belt: transports entities faster
 			spliterator belt: sorts entities left or right with a filter GUI
-			brake belt: slows down (or stops) entities
 			pressure belt: emits a redstone signal when entities are on top of it
 			redirector belt: sends items left, right, or straight based on redstone signals
 			elevators: transports entities vertically
@@ -79,3 +78,5 @@ done:
 	transport:
 		belts:
 			belt: transports entities horizontally
+			speedy belt: transports entities faster
+			brake belt: slows down (or stops) entities

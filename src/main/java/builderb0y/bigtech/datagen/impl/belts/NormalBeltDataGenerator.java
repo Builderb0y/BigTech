@@ -2,15 +2,13 @@ package builderb0y.bigtech.datagen.impl.belts;
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
-import net.minecraft.state.property.Properties;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.items.BigTechItems;
 
 public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
@@ -20,25 +18,15 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 	}
 
 	@Override
-	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
-		return new BlockStateJsonVariant(
-			state,
-			"bigtech:block/belts/normal",
-			null,
-			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
-		);
-	}
-
-	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(BigTechMod.modID("belts/template")),
+			context.blockModelPath(BigTechMod.modID("template_belt")),
 			"""
 			{
 				"parent": "block/thin_block",
 				"textures": {
 					"particle": "#belt",
-					"bottom": "bigtech:block/belts/bottom"
+					"bottom": "bigtech:block/belt_bottom"
 				},
 				"elements": [
 					{
@@ -57,12 +45,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 			}
 			"""
 		);
-		this.writeBeltBlockModel(context, "normal");
-	}
-
-	@Override
-	public void writeItemModels(DataGenContext context) {
-		this.writeBeltItemModel(context, "normal");
+		super.writeBlockModels(context);
 	}
 
 	@Override
@@ -70,6 +53,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 		context.writeToFile(
 			context.recipePath(BigTechMod.modID("belt_from_paper")),
 			new ShapedRecipeBuilder()
+			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
 			.pattern("ppp", "i i")
 			.itemIngredient('p', Items.PAPER)
@@ -81,6 +65,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 		context.writeToFile(
 			context.recipePath(BigTechMod.modID("belt_from_leather")),
 			new ShapedRecipeBuilder()
+			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
 			.pattern("lll", "i i")
 			.itemIngredient('l', Items.LEATHER)

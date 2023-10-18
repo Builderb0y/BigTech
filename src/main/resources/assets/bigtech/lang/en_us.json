@@ -1,4 +1,5 @@
 {
-	"block.bigtech.belt":        "Belt"       ,
+	"block.bigtech.belt":        "Belt",
+	"block.bigtech.brake_belt":  "Brake Belt",
 	"block.bigtech.speedy_belt": "Speedy Belt"
 }

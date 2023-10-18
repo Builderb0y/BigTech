@@ -7,7 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -15,8 +14,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class DirectionalBeltBlock extends AbstractBeltBlock {
-
-	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
 	public DirectionalBeltBlock(Settings settings) {
 		super(settings);
@@ -27,7 +24,7 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	}
 
 	public Direction getDirection(World world, BlockPos pos, BlockState state, Entity entity) {
-		return state.get(FACING);
+		return state.get(Properties.HORIZONTAL_FACING);
 	}
 
 	@Override
@@ -75,15 +72,14 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 		entity.setVelocity(newX, oldMotion.y, newZ);
 	}
 
-	@Nullable
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext context) {
+	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
 		return super.getPlacementState(context).with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing);
 	}
 
 	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
-		builder.add(FACING);
+		builder.add(Properties.HORIZONTAL_FACING);
 	}
 }

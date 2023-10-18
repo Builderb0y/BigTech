@@ -2,6 +2,7 @@ package builderb0y.bigtech.datagen.impl.belts;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
+import net.minecraft.state.property.Properties;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -13,7 +14,14 @@ public abstract class DirectionalBeltDataGenerator extends BeltDataGenerator {
 		super(blockItem);
 	}
 
-	public abstract BlockStateJsonVariant createVariant(DataGenContext context, BlockState state);
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixPath("block/", this.id).toString(),
+			null,
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
+		);
+	}
 
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {

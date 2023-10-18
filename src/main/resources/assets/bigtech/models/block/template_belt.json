@@ -2,7 +2,7 @@
 	"parent": "block/thin_block",
 	"textures": {
 		"particle": "#belt",
-		"bottom": "bigtech:block/belts/bottom"
+		"bottom": "bigtech:block/belt_bottom"
 	},
 	"elements": [
 		{

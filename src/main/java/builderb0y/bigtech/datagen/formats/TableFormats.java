@@ -107,7 +107,7 @@ public class TableFormats {
 			.addLiteral("\t")
 			.addJoined(": ", format -> format
 				.addField(Justification.left(), lang -> ColumnFormatter.quoteAndEscape(lang.key))
-				.addField(Justification.left(), lang -> ColumnFormatter.quoteAndEscape(lang.value))
+				.addField(Justification.none(), lang -> ColumnFormatter.quoteAndEscape(lang.value))
 			)
 			.addLineDeliminator(",")
 			.suffix("\n}")
@@ -130,7 +130,7 @@ public class TableFormats {
 				"""
 			)
 			.addLiteral("\t\t")
-			.addField(Justification.left(), element -> ColumnFormatter.quoteAndEscape(element.name))
+			.addField(Justification.none(), element -> ColumnFormatter.quoteAndEscape(element.name))
 			.addLineDeliminator(",")
 			.suffix("\n\t]\n}")
 		);
