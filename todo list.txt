@@ -1,0 +1,81 @@
+bugs:
+	none yet.
+
+where I left off:
+	the rest of the belts.
+
+features:
+	decoration:
+		frames: looks like scaffolding, can be climbed like a ladder
+		platforms: looks like a catwalk, can be walked on
+		platform stairs: includes rails on the side
+		decorative lightning rod: summons lightning on demand, does not generate lightning power
+	transport:
+		belts:
+			speedy belt: transports entities faster
+			spliterator belt: sorts entities left or right with a filter GUI
+			brake belt: slows down (or stops) entities
+			pressure belt: emits a redstone signal when entities are on top of it
+			redirector belt: sends items left, right, or straight based on redstone signals
+			elevators: transports entities vertically
+		hoppers:
+			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
+			stone hopper: this is the vanilla hopper, just with a cheaper recipe
+			iron hopper: extracts from whichever slot has the fewest items. ties are broken by slot index.
+			golden hopper: extracts from whichever slot has the most items in it. ties are broken by slot index.
+			quartz hopper: extracts from a random slot
+		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
+		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
+	lightning power:
+		lightning rod: generates lightning power
+		lightning cable: transfers lightning power without shocking entities
+		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
+		lightning electrode: stores lightning power in portable, item format. releases power on right click.
+		transmutation chamber: uses lightning power to turn items into other items
+		resurrector: uses lightning power and mob drops to summon the mob that drops those items
+		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
+		lightning enchanter: uses lightning power to enchant items
+		vanilla integration:
+			lightning pulses going through TNT will make it explode
+			lightning pulses going through a spawner will make it spawn mobs
+	lasers:
+		redstone transmitter: transmits a redstone signal across a large distance
+		redstone receiver: receivs a signal from a redstone transmitter
+		redstone detector: detects a redstone laser passing through the block
+		thermal discouragement beam: roasts entities that touch the beam
+		tripwire laser: emits a redstone signal when an entity touches the beam
+		spotlight: places light source blocks everywhere the laser goes
+		mirror: reflects beams so that they go somewhere else
+		prism: can split up a laser into several others
+		lens: placed on prisms to control their outputs. also used for crafting lasers.
+		beam obscurator: makes laser beams invisible
+		beam revealer: makes laser beams visible again
+		crystal clusters: boosts the distance of lasers passing through it.
+	automation:
+		upgraded crafting tables:
+			wood: unchanged
+			stone: keeps its inventory when you close the GUI
+			iron: allows automation via hoppers. crafts when given a redstone signal.
+			gold: has a template section that can be used to configure where items go. redstone signal not required.
+		deployer: places blocks.
+		destroyer: breaks blocks.
+		block excavator: upgraded version of the block breaker which can mine entire ore veins at once
+		block harvester: upgraded version of the block breaker which can chop down entire trees at once
+		ignitor: smelts items on top of it, sets entities on fire
+		XP storage device: not sure about the details yet.
+		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
+		radio: computercraft integration which allows you to control miners remotely, without a driver.
+		spawner jammer: disables spawners unless powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
+	redstone:
+		pulsar: emits regularly timed redstone pulses
+		directional redstone block: emits a redstone signal in only one direction
+	tools:
+		power crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
+		snow cannon: shoots snowballs every tick while you hold down right click
+		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
+		power tools: pickaxe works like block excavator, axe works like block harvester. shovel will work on dirt/gravel veins. not sure about the other tools.
+
+done:
+	transport:
+		belts:
+			belt: transports entities horizontally

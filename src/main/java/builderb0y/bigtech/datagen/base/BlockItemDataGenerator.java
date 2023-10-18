@@ -16,12 +16,28 @@ public interface BlockItemDataGenerator extends BlockDataGenerator, ItemDataGene
 	}
 
 	@Override
-	public default Identifier getID() {
+	public default Identifier getId() {
 		return Registries.ITEM.getId(this.getBlockItem());
 	}
 
 	@Override
 	public default Item getItem() {
 		return this.getBlockItem();
+	}
+
+	@Override
+	public default void run(DataGenContext context) {
+		this.setupLang(context);
+
+		this.writeBlockstateJson(context);
+		this.writeBlockModels(context);
+		this.writeLootTableJson(context);
+		this.setupMiningToolTags(context);
+		this.setupMiningLevelTags(context);
+		this.setupOtherBlockTags(context);
+
+		this.writeItemModels(context);
+		this.writeRecipes(context);
+		this.setupOtherItemTags(context);
 	}
 }

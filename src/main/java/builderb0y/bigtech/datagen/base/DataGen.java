@@ -1,6 +1,8 @@
 package builderb0y.bigtech.datagen.base;
 
 import java.io.File;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -8,9 +10,14 @@ import org.slf4j.LoggerFactory;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.registry.tag.TagManagerLoader;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.datagen.impl.TableFormats.LangEntry;
+import builderb0y.bigtech.datagen.impl.TableFormats.TagElement;
+import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItems;
 
 public class DataGen {
@@ -41,7 +48,7 @@ public class DataGen {
 	}
 
 	public static boolean isEnabled() {
-		return ROOT_DIRECTORIES != null;
+		return ROOT_DIRECTORIES != null && ROOT_DIRECTORIES.length != 0;
 	}
 
 	public static void run() {
@@ -54,6 +61,19 @@ public class DataGen {
 		context.empty("data");
 		context.copy(new File(MANUAL_RESOURCES, "assets"), "assets");
 		context.copy(new File(MANUAL_RESOURCES, "data"), "data");
+		for (DataGenerator dataGenerator : context.generators) {
+			dataGenerator.run(context);
+		}
+		{
+			Table<LangEntry> table = new Table<>(LangEntry.FORMAT);
+			context.lang.entrySet().stream().map(LangEntry::new).forEachOrdered(table.rows::add);
+			context.writeToFile("assets/bigtech/lang/en_us.json", table.toString());
+		}
+		for (Map.Entry<TagKey<?>, Set<String>> entry : context.tags.entrySet()) {
+			Table<TagElement> table = new Table<>(TagElement.FORMAT);
+			entry.value.stream().map(TagElement::new).forEachOrdered(table.rows::add);
+			context.writeToFile(context.tagPath(entry.key), table.toString());
+		}
 		LOGGER.info("Done running data gen.");
 	}
 }

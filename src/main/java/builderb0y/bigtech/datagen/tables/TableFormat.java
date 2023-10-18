@@ -19,6 +19,17 @@ and then passed into the constructor of a {@link Table} as-needed.
 public class TableFormat<R> implements ColumnFormatter<R> {
 
 	public final List<ColumnFormatter<R>> columnFormatters = new ArrayList<>(8);
+	public String prefix, suffix;
+
+	public TableFormat<R> prefix(String prefix) {
+		this.prefix = prefix;
+		return this;
+	}
+
+	public TableFormat<R> suffix(String suffix) {
+		this.suffix = suffix;
+		return this;
+	}
 
 	public TableFormat<R> addField(Justification justification, Function<? super R, ?> getter) {
 		return this.addColumn((Context<R> context) -> {
@@ -50,12 +61,19 @@ public class TableFormat<R> implements ColumnFormatter<R> {
 
 	public TableFormat<R> addLiteral(String text, Predicate<R> predicate) {
 		return this.addColumn((Context<R> context) -> {
-			int rows = context.rows();
-			for (int row = 0; row < rows; row++) {
-				context.stringBuilders.get(row).add(
-					predicate.test(context.row(row))
-						? text
-						: new Whitespace(text.length())
+			int rowCount = context.rows();
+			boolean any = false;
+			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+				if (predicate.test(context.row(rowIndex))) {
+					any = true;
+					break;
+				}
+			}
+			if (any) for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+				context.stringBuilders.get(rowIndex).add(
+					predicate.test(context.row(rowIndex))
+					? text
+					: new Whitespace(text.length())
 				);
 			}
 		});

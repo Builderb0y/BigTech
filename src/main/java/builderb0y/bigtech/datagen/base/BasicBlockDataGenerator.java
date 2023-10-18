@@ -29,7 +29,7 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		return context.underscoresToCapitals(this.getID().getPath());
+		return context.underscoresToCapitals(this.id.path);
 	}
 
 	public boolean hasMorePropertiesThan(Property<?> expected) {
@@ -62,12 +62,12 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 		if (this.hasMorePropertiesThan(Properties.WATERLOGGED)) {
 			context.error(new IllegalStateException("Should override writeBlockstateJson() to handle multiple states: " + this));
 		}
-		this.writeDefaultBlockstateJson(context, this.getID());
+		this.writeDefaultBlockstateJson(context, this.id);
 	}
 
 	public void writeDefaultBlockstateJson(DataGenContext context, Identifier blockModel) {
 		context.writeToFile(
-			context.blockstatePath(this.getID()),
+			context.blockstatePath(this.id),
 			context.replace(
 				"""
 				{
@@ -84,7 +84,7 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	@Override
 	public void writeLootTableJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockLootTablePath(this.getID()),
+			context.blockLootTablePath(this.id),
 			context.replace(
 				"""
 				{
@@ -101,7 +101,7 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 					}]
 				}
 				""",
-				Map.of("BLOCK", this.getID().toString())
+				Map.of("BLOCK", this.id.toString())
 			)
 		);
 	}
@@ -109,14 +109,14 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
-			context.itemModelPath(this.getID()),
+			context.itemModelPath(this.id),
 			context.replace(
 				"""
 				{
 					"parent": "%PARENT"
 				}
 				""",
-				Map.of("PARENT", context.prefixPath("block/", this.getID()).toString())
+				Map.of("PARENT", context.prefixPath("block/", this.id).toString())
 			)
 		);
 	}

@@ -86,16 +86,19 @@ public interface ColumnFormatter<R> {
 
 		@Override
 		public String toString() {
-			int textLength = this.stringBuilders.size() << 8;
-			StringBuilder combined = new StringBuilder(textLength);
+			if (this.stringBuilders.isEmpty()) {
+				return this.table.format.prefix + this.table.format.suffix;
+			}
+			int textLength = this.stringBuilders.size() << 7;
+			StringBuilder combined = new StringBuilder(textLength).append(this.table.format.prefix);
 			for (List<CharSequence> row : this.stringBuilders) {
 				for (CharSequence column : row) {
 					combined.append(column);
 				}
 				combined.append('\n');
 			}
-			combined.setLength(combined.length() - 1); //strip trailing newline.
-			return combined.toString();
+			combined.setLength(Math.max(combined.length() - 1, 0)); //strip trailing newline.
+			return combined.append(this.table.format.suffix).toString();
 		}
 	}
 }

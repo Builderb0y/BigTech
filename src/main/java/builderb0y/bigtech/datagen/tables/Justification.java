@@ -80,19 +80,21 @@ public interface Justification {
 			int rowCount = context.rows();
 			int beforeMaxLength = 0;
 			int afterMaxLength = 0;
+			boolean seenAlign = false;
 			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 				List<CharSequence> builder = context.stringBuilders.get(rowIndex);
 				CharSequence text = builder.get(builder.size() - 1);
 				int alignIndex = this.indexOf(text);
+				if (alignIndex != text.length()) seenAlign = true;
 				beforeMaxLength = Math.max(beforeMaxLength, alignIndex);
-				afterMaxLength = Math.max(afterMaxLength, text.length() - (alignIndex + 1));
+				afterMaxLength = Math.max(afterMaxLength, text.length() - (alignIndex + this.align.length()));
 			}
 			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 				List<CharSequence> builder = context.stringBuilders.get(rowIndex);
 				CharSequence last = builder.get(builder.size() - 1);
 				int radixPointIndex = this.indexOf(last);
 				builder.add(builder.size() - 1, new Whitespace(beforeMaxLength - radixPointIndex));
-				builder.add(new Whitespace(afterMaxLength - (last.length() - (radixPointIndex + 1))));
+				if (seenAlign) builder.add(new Whitespace(afterMaxLength - (last.length() - (radixPointIndex + this.align.length()))));
 			}
 		}
 

@@ -1,6 +1,7 @@
 package builderb0y.bigtech.datagen.tables;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -53,6 +54,12 @@ public class Table<R> {
 
 	public Table<R> addRow(R row) {
 		this.rows.add(row);
+		return this;
+	}
+
+	public Table<R> addRows(Iterable<R> rows) {
+		if (rows instanceof Collection<R> collection) this.rows.addAll(collection);
+		else rows.forEach(this.rows::add);
 		return this;
 	}
 

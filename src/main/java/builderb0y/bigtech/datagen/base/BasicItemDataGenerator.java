@@ -24,13 +24,13 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		return context.underscoresToCapitals(this.getID().getPath());
+		return context.underscoresToCapitals(this.id.path);
 	}
 
 	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
-			context.itemModelPath(this.getID()),
+			context.itemModelPath(this.id),
 			context.replace(
 				"""
 				{
@@ -40,7 +40,7 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 					}
 				}
 				""",
-				Map.of("TEX", this.getID().toString())
+				Map.of("TEX", this.id.toString())
 			)
 		);
 	}

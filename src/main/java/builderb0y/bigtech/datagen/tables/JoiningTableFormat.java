@@ -60,34 +60,43 @@ public class JoiningTableFormat<R> extends TableFormat<R> {
 
 	@Override
 	public void formatTo(Context<R> context) {
+		int rowCount = context.rows();
 		List<ColumnFormatter<R>> formatters = this.columnFormatters;
 		for (int formatterIndex = 0, size = formatters.size(); formatterIndex < size; formatterIndex++) {
 			formatters.get(formatterIndex).formatTo(context);
-			for (int rowIndex = 0, rowCount = context.rows(); rowIndex < rowCount; rowIndex++) {
-				R row = context.row(rowIndex);
+			boolean any = false;
+			if (formatterIndex != size - 1) {
+				for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+					if (this.needsDeliminator(context, rowIndex, formatterIndex)) {
+						any = true;
+						break;
+					}
+				}
+			}
+			if (any) for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 				List<CharSequence> builder = context.stringBuilders.get(rowIndex);
-				if (formatterIndex != size - 1) {
-					if (this.predicates.get(formatterIndex).test(row) && this.testAfter(context, rowIndex, formatterIndex)) {
-						if (builder.get(builder.size() - 1) instanceof Whitespace) {
-							builder.add(builder.size() - 1, this.deliminator);
-						}
-						else {
-							builder.add(this.deliminator);
-						}
+				if (this.needsDeliminator(context, rowIndex, formatterIndex)) {
+					if (builder.get(builder.size() - 1) instanceof Whitespace) {
+						builder.add(builder.size() - 1, this.deliminator);
 					}
 					else {
-						builder.add(new Whitespace(this.deliminator.length()));
+						builder.add(this.deliminator);
 					}
+				}
+				else {
+					builder.add(new Whitespace(this.deliminator.length()));
 				}
 			}
 		}
 	}
 
-	public boolean testAfter(Context<R> context, int rowIndex, int predicateIndex) {
+	public boolean needsDeliminator(Context<R> context, int rowIndex, int predicateIndex) {
 		R row = context.row(rowIndex);
-		while (++predicateIndex < this.predicates.size()) {
-			if (this.predicates.get(predicateIndex).test(row)) {
-				return true;
+		if (this.predicates.get(predicateIndex).test(row)) {
+			while (++predicateIndex < this.predicates.size()) {
+				if (this.predicates.get(predicateIndex).test(row)) {
+					return true;
+				}
 			}
 		}
 		return false;

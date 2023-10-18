@@ -7,38 +7,44 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.registry.tag.TagManagerLoader;
 import net.minecraft.util.Identifier;
 
 public class DataGenContext {
 
 	public final List<DataGenerator> generators;
+	public final Map<TagKey<?>, Set<String>> tags;
+	public final Map<String, String> lang;
 
 	public DataGenContext() {
 		if (!DataGen.isEnabled()) {
 			throw new IllegalStateException("DataGen not enabled.");
 		}
 		this.generators = new ArrayList<>(256);
+		this.tags = new IdentityHashMap<>(64);
+		this.lang = new TreeMap<>();
 	}
 
 	public void collectGenerators(Class<?> registryClass, Class<?> baseType) {
 		for (Field field : registryClass.getDeclaredFields()) {
-			if ((field.getModifiers() & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL) && baseType.isAssignableFrom(field.getType())) {
+			if ((field.modifiers & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL) && baseType.isAssignableFrom(field.type)) {
 				UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
 				if (annotation == null) {
-					annotation = field.getType().getDeclaredAnnotation(UseDataGen.class);
+					annotation = field.type.getDeclaredAnnotation(UseDataGen.class);
 					if (annotation == null) {
 						this.error("Missing data generator for ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
 				}
 				Class<?> dataGenClass = annotation.value();
+				if (dataGenClass == void.class) continue;
 				Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
 				if (constructors.length != 1) {
 					this.error("${dataGenClass} has more than one constructor! For field ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
@@ -74,17 +80,31 @@ public class DataGenContext {
 		return this.getGenerators(BlockItemDataGenerator.class);
 	}
 
-	public String     blockstatePath(Identifier identifier) { return "assets/${identifier.getNamespace()}/blockstates/${       identifier.getPath()}.json"; }
-	public String     blockModelPath(Identifier identifier) { return "assets/${identifier.getNamespace()}/models/block/${      identifier.getPath()}.json"; }
-	public String      itemModelPath(Identifier identifier) { return "assets/${identifier.getNamespace()}/models/item/${       identifier.getPath()}.json"; }
-	public String blockLootTablePath(Identifier identifier) { return "data/${  identifier.getNamespace()}/loot_tables/blocks/${identifier.getPath()}.json"; }
-	public String         recipePath(Identifier identifier) { return "data/${  identifier.getNamespace()}/recipes/${           identifier.getPath()}.json"; }
-	public String       blockTagPath(Identifier identifier) { return "data/${  identifier.getNamespace()}/tags/blocks/${       identifier.getPath()}.json"; }
-	public String        itemTagPath(Identifier identifier) { return "data/${  identifier.getNamespace()}/tags/items/${        identifier.getPath()}.json"; }
+	public Set<String> getTags(TagKey<?> key) {
+		return this.tags.computeIfAbsent(key, k -> new TreeSet<>());
+	}
+
+	public Set<String> getBlockTags(Identifier identifier) {
+		return this.getTags(TagKey.of(RegistryKeys.BLOCK, identifier));
+	}
+
+	public Set<String> getItemTags(Identifier identifier) {
+		return this.getTags(TagKey.of(RegistryKeys.ITEM, identifier));
+	}
+
+	public String     blockstatePath(Identifier identifier) { return "assets/${identifier.namespace}/blockstates/${                          identifier.path}.json"; }
+	public String     blockModelPath(Identifier identifier) { return "assets/${identifier.namespace}/models/block/${                         identifier.path}.json"; }
+	public String      itemModelPath(Identifier identifier) { return "assets/${identifier.namespace}/models/item/${                          identifier.path}.json"; }
+	public String blockLootTablePath(Identifier identifier) { return "data/${  identifier.namespace}/loot_tables/blocks/${                   identifier.path}.json"; }
+	public String         recipePath(Identifier identifier) { return "data/${  identifier.namespace}/recipes/${                              identifier.path}.json"; }
+	public String       blockTagPath(Identifier identifier) { return "data/${  identifier.namespace}/tags/blocks/${                          identifier.path}.json"; }
+	public String        itemTagPath(Identifier identifier) { return "data/${  identifier.namespace}/tags/items/${                           identifier.path}.json"; }
+	public String            tagPath(TagKey<?>  key       ) { return "data/${      key.id.namespace}/${TagManagerLoader.getPath(key.registry)}/${key.id.path}.json"; }
 
 	public void writeToFile(String path, String text) {
 		for (File root : DataGen.ROOT_DIRECTORIES) {
 			File file = new File(root, path.replace('/', File.separatorChar));
+			file.getParentFile().mkdirs();
 			try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
 				writer.write(text);
 			}
@@ -95,18 +115,18 @@ public class DataGenContext {
 	}
 
 	public Identifier prefixPath(String prefix, Identifier identifier) {
-		if (prefix.isEmpty()) return identifier;
-		return new Identifier(identifier.getNamespace(), prefix + identifier.getPath());
+		if (prefix.isEmpty) return identifier;
+		return new Identifier(identifier.namespace, prefix + identifier.path);
 	}
 
 	public Identifier suffixPath(Identifier identifier, String suffix) {
-		if (suffix.isEmpty()) return identifier;
-		return new Identifier(identifier.getNamespace(), identifier.getPath() + suffix);
+		if (suffix.isEmpty) return identifier;
+		return new Identifier(identifier.namespace, identifier.path + suffix);
 	}
 
 	public Identifier prefixSuffixPath(String prefix, Identifier identifier, String suffix) {
-		if (prefix.isEmpty() && suffix.isEmpty()) return identifier;
-		return new Identifier(identifier.getNamespace(), prefix + identifier.getPath() + suffix);
+		if (prefix.isEmpty && suffix.isEmpty) return identifier;
+		return new Identifier(identifier.namespace, prefix + identifier.path + suffix);
 	}
 
 	public String replace(String text, Map<String, String> replacements) {
@@ -140,8 +160,8 @@ public class DataGenContext {
 		//and then immediately truncating it,
 		//which is another array copy operation.
 		//so, trim early here to avoid that.
-		while (!builder.isEmpty() && Character.isWhitespace(builder.charAt(builder.length() - 1))) {
-			builder.setLength(builder.length() - 1);
+		while (!builder.isEmpty && Character.isWhitespace(builder.charAt(builder.length() - 1))) {
+			builder.length = builder.length() - 1;
 		}
 		return builder.toString();
 	}
