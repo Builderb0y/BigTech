@@ -23,7 +23,7 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	}
 
 	public double getSpeed(World world, BlockPos pos, BlockState state, Entity entity) {
-		return 1.0D;
+		return 0.75D;
 	}
 
 	public Direction getDirection(World world, BlockPos pos, BlockState state, Entity entity) {

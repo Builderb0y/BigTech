@@ -11,6 +11,7 @@ import net.minecraft.registry.Registry;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.belts.DirectionalBeltBlock;
+import builderb0y.bigtech.blocks.belts.SpeedyBeltBlock;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 
 public class BigTechBlocks {
@@ -24,6 +25,17 @@ public class BigTechBlocks {
 			.create()
 			.mapColor(MapColor.STONE_GRAY)
 			.strength(0.2F)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final SpeedyBeltBlock SPEEDY_BELT = register(
+		"speedy_belt",
+		new SpeedyBeltBlock(
+			AbstractBlock
+				.Settings
+				.create()
+				.mapColor(MapColor.STONE_GRAY)
+				.strength(0.2F)
 		)
 	);
 

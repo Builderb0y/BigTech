@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/belts/template",
+	"textures": {
+		"belt": "bigtech:block/belts/speedy"
+	}
+}

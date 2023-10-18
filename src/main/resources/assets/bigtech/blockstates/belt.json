@@ -1,8 +1,8 @@
 {
 	"variants": {
-		"facing=north": { "model": "bigtech:block/belt", "y":   0 },
-		"facing=east":  { "model": "bigtech:block/belt", "y":  90 },
-		"facing=south": { "model": "bigtech:block/belt", "y": 180 },
-		"facing=west":  { "model": "bigtech:block/belt", "y": 270 }
+		"facing=north": { "model": "bigtech:block/belts/normal", "y":   0 },
+		"facing=east":  { "model": "bigtech:block/belts/normal", "y":  90 },
+		"facing=south": { "model": "bigtech:block/belts/normal", "y": 180 },
+		"facing=west":  { "model": "bigtech:block/belts/normal", "y": 270 }
 	}
 }

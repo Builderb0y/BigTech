@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"bigtech:belt"
+		"bigtech:belt"       ,
+		"bigtech:speedy_belt"
 	]
 }

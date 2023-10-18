@@ -11,12 +11,11 @@ import org.slf4j.LoggerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.registry.tag.TagManagerLoader;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlocks;
-import builderb0y.bigtech.datagen.impl.TableFormats.LangEntry;
-import builderb0y.bigtech.datagen.impl.TableFormats.TagElement;
+import builderb0y.bigtech.datagen.formats.TableFormats.LangEntry;
+import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
 import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItems;
 

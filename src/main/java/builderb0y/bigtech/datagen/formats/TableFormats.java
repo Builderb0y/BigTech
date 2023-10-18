@@ -1,4 +1,4 @@
-package builderb0y.bigtech.datagen.impl;
+package builderb0y.bigtech.datagen.formats;
 
 import java.util.*;
 import java.util.stream.Stream;

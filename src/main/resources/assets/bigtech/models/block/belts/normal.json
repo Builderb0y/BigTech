@@ -1,5 +1,5 @@
 {
-	"parent": "bigtech:block/template_belt",
+	"parent": "bigtech:block/belts/template",
 	"textures": {
 		"belt": "bigtech:block/belts/normal"
 	}

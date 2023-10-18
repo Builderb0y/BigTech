@@ -7,10 +7,10 @@
 	],
 	"key": {
 		"p": { "item": "minecraft:paper" },
-		"i": { "tag": "c:iron_ingots" }
+		"i": { "tag": "c:gold_ingots" }
 	},
 	"result": {
-		"item": "bigtech:belt",
+		"item": "bigtech:speedy_belt",
 		"count": 3
 	}
 }
