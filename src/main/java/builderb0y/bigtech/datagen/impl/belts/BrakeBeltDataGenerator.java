@@ -6,6 +6,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItems;
@@ -19,7 +20,7 @@ public class BrakeBeltDataGenerator extends DirectionalBeltDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(BigTechMod.modID("brake_belt_from_paper")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
@@ -32,7 +33,7 @@ public class BrakeBeltDataGenerator extends DirectionalBeltDataGenerator {
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(BigTechMod.modID("brake_belt_from_leather")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")

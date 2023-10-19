@@ -13,6 +13,7 @@ import net.minecraft.state.property.Properties;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.belts.BrakeBeltBlock;
 import builderb0y.bigtech.blocks.belts.DirectionalBeltBlock;
+import builderb0y.bigtech.blocks.belts.DirectorBeltBlock;
 import builderb0y.bigtech.blocks.belts.SpeedyBeltBlock;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 
@@ -33,22 +34,21 @@ public class BigTechBlocks {
 	public static final SpeedyBeltBlock SPEEDY_BELT = register(
 		"speedy_belt",
 		new SpeedyBeltBlock(
-			AbstractBlock
-			.Settings
-			.create()
-			.mapColor(MapColor.STONE_GRAY)
-			.strength(0.2F)
+			AbstractBlock.Settings.copy(BELT)
 		)
 	);
 	@UseDataGen(void.class)
 	public static final BrakeBeltBlock BRAKE_BELT = register(
 		"brake_belt",
 		new BrakeBeltBlock(
-			AbstractBlock
-			.Settings
-			.create()
-			.mapColor(MapColor.STONE_GRAY)
-			.strength(0.2F)
+			AbstractBlock.Settings.copy(BELT)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final DirectorBeltBlock DIRECTOR_BELT = register(
+		"director_belt",
+		new DirectorBeltBlock(
+			AbstractBlock.Settings.copy(BELT)
 		)
 	);
 

@@ -104,6 +104,9 @@ public class DataGenContext {
 	public void writeToFile(String path, String text) {
 		for (File root : DataGen.ROOT_DIRECTORIES) {
 			File file = new File(root, path.replace('/', File.separatorChar));
+			if (file.exists()) {
+				this.error(new IllegalStateException("Duplicate file: " + path + " -> " + file.getAbsolutePath()));
+			}
 			file.getParentFile().mkdirs();
 			try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
 				writer.write(text);

@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"facing=north,inverted=false,powered=false": { "model": "bigtech:block/director_belt_left",  "y":   0 },
+		"facing=north,inverted=false,powered=true":  { "model": "bigtech:block/director_belt_right", "y":   0 },
+		"facing=north,inverted=true,powered=false":  { "model": "bigtech:block/director_belt_right", "y":   0 },
+		"facing=north,inverted=true,powered=true":   { "model": "bigtech:block/director_belt_left",  "y":   0 },
+		"facing=east,inverted=false,powered=false":  { "model": "bigtech:block/director_belt_left",  "y":  90 },
+		"facing=east,inverted=false,powered=true":   { "model": "bigtech:block/director_belt_right", "y":  90 },
+		"facing=east,inverted=true,powered=false":   { "model": "bigtech:block/director_belt_right", "y":  90 },
+		"facing=east,inverted=true,powered=true":    { "model": "bigtech:block/director_belt_left",  "y":  90 },
+		"facing=south,inverted=false,powered=false": { "model": "bigtech:block/director_belt_left",  "y": 180 },
+		"facing=south,inverted=false,powered=true":  { "model": "bigtech:block/director_belt_right", "y": 180 },
+		"facing=south,inverted=true,powered=false":  { "model": "bigtech:block/director_belt_right", "y": 180 },
+		"facing=south,inverted=true,powered=true":   { "model": "bigtech:block/director_belt_left",  "y": 180 },
+		"facing=west,inverted=false,powered=false":  { "model": "bigtech:block/director_belt_left",  "y": 270 },
+		"facing=west,inverted=false,powered=true":   { "model": "bigtech:block/director_belt_right", "y": 270 },
+		"facing=west,inverted=true,powered=false":   { "model": "bigtech:block/director_belt_right", "y": 270 },
+		"facing=west,inverted=true,powered=true":    { "model": "bigtech:block/director_belt_left",  "y": 270 }
+	}
+}

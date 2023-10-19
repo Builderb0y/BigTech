@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"group": "bigtech:belts",
+	"pattern": [
+		"ppp",
+		"isi"
+	],
+	"key": {
+		"p": { "item": "minecraft:paper" },
+		"i": { "tag": "c:iron_ingots" },
+		"s": { "item": "minecraft:slime_ball" }
+	},
+	"result": {
+		"item": "bigtech:brake_belt",
+		"count": 3
+	}
+}
