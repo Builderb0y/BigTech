@@ -7,8 +7,8 @@
 		"isi"
 	],
 	"key": {
-		"p": { "item": "minecraft:paper" },
-		"i": { "tag": "c:iron_ingots" },
+		"p": { "item": "minecraft:paper"      },
+		"i": { "tag":  "c:iron_ingots"        },
 		"s": { "item": "minecraft:slime_ball" }
 	},
 	"result": {

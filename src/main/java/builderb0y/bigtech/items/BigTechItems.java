@@ -12,10 +12,7 @@ import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
-import builderb0y.bigtech.datagen.impl.belts.BrakeBeltDataGenerator;
-import builderb0y.bigtech.datagen.impl.belts.DirectorBeltDataGenerator;
-import builderb0y.bigtech.datagen.impl.belts.NormalBeltDataGenerator;
-import builderb0y.bigtech.datagen.impl.belts.SpeedyBeltDataGenerator;
+import builderb0y.bigtech.datagen.impl.belts.*;
 
 public class BigTechItems {
 
@@ -34,6 +31,10 @@ public class BigTechItems {
 	@UseDataGen(DirectorBeltDataGenerator.class)
 	public static final BlockItem DIRECTOR_BELT = registerPlacer(
 		BigTechBlocks.DIRECTOR_BELT
+	);
+	@UseDataGen(DetectorBeltDataGenerator.class)
+	public static final BeltBlockItem DETECTOR_BELT = registerBelt(
+		BigTechBlocks.DETECTOR_BELT
 	);
 	@UseDataGen(AscenderDataGenerator.class)
 	public static final AscenderBlockItem ASCENDER = register(

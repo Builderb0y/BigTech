@@ -8,8 +8,8 @@
 		"bgb"
 	],
 	"key": {
-		"b": { "item": "bigtech:belt" },
-		"g": { "tag": "c:glass_blocks" }
+		"b": { "item": "bigtech:belt"   },
+		"g": { "tag":  "c:glass_blocks" }
 	},
 	"result": {
 		"item": "bigtech:ascender",

@@ -17,10 +17,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.blocks.belts.BrakeBeltBlock;
-import builderb0y.bigtech.blocks.belts.DirectionalBeltBlock;
-import builderb0y.bigtech.blocks.belts.DirectorBeltBlock;
-import builderb0y.bigtech.blocks.belts.SpeedyBeltBlock;
+import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 
 public class BigTechBlocks {
@@ -59,6 +56,13 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final DetectorBeltBlock DETECTOR_BELT = register(
+		"detector_belt",
+		new DetectorBeltBlock(
+			AbstractBlock.Settings.copy(BELT)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final AscenderBlock ASCENDER = register(
 		"ascender",
 		new AscenderBlock(
@@ -84,6 +88,8 @@ public class BigTechBlocks {
 		LandPathNodeTypesRegistry.register(BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(SPEEDY_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
+		LandPathNodeTypesRegistry.register(DIRECTOR_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(DETECTOR_BELT, PathNodeType.RAIL, null);
 	}
 
 	@Environment(EnvType.CLIENT)

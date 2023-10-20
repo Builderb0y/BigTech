@@ -7,8 +7,8 @@
 		"isi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
-		"i": { "tag": "c:iron_ingots" },
+		"l": { "item": "minecraft:leather"    },
+		"i": { "tag":  "c:iron_ingots"        },
 		"s": { "item": "minecraft:slime_ball" }
 	},
 	"result": {

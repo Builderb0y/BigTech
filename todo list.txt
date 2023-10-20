@@ -14,7 +14,6 @@ features:
 	transport:
 		belts:
 			spliterator belt: sorts entities left or right with a filter GUI
-			pressure belt: emits a redstone signal when entities are on top of it
 		hoppers:
 			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
 			stone hopper: this is the vanilla hopper, just with a cheaper recipe
@@ -79,4 +78,5 @@ done:
 			speedy belt: transports entities faster
 			brake belt: slows down (or stops) entities
 			director belt: sends items left, right, or straight based on redstone signals
+			detector belt: emits a redstone signal when entities are on top of it
 		ascender/descender: transports entities vertically

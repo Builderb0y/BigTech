@@ -3,6 +3,7 @@
 	"values": [
 		"bigtech:belt",
 		"bigtech:brake_belt",
+		"bigtech:detector_belt",
 		"bigtech:director_belt",
 		"bigtech:speedy_belt"
 	]

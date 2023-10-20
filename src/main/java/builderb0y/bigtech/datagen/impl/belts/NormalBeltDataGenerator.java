@@ -51,7 +51,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(BigTechMod.modID("belt_from_paper")),
+			context.recipePath(context.suffixPath(this.id, "_from_paper")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
@@ -63,7 +63,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(BigTechMod.modID("belt_from_leather")),
+			context.recipePath(context.suffixPath(this.id, "_from_leather")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")

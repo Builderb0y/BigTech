@@ -3,16 +3,16 @@
 	"category": "redstone",
 	"group": "bigtech:belts",
 	"pattern": [
-		"lll",
-		"iri"
+		"ppp",
+		"isi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
+		"p": { "item": "minecraft:paper"   },
 		"i": { "tag":  "c:iron_ingots"     },
-		"r": { "tag":  "c:redstone_dusts"  }
+		"s": { "tag":  "c:pressure_plates" }
 	},
 	"result": {
-		"item": "bigtech:director_belt",
-		"count": 6
+		"item": "bigtech:detector_belt",
+		"count": 3
 	}
 }

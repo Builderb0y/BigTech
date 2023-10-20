@@ -10,6 +10,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.datagen.formats.TableFormats.UnkeyedRecipeIngredient;
+import builderb0y.bigtech.datagen.tables.Table;
+
 public class ShapelessRecipeBuilder {
 
 	public CraftingRecipeCategory category;
@@ -33,17 +36,12 @@ public class ShapelessRecipeBuilder {
 	}
 
 	public ShapelessRecipeBuilder ingredient(String itemOrTag) {
-		if (itemOrTag.charAt(0) == '#') {
-			this.ingredients.add("\"tag\": \"${itemOrTag.substring(1)}\"");
-		}
-		else {
-			this.ingredients.add("\"item\": \"${itemOrTag}\"");
-		}
+		this.ingredients.add(itemOrTag);
 		return this;
 	}
 
 	public ShapelessRecipeBuilder itemIngredient(Identifier item) {
-		this.ingredients.add("\"item\": \"${item}\"");
+		this.ingredients.add(item.toString());
 		return this;
 	}
 
@@ -52,7 +50,7 @@ public class ShapelessRecipeBuilder {
 	}
 
 	public ShapelessRecipeBuilder tagIngredient(Identifier tag) {
-		this.ingredients.add("\"tag\": \"${tag}\"");
+		this.ingredients.add("#" + tag);
 		return this;
 	}
 
@@ -86,14 +84,10 @@ public class ShapelessRecipeBuilder {
 		if (this.category != null) builder.append("\t\"category\": \"").append(this.category.asString()).append("\",\n");
 		if (this.group != null) builder.append("\t\"group\": \"").append(this.group).append("\",\n");
 		builder.append("\t\"ingredients\": [\n");
-		List<String> ingredients = this.ingredients;
-		for (int index = 0, size = ingredients.size(); index < size; index++) {
-			String ingredient = ingredients.get(index);
-			builder.append("\t\t{ ").append(ingredient).append(" }");
-			if (index != size - 1) builder.append(',');
-			builder.append('\n');
-		}
-		builder.append("\t],\n");
+		Table<UnkeyedRecipeIngredient> table = new Table<>(UnkeyedRecipeIngredient.FORMAT);
+		this.ingredients.stream().map(UnkeyedRecipeIngredient::create).forEachOrdered(table.rows::add);
+		builder.append(table);
+		builder.append("\n\t],\n");
 		builder.append("\t\"result\": {\n");
 		builder.append("\t\t\"item\": \"").append(this.result).append('"');
 		if (this.count != 1) builder.append(",\n\t\t\"count\": ").append(this.count);

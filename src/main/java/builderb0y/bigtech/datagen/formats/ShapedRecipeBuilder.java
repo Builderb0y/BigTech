@@ -2,7 +2,6 @@ package builderb0y.bigtech.datagen.formats;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectArrayMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -10,6 +9,9 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+
+import builderb0y.bigtech.datagen.formats.TableFormats.KeyedRecipeIngredient;
+import builderb0y.bigtech.datagen.tables.Table;
 
 public class ShapedRecipeBuilder {
 
@@ -40,17 +42,12 @@ public class ShapedRecipeBuilder {
 	}
 
 	public ShapedRecipeBuilder ingredient(char key, String itemOrTag) {
-		if (itemOrTag.charAt(0) == '#') {
-			this.ingredients.put(key, "\"tag\": \"${itemOrTag.substring(1)}\"");
-		}
-		else {
-			this.ingredients.put(key, "\"item\": \"${itemOrTag}\"");
-		}
+		this.ingredients.put(key, itemOrTag);
 		return this;
 	}
 
 	public ShapedRecipeBuilder itemIngredient(char key, Identifier item) {
-		this.ingredients.put(key, "\"item\": \"${item}\"");
+		this.ingredients.put(key, item.toString());
 		return this;
 	}
 
@@ -59,7 +56,7 @@ public class ShapedRecipeBuilder {
 	}
 
 	public ShapedRecipeBuilder tagIngredient(char key, Identifier tag) {
-		this.ingredients.put(key, "\"tag\": \"${tag}\"");
+		this.ingredients.put(key, "#" + tag);
 		return this;
 	}
 
@@ -99,13 +96,9 @@ public class ShapedRecipeBuilder {
 		}
 		builder.append("\n\t],\n");
 		builder.append("\t\"key\": {\n");
-		ObjectIterator<Char2ObjectMap.Entry<String>> iterator = this.ingredients.char2ObjectEntrySet().iterator();
-		Char2ObjectMap.Entry<String> entry = iterator.next();
-		builder.append("\t\t\"").append(entry.getCharKey()).append("\": { ").append(entry.getValue()).append(" }");
-		while (iterator.hasNext()) {
-			entry = iterator.next();
-			builder.append(",\n\t\t\"").append(entry.getCharKey()).append("\": { ").append(entry.getValue()).append(" }");
-		}
+		Table<KeyedRecipeIngredient> table = new Table<>(KeyedRecipeIngredient.FORMAT);
+		this.ingredients.char2ObjectEntrySet().stream().map(KeyedRecipeIngredient::create).forEachOrdered(table.rows::add);
+		builder.append(table);
 		builder.append("\n\t},\n");
 		builder.append("\t\"result\": {\n");
 		builder.append("\t\t\"item\": \"").append(this.result).append('"');

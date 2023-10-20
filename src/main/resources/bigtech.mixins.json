@@ -6,7 +6,7 @@
 	"mixins": [
 		"Entity_MakeRoutable"
 	],
-	"client": [],
+	"client": [ ],
 	"injectors": {
 		"defaultRequire": 1
 	}

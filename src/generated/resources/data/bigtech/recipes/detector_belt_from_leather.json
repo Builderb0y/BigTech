@@ -4,14 +4,15 @@
 	"group": "bigtech:belts",
 	"pattern": [
 		"lll",
-		"i i"
+		"isi"
 	],
 	"key": {
 		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:iron_ingots"     }
+		"i": { "tag":  "c:iron_ingots"     },
+		"s": { "tag":  "c:pressure_plates" }
 	},
 	"result": {
-		"item": "bigtech:belt",
+		"item": "bigtech:detector_belt",
 		"count": 6
 	}
 }
