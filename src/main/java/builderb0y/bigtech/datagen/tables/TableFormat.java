@@ -19,7 +19,7 @@ and then passed into the constructor of a {@link Table} as-needed.
 public class TableFormat<R> implements ColumnFormatter<R> {
 
 	public final List<ColumnFormatter<R>> columnFormatters = new ArrayList<>(8);
-	public String prefix, suffix;
+	public String prefix = "", suffix = "";
 
 	public TableFormat<R> prefix(String prefix) {
 		this.prefix = prefix;

@@ -23,6 +23,15 @@ public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 	}
 
 	@Override
+	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
+		if (face == Direction.UP) return AscenderIOType.SECONDARY_INPUT;
+		if (face == Direction.DOWN) return AscenderIOType.NO_INPUT;
+		Direction facing = state.get(Properties.FACING);
+		if (face == facing.opposite) return AscenderIOType.PRIMARY_INPUT;
+		return AscenderIOType.NO_INPUT;
+	}
+
+	@Override
 	public Direction getDirection(World world, BlockPos pos, BlockState state, Entity entity) {
 		Direction forward = state.get(Properties.HORIZONTAL_FACING);
 		return state.get(Properties.POWERED) == state.get(Properties.INVERTED) ? forward.rotateYCounterclockwise() : forward.rotateYClockwise();

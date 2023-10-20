@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.bigtech.BigTechMod;
@@ -17,6 +18,7 @@ import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.formats.TableFormats.LangEntry;
 import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
 import builderb0y.bigtech.datagen.tables.Table;
+import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
 
 public class DataGen {
@@ -54,8 +56,9 @@ public class DataGen {
 		if (!isEnabled()) throw new IllegalStateException("DataGen not enabled.");
 		LOGGER.info("Running data gen...");
 		DataGenContext context = new DataGenContext();
-		context.collectGenerators(BigTechBlocks.class, Block.class);
-		context.collectGenerators(BigTechItems .class, Item .class);
+		context.collectGenerators(BigTechBlocks    .class, Block    .class);
+		context.collectGenerators(BigTechItems     .class, Item     .class);
+		context.collectGenerators(BigTechItemGroups.class, ItemGroup.class);
 		context.empty("assets");
 		context.empty("data");
 		context.copy(new File(MANUAL_RESOURCES, "assets"), "assets");

@@ -1,0 +1,7 @@
+{
+	"jmxl": true,
+	"parent": "bigtech:block/template_ascender",
+	"textures": {
+		"translucent": "bigtech:block/ascender_translucent"
+	}
+}

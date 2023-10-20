@@ -1,14 +1,20 @@
 package builderb0y.bigtech.blocks;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.belts.BrakeBeltBlock;
@@ -28,6 +34,7 @@ public class BigTechBlocks {
 			.create()
 			.mapColor(MapColor.STONE_GRAY)
 			.strength(0.2F)
+			.pistonBehavior(PistonBehavior.DESTROY)
 		)
 	);
 	@UseDataGen(void.class)
@@ -51,11 +58,37 @@ public class BigTechBlocks {
 			AbstractBlock.Settings.copy(BELT)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final AscenderBlock ASCENDER = register(
+		"ascender",
+		new AscenderBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.STONE_GRAY)
+			.nonOpaque()
+			.strength(0.2F),
+			Direction.UP
+		)
+	);
+	@UseDataGen(void.class)
+	public static final AscenderBlock DESCENDER = register(
+		"descender",
+		new AscenderBlock(
+			AbstractBlock.Settings.copy(ASCENDER),
+			Direction.DOWN
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(SPEEDY_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void initClient() {
+		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.cutout, ASCENDER, DESCENDER);
 	}
 
 	public static <B extends Block> B register(String name, B block) {

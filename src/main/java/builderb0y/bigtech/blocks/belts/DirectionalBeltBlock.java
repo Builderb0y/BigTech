@@ -19,6 +19,16 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 		super(settings);
 	}
 
+	@Override
+	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
+		if (face == Direction.UP) return AscenderIOType.SECONDARY_INPUT;
+		if (face == Direction.DOWN) return AscenderIOType.NO_INPUT;
+		Direction facing = state.get(Properties.HORIZONTAL_FACING);
+		if (face == facing) return AscenderIOType.NO_INPUT;
+		if (face == facing.opposite) return AscenderIOType.PRIMARY_INPUT;
+		return AscenderIOType.SECONDARY_INPUT;
+	}
+
 	public double getSpeed(World world, BlockPos pos, BlockState state, Entity entity) {
 		return 0.75D;
 	}

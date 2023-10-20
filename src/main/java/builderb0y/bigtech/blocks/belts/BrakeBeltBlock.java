@@ -4,12 +4,19 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class BrakeBeltBlock extends RedstoneReceivingBeltBlock {
 
 	public BrakeBeltBlock(Settings settings) {
 		super(settings);
+	}
+
+	@Override
+	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
+		if (state.get(Properties.POWERED)) return AscenderIOType.NO_INPUT;
+		return super.getAscenderIOType(world, pos, state, face);
 	}
 
 	@Override

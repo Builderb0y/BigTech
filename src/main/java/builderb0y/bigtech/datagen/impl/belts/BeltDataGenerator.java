@@ -5,9 +5,11 @@ import java.util.Map;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 
 public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
@@ -19,17 +21,10 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 	public void writeBeltBlockModel(DataGenContext context, Identifier id) {
 		context.writeToFile(
 			context.blockModelPath(id),
-			context.replace(
-				"""
-				{
-					"parent": "bigtech:block/template_belt",
-					"textures": {
-						"belt": "%TEX"
-					}
-				}
-				""",
-				Map.of("TEX", context.prefixPath("block/", id).toString())
-			)
+			new RetexturedModelBuilder()
+			.blockParent(BigTechMod.modID("template_belt"))
+			.blockTexture("belt", id)
+			.toString()
 		);
 	}
 

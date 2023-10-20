@@ -1,6 +1,9 @@
 {
+	"block.bigtech.ascender":      "Ascender",
 	"block.bigtech.belt":          "Belt",
 	"block.bigtech.brake_belt":    "Brake Belt",
+	"block.bigtech.descender":     "Descender",
 	"block.bigtech.director_belt": "Director Belt",
-	"block.bigtech.speedy_belt":   "Speedy Belt"
+	"block.bigtech.speedy_belt":   "Speedy Belt",
+	"itemGroup.bigtech":           "Big Tech"
 }

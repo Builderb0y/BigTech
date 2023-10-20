@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:ascenders",
+	"ingredients": [
+		{ "item": "bigtech:descender" }
+	],
+	"result": {
+		"item": "bigtech:ascender"
+	}
+}

@@ -118,6 +118,23 @@ public class TableFormats {
 		}
 	}
 
+	public static record RetextureEntry(String key, String value) {
+
+		public static final TableFormat<RetextureEntry> FORMAT = (
+			new TableFormat<RetextureEntry>()
+			.addLiteral("\t\t")
+			.addJoined(": ", format -> format
+				.addField(Justification.left(), lang -> ColumnFormatter.quoteAndEscape(lang.key))
+				.addField(Justification.none(), lang -> ColumnFormatter.quoteAndEscape(lang.value))
+			)
+			.addLineDeliminator(",")
+		);
+
+		public RetextureEntry(Map.Entry<String, String> entry) {
+			this(entry.key, entry.value);
+		}
+	}
+
 	public static record TagElement(String name) {
 
 		public static final TableFormat<TagElement> FORMAT = (

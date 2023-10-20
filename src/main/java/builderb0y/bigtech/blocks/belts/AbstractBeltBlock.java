@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -17,16 +16,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import builderb0y.bigtech.blocks.AscenderInteractor;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 
-public abstract class AbstractBeltBlock extends Block implements Waterloggable {
+public abstract class AbstractBeltBlock extends Block implements Waterloggable, AscenderInteractor {
 
-	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 	public static final VoxelShape SHAPE = VoxelShapes.cuboid(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 
 	public AbstractBeltBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(WATERLOGGED, Boolean.FALSE);
+		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
 	}
 
 	public abstract void move(World world, BlockPos pos, BlockState state, Entity entity);
@@ -44,6 +43,7 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable {
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+		super.onEntityCollision(state, world, pos, entity);
 		if (
 			this.canMove(world, pos, state, entity) &&
 			MathHelper.floor(entity.pos.x) == pos.x &&
@@ -91,12 +91,12 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable {
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
-		return context.getStack().isOf(this.asItem());
+		return context.getStack().isOf(this.asItem()) && !context.shouldCancelInteraction();
 	}
 
 	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
-		builder.add(WATERLOGGED);
+		builder.add(Properties.WATERLOGGED);
 	}
 }

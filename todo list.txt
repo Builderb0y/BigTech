@@ -3,12 +3,9 @@ bugs:
 
 where I left off:
 	the rest of the belts.
-	add to creative menu.
 
 features:
 	general:
-		creative menu for powercraft items, or add them to the vanilla tabs.
-			make this configurable.
 	decoration:
 		frames: looks like scaffolding, can be climbed like a ladder
 		platforms: looks like a catwalk, can be walked on
@@ -18,7 +15,6 @@ features:
 		belts:
 			spliterator belt: sorts entities left or right with a filter GUI
 			pressure belt: emits a redstone signal when entities are on top of it
-			elevators: transports entities vertically
 		hoppers:
 			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
 			stone hopper: this is the vanilla hopper, just with a cheaper recipe
@@ -83,3 +79,4 @@ done:
 			speedy belt: transports entities faster
 			brake belt: slows down (or stops) entities
 			director belt: sends items left, right, or straight based on redstone signals
+		ascender/descender: transports entities vertically

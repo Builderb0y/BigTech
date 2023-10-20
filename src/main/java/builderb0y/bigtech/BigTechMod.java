@@ -8,7 +8,9 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGen;
+import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.networking.BigTechClientNetwork;
 
 public class BigTechMod implements ModInitializer {
 
@@ -23,6 +25,8 @@ public class BigTechMod implements ModInitializer {
 		LOGGER.info("Initializing...");
 		BigTechBlocks.init();
 		BigTechItems.init();
+		BigTechItemGroups.init();
+		BigTechClientNetwork.init();
 		if (DataGen.isEnabled) DataGen.run();
 		LOGGER.info("Done initializing.");
 	}

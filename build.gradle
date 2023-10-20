@@ -14,6 +14,11 @@ repositories() {
 	//for more information about repositories.
 
 	maven() {
+		url('https://api.modrinth.com/maven')
+	}
+
+	//manifold
+	maven() {
 		url('https://oss.sonatype.org/content/repositories/snapshots/')
 	}
 }
@@ -26,6 +31,9 @@ dependencies() {
 
 	//Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
+
+	//JMXL
+	include(modImplementation('maven.modrinth:jmxl:1.4+mc1.20.2'))
 
 	//manifold
 	String manifoldVersion = '2023.1.29'
