@@ -5,9 +5,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
-import builderb0y.bigtech.datagen.base.DataGenerator;
+import builderb0y.bigtech.datagen.base.LocalizedDataGenerator;
 
-public class ItemGroupDataGenerator implements DataGenerator {
+public class ItemGroupDataGenerator implements LocalizedDataGenerator {
 
 	public final ItemGroup itemGroup;
 

@@ -8,7 +8,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
-public interface BlockDataGenerator extends DataGenerator {
+public interface BlockDataGenerator extends LocalizedDataGenerator {
 
 	public abstract Block getBlock();
 
@@ -19,7 +19,7 @@ public interface BlockDataGenerator extends DataGenerator {
 
 	@Override
 	public default void run(DataGenContext context) {
-		DataGenerator.super.run(context);
+		LocalizedDataGenerator.super.run(context);
 
 		this.writeBlockstateJson(context);
 		this.writeBlockModels(context);

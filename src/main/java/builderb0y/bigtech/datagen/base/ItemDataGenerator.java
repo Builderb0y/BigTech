@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
-public interface ItemDataGenerator extends DataGenerator {
+public interface ItemDataGenerator extends LocalizedDataGenerator {
 
 	public abstract Item getItem();
 
@@ -15,7 +15,7 @@ public interface ItemDataGenerator extends DataGenerator {
 
 	@Override
 	public default void run(DataGenContext context) {
-		DataGenerator.super.run(context);
+		LocalizedDataGenerator.super.run(context);
 
 		this.writeItemModels(context);
 		this.writeRecipes(context);

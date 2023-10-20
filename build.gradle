@@ -45,6 +45,14 @@ dependencies() {
 	}
 }
 
+sourceSets() {
+	generated() {
+		resources() {
+			srcDir(file('src/generated/resources'))
+		}
+	}
+}
+
 compileJava() {
 	options.compilerArgs.addAll([ '-parameters', '-Xplugin:Manifold' ])
 }
