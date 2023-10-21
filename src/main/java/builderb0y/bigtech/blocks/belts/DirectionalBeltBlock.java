@@ -13,6 +13,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.blocks.AscenderInteractor;
+
 public class DirectionalBeltBlock extends AbstractBeltBlock {
 
 	public DirectionalBeltBlock(Settings settings) {
@@ -20,13 +22,13 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	}
 
 	@Override
-	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
-		if (face == Direction.UP) return AscenderIOType.SECONDARY_INPUT;
-		if (face == Direction.DOWN) return AscenderIOType.NO_INPUT;
+	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
+		if (face == Direction.UP) return AscenderInteractor.BELT_TOP;
+		if (face == Direction.DOWN) return AscenderInteractor.BLOCKED;
 		Direction facing = state.get(Properties.HORIZONTAL_FACING);
-		if (face == facing) return AscenderIOType.NO_INPUT;
-		if (face == facing.opposite) return AscenderIOType.PRIMARY_INPUT;
-		return AscenderIOType.SECONDARY_INPUT;
+		if (face == facing) return AscenderInteractor.BLOCKED;
+		if (face == facing.opposite) return AscenderInteractor.BELT_BACK;
+		return AscenderInteractor.BELT_SIDE;
 	}
 
 	public double getSpeed(World world, BlockPos pos, BlockState state, Entity entity) {

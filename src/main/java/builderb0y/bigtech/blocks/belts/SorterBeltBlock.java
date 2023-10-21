@@ -19,6 +19,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.SorterBeltBlockEntity;
+import builderb0y.bigtech.blocks.AscenderInteractor;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.util.WorldHelper;
 
@@ -26,6 +27,15 @@ public class SorterBeltBlock extends DirectionalBeltBlock implements BlockEntity
 
 	public SorterBeltBlock(Settings settings) {
 		super(settings);
+	}
+
+	@Override
+	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
+		if (face == Direction.UP) return AscenderInteractor.BELT_TOP;
+		if (face == Direction.DOWN) return AscenderInteractor.BLOCKED;
+		Direction facing = state.get(Properties.FACING);
+		if (face == facing.opposite) return AscenderInteractor.BELT_BACK;
+		return AscenderInteractor.BLOCKED;
 	}
 
 	@Override
@@ -55,15 +65,6 @@ public class SorterBeltBlock extends DirectionalBeltBlock implements BlockEntity
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		return blockEntity instanceof SorterBeltBlockEntity factory ? factory : null;
-	}
-
-	@Override
-	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
-		if (face == Direction.UP) return AscenderIOType.SECONDARY_INPUT;
-		if (face == Direction.DOWN) return AscenderIOType.NO_INPUT;
-		Direction facing = state.get(Properties.FACING);
-		if (face == facing.opposite) return AscenderIOType.PRIMARY_INPUT;
-		return AscenderIOType.NO_INPUT;
 	}
 
 	@Override

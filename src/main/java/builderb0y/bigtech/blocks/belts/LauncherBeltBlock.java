@@ -7,6 +7,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.blocks.AscenderInteractor;
+
 public class LauncherBeltBlock extends AbstractBeltBlock {
 
 	public LauncherBeltBlock(Settings settings) {
@@ -14,10 +16,10 @@ public class LauncherBeltBlock extends AbstractBeltBlock {
 	}
 
 	@Override
-	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
-		if (face == Direction.UP) return AscenderIOType.SECONDARY_INPUT;
-		if (face == Direction.DOWN) return AscenderIOType.NO_INPUT;
-		return AscenderIOType.PRIMARY_INPUT;
+	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
+		if (face == Direction.UP) return AscenderInteractor.BELT_TOP;
+		if (face == Direction.DOWN) return AscenderInteractor.BLOCKED;
+		return AscenderInteractor.BELT_BACK;
 	}
 
 	@Override

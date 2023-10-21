@@ -1,6 +1,6 @@
 {
 	"parent": "bigtech:block/template_belt",
 	"textures": {
-		"belt": "bigtech:block/director_belt_left"
+		"belt": "bigtech:block/director_belt_right_left"
 	}
 }

@@ -7,6 +7,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.state.property.Properties;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blocks.BigTechProperties;
+import builderb0y.bigtech.blocks.belts.DirectorBeltBlock.DirectorBeltMode;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 
@@ -18,9 +20,11 @@ public class DirectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 
 	@Override
 	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		boolean inverted = state.get(Properties.INVERTED);
+		DirectorBeltMode mode = state.get(BigTechProperties.DIRECTOR_BELT_MODE);
 		return new BlockStateJsonVariant(
 			state,
-			context.prefixSuffixPath("block/", this.id, state.get(Properties.POWERED) == state.get(Properties.INVERTED) ? "_left" : "_right").toString(),
+			context.prefixSuffixPath("block/", this.id, '_' + (state.get(Properties.POWERED) == state.get(Properties.INVERTED) ? mode.regularName : mode.invertedName)).toString(),
 			null,
 			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);
@@ -29,8 +33,12 @@ public class DirectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		super.writeBlockModels(context);
-		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_left"));
-		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_right"));
+		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_left_right"));
+		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_right_left"));
+		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_left_front"));
+		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_front_left"));
+		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_right_front"));
+		this.writeBeltBlockModel(context, BigTechMod.modID("director_belt_front_right"));
 	}
 
 	@Override

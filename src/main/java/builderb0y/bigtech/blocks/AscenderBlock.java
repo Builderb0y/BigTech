@@ -1,7 +1,6 @@
 package builderb0y.bigtech.blocks;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -58,39 +57,36 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	public AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face) {
-		return face == this.direction.opposite ? AscenderIOType.PRIMARY_INPUT : AscenderIOType.NO_INPUT;
+	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
+		return face == this.direction.opposite ? AscenderInteractor.ASCENDER_TOP_BOTTOM : AscenderInteractor.BLOCKED;
 	}
 
 	public Direction[] getApplicableDirections(World world, BlockPos pos, BlockState state) {
-		record Tuple(Direction direction, AscenderIOType type) {}
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-		Map<AscenderIOType, List<Tuple>> map = (
-			Arrays
-			.stream(Enums.DIRECTIONS)
-			.filter(direction -> direction != this.direction.opposite)
-			.map(direction -> {
-				BlockState adjacentState = world.getBlockState(mutablePos.set(pos, direction));
-				return new Tuple(
-					direction,
-					adjacentState.getBlock() instanceof AscenderInteractor interactor
-					? interactor.getAscenderIOType(world, mutablePos, adjacentState, direction.opposite)
-					: AscenderIOType.NO_INPUT
-				);
-			})
-			.filter(tuple -> tuple.type != AscenderIOType.NO_INPUT)
-			.collect(Collectors.groupingBy(Tuple::type))
-		);
-
-		List<Tuple> list = map.get(AscenderIOType.PRIMARY_INPUT);
-		if (list != null && !list.isEmpty) {
-			return list.stream().map(Tuple::direction).toArray(Direction[]::new);
+		ArrayList<Direction> bestDirections = new ArrayList<>(5);
+		int bestPriority = 1;
+		for (Direction direction : Enums.DIRECTIONS) {
+			if (direction == this.direction.opposite) continue;
+			BlockState adjacentState = world.getBlockState(mutablePos.set(pos, direction));
+			int priority;
+			if (adjacentState.getBlock() instanceof AscenderInteractor ascenderInteractor) {
+				priority = ascenderInteractor.getAscenderPriority(world, mutablePos, adjacentState, direction.opposite);
+			}
+			else {
+				priority = AscenderInteractor.BLOCKED;
+			}
+			if (priority > bestPriority) {
+				bestDirections.clear();
+				bestPriority = priority;
+			}
+			if (priority == bestPriority) {
+				bestDirections.add(direction);
+			}
 		}
-		list = map.get(AscenderIOType.SECONDARY_INPUT);
-		if (list != null && !list.isEmpty) {
-			return list.stream().map(Tuple::direction).toArray(Direction[]::new);
+		if (bestDirections.isEmpty) {
+			bestDirections.add(this.direction);
 		}
-		return new Direction[] { this.direction };
+		return bestDirections.toArray(Direction[]::new);
 	}
 
 	public Direction computeMovementDirection(World world, BlockPos pos, BlockState state, Entity entity) {

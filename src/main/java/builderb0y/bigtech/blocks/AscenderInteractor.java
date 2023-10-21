@@ -9,22 +9,21 @@ import net.minecraft.world.World;
 a block which pulls entities out of an ascender or descender.
 each side of the block has an associated IO type.
 the way the logic currently works,
-the ascender or descender will first attempt to distribute entities
-evenly between all adjacent blocks whose {@link AscenderIOType}
-on the side touching the ascender or descender is {@link AscenderIOType#PRIMARY_INPUT}.
-if there are no primary inputs for the adjacent blocks on the side touching
-the ascender or descender, then the ascender or descender will try to distribute
-entities to {@link AscenderIOType#SECONDARY_INPUT}s instead.
-if that fails too, then the default direction (up for ascenders,
-down for descenders) will be used.
+the ascender or descender will sort all adjacent blocks by priority,
+and distribute between all blocks with the highest priority.
+by this I mean that if 2 adjacent blocks are tied for the highest priority,
+then the ascender will distribute between both of them.
+if no adjacent blocks have a positive priority, then the default
+direction (up for ascenders, down for descenders) is used.
 */
 public interface AscenderInteractor {
 
-	public abstract AscenderIOType getAscenderIOType(World world, BlockPos pos, BlockState state, Direction face);
+	public static final int
+		BELT_BACK           = 256,
+		ASCENDER_TOP_BOTTOM = 192,
+		BELT_SIDE           = 128,
+		BELT_TOP            =  64,
+		BLOCKED             =   0;
 
-	public static enum AscenderIOType {
-		PRIMARY_INPUT,
-		SECONDARY_INPUT,
-		NO_INPUT;
-	}
+	public abstract int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face);
 }

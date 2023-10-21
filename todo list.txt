@@ -5,7 +5,6 @@ where I left off:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
 	make belts and ascenders/descenders able to insert items into inventories.
 	JEI support for sorter belt GUI.
-	more useful routing logic for director belts.
 
 features:
 	general:
@@ -35,8 +34,9 @@ features:
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
 		lightning enchanter: uses lightning power to enchant items
 		vanilla integration:
-			lightning pulses going through TNT will make it explode
-			lightning pulses going through a spawner will make it spawn mobs
+			TNT: explode
+			spawner: spawn mobs
+			blocks made of copper: de-oxidize
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receivs a signal from a redstone transmitter
