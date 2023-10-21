@@ -4,12 +4,12 @@
 	"group": "bigtech:belts",
 	"pattern": [
 		"lll",
-		"iri"
+		"ioi"
 	],
 	"key": {
 		"l": { "item": "minecraft:leather" },
 		"i": { "tag":  "c:iron_ingots"     },
-		"r": { "tag":  "c:redstone_dusts"  }
+		"o": { "tag":  "c:redstone_dusts"  }
 	},
 	"result": {
 		"item": "bigtech:director_belt",

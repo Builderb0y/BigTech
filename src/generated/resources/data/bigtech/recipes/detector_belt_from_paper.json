@@ -4,12 +4,12 @@
 	"group": "bigtech:belts",
 	"pattern": [
 		"ppp",
-		"isi"
+		"ioi"
 	],
 	"key": {
 		"p": { "item": "minecraft:paper"   },
 		"i": { "tag":  "c:iron_ingots"     },
-		"s": { "tag":  "c:pressure_plates" }
+		"o": { "tag":  "c:pressure_plates" }
 	},
 	"result": {
 		"item": "bigtech:detector_belt",

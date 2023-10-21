@@ -5,6 +5,7 @@
 	"block.bigtech.descender":     "Descender",
 	"block.bigtech.detector_belt": "Detector Belt",
 	"block.bigtech.director_belt": "Director Belt",
+	"block.bigtech.launcher_belt": "Launcher Belt",
 	"block.bigtech.sorter_belt":   "Sorter Belt",
 	"block.bigtech.speedy_belt":   "Speedy Belt",
 	"itemGroup.bigtech":           "Big Tech"

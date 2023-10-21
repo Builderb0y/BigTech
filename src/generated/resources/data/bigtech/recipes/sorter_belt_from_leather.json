@@ -4,12 +4,12 @@
 	"group": "bigtech:belts",
 	"pattern": [
 		"lll",
-		"idi"
+		"ioi"
 	],
 	"key": {
 		"l": { "item": "minecraft:leather" },
 		"i": { "tag":  "c:iron_ingots"     },
-		"d": { "tag":  "c:diamonds"        }
+		"o": { "tag":  "c:diamonds"        }
 	},
 	"result": {
 		"item": "bigtech:sorter_belt",

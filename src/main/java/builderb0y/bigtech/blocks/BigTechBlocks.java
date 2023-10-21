@@ -71,6 +71,13 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final LauncherBeltBlock LAUNCHER_BELT = register(
+		"launcher_belt",
+		new LauncherBeltBlock(
+			AbstractBlock.Settings.copy(BELT)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final AscenderBlock ASCENDER = register(
 		"ascender",
 		new AscenderBlock(
@@ -98,6 +105,8 @@ public class BigTechBlocks {
 		LandPathNodeTypesRegistry.register(BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
 		LandPathNodeTypesRegistry.register(DIRECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(DETECTOR_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(SORTER_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(LAUNCHER_BELT, PathNodeType.RAIL, null);
 	}
 
 	@Environment(EnvType.CLIENT)

@@ -7,12 +7,12 @@
 		"ioi"
 	],
 	"key": {
-		"p": { "item": "minecraft:paper" },
-		"i": { "tag":  "c:iron_ingots"   },
-		"o": { "tag":  "c:diamonds"      }
+		"p": { "item": "minecraft:paper"  },
+		"i": { "tag":  "c:iron_ingots"    },
+		"o": { "item": "minecraft:piston" }
 	},
 	"result": {
-		"item": "bigtech:sorter_belt",
+		"item": "bigtech:launcher_belt",
 		"count": 3
 	}
 }

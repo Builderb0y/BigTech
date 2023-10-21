@@ -4,12 +4,12 @@
 	"group": "bigtech:belts",
 	"pattern": [
 		"ppp",
-		"isi"
+		"ioi"
 	],
 	"key": {
 		"p": { "item": "minecraft:paper"      },
 		"i": { "tag":  "c:iron_ingots"        },
-		"s": { "item": "minecraft:slime_ball" }
+		"o": { "item": "minecraft:slime_ball" }
 	},
 	"result": {
 		"item": "bigtech:brake_belt",

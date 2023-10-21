@@ -7,12 +7,12 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather"    },
-		"i": { "tag":  "c:iron_ingots"        },
-		"o": { "item": "minecraft:slime_ball" }
+		"l": { "item": "minecraft:leather" },
+		"i": { "tag":  "c:iron_ingots"     },
+		"o": { "item": "minecraft:piston"  }
 	},
 	"result": {
-		"item": "bigtech:brake_belt",
+		"item": "bigtech:launcher_belt",
 		"count": 6
 	}
 }

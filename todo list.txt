@@ -16,7 +16,7 @@ features:
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
 	transport:
 		belts:
-			launcher belt: launches entities upwards
+			ejector belt: extracts items from chests, and xp from the xp storage block, on redstone signal.
 		hoppers:
 			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
 			stone hopper: this is the vanilla hopper, just with a cheaper recipe
@@ -83,4 +83,5 @@ done:
 			director belt: sends items left, right, or straight based on redstone signals
 			detector belt: emits a redstone signal when entities are on top of it
 			sorter belt: sorts entities left or right with a filter GUI
+			launcher belt: launches entities upwards
 		ascender/descender: transports entities vertically
