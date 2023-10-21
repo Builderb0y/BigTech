@@ -11,6 +11,7 @@ public class BigTechItemTags {
 
 	public static final TagKey<Item>
 		BELTS           = of    ("belts"),
+		ASCENDERS       = of    ("ascenders"),
 		PRESSURE_PLATES = common("pressure_plates");
 
 	public static TagKey<Item> of(String name) {

@@ -4,7 +4,8 @@
 	"package": "builderb0y.bigtech.mixins",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"Entity_MakeRoutable"
+		"Entity_MakeRoutable",
+		"ItemEntity_DontMergeDuringTransport"
 	],
 	"client": [ ],
 	"injectors": {

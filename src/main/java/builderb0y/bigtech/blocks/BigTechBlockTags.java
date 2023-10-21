@@ -9,8 +9,10 @@ import builderb0y.bigtech.BigTechMod;
 public class BigTechBlockTags {
 
 	public static final TagKey<Block>
-		BELTS        = of("belts"),
-		BELT_SUPPORT = of("belt_support");
+		BELTS                 = of("belts"),
+		BELT_SUPPORT          = of("belt_support"),
+		ASCENDERS             = of("ascenders"),
+		PREVENTS_ITEM_MERGING = of("prevents_item_merging");
 
 	public static TagKey<Block> of(String name) {
 		return TagKey.of(RegistryKeys.BLOCK, BigTechMod.modID(name));

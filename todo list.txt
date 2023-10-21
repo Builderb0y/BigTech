@@ -4,8 +4,8 @@ bugs:
 where I left off:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
 	make belts and ascenders/descenders able to insert items into inventories.
-	prevent items and xp orbs from stacking while on conveyors or in ascenders.
 	JEI support for sorter belt GUI.
+	more useful routing logic for director belts.
 
 features:
 	general:

@@ -11,6 +11,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.Direction;
 
+import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.tables.ColumnFormatter;
 import builderb0y.bigtech.datagen.tables.Justification;
 import builderb0y.bigtech.datagen.tables.TableFormat;
@@ -160,6 +161,10 @@ public class TableFormats {
 			.addLineDeliminator(",")
 			.suffix("\n\t]\n}")
 		);
+
+		public TagElement(TagOrItem tagOrItem) {
+			this(tagOrItem.toString());
+		}
 	}
 
 	public static record KeyedRecipeIngredient(String key, boolean isTag, String id) {

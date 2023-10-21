@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 public class DataGenContext {
 
 	public final List<DataGenerator> generators;
-	public final Map<TagKey<?>, Set<String>> tags;
+	public final Map<TagKey<?>, TagBuilder> tags;
 	public final Map<String, String> lang;
 
 	public DataGenContext() {
@@ -63,33 +63,8 @@ public class DataGenContext {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public <D extends DataGenerator> Stream<D> getGenerators(Class<D> clazz) {
-		return (Stream<D>)(this.generators.stream().filter(clazz::isInstance));
-	}
-
-	public Stream<BlockDataGenerator> blocks() {
-		return this.getGenerators(BlockDataGenerator.class);
-	}
-
-	public Stream<ItemDataGenerator> items() {
-		return this.getGenerators(ItemDataGenerator.class);
-	}
-
-	public Stream<BlockItemDataGenerator> blockItems() {
-		return this.getGenerators(BlockItemDataGenerator.class);
-	}
-
-	public Set<String> getTags(TagKey<?> key) {
-		return this.tags.computeIfAbsent(key, k -> new TreeSet<>());
-	}
-
-	public Set<String> getBlockTags(Identifier identifier) {
-		return this.getTags(TagKey.of(RegistryKeys.BLOCK, identifier));
-	}
-
-	public Set<String> getItemTags(Identifier identifier) {
-		return this.getTags(TagKey.of(RegistryKeys.ITEM, identifier));
+	public TagBuilder getTags(TagKey<?> key) {
+		return this.tags.computeIfAbsent(key, k -> new TagBuilder());
 	}
 
 	public String     blockstatePath(Identifier identifier) { return "assets/${identifier.namespace}/blockstates/${                          identifier.path}.json"; }

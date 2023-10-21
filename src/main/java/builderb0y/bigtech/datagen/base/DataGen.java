@@ -71,7 +71,7 @@ public class DataGen {
 			context.lang.entrySet().stream().map(LangEntry::new).forEachOrdered(table.rows::add);
 			context.writeToFile("assets/bigtech/lang/en_us.json", table.toString());
 		}
-		for (Map.Entry<TagKey<?>, Set<String>> entry : context.tags.entrySet()) {
+		for (Map.Entry<TagKey<?>, TagBuilder> entry : context.tags.entrySet()) {
 			Table<TagElement> table = new Table<>(TagElement.FORMAT);
 			entry.value.stream().map(TagElement::new).forEachOrdered(table.rows::add);
 			context.writeToFile(context.tagPath(entry.key), table.toString());

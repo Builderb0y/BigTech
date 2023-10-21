@@ -4,9 +4,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
+import builderb0y.bigtech.items.BigTechItemTags;
 
 public abstract class AbstractAscenderDataGenerator extends BasicBlockDataGenerator {
 
@@ -37,11 +39,11 @@ public abstract class AbstractAscenderDataGenerator extends BasicBlockDataGenera
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getBlockTags(BigTechMod.modID("ascenders")).add(this.id.toString());
+		context.getTags(BigTechBlockTags.ASCENDERS).addElement(this.id);
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getItemTags(BigTechMod.modID("ascenders")).add(this.id.toString());
+		context.getTags(BigTechItemTags.ASCENDERS).addElement(this.id);
 	}
 }

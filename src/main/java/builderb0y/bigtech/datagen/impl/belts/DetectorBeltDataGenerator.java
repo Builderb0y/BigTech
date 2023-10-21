@@ -4,9 +4,12 @@ import java.util.List;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Items;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.items.BigTechItemTags;
 
@@ -51,10 +54,10 @@ public class DetectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 	public void setupOtherItemTags(DataGenContext context) {
 		super.setupOtherItemTags(context);
 		context.getTags(BigTechItemTags.PRESSURE_PLATES).addAll(List.of(
-			"#minecraft:wooden_pressure_plates",
-			"minecraft:stone_pressure_plate",
-			"minecraft:light_weighted_pressure_plate",
-			"minecraft:heavy_weighted_pressure_plate"
+			new TagOrItem(ItemTags.WOODEN_PRESSURE_PLATES),
+			new TagOrItem(Items.STONE_PRESSURE_PLATE),
+			new TagOrItem(Items.LIGHT_WEIGHTED_PRESSURE_PLATE),
+			new TagOrItem(Items.HEAVY_WEIGHTED_PRESSURE_PLATE)
 		));
 	}
 }

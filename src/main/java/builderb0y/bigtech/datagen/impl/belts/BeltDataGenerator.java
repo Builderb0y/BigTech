@@ -20,7 +20,6 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
 
 public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 
@@ -74,12 +73,12 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.BELTS).add(this.id.toString());
+		context.getTags(BigTechBlockTags.BELTS).addElement(this.id);
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.BELTS).add(this.id.toString());
+		context.getTags(BigTechItemTags.BELTS).addElement(this.id);
 	}
 
 	public void writeBeltRecipes(DataGenContext context, ItemConvertible item) {

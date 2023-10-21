@@ -7,6 +7,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItems;
@@ -74,5 +75,11 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 			.count(6)
 			.toString()
 		);
+	}
+
+	@Override
+	public void setupOtherBlockTags(DataGenContext context) {
+		super.setupOtherBlockTags(context);
+		context.getTags(BigTechBlockTags.PREVENTS_ITEM_MERGING).add(BigTechBlockTags.BELTS);
 	}
 }
