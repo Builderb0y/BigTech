@@ -1,6 +1,7 @@
 package builderb0y.bigtech.blocks.belts;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 
 /**
 used by the detector belt to determine what redstone signal strength to output for comparators.
@@ -12,6 +13,8 @@ note that it would NOT be correct for {@link #getCount(Entity)}
 to return ceil(number of items in the current entity / 4),
 because this means that 4 *different* item entities on the same belt
 would add up to a signal strength of 4, not 1 as intended.
+
+EntityCounter's are registered via {@link DetectorBeltBlock#registerCounter(EntityType, EntityCounter)}.
 */
 public interface EntityCounter<E extends Entity> {
 

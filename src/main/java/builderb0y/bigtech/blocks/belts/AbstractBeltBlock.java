@@ -39,17 +39,20 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 		);
 	}
 
+	public boolean isOnBelt(World world, BlockPos pos, BlockState state, Entity entity) {
+		return (
+			MathHelper.floor(entity.pos.x) == pos.x &&
+			MathHelper.floor(entity.pos.z) == pos.z &&
+			MathHelper.approximatelyEquals(entity.pos.y, pos.y + 0.0625D)
+		);
+	}
+
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
-		if (
-			this.canMove(world, pos, state, entity) &&
-			MathHelper.floor(entity.pos.x) == pos.x &&
-			MathHelper.floor(entity.pos.z) == pos.z &&
-			MathHelper.approximatelyEquals(entity.pos.y, pos.y + 0.0625D)
-		) {
+		if (this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity)) {
 			this.move(world, pos, state, entity);
 		}
 	}

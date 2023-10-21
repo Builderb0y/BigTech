@@ -2,7 +2,10 @@ bugs:
 	none yet.
 
 where I left off:
-	the rest of the belts.
+	try to reduce number of packets sent while entities are inside ascenders/descenders.
+	make belts and ascenders/descenders able to insert items into inventories.
+	prevent items and xp orbs from stacking while on conveyors or in ascenders.
+	JEI support for sorter belt GUI.
 
 features:
 	general:
@@ -13,7 +16,7 @@ features:
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
 	transport:
 		belts:
-			spliterator belt: sorts entities left or right with a filter GUI
+			launcher belt: launches entities upwards
 		hoppers:
 			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
 			stone hopper: this is the vanilla hopper, just with a cheaper recipe
@@ -79,4 +82,5 @@ done:
 			brake belt: slows down (or stops) entities
 			director belt: sends items left, right, or straight based on redstone signals
 			detector belt: emits a redstone signal when entities are on top of it
+			sorter belt: sorts entities left or right with a filter GUI
 		ascender/descender: transports entities vertically

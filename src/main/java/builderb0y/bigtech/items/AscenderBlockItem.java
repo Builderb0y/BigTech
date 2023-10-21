@@ -21,21 +21,23 @@ public class AscenderBlockItem extends BlockItem {
 	@Nullable
 	@Override
 	public ItemPlacementContext getPlacementContext(ItemPlacementContext context) {
-		World world = context.world;
-		BlockPos.Mutable pos = context.blockPos.mutableCopy();
-		Block expected = this.getBlock();
-		BlockState actual = world.getBlockState(pos);
-		if (actual.isOf(expected)) {
-			Direction direction = ((AscenderBlock)(expected)).direction;
-			while (true) {
-				pos.move(direction);
-				actual = world.getBlockState(pos);
-				if (actual.isOf(expected)) {
-					continue;
-				}
-				else {
-					if (actual.canReplace(context)) {
-						return ItemPlacementContext.offset(context, pos, direction);
+		if (!context.shouldCancelInteraction()) {
+			World world = context.world;
+			BlockPos.Mutable pos = context.blockPos.mutableCopy();
+			Block expected = this.getBlock();
+			BlockState actual = world.getBlockState(pos);
+			if (actual.isOf(expected)) {
+				Direction direction = ((AscenderBlock)(expected)).direction;
+				while (true) {
+					pos.move(direction);
+					actual = world.getBlockState(pos);
+					if (actual.isOf(expected)) {
+						continue;
+					}
+					else {
+						if (actual.canReplace(context)) {
+							return ItemPlacementContext.offset(context, pos, direction);
+						}
 					}
 				}
 			}

@@ -86,7 +86,9 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public int countEntities(World world, BlockPos pos, BlockState state) {
 		Object2IntOpenHashMap<EntityType<?>> typeToCount = new Object2IntOpenHashMap<>(2);
-		for (Entity entity : world.getEntitiesByClass(Entity.class, new Box(pos), entity -> this.canMove(world, pos, state, entity))) {
+		for (Entity entity : world.getEntitiesByClass(Entity.class, new Box(pos), (Entity entity) -> {
+			return this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity);
+		})) {
 			typeToCount.addTo(entity.type,((EntityCounter)(COUNTERS.get(entity.type))).getCount(entity));
 		}
 		int sum = 0;

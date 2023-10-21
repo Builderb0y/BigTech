@@ -17,6 +17,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blockEntities.SorterBeltBlockEntity;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 
@@ -59,6 +60,13 @@ public class BigTechBlocks {
 	public static final DetectorBeltBlock DETECTOR_BELT = register(
 		"detector_belt",
 		new DetectorBeltBlock(
+			AbstractBlock.Settings.copy(BELT)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final SorterBeltBlock SORTER_BELT = register(
+		"sorter_belt",
+		new SorterBeltBlock(
 			AbstractBlock.Settings.copy(BELT)
 		)
 	);

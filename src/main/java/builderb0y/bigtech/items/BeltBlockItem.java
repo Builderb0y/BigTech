@@ -21,29 +21,31 @@ public class BeltBlockItem extends BlockItem {
 	@Nullable
 	@Override
 	public ItemPlacementContext getPlacementContext(ItemPlacementContext context) {
-		World world = context.world;
-		BlockPos.Mutable pos = context.blockPos.mutableCopy();
-		Block expected = this.getBlock();
-		BlockState actual = world.getBlockState(pos);
-		if (actual.isOf(expected)) {
-			Direction direction = actual.get(Properties.HORIZONTAL_FACING);
-			while (true) {
-				pos.move(direction);
-				actual = world.getBlockState(pos);
-				if (actual.isOf(expected)) {
-					if (actual.get(Properties.HORIZONTAL_FACING) == direction) {
-						continue;
+		if (!context.shouldCancelInteraction()) {
+			World world = context.world;
+			BlockPos.Mutable pos = context.blockPos.mutableCopy();
+			Block expected = this.getBlock();
+			BlockState actual = world.getBlockState(pos);
+			if (actual.isOf(expected)) {
+				Direction direction = actual.get(Properties.HORIZONTAL_FACING);
+				while (true) {
+					pos.move(direction);
+					actual = world.getBlockState(pos);
+					if (actual.isOf(expected)) {
+						if (actual.get(Properties.HORIZONTAL_FACING) == direction) {
+							continue;
+						}
+						else {
+							return null;
+						}
 					}
 					else {
-						return null;
-					}
-				}
-				else {
-					if (actual.canReplace(context)) {
-						return new AutomaticItemPlacementContext(world, pos.toImmutable(), direction, context.getStack(), context.getSide());
-					}
-					else {
-						return null;
+						if (actual.canReplace(context)) {
+							return new AutomaticItemPlacementContext(world, pos.toImmutable(), direction, context.getStack(), context.getSide());
+						}
+						else {
+							return null;
+						}
 					}
 				}
 			}

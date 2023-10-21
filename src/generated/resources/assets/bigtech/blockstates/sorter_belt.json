@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "bigtech:block/sorter_belt", "y":   0 },
+		"facing=east":  { "model": "bigtech:block/sorter_belt", "y":  90 },
+		"facing=south": { "model": "bigtech:block/sorter_belt", "y": 180 },
+		"facing=west":  { "model": "bigtech:block/sorter_belt", "y": 270 }
+	}
+}

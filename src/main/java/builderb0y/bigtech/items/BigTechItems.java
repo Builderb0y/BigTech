@@ -36,6 +36,10 @@ public class BigTechItems {
 	public static final BeltBlockItem DETECTOR_BELT = registerBelt(
 		BigTechBlocks.DETECTOR_BELT
 	);
+	@UseDataGen(SorterBeltDataGenerator.class)
+	public static final BeltBlockItem SORTER_BELT = registerBelt(
+		BigTechBlocks.SORTER_BELT
+	);
 	@UseDataGen(AscenderDataGenerator.class)
 	public static final AscenderBlockItem ASCENDER = register(
 		"ascender",
