@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:block/template_frame",
+	"textures": {
+		"outer": "bigtech:block/iron_frame_outer",
+		"inner": "bigtech:block/iron_frame_inner"
+	}
+}

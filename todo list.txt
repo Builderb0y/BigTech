@@ -9,7 +9,6 @@ where I left off:
 features:
 	general:
 	decoration:
-		frames: looks like scaffolding, can be climbed like a ladder
 		platforms: looks like a catwalk, can be walked on
 		platform stairs: includes rails on the side
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
@@ -85,3 +84,5 @@ done:
 			sorter belt: sorts entities left or right with a filter GUI
 			launcher belt: launches entities upwards
 		ascender/descender: transports entities vertically
+	decoration:
+		frames: looks like scaffolding, can be climbed like a ladder

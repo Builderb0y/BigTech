@@ -17,10 +17,12 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 
+@Dependencies(BeltTemplateModelDataGenerator.class)
 public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 
 	public BeltDataGenerator(BlockItem blockItem) {

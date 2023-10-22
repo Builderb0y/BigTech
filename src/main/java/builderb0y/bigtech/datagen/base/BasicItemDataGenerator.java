@@ -1,8 +1,8 @@
 package builderb0y.bigtech.datagen.base;
 
-import java.util.Map;
-
 import net.minecraft.item.Item;
+
+import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 
 public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 
@@ -19,7 +19,7 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		return this.item.getTranslationKey();
+		return this.item.translationKey;
 	}
 
 	@Override
@@ -31,17 +31,10 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
 			context.itemModelPath(this.id),
-			context.replace(
-				"""
-				{
-					"parent": "minecraft:item/generated",
-					"textures": {
-						"layer0": "TEX"
-					}
-				}
-				""",
-				Map.of("TEX", this.id.toString())
-			)
+			new RetexturedModelBuilder()
+			.parent("minecraft:item/generated")
+			.itemTexture("layer0", this.id)
+			.toString()
 		);
 	}
 }

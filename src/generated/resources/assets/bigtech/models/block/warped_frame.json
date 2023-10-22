@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:block/template_frame",
+	"textures": {
+		"outer": "bigtech:block/warped_frame_outer",
+		"inner": "bigtech:block/warped_frame_inner"
+	}
+}

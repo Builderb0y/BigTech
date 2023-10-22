@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "bigtech:frames",
+	"ingredients": [
+		{ "item": "bigtech:copper_frame" },
+		{ "item": "minecraft:honeycomb"  }
+	],
+	"result": {
+		"item": "bigtech:waxed_copper_frame"
+	}
+}

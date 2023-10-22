@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:block/template_frame",
+	"textures": {
+		"outer": "bigtech:block/acacia_frame_outer",
+		"inner": "bigtech:block/acacia_frame_inner"
+	}
+}

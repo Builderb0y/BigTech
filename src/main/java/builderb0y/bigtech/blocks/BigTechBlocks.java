@@ -3,11 +3,15 @@ package builderb0y.bigtech.blocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.Oxidizable.OxidationLevel;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -17,7 +21,6 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.blockEntities.SorterBeltBlockEntity;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 
@@ -98,20 +101,216 @@ public class BigTechBlocks {
 			Direction.DOWN
 		)
 	);
+	@UseDataGen(void.class)
+	public static final FrameBlock IRON_FRAME = register(
+		"iron_frame",
+		new FrameBlock(
+			AbstractBlock.Settings.copy(Blocks.IRON_BLOCK),
+			BigTechBlockTags.STICKS_TO_IRON_FRAME
+		)
+	);
+	@UseDataGen(void.class)
+	public static final OxidizableFrameBlock
+		COPPER_FRAME = register(
+			"copper_frame",
+			new OxidizableFrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
+				OxidationLevel.UNAFFECTED
+			)
+		),
+		EXPOSED_COPPER_FRAME = register(
+			"exposed_copper_frame",
+			new OxidizableFrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
+				OxidationLevel.EXPOSED
+			)
+		),
+		WEATHERED_COPPER_FRAME = register(
+			"weathered_copper_frame",
+			new OxidizableFrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
+				OxidationLevel.WEATHERED
+			)
+		),
+		OXIDIZED_COPPER_FRAME = register(
+			"oxidized_copper_frame",
+			new OxidizableFrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
+				OxidationLevel.OXIDIZED
+			)
+		);
+	@UseDataGen(void.class)
+	public static final FrameBlock
+		WAXED_COPPER_FRAME = register(
+			"waxed_copper_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME
+			)
+		),
+		WAXED_EXPOSED_COPPER_FRAME = register(
+			"waxed_exposed_copper_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME
+			)
+		),
+		WAXED_WEATHERED_COPPER_FRAME = register(
+			"waxed_weathered_copper_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME
+			)
+		),
+		WAXED_OXIDIZED_COPPER_FRAME = register(
+			"waxed_oxidized_copper_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
+				BigTechBlockTags.STICKS_TO_COPPER_FRAME
+			)
+		);
+	@UseDataGen(void.class)
+	public static final FrameBlock GOLD_FRAME = register(
+		"gold_frame",
+		new FrameBlock(
+			AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK),
+			BigTechBlockTags.STICKS_TO_GOLD_FRAME
+		)
+	);
+	@UseDataGen(void.class)
+	public static final FrameBlock
+		OAK_FRAME = register(
+			"oak_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.OAK_PLANKS),
+				BigTechBlockTags.STICKS_TO_OAK_FRAME
+			)
+		),
+		SPRUCE_FRAME = register(
+			"spruce_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.SPRUCE_PLANKS),
+				BigTechBlockTags.STICKS_TO_SPRUCE_FRAME
+			)
+		),
+		BIRCH_FRAME = register(
+			"birch_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.BIRCH_PLANKS),
+				BigTechBlockTags.STICKS_TO_BIRCH_FRAME
+			)
+		),
+		JUNGLE_FRAME = register(
+			"jungle_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.JUNGLE_PLANKS),
+				BigTechBlockTags.STICKS_TO_JUNGLE_FRAME
+			)
+		),
+		ACACIA_FRAME = register(
+			"acacia_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.ACACIA_PLANKS),
+				BigTechBlockTags.STICKS_TO_ACACIA_FRAME
+			)
+		),
+		DARK_OAK_FRAME = register(
+			"dark_oak_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.DARK_OAK_PLANKS),
+				BigTechBlockTags.STICKS_TO_DARK_OAK_FRAME
+			)
+		),
+		CHERRY_FRAME = register(
+			"cherry_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.CHERRY_PLANKS),
+				BigTechBlockTags.STICKS_TO_CHERRY_FRAME
+			)
+		),
+		MANGROVE_FRAME = register(
+			"mangrove_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.MANGROVE_PLANKS),
+				BigTechBlockTags.STICKS_TO_MANGROVE_FRAME
+			)
+		),
+		CRIMSON_FRAME = register(
+			"crimson_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.CRIMSON_PLANKS),
+				BigTechBlockTags.STICKS_TO_CRIMSON_FRAME
+			)
+		),
+		WARPED_FRAME = register(
+			"warped_frame",
+			new FrameBlock(
+				AbstractBlock.Settings.copy(Blocks.WARPED_PLANKS),
+				BigTechBlockTags.STICKS_TO_WARPED_FRAME
+			)
+		);
 
 	public static void init() {
-		LandPathNodeTypesRegistry.register(BELT, PathNodeType.RAIL, null);
-		LandPathNodeTypesRegistry.register(SPEEDY_BELT, PathNodeType.RAIL, null);
-		LandPathNodeTypesRegistry.register(BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
+		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(  SPEEDY_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(   BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
 		LandPathNodeTypesRegistry.register(DIRECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(DETECTOR_BELT, PathNodeType.RAIL, null);
-		LandPathNodeTypesRegistry.register(SORTER_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(  SORTER_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(LAUNCHER_BELT, PathNodeType.RAIL, null);
+
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(          COPPER_FRAME,   EXPOSED_COPPER_FRAME);
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(  EXPOSED_COPPER_FRAME, WEATHERED_COPPER_FRAME);
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(WEATHERED_COPPER_FRAME,  OXIDIZED_COPPER_FRAME);
+
+		OxidizableBlocksRegistry.registerWaxableBlockPair(          COPPER_FRAME,           WAXED_COPPER_FRAME);
+		OxidizableBlocksRegistry.registerWaxableBlockPair(  EXPOSED_COPPER_FRAME,   WAXED_EXPOSED_COPPER_FRAME);
+		OxidizableBlocksRegistry.registerWaxableBlockPair(WEATHERED_COPPER_FRAME, WAXED_WEATHERED_COPPER_FRAME);
+		OxidizableBlocksRegistry.registerWaxableBlockPair( OXIDIZED_COPPER_FRAME,  WAXED_OXIDIZED_COPPER_FRAME);
+
+		FlammableBlockRegistry.getDefaultInstance().add(     OAK_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(  SPRUCE_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(   BIRCH_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(  JUNGLE_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(  ACACIA_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(DARK_OAK_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(  CHERRY_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(MANGROVE_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add( CRIMSON_FRAME, 5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(  WARPED_FRAME, 5, 20);
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
-		BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.cutout, ASCENDER, DESCENDER);
+		BlockRenderLayerMap.INSTANCE.putBlocks(
+			RenderLayer.cutout,
+			ASCENDER,
+			DESCENDER,
+			IRON_FRAME,
+			COPPER_FRAME,
+			GOLD_FRAME,
+			EXPOSED_COPPER_FRAME,
+			WEATHERED_COPPER_FRAME,
+			OXIDIZED_COPPER_FRAME,
+			WAXED_COPPER_FRAME,
+			WAXED_EXPOSED_COPPER_FRAME,
+			WAXED_WEATHERED_COPPER_FRAME,
+			WAXED_OXIDIZED_COPPER_FRAME,
+			OAK_FRAME,
+			SPRUCE_FRAME,
+			BIRCH_FRAME,
+			JUNGLE_FRAME,
+			ACACIA_FRAME,
+			DARK_OAK_FRAME,
+			CHERRY_FRAME,
+			MANGROVE_FRAME,
+			CRIMSON_FRAME,
+			WARPED_FRAME
+		);
 	}
 
 	public static <B extends Block> B register(String name, B block) {

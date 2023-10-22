@@ -8,11 +8,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.registry.tag.TagManagerLoader;
 import net.minecraft.util.Identifier;
@@ -20,6 +18,7 @@ import net.minecraft.util.Identifier;
 public class DataGenContext {
 
 	public final List<DataGenerator> generators;
+	public final Set<Class<? extends DataGenerator>> dependencies;
 	public final Map<TagKey<?>, TagBuilder> tags;
 	public final Map<String, String> lang;
 
@@ -28,6 +27,7 @@ public class DataGenContext {
 			throw new IllegalStateException("DataGen not enabled.");
 		}
 		this.generators = new ArrayList<>(256);
+		this.dependencies = new HashSet<>(16);
 		this.tags = new IdentityHashMap<>(64);
 		this.lang = new TreeMap<>();
 	}
@@ -37,17 +37,18 @@ public class DataGenContext {
 			if ((field.modifiers & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL) && baseType.isAssignableFrom(field.type)) {
 				UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
 				if (annotation == null) {
-					annotation = field.type.getDeclaredAnnotation(UseDataGen.class);
-					if (annotation == null) {
-						this.error("Missing data generator for ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
-						continue;
-					}
+					this.error("Missing data generator for ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+					continue;
 				}
 				Class<?> dataGenClass = annotation.value();
 				if (dataGenClass == void.class) continue;
 				Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
 				if (constructors.length != 1) {
-					this.error("${dataGenClass} has more than one constructor! For field ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
+					this.error("${dataGenClass} does not have exactly one constructor! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+					continue;
+				}
+				if (constructors[0].parameterCount != 1) {
+					this.error("${dataGenClass}'s constructor does not take exactly 1 argument! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
 					continue;
 				}
 				DataGenerator generator;
@@ -58,7 +59,35 @@ public class DataGenContext {
 					this.error(exception);
 					continue;
 				}
-				this.generators.add(generator);
+				this.addWithDependencies(dataGenClass.asSubclass(DataGenerator.class), generator);
+			}
+		}
+	}
+
+	public void addWithDependencies(Class<? extends DataGenerator> dataGenClass, DataGenerator generator) {
+		this.generators.add(generator);
+		Dependencies dependencies = dataGenClass.getAnnotation(Dependencies.class);
+		if (dependencies != null) {
+			for (Class<? extends DataGenerator> dependencyClass : dependencies.value()) {
+				if (!this.dependencies.add(dependencyClass)) continue;
+				Constructor<?>[] constructors = dependencyClass.getDeclaredConstructors();
+				if (constructors.length != 1) {
+					this.error("${dependencyClass} does not have exactly one constructor! From @Dependencies applied to ${dataGenClass}");
+					continue;
+				}
+				if (constructors[0].parameterCount != 0) {
+					this.error("${dependencyClass}'s constructor does not take exactly 0 arguments! From @Dependencies applied to ${dataGenClass}");
+					continue;
+				}
+				DataGenerator dependency;
+				try {
+					dependency = (DataGenerator)(constructors[0].newInstance((Object[])(null)));
+				}
+				catch (Exception exception) {
+					this.error(exception);
+					continue;
+				}
+				this.addWithDependencies(dependencyClass, dependency);
 			}
 		}
 	}

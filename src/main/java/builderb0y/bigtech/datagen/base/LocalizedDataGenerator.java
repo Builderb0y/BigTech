@@ -1,6 +1,10 @@
 package builderb0y.bigtech.datagen.base;
 
+import net.minecraft.util.Identifier;
+
 public interface LocalizedDataGenerator extends DataGenerator {
+
+	public abstract Identifier getId();
 
 	public abstract String getLangKey(DataGenContext context);
 

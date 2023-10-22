@@ -1,0 +1,15 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:acacia_frame",
+		"bigtech:birch_frame",
+		"bigtech:cherry_frame",
+		"bigtech:crimson_frame",
+		"bigtech:dark_oak_frame",
+		"bigtech:jungle_frame",
+		"bigtech:mangrove_frame",
+		"bigtech:oak_frame",
+		"bigtech:spruce_frame",
+		"bigtech:warped_frame"
+	]
+}

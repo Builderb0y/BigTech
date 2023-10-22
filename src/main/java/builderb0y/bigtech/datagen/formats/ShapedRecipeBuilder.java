@@ -5,11 +5,13 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.TableFormats.KeyedRecipeIngredient;
 import builderb0y.bigtech.datagen.tables.Table;
 
@@ -44,6 +46,10 @@ public class ShapedRecipeBuilder {
 	public ShapedRecipeBuilder ingredient(char key, String itemOrTag) {
 		this.ingredients.put(key, itemOrTag);
 		return this;
+	}
+
+	public ShapedRecipeBuilder ingredient(char key, TagOrItem tagOrItem) {
+		return this.ingredient(key, tagOrItem.toString());
 	}
 
 	public ShapedRecipeBuilder itemIngredient(char key, Identifier item) {
