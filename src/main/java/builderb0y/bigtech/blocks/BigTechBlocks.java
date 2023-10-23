@@ -253,6 +253,18 @@ public class BigTechBlocks {
 				BigTechBlockTags.STICKS_TO_WARPED_FRAME
 			)
 		);
+	@UseDataGen(void.class)
+	public static final EncasedRedstoneBlock ENCASED_REDSTONE_BLOCK = register(
+		"encased_redstone_block",
+		new EncasedRedstoneBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(state -> state.get(Properties.FACING) == Direction.UP ? MapColor.BRIGHT_RED : MapColor.STONE_GRAY)
+			.strength(3.0F, 6.0F)
+			.requiresTool()
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

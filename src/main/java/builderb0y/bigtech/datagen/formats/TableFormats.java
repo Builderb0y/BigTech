@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -62,13 +63,21 @@ public class TableFormats {
 			return builder.toString();
 		}
 
-		public static Integer yFromNorth(Direction direction) {
+		public static @Nullable Integer yFromNorth(Direction direction) {
 			return switch (direction) {
 				case NORTH -> 0;
 				case EAST  -> 90;
 				case SOUTH -> 180;
 				case WEST  -> 270;
 				case UP, DOWN -> null;
+			};
+		}
+
+		public static Integer xFromUp(Direction direction) {
+			return switch (direction) {
+				case UP -> 0;
+				case DOWN -> 180;
+				case NORTH, EAST, SOUTH, WEST -> 90;
 			};
 		}
 
@@ -81,18 +90,20 @@ public class TableFormats {
 			for (int index = 1, size = properties.size(); index < size; index++) {
 				comparator = comparator.thenComparing(comparator(properties.get(index)));
 			}
-			return block.getStateManager().getStates().stream().filter(state -> !state.get(Properties.WATERLOGGED)).sorted(comparator);
+			return block.getStateManager().getStates().stream().filter(state -> !state.contains(Properties.WATERLOGGED) || !state.get(Properties.WATERLOGGED)).sorted(comparator);
 		}
 
 		public static <C extends Comparable<C>> Comparator<BlockState> comparator(Property<C> property) {
 			if (property.type == Direction.class) {
-				return Comparator.comparing(
-					state -> (Direction)(state.get(property)),
-					Comparator.nullsFirst(
-						Comparator.comparing(
-							BlockStateJsonVariant::yFromNorth
-						)
-					)
+				return Comparator.comparingInt(
+					state -> switch ((Direction)(state.get(property))) {
+						case UP    -> 0;
+						case DOWN  -> 1;
+						case NORTH -> 2;
+						case EAST  -> 3;
+						case SOUTH -> 4;
+						case WEST  -> 5;
+					}
 				);
 			}
 			else if (property.type == int.class || property.type == Integer.class) {

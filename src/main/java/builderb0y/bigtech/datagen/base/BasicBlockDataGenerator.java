@@ -9,6 +9,8 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
+
 public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator {
 
 	public final BlockItem blockItem;
@@ -110,14 +112,9 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
 			context.itemModelPath(this.id),
-			context.replace(
-				"""
-				{
-					"parent": "%PARENT"
-				}
-				""",
-				Map.of("PARENT", context.prefixPath("block/", this.id).toString())
-			)
+			new RetexturedModelBuilder()
+			.blockParent(this.id)
+			.toString()
 		);
 	}
 }

@@ -3,6 +3,8 @@ package builderb0y.bigtech.datagen.tables;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collector.Characteristics;
 
 /**
 a Table is a combination of some data, and some way of formatting that data.
@@ -61,6 +63,14 @@ public class Table<R> {
 		if (rows instanceof Collection<R> collection) this.rows.addAll(collection);
 		else rows.forEach(this.rows::add);
 		return this;
+	}
+
+	public static <R> Collector<R, Table<R>, Table<R>> collector(TableFormat<R> format) {
+		return Collector.of(
+			() -> new Table<>(format),
+			Table::addRow,
+			(table1, table2) -> { table1.addRows(table2.rows); return table1; }
+		);
 	}
 
 	@Override

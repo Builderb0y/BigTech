@@ -11,7 +11,8 @@
 		"PistonHandler_AddNecessaryMethods",
 		"PistonHandlerAccessor",
 		"PlayerEntity_HookIntoIsClimbing",
-		"PlayerEntity_OverrideIsClimbing"
+		"PlayerEntity_OverrideIsClimbing",
+		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock"
 	],
 	"client": [ ],
 	"injectors": {

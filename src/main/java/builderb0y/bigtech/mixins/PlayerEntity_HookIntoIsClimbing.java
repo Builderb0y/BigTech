@@ -35,7 +35,7 @@ public abstract class PlayerEntity_HookIntoIsClimbing extends LivingEntity {
 			return;
 		}
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-		for (Direction direction : Enums.DIRECTIONS) {
+		for (Direction direction : Enums.HORIZONTAL_DIRECTIONS) {
 			BlockState state = this.world.getBlockState(mutablePos.set(this.blockPos, direction));
 			if (state.getBlock() instanceof FrameBlock && state.isIn(BlockTags.CLIMBABLE)) {
 				callback.setReturnValue(Boolean.TRUE);

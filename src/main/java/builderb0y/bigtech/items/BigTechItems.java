@@ -11,6 +11,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.CopperNuggetDataGenerator;
+import builderb0y.bigtech.datagen.impl.EncasedRedstoneBlockDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
@@ -102,6 +103,10 @@ public class BigTechItems {
 		MANGROVE_FRAME = registerPlacer(BigTechBlocks.MANGROVE_FRAME),
 		CRIMSON_FRAME  = registerPlacer(BigTechBlocks.CRIMSON_FRAME),
 		WARPED_FRAME   = registerPlacer(BigTechBlocks.WARPED_FRAME);
+	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)
+	public static final BlockItem ENCASED_REDSTONE_BLOCK = registerPlacer(
+		BigTechBlocks.ENCASED_REDSTONE_BLOCK
+	);
 
 	public static void init() {}
 

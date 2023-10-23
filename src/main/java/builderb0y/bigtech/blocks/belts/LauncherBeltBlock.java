@@ -30,5 +30,6 @@ public class LauncherBeltBlock extends AbstractBeltBlock {
 		newX += (pos.x + 0.5D - entity.x) * 0.25D;
 		newZ += (pos.z + 0.5D - entity.z) * 0.25D;
 		entity.velocity = new Vec3d(newX, 0.8D, newZ);
+		entity.isOnGround = false; //hack for XP orbs.
 	}
 }

@@ -19,7 +19,8 @@ public class BigTechItemTags {
 		IRON_NUGGETS    = common("iron_nuggets"),
 		COPPER_NUGGETS  = common("copper_nuggets"),
 		GOLD_NUGGETS    = common("gold_nuggets"),
-		STICKS          = common("wood_sticks");
+		STICKS          = common("wood_sticks"),
+		REDSTONE_BLOCKS = common("redstone_blocks");
 
 	public static TagKey<Item> of(String name) {
 		return TagKey.of(RegistryKeys.ITEM, BigTechMod.modID(name));

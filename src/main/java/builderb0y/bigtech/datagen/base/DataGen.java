@@ -77,5 +77,9 @@ public class DataGen {
 			context.writeToFile(context.tagPath(entry.key), table.toString());
 		}
 		LOGGER.info("Done running data gen.");
+		if (context.errored) try {
+			Thread.sleep(5000L); //give me time to see the errors before more stuff gets printed.
+		}
+		catch (InterruptedException ignored) {}
 	}
 }

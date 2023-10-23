@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"top":    "bigtech:block/encased_redstone_block_front",
+		"bottom": "bigtech:block/encased_redstone_block_back",
+		"side":   "bigtech:block/encased_redstone_block_side"
+	}
+}

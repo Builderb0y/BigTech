@@ -11,6 +11,7 @@
 	"block.bigtech.descender":                    "Descender",
 	"block.bigtech.detector_belt":                "Detector Belt",
 	"block.bigtech.director_belt":                "Director Belt",
+	"block.bigtech.encased_redstone_block":       "Encased Redstone Block",
 	"block.bigtech.exposed_copper_frame":         "Exposed Copper Frame",
 	"block.bigtech.gold_frame":                   "Gold Frame",
 	"block.bigtech.iron_frame":                   "Iron Frame",

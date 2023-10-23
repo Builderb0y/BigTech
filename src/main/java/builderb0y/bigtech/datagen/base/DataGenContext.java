@@ -21,6 +21,7 @@ public class DataGenContext {
 	public final Set<Class<? extends DataGenerator>> dependencies;
 	public final Map<TagKey<?>, TagBuilder> tags;
 	public final Map<String, String> lang;
+	public boolean errored;
 
 	public DataGenContext() {
 		if (!DataGen.isEnabled()) {
@@ -244,10 +245,12 @@ public class DataGenContext {
 	}
 
 	public void error(Throwable throwable) {
+		this.errored = true;
 		DataGen.LOGGER.error("", throwable);
 	}
 
 	public void error(String message) {
+		this.errored = true;
 		DataGen.LOGGER.error(message);
 	}
 }

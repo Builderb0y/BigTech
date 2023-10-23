@@ -27,13 +27,10 @@ public abstract class DirectionalBeltDataGenerator extends BeltDataGenerator {
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
 			context.blockstatePath(this.id),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
-				.map(state -> this.createVariant(context, state))
-				::iterator
-			)
+			BlockStateJsonVariant
+			.streamStatesSorted(this.block)
+			.map(state -> this.createVariant(context, state))
+			.collect(Table.collector(BlockStateJsonVariant.FORMAT))
 			.toString()
 		);
 	}

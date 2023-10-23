@@ -73,6 +73,7 @@ public class SorterBeltBlock extends DirectionalBeltBlock implements BlockEntity
 	}
 
 	public Direction computeDirection(World world, BlockPos pos, BlockState state, Entity entity) {
+		if (world.isClient) return state.get(Properties.HORIZONTAL_FACING);
 		SorterBeltBlockEntity sorter = WorldHelper.getBlockEntity(world, pos, SorterBeltBlockEntity.class);
 		return sorter != null ? sorter.getDistributionDirection(entity) : state.get(Properties.HORIZONTAL_FACING);
 	}
