@@ -28,7 +28,10 @@ public class BigTechBlockTags {
 		STICKS_TO_CHERRY_FRAME   = of("sticks_to_cherry_frame"),
 		STICKS_TO_MANGROVE_FRAME = of("sticks_to_mangrove_frame"),
 		STICKS_TO_CRIMSON_FRAME  = of("sticks_to_crimson_frame"),
-		STICKS_TO_WARPED_FRAME   = of("sticks_to_warped_frame");
+		STICKS_TO_WARPED_FRAME   = of("sticks_to_warped_frame"),
+		CONDUCTS_LIGHTNING       = of("conducts_lightning"),
+		SHOCKS_ENTITIES          = of("shocks_entities"),
+		LIGHTNING_CABLES         = of("lightning_cables");
 
 	public static TagKey<Block> of(String name) {
 		return TagKey.of(RegistryKeys.BLOCK, BigTechMod.modID(name));

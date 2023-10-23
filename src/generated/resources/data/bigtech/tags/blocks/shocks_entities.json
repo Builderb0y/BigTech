@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values": [
+		"#bigtech:metal_frames",
+		"minecraft:gold_block",
+		"minecraft:iron_block"
+	]
+}

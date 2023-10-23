@@ -1,8 +1,12 @@
 package builderb0y.bigtech.blocks.belts;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -68,6 +72,9 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+		if (state.get(Properties.WATERLOGGED)) {
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
 		if (
 			direction == Direction.DOWN && !(
 				neighborState.isSideSolid(world, neighborPos, Direction.UP, SideShapeType.RIGID) ||
@@ -90,11 +97,24 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 		return downState.isSideSolid(world, downPos, Direction.UP, SideShapeType.RIGID) || downState.isIn(BigTechBlockTags.BELT_SUPPORT);
 	}
 
+	@Nullable
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext context) {
+		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).fluid == Fluids.WATER);
+	}
+
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return context.getStack().isOf(this.asItem()) && !context.shouldCancelInteraction();
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public FluidState getFluidState(BlockState state) {
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
 	}
 
 	@Override

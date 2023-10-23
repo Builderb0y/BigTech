@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"group": "bigtech:lightning_cables",
+	"pattern": [
+		"www",
+		"iii",
+		"www"
+	],
+	"key": {
+		"w": { "tag": "minecraft:wool"  },
+		"i": { "tag": "c:copper_ingots" }
+	},
+	"result": {
+		"item": "bigtech:copper_lightning_cable",
+		"count": 6
+	}
+}

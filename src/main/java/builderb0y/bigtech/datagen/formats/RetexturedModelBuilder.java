@@ -45,12 +45,12 @@ public class RetexturedModelBuilder {
 		return this.texture(key, texture.toString());
 	}
 
-	public RetexturedModelBuilder blockTexture(String key, Identifier parent) {
-		return this.texture(key, "${parent.namespace}:block/${parent.path}");
+	public RetexturedModelBuilder blockTexture(String key, Identifier texture) {
+		return this.texture(key, "${texture.namespace}:block/${texture.path}");
 	}
 
-	public RetexturedModelBuilder itemTexture(String key, Identifier parent) {
-		return this.texture(key, "${parent.namespace}:item/${parent.path}");
+	public RetexturedModelBuilder itemTexture(String key, Identifier texture) {
+		return this.texture(key, "${texture.namespace}:item/${texture.path}");
 	}
 
 	@Override

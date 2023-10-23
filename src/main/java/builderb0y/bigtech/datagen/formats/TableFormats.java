@@ -22,6 +22,15 @@ public class TableFormats {
 
 	public static record BlockStateJsonVariant(String properties, String model, Integer x, Integer y) {
 
+		public static final Direction[] FACING_ORDER = {
+			Direction.UP,
+			Direction.DOWN,
+			Direction.NORTH,
+			Direction.EAST,
+			Direction.SOUTH,
+			Direction.WEST
+		};
+
 		public static final TableFormat<BlockStateJsonVariant> FORMAT = (
 			new TableFormat<BlockStateJsonVariant>()
 			.prefix(
@@ -118,6 +127,30 @@ public class TableFormats {
 				);
 			}
 		}
+	}
+
+	public static record BlockStateJsonMultipart(String predicateName, String predicateValue, String model, Integer x, Integer y) {
+
+		public static final TableFormat<BlockStateJsonMultipart> FORMAT = (
+			new TableFormat<BlockStateJsonMultipart>()
+			.prefix(
+				"""
+				{
+					"multipart": [
+				"""
+			)
+			.addLiteral("\t\t{ \"when\": { ")
+			.addJsonString(BlockStateJsonMultipart::predicateName, Justification.left(), BlockStateJsonMultipart::predicateValue, Justification.left())
+			.addLiteral(" }, \"apply\": { ")
+			.addJoined(", ", format -> format
+				.addJsonString("model", Justification.left(), BlockStateJsonMultipart::model)
+				.addJsonNumber("x", BlockStateJsonMultipart::x)
+				.addJsonNumber("y", BlockStateJsonMultipart::y)
+			)
+			.addLiteral(" } }")
+			.addLineDeliminator(",")
+			.suffix("\n\t]\n}")
+		);
 	}
 
 	public static record LangEntry(String key, String value) {

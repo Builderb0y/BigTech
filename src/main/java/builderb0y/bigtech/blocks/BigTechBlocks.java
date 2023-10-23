@@ -17,6 +17,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
@@ -265,6 +266,31 @@ public class BigTechBlocks {
 			.requiresTool()
 		)
 	);
+	@UseDataGen(void.class)
+	public static final LightningCableBlock
+		IRON_LIGHTNING_CABLE = register(
+			"iron_lightning_cable",
+			new LightningCableBlock(
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(MapColor.GRAY)
+				.strength(0.8F)
+				.sounds(BlockSoundGroup.WOOL)
+			)
+		),
+		GOLD_LIGHTNING_CABLE = register(
+			"gold_lightning_cable",
+			new LightningCableBlock(
+				AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
+			)
+		),
+		COPPER_LIGHTNING_CABLE = register(
+			"copper_lightning_cable",
+			new LightningCableBlock(
+				AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
+			)
+		);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

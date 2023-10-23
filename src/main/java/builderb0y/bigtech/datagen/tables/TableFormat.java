@@ -101,6 +101,13 @@ public class TableFormat<R> implements ColumnFormatter<R> {
 		);
 	}
 
+	public TableFormat<R> addJsonString(Function<? super R, ? extends CharSequence> name, Justification nameJustification, Function<? super R, ? extends CharSequence> value, Justification valueJustification) {
+		return this.addJoined(": ", format -> format
+			.addField(nameJustification, row -> ColumnFormatter.quoteAndEscape(name.apply(row)))
+			.addField(valueJustification, row -> ColumnFormatter.quoteAndEscape(value.apply(row)))
+		);
+	}
+
 	public TableFormat<R> addJsonNumber(String name, Function<? super R, ? extends Number> getter) {
 		return this.addJoined(": ", tableFormat -> tableFormat
 			.addLiteral(ColumnFormatter.quoteAndEscape(name).toString(), row -> getter.apply(row) != null)

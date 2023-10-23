@@ -1,0 +1,16 @@
+{
+	"parent": "minecraft:block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "#cable"
+	},
+	"elements": [
+		{
+			"from": [  4,  4,  4 ],
+			"to":   [ 12, 12, 12 ],
+			"faces": {
+				"up": { "uv": [ 0, 0, 8, 8 ], "texture": "#cable" }
+			}
+		}
+	]
+}

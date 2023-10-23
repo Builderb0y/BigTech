@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_lightning_cable_connection",
+	"textures": {
+		"cable": "bigtech:block/gold_lightning_cable"
+	}
+}

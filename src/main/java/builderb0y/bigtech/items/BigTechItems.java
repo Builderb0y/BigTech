@@ -12,6 +12,7 @@ import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.CopperNuggetDataGenerator;
 import builderb0y.bigtech.datagen.impl.EncasedRedstoneBlockDataGenerator;
+import builderb0y.bigtech.datagen.impl.LightningCableDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
@@ -107,6 +108,11 @@ public class BigTechItems {
 	public static final BlockItem ENCASED_REDSTONE_BLOCK = registerPlacer(
 		BigTechBlocks.ENCASED_REDSTONE_BLOCK
 	);
+	@UseDataGen(LightningCableDataGenerator.class)
+	public static final BlockItem
+		IRON_LIGHTNING_CAbLE   = registerPlacer(BigTechBlocks.IRON_LIGHTNING_CABLE),
+		GOLD_LIGHTNING_CABLE   = registerPlacer(BigTechBlocks.GOLD_LIGHTNING_CABLE),
+		COPPER_LIGHTNING_CABLE = registerPlacer(BigTechBlocks.COPPER_LIGHTNING_CABLE);
 
 	public static void init() {}
 
