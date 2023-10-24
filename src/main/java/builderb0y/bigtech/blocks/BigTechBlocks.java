@@ -111,6 +111,14 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final FrameBlock GOLD_FRAME = register(
+		"gold_frame",
+		new FrameBlock(
+			AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK),
+			BigTechBlockTags.STICKS_TO_GOLD_FRAME
+		)
+	);
+	@UseDataGen(void.class)
 	public static final OxidizableFrameBlock
 		COPPER_FRAME = register(
 			"copper_frame",
@@ -174,14 +182,6 @@ public class BigTechBlocks {
 				BigTechBlockTags.STICKS_TO_COPPER_FRAME
 			)
 		);
-	@UseDataGen(void.class)
-	public static final FrameBlock GOLD_FRAME = register(
-		"gold_frame",
-		new FrameBlock(
-			AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK),
-			BigTechBlockTags.STICKS_TO_GOLD_FRAME
-		)
-	);
 	@UseDataGen(void.class)
 	public static final FrameBlock
 		OAK_FRAME = register(
@@ -266,6 +266,32 @@ public class BigTechBlocks {
 			.requiresTool()
 		)
 	);
+	@UseDataGen(void.class)
+	public static final EncasedSlimeBlock
+		ENCASED_SLIME_BLOCK = register(
+			"encased_slime_block",
+			new EncasedSlimeBlock(
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(state -> state.get(Properties.FACING) == Direction.UP ? MapColor.PALE_GREEN : MapColor.STONE_GRAY)
+				.strength(3.0F, 6.0F)
+				.requiresTool(),
+				false
+			)
+		),
+		ENCASED_HONEY_BLOCK = register(
+			"encased_honey_block",
+			new EncasedSlimeBlock(
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(state -> state.get(Properties.FACING) == Direction.UP ? MapColor.ORANGE : MapColor.STONE_GRAY)
+				.strength(3.0F, 6.0F)
+				.requiresTool(),
+				true
+			)
+		);
 	@UseDataGen(void.class)
 	public static final LightningCableBlock
 		IRON_LIGHTNING_CABLE = register(

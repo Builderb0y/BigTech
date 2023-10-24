@@ -10,10 +10,7 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
-import builderb0y.bigtech.datagen.impl.CopperNuggetDataGenerator;
-import builderb0y.bigtech.datagen.impl.EncasedRedstoneBlockDataGenerator;
-import builderb0y.bigtech.datagen.impl.LightningCableDataGenerator;
-import builderb0y.bigtech.datagen.impl.TransmuterDataGenerator;
+import builderb0y.bigtech.datagen.impl.*;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
@@ -65,22 +62,22 @@ public class BigTechItems {
 			new Item.Settings()
 		)
 	);
-	@UseDataGen(IronFrameDataGenerator.class)
-	public static final BlockItem IRON_FRAME = registerPlacer(
-		BigTechBlocks.IRON_FRAME
-	);
 	@UseDataGen(CopperNuggetDataGenerator.class)
 	public static final Item COPPER_NUGGET = register(
 		BigTechMod.modID("copper_nugget"),
 		new Item(new Item.Settings())
 	);
-	@UseDataGen(CopperFrameDataGenerator.class)
-	public static final BlockItem COPPER_FRAME = registerPlacer(
-		BigTechBlocks.COPPER_FRAME
+	@UseDataGen(IronFrameDataGenerator.class)
+	public static final BlockItem IRON_FRAME = registerPlacer(
+		BigTechBlocks.IRON_FRAME
 	);
 	@UseDataGen(GoldFrameDataGenerator.class)
 	public static final BlockItem GOLD_FRAME = registerPlacer(
 		BigTechBlocks.GOLD_FRAME
+	);
+	@UseDataGen(CopperFrameDataGenerator.class)
+	public static final BlockItem COPPER_FRAME = registerPlacer(
+		BigTechBlocks.COPPER_FRAME
 	);
 	@UseDataGen(DegradedCopperFrameDataGenerator.class)
 	public static final BlockItem
@@ -109,6 +106,10 @@ public class BigTechItems {
 	public static final BlockItem ENCASED_REDSTONE_BLOCK = registerPlacer(
 		BigTechBlocks.ENCASED_REDSTONE_BLOCK
 	);
+	@UseDataGen(EncasedSlimeBlockDataGenerator.class)
+	public static final BlockItem
+		ENCASED_SLIME_BLOCK = registerPlacer(BigTechBlocks.ENCASED_SLIME_BLOCK),
+		ENCASED_HONEY_BLOCK = registerPlacer(BigTechBlocks.ENCASED_HONEY_BLOCK);
 	@UseDataGen(LightningCableDataGenerator.class)
 	public static final BlockItem
 		IRON_LIGHTNING_CAbLE   = registerPlacer(BigTechBlocks.IRON_LIGHTNING_CABLE),

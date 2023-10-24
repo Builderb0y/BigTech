@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"facing=up":    { "model": "bigtech:block/encased_slime_block", "x":   0           },
+		"facing=down":  { "model": "bigtech:block/encased_slime_block", "x": 180           },
+		"facing=north": { "model": "bigtech:block/encased_slime_block", "x":  90, "y":   0 },
+		"facing=east":  { "model": "bigtech:block/encased_slime_block", "x":  90, "y":  90 },
+		"facing=south": { "model": "bigtech:block/encased_slime_block", "x":  90, "y": 180 },
+		"facing=west":  { "model": "bigtech:block/encased_slime_block", "x":  90, "y": 270 }
+	}
+}

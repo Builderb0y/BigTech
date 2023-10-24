@@ -2,7 +2,9 @@
 	"replace": false,
 	"values": [
 		"bigtech:copper_frame",
+		"bigtech:encased_honey_block",
 		"bigtech:encased_redstone_block",
+		"bigtech:encased_slime_block",
 		"bigtech:exposed_copper_frame",
 		"bigtech:gold_frame",
 		"bigtech:iron_frame",
