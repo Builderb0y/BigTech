@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 import builderb0y.bigtech.blockEntities.TransmuterBlockEntity;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
-import builderb0y.bigtech.lightning.LightningPulseInteractor;
+import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.recipes.TransmuteRecipe;
 import builderb0y.bigtech.recipes.TransmuteRecipeInventory;
@@ -55,6 +55,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 
 	public TransmuterBlock(Settings settings) {
 		super(settings);
+		LightningPulseInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

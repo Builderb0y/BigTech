@@ -19,7 +19,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.SorterBeltBlockEntity;
-import builderb0y.bigtech.blocks.AscenderInteractor;
+import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.util.WorldHelper;
 

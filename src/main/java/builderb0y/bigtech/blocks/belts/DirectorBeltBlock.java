@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.blocks.AscenderInteractor;
+import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.blocks.BigTechProperties;
 
 public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {

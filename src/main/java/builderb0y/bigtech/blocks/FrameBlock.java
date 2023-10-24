@@ -22,6 +22,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
+import builderb0y.bigtech.api.PistonInteractor;
 import builderb0y.bigtech.mixins.EntityShapeContext_HeldItemGetter;
 
 public class FrameBlock extends Block implements PistonInteractor, Waterloggable {
@@ -42,6 +43,7 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 		super(settings);
 		this.sticksTo = sticksTo;
 		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
+		PistonInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

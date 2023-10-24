@@ -2,5 +2,5 @@
 	"type": "bigtech:transmute",
 	"input":  { "tag":  "minecraft:sand"  },
 	"output": { "item": "minecraft:glass" },
-	"energy": 20
+	"energy": 40
 }

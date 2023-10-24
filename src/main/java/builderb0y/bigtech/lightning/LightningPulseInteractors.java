@@ -7,22 +7,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
-import builderb0y.bigtech.blocks.BigTechBlockTags;
+import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 
 public class LightningPulseInteractors {
-
-	public static LightningPulseInteractor forBlock(WorldAccess world, BlockPos pos, BlockState state) {
-		Block block = state.getBlock();
-		if (block instanceof LightningPulseInteractor interactor) return interactor;
-		if (block instanceof TntBlock) return TNT;
-		if (block instanceof Oxidizable) return OXIDIZABLE;
-		if (block instanceof LightningRodBlock) return LIGHTNING_ROD;
-		if (state.isIn(BigTechBlockTags.CONDUCTS_LIGHTNING)) {
-			return state.isIn(BigTechBlockTags.SHOCKS_ENTITIES) ? SHOCKING_CONDUCTOR : INSULATED_CONDUCTOR;
-		}
-		return INSULATOR;
-	}
 
 	public static final LightningPulseInteractor
 		TNT = new LightningPulseInteractor() {
@@ -32,6 +20,11 @@ public class LightningPulseInteractors {
 				TntBlock.primeTnt(world, pos);
 				world.removeBlock(pos, false);
 				this.spawnLightningParticles(world, pos, state, pulse);
+			}
+
+			@Override
+			public String toString() {
+				return "LightningPulseInteractors.TNT";
 			}
 		},
 		OXIDIZABLE = new LightningPulseInteractor() {
@@ -43,12 +36,20 @@ public class LightningPulseInteractors {
 				this.shockEntitiesAround(world, pos, state, pulse);
 				this.spawnLightningParticles(world, pos, state, pulse);
 			}
+
+			@Override
+			public String toString() {
+				return "LightningPulseInteractors.OXIDIZABLE";
+			}
 		},
 		INSULATED_CONDUCTOR = new LightningPulseInteractor() {
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-				this.spawnLightningParticles(world, pos, state, pulse);
+			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
+
+			@Override
+			public String toString() {
+				return "LightningPulseInteractors.INSULATED_CONDUCTOR";
 			}
 		},
 		SHOCKING_CONDUCTOR = new LightningPulseInteractor() {
@@ -57,6 +58,11 @@ public class LightningPulseInteractors {
 			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				this.shockEntitiesAround(world, pos, state, pulse);
 				this.spawnLightningParticles(world, pos, state, pulse);
+			}
+
+			@Override
+			public String toString() {
+				return "LightningPulseInteractors.SHOCKING_CONDUCTOR";
 			}
 		},
 		INSULATOR = new LightningPulseInteractor() {
@@ -81,6 +87,11 @@ public class LightningPulseInteractors {
 			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				//no-op.
 			}
+
+			@Override
+			public String toString() {
+				return "LightningPulseInteractors.SHOCKING_CONDUCTOR";
+			}
 		},
 		LIGHTNING_ROD = new LightningPulseInteractor() {
 
@@ -95,6 +106,11 @@ public class LightningPulseInteractors {
 				if (!pos.equals(pulse.originPos)) {
 					this.spawnLightningParticles(world, pos, state, pulse);
 				}
+			}
+
+			@Override
+			public String toString() {
+				return "LightningPulseInteractors.LIGHTNING_ROD";
 			}
 		};
 }

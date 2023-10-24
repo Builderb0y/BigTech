@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-import builderb0y.bigtech.blocks.AscenderInteractor;
+import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 
 public abstract class AbstractBeltBlock extends Block implements Waterloggable, AscenderInteractor {
@@ -30,6 +30,7 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	public AbstractBeltBlock(Settings settings) {
 		super(settings);
 		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
+		AscenderInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	public abstract void move(World world, BlockPos pos, BlockState state, Entity entity);

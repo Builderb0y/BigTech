@@ -1,4 +1,6 @@
-package builderb0y.bigtech.blocks;
+package builderb0y.bigtech.api;
+
+import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.piston.PistonHandler;
@@ -6,9 +8,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.mixins.PistonHandlerAccessor;
 
+/**
+a block which can fine-tune what it sticks to when moved by a piston.
+register blocks with {@link #LOOKUP}.
+*/
 public interface PistonInteractor {
+
+	public static final BlockApiLookup<PistonInteractor, Void> LOOKUP = BlockApiLookup.get(BigTechMod.modID("piston_interactor"), PistonInteractor.class, Void.class);
+
+	public static PistonInteractor get(World world, BlockPos pos) {
+		return LOOKUP.find(world, pos, null);
+	}
+
+	public static PistonInteractor get(World world, BlockPos pos, BlockState state) {
+		return LOOKUP.find(world, pos, state, null, null);
+	}
 
 	/**
 	returns true if this block can stick to any adjacent blocks.

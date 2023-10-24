@@ -18,8 +18,7 @@ import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
-import builderb0y.bigtech.lightning.LightningPulseInteractor;
-import builderb0y.bigtech.lightning.LightningPulseInteractors;
+import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.util.Enums;
 
 public class LightningCableBlock extends ConnectingBlock implements LightningPulseInteractor, Waterloggable {
@@ -36,6 +35,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 			.with(WEST,  Boolean.FALSE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
+		LightningPulseInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override
@@ -45,7 +45,10 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
-		return state.with(FACING_PROPERTIES.get(direction), this.canConnect(world, pos, state, neighborPos, neighborState, direction));
+		if (world instanceof World liveWorld) {
+			return state.with(FACING_PROPERTIES.get(direction), this.canConnect(liveWorld, pos, state, neighborPos, neighborState, direction));
+		}
+		return state;
 	}
 
 	@Override
@@ -63,19 +66,19 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 		);
 	}
 
-	public boolean canConnect(WorldAccess world, BlockPos pos, BlockState state, Direction direction) {
+	public boolean canConnect(World world, BlockPos pos, BlockState state, Direction direction) {
 		BlockPos adjacentPos = pos.offset(direction);
 		BlockState adjacentState = world.getBlockState(adjacentPos);
 		return this.canConnect(world, pos, state, adjacentPos, adjacentState, direction);
 	}
 
-	public boolean canConnect(WorldAccess world, BlockPos pos, BlockState state, BlockPos adjacentPos, BlockState adjacentState, Direction direction) {
+	public boolean canConnect(World world, BlockPos pos, BlockState state, BlockPos adjacentPos, BlockState adjacentState, Direction direction) {
 		return adjacentState.isOf(this) || LightningPulseInteractor.canConductThrough(
 			world,
 			this,
 			pos,
 			state.with(FACING_PROPERTIES.get(direction), Boolean.TRUE),
-			LightningPulseInteractors.forBlock(world, adjacentPos, adjacentState),
+			LightningPulseInteractor.get(world, adjacentPos, adjacentState),
 			adjacentPos,
 			adjacentState,
 			direction
@@ -89,7 +92,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 			LinkedBlockPos adjacentPos = pos.offset(direction);
 			if (pulse.hasNode(adjacentPos)) continue;
 			BlockState adjacentState = world.getBlockState(adjacentPos);
-			LightningPulseInteractor adjacentInteractor = LightningPulseInteractors.forBlock(world, adjacentPos, adjacentState);
+			LightningPulseInteractor adjacentInteractor = LightningPulseInteractor.get(world, adjacentPos, adjacentState);
 			adjacentInteractor.spreadIn(world, adjacentPos, adjacentState, pulse);
 		}
 	}

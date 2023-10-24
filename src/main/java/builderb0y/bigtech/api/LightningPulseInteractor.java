@@ -1,6 +1,13 @@
-package builderb0y.bigtech.lightning;
+package builderb0y.bigtech.api;
+
+import java.util.Objects;
+
+import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.Oxidizable;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
@@ -12,10 +19,35 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 
+import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blocks.BigTechBlockTags;
+import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
+import builderb0y.bigtech.lightning.LightningPulseInteractors;
 import builderb0y.bigtech.util.Enums;
 
+/**
+a block which does something special when hit by a lightning pulse.
+the primary method in this class is {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)},
+but other secondary methods are also available to fine-tune
+how the pulse spreads into and out of this block.
+register blocks with {@link #LOOKUP}.
+*/
 public interface LightningPulseInteractor {
+
+	public static final BlockApiLookup<LightningPulseInteractor, Void> LOOKUP = BlockApiLookup.get(BigTechMod.modID("lightning_pulse_interactor"), LightningPulseInteractor.class, Void.class);
+
+	public static LightningPulseInteractor get(World world, BlockPos pos) {
+		return Objects.requireNonNullElse(LOOKUP.find(world, pos, null), LightningPulseInteractors.INSULATOR);
+	}
+
+	public static LightningPulseInteractor get(World world, BlockPos pos, BlockState state) {
+		return Objects.requireNonNullElse(LOOKUP.find(world, pos, state, null, null), LightningPulseInteractors.INSULATOR);
+	}
+
+	public static LightningPulseInteractor get(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+		return Objects.requireNonNullElse(LOOKUP.find(world, pos, state, blockEntity, null), LightningPulseInteractors.INSULATOR);
+	}
 
 	/**
 	returns true if all 3 of the following conditions are met:
@@ -122,7 +154,7 @@ public interface LightningPulseInteractor {
 			LinkedBlockPos adjacentPos = pos.offset(direction);
 			if (pulse.hasNode(adjacentPos)) continue;
 			BlockState adjacentState = world.getBlockState(adjacentPos);
-			LightningPulseInteractor adjacentInteractor = LightningPulseInteractors.forBlock(world, adjacentPos, adjacentState);
+			LightningPulseInteractor adjacentInteractor = get(world, adjacentPos, adjacentState);
 			if (canConductThrough(world, this, pos, state, adjacentInteractor, adjacentPos, adjacentState, direction)) {
 				adjacentInteractor.spreadIn(world, adjacentPos, adjacentState, pulse);
 			}
@@ -141,15 +173,41 @@ public interface LightningPulseInteractor {
 
 	/**
 	damages all entities within 1 block of the provided position with lightning damage.
-	the damage dealt to each entity is the pulse's {@link LightningPulse#totalEnergy} divided by 100.
+	the damage dealt to each entity is the pulse's {@link LightningPulse#totalEnergy} divided by 1000.
 	*/
 	public default void shockEntitiesAround(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
 		for (Entity entity : world.getNonSpectatingEntities(Entity.class, new Box(pos.x - 1, pos.y - 1, pos.z - 1, pos.x + 2, pos.y + 2, pos.z + 2))) {
-			entity.damage(entity.damageSources.lightningBolt(), pulse.totalEnergy / 100.0F);
+			entity.damage(entity.damageSources.lightningBolt(), pulse.totalEnergy / 1000.0F);
 		}
 	}
 
 	public default void spawnLightningParticles(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
 		world.syncWorldEvent(WorldEvents.ELECTRICITY_SPARKS, pos, -1);
 	}
+
+	public static final Object INITIALIZER = new Object() {{
+		LOOKUP.registerForBlocks(
+			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.TNT,
+			Blocks.TNT
+		);
+		LOOKUP.registerForBlocks(
+			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.LIGHTNING_ROD,
+			Blocks.LIGHTNING_ROD
+		);
+		LOOKUP.registerFallback(
+			(world, pos, state, blockEntity, context) -> {
+				if (state.getBlock() instanceof Oxidizable) {
+					return LightningPulseInteractors.OXIDIZABLE;
+				}
+				if (state.isIn(BigTechBlockTags.CONDUCTS_LIGHTNING)) {
+					return (
+						state.isIn(BigTechBlockTags.SHOCKS_ENTITIES)
+						? LightningPulseInteractors.SHOCKING_CONDUCTOR
+						: LightningPulseInteractors.INSULATED_CONDUCTOR
+					);
+				}
+				return null;
+			}
+		);
+	}};
 }

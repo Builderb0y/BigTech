@@ -5,6 +5,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.api.LightningPulseInteractor;
 
 public class BigTechBlockTags {
 
@@ -29,8 +30,30 @@ public class BigTechBlockTags {
 		STICKS_TO_MANGROVE_FRAME = of("sticks_to_mangrove_frame"),
 		STICKS_TO_CRIMSON_FRAME  = of("sticks_to_crimson_frame"),
 		STICKS_TO_WARPED_FRAME   = of("sticks_to_warped_frame"),
+		/**
+		contains vanilla blocks which can conduct a lightning pulse.
+		notably, this includes iron blocks, copper blocks, and gold blocks.
+		for mod devs: you do NOT need to tag your custom blocks with this tag
+		if you have registered them with {@link LightningPulseInteractor#LOOKUP}.
+		in fact, doing so with a fallback provider will probably break things,
+		because my own fallback provider will get called first, and it checks for this tag.
+		this tag is intended for normal metal blocks with no special behavior ONLY.
+		*/
 		CONDUCTS_LIGHTNING       = of("conducts_lightning"),
+		/**
+		an extension of {@link #CONDUCTS_LIGHTNING} which indicates that the tagged
+		blocks should also shock nearby entities when receiving a lightning pulse,
+		in addition to conducting that pulse. like with {@link #CONDUCTS_LIGHTNING},
+		modded blocks which have special behavior registered to
+		{@link LightningPulseInteractor#LOOKUP} do NOT need to be tagged with this tag.
+		this tag is intended for normal metal blocks with no special behavior ONLY.
+		*/
 		SHOCKS_ENTITIES          = of("shocks_entities"),
+		/**
+		contains big tech's lightning cables, for usage with data packs
+		(for example, recipes), but is not used by any game logic.
+		modded blocks do not need to be tagged with this tag to interact with lightning.
+		*/
 		LIGHTNING_CABLES         = of("lightning_cables");
 
 	public static TagKey<Block> of(String name) {

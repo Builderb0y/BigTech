@@ -12,6 +12,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.api.LightningPulseInteractor;
+
 public class LightningPulse {
 
 	public final World world;
@@ -53,7 +55,7 @@ public class LightningPulse {
 				: this.spreadQueue.set(index, this.spreadQueue.remove(this.spreadQueue.size() - 1))
 			);
 			BlockState fromState = this.world.getBlockState(from);
-			LightningPulseInteractors.forBlock(this.world, from, fromState).spreadOut(this.world, from, fromState, this);
+			LightningPulseInteractor.get(this.world, from, fromState).spreadOut(this.world, from, fromState, this);
 			this.remainingSpreadEvents--;
 		}
 	}
@@ -70,7 +72,7 @@ public class LightningPulse {
 	public void interactWithoutSinks() {
 		for (LinkedBlockPos pos : this.explored) {
 			BlockState state = this.world.getBlockState(pos);
-			LightningPulseInteractors.forBlock(this.world, pos, state).onPulse(this.world, pos, state, this);
+			LightningPulseInteractor.get(this.world, pos, state).onPulse(this.world, pos, state, this);
 		}
 	}
 
@@ -80,7 +82,7 @@ public class LightningPulse {
 			do {
 				if (seen.add(pos)) {
 					BlockState state = this.world.getBlockState(pos);
-					LightningPulseInteractors.forBlock(this.world, pos, state).onPulse(this.world, pos, state, this);
+					LightningPulseInteractor.get(this.world, pos, state).onPulse(this.world, pos, state, this);
 				}
 				pos = pos.previous;
 			}

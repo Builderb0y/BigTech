@@ -20,6 +20,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
+import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.util.Enums;
 import builderb0y.bigtech.util.FairSharing;
@@ -68,9 +69,10 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 		for (Direction direction : Enums.DIRECTIONS) {
 			if (direction == this.direction.opposite) continue;
 			BlockState adjacentState = world.getBlockState(mutablePos.set(pos, direction));
+			AscenderInteractor interactor = AscenderInteractor.get(world, mutablePos, adjacentState);
 			int priority;
-			if (adjacentState.getBlock() instanceof AscenderInteractor ascenderInteractor) {
-				priority = ascenderInteractor.getAscenderPriority(world, mutablePos, adjacentState, direction.opposite);
+			if (interactor != null) {
+				priority = interactor.getAscenderPriority(world, mutablePos, adjacentState, direction.opposite);
 			}
 			else {
 				priority = AscenderInteractor.BLOCKED;
