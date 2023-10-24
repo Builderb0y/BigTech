@@ -7,7 +7,6 @@ things to finish for existing features:
 	JEI support for sorter belt GUI.
 	separate textures for different cable types to indicate what type they are.
 	migrate TransmuterBlockEntity to fabric transfer API.
-	migrate interactor classes to BlockApiLookup.
 
 features:
 	general:
@@ -33,15 +32,15 @@ features:
 		resurrector: uses lightning power and mob drops to summon the mob that drops those items
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
 		lightning enchanter: uses lightning power to enchant items
-		vanilla integration:
-			spawner: spawn mobs
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receivs a signal from a redstone transmitter
 		redstone detector: detects a redstone laser passing through the block
-		thermal discouragement beam: roasts entities that touch the beam
-		tripwire laser: emits a redstone signal when an entity touches the beam
-		spotlight: places light source blocks everywhere the laser goes
+		lightning transmitter: on lightning pulse, emits a beam
+		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
+		thermal discouragement beam: ignites entities that touch the beam
+		tripwire beam: emits a redstone signal when an entity touches the beam
+		spotlight: illuminates every block the beam goes through
 		mirror: reflects beams so that they go somewhere else
 		prism: can split up a laser into several others
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
@@ -65,8 +64,6 @@ features:
 		spawner jammer: disables spawners unless powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
 	redstone:
 		pulsar: emits regularly timed redstone pulses
-		encased slime block: only sticks to other blocks on one side.
-			encased honey block: same. but doesn't stick to slime blocks.
 	tools:
 		power crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
 		snow cannon: shoots snowballs every tick while you hold down right click
@@ -80,6 +77,7 @@ done:
 		vanilla integration:
 			TNT: explode
 			blocks made of copper: de-oxidize
+			spawner: spawn mobs
 	transport:
 		belts:
 			belt: transports entities horizontally
@@ -94,6 +92,8 @@ done:
 		frames: looks like scaffolding, can be climbed like a ladder
 	redstone:
 		encased redstone block: emits a redstone signal in only one direction
+		encased slime block: only sticks to other blocks on one side.
+			encased honey block: same. but doesn't stick to slime blocks.
 
 canceled:
 	lightning rod: already in vanilla.

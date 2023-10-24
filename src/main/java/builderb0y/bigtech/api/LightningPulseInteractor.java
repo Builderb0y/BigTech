@@ -194,6 +194,10 @@ public interface LightningPulseInteractor {
 			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.LIGHTNING_ROD,
 			Blocks.LIGHTNING_ROD
 		);
+		LOOKUP.registerForBlocks(
+			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.MOB_SPAWNER,
+			Blocks.SPAWNER
+		);
 		LOOKUP.registerFallback(
 			(world, pos, state, blockEntity, context) -> {
 				if (state.getBlock() instanceof Oxidizable) {

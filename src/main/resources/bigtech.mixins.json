@@ -9,6 +9,7 @@
 		"EntityShapeContext_HeldItemGetter",
 		"ItemEntity_DontMergeDuringTransport",
 		"LightningRod_EmitLightningPulse",
+		"MobSpawnerLogic_MakeForceable",
 		"PistonHandler_AddNecessaryMethods",
 		"PistonHandlerAccessor",
 		"PlayerEntity_HookIntoIsClimbing",

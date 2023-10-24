@@ -1,6 +1,8 @@
 package builderb0y.bigtech.lightning;
 
 import net.minecraft.block.*;
+import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -9,6 +11,8 @@ import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
+import builderb0y.bigtech.mixinterfaces.ForceableMobSpawnerLogic;
+import builderb0y.bigtech.util.WorldHelper;
 
 public class LightningPulseInteractors {
 
@@ -111,6 +115,22 @@ public class LightningPulseInteractors {
 			@Override
 			public String toString() {
 				return "LightningPulseInteractors.LIGHTNING_ROD";
+			}
+		},
+		MOB_SPAWNER = new LightningPulseInteractor() {
+
+			@Override
+			public boolean isSink(World world, BlockPos pos, BlockState state) {
+				return true;
+			}
+
+			@Override
+			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+				MobSpawnerBlockEntity spawner = WorldHelper.getBlockEntity(world, pos, MobSpawnerBlockEntity.class);
+				if (spawner != null) {
+					((ForceableMobSpawnerLogic)(spawner.getLogic())).bigtech_spawnMobs((ServerWorld)(world), pos);
+					this.spawnLightningParticles(world, pos, state, pulse);
+				}
 			}
 		};
 }
