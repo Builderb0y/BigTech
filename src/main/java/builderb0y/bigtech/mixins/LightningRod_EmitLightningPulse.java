@@ -17,14 +17,14 @@ public class LightningRod_EmitLightningPulse {
 
 	@Inject(method = "setPowered", at = @At("RETURN"))
 	private void bigtech_emitLightningPulse(BlockState state, World world, BlockPos pos, CallbackInfo ci) {
-		//gaussian approximation between 500 and 1500, averaging 1000.
+		//gaussian approximation between 5000 and 15000, averaging 10000.
 		int energy = (
-			500 +
-			world.random.nextInt(200) +
-			world.random.nextInt(200) +
-			world.random.nextInt(200) +
-			world.random.nextInt(200) +
-			world.random.nextInt(200)
+			5000 +
+			world.random.nextInt(2000) +
+			world.random.nextInt(2000) +
+			world.random.nextInt(2000) +
+			world.random.nextInt(2000) +
+			world.random.nextInt(2000)
 		);
 		new LightningPulse(world, pos, energy, 64).run();
 	}

@@ -13,6 +13,7 @@ import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.CopperNuggetDataGenerator;
 import builderb0y.bigtech.datagen.impl.EncasedRedstoneBlockDataGenerator;
 import builderb0y.bigtech.datagen.impl.LightningCableDataGenerator;
+import builderb0y.bigtech.datagen.impl.TransmuterDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
@@ -113,6 +114,9 @@ public class BigTechItems {
 		IRON_LIGHTNING_CAbLE   = registerPlacer(BigTechBlocks.IRON_LIGHTNING_CABLE),
 		GOLD_LIGHTNING_CABLE   = registerPlacer(BigTechBlocks.GOLD_LIGHTNING_CABLE),
 		COPPER_LIGHTNING_CABLE = registerPlacer(BigTechBlocks.COPPER_LIGHTNING_CABLE);
+	@UseDataGen(TransmuterDataGenerator.class)
+	public static final BlockItem
+		TRANSMUTER = registerPlacer(BigTechBlocks.TRANSMUTER);
 
 	public static void init() {}
 

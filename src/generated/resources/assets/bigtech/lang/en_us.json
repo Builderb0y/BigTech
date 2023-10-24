@@ -26,12 +26,15 @@
 	"block.bigtech.sorter_belt":                  "Sorter Belt",
 	"block.bigtech.speedy_belt":                  "Speedy Belt",
 	"block.bigtech.spruce_frame":                 "Spruce Frame",
+	"block.bigtech.transmuter":                   "Transmuter",
 	"block.bigtech.warped_frame":                 "Warped Frame",
 	"block.bigtech.waxed_copper_frame":           "Waxed Copper Frame",
 	"block.bigtech.waxed_exposed_copper_frame":   "Waxed Exposed Copper Frame",
 	"block.bigtech.waxed_oxidized_copper_frame":  "Waxed Oxidized Copper Frame",
 	"block.bigtech.waxed_weathered_copper_frame": "Waxed Weathered Copper Frame",
 	"block.bigtech.weathered_copper_frame":       "Weathered Copper Frame",
+	"container.bigtech.sorter_belt":              "Sorter Belt",
+	"container.bigtech.transmuter":               "Transmuter",
 	"item.bigtech.copper_nugget":                 "Copper Nugget",
 	"itemGroup.bigtech":                          "Big Tech"
 }

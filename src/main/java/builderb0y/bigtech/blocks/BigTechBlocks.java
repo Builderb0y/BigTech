@@ -291,6 +291,19 @@ public class BigTechBlocks {
 				AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
 			)
 		);
+	@UseDataGen(void.class)
+	public static final TransmuterBlock TRANSMUTER = register(
+		"transmuter",
+		new TransmuterBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.BLACK)
+			.requiresTool()
+			.nonOpaque()
+			.strength(20.0F, 600.0F)
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);
@@ -347,7 +360,8 @@ public class BigTechBlocks {
 			CHERRY_FRAME,
 			MANGROVE_FRAME,
 			CRIMSON_FRAME,
-			WARPED_FRAME
+			WARPED_FRAME,
+			TRANSMUTER
 		);
 	}
 

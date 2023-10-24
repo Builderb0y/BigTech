@@ -140,7 +140,7 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 
 	@Override
 	public Text getDisplayName() {
-		return this.customName != null ? this.customName : BigTechBlocks.SORTER_BELT.name;
+		return this.customName != null ? this.customName : Text.translatable("container.bigtech.sorter_belt");
 	}
 
 	@Override

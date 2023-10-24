@@ -1,10 +1,13 @@
 bugs:
 	none yet.
 
-where I left off:
+things to finish for existing features:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
 	make belts and ascenders/descenders able to insert items into inventories.
 	JEI support for sorter belt GUI.
+	separate textures for different cable types to indicate what type they are.
+	migrate TransmuterBlockEntity to fabric transfer API.
+	migrate interactor classes to BlockApiLookup.
 
 features:
 	general:
@@ -25,18 +28,13 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
-		lightning rod: generates lightning power
-		lightning cable: transfers lightning power without shocking entities
 		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
 		lightning electrode: stores lightning power in portable, item format. releases power on right click.
-		transmutation chamber: uses lightning power to turn items into other items
 		resurrector: uses lightning power and mob drops to summon the mob that drops those items
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
 		lightning enchanter: uses lightning power to enchant items
 		vanilla integration:
-			TNT: explode
 			spawner: spawn mobs
-			blocks made of copper: de-oxidize
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receivs a signal from a redstone transmitter
@@ -74,6 +72,12 @@ features:
 		power tools: pickaxe works like block excavator, axe works like block harvester. shovel will work on dirt/gravel veins. not sure about the other tools.
 
 done:
+	lightning power:
+		lightning cable: transfers lightning power without shocking entities
+		transmuter: uses lightning power to turn items into other items
+		vanilla integration:
+			TNT: explode
+			blocks made of copper: de-oxidize
 	transport:
 		belts:
 			belt: transports entities horizontally
@@ -88,3 +92,6 @@ done:
 		frames: looks like scaffolding, can be climbed like a ladder
 	redstone:
 		encased redstone block: emits a redstone signal in only one direction
+
+canceled:
+	lightning rod: already in vanilla.

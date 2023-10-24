@@ -17,6 +17,9 @@ repositories() {
 		url('https://api.modrinth.com/maven')
 	}
 
+	//AutoCodec
+	mavenLocal()
+
 	//manifold
 	maven() {
 		url('https://oss.sonatype.org/content/repositories/snapshots/')
@@ -31,6 +34,12 @@ dependencies() {
 
 	//Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
+
+	//AutoCodec
+	implementation('builderb0y:autocodec:4.11.0') {
+		transitive = false
+	}
+	include('builderb0y:autocodec:4.11.0')
 
 	//JMXL
 	include(modImplementation('maven.modrinth:jmxl:1.4+mc1.20.2'))
