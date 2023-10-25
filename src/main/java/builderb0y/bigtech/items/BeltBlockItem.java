@@ -12,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.blocks.belts.AbstractBeltBlock;
+
 public class BeltBlockItem extends BlockItem {
 
 	public BeltBlockItem(Block block, Settings settings) {
@@ -24,14 +26,13 @@ public class BeltBlockItem extends BlockItem {
 		if (!context.shouldCancelInteraction()) {
 			World world = context.world;
 			BlockPos.Mutable pos = context.blockPos.mutableCopy();
-			Block expected = this.getBlock();
 			BlockState actual = world.getBlockState(pos);
-			if (actual.isOf(expected)) {
+			if (actual.getBlock() instanceof AbstractBeltBlock) {
 				Direction direction = actual.get(Properties.HORIZONTAL_FACING);
 				while (true) {
 					pos.move(direction);
 					actual = world.getBlockState(pos);
-					if (actual.isOf(expected)) {
+					if (actual.getBlock() instanceof AbstractBeltBlock) {
 						if (actual.get(Properties.HORIZONTAL_FACING) == direction) {
 							continue;
 						}

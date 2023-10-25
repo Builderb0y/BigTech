@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -108,7 +109,7 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
-		return context.getStack().isOf(this.asItem()) && !context.shouldCancelInteraction();
+		return context.getStack().getItem() instanceof BlockItem blockItem && blockItem.block instanceof AbstractBeltBlock && !context.shouldCancelInteraction();
 	}
 
 	@Override

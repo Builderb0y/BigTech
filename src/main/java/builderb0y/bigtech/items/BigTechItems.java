@@ -30,6 +30,10 @@ public class BigTechItems {
 	public static final BeltBlockItem BRAKE_BELT = registerBelt(
 		BigTechBlocks.BRAKE_BELT
 	);
+	@UseDataGen(TrapdoorBeltDataGenerator.class)
+	public static final BeltBlockItem TRAPDOOR_BELT = registerBelt(
+		BigTechBlocks.TRAPDOOR_BELT
+	);
 	@UseDataGen(DirectorBeltDataGenerator.class)
 	public static final BlockItem DIRECTOR_BELT = registerPlacer(
 		BigTechBlocks.DIRECTOR_BELT

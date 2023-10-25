@@ -9,6 +9,7 @@
 		"bigtech:injector_belt",
 		"bigtech:launcher_belt",
 		"bigtech:sorter_belt",
-		"bigtech:speedy_belt"
+		"bigtech:speedy_belt",
+		"bigtech:trapdoor_belt"
 	]
 }

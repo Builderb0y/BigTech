@@ -54,6 +54,13 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final TrapdoorBeltBlock TRAPDOOR_BELT = register(
+		"trapdoor_belt",
+		new TrapdoorBeltBlock(
+			AbstractBlock.Settings.copy(BELT).nonOpaque()
+		)
+	);
+	@UseDataGen(void.class)
 	public static final DirectorBeltBlock DIRECTOR_BELT = register(
 		"director_belt",
 		new DirectorBeltBlock(
@@ -349,9 +356,12 @@ public class BigTechBlocks {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(  SPEEDY_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(   BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
+		LandPathNodeTypesRegistry.register(TRAPDOOR_BELT, (state, neighbor) -> state.get(Properties.POWERED) != state.get(Properties.INVERTED) && !neighbor ? PathNodeType.RAIL : null);
 		LandPathNodeTypesRegistry.register(DIRECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(DETECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(  SORTER_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register( EJECTOR_BELT, PathNodeType.RAIL, null);
+		LandPathNodeTypesRegistry.register(INJECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(LAUNCHER_BELT, PathNodeType.RAIL, null);
 
 		OxidizableBlocksRegistry.registerOxidizableBlockPair(          COPPER_FRAME,   EXPOSED_COPPER_FRAME);
@@ -379,6 +389,7 @@ public class BigTechBlocks {
 	public static void initClient() {
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.cutout,
+			TRAPDOOR_BELT,
 			ASCENDER,
 			DESCENDER,
 			IRON_FRAME,
