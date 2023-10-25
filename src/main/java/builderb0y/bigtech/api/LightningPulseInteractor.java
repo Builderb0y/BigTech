@@ -13,6 +13,7 @@ import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -70,11 +71,18 @@ public interface LightningPulseInteractor {
 			fromInteractor.canConductOut(world, fromPos, fromState, fromFromToTo) &&
 			toInteractor  .canConductIn (world,   toPos,   toState, fromFromToTo.opposite) &&
 			VoxelShapes.matchesAnywhere(
-				fromState.getCullingFace(world, fromPos, fromFromToTo),
-				toState  .getCullingFace(world,   toPos, fromFromToTo.opposite),
+				fromInteractor.getConductionShape(world, fromPos, fromState, fromFromToTo),
+				toInteractor  .getConductionShape(world,   toPos, toState, fromFromToTo.opposite),
 				BooleanBiFunction.AND
 			)
 		);
+	}
+
+	/**
+	returns the shape used for checking whether or not this block touches an adjacent one.
+	*/
+	public default VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
+		return state.getCullingFace(world, pos, face);
 	}
 
 	/**

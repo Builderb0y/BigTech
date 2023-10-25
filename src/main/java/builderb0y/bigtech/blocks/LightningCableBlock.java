@@ -11,8 +11,12 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
@@ -22,6 +26,12 @@ import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.util.Enums;
 
 public class LightningCableBlock extends ConnectingBlock implements LightningPulseInteractor, Waterloggable {
+
+	public static final VoxelShape[] CONDUCTION_SHAPES = {
+		VoxelShapes.cuboid(0.0D, 0.25D, 0.25D, 1.0D, 0.75D, 0.75D),
+		VoxelShapes.cuboid(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D),
+		VoxelShapes.cuboid(0.25D, 0.25D, 0.0D, 0.75D, 0.75D, 1.0D),
+	};
 
 	public LightningCableBlock(Settings settings) {
 		super(0.25F, settings);
@@ -36,6 +46,11 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
 		LightningPulseInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
+	}
+
+	@Override
+	public VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
+		return CONDUCTION_SHAPES[face.axis.ordinal()];
 	}
 
 	@Override
@@ -73,15 +88,21 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	public boolean canConnect(World world, BlockPos pos, BlockState state, BlockPos adjacentPos, BlockState adjacentState, Direction direction) {
-		return adjacentState.isOf(this) || LightningPulseInteractor.canConductThrough(
-			world,
-			this,
-			pos,
-			state.with(FACING_PROPERTIES.get(direction), Boolean.TRUE),
-			LightningPulseInteractor.get(world, adjacentPos, adjacentState),
-			adjacentPos,
-			adjacentState,
-			direction
+		if (adjacentState.getBlock() instanceof LightningCableBlock) {
+			return adjacentState.isOf(this);
+		}
+		LightningPulseInteractor adjacentInteractor = LightningPulseInteractor.get(world, adjacentPos, adjacentState);
+		return (
+			(
+				adjacentInteractor.canConductIn (world, adjacentPos, adjacentState, direction.opposite) ||
+				adjacentInteractor.canConductOut(world, adjacentPos, adjacentState, direction.opposite)
+			)
+			&&
+			VoxelShapes.matchesAnywhere(
+				this.getConductionShape(world, pos, state, direction),
+				adjacentInteractor.getConductionShape(world, adjacentPos, adjacentState, direction.opposite),
+				BooleanBiFunction.AND
+			)
 		);
 	}
 

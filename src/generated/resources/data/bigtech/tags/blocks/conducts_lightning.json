@@ -2,6 +2,10 @@
 	"replace": false,
 	"values": [
 		"#bigtech:metal_frames",
+		"minecraft:anvil",
+		"minecraft:chain",
+		"minecraft:chipped_anvil",
+		"minecraft:damaged_anvil",
 		"minecraft:gold_block",
 		"minecraft:iron_bars",
 		"minecraft:iron_block",

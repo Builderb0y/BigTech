@@ -99,6 +99,13 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
+	public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+		return COLLISION_SHAPE;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
 	}

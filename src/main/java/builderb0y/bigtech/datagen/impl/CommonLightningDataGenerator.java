@@ -19,6 +19,10 @@ public class CommonLightningDataGenerator implements DataGenerator {
 			new TagOrItem(Blocks.IRON_BARS),
 			new TagOrItem(Blocks.IRON_DOOR),
 			new TagOrItem(Blocks.IRON_TRAPDOOR),
+			new TagOrItem(Blocks.ANVIL),
+			new TagOrItem(Blocks.CHIPPED_ANVIL),
+			new TagOrItem(Blocks.DAMAGED_ANVIL),
+			new TagOrItem(Blocks.CHAIN),
 			new TagOrItem(Blocks.GOLD_BLOCK),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
 		));
@@ -27,6 +31,10 @@ public class CommonLightningDataGenerator implements DataGenerator {
 			new TagOrItem(Blocks.IRON_BARS),
 			new TagOrItem(Blocks.IRON_DOOR),
 			new TagOrItem(Blocks.IRON_TRAPDOOR),
+			new TagOrItem(Blocks.ANVIL),
+			new TagOrItem(Blocks.CHIPPED_ANVIL),
+			new TagOrItem(Blocks.DAMAGED_ANVIL),
+			new TagOrItem(Blocks.CHAIN),
 			new TagOrItem(Blocks.GOLD_BLOCK),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
 		));

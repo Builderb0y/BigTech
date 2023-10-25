@@ -24,6 +24,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -56,6 +57,11 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	public TransmuterBlock(Settings settings) {
 		super(settings);
 		LightningPulseInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
+	}
+
+	@Override
+	public VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
+		return VoxelShapes.fullCube();
 	}
 
 	@Override
