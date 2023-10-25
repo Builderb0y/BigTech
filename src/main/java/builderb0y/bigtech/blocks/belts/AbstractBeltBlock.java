@@ -35,10 +35,6 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 
 	public abstract void move(World world, BlockPos pos, BlockState state, Entity entity);
 
-	public boolean tryStoreInBlocks(World world, BlockPos pos, BlockState state, Entity entity) {
-		return false;
-	}
-
 	public boolean canMove(World world, BlockPos pos, BlockState state, Entity entity) {
 		return (
 			entity.isAlive &&
@@ -62,9 +58,7 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
 		if (this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity)) {
-			if (world.isClient || !this.tryStoreInBlocks(world, pos, state, entity)) {
-				this.move(world, pos, state, entity);
-			}
+			this.move(world, pos, state, entity);
 		}
 	}
 

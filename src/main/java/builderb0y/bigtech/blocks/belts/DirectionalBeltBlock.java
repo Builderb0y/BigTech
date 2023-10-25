@@ -1,25 +1,14 @@
 package builderb0y.bigtech.blocks.belts;
 
-import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -93,40 +82,6 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 			case Y -> throw new AssertionError(direction.axis);
 		}
 		entity.setVelocity(newX, oldMotion.y, newZ);
-	}
-
-	@Override
-	@SuppressWarnings("UnstableApiUsage")
-	public boolean tryStoreInBlocks(World world, BlockPos pos, BlockState state, Entity entity) {
-		if (entity instanceof ItemEntity item) {
-			Direction direction = this.getDirection(world, pos, state, entity);
-			Box box = entity.boundingBox;
-			if (switch (direction.getDirection()) {
-				case POSITIVE -> box.getMax(direction.axis) >= pos.getComponentAlongAxis(direction.axis) + 0.99D;
-				case NEGATIVE -> box.getMin(direction.axis) <= pos.getComponentAlongAxis(direction.axis) + 0.01D;
-			}) {
-				BlockPos adjacentPos = pos.offset(direction);
-				Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, adjacentPos, direction.opposite);
-				if (storage != null) {
-					try (Transaction transaction = Transaction.openOuter()) {
-						ItemStack stack = item.getStack();
-						int inserted = (int)(storage.insert(ItemVariant.of(stack), stack.count, transaction));
-						if (inserted > 0) {
-							if (inserted >= stack.count) {
-								item.discard();
-							}
-							else {
-								item.setStack(stack.copyWithCount(stack.count - inserted));
-							}
-							transaction.commit();
-							world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1.0F, 0.5F + world.random.nextFloat() * 0.25F);
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	@Override
