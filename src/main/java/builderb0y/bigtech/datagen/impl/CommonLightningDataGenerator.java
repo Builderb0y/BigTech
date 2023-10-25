@@ -16,11 +16,17 @@ public class CommonLightningDataGenerator implements DataGenerator {
 	public void run(DataGenContext context) {
 		context.getTags(BigTechBlockTags.CONDUCTS_LIGHTNING).addAll(List.of(
 			new TagOrItem(Blocks.IRON_BLOCK),
+			new TagOrItem(Blocks.IRON_BARS),
+			new TagOrItem(Blocks.IRON_DOOR),
+			new TagOrItem(Blocks.IRON_TRAPDOOR),
 			new TagOrItem(Blocks.GOLD_BLOCK),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
 		));
 		context.getTags(BigTechBlockTags.SHOCKS_ENTITIES).addAll(List.of(
 			new TagOrItem(Blocks.IRON_BLOCK),
+			new TagOrItem(Blocks.IRON_BARS),
+			new TagOrItem(Blocks.IRON_DOOR),
+			new TagOrItem(Blocks.IRON_TRAPDOOR),
 			new TagOrItem(Blocks.GOLD_BLOCK),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
 		));

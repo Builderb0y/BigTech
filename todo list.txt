@@ -3,10 +3,8 @@ bugs:
 
 things to finish for existing features:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
-	make belts and ascenders/descenders able to insert items into inventories.
 	JEI support for sorter belt GUI.
 	separate textures for different cable types to indicate what type they are.
-	migrate TransmuterBlockEntity to fabric transfer API.
 
 features:
 	general:

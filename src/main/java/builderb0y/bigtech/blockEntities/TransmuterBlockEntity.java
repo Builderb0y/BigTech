@@ -1,11 +1,14 @@
 package builderb0y.bigtech.blockEntities;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeManager;
@@ -13,12 +16,15 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.TransmuterScreenHandler;
 
-public class TransmuterBlockEntity extends LootableContainerBlockEntity {
+public class TransmuterBlockEntity extends LootableContainerBlockEntity implements SidedInventory {
+
+	public static final int[] SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
 	public DefaultedList<ItemStack> items;
 
@@ -51,6 +57,21 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity {
 
 	@Override
 	public boolean canTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
+		return isValidOutput(this.world.recipeManager, stack);
+	}
+
+	@Override
+	public int[] getAvailableSlots(Direction side) {
+		return SLOTS;
+	}
+
+	@Override
+	public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+		return this.getStack(slot).isEmpty && isValidInput(this.world.recipeManager, stack);
+	}
+
+	@Override
+	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
 		return isValidOutput(this.world.recipeManager, stack);
 	}
 
