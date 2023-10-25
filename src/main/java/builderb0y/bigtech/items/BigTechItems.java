@@ -42,6 +42,10 @@ public class BigTechItems {
 	public static final BeltBlockItem SORTER_BELT = registerBelt(
 		BigTechBlocks.SORTER_BELT
 	);
+	@UseDataGen(EjectorBeltDataGenerator.class)
+	public static final BeltBlockItem EJECTOR_BELT = registerBelt(
+		BigTechBlocks.EJECTOR_BELT
+	);
 	@UseDataGen(LauncherBeltDataGenerator.class)
 	public static final BlockItem LAUNCHER_BELT = registerPlacer(
 		BigTechBlocks.LAUNCHER_BELT

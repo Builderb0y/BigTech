@@ -75,6 +75,13 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final EjectorBeltBlock EJECTOR_BELT = register(
+		"ejector_belt",
+		new EjectorBeltBlock(
+			AbstractBlock.Settings.copy(BELT)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final LauncherBeltBlock LAUNCHER_BELT = register(
 		"launcher_belt",
 		new LauncherBeltBlock(

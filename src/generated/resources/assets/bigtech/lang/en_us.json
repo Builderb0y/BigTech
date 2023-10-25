@@ -12,6 +12,7 @@
 	"block.bigtech.descender":                    "Descender",
 	"block.bigtech.detector_belt":                "Detector Belt",
 	"block.bigtech.director_belt":                "Director Belt",
+	"block.bigtech.ejector_belt":                 "Ejector Belt",
 	"block.bigtech.encased_honey_block":          "Encased Honey Block",
 	"block.bigtech.encased_redstone_block":       "Encased Redstone Block",
 	"block.bigtech.encased_slime_block":          "Encased Slime Block",

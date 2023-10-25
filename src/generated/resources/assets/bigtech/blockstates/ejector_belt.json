@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"facing=north,powered=false": { "model": "bigtech:block/ejector_belt", "y":   0 },
+		"facing=north,powered=true":  { "model": "bigtech:block/ejector_belt", "y":   0 },
+		"facing=east,powered=false":  { "model": "bigtech:block/ejector_belt", "y":  90 },
+		"facing=east,powered=true":   { "model": "bigtech:block/ejector_belt", "y":  90 },
+		"facing=south,powered=false": { "model": "bigtech:block/ejector_belt", "y": 180 },
+		"facing=south,powered=true":  { "model": "bigtech:block/ejector_belt", "y": 180 },
+		"facing=west,powered=false":  { "model": "bigtech:block/ejector_belt", "y": 270 },
+		"facing=west,powered=true":   { "model": "bigtech:block/ejector_belt", "y": 270 }
+	}
+}

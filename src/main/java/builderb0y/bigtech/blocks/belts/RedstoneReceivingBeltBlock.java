@@ -11,6 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.util.Enums;
+
 public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 
 	public RedstoneReceivingBeltBlock(Settings settings) {
@@ -32,11 +34,18 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	public boolean shouldBePowered(World world, BlockPos pos, BlockState state) {
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 		if (world.getEmittedRedstonePower(mutable.set(pos, Direction.DOWN), Direction.DOWN) > 0) return true;
-		Direction forward = state.get(Properties.HORIZONTAL_FACING);
-		if (world.getEmittedRedstonePower(mutable.set(pos, forward), forward) > 0) return true;
-		if (world.getEmittedRedstonePower(mutable.set(pos, forward.rotateYClockwise()), forward.rotateYClockwise()) > 0) return true;
-		if (world.getEmittedRedstonePower(mutable.set(pos, forward.rotateYCounterclockwise()), forward.rotateYCounterclockwise()) > 0) return true;
-		return world.getEmittedRedstonePower(mutable.set(pos, forward.opposite), forward.opposite) > 0;
+		for (Direction direction : Enums.HORIZONTAL_DIRECTIONS) {
+			if (world.getEmittedRedstonePower(mutable.set(pos, direction), direction) > 0) return true;
+		}
+		return false;
+	}
+
+	public boolean isPowered(World world, BlockPos pos, BlockState state) {
+		return state.get(Properties.POWERED);
+	}
+
+	public void setPowered(World world, BlockPos pos, BlockState state, boolean powered) {
+		world.setBlockState(pos, state.with(Properties.POWERED, powered));
 	}
 
 	@Override
@@ -50,9 +59,10 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	@SuppressWarnings("deprecation")
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
-		BlockState newState = state.with(Properties.POWERED, this.shouldBePowered(world, pos, state));
-		if (state != newState) {
-			world.setBlockState(pos, newState);
+		boolean powered = this.isPowered(world, pos, state);
+		boolean shouldBePowered = this.shouldBePowered(world, pos, state);
+		if (powered != shouldBePowered) {
+			this.setPowered(world, pos, state, shouldBePowered);
 		}
 	}
 

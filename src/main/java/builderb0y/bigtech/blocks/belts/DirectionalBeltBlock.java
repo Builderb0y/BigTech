@@ -110,7 +110,7 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 				if (storage != null) {
 					try (Transaction transaction = Transaction.openOuter()) {
 						ItemStack stack = item.getStack();
-						int inserted = (int)(StorageUtil.tryInsertStacking(storage, ItemVariant.of(stack), stack.count, transaction));
+						int inserted = (int)(storage.insert(ItemVariant.of(stack), stack.count, transaction));
 						if (inserted > 0) {
 							if (inserted >= stack.count) {
 								item.discard();
