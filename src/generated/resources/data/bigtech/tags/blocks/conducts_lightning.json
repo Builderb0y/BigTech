@@ -3,6 +3,9 @@
 	"values": [
 		"#bigtech:metal_frames",
 		"minecraft:gold_block",
-		"minecraft:iron_block"
+		"minecraft:iron_bars",
+		"minecraft:iron_block",
+		"minecraft:iron_door",
+		"minecraft:iron_trapdoor"
 	]
 }
