@@ -351,6 +351,16 @@ public class BigTechBlocks {
 			.strength(20.0F, 600.0F)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final MagnetiteBlock MAGNETITE_BLOCK = register(
+		"magnetite_block",
+		new MagnetiteBlock(
+			AbstractBlock
+			.Settings
+			.copy(Blocks.IRON_BLOCK)
+			.mapColor(MapColor.BRIGHT_RED)
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

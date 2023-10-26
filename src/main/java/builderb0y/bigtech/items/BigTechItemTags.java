@@ -10,19 +10,23 @@ import builderb0y.bigtech.BigTechMod;
 public class BigTechItemTags {
 
 	public static final TagKey<Item>
-		BELTS            = of("belts"),
-		ASCENDERS        = of("ascenders"),
-		WOODEN_FRAMES    = of("wooden_frames"),
-		METAL_FRAMES     = of("metal_frames"),
-		FRAMES           = of("frames"),
-		LIGHTNING_CABLES = of("lightning_cables"),
-		PRESSURE_PLATES  = common("pressure_plates"),
-		IRON_NUGGETS     = common("iron_nuggets"),
-		COPPER_NUGGETS   = common("copper_nuggets"),
-		GOLD_NUGGETS     = common("gold_nuggets"),
-		STICKS           = common("wood_sticks"),
-		REDSTONE_BLOCKS  = common("redstone_blocks"),
-		OBSIDIAN         = common("obsidian");
+		BELTS             = of("belts"),
+		ASCENDERS         = of("ascenders"),
+		WOODEN_FRAMES     = of("wooden_frames"),
+		METAL_FRAMES      = of("metal_frames"),
+		FRAMES            = of("frames"),
+		LIGHTNING_CABLES  = of("lightning_cables"),
+		PRESSURE_PLATES   = common("pressure_plates"),
+		IRON_NUGGETS      = common("iron_nuggets"),
+		COPPER_NUGGETS    = common("copper_nuggets"),
+		GOLD_NUGGETS      = common("gold_nuggets"),
+		STICKS            = common("wood_sticks"),
+		REDSTONE_BLOCKS   = common("redstone_blocks"),
+		OBSIDIAN          = common("obsidian"),
+		IRON_BLOCKS       = common("iron_blocks"),
+		MAGNETITE_NUGGETS = common("magnetite_nuggets"),
+		MAGNETITE_INGOTS  = common("magnetite_ingots"),
+		MAGNETITE_BLOCKS  = common("magnetite_blocks");
 
 	public static TagKey<Item> of(String name) {
 		return TagKey.of(RegistryKeys.ITEM, BigTechMod.modID(name));

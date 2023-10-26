@@ -5,6 +5,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"plugin": "builderb0y.bigtech.mixins.BigTechMixinPlugin",
 	"mixins": [
+		"AttractableEntities_AttractTowardsMagnetiteBlocks",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_HeldItemGetter",
 		"ItemEntity_DontMergeDuringTransport",
@@ -19,5 +20,6 @@
 	"client": [ ],
 	"injectors": {
 		"defaultRequire": 1
-	}
+	},
+	"accessWidener": "bigtech.accesswidener"
 }

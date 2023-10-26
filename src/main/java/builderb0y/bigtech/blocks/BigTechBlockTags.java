@@ -3,6 +3,7 @@ package builderb0y.bigtech.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.api.LightningPulseInteractor;
@@ -54,7 +55,13 @@ public class BigTechBlockTags {
 		(for example, recipes), but is not used by any game logic.
 		modded blocks do not need to be tagged with this tag to interact with lightning.
 		*/
-		LIGHTNING_CABLES         = of("lightning_cables");
+		LIGHTNING_CABLES         = of("lightning_cables"),
+		IRON_BLOCKS              = common("iron_blocks"),
+		MAGNETITE_BLOCKS         = common("magnetite_blocks");
+
+	public static TagKey<Block> common(String name) {
+		return TagKey.of(RegistryKeys.BLOCK, new Identifier("c", name));
+	}
 
 	public static TagKey<Block> of(String name) {
 		return TagKey.of(RegistryKeys.BLOCK, BigTechMod.modID(name));

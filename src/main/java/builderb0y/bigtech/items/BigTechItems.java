@@ -128,8 +128,23 @@ public class BigTechItems {
 		GOLD_LIGHTNING_CABLE   = registerPlacer(BigTechBlocks.GOLD_LIGHTNING_CABLE),
 		COPPER_LIGHTNING_CABLE = registerPlacer(BigTechBlocks.COPPER_LIGHTNING_CABLE);
 	@UseDataGen(TransmuterDataGenerator.class)
-	public static final BlockItem
-		TRANSMUTER = registerPlacer(BigTechBlocks.TRANSMUTER);
+	public static final BlockItem TRANSMUTER = registerPlacer(
+		BigTechBlocks.TRANSMUTER
+	);
+	@UseDataGen(MagnetiteNuggetDataGenerator.class)
+	public static final Item MAGNETITE_NUGGET = register(
+		"magnetite_nugget",
+		new Item(new Item.Settings())
+	);
+	@UseDataGen(MagnetiteIngotDataGenerator.class)
+	public static final Item MAGNETITE_INGOT = register(
+		"magnetite_ingot",
+		new Item(new Item.Settings())
+	);
+	@UseDataGen(MagnetiteBlockDataGenerator.class)
+	public static final BlockItem MAGNETITE_BLOCK = registerPlacer(
+		BigTechBlocks.MAGNETITE_BLOCK
+	);
 
 	public static void init() {}
 

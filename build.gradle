@@ -54,6 +54,10 @@ dependencies() {
 	}
 }
 
+loom() {
+	accessWidenerPath = file('src/main/resources/bigtech.accesswidener')
+}
+
 sourceSets() {
 	generated() {
 		resources() {

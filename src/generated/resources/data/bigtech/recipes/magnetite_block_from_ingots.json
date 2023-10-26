@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"iii",
+		"iii",
+		"iii"
+	],
+	"key": {
+		"i": { "tag": "c:magnetite_ingots" }
+	},
+	"result": {
+		"item": "bigtech:magnetite_block"
+	}
+}

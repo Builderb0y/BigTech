@@ -24,6 +24,7 @@
 	"block.bigtech.iron_lightning_cable":         "Iron Lightning Cable",
 	"block.bigtech.jungle_frame":                 "Jungle Frame",
 	"block.bigtech.launcher_belt":                "Launcher Belt",
+	"block.bigtech.magnetite_block":              "Magnetite Block",
 	"block.bigtech.mangrove_frame":               "Mangrove Frame",
 	"block.bigtech.oak_frame":                    "Oak Frame",
 	"block.bigtech.oxidized_copper_frame":        "Oxidized Copper Frame",
@@ -41,5 +42,7 @@
 	"container.bigtech.sorter_belt":              "Sorter Belt",
 	"container.bigtech.transmuter":               "Transmuter",
 	"item.bigtech.copper_nugget":                 "Copper Nugget",
+	"item.bigtech.magnetite_ingot":               "Magnetite Ingot",
+	"item.bigtech.magnetite_nugget":              "Magnetite Nugget",
 	"itemGroup.bigtech":                          "Big Tech"
 }

@@ -28,6 +28,9 @@ features:
 		resurrector: uses lightning power and mob drops to summon the mob that drops those items
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
 		lightning enchanter: uses lightning power to enchant items
+		magnetite:
+			armor: attracts items, xp, and projectiles. so ya know. pros and cons
+			arrow: is attracted to mobs
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receivs a signal from a redstone transmitter
@@ -74,6 +77,10 @@ done:
 			TNT: explode
 			blocks made of copper: de-oxidize
 			spawner: spawn mobs
+		magnetite:
+			nugget: crafting ingredient for magnetite arrows
+			ingot: crafting ingredient. made by transmuting iron
+			block: also attracts items, xp, and projectiles
 	transport:
 		belts:
 			belt: transports entities horizontally
