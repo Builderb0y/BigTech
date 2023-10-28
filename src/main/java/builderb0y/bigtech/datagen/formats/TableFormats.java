@@ -31,6 +31,13 @@ public class TableFormats {
 			Direction.WEST
 		};
 
+		public static final Direction[] HORIZONTAL_FACING_ORDER = {
+			Direction.NORTH,
+			Direction.EAST,
+			Direction.SOUTH,
+			Direction.WEST
+		};
+
 		public static final TableFormat<BlockStateJsonVariant> FORMAT = (
 			new TableFormat<BlockStateJsonVariant>()
 			.prefix(
@@ -139,13 +146,92 @@ public class TableFormats {
 					"multipart": [
 				"""
 			)
-			.addLiteral("\t\t{ \"when\": { ")
+			.addLiteral("\t\t{ ")
+			.addLiteral("\"when\": { ", multipart -> multipart.predicateName != null)
 			.addJsonString(BlockStateJsonMultipart::predicateName, Justification.left(), BlockStateJsonMultipart::predicateValue, Justification.left())
-			.addLiteral(" }, \"apply\": { ")
+			.addLiteral(" }, ", multipart -> multipart.predicateName != null)
+			.addLiteral("\"apply\": { ")
 			.addJoined(", ", format -> format
 				.addJsonString("model", Justification.left(), BlockStateJsonMultipart::model)
 				.addJsonNumber("x", BlockStateJsonMultipart::x)
 				.addJsonNumber("y", BlockStateJsonMultipart::y)
+			)
+			.addLiteral(" } }")
+			.addLineDeliminator(",")
+			.suffix("\n\t]\n}")
+		);
+	}
+
+	public static record BlockStateJsonMultipart2(
+		String predicateName1,
+		String predicateValue1,
+		String predicateName2,
+		String predicateValue2,
+		String model,
+		Integer x,
+		Integer y
+	) {
+
+		public static final TableFormat<BlockStateJsonMultipart2> FORMAT = (
+			new TableFormat<BlockStateJsonMultipart2>()
+			.prefix(
+				"""
+				{
+					"multipart": [
+				"""
+			)
+			.addLiteral("\t\t{ ")
+			.addLiteral("\"when\": { ", multipart -> multipart.predicateName1 != null || multipart.predicateName2 != null)
+			.addJoined(", ", format -> format
+				.addJsonString(BlockStateJsonMultipart2::predicateName1, Justification.left(), BlockStateJsonMultipart2::predicateValue1, Justification.left())
+				.addJsonString(BlockStateJsonMultipart2::predicateName2, Justification.left(), BlockStateJsonMultipart2::predicateValue2, Justification.left())
+			)
+			.addLiteral(" }, ", multipart -> multipart.predicateName1 != null || multipart.predicateName2 != null)
+			.addLiteral("\"apply\": { ")
+			.addJoined(", ", format -> format
+				.addJsonString("model", Justification.left(), BlockStateJsonMultipart2::model)
+				.addJsonNumber("x", BlockStateJsonMultipart2::x)
+				.addJsonNumber("y", BlockStateJsonMultipart2::y)
+			)
+			.addLiteral(" } }")
+			.addLineDeliminator(",")
+			.suffix("\n\t]\n}")
+		);
+	}
+
+	public static record BlockStateJsonMultipart3(
+		String predicateName1,
+		String predicateValue1,
+		String predicateName2,
+		String predicateValue2,
+		String predicateName3,
+		String predicateValue3,
+		String model,
+		Integer x,
+		Integer y
+	) {
+
+		public static final TableFormat<BlockStateJsonMultipart3> FORMAT = (
+			new TableFormat<BlockStateJsonMultipart3>()
+			.prefix(
+				"""
+				{
+					"multipart": [
+				"""
+			)
+			.addLiteral("\t\t{ ")
+			.addLiteral("\"when\": { ", multipart -> multipart.predicateName1 != null || multipart.predicateName2 != null || multipart.predicateName3 != null)
+			.addJoined(", ", format -> format
+				.addJsonString(BlockStateJsonMultipart3::predicateName1, Justification.left(), BlockStateJsonMultipart3::predicateValue1, Justification.left())
+				.addJsonString(BlockStateJsonMultipart3::predicateName2, Justification.left(), BlockStateJsonMultipart3::predicateValue2, Justification.left())
+				.addJsonString(BlockStateJsonMultipart3::predicateName3, Justification.left(), BlockStateJsonMultipart3::predicateValue3, Justification.left())
+			)
+			.addLiteral(" }, ", multipart -> multipart.predicateName1 != null || multipart.predicateName2 != null || multipart.predicateName3 != null)
+			.addLiteral("\"apply\": { ")
+			.addJoined(", ", format -> format
+				.addJsonString("model", Justification.left(), BlockStateJsonMultipart3::model)
+				.addJsonNumber("x", BlockStateJsonMultipart3::x)
+				.addJsonNumber("y", BlockStateJsonMultipart3::y)
 			)
 			.addLiteral(" } }")
 			.addLineDeliminator(",")

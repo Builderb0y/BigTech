@@ -8,12 +8,11 @@ things to finish for existing features:
 features:
 	general:
 	decoration:
-		platforms: looks like a catwalk, can be walked on
-		platform stairs: includes rails on the side
+		catwalk platforms: looks like a catwalk, can be walked on
+		catwalk stairs: includes rails on the side
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
 	transport:
 		belts:
-			trapdoor belt: on redstone signal (invertable), opens and allows entities to drop straight through it. can be placed in mid air.
 		hoppers:
 			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
 			stone hopper: this is the vanilla hopper, just with a cheaper recipe
@@ -50,8 +49,7 @@ features:
 		upgraded crafting tables:
 			wood: unchanged
 			stone: keeps its inventory when you close the GUI
-			iron: allows automation via hoppers. crafts when given a redstone signal.
-			gold: has a template section that can be used to configure where items go. redstone signal not required.
+			iron: basically a placeable version of the power crafter
 		deployer: places blocks.
 		destroyer: breaks blocks.
 		block excavator: upgraded version of the block breaker which can mine entire ore veins at once
@@ -88,6 +86,7 @@ done:
 			brake belt: slows down (or stops) entities
 			director belt: sends items left, right, or straight based on redstone signals
 			detector belt: emits a redstone signal when entities are on top of it
+			trapdoor belt: on redstone signal (invertable), opens and allows entities to drop straight through it. can be placed in mid air.
 			sorter belt: sorts entities left or right with a filter GUI
 			ejector belt: extracts items from chests, and xp from the xp storage block, on redstone pulse.
 			injector belt: inserts items into adjacent inventories.

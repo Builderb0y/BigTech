@@ -52,6 +52,16 @@ public abstract class FrameDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
+	public void setupMiningToolTags(DataGenContext context) {
+		//handled by CommonFrameDataGenerator.
+	}
+
+	@Override
+	public void setupMiningLevelTags(DataGenContext context) {
+		//handled by CommonFrameDataGenerator.
+	}
+
+	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
 		context.getTags(((FrameBlock)(this.block)).sticksTo).addElement(this.id);
 	}

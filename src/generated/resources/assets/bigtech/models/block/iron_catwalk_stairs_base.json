@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:block/template_catwalk_stairs_base",
+	"textures": {
+		"base":   "bigtech:block/iron_catwalk_platform_base",
+		"stairs": "bigtech:block/iron_catwalk_stairs"
+	}
+}

@@ -16,6 +16,7 @@ public class BigTechBlockTags {
 		ASCENDERS                = of("ascenders"),
 		PREVENTS_ITEM_MERGING    = of("prevents_item_merging"),
 		WOODEN_FRAMES            = of("wooden_frames"),
+		COPPER_FRAMES            = of("copper_frames"),
 		METAL_FRAMES             = of("metal_frames"),
 		FRAMES                   = of("frames"),
 		STICKS_TO_IRON_FRAME     = of("sticks_to_iron_frame"),
@@ -56,6 +57,15 @@ public class BigTechBlockTags {
 		modded blocks do not need to be tagged with this tag to interact with lightning.
 		*/
 		LIGHTNING_CABLES         = of("lightning_cables"),
+		WOODEN_CATWALK_PLATFORMS = of("wooden_catwalk_platforms"),
+		COPPER_CATWALK_PLATFORMS = of("copper_catwalk_platforms"),
+		METAL_CATWALK_PLATFORMS  = of("metal_catwalk_platforms"),
+		CATWALK_PLATFORMS        = of("catwalk_platforms"),
+		WOODEN_CATWALK_STAIRS    = of("wooden_catwalk_stairs"),
+		COPPER_CATWALK_STAIRS    = of("copper_catwalk_stairs"),
+		METAL_CATWALK_STAIRS     = of("metal_catwalk_stairs"),
+		CATWALK_STAIRS           = of("catwalk_stairs"),
+		COPPER_BARS              = of("copper_bars"),
 		IRON_BLOCKS              = common("iron_blocks"),
 		MAGNETITE_BLOCKS         = common("magnetite_blocks");
 

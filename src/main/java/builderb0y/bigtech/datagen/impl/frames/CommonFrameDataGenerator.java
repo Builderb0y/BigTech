@@ -7,6 +7,8 @@ import net.minecraft.registry.tag.BlockTags;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
+import builderb0y.bigtech.datagen.base.BlockDataGenerator.MiningLevelTags;
+import builderb0y.bigtech.datagen.base.BlockDataGenerator.MiningToolTags;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.base.TagOrItem;
@@ -16,6 +18,14 @@ public class CommonFrameDataGenerator implements DataGenerator {
 
 	@Override
 	public void run(DataGenContext context) {
+		context.getTags(BigTechBlockTags.CONDUCTS_LIGHTNING).add(BigTechBlockTags.METAL_FRAMES);
+		context.getTags(BigTechBlockTags.SHOCKS_ENTITIES).add(BigTechBlockTags.METAL_FRAMES);
+		context.getTags(MiningToolTags.PICKAXE).add(BigTechBlockTags.METAL_FRAMES);
+		context.getTags(MiningLevelTags.STONE).add(BigTechBlockTags.METAL_FRAMES);
+		context.getTags(MiningToolTags.AXE).add(BigTechBlockTags.WOODEN_FRAMES);
+
+		context.getTags(BigTechBlockTags.METAL_FRAMES).add(BigTechBlockTags.COPPER_FRAMES);
+		context.getTags(BigTechItemTags.METAL_FRAMES).add(BigTechItemTags.COPPER_FRAMES);
 		context.getTags(BigTechBlockTags.FRAMES).addAll(List.of(
 			new TagOrItem(BigTechBlockTags.WOODEN_FRAMES),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
@@ -24,11 +34,15 @@ public class CommonFrameDataGenerator implements DataGenerator {
 			new TagOrItem(BigTechBlockTags.WOODEN_FRAMES),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
 		));
+
 		context.getTags(BigTechItemTags.STICKS).add(Items.STICK);
 		context.getTags(BigTechItemTags.GOLD_NUGGETS).add(Items.GOLD_NUGGET);
 		context.getTags(BlockTags.CLIMBABLE).add(BigTechBlockTags.FRAMES);
+		context.getTags(BigTechBlockTags.STICKS_TO_COPPER_FRAME).add(BigTechBlockTags.COPPER_FRAMES);
+
 		context.writeToFile(
 			context.blockModelPath(BigTechMod.modID("template_frame")),
+			//language=json
 			"""
 			{
 				"parent": "block/block",

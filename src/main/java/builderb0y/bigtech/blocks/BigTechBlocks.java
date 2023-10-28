@@ -1,17 +1,16 @@
 package builderb0y.bigtech.blocks;
 
+import java.util.stream.Stream;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Oxidizable.OxidationLevel;
+import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -26,6 +25,25 @@ import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 
 public class BigTechBlocks {
+
+	public static final BlockSetType COPPER_BLOCK_SET_TYPE = (
+		BlockSetTypeBuilder
+		.copyOf(BlockSetType.IRON)
+		.soundGroup(BlockSoundGroup.COPPER)
+		.build(BigTechMod.modID("copper"))
+	);
+	@UseDataGen(void.class)
+	public static final CopperBlocksHolder VANILLA_COPPER_BLOCKS = new CopperBlocksHolder(
+		null,
+		Blocks.COPPER_BLOCK,
+		Blocks.EXPOSED_COPPER,
+		Blocks.WEATHERED_COPPER,
+		Blocks.OXIDIZED_COPPER,
+		Blocks.WAXED_COPPER_BLOCK,
+		Blocks.WAXED_EXPOSED_COPPER,
+		Blocks.WAXED_WEATHERED_COPPER,
+		Blocks.WAXED_OXIDIZED_COPPER
+	);
 
 	@UseDataGen(void.class)
 	public static final DirectionalBeltBlock BELT = register(
@@ -140,69 +158,17 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final OxidizableFrameBlock
-		COPPER_FRAME = register(
-			"copper_frame",
-			new OxidizableFrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
-				OxidationLevel.UNAFFECTED
-			)
-		),
-		EXPOSED_COPPER_FRAME = register(
-			"exposed_copper_frame",
-			new OxidizableFrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
-				OxidationLevel.EXPOSED
-			)
-		),
-		WEATHERED_COPPER_FRAME = register(
-			"weathered_copper_frame",
-			new OxidizableFrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
-				OxidationLevel.WEATHERED
-			)
-		),
-		OXIDIZED_COPPER_FRAME = register(
-			"oxidized_copper_frame",
-			new OxidizableFrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME,
-				OxidationLevel.OXIDIZED
-			)
-		);
-	@UseDataGen(void.class)
-	public static final FrameBlock
-		WAXED_COPPER_FRAME = register(
-			"waxed_copper_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME
-			)
-		),
-		WAXED_EXPOSED_COPPER_FRAME = register(
-			"waxed_exposed_copper_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME
-			)
-		),
-		WAXED_WEATHERED_COPPER_FRAME = register(
-			"waxed_weathered_copper_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME
-			)
-		),
-		WAXED_OXIDIZED_COPPER_FRAME = register(
-			"waxed_oxidized_copper_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK),
-				BigTechBlockTags.STICKS_TO_COPPER_FRAME
-			)
-		);
+	public static final CopperBlocksHolder COPPER_FRAMES = new CopperBlocksHolder(
+		"frame",
+		type -> {
+			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(VANILLA_COPPER_BLOCKS.get(type));
+			return (
+				type.waxed
+				? new FrameBlock(settings, BigTechBlockTags.STICKS_TO_COPPER_FRAME)
+				: new OxidizableFrameBlock(settings, BigTechBlockTags.STICKS_TO_COPPER_FRAME, type.level)
+			);
+		}
+	);
 	@UseDataGen(void.class)
 	public static final FrameBlock
 		OAK_FRAME = register(
@@ -361,6 +327,75 @@ public class BigTechBlocks {
 			.mapColor(MapColor.BRIGHT_RED)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final CatwalkPlatformBlock IRON_CATWALK_PLATFORM = register(
+		"iron_catwalk_platform",
+		new CatwalkPlatformBlock(
+			AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final CatwalkStairsBlock IRON_CATWALK_STAIRS = register(
+		"iron_catwalk_stairs",
+		new CatwalkStairsBlock(
+			AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final CopperBlocksHolder COPPER_CATWALK_STAIRS = new CopperBlocksHolder(
+		"catwalk_stairs",
+		type -> {
+			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(VANILLA_COPPER_BLOCKS.get(type));
+			return (
+				type.waxed
+				? new CatwalkStairsBlock(settings)
+				: new OxidizableCatwalkStairsBlock(settings, type.level)
+			);
+		}
+	);
+	@UseDataGen(void.class)
+	public static final CopperBlocksHolder COPPER_BARS = new CopperBlocksHolder(
+		"bars",
+		type -> {
+			AbstractBlock.Settings settings = (
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(switch (type.level) {
+					case UNAFFECTED -> MapColor.ORANGE;
+					case EXPOSED -> MapColor.TERRACOTTA_LIGHT_GRAY;
+					case WEATHERED -> MapColor.DARK_AQUA;
+					case OXIDIZED -> MapColor.TEAL;
+				})
+				.requiresTool()
+				.strength(4.0F, 6.0F)
+				.sounds(BlockSoundGroup.COPPER)
+				.nonOpaque()
+			);
+			return (
+				type.waxed
+				? new PaneBlock(settings)
+				: new OxidizablePaneBlock(settings, type.level)
+			);
+		}
+	);
+	@UseDataGen(void.class)
+	public static final WeightedPressurePlateBlock MEDIUM_WEIGHTED_PRESSURE_PLATE = register(
+		"medium_weighted_pressure_plate",
+		new WeightedPressurePlateBlock(
+			60,
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.ORANGE)
+			.solid()
+			.requiresTool()
+			.noCollision()
+			.strength(0.5F)
+			.pistonBehavior(PistonBehavior.DESTROY),
+			COPPER_BLOCK_SET_TYPE
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);
@@ -374,15 +409,6 @@ public class BigTechBlocks {
 		LandPathNodeTypesRegistry.register(INJECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(LAUNCHER_BELT, PathNodeType.RAIL, null);
 
-		OxidizableBlocksRegistry.registerOxidizableBlockPair(          COPPER_FRAME,   EXPOSED_COPPER_FRAME);
-		OxidizableBlocksRegistry.registerOxidizableBlockPair(  EXPOSED_COPPER_FRAME, WEATHERED_COPPER_FRAME);
-		OxidizableBlocksRegistry.registerOxidizableBlockPair(WEATHERED_COPPER_FRAME,  OXIDIZED_COPPER_FRAME);
-
-		OxidizableBlocksRegistry.registerWaxableBlockPair(          COPPER_FRAME,           WAXED_COPPER_FRAME);
-		OxidizableBlocksRegistry.registerWaxableBlockPair(  EXPOSED_COPPER_FRAME,   WAXED_EXPOSED_COPPER_FRAME);
-		OxidizableBlocksRegistry.registerWaxableBlockPair(WEATHERED_COPPER_FRAME, WAXED_WEATHERED_COPPER_FRAME);
-		OxidizableBlocksRegistry.registerWaxableBlockPair( OXIDIZED_COPPER_FRAME,  WAXED_OXIDIZED_COPPER_FRAME);
-
 		FlammableBlockRegistry.getDefaultInstance().add(     OAK_FRAME, 5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(  SPRUCE_FRAME, 5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(   BIRCH_FRAME, 5, 20);
@@ -395,6 +421,12 @@ public class BigTechBlocks {
 		FlammableBlockRegistry.getDefaultInstance().add(  WARPED_FRAME, 5, 20);
 	}
 
+	public static void registerOxidizables(Block unaffected, Block exposed, Block weathered, Block oxidized) {
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(unaffected, exposed  );
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(exposed,    weathered);
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(weathered,  oxidized );
+	}
+
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
 		BlockRenderLayerMap.INSTANCE.putBlocks(
@@ -403,15 +435,7 @@ public class BigTechBlocks {
 			ASCENDER,
 			DESCENDER,
 			IRON_FRAME,
-			COPPER_FRAME,
 			GOLD_FRAME,
-			EXPOSED_COPPER_FRAME,
-			WEATHERED_COPPER_FRAME,
-			OXIDIZED_COPPER_FRAME,
-			WAXED_COPPER_FRAME,
-			WAXED_EXPOSED_COPPER_FRAME,
-			WAXED_WEATHERED_COPPER_FRAME,
-			WAXED_OXIDIZED_COPPER_FRAME,
 			OAK_FRAME,
 			SPRUCE_FRAME,
 			BIRCH_FRAME,
@@ -422,7 +446,19 @@ public class BigTechBlocks {
 			MANGROVE_FRAME,
 			CRIMSON_FRAME,
 			WARPED_FRAME,
-			TRANSMUTER
+			TRANSMUTER,
+			IRON_CATWALK_PLATFORM,
+			IRON_CATWALK_STAIRS
+		);
+		BlockRenderLayerMap.INSTANCE.putBlocks(
+			RenderLayer.cutout,
+			Stream.of(
+				COPPER_FRAMES,
+				COPPER_CATWALK_STAIRS,
+				COPPER_BARS
+			)
+			.flatMap(CopperBlocksHolder::stream)
+			.toArray(Block[]::new)
 		);
 	}
 

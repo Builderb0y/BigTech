@@ -10,6 +10,7 @@ public class BeltTemplateModelDataGenerator implements DataGenerator {
 	public void run(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(BigTechMod.modID("template_belt")),
+			//language=json
 			"""
 			{
 				"parent": "block/thin_block",

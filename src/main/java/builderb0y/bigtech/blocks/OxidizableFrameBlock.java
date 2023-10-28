@@ -26,7 +26,7 @@ public class OxidizableFrameBlock extends FrameBlock implements Oxidizable {
 
 	@Override
 	public boolean hasRandomTicks(BlockState state) {
-		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent;
+		return Oxidizable.getIncreasedOxidationBlock(this).isPresent;
 	}
 
 	@Override

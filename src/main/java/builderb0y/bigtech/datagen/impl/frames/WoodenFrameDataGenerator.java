@@ -29,14 +29,6 @@ public class WoodenFrameDataGenerator extends FrameDataGenerator {
 	}
 
 	@Override
-	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.AXE).addElement(this.id);
-	}
-
-	@Override
-	public void setupMiningLevelTags(DataGenContext context) {}
-
-	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
 		super.setupOtherBlockTags(context);
 		context.getTags(BigTechBlockTags.WOODEN_FRAMES).addElement(this.id);

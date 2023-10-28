@@ -21,6 +21,7 @@ public class TransmuterDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(this.id),
+			//language=json
 			"""
 			{
 				"parent": "minecraft:block/block",

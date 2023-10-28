@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:block/template_catwalk_stairs_base",
+	"textures": {
+		"base":   "minecraft:block/weathered_copper",
+		"stairs": "bigtech:block/weathered_copper_catwalk_stairs"
+	}
+}

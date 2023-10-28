@@ -14,6 +14,9 @@ import builderb0y.bigtech.datagen.impl.*;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
+import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataGenerator;
+import builderb0y.bigtech.datagen.impl.catwalkStairs.CopperCatwalkStairsDataGenerator;
+import builderb0y.bigtech.datagen.impl.catwalkStairs.IronCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.*;
 
 public class BigTechItems {
@@ -88,20 +91,13 @@ public class BigTechItems {
 		BigTechBlocks.GOLD_FRAME
 	);
 	@UseDataGen(CopperFrameDataGenerator.class)
-	public static final BlockItem COPPER_FRAME = registerPlacer(
-		BigTechBlocks.COPPER_FRAME
+	public static final CopperItemsHolder COPPER_FRAMES = new CopperItemsHolder(
+		"frame",
+		type -> new BlockItem(
+			BigTechBlocks.COPPER_FRAMES.get(type),
+			new Item.Settings()
+		)
 	);
-	@UseDataGen(DegradedCopperFrameDataGenerator.class)
-	public static final BlockItem
-		EXPOSED_COPPER_FRAME   = registerPlacer(BigTechBlocks.EXPOSED_COPPER_FRAME),
-		WEATHERED_COPPER_FRAME = registerPlacer(BigTechBlocks.WEATHERED_COPPER_FRAME),
-		OXIDIZED_COPPER_FRAME  = registerPlacer(BigTechBlocks.OXIDIZED_COPPER_FRAME);
-	@UseDataGen(WaxedCopperFrameDataGenerator.class)
-	public static final BlockItem
-		WAXED_COPPER_FRAME           = registerPlacer(BigTechBlocks.WAXED_COPPER_FRAME),
-		WAXED_EXPOSED_COPPER_FRAME   = registerPlacer(BigTechBlocks.WAXED_EXPOSED_COPPER_FRAME),
-		WAXED_WEATHERED_COPPER_FRAME = registerPlacer(BigTechBlocks.WAXED_WEATHERED_COPPER_FRAME),
-		WAXED_OXIDIZED_COPPER_FRAME  = registerPlacer(BigTechBlocks.WAXED_OXIDIZED_COPPER_FRAME);
 	@UseDataGen(WoodenFrameDataGenerator.class)
 	public static final BlockItem
 		OAK_FRAME      = registerPlacer(BigTechBlocks.OAK_FRAME),
@@ -145,11 +141,43 @@ public class BigTechItems {
 	public static final BlockItem MAGNETITE_BLOCK = registerPlacer(
 		BigTechBlocks.MAGNETITE_BLOCK
 	);
+	@UseDataGen(IronCatwalkPlatformDataGenerator.class)
+	public static final BlockItem IRON_CATWALK_PLATFORM = registerPlacer(
+		BigTechBlocks.IRON_CATWALK_PLATFORM
+	);
+	@UseDataGen(IronCatwalkStairsDataGenerator.class)
+	public static final CatwalkStairsBlockItem IRON_CATWALK_STAIRS = registerCatwalkStairs(
+		BigTechBlocks.IRON_CATWALK_STAIRS
+	);
+	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
+	public static final CopperItemsHolder COPPER_CATWALK_STAIRS = new CopperItemsHolder(
+		"catwalk_stairs",
+		type -> new CatwalkStairsBlockItem(
+			BigTechBlocks.COPPER_CATWALK_STAIRS.get(type),
+			new Item.Settings()
+		)
+	);
+	@UseDataGen(CopperBarsDataGenerator.class)
+	public static final CopperItemsHolder COPPER_BARS = new CopperItemsHolder(
+		"bars",
+		type -> new BlockItem(
+			BigTechBlocks.COPPER_BARS.get(type),
+			new Item.Settings()
+		)
+	);
+	@UseDataGen(MediumWeightedPressurePlateDataGenerator.class)
+	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = registerPlacer(
+		BigTechBlocks.MEDIUM_WEIGHTED_PRESSURE_PLATE
+	);
 
 	public static void init() {}
 
 	public static BeltBlockItem registerBelt(Block block) {
 		return register(Registries.BLOCK.getId(block), new BeltBlockItem(block, new Item.Settings()));
+	}
+
+	public static CatwalkStairsBlockItem registerCatwalkStairs(Block block) {
+		return register(Registries.BLOCK.getId(block), new CatwalkStairsBlockItem(block, new Item.Settings()));
 	}
 
 	public static BlockItem registerPlacer(Block block) {

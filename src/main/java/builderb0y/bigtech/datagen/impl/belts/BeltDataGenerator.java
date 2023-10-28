@@ -52,14 +52,7 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 	public void writeBeltItemModel(DataGenContext context, Identifier parent) {
 		context.writeToFile(
 			context.itemModelPath(this.id),
-			context.replace(
-				"""
-				{
-					"parent": "%PARENT"
-				}
-				""",
-				Map.of("PARENT", context.prefixPath("block/", parent).toString())
-			)
+			new RetexturedModelBuilder().blockParent(parent).toString()
 		);
 	}
 

@@ -1,0 +1,16 @@
+{
+	"multipart": [
+		{ "when": { "half": "lower", "facing": "north"                  }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_base",       "y":   0 } },
+		{ "when": { "half": "lower", "facing": "east"                   }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_base",       "y":  90 } },
+		{ "when": { "half": "lower", "facing": "south"                  }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_base",       "y": 180 } },
+		{ "when": { "half": "lower", "facing": "west"                   }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_base",       "y": 270 } },
+		{ "when": { "half": "lower", "facing": "north", "left":  "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_left",  "y":   0 } },
+		{ "when": { "half": "lower", "facing": "east",  "left":  "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_left",  "y":  90 } },
+		{ "when": { "half": "lower", "facing": "south", "left":  "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_left",  "y": 180 } },
+		{ "when": { "half": "lower", "facing": "west",  "left":  "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_left",  "y": 270 } },
+		{ "when": { "half": "lower", "facing": "north", "right": "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_right", "y":   0 } },
+		{ "when": { "half": "lower", "facing": "east",  "right": "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_right", "y":  90 } },
+		{ "when": { "half": "lower", "facing": "south", "right": "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_right", "y": 180 } },
+		{ "when": { "half": "lower", "facing": "west",  "right": "true" }, "apply": { "model": "bigtech:block/waxed_exposed_copper_catwalk_stairs_rail_right", "y": 270 } }
+	]
+}

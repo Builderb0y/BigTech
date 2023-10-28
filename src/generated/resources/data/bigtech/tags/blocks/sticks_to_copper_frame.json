@@ -1,13 +1,6 @@
 {
 	"replace": false,
 	"values": [
-		"bigtech:copper_frame",
-		"bigtech:exposed_copper_frame",
-		"bigtech:oxidized_copper_frame",
-		"bigtech:waxed_copper_frame",
-		"bigtech:waxed_exposed_copper_frame",
-		"bigtech:waxed_oxidized_copper_frame",
-		"bigtech:waxed_weathered_copper_frame",
-		"bigtech:weathered_copper_frame"
+		"#bigtech:copper_frames"
 	]
 }

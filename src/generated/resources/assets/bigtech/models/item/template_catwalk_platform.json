@@ -1,0 +1,65 @@
+{
+	"parent": "block/block",
+	"elements": [
+		{
+			"from": [  0, 0,  0 ],
+			"to":   [ 16, 1, 16 ],
+			"faces": {
+				"up":    { "uv": [  0,  0, 16, 16 ], "texture": "#base"                  },
+				"down":  { "uv": [  0,  0, 16, 16 ], "texture": "#base"                  },
+				"north": { "uv": [  0,  0, 16,  1 ], "texture": "#base", "rotation": 180 },
+				"south": { "uv": [  0, 15, 16, 16 ], "texture": "#base"                  },
+				"east":  { "uv": [ 15,  0, 16, 16 ], "texture": "#base", "rotation":  90 },
+				"west":  { "uv": [  0,  0,  1, 16 ], "texture": "#base", "rotation": 270 }
+			}
+		},
+		{
+			"from": [  0,  1, 0 ],
+			"to":   [ 16, 12, 1 ],
+			"faces": {
+				"up":    { "uv": [ 0, 4, 16,  5 ], "texture": "#rail" },
+				"north": { "uv": [ 0, 4, 16, 15 ], "texture": "#rail" },
+				"south": { "uv": [ 0, 4, 16, 15 ], "texture": "#rail" }
+			}
+		},
+		{
+			"from": [  0,  1, 15 ],
+			"to":   [ 16, 12, 16 ],
+			"faces": {
+				"up":    { "uv": [ 0, 4, 16,  5 ], "texture": "#rail" },
+				"north": { "uv": [ 0, 4, 16, 15 ], "texture": "#rail" },
+				"south": { "uv": [ 0, 4, 16, 15 ], "texture": "#rail" }
+			}
+		},
+		{
+			"from": [ 0,  1,  0 ],
+			"to":   [ 1, 12, 16 ],
+			"faces": {
+				"up":    { "uv": [ 0, 4, 16,  5 ], "texture": "#rail", "rotation": 90 },
+				"east":  { "uv": [ 0, 4, 16, 15 ], "texture": "#rail"                 },
+				"west":  { "uv": [ 0, 4, 16, 15 ], "texture": "#rail"                 }
+			}
+		},
+		{
+			"from": [ 15,  1,  0 ],
+			"to":   [ 16, 12, 16 ],
+			"faces": {
+				"up":    { "uv": [ 0, 4, 16,  5 ], "texture": "#rail", "rotation": 90 },
+				"east":  { "uv": [ 0, 4, 16, 15 ], "texture": "#rail"                 },
+				"west":  { "uv": [ 0, 4, 16, 15 ], "texture": "#rail"                 }
+			}
+		}
+	],
+	"display": {
+		"firstperson_righthand": {
+			"rotation":    [ 0.0,  45.0, 0.0 ],
+			"translation": [ 0.0,   2.0, 0.0 ],
+			"scale":       [ 0.4,   0.4, 0.4 ]
+		},
+		"firstperson_lefthand": {
+			"rotation":    [ 0.0, 225.0, 0.0 ],
+			"translation": [ 0.0,   2.0, 0.0 ],
+			"scale":       [ 0.4,   0.4, 0.4 ]
+		}
+	}
+}

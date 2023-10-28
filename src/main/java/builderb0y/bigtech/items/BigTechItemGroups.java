@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 
@@ -15,6 +16,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.util.RegistrableCollection;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.ItemGroupDataGenerator;
 
@@ -23,13 +25,26 @@ public class BigTechItemGroups {
 	public static final List<ItemStack> ITEMS = (
 		Arrays
 		.stream(BigTechItems.class.getDeclaredFields())
-		.filter((Field field) -> (field.getModifiers() & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL) && Item.class.isAssignableFrom(field.type))
-		.map((Field field) -> {
-			try {
-				return ((Item)(field.get(null))).defaultStack;
+		.filter((Field field) -> (field.getModifiers() & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL))
+		.flatMap((Field field) -> {
+			if (Item.class.isAssignableFrom(field.type)) {
+				try {
+					return Stream.of(((Item)(field.get(null))).defaultStack);
+				}
+				catch (ReflectiveOperationException exception) {
+					throw new AssertionError("Should not fail to get public field", exception);
+				}
 			}
-			catch (ReflectiveOperationException exception) {
-				throw new AssertionError("Should not fail to get public field", exception);
+			else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
+				try {
+					return Arrays.stream(((RegistrableCollection<?>)(field.get(null))).getRegistrableVariants()).map(variant -> ((Item)(variant.object)).defaultStack);
+				}
+				catch (ReflectiveOperationException exception) {
+					throw new AssertionError("Should not fail to get public field", exception);
+				}
+			}
+			else {
+				return Stream.empty();
 			}
 		})
 		.toList()

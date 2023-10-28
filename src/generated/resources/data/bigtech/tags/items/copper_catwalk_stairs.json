@@ -1,0 +1,13 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:copper_catwalk_stairs",
+		"bigtech:exposed_copper_catwalk_stairs",
+		"bigtech:oxidized_copper_catwalk_stairs",
+		"bigtech:waxed_copper_catwalk_stairs",
+		"bigtech:waxed_exposed_copper_catwalk_stairs",
+		"bigtech:waxed_oxidized_copper_catwalk_stairs",
+		"bigtech:waxed_weathered_copper_catwalk_stairs",
+		"bigtech:weathered_copper_catwalk_stairs"
+	]
+}

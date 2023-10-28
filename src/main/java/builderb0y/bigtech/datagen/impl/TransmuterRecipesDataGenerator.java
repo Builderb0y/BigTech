@@ -10,6 +10,7 @@ public class TransmuterRecipesDataGenerator implements DataGenerator {
 	public void run(DataGenContext context) {
 		context.writeToFile(
 			context.recipePath(BigTechMod.modID("charcoal_from_transmuter")),
+			//language=json
 			"""
 			{
 				"type": "bigtech:transmute",
@@ -20,6 +21,7 @@ public class TransmuterRecipesDataGenerator implements DataGenerator {
 		);
 		context.writeToFile(
 			context.recipePath(BigTechMod.modID("popped_chorus_fruit_from_transmuter")),
+			//language=json
 			"""
 			{
 				"type": "bigtech:transmute",
@@ -30,6 +32,7 @@ public class TransmuterRecipesDataGenerator implements DataGenerator {
 		);
 		context.writeToFile(
 			context.recipePath(BigTechMod.modID("glass_from_transmuter")),
+			//language=json
 			"""
 			{
 				"type": "bigtech:transmute",

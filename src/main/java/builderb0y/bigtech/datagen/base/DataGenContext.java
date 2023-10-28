@@ -15,6 +15,9 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.registry.tag.TagManagerLoader;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.util.RegistrableCollection;
+import builderb0y.bigtech.util.RegistrableCollection.RegistrableVariant;
+
 public class DataGenContext {
 
 	public final List<DataGenerator> generators;
@@ -35,32 +38,63 @@ public class DataGenContext {
 
 	public void collectGenerators(Class<?> registryClass, Class<?> baseType) {
 		for (Field field : registryClass.getDeclaredFields()) {
-			if ((field.modifiers & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL) && baseType.isAssignableFrom(field.type)) {
-				UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
-				if (annotation == null) {
-					this.error("Missing data generator for ${field.type} ${registryClass.getSimpleName()}.${field.name}");
-					continue;
+			if ((field.modifiers & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) {
+				if (baseType.isAssignableFrom(field.type)) {
+					UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
+					if (annotation == null) {
+						this.error("Missing data generator for ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						continue;
+					}
+					Class<?> dataGenClass = annotation.value();
+					if (dataGenClass == void.class) continue;
+					Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
+					if (constructors.length != 1) {
+						this.error("${dataGenClass} does not have exactly one constructor! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						continue;
+					}
+					if (constructors[0].parameterCount != 1) {
+						this.error("${dataGenClass}'s constructor does not take exactly 1 argument! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						continue;
+					}
+					DataGenerator generator;
+					try {
+						generator = (DataGenerator)(constructors[0].newInstance(field.get(null)));
+					}
+					catch (Exception exception) {
+						this.error(exception);
+						continue;
+					}
+					this.addWithDependencies(dataGenClass.asSubclass(DataGenerator.class), generator);
 				}
-				Class<?> dataGenClass = annotation.value();
-				if (dataGenClass == void.class) continue;
-				Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
-				if (constructors.length != 1) {
-					this.error("${dataGenClass} does not have exactly one constructor! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
-					continue;
+				else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
+					UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
+					if (annotation == null) {
+						this.error("Missing data generator for ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						continue;
+					}
+					Class<?> dataGenClass = annotation.value();
+					if (dataGenClass == void.class) continue;
+					Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
+					if (constructors.length != 1) {
+						this.error("${dataGenClass} does not have exactly one constructor! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						continue;
+					}
+					if (constructors[0].parameterCount != 2) {
+						this.error("${dataGenClass}'s constructor does not take exactly 2 arguments! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						continue;
+					}
+					try {
+						for (RegistrableVariant<?> variant : ((RegistrableCollection<?>)(field.get(null))).getRegistrableVariants()) {
+							this.addWithDependencies(
+								dataGenClass.asSubclass(DataGenerator.class),
+								(DataGenerator)(constructors[0].newInstance(variant.object, variant.variant))
+							);
+						}
+					}
+					catch (Exception exception) {
+						this.error(exception);
+					}
 				}
-				if (constructors[0].parameterCount != 1) {
-					this.error("${dataGenClass}'s constructor does not take exactly 1 argument! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
-					continue;
-				}
-				DataGenerator generator;
-				try {
-					generator = (DataGenerator)(constructors[0].newInstance(field.get(null)));
-				}
-				catch (Exception exception) {
-					this.error(exception);
-					continue;
-				}
-				this.addWithDependencies(dataGenClass.asSubclass(DataGenerator.class), generator);
 			}
 		}
 	}

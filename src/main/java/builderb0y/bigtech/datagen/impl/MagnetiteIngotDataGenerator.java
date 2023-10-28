@@ -34,6 +34,7 @@ public class MagnetiteIngotDataGenerator extends BasicItemDataGenerator {
 		);
 		context.writeToFile(
 			context.recipePath(context.suffixPath(this.id, "_from_transmute")),
+			//language=json
 			"""
 			{
 				"type": "bigtech:transmute",

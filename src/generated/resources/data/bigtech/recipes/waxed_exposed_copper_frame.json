@@ -1,5 +1,6 @@
 {
 	"type": "minecraft:crafting_shapeless",
+	"category": "building",
 	"group": "bigtech:frames",
 	"ingredients": [
 		{ "item": "bigtech:exposed_copper_frame" },

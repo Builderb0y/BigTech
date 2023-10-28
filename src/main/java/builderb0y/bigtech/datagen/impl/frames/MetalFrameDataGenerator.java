@@ -13,16 +13,6 @@ public abstract class MetalFrameDataGenerator extends FrameDataGenerator {
 	}
 
 	@Override
-	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
-	}
-
-	@Override
-	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.STONE).addElement(this.id);
-	}
-
-	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
 		super.setupOtherBlockTags(context);
 		context.getTags(BigTechBlockTags.METAL_FRAMES).addElement(this.id);

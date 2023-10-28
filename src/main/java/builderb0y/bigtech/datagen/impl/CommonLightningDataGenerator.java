@@ -40,6 +40,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 		));
 		context.writeToFile(
 			context.blockModelPath(BigTechMod.modID("template_lightning_cable_center")),
+			//language=json
 			"""
 			{
 				"parent": "minecraft:block/block",
@@ -60,6 +61,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 		);
 		context.writeToFile(
 			context.blockModelPath(BigTechMod.modID("template_lightning_cable_connection")),
+			//language=json
 			"""
 			{
 				"parent": "minecraft:block/block",
@@ -84,6 +86,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 		);
 		context.writeToFile(
 			context.itemModelPath(BigTechMod.modID("template_lightning_cable")),
+			//language=json
 			"""
 			{
 				"parent": "minecraft:block/block",
