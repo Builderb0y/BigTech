@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
@@ -12,8 +13,11 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
@@ -23,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.PistonInteractor;
+import builderb0y.bigtech.items.CatwalkStairsBlockItem;
 import builderb0y.bigtech.mixins.EntityShapeContext_HeldItemGetter;
 import builderb0y.bigtech.util.VoxelShapeBuilder;
 
@@ -161,6 +166,21 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 		);
 	}
 
+	public BlockState handleMismatchedNeighbor(
+		WorldAccess world,
+		BlockPos pos,
+		BlockState state,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Direction direction
+	) {
+		//workaround for the fact that pistons call this logic before all blocks are placed.
+		if (world instanceof World liveWorld) {
+			liveWorld.addSyncedBlockEvent(pos.toImmutable(), this, 0, 0);
+		}
+		return state;
+	}
+
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
@@ -179,12 +199,18 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 		if (direction.getAxis() == Axis.Y) {
 			DoubleBlockHalf half = state.get(Properties.DOUBLE_BLOCK_HALF);
 			if (direction == getOtherHalfDirection(half)) {
-				if (neighborState.getBlock() == this && neighborState.get(Properties.DOUBLE_BLOCK_HALF) != half) {
+				if (neighborState.isOf(this) && neighborState.get(Properties.DOUBLE_BLOCK_HALF) != half) {
 					return this.transferState(state, neighborState);
 				}
 				else {
-					//workaround for the fact that pistons call this logic before all blocks are placed.
-					((World)(world)).addSyncedBlockEvent(pos.toImmutable(), this, 0, 0);
+					return this.handleMismatchedNeighbor(
+						world,
+						pos,
+						state,
+						neighborPos,
+						neighborState,
+						direction
+					);
 				}
 			}
 		}
@@ -207,9 +233,9 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 		BlockPos neighborPos = pos.offset(getOtherHalfDirection(state));
 		BlockState neighborState = world.getBlockState(neighborPos);
 		BlockState replacementState = (
-			neighborState.getBlock() == this
-				? this.transferState(state, neighborState)
-				: this.getRemovalState(state)
+			neighborState.isOf(this)
+			? this.transferState(state, neighborState)
+			: this.getRemovalState(state)
 		);
 		world.setBlockState(pos, replacementState, NOTIFY_ALL);
 		return super.onSyncedBlockEvent(state, world, pos, type, data);
@@ -238,6 +264,58 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		BlockPos upPos = pos.up();
 		world.setBlockState(upPos, state.with(Properties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER).with(Properties.WATERLOGGED, world.getFluidState(upPos).isEqualAndStill(Fluids.WATER)));
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public ActionResult onUse(BlockState againstState, World world, BlockPos againstPos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		ItemStack stack = player.getStackInHand(hand);
+		if (stack.item instanceof BlockItem blockItem && !(blockItem instanceof CatwalkStairsBlockItem)) {
+			if (againstState.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
+				if (hit.pos.y - hit.blockPos.y < 0.0D) {
+					againstPos = againstPos.down();
+				}
+			}
+			else {
+				if (hit.pos.y - hit.blockPos.y > 1.0D) {
+					againstPos = againstPos.up();
+				}
+			}
+			Direction offsetDirection;
+			Direction againstFacing = againstState.get(Properties.HORIZONTAL_FACING);
+			Direction playerFacing = player.horizontalFacing;
+			double sidewaysPosition = switch (againstFacing) {
+				case NORTH    ->        (hit.pos.x - againstPos.x);
+				case SOUTH    -> 1.0D - (hit.pos.x - againstPos.x);
+				case EAST     ->        (hit.pos.z - againstPos.z);
+				case WEST     -> 1.0D - (hit.pos.z - againstPos.z);
+				case UP, DOWN -> throw new AssertionError();
+			};
+			if (sidewaysPosition < 0.0626D) {
+				offsetDirection = againstFacing.rotateYCounterclockwise();
+			}
+			else if (sidewaysPosition > 0.9374D) {
+				offsetDirection = againstFacing.rotateYClockwise();
+			}
+			else {
+				if (playerFacing == againstFacing) {
+					if (againstState.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER) {
+						againstPos = againstPos.up();
+					}
+				}
+				else {
+					if (againstState.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
+						againstPos = againstPos.down();
+					}
+				}
+				offsetDirection = playerFacing;
+			}
+			ItemPlacementContext context = new ItemPlacementContext(player, hand, stack, new BlockHitResult(hit.pos, offsetDirection, againstPos, hit.isInsideBlock));
+			ActionResult result = blockItem.place(context);
+			return result.isAccepted ? result : ActionResult.CONSUME_PARTIAL;
+		}
+		return super.onUse(againstState, world, againstPos, player, hand, hit);
 	}
 
 	@Override

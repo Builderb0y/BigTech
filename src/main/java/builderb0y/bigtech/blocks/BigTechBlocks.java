@@ -33,7 +33,7 @@ public class BigTechBlocks {
 		.build(BigTechMod.modID("copper"))
 	);
 	@UseDataGen(void.class)
-	public static final CopperBlocksHolder VANILLA_COPPER_BLOCKS = new CopperBlocksHolder(
+	public static final CopperBlockCollection VANILLA_COPPER_BLOCKS = new CopperBlockCollection(
 		null,
 		Blocks.COPPER_BLOCK,
 		Blocks.EXPOSED_COPPER,
@@ -158,7 +158,7 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final CopperBlocksHolder COPPER_FRAMES = new CopperBlocksHolder(
+	public static final CopperBlockCollection COPPER_FRAMES = new CopperBlockCollection(
 		"frame",
 		type -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(VANILLA_COPPER_BLOCKS.get(type));
@@ -335,6 +335,18 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final CopperBlockCollection COPPER_CATWALK_PLATFORMS = new CopperBlockCollection(
+		"catwalk_platform",
+		type -> {
+			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(VANILLA_COPPER_BLOCKS.get(type));
+			return (
+				type.waxed
+				? new CatwalkPlatformBlock(settings)
+				: new OxidizableCatwalkPlatformBlock(settings, type.level)
+			);
+		}
+	);
+	@UseDataGen(void.class)
 	public static final CatwalkStairsBlock IRON_CATWALK_STAIRS = register(
 		"iron_catwalk_stairs",
 		new CatwalkStairsBlock(
@@ -342,19 +354,19 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final CopperBlocksHolder COPPER_CATWALK_STAIRS = new CopperBlocksHolder(
+	public static final CopperBlockCollection COPPER_CATWALK_STAIRS = new CopperBlockCollection(
 		"catwalk_stairs",
 		type -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(VANILLA_COPPER_BLOCKS.get(type));
 			return (
 				type.waxed
-				? new CatwalkStairsBlock(settings)
+				? new CopperCatwalkStairsBlock(settings)
 				: new OxidizableCatwalkStairsBlock(settings, type.level)
 			);
 		}
 	);
 	@UseDataGen(void.class)
-	public static final CopperBlocksHolder COPPER_BARS = new CopperBlocksHolder(
+	public static final CopperBlockCollection COPPER_BARS = new CopperBlockCollection(
 		"bars",
 		type -> {
 			AbstractBlock.Settings settings = (
@@ -454,10 +466,11 @@ public class BigTechBlocks {
 			RenderLayer.cutout,
 			Stream.of(
 				COPPER_FRAMES,
+				COPPER_CATWALK_PLATFORMS,
 				COPPER_CATWALK_STAIRS,
 				COPPER_BARS
 			)
-			.flatMap(CopperBlocksHolder::stream)
+			.flatMap(CopperBlockCollection::stream)
 			.toArray(Block[]::new)
 		);
 	}

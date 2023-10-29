@@ -1,15 +1,12 @@
 package builderb0y.bigtech.items;
 
-import java.util.List;
-
 import net.minecraft.item.Item;
 
-import builderb0y.bigtech.blocks.BigTechBlocks;
-import builderb0y.bigtech.util.CopperVariantHolder;
+import builderb0y.bigtech.util.CopperRegistrableCollection;
 
-public class CopperItemsHolder extends CopperVariantHolder<Item> {
+public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 
-	public CopperItemsHolder(
+	public CopperItemCollection(
 		String suffix,
 		Item copper,
 		Item exposed_copper,
@@ -33,11 +30,11 @@ public class CopperItemsHolder extends CopperVariantHolder<Item> {
 		);
 	}
 
-	public CopperItemsHolder(String suffix, SeparateCopperBlockFactory<Item> unwaxedFactory, SeparateCopperBlockFactory<Item> waxedFactory) {
+	public CopperItemCollection(String suffix, SeparateCopperBlockFactory<Item> unwaxedFactory, SeparateCopperBlockFactory<Item> waxedFactory) {
 		super(suffix, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperItemsHolder(String suffix, MergedCopperBlockFactory<Item> factory) {
+	public CopperItemCollection(String suffix, MergedCopperBlockFactory<Item> factory) {
 		super(suffix, factory);
 	}
 

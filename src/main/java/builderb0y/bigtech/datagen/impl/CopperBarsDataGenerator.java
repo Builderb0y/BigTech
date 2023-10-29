@@ -18,13 +18,13 @@ import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.BigTechItems;
-import builderb0y.bigtech.util.CopperVariantHolder;
+import builderb0y.bigtech.util.CopperRegistrableCollection;
 
 public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 
-	public final CopperVariantHolder.Type type;
+	public final CopperRegistrableCollection.Type type;
 
-	public CopperBarsDataGenerator(BlockItem blockItem, CopperVariantHolder.Type type) {
+	public CopperBarsDataGenerator(BlockItem blockItem, CopperRegistrableCollection.Type type) {
 		super(blockItem);
 		this.type = type;
 	}
@@ -85,14 +85,14 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		if (this.type == CopperVariantHolder.Type.COPPER) {
+		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			context.getTags(MiningToolTags.PICKAXE).add(BigTechBlockTags.COPPER_BARS);
 		}
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		if (this.type == CopperVariantHolder.Type.COPPER) {
+		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			context.getTags(MiningLevelTags.STONE).add(BigTechBlockTags.COPPER_BARS);
 		}
 	}
@@ -109,7 +109,7 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
-		if (this.type == CopperVariantHolder.Type.COPPER) {
+		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			context.writeToFile(
 				context.recipePath(this.id),
 				new ShapedRecipeBuilder()

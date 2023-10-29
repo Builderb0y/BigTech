@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import net.minecraft.block.Oxidizable.OxidationLevel;
 
-public class CopperVariantHolder<T> implements Iterable<T>, RegistrableCollection {
+public class CopperRegistrableCollection<T> implements Iterable<T>, RegistrableCollection<T> {
 
 	public final T
 		copper,
@@ -18,7 +18,7 @@ public class CopperVariantHolder<T> implements Iterable<T>, RegistrableCollectio
 		waxed_weathered_copper,
 		waxed_oxidized_copper;
 
-	public CopperVariantHolder(
+	public CopperRegistrableCollection(
 		String suffix,
 		T copper,
 		T exposed_copper,
@@ -41,7 +41,7 @@ public class CopperVariantHolder<T> implements Iterable<T>, RegistrableCollectio
 		if (suffix != null) this.register(suffix);
 	}
 
-	public CopperVariantHolder(String suffix, SeparateCopperBlockFactory<T> unwaxedFactory, SeparateCopperBlockFactory<T> waxedFactory) {
+	public CopperRegistrableCollection(String suffix, SeparateCopperBlockFactory<T> unwaxedFactory, SeparateCopperBlockFactory<T> waxedFactory) {
 		this(
 			suffix,
 			unwaxedFactory.create(OxidationLevel.UNAFFECTED),
@@ -55,7 +55,7 @@ public class CopperVariantHolder<T> implements Iterable<T>, RegistrableCollectio
 		);
 	}
 
-	public CopperVariantHolder(String suffix, MergedCopperBlockFactory<T> factory) {
+	public CopperRegistrableCollection(String suffix, MergedCopperBlockFactory<T> factory) {
 		this(
 			suffix,
 			factory.create(Type.                COPPER),
@@ -144,6 +144,19 @@ public class CopperVariantHolder<T> implements Iterable<T>, RegistrableCollectio
 				this. waxed_oxidized_copper
 			},
 			Spliterator.DISTINCT | Spliterator.IMMUTABLE | Spliterator.NONNULL
+		);
+	}
+
+	public boolean contains(T object) {
+		return (
+			this.                copper == object ||
+			this.        exposed_copper == object ||
+			this.      weathered_copper == object ||
+			this.       oxidized_copper == object ||
+			this.          waxed_copper == object ||
+			this.  waxed_exposed_copper == object ||
+			this.waxed_weathered_copper == object ||
+			this. waxed_oxidized_copper == object
 		);
 	}
 

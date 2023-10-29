@@ -14,6 +14,7 @@ import builderb0y.bigtech.datagen.impl.*;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
+import builderb0y.bigtech.datagen.impl.catwalkPlatforms.CopperCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.CopperCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.IronCatwalkStairsDataGenerator;
@@ -91,7 +92,7 @@ public class BigTechItems {
 		BigTechBlocks.GOLD_FRAME
 	);
 	@UseDataGen(CopperFrameDataGenerator.class)
-	public static final CopperItemsHolder COPPER_FRAMES = new CopperItemsHolder(
+	public static final CopperItemCollection COPPER_FRAMES = new CopperItemCollection(
 		"frame",
 		type -> new BlockItem(
 			BigTechBlocks.COPPER_FRAMES.get(type),
@@ -145,12 +146,20 @@ public class BigTechItems {
 	public static final BlockItem IRON_CATWALK_PLATFORM = registerPlacer(
 		BigTechBlocks.IRON_CATWALK_PLATFORM
 	);
+	@UseDataGen(CopperCatwalkPlatformDataGenerator.class)
+	public static final CopperItemCollection COPPER_CATWALK_PLATFORMS = new CopperItemCollection(
+		"catwalk_platform",
+		type -> new BlockItem(
+			BigTechBlocks.COPPER_CATWALK_PLATFORMS.get(type),
+			new Item.Settings()
+		)
+	);
 	@UseDataGen(IronCatwalkStairsDataGenerator.class)
 	public static final CatwalkStairsBlockItem IRON_CATWALK_STAIRS = registerCatwalkStairs(
 		BigTechBlocks.IRON_CATWALK_STAIRS
 	);
 	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
-	public static final CopperItemsHolder COPPER_CATWALK_STAIRS = new CopperItemsHolder(
+	public static final CopperItemCollection COPPER_CATWALK_STAIRS = new CopperItemCollection(
 		"catwalk_stairs",
 		type -> new CatwalkStairsBlockItem(
 			BigTechBlocks.COPPER_CATWALK_STAIRS.get(type),
@@ -158,7 +167,7 @@ public class BigTechItems {
 		)
 	);
 	@UseDataGen(CopperBarsDataGenerator.class)
-	public static final CopperItemsHolder COPPER_BARS = new CopperItemsHolder(
+	public static final CopperItemCollection COPPER_BARS = new CopperItemCollection(
 		"bars",
 		type -> new BlockItem(
 			BigTechBlocks.COPPER_BARS.get(type),

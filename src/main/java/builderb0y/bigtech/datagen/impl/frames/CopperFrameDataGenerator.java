@@ -16,13 +16,13 @@ import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.BigTechItems;
-import builderb0y.bigtech.util.CopperVariantHolder;
+import builderb0y.bigtech.util.CopperRegistrableCollection;
 
 public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 
-	public final CopperVariantHolder.Type type;
+	public final CopperRegistrableCollection.Type type;
 
-	public CopperFrameDataGenerator(BlockItem blockItem, CopperVariantHolder.Type type) {
+	public CopperFrameDataGenerator(BlockItem blockItem, CopperRegistrableCollection.Type type) {
 		super(blockItem);
 		this.type = type;
 	}
@@ -47,7 +47,7 @@ public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
-		if (this.type == CopperVariantHolder.Type.COPPER) {
+		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			this.writeFrameRecipe(
 				context,
 				new TagOrItem(ConventionalItemTags.COPPER_INGOTS),

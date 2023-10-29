@@ -1,6 +1,13 @@
 {
 	"replace": false,
 	"values": [
-
+		"bigtech:copper_catwalk_platform",
+		"bigtech:exposed_copper_catwalk_platform",
+		"bigtech:oxidized_copper_catwalk_platform",
+		"bigtech:waxed_copper_catwalk_platform",
+		"bigtech:waxed_exposed_copper_catwalk_platform",
+		"bigtech:waxed_oxidized_copper_catwalk_platform",
+		"bigtech:waxed_weathered_copper_catwalk_platform",
+		"bigtech:weathered_copper_catwalk_platform"
 	]
 }

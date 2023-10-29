@@ -4,11 +4,11 @@ import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
 import net.minecraft.block.Block;
 
-import builderb0y.bigtech.util.CopperVariantHolder;
+import builderb0y.bigtech.util.CopperRegistrableCollection;
 
-public class CopperBlocksHolder extends CopperVariantHolder<Block> {
+public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 
-	public CopperBlocksHolder(
+	public CopperBlockCollection(
 		String suffix,
 		Block copper,
 		Block exposed_copper,
@@ -32,11 +32,11 @@ public class CopperBlocksHolder extends CopperVariantHolder<Block> {
 		);
 	}
 
-	public CopperBlocksHolder(String suffix, SeparateCopperBlockFactory<Block> unwaxedFactory, SeparateCopperBlockFactory<Block> waxedFactory) {
+	public CopperBlockCollection(String suffix, SeparateCopperBlockFactory<Block> unwaxedFactory, SeparateCopperBlockFactory<Block> waxedFactory) {
 		super(suffix, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperBlocksHolder(String suffix, MergedCopperBlockFactory<Block> factory) {
+	public CopperBlockCollection(String suffix, MergedCopperBlockFactory<Block> factory) {
 		super(suffix, factory);
 	}
 

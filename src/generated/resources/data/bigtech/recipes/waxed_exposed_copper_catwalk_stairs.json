@@ -7,7 +7,6 @@
 		{ "item": "minecraft:honeycomb"                   }
 	],
 	"result": {
-		"item": "bigtech:waxed_exposed_copper_catwalk_stairs",
-		"count": 2
+		"item": "bigtech:waxed_exposed_copper_catwalk_stairs"
 	}
 }

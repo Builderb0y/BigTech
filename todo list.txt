@@ -1,15 +1,24 @@
 bugs:
 	none yet.
 
+where I left off:
+
 things to finish for existing features:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
 	JEI support for sorter belt GUI.
 
 features:
 	general:
+		config file for disabling non-essential mixins.
 	decoration:
+		copper slab blocks: texture that resembles polished stone slabs, in the sense that it's clearly split in two.
+			use that same texture for copper catwalk stairs.
 		catwalk platforms: looks like a catwalk, can be walked on
+			still need wooden and gold variants.
 		catwalk stairs: includes rails on the side
+			still need wooden and gold variants.
+		more ladder variants: iron, gold, copper, and wood.
+			metal ones can be free-standing.
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
 	transport:
 		belts:

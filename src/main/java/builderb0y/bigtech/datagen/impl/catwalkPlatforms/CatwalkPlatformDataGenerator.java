@@ -24,6 +24,10 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 		super(blockItem);
 	}
 
+	public Identifier getBlockModelIdentifier() {
+		return this.id;
+	}
+
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
@@ -32,7 +36,7 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 			.addRow(new BlockStateJsonMultipart(
 				null,
 				null,
-				context.prefixSuffixPath("block/", this.id, "_base").toString(),
+				context.prefixSuffixPath("block/", this.blockModelIdentifier, "_base").toString(),
 				null,
 				null
 			))
@@ -42,7 +46,7 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 				.map(direction -> new BlockStateJsonMultipart(
 					direction.name,
 					"true",
-					context.prefixSuffixPath("block/", this.id, "_rail").toString(),
+					context.prefixSuffixPath("block/", this.blockModelIdentifier, "_rail").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)
 				))

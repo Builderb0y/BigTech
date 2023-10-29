@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:item/template_catwalk_platform",
+	"textures": {
+		"base": "minecraft:block/exposed_copper",
+		"rail": "bigtech:block/exposed_copper_catwalk_platform_rail"
+	}
+}

@@ -6,11 +6,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 
-public class OxidizableCatwalkStairsBlock extends CopperCatwalkStairsBlock implements Oxidizable {
+public class OxidizableCatwalkPlatformBlock extends CatwalkPlatformBlock implements Oxidizable {
 
 	public final OxidationLevel oxidationLevel;
 
-	public OxidizableCatwalkStairsBlock(Settings settings, OxidationLevel oxidationLevel) {
+	public OxidizableCatwalkPlatformBlock(Settings settings, OxidationLevel oxidationLevel) {
 		super(settings);
 		this.oxidationLevel = oxidationLevel;
 	}

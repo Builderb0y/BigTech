@@ -14,12 +14,12 @@ public abstract class MetalCatwalkPlatformDataGenerator extends CatwalkPlatformD
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		//handled by CommonCatwalkPlatformDataGenerator.
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.STONE).addElement(this.id);
+		//handled by CommonCatwalkPlatformDataGenerator.
 	}
 
 	@Override
