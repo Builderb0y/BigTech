@@ -10,28 +10,26 @@ public interface RoutableEntity {
 
 	public abstract RoutingInfo bigtech_getRoutingInfo();
 
-	public abstract void bigtech_setRoutingInfo(RoutingInfo info);
+	public abstract void bigtech_setRoutingInfo(RoutingInfo info, boolean sync);
 
-	public default RoutingInfo bigtech_computeRoutingInfo(BlockPos pos, BlockState state, RoutingInfoFunction function) {
+	public default RoutingInfo bigtech_computeRoutingInfo(BlockPos pos, BlockState state, Direction defaultDirection, RoutingInfoFunction function) {
 		RoutingInfo info = this.bigtech_getRoutingInfo();
 		if (info == null || !info.pos.equals(pos) || info.state != state) {
+			Direction direction = function.compute(
+				((Entity)(this)).world,
+				pos,
+				state,
+				((Entity)(this))
+			);
 			this.bigtech_setRoutingInfo(
-				info = new RoutingInfo(
-					pos,
-					state,
-					function.compute(
-						((Entity)(this)).world,
-						pos,
-						state,
-						((Entity)(this))
-					)
-				)
+				info = new RoutingInfo(pos, state, direction, direction != defaultDirection),
+				info.synced
 			);
 		}
 		return info;
 	}
 
-	public static record RoutingInfo(BlockPos pos, BlockState state, Direction direction) {
+	public static record RoutingInfo(BlockPos pos, BlockState state, Direction direction, boolean synced) {
 
 		public RoutingInfo {
 			pos = pos.toImmutable();

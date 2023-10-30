@@ -47,10 +47,4 @@ public class AscenderDataGenerator extends AbstractAscenderDataGenerator {
 			.toString()
 		);
 	}
-
-	@Override
-	public void setupOtherBlockTags(DataGenContext context) {
-		super.setupOtherBlockTags(context);
-		context.getTags(BigTechBlockTags.PREVENTS_ITEM_MERGING).add(BigTechBlockTags.ASCENDERS);
-	}
 }

@@ -18,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.mixins.Entity_MakeRoutable;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity.RoutingInfo;
 import builderb0y.bigtech.util.Enums;
@@ -68,17 +67,19 @@ public record EntityRouteSyncPacket(int entityID, boolean present, BlockPos pos,
 	}
 
 	public RoutingInfo toRoutingInfo() {
-		return this.present ? new RoutingInfo(this.pos, this.state, this.direction) : null;
+		return this.present ? new RoutingInfo(this.pos, this.state, this.direction, true) : null;
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayerEntity player, PacketSender responseSender) {
+		System.out.println("Received routing packet: " + this.toRoutingInfo());
 		ClientWorld world = MinecraftClient.getInstance().world;
+
 		if (world != null) {
 			Entity entity = world.getEntityById(this.entityID);
 			if (entity != null) {
-				((RoutableEntity)(entity)).bigtech_setRoutingInfo(this.toRoutingInfo());
+				((RoutableEntity)(entity)).bigtech_setRoutingInfo(this.toRoutingInfo(), true);
 			}
 		}
 	}

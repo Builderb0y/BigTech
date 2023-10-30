@@ -31,9 +31,9 @@ public abstract class Entity_MakeRoutable implements RoutableEntity {
 	}
 
 	@Override
-	public void bigtech_setRoutingInfo(RoutingInfo info) {
+	public void bigtech_setRoutingInfo(RoutingInfo info, boolean sync) {
 		this.bigtech_routingInfo = info;
-		if (!this.getWorld().isClient) {
+		if (sync && !this.getWorld().isClient) {
 			Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking((Entity)(Object)(this));
 			if ((Object)(this) instanceof ServerPlayerEntity serverPlayerEntity) {
 				tracking = new ArrayList<>(tracking);
@@ -53,7 +53,7 @@ public abstract class Entity_MakeRoutable implements RoutableEntity {
 		if (!this.getWorld().isClient) {
 			RoutingInfo info = this.bigtech_getRoutingInfo();
 			if (info != null && !(info.pos.equals(this.blockPos) && info.state == this.blockStateAtPos)) {
-				this.bigtech_setRoutingInfo(null);
+				this.bigtech_setRoutingInfo(null, info.synced);
 			}
 		}
 	}

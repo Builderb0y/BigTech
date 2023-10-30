@@ -69,7 +69,7 @@ public class SorterBeltBlock extends DirectionalBeltBlock implements BlockEntity
 
 	@Override
 	public Direction getDirection(World world, BlockPos pos, BlockState state, Entity entity) {
-		return ((RoutableEntity)(entity)).bigtech_computeRoutingInfo(pos, state, this::computeDirection).direction;
+		return ((RoutableEntity)(entity)).bigtech_computeRoutingInfo(pos, state, state.get(Properties.HORIZONTAL_FACING), this::computeDirection).direction;
 	}
 
 	public Direction computeDirection(World world, BlockPos pos, BlockState state, Entity entity) {

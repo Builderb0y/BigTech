@@ -10,8 +10,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.blocks.BigTechBlockTags;
-
 @Mixin(ItemEntity.class)
 public abstract class ItemEntity_DontMergeDuringTransport extends Entity {
 
@@ -21,10 +19,7 @@ public abstract class ItemEntity_DontMergeDuringTransport extends Entity {
 
 	@Inject(method = "canMerge()Z", at = @At("HEAD"), cancellable = true)
 	private void bigtech_dontMergeDuringTransport(CallbackInfoReturnable<Boolean> callback) {
-		if (
-			this.pos.squaredDistanceTo(this.prevX, this.prevY, this.prevZ) > 0.00001D &&
-			this.blockStateAtPos.isIn(BigTechBlockTags.PREVENTS_ITEM_MERGING)
-		) {
+		if (this.pos.squaredDistanceTo(this.prevX, this.prevY, this.prevZ) > 0.00001D) {
 			callback.setReturnValue(Boolean.FALSE);
 		}
 	}

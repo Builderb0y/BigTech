@@ -14,7 +14,6 @@ public class BigTechBlockTags {
 		BELTS                    = of("belts"),
 		BELT_SUPPORT             = of("belt_support"),
 		ASCENDERS                = of("ascenders"),
-		PREVENTS_ITEM_MERGING    = of("prevents_item_merging"),
 		WOODEN_FRAMES            = of("wooden_frames"),
 		COPPER_FRAMES            = of("copper_frames"),
 		METAL_FRAMES             = of("metal_frames"),

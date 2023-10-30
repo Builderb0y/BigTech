@@ -74,9 +74,7 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 					motionY = spawnY - explosionY,
 					motionZ = spawnZ - explosionZ,
 					magnitudeSquared = MathHelper.squaredMagnitude(motionX, motionY, motionZ),
-					speed = Math.sqrt(magnitudeSquared),
-					targetSpeed = 2.0D * explosionPower / magnitudeSquared,
-					scalar = targetSpeed / speed;
+					scalar = 0.5D * explosionPower / magnitudeSquared;
 				motionX *= scalar;
 				motionY *= scalar;
 				motionZ *= scalar;
