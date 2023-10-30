@@ -2,6 +2,7 @@ bugs:
 	none yet.
 
 where I left off:
+	make crystal clusters have sparkle particles.
 
 things to finish for existing features:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
@@ -56,13 +57,11 @@ features:
 		crystal clusters:
 			boosts the distance of lasers passing through it.
 			make spawn in caves and in rocks.
-			recipes (in transmuter).
-			crystal debris.
 	automation:
 		upgraded crafting tables:
 			wood: unchanged
 			stone: keeps its inventory when you close the GUI
-			iron: basically a placeable version of the power crafter
+			iron: basically a placeable version of the techno crafter
 		deployer: places blocks.
 		destroyer: breaks blocks.
 		block excavator: upgraded version of the block breaker which can mine entire ore veins at once
@@ -75,7 +74,7 @@ features:
 	redstone:
 		pulsar: emits regularly timed redstone pulses
 	tools:
-		power crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
+		portable techno crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
 		power tools: pickaxe works like block excavator, axe works like block harvester. shovel will work on dirt/gravel veins. not sure about the other tools.

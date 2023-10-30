@@ -179,12 +179,21 @@ public class BigTechItems {
 		BigTechBlocks.MEDIUM_WEIGHTED_PRESSURE_PLATE
 	);
 	@UseDataGen(CrystalClusterDataGenerator.class)
-	public static final CrystalClusterItemCollection CRYSTAL_ClUSTERS = new CrystalClusterItemCollection(
+	public static final CrystalClusterItemCollection CRYSTAL_CLUSTERS = new CrystalClusterItemCollection(
 		true,
 		type -> new BlockItem(
 			BigTechBlocks.CRYSTAl_ClUSTERS.get(type),
 			new Item.Settings()
 		)
+	);
+	@UseDataGen(CrystalDebrisDataGenerator.class)
+	public static final Item CRYSTAL_DEBRIS = register(
+		"crystal_debris",
+		new Item(new Item.Settings())
+	);
+	@UseDataGen(CrystallineSandDataGenerator.class)
+	public static final BlockItem CRYSTALLINE_SAND = registerPlacer(
+		BigTechBlocks.CRYSTALLINE_SAND
 	);
 
 	public static void init() {}

@@ -13,6 +13,7 @@
 	"block.bigtech.copper_frame":                            "Copper Frame",
 	"block.bigtech.copper_lightning_cable":                  "Copper Lightning Cable",
 	"block.bigtech.crimson_frame":                           "Crimson Frame",
+	"block.bigtech.crystalline_sand":                        "Crystalline Sand",
 	"block.bigtech.cyan_crystal_cluster":                    "Cyan Crystal Cluster",
 	"block.bigtech.dark_oak_frame":                          "Dark Oak Frame",
 	"block.bigtech.descender":                               "Descender",
@@ -77,6 +78,7 @@
 	"container.bigtech.sorter_belt":                         "Sorter Belt",
 	"container.bigtech.transmuter":                          "Transmuter",
 	"item.bigtech.copper_nugget":                            "Copper Nugget",
+	"item.bigtech.crystal_debris":                           "Crystal Debris",
 	"item.bigtech.magnetite_ingot":                          "Magnetite Ingot",
 	"item.bigtech.magnetite_nugget":                         "Magnetite Nugget",
 	"itemGroup.bigtech":                                     "Big Tech"

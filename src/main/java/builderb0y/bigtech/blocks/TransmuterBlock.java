@@ -1,6 +1,8 @@
 package builderb0y.bigtech.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -73,30 +75,49 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		TransmuterBlockEntity transmuter = WorldHelper.getBlockEntity(world, pos, TransmuterBlockEntity.class);
 		if (transmuter != null) {
-			int nonEmptySlots = (int)(transmuter.items.stream().filter(stack -> !stack.isEmpty).count());
-			if (nonEmptySlots > 0) {
-				List<RecipeEntry<TransmuteRecipe>> allRecipes = world.getRecipeManager().listAllOfType(BigTechRecipeTypes.TRANSMUTE);
-				TransmuteRecipeInventory inventory = new TransmuteRecipeInventory(world.random);
-				inventory.totalEnergy = pulse.distributedEnergy;
-				inventory.slotEnergy = inventory.totalEnergy / nonEmptySlots;
+			//part of transmute recipe logic requires knowing how much energy the current slot received.
+			//however, *that* depends on how many items the transmuter wants to distribute its energy to.
+			//the transmuter will only distribute energy to items which are part of a transmute recipe.
+			//so, we have to iterate over all slots, check if they're a valid input or not, and count them
+			//just to know how much energy each slot should get for the actual crafting procedure.
+			//then, we'd normally need to iterate again to do the crafting.
+			//I figure I can optimize that somewhat by remembering which recipe was used for which slot
+			//during the first iteration, and then re-use that information for the second iteration.
+			//additionally, I expect that in practice, transmuters will be filled mostly with many of the same item.
+			//as such, if a recipe worked on one item, there is a high likelyhood that it'll work on the next item too.
+			//so, that's an opportunity for optimization as well.
+			record RecipeSlot(TransmuteRecipe recipe, int slot) {}
+			List<RecipeSlot> recipeSlots = new ArrayList<>(15);
+			List<RecipeEntry<TransmuteRecipe>> allRecipes = world.recipeManager.listAllOfType(BigTechRecipeTypes.TRANSMUTE);
+			{
+				//first iteration.
 				TransmuteRecipe activeRecipe = null;
 				for (int slot = 0; slot < 15; slot++) {
-					inventory.stack = transmuter.getStack(slot);
-					found:
-					if (activeRecipe == null || !activeRecipe.matches(inventory, world)) {
-						for (RecipeEntry<TransmuteRecipe> recipe : allRecipes) {
-							if (recipe.value().matches(inventory, world)) {
-								activeRecipe = recipe.value();
-								break found;
+					ItemStack stack = transmuter.getStack(slot);
+					if (!stack.isEmpty) {
+						if (activeRecipe != null && activeRecipe.input.test(stack)) {
+							recipeSlots.add(new RecipeSlot(activeRecipe, slot));
+						}
+						else for (RecipeEntry<TransmuteRecipe> entry : allRecipes) {
+							if (entry.value().input.test(stack)) {
+								recipeSlots.add(new RecipeSlot(entry.value(), slot));
+								activeRecipe = entry.value();
+								break;
 							}
 						}
-						activeRecipe = null;
 					}
-					if (activeRecipe != null) {
-						ItemStack result = activeRecipe.craft(inventory, world.registryManager);
-						if (!result.isEmpty) {
-							transmuter.setStack(slot, result);
-						}
+				}
+			}
+			if (!recipeSlots.isEmpty) {
+				TransmuteRecipeInventory inventory = new TransmuteRecipeInventory(world.random);
+				inventory.totalEnergy = pulse.distributedEnergy;
+				inventory.slotEnergy = inventory.totalEnergy / recipeSlots.size();
+				//second iteration..
+				for (RecipeSlot recipeSlot : recipeSlots) {
+					inventory.stack = transmuter.getStack(recipeSlot.slot);
+					ItemStack result = recipeSlot.recipe.craft(inventory, world.registryManager);
+					if (!result.isEmpty) {
+						transmuter.setStack(recipeSlot.slot, result);
 					}
 				}
 				((ServerWorld)(world)).spawnParticles(ParticleTypes.EXPLOSION, pos.x + 0.5D, pos.y + 0.5D, pos.z + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);

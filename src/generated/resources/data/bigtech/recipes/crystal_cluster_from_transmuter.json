@@ -1,0 +1,15 @@
+{
+	"type": "bigtech:transmute",
+	"input": { "item": "bigtech:crystalline_sand" },
+	"output": [
+		{ "item": "bigtech:red_crystal_cluster"     },
+		{ "item": "bigtech:yellow_crystal_cluster"  },
+		{ "item": "bigtech:green_crystal_cluster"   },
+		{ "item": "bigtech:cyan_crystal_cluster"    },
+		{ "item": "bigtech:blue_crystal_cluster"    },
+		{ "item": "bigtech:magenta_crystal_cluster" },
+		{ "item": "bigtech:black_crystal_cluster"   },
+		{ "item": "bigtech:white_crystal_cluster"   }
+	],
+	"energy": 1000
+}

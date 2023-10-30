@@ -150,7 +150,8 @@ public class CrystalBakedModel implements BakedModel {
 	public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		for (Direction direction : Enums.DIRECTIONS) {
-			if (!Block.isShapeFullCube(blockView.getBlockState(mutablePos.set(pos, direction)).getCullingFace(blockView, mutablePos, direction.opposite))) {
+			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
+			if (!adjacentState.isOpaqueFullCube(blockView, mutablePos)) {
 				this.emitQuads(IntRng.permute(this.spriteHash, pos.x, pos.y, pos.z), context.emitter);
 				return;
 			}

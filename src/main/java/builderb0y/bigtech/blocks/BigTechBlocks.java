@@ -425,10 +425,17 @@ public class BigTechBlocks {
 				.solidBlock(Blocks::never)
 				.suffocates(Blocks::never)
 				.blockVision(Blocks::never)
-				.luminance(state -> 11),
+				.luminance(state -> 7),
 				color
 			);
 		}
+	);
+	@UseDataGen(void.class)
+	public static final CrystallineSandBlock CRYSTALLINE_SAND = register(
+		"crystalline_sand",
+		new CrystallineSandBlock(
+			AbstractBlock.Settings.copy(Blocks.SAND)
+		)
 	);
 
 	public static void init() {

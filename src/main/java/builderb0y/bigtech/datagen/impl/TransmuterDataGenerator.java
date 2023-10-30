@@ -10,7 +10,7 @@ import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.BigTechItems;
 
-@Dependencies(TransmuterRecipesDataGenerator.class)
+@Dependencies(CommonTransmuterDataGenerator.class)
 public class TransmuterDataGenerator extends BasicBlockDataGenerator {
 
 	public TransmuterDataGenerator(BlockItem blockItem) {

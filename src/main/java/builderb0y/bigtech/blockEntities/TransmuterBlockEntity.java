@@ -42,7 +42,7 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 	}
 
 	public static boolean isValidOutput(RecipeManager recipeManager, ItemStack stack) {
-		return recipeManager.listAllOfType(BigTechRecipeTypes.TRANSMUTE).stream().anyMatch(entry -> ItemStack.canCombine(entry.value().output, stack));
+		return recipeManager.listAllOfType(BigTechRecipeTypes.TRANSMUTE).stream().flatMap(entry -> entry.value().output.stream()).anyMatch(output -> ItemStack.canCombine(output.toStack(), stack));
 	}
 
 	@Override

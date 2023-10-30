@@ -4,7 +4,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 
-public class TransmuterRecipesDataGenerator implements DataGenerator {
+public class CommonTransmuterDataGenerator implements DataGenerator {
 
 	@Override
 	public void run(DataGenContext context) {
@@ -39,6 +39,26 @@ public class TransmuterRecipesDataGenerator implements DataGenerator {
 				"input":  { "tag":  "minecraft:sand"  },
 				"output": { "item": "minecraft:glass" },
 				"energy": 40
+			}"""
+		);
+		context.writeToFile(
+			context.recipePath(BigTechMod.modID("crystal_cluster_from_transmuter")),
+			//language=json
+			"""
+			{
+				"type": "bigtech:transmute",
+				"input": { "item": "bigtech:crystalline_sand" },
+				"output": [
+					{ "item": "bigtech:red_crystal_cluster"     },
+					{ "item": "bigtech:yellow_crystal_cluster"  },
+					{ "item": "bigtech:green_crystal_cluster"   },
+					{ "item": "bigtech:cyan_crystal_cluster"    },
+					{ "item": "bigtech:blue_crystal_cluster"    },
+					{ "item": "bigtech:magenta_crystal_cluster" },
+					{ "item": "bigtech:black_crystal_cluster"   },
+					{ "item": "bigtech:white_crystal_cluster"   }
+				],
+				"energy": 1000
 			}"""
 		);
 	}

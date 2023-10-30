@@ -10,6 +10,7 @@
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_HeldItemGetter",
+		"ExplosionAccessor",
 		"ItemEntity_DontMergeDuringTransport",
 		"LightningRod_EmitLightningPulse",
 		"MobSpawnerLogic_MakeForceable",
