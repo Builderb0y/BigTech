@@ -2,7 +2,6 @@ bugs:
 	none yet.
 
 where I left off:
-	make crystal clusters have sparkle particles.
 
 things to finish for existing features:
 	try to reduce number of packets sent while entities are inside ascenders/descenders.
@@ -11,6 +10,7 @@ things to finish for existing features:
 features:
 	general:
 		config file for disabling non-essential mixins.
+		API entrypoint which gets called once big tech is initialized.
 	decoration:
 		copper slab blocks: texture that resembles polished stone slabs, in the sense that it's clearly split in two.
 			use that same texture for copper catwalk stairs.

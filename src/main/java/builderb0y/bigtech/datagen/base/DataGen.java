@@ -2,7 +2,6 @@ package builderb0y.bigtech.datagen.base;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.bigtech.BigTechMod;
@@ -22,6 +22,7 @@ import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
 import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.particles.BigTechParticles;
 
 public class DataGen {
 
@@ -62,6 +63,7 @@ public class DataGen {
 		context.collectGenerators(BigTechItems           .class, Item           .class);
 		context.collectGenerators(BigTechBlockEntityTypes.class, BlockEntityType.class);
 		context.collectGenerators(BigTechItemGroups      .class, ItemGroup      .class);
+		context.collectGenerators(BigTechParticles       .class, ParticleType   .class);
 		context.empty("assets");
 		context.empty("data");
 		context.copy(new File(MANUAL_RESOURCES, "assets"), "assets");

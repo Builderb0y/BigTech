@@ -419,7 +419,7 @@ public class BigTechBlocks {
 				.create()
 				.mapColor(color.closestDyeColor)
 				.strength(0.3F)
-				.sounds(BlockSoundGroup.GLASS)
+				.sounds(BlockSoundGroup.AMETHYST_CLUSTER)
 				.nonOpaque()
 				.allowsSpawning(Blocks::never)
 				.solidBlock(Blocks::never)

@@ -134,6 +134,7 @@ public class DataGenContext {
 	public String     blockstatePath(Identifier identifier) { return "assets/${identifier.namespace}/blockstates/${                          identifier.path}.json"; }
 	public String     blockModelPath(Identifier identifier) { return "assets/${identifier.namespace}/models/block/${                         identifier.path}.json"; }
 	public String      itemModelPath(Identifier identifier) { return "assets/${identifier.namespace}/models/item/${                          identifier.path}.json"; }
+	public String       particlePath(Identifier identifier) { return "assets/${identifier.namespace}/particles/${                            identifier.path}.json"; }
 	public String blockLootTablePath(Identifier identifier) { return "data/${  identifier.namespace}/loot_tables/blocks/${                   identifier.path}.json"; }
 	public String         recipePath(Identifier identifier) { return "data/${  identifier.namespace}/recipes/${                              identifier.path}.json"; }
 	public String       blockTagPath(Identifier identifier) { return "data/${  identifier.namespace}/tags/blocks/${                          identifier.path}.json"; }

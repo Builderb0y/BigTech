@@ -1,11 +1,15 @@
 package builderb0y.bigtech.blocks;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -16,6 +20,8 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -27,6 +33,8 @@ import net.minecraft.world.explosion.Explosion;
 import builderb0y.bigtech.api.BeaconBeamColorProvider;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.mixins.ExplosionAccessor;
+import builderb0y.bigtech.models.CrystalBakedModel;
+import builderb0y.bigtech.particles.SparkleParticleEffect;
 import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
 
 public class CrystalClusterBlock extends Block implements Waterloggable, BeaconBeamColorProvider {
@@ -80,13 +88,32 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		super.randomDisplayTick(state, world, pos, random);
+		BakedModel model = MinecraftClient.getInstance().bakedModelManager.blockModels.getModel(state);
+		if (model instanceof CrystalBakedModel crystal) {
+			Vec3d position = crystal.getParticlePosition(crystal.getSeedForPosition(pos), pos, world.random);
+			world.addParticle(
+				new SparkleParticleEffect(this.color.colorVector, 1.0F),
+				position.x,
+				position.y,
+				position.z,
+				0.0D,
+				0.0D,
+				0.0D
+			);
+		}
+	}
+
+	@Override
 	public boolean shouldDropItemsOnExplosion(Explosion explosion) {
 		return false;
 	}
 
 	@Override
 	public float[] getBeaconColor(World world, BlockPos pos, BlockState state) {
-		return this.color.color;
+		return this.color.colorArray;
 	}
 
 	@Override

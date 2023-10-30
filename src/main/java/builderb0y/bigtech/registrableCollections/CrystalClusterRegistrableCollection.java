@@ -3,6 +3,8 @@ package builderb0y.bigtech.registrableCollections;
 import java.util.*;
 import java.util.function.Consumer;
 
+import org.joml.Vector3f;
+
 import net.minecraft.util.DyeColor;
 
 public abstract class CrystalClusterRegistrableCollection<T> implements RegistrableCollection<T> {
@@ -160,11 +162,17 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 
 		public final DyeColor closestDyeColor;
 		public final String prefix;
-		public final float[] color;
+		public final float red, green, blue;
+		public final float[] colorArray;
+		public final Vector3f colorVector;
 
 		CrystalClusterColor(DyeColor dyeColor, float red, float green, float blue) {
 			this.closestDyeColor = dyeColor;
-			this.color = new float[] { red, green, blue };
+			this.red = red;
+			this.green = green;
+			this.blue = blue;
+			this.colorArray = new float[] { red, green, blue };
+			this.colorVector = new Vector3f(red, green, blue);
 			this.prefix = this.name().toLowerCase(Locale.ROOT) + '_';
 		}
 	}

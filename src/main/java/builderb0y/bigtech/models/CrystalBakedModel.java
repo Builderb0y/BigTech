@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 
@@ -84,14 +85,38 @@ public class CrystalBakedModel implements BakedModel {
 		return false;
 	}
 
+	public Vec3d getParticlePosition(int seed, BlockPos pos, Random random) {
+		int cuboidCount = IntRng.nextRangedIntInclusive(seed, 3, 6);
+		int chosenIndex = random.nextInt(cuboidCount);
+		seed += chosenIndex * (6 * IntRng.INT_PHI);
+		int
+			sizeX = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
+			sizeY = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
+			sizeZ = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
+			posX = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeX),
+			posY = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeY),
+			posZ = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeZ);
+		double
+			minX = posX * 0.0625D,
+			minY = posY * 0.0625D,
+			minZ = posZ * 0.0625D,
+			maxX = (posX + sizeX) * 0.0625D,
+			maxY = (posY + sizeY) * 0.0625D,
+			maxZ = (posZ + sizeZ) * 0.0625D;
+		return new Vec3d(
+			pos.x + (random.nextBoolean() ? maxX : minX),
+			pos.y + (random.nextBoolean() ? maxY : minY),
+			pos.z + (random.nextBoolean() ? maxZ : minZ)
+		);
+	}
+
 	public void emitQuads(int seed, QuadEmitter quadEmitter) {
 		int cuboidCount = IntRng.nextRangedIntInclusive(seed, 3, 6);
 		for (int cuboidIndex = 0; cuboidIndex < cuboidCount; cuboidIndex++) {
 			int
 				sizeX = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
 				sizeY = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
-				sizeZ = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8);
-			int
+				sizeZ = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
 				posX = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeX),
 				posY = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeY),
 				posZ = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeZ);
@@ -146,13 +171,17 @@ public class CrystalBakedModel implements BakedModel {
 		.emit();
 	}
 
+	public int getSeedForPosition(BlockPos pos) {
+		return IntRng.permute(this.spriteHash, pos.x, pos.y, pos.z);
+	}
+
 	@Override
 	public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		for (Direction direction : Enums.DIRECTIONS) {
 			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
 			if (!adjacentState.isOpaqueFullCube(blockView, mutablePos)) {
-				this.emitQuads(IntRng.permute(this.spriteHash, pos.x, pos.y, pos.z), context.emitter);
+				this.emitQuads(this.getSeedForPosition(pos), context.emitter);
 				return;
 			}
 		}
