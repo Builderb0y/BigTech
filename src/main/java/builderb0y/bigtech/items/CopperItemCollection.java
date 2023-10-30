@@ -2,7 +2,7 @@ package builderb0y.bigtech.items;
 
 import net.minecraft.item.Item;
 
-import builderb0y.bigtech.util.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 

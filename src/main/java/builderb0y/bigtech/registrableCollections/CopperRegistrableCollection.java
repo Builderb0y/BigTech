@@ -1,12 +1,11 @@
-package builderb0y.bigtech.util;
+package builderb0y.bigtech.registrableCollections;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 import net.minecraft.block.Oxidizable.OxidationLevel;
 
-public class CopperRegistrableCollection<T> implements Iterable<T>, RegistrableCollection<T> {
+public abstract class CopperRegistrableCollection<T> implements RegistrableCollection<T> {
 
 	public final T
 		copper,
@@ -69,7 +68,7 @@ public class CopperRegistrableCollection<T> implements Iterable<T>, RegistrableC
 		);
 	}
 
-	public void register(String suffix) {}
+	public abstract void register(String suffix);
 
 	@FunctionalInterface
 	public static interface MergedCopperBlockFactory<T> {
@@ -96,6 +95,7 @@ public class CopperRegistrableCollection<T> implements Iterable<T>, RegistrableC
 		};
 	}
 
+	@Override
 	public List<T> asList() {
 		return Arrays.asList(
 			this.                copper,
@@ -107,15 +107,6 @@ public class CopperRegistrableCollection<T> implements Iterable<T>, RegistrableC
 			this.waxed_weathered_copper,
 			this. waxed_oxidized_copper
 		);
-	}
-
-	public Stream<T> stream() {
-		return this.asList().stream();
-	}
-
-	@Override
-	public Iterator<T> iterator() {
-		return this.asList().iterator();
 	}
 
 	@Override
@@ -147,6 +138,7 @@ public class CopperRegistrableCollection<T> implements Iterable<T>, RegistrableC
 		);
 	}
 
+	@Override
 	public boolean contains(T object) {
 		return (
 			this.                copper == object ||

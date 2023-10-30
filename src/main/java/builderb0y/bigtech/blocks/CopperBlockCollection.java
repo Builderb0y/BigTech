@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
 import net.minecraft.block.Block;
 
-import builderb0y.bigtech.util.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 

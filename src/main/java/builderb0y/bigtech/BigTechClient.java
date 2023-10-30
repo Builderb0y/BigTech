@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.handledScreens.BigTechHandledScreens;
+import builderb0y.bigtech.models.BigTechModels;
 
 @Environment(EnvType.CLIENT)
 public class BigTechClient implements ClientModInitializer {
@@ -14,5 +15,6 @@ public class BigTechClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		BigTechBlocks.initClient();
 		BigTechHandledScreens.initClient();
+		BigTechModels.init();
 	}
 }

@@ -18,7 +18,7 @@ import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.BigTechItems;
-import builderb0y.bigtech.util.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 

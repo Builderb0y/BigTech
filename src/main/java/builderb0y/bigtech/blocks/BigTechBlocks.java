@@ -23,6 +23,7 @@ import net.minecraft.util.math.Direction;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.registrableCollections.RegistrableCollection;
 
 public class BigTechBlocks {
 
@@ -408,6 +409,27 @@ public class BigTechBlocks {
 			COPPER_BLOCK_SET_TYPE
 		)
 	);
+	@UseDataGen(void.class)
+	public static final CrystalClusterBlockCollection CRYSTAl_ClUSTERS = new CrystalClusterBlockCollection(
+		true,
+		color -> {
+			return new CrystalClusterBlock(
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(color.closestDyeColor)
+				.strength(0.3F)
+				.sounds(BlockSoundGroup.GLASS)
+				.nonOpaque()
+				.allowsSpawning(Blocks::never)
+				.solidBlock(Blocks::never)
+				.suffocates(Blocks::never)
+				.blockVision(Blocks::never)
+				.luminance(state -> 11),
+				color
+			);
+		}
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);
@@ -470,7 +492,13 @@ public class BigTechBlocks {
 				COPPER_CATWALK_STAIRS,
 				COPPER_BARS
 			)
-			.flatMap(CopperBlockCollection::stream)
+			.flatMap(RegistrableCollection::stream)
+			.toArray(Block[]::new)
+		);
+		BlockRenderLayerMap.INSTANCE.putBlocks(
+			RenderLayer.getTranslucent(),
+			CRYSTAl_ClUSTERS
+			.stream()
 			.toArray(Block[]::new)
 		);
 	}

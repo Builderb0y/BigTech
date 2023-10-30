@@ -113,7 +113,7 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).fluid == Fluids.WATER);
+		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER));
 	}
 
 	@Override

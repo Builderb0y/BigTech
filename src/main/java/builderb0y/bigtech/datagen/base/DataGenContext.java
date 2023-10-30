@@ -15,8 +15,8 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.registry.tag.TagManagerLoader;
 import net.minecraft.util.Identifier;
 
-import builderb0y.bigtech.util.RegistrableCollection;
-import builderb0y.bigtech.util.RegistrableCollection.RegistrableVariant;
+import builderb0y.bigtech.registrableCollections.RegistrableCollection;
+import builderb0y.bigtech.registrableCollections.RegistrableCollection.RegistrableVariant;
 
 public class DataGenContext {
 

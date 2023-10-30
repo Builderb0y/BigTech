@@ -16,7 +16,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.util.RegistrableCollection;
+import builderb0y.bigtech.registrableCollections.RegistrableCollection;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.ItemGroupDataGenerator;
 

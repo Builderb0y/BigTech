@@ -26,6 +26,7 @@ public class BigTechItemTags {
 		METAL_CATWALK_STAIRS     = of("metal_catwalk_stairs"),
 		CATWALK_STAIRS           = of("catwalk_stairs"),
 		COPPER_BARS              = of("copper_bars"),
+		CRYSTAL_CLUSTERS         = of("crystal_clusters"),
 		PRESSURE_PLATES          = common("pressure_plates"),
 		IRON_NUGGETS             = common("iron_nuggets"),
 		COPPER_NUGGETS           = common("copper_nuggets"),

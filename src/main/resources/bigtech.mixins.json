@@ -6,6 +6,7 @@
 	"plugin": "builderb0y.bigtech.mixins.BigTechMixinPlugin",
 	"mixins": [
 		"AttractableEntities_AttractTowardsMagnetiteBlocks",
+		"BeaconBlockEntity_UseColorProviders",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_HeldItemGetter",

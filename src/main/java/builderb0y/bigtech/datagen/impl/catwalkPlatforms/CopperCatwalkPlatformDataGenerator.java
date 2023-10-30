@@ -14,7 +14,7 @@ import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.BigTechItems;
-import builderb0y.bigtech.util.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformDataGenerator {
 

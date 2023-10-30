@@ -53,7 +53,11 @@ features:
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
 		beam obscurator: makes laser beams invisible
 		beam revealer: makes laser beams visible again
-		crystal clusters: boosts the distance of lasers passing through it.
+		crystal clusters:
+			boosts the distance of lasers passing through it.
+			make spawn in caves and in rocks.
+			recipes (in transmuter).
+			crystal debris.
 	automation:
 		upgraded crafting tables:
 			wood: unchanged

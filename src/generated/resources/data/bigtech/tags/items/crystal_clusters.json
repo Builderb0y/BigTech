@@ -1,0 +1,13 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:black_crystal_cluster",
+		"bigtech:blue_crystal_cluster",
+		"bigtech:cyan_crystal_cluster",
+		"bigtech:green_crystal_cluster",
+		"bigtech:magenta_crystal_cluster",
+		"bigtech:red_crystal_cluster",
+		"bigtech:white_crystal_cluster",
+		"bigtech:yellow_crystal_cluster"
+	]
+}

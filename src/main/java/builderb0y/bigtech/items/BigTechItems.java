@@ -178,6 +178,14 @@ public class BigTechItems {
 	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = registerPlacer(
 		BigTechBlocks.MEDIUM_WEIGHTED_PRESSURE_PLATE
 	);
+	@UseDataGen(CrystalClusterDataGenerator.class)
+	public static final CrystalClusterItemCollection CRYSTAL_ClUSTERS = new CrystalClusterItemCollection(
+		true,
+		type -> new BlockItem(
+			BigTechBlocks.CRYSTAl_ClUSTERS.get(type),
+			new Item.Settings()
+		)
+	);
 
 	public static void init() {}
 
