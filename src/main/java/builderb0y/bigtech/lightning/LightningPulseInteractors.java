@@ -128,7 +128,7 @@ public class LightningPulseInteractors {
 			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				MobSpawnerBlockEntity spawner = WorldHelper.getBlockEntity(world, pos, MobSpawnerBlockEntity.class);
 				if (spawner != null) {
-					((ForceableMobSpawnerLogic)(spawner.getLogic())).bigtech_spawnMobs((ServerWorld)(world), pos);
+					spawner.getLogic().<ForceableMobSpawnerLogic>as().bigtech_spawnMobs(world.as(), pos);
 					this.spawnLightningParticles(world, pos, state, pulse);
 				}
 			}

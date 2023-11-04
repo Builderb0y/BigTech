@@ -32,16 +32,16 @@ public abstract class PistonHandler_AddNecessaryMethods {
 	/** called from ASM, see {@link PistonHandlerASM}. */
 	@Unique
 	private static boolean bigtech_isBlockSticky(BlockState state, BlockPos pos, PistonHandler handler) {
-		PistonHandlerAccessor accessor = (PistonHandlerAccessor)(handler);
+		PistonHandlerAccessor accessor = handler.as();
 		PistonInteractor interactor = PistonInteractor.get(accessor.bigtech_getWorld(), pos, state);
-		return interactor != null ? interactor.isSticky(new PistonHandlerInfo((PistonHandlerAccessor)(handler)), pos, state) : isBlockSticky(state);
+		return interactor != null ? interactor.isSticky(new PistonHandlerInfo(accessor), pos, state) : isBlockSticky(state);
 	}
 
 	/** called from ASM, see {@link PistonHandlerASM}. */
 	@Unique
 	private static boolean bigtech_isAdjacentBlockStuck(BlockState state, BlockState otherState, BlockPos pos, BlockPos otherPos, Direction face, PistonHandler handler) {
-		PistonHandlerAccessor accessor = (PistonHandlerAccessor)(handler);
+		PistonHandlerAccessor accessor = handler.as();
 		PistonInteractor interactor = PistonInteractor.get(accessor.bigtech_getWorld(), pos, state);
-		return interactor != null ? interactor.canStickTo(new PistonHandlerInfo((PistonHandlerAccessor)(handler)), pos, state, otherPos, otherState, face) : isAdjacentBlockStuck(state, otherState);
+		return interactor != null ? interactor.canStickTo(new PistonHandlerInfo(accessor), pos, state, otherPos, otherState, face) : isAdjacentBlockStuck(state, otherState);
 	}
 }

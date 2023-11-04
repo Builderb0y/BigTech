@@ -16,10 +16,10 @@ public interface RoutableEntity {
 		RoutingInfo info = this.bigtech_getRoutingInfo();
 		if (info == null || !info.pos.equals(pos) || info.state != state) {
 			Direction direction = function.compute(
-				((Entity)(this)).world,
+				this.<Entity>as().world,
 				pos,
 				state,
-				((Entity)(this))
+				this.as()
 			);
 			this.bigtech_setRoutingInfo(
 				info = new RoutingInfo(pos, state, direction, direction != defaultDirection),

@@ -112,7 +112,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	public Direction getMovementDirection(World world, BlockPos pos, BlockState state, Entity entity) {
-		return ((RoutableEntity)(entity)).bigtech_computeRoutingInfo(pos, state, this.direction, this::computeMovementDirection).direction;
+		return entity.<RoutableEntity>as().bigtech_computeRoutingInfo(pos, state, this.direction, this::computeMovementDirection).direction;
 	}
 
 	public void move(World world, BlockPos pos, BlockState state, Entity entity) {

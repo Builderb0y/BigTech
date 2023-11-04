@@ -58,10 +58,10 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 				blockX = pos.x + 0.5D,
 				blockY = pos.y + 0.5D,
 				blockZ = pos.z + 0.5D,
-				explosionX = ((ExplosionAccessor)(explosion)).bigtech_getX(),
-				explosionY = ((ExplosionAccessor)(explosion)).bigtech_getY(),
-				explosionZ = ((ExplosionAccessor)(explosion)).bigtech_getZ(),
-				explosionPower = ((ExplosionAccessor)(explosion)).bigtech_getPower(),
+				explosionX = explosion.<ExplosionAccessor>as().bigtech_getX(),
+				explosionY = explosion.<ExplosionAccessor>as().bigtech_getY(),
+				explosionZ = explosion.<ExplosionAccessor>as().bigtech_getZ(),
+				explosionPower = explosion.<ExplosionAccessor>as().bigtech_getPower(),
 				distanceSquared = MathHelper.squaredMagnitude(blockX - explosionX, blockY - explosionY, blockZ - explosionZ),
 				halfDrops = distanceSquared / explosionPower;
 			int drops = (int)(world.random.nextDouble() * halfDrops + halfDrops);

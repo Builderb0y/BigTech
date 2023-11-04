@@ -10,8 +10,9 @@
 	"icon": "assets/bigtech/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main":   [ "builderb0y.bigtech.BigTechMod" ],
-		"client": [ "builderb0y.bigtech.BigTechClient" ]
+		"main":                [ "builderb0y.bigtech.BigTechMod"                   ],
+		"client":              [ "builderb0y.bigtech.BigTechClient"                ],
+		"cardinal-components": [ "builderb0y.bigtech.CardinalComponentsEntrypoint" ]
 	},
 	"mixins": [
 		"bigtech.mixins.json"
@@ -20,5 +21,11 @@
 		"fabricloader": ">=0.14.23",
 		"fabric": "*",
 		"minecraft": "1.20.2"
+	},
+	"custom": {
+		"cardinal-components": [
+			"bigtech:chunk_beam_storage",
+			"bigtech:world_beam_storage"
+		]
 	}
 }

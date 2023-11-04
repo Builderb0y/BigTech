@@ -83,13 +83,12 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 		super.move(world, pos, state, entity);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public int countEntities(World world, BlockPos pos, BlockState state) {
 		Object2IntOpenHashMap<EntityType<?>> typeToCount = new Object2IntOpenHashMap<>(2);
 		for (Entity entity : world.getEntitiesByClass(Entity.class, new Box(pos), (Entity entity) -> {
 			return this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity);
 		})) {
-			typeToCount.addTo(entity.type,((EntityCounter)(COUNTERS.get(entity.type))).getCount(entity));
+			typeToCount.addTo(entity.type, COUNTERS.get(entity.type).<EntityCounter<Entity>>as().getCount(entity));
 		}
 		int sum = 0;
 		ObjectIterator<Object2IntMap.Entry<EntityType<?>>> iterator = typeToCount.object2IntEntrySet().fastIterator();

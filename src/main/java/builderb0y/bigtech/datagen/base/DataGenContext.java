@@ -58,7 +58,7 @@ public class DataGenContext {
 					}
 					DataGenerator generator;
 					try {
-						generator = (DataGenerator)(constructors[0].newInstance(field.get(null)));
+						generator = constructors[0].newInstance(field.get(null)).as();
 					}
 					catch (Exception exception) {
 						this.error(exception);
@@ -87,7 +87,7 @@ public class DataGenContext {
 						for (RegistrableVariant<?> variant : ((RegistrableCollection<?>)(field.get(null))).getRegistrableVariants()) {
 							this.addWithDependencies(
 								dataGenClass.asSubclass(DataGenerator.class),
-								(DataGenerator)(constructors[0].newInstance(variant.object, variant.variant))
+								constructors[0].newInstance(variant.object, variant.variant).as()
 							);
 						}
 					}
@@ -116,7 +116,7 @@ public class DataGenContext {
 				}
 				DataGenerator dependency;
 				try {
-					dependency = (DataGenerator)(constructors[0].newInstance((Object[])(null)));
+					dependency = constructors[0].newInstance((Object[])(null)).as();
 				}
 				catch (Exception exception) {
 					this.error(exception);

@@ -17,6 +17,11 @@ repositories() {
 		url('https://api.modrinth.com/maven')
 	}
 
+	//cardinal components
+	maven() {
+		url('https://maven.ladysnake.org/releases')
+	}
+
 	//AutoCodec
 	mavenLocal()
 
@@ -36,13 +41,17 @@ dependencies() {
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
 	//AutoCodec
-	implementation('builderb0y:autocodec:4.11.0') {
+	include(implementation('builderb0y:autocodec:4.11.0') {
 		transitive = false
-	}
-	include('builderb0y:autocodec:4.11.0')
+	})
 
 	//JMXL
 	include(modImplementation('maven.modrinth:jmxl:1.4+mc1.20.2'))
+
+	//cardinal components
+	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.3.0'))
+	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-world:5.3.0'))
+	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.3.0'))
 
 	//manifold
 	String manifoldVersion = '2023.1.29'
@@ -52,6 +61,12 @@ dependencies() {
 		implementation("systems.manifold:manifold-$name-rt:$manifoldVersion")
 		include("systems.manifold:manifold-$name-rt:$manifoldVersion")
 	}
+
+	testImplementation('junit:junit:4.13.2')
+}
+
+test() {
+	useJUnit()
 }
 
 loom() {

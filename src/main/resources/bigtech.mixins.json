@@ -20,7 +20,7 @@
 		"PlayerEntity_OverrideIsClimbing",
 		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock"
 	],
-	"client": [ ],
+	"client": [ "WorldRenderer_FrustumGetter" ],
 	"injectors": {
 		"defaultRequire": 1
 	},

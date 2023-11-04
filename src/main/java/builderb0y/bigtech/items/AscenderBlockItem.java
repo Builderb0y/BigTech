@@ -27,7 +27,7 @@ public class AscenderBlockItem extends BlockItem {
 			Block expected = this.getBlock();
 			BlockState actual = world.getBlockState(pos);
 			if (actual.isOf(expected)) {
-				Direction direction = ((AscenderBlock)(expected)).direction;
+				Direction direction = expected.<AscenderBlock>as().direction;
 				while (true) {
 					pos.move(direction);
 					actual = world.getBlockState(pos);

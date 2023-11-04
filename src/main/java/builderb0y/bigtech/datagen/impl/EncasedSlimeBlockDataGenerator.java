@@ -74,7 +74,7 @@ public class EncasedSlimeBlockDataGenerator extends BasicBlockDataGenerator {
 			.group("bigtech:encased_slime_blocks")
 			.pattern("csc", "c c", "ccc")
 			.tagIngredient('c', ItemTags.STONE_CRAFTING_MATERIALS)
-			.itemIngredient('s', ((EncasedSlimeBlock)(this.block)).isHoney ? Items.HONEY_BLOCK : Items.SLIME_BLOCK)
+			.itemIngredient('s', this.block.<EncasedSlimeBlock>as().isHoney ? Items.HONEY_BLOCK : Items.SLIME_BLOCK)
 			.result(this.id)
 			.toString()
 		);

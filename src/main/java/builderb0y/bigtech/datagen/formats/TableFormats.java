@@ -112,7 +112,7 @@ public class TableFormats {
 		public static <C extends Comparable<C>> Comparator<BlockState> comparator(Property<C> property) {
 			if (property.type == Direction.class) {
 				return Comparator.comparingInt(
-					state -> switch ((Direction)(state.get(property))) {
+					state -> switch (state.get(property).<Direction>as()) {
 						case UP    -> 0;
 						case DOWN  -> 1;
 						case NORTH -> 2;
@@ -123,8 +123,8 @@ public class TableFormats {
 				);
 			}
 			else if (property.type == int.class || property.type == Integer.class) {
-				return Comparator.comparing(
-					state -> (Integer)(state.get(property))
+				return Comparator.comparingInt(
+					state -> state.get(property).as()
 				);
 			}
 			else {

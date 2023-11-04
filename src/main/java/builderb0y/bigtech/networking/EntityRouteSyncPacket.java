@@ -79,7 +79,7 @@ public record EntityRouteSyncPacket(int entityID, boolean present, BlockPos pos,
 		if (world != null) {
 			Entity entity = world.getEntityById(this.entityID);
 			if (entity != null) {
-				((RoutableEntity)(entity)).bigtech_setRoutingInfo(this.toRoutingInfo(), true);
+				entity.<RoutableEntity>as().bigtech_setRoutingInfo(this.toRoutingInfo(), true);
 			}
 		}
 	}

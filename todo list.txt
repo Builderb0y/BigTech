@@ -4,7 +4,6 @@ bugs:
 where I left off:
 
 things to finish for existing features:
-	try to reduce number of packets sent while entities are inside ascenders/descenders.
 	JEI support for sorter belt GUI.
 
 features:

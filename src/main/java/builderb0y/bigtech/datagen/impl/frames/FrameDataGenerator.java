@@ -63,6 +63,6 @@ public abstract class FrameDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(((FrameBlock)(this.block)).sticksTo).addElement(this.id);
+		context.getTags(this.block.<FrameBlock>as().sticksTo).addElement(this.id);
 	}
 }

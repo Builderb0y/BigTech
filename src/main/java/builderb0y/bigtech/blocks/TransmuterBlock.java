@@ -120,7 +120,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 						transmuter.setStack(recipeSlot.slot, result);
 					}
 				}
-				((ServerWorld)(world)).spawnParticles(ParticleTypes.EXPLOSION, pos.x + 0.5D, pos.y + 0.5D, pos.z + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+				world.<ServerWorld>as().spawnParticles(ParticleTypes.EXPLOSION, pos.x + 0.5D, pos.y + 0.5D, pos.z + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);
 				world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0F, 2.0F - world.random.nextFloat() * 0.25F);
 				this.spawnLightningParticles(world, pos, state, pulse);
 			}

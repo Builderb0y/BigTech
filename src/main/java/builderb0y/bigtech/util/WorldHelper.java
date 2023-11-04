@@ -11,11 +11,10 @@ import builderb0y.bigtech.BigTechMod;
 
 public class WorldHelper {
 
-	@SuppressWarnings("unchecked")
 	public static <B extends BlockEntity> @Nullable B getBlockEntity(BlockView world, BlockPos pos, BlockEntityType<B> type) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity != null && blockEntity.type == type) {
-			return (B)(blockEntity);
+			return blockEntity.as();
 		}
 		else {
 			BigTechMod.LOGGER.warn("Expected to find ${type} at ${pos}, but got ${blockEntity} instead.");
@@ -23,11 +22,10 @@ public class WorldHelper {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <B> @Nullable B getBlockEntity(BlockView world, BlockPos pos, Class<B> type) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (type.isInstance(blockEntity)) {
-			return (B)(blockEntity);
+			return blockEntity.as();
 		}
 		else {
 			BigTechMod.LOGGER.warn("Expected to find ${type} at ${pos}, but got ${blockEntity} instead.");

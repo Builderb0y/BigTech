@@ -66,7 +66,7 @@ public interface PistonInteractor {
 		}
 
 		public PistonHandler getActualHandler() {
-			return (PistonHandler)(this.delegate);
+			return this.delegate.as();
 		}
 
 		public World getWorld() {

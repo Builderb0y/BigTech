@@ -70,10 +70,10 @@ public class BeaconBlockEntityASM {
 	public static void transformTick(MethodNode method) {
 		BigTechMixinPlugin.ASM_LOGGER.info("Transforming BeaconBlockEntity.tick()...");
 		for (AbstractInsnNode node = method.instructions.first; node != null; node = node.next) {
-			if (node.opcode == INSTANCEOF && ((TypeInsnNode)(node)).desc.equals(STAINABLE_TYPE.name)) {
+			if (node.opcode == INSTANCEOF && node.<TypeInsnNode>as().desc.equals(STAINABLE_TYPE.name)) {
 				//step 1: find the relevant instructions.
 				AbstractInsnNode storeBlock = node.previous;
-				while (!(storeBlock.opcode == ASTORE && ((VarInsnNode)(storeBlock)).var == 12)) {
+				while (!(storeBlock.opcode == ASTORE && storeBlock.<VarInsnNode>as().var == 12)) {
 					storeBlock = storeBlock.previous;
 					if (storeBlock == null) {
 						error("Could not locate ASTORE 12 before instanceof Stainable");
@@ -89,7 +89,7 @@ public class BeaconBlockEntityASM {
 					return;
 				}
 				AbstractInsnNode storeColor = node.next.next;
-				while (!(storeColor.opcode == ASTORE && ((VarInsnNode)(storeColor)).var == 13)) {
+				while (!(storeColor.opcode == ASTORE && storeColor.<VarInsnNode>as().var == 13)) {
 					storeColor = storeColor.next;
 					if (storeColor == null) {
 						error("Could not locate ASTORE 13 after instanceof Stainable");

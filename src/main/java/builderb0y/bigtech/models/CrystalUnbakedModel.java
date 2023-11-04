@@ -54,7 +54,7 @@ public class CrystalUnbakedModel implements UnbakedModel {
 					this.texture
 				)
 			),
-			((JsonUnbakedModel)(this.block)).getTransformations()
+			this.block.<JsonUnbakedModel>as().transformations
 		);
 	}
 }

@@ -34,13 +34,13 @@ public abstract class Entity_MakeRoutable implements RoutableEntity {
 	public void bigtech_setRoutingInfo(RoutingInfo info, boolean sync) {
 		this.bigtech_routingInfo = info;
 		if (sync && !this.getWorld().isClient) {
-			Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking((Entity)(Object)(this));
-			if ((Object)(this) instanceof ServerPlayerEntity serverPlayerEntity) {
+			Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(this.<Entity>as());
+			if (this.as() instanceof ServerPlayerEntity serverPlayerEntity) {
 				tracking = new ArrayList<>(tracking);
 				tracking.add(serverPlayerEntity); //players don't track themselves, so I have to special handle them.
 			}
 			if (!tracking.isEmpty) {
-				EntityRouteSyncPacket packet = EntityRouteSyncPacket.from((Entity)(Object)(this), info);
+				EntityRouteSyncPacket packet = EntityRouteSyncPacket.from(this.as(), info);
 				for (ServerPlayerEntity player : tracking) {
 					ServerPlayNetworking.send(player, packet);
 				}

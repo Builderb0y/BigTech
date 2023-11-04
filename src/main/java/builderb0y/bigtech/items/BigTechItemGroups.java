@@ -29,7 +29,7 @@ public class BigTechItemGroups {
 		.flatMap((Field field) -> {
 			if (Item.class.isAssignableFrom(field.type)) {
 				try {
-					return Stream.of(((Item)(field.get(null))).defaultStack);
+					return Stream.of(field.get(null).<Item>as().defaultStack);
 				}
 				catch (ReflectiveOperationException exception) {
 					throw new AssertionError("Should not fail to get public field", exception);
@@ -37,7 +37,7 @@ public class BigTechItemGroups {
 			}
 			else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
 				try {
-					return Arrays.stream(((RegistrableCollection<?>)(field.get(null))).getRegistrableVariants()).map(variant -> ((Item)(variant.object)).defaultStack);
+					return Arrays.stream(field.get(null).<RegistrableCollection<?>>as().getRegistrableVariants()).map(variant -> variant.object.<Item>as().defaultStack);
 				}
 				catch (ReflectiveOperationException exception) {
 					throw new AssertionError("Should not fail to get public field", exception);
