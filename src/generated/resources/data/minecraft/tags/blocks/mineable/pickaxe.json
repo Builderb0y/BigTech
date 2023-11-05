@@ -10,6 +10,7 @@
 		"bigtech:encased_slime_block",
 		"bigtech:magnetite_block",
 		"bigtech:medium_weighted_pressure_plate",
+		"bigtech:redstone_transmitter",
 		"bigtech:transmuter"
 	]
 }

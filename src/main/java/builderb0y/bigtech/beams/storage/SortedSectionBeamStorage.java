@@ -5,8 +5,8 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 
-import builderb0y.bigtech.beams.BeamSegment;
-import builderb0y.bigtech.beams.PositionedBeamSegment;
+import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.PositionedBeamSegment;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 
 public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectionBeamStorage> {
@@ -36,6 +36,9 @@ public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectio
 	}
 
 	public BasicSectionBeamStorage getSegments(int sectionX, int sectionY, int sectionZ) {
-		return this.get(ChunkSectionPos.asLong(sectionX, sectionY, sectionZ));
+		return this.computeIfAbsent(
+			ChunkSectionPos.asLong(sectionX, sectionY, sectionZ),
+			(long position) -> new BasicSectionBeamStorage()
+		);
 	}
 }

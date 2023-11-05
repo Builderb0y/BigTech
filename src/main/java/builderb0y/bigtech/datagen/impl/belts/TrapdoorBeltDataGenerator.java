@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -21,8 +22,8 @@ public class TrapdoorBeltDataGenerator extends DirectionalBeltDataGenerator {
 	}
 
 	@Override
-	public void writeItemModels(DataGenContext context) {
-		this.writeBeltItemModel(context, context.suffixPath(this.id, "_closed"));
+	public Identifier getItemModelParent(DataGenContext context) {
+		return context.suffixPath(this.id, "_closed");
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import net.minecraft.world.chunk.WorldChunk;
 
 import builderb0y.bigtech.beams.storage.section.ServerSectionBeamStorage;
 
-public class ServerChunkBeamStorage extends CommonChunkBeamStorage<ServerSectionBeamStorage> {
+public class ServerChunkBeamStorage extends CommonChunkBeamStorage {
 
 	public ServerChunkBeamStorage(WorldChunk chunk) {
 		super(chunk);

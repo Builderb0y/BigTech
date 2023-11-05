@@ -1,9 +1,8 @@
-package builderb0y.bigtech.beams;
+package builderb0y.bigtech.beams.base;
 
 import java.util.*;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
-import org.apache.commons.lang3.NotImplementedException;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.joml.Vector3f;
 
 import net.minecraft.block.BlockState;
@@ -17,6 +16,15 @@ import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.storage.SortedSectionBeamStorage;
 
+/**
+a laser beam!
+
+after being created, a beam will first spread via {@link #fire()},
+then it is typically added to the world {@link #addToWorld()}.
+what happens next depends on what type of beam this is.
+there are 2 variants of beams: {@link PulseBeam} and {@link PersistentBeam}.
+see their documentation for what they do when added to a world.
+*/
 public abstract class Beam {
 
 	public final World world;
@@ -24,14 +32,14 @@ public abstract class Beam {
 	public BlockPos origin;
 	public ArrayDeque<PositionedBeamSegment> queue;
 	public SortedSectionBeamStorage seen;
-	public Map<BlockPos, BeamCallback> callbacks;
+	public Set<BlockPos> callbacks;
 
 	public Beam(World world, UUID uuid) {
 		this.world     = world;
 		this.uuid      = uuid;
 		this.queue     = new ArrayDeque<>(8);
 		this.seen      = new SortedSectionBeamStorage();
-		this.callbacks = new Object2ObjectLinkedOpenHashMap<>(8);
+		this.callbacks = new ObjectOpenHashSet<>(8);
 	}
 
 	public abstract BeamType getType();
@@ -56,11 +64,8 @@ public abstract class Beam {
 				BlockState state = this.world.getBlockState(pos);
 				BeamInteractor interactor = BeamInteractor.LOOKUP.find(this.world, pos, state, null, this);
 				if (interactor != null) {
-					if (interactor instanceof BeamCallback callback) {
-						BeamCallback old = this.callbacks.putIfAbsent(pos, callback);
-						if (old != null && old != callback) {
-							throw new NotImplementedException("Multiple callbacks at ${pos}: ${old} -> ${callback}");
-						}
+					if (interactor instanceof BeamCallback) {
+						this.callbacks.add(pos);
 					}
 					if (interactor.spreadOut(pos, state, segment.segment)) {
 						continue;
@@ -83,8 +88,7 @@ public abstract class Beam {
 		return state.getCollisionShape(this.world, pos);
 	}
 
-	public void defaultSpreadOut(BlockPos pos, BlockState state, BeamSegment segment) {
-		VoxelShape shape = this.getShape(pos, state);
+	public static BlockHitResult rayCast(BlockPos pos, VoxelShape shape, BeamSegment segment) {
 		Vec3d start = new Vec3d(
 			pos.x + 0.5D - segment.direction.x,
 			pos.y + 0.5D - segment.direction.y,
@@ -95,7 +99,11 @@ public abstract class Beam {
 			pos.y + 0.5D + segment.direction.y,
 			pos.z + 0.5D + segment.direction.z
 		);
-		BlockHitResult hitResult = shape.raycast(start, end, pos);
+		return shape.raycast(start, end, pos);
+	}
+
+	public void defaultSpreadOut(BlockPos pos, BlockState state, BeamSegment segment) {
+		BlockHitResult hitResult = rayCast(pos, this.getShape(pos, state), segment);
 		if (hitResult != null) {
 			this.handleIntersection(pos, state, segment, hitResult);
 		}

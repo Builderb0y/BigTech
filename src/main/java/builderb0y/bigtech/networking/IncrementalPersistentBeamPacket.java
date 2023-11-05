@@ -10,11 +10,13 @@ import org.joml.Vector3f;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.world.chunk.WorldChunk;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.Beam;
-import builderb0y.bigtech.beams.BeamSegment;
-import builderb0y.bigtech.beams.BeamDirection;
+import builderb0y.bigtech.beams.base.Beam;
+import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.BeamDirection;
+import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.chunk.ClientChunkBeamStorage;
 import builderb0y.bigtech.beams.storage.section.ClientSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.ClientWorldBeamStorage;
@@ -57,11 +59,16 @@ public record IncrementalPersistentBeamPacket(int sectionX, int sectionY, int se
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayerEntity player, PacketSender responseSender) {
-		ClientWorldBeamStorage world = CommonWorldBeamStorage.KEY.get(player.world).as();
-		ClientChunkBeamStorage chunk = ClientChunkBeamStorage.KEY.get(player.world.getChunk(this.sectionX, this.sectionZ)).as();
-		ClientSectionBeamStorage section = chunk.get(this.sectionY);
+		WorldChunk chunk = player.world.getChunk(this.sectionX, this.sectionZ);
+		if (chunk == null) {
+			BigTechMod.LOGGER.warn("Received incremental beam update for chunk outside loaded area: ${this.sectionX}, ${this.sectionY}, ${this.sectionZ}");
+			return;
+		}
+		ClientWorldBeamStorage worldStorage = CommonWorldBeamStorage.KEY.get(player.world).as();
+		ClientChunkBeamStorage chunkStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().as();
+		ClientSectionBeamStorage section = chunkStorage.getSection(this.sectionY).as();
 		for (Change change : this.changes) {
-			change.apply(world, section);
+			change.apply(worldStorage, section);
 		}
 	}
 

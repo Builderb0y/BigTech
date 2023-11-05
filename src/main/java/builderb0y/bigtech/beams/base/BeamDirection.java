@@ -1,4 +1,4 @@
-package builderb0y.bigtech.beams;
+package builderb0y.bigtech.beams.base;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;

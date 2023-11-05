@@ -5,7 +5,7 @@ import manifold.ext.rt.api.This;
 
 import net.minecraft.util.math.BlockPos;
 
-import builderb0y.bigtech.beams.BeamDirection;
+import builderb0y.bigtech.beams.base.BeamDirection;
 
 @Extension
 public class BlockPosExtensions {

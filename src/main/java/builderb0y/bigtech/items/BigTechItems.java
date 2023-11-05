@@ -195,6 +195,10 @@ public class BigTechItems {
 	public static final BlockItem CRYSTALLINE_SAND = registerPlacer(
 		BigTechBlocks.CRYSTALLINE_SAND
 	);
+	@UseDataGen(RedstoneTransmitterDataGenerator.class)
+	public static final BlockItem REDSTONE_TRANSMITTER = registerPlacer(
+		BigTechBlocks.REDSTONE_TRANSMITTER
+	);
 
 	public static void init() {}
 

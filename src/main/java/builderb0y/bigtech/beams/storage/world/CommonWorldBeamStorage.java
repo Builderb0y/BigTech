@@ -6,6 +6,7 @@ import java.util.UUID;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import net.minecraft.nbt.NbtCompound;
@@ -18,11 +19,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.Beam;
-import builderb0y.bigtech.beams.BeamType;
-import builderb0y.bigtech.beams.PersistentBeam;
+import builderb0y.bigtech.beams.base.Beam;
+import builderb0y.bigtech.beams.base.BeamType;
+import builderb0y.bigtech.beams.base.PersistentBeam;
 
-public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
+public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, ClientTickingComponent {
 
 	public static final ComponentKey<CommonWorldBeamStorage> KEY = ComponentRegistry.getOrCreate(BigTechMod.modID("world_beam_storage"), CommonWorldBeamStorage.class);
 
@@ -116,7 +117,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 				this.addBeamNoSync(persistentBeam);
 			}
 			else {
-				BigTechMod.LOGGER.warn("Received non-persistent beam??? ${BeamType.REGISTRY.getId(type)}");
+				BigTechMod.LOGGER.warn("Received non-persistent beam??? ${builderb0y.bigtech.beams.base.BeamType.REGISTRY.getId(type)}");
 			}
 		}
 	}

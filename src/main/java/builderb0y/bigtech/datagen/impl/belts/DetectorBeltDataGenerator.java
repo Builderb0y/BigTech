@@ -7,6 +7,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.TagOrItem;
@@ -26,8 +27,8 @@ public class DetectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 	}
 
 	@Override
-	public void writeItemModels(DataGenContext context) {
-		this.writeBeltItemModel(context, context.suffixPath(this.id, "_off"));
+	public Identifier getItemModelParent(DataGenContext context) {
+		return context.suffixPath(this.id, "_off");
 	}
 
 	@Override

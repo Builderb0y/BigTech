@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.PersistentBeam;
+import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.networking.TogglePersistentBeamPacket;
 
 public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
@@ -93,5 +93,10 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 	public void readFromNbt(NbtCompound tag) {
 		this.beamsByOrigin.clear();
 		super.readFromNbt(tag);
+	}
+
+	@Override
+	public void clientTick() {
+		//no-op on servers (obviously).
 	}
 }

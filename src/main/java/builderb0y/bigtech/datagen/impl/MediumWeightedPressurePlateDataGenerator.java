@@ -60,13 +60,8 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 	}
 
 	@Override
-	public void writeItemModels(DataGenContext context) {
-		context.writeToFile(
-			context.itemModelPath(this.id),
-			new RetexturedModelBuilder()
-			.blockParent(BigTechMod.modID("medium_weighted_pressure_plate_up"))
-			.toString()
-		);
+	public Identifier getItemModelParent(DataGenContext context) {
+		return BigTechMod.modID("medium_weighted_pressure_plate_up");
 	}
 
 	@Override

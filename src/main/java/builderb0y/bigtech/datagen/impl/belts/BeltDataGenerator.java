@@ -45,18 +45,6 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeItemModels(DataGenContext context) {
-		this.writeBeltItemModel(context, this.id);
-	}
-
-	public void writeBeltItemModel(DataGenContext context, Identifier parent) {
-		context.writeToFile(
-			context.itemModelPath(this.id),
-			new RetexturedModelBuilder().blockParent(parent).toString()
-		);
-	}
-
-	@Override
 	public void setupMiningToolTags(DataGenContext context) {
 		//no-op.
 	}

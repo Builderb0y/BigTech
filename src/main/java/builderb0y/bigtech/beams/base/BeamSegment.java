@@ -1,4 +1,4 @@
-package builderb0y.bigtech.beams;
+package builderb0y.bigtech.beams.base;
 
 import java.util.UUID;
 

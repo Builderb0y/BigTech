@@ -21,7 +21,7 @@ import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.random.Random;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.*;
+import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 
 public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {

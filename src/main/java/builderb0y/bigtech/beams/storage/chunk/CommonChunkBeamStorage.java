@@ -1,9 +1,5 @@
 package builderb0y.bigtech.beams.storage.chunk;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.component.CopyableComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -18,9 +14,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.util.Async;
 
-public abstract class CommonChunkBeamStorage<T_Section extends CommonSectionBeamStorage> extends Int2ObjectOpenHashMap<T_Section> implements CommonTickingComponent, CopyableComponent<CommonChunkBeamStorage<T_Section>> {
-
-	public static final ComponentKey<CommonChunkBeamStorage<?>> KEY = ComponentRegistry.getOrCreate(BigTechMod.modID("chunk_beam_storage"), CommonChunkBeamStorage.class.as());
+public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<CommonSectionBeamStorage> {
 
 	public final WorldChunk chunk;
 
@@ -29,18 +23,16 @@ public abstract class CommonChunkBeamStorage<T_Section extends CommonSectionBeam
 		this.chunk = chunk;
 	}
 
-	public abstract T_Section newSection(int sectionCoordY);
+	public abstract CommonSectionBeamStorage newSection(int sectionCoordY);
 
-	public T_Section getSection(int sectionCoordY) {
+	public CommonSectionBeamStorage getSection(int sectionCoordY) {
 		return this.computeIfAbsent(sectionCoordY, this::newSection);
 	}
 
-	@Override
 	public void tick() {
-		this.values().forEach(T_Section::tick);
+		if (!this.isEmpty) this.values().forEach(CommonSectionBeamStorage::tick);
 	}
 
-	@Override
 	public void readFromNbt(NbtCompound tag) {
 		this.clear();
 		NbtList sectionsNbt = tag.getList("sections", NbtElement.COMPOUND_TYPE);
@@ -52,8 +44,8 @@ public abstract class CommonChunkBeamStorage<T_Section extends CommonSectionBeam
 					continue;
 				}
 				int actualCoord = coord.<AbstractNbtNumber>as().intValue();
-				T_Section section = this.newSection(actualCoord);
-				T_Section old = this.putIfAbsent(actualCoord, section);
+				CommonSectionBeamStorage section = this.newSection(actualCoord);
+				CommonSectionBeamStorage old = this.putIfAbsent(actualCoord, section);
 				if (old != null) {
 					async.run(() -> section.readFromNbt(sectionNbt));
 				}
@@ -64,14 +56,13 @@ public abstract class CommonChunkBeamStorage<T_Section extends CommonSectionBeam
 		}
 	}
 
-	@Override
 	public void writeToNbt(NbtCompound tag) {
 		if (!this.isEmpty) {
 			NbtList sectionsNbt = new NbtList();
 			try (Async async = new Async()) {
-				ObjectIterator<Int2ObjectMap.Entry<T_Section>> iterator = this.int2ObjectEntrySet().fastIterator();
+				ObjectIterator<Int2ObjectMap.Entry<CommonSectionBeamStorage>> iterator = this.int2ObjectEntrySet().fastIterator();
 				while (iterator.hasNext()) {
-					Int2ObjectMap.Entry<T_Section> entry = iterator.next();
+					Int2ObjectMap.Entry<CommonSectionBeamStorage> entry = iterator.next();
 					if (!entry.value.isEmpty) {
 						NbtCompound compound = new NbtCompound().withInt("coord", entry.intKey);
 						sectionsNbt.add(compound);
@@ -90,16 +81,15 @@ public abstract class CommonChunkBeamStorage<T_Section extends CommonSectionBeam
 	and I want this to work faster than the default implementation,
 	which simply serializes and deserializes from NBT.
 	*/
-	@Override
-	public void copyFrom(CommonChunkBeamStorage<T_Section> other) {
+	public void copyFrom(CommonChunkBeamStorage other) {
 		this.clear();
-		if (!other.isEmpty && !(other instanceof DummyChunkBeamStorage)) {
+		if (!other.isEmpty) {
 			try (Async async = new Async()) {
-				ObjectIterator<Entry<T_Section>> iterator = other.int2ObjectEntrySet().fastIterator();
+				ObjectIterator<Entry<CommonSectionBeamStorage>> iterator = other.int2ObjectEntrySet().fastIterator();
 				while (iterator.hasNext()) {
-					Entry<T_Section> entry = iterator.next();
-					T_Section thisSection = this.getSection(entry.intKey);
-					T_Section thatSection = entry.value;
+					Entry<CommonSectionBeamStorage> entry = iterator.next();
+					CommonSectionBeamStorage thisSection = this.getSection(entry.intKey);
+					CommonSectionBeamStorage thatSection = entry.value;
 					async.run(() -> thisSection.addAll(thatSection, false));
 				}
 			}

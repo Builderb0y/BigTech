@@ -11,9 +11,9 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.Beam;
-import builderb0y.bigtech.beams.BeamType;
-import builderb0y.bigtech.beams.PersistentBeam;
+import builderb0y.bigtech.beams.base.Beam;
+import builderb0y.bigtech.beams.base.BeamType;
+import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
 public record TogglePersistentBeamPacket(boolean adding, UUID uuid, BeamType type) implements S2CPlayPacket {

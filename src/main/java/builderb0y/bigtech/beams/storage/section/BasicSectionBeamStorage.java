@@ -10,8 +10,8 @@ import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.BeamSegment;
-import builderb0y.bigtech.beams.PositionedBeamSegment;
+import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.PositionedBeamSegment;
 
 public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<BeamSegment>> {
 

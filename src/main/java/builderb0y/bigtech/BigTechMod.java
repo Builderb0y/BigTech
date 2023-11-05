@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.beams.impl.BeamTypes;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.items.BigTechItemGroups;
@@ -31,6 +32,7 @@ public class BigTechMod implements ModInitializer {
 		BigTechItems.init();
 		BigTechItemGroups.init();
 		BigTechBlockEntityTypes.init();
+		BeamTypes.init();
 		BigTechClientNetwork.init();
 		BigTechScreenHandlerTypes.init();
 		BigTechParticles.init();

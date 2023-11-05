@@ -9,8 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.chunk.WorldChunk;
 
-import builderb0y.bigtech.beams.BeamSegment;
-import builderb0y.bigtech.beams.PositionedBeamSegment;
+import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.PositionedBeamSegment;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
 public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {

@@ -437,6 +437,13 @@ public class BigTechBlocks {
 			AbstractBlock.Settings.copy(Blocks.SAND)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final RedstoneTransmitterBlock REDSTONE_TRANSMITTER = register(
+		"redstone_transmitter",
+		new RedstoneTransmitterBlock(
+			AbstractBlock.Settings.copy(Blocks.QUARTZ_BLOCK)
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

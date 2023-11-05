@@ -14,7 +14,7 @@ import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.chunk.WorldChunk;
 
-import builderb0y.bigtech.beams.BeamSegment;
+import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.mixins.WorldRenderer_FrustumGetter;
 
 public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
