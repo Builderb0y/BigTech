@@ -1,11 +1,13 @@
 package builderb0y.bigtech;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.api.BigTechInitializer;
 import builderb0y.bigtech.beams.impl.BeamTypes;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
@@ -41,6 +43,7 @@ public class BigTechMod implements ModInitializer {
 		BigTechRecipeSerializers.init();
 		BigTechCommands.init();
 		LOGGER.info("Done initializing.");
+		FabricLoader.getInstance().getEntrypoints(MODID, BigTechInitializer.class).forEach(BigTechInitializer::init);
 	}
 
 	public static Identifier modID(String path) {

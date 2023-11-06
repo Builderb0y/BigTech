@@ -43,7 +43,6 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 		super(settings);
 		this.sticksTo = sticksTo;
 		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
-		PistonInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

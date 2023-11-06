@@ -21,7 +21,6 @@ public class EncasedSlimeBlock extends Block implements PistonInteractor {
 		super(settings);
 		this.isHoney = honey;
 		this.defaultState = this.defaultState.with(Properties.FACING, Direction.UP);
-		PistonInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

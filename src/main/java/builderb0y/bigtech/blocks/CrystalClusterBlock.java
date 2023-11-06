@@ -50,8 +50,6 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 		super(settings);
 		this.color = color;
 		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
-		BeaconBeamColorProvider.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
-		BeamInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

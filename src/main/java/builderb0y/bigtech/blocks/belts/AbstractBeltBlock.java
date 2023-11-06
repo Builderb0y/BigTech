@@ -31,7 +31,6 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	public AbstractBeltBlock(Settings settings) {
 		super(settings);
 		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
-		AscenderInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	public abstract void move(World world, BlockPos pos, BlockState state, Entity entity);

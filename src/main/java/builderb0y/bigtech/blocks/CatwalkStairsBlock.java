@@ -47,7 +47,6 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 			.with(BigTechProperties.RIGHT, Boolean.TRUE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
-		PistonInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	public static VoxelShape[] generateShapes(boolean hovered) {

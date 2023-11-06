@@ -19,7 +19,6 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
@@ -31,7 +30,6 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback {
 	public RedstoneReceiverBlock(Settings settings) {
 		super(settings);
 		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
-		BeamInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

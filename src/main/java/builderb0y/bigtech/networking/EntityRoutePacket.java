@@ -70,9 +70,7 @@ public record EntityRoutePacket(int entityID, boolean present, BlockPos pos, Blo
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(ClientPlayerEntity player, PacketSender responseSender) {
-		System.out.println("Received routing packet: " + this.toRoutingInfo());
 		ClientWorld world = MinecraftClient.getInstance().world;
-
 		if (world != null) {
 			Entity entity = world.getEntityById(this.entityID);
 			if (entity != null) {

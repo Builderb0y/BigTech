@@ -11,7 +11,6 @@ things to finish for existing features:
 features:
 	general:
 		config file for disabling non-essential mixins.
-		API entrypoint which gets called once big tech is initialized.
 	decoration:
 		copper slab blocks: texture that resembles polished stone slabs, in the sense that it's clearly split in two.
 			use that same texture for copper catwalk stairs.
@@ -50,11 +49,9 @@ features:
 		spotlight: illuminates every block the beam goes through
 		mirror: reflects beams so that they go somewhere else
 		prism: can split up a laser into several others
-		lens: placed on prisms to control their outputs. also used for crafting lasers.
 		beam obscurator: makes laser beams invisible
 		beam revealer: makes laser beams visible again
 		crystal clusters:
-			boosts the distance of lasers passing through it.
 			make spawn in caves and in rocks.
 	automation:
 		upgraded crafting tables:
@@ -112,6 +109,9 @@ done:
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receives a signal from a redstone transmitter
+		crystal clusters:
+			boosts the distance of lasers passing through it.
+		lens: placed on prisms to control their outputs. also used for crafting lasers.
 
 canceled:
 	lightning rod: already in vanilla.

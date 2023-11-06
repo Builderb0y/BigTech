@@ -12,6 +12,13 @@ import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.base.PulseBeam;
 
+/**
+a block which does something when a beam hits it,
+or modifies a beam passing through it.
+
+register blocks with {@link #LOOKUP} OR implement
+this interface on your Block class. either works.
+*/
 public interface BeamInteractor {
 
 	public static final BlockApiLookup<BeamInteractor, Beam> LOOKUP = BlockApiLookup.get(BigTechMod.modID("beam_interactor"), BeamInteractor.class, Beam.class);
@@ -39,7 +46,12 @@ public interface BeamInteractor {
 
 	/**
 	an extension of BeamInteractor with additional callback
-	methods for what to do when a beam passes through this block.
+	methods for what to do when a beam which passes through this block
+	is added to the world or removed from the world.
+
+	registration works the same way as with BeamInteractor.
+	since this interface extends BeamInteractor,
+	beams will check for this interface via instanceof.
 	*/
 	public static interface BeamCallback extends BeamInteractor {
 
@@ -67,6 +79,9 @@ public interface BeamInteractor {
 
 	public static final Object INITIALIZER = new Object() {{
 		LOOKUP.registerFallback((world, pos, state, blockEntity, beam) -> {
+			if (state.block instanceof BeamInteractor interactor) {
+				return interactor;
+			}
 			BeaconBeamColorProvider provider = BeaconBeamColorProvider.LOOKUP.find(world, pos, state, blockEntity, null);
 			if (provider != null) {
 				float[] color = provider.getBeaconColor(world, pos, state);

@@ -58,7 +58,6 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 
 	public TransmuterBlock(Settings settings) {
 		super(settings);
-		LightningPulseInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

@@ -11,7 +11,12 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
 
-/** provides colors for beacon beams. and laser beams. */
+/**
+provides colors for beacon beams. and laser beams.
+
+register blocks with {@link #LOOKUP} OR implement
+this interface on your Block class. either works.
+*/
 public interface BeaconBeamColorProvider {
 
 	public static final BlockApiLookup<BeaconBeamColorProvider, @Nullable BeaconBlockEntity> LOOKUP = BlockApiLookup.get(BigTechMod.modID("beacon_beam_color_provider"), BeaconBeamColorProvider.class, BeaconBlockEntity.class);
@@ -27,7 +32,13 @@ public interface BeaconBeamColorProvider {
 
 	public static final Object INITIALIZER = new Object() {{
 		LOOKUP.registerFallback((world, pos, state, blockEntity, beacon) -> {
-			return state.block instanceof Stainable stainable ? (world1, pos1, state1) -> stainable.color.colorComponents : null;
+			if (state.block instanceof BeaconBeamColorProvider provider) {
+				return provider;
+			}
+			if (state.block instanceof Stainable stainable) {
+				return (world1, pos1, state1) -> stainable.color.colorComponents;
+			}
+			return null;
 		});
 	}};
 }

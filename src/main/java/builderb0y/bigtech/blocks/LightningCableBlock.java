@@ -45,7 +45,6 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 			.with(WEST,  Boolean.FALSE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
-		LightningPulseInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
 	}
 
 	@Override

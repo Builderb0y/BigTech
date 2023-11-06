@@ -89,4 +89,13 @@ public interface PistonInteractor {
 			return this.delegate.bigtech_isRetracted();
 		}
 	}
+
+	public static final Object INITIAlIZER = new Object() {{
+		LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> {
+			if (state.block instanceof PistonInteractor interactor) {
+				return interactor;
+			}
+			return null;
+		});
+	}};
 }

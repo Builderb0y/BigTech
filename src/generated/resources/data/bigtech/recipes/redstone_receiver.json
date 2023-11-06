@@ -2,13 +2,12 @@
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"qqq",
-		"lcr",
+		"l r",
 		"bbb"
 	],
 	"key": {
 		"q": { "tag":  "c:quartz"                    },
 		"l": { "item": "bigtech:lens"                },
-		"c": { "tag":  "bigtech:crystal_clusters"    },
 		"r": { "tag":  "c:redstone_dusts"            },
 		"b": { "item": "minecraft:smooth_stone_slab" }
 	},

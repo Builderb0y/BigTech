@@ -20,7 +20,9 @@ by this I mean that if 2 adjacent blocks are tied for the highest priority,
 then the ascender will distribute between both of them.
 if no adjacent blocks have a positive priority, then the default
 direction (up for ascenders, down for descenders) is used.
-register blocks with {@link #LOOKUP}.
+
+register blocks with {@link #LOOKUP} OR implement
+this interface on your Block class. either works.
 */
 public interface AscenderInteractor {
 
@@ -46,4 +48,13 @@ public interface AscenderInteractor {
 		BLOCKED             =   0;
 
 	public abstract int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face);
+
+	public static final Object INITIALIZER = new Object() {{
+		LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> {
+			if (state.block instanceof AscenderInteractor interactor) {
+				return interactor;
+			}
+			return null;
+		});
+	}};
 }

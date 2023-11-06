@@ -33,6 +33,9 @@ the primary method in this class is {@link #onPulse(World, LinkedBlockPos, Block
 but other secondary methods are also available to fine-tune
 how the pulse spreads into and out of this block.
 register blocks with {@link #LOOKUP}.
+
+register blocks with {@link #LOOKUP} OR implement
+this interface on your Block class. either works.
 */
 public interface LightningPulseInteractor {
 
@@ -208,7 +211,10 @@ public interface LightningPulseInteractor {
 		);
 		LOOKUP.registerFallback(
 			(world, pos, state, blockEntity, context) -> {
-				if (state.getBlock() instanceof Oxidizable) {
+				if (state.block instanceof LightningPulseInteractor interactor) {
+					return interactor;
+				}
+				if (state.block instanceof Oxidizable) {
 					return LightningPulseInteractors.OXIDIZABLE;
 				}
 				if (state.isIn(BigTechBlockTags.CONDUCTS_LIGHTNING)) {
