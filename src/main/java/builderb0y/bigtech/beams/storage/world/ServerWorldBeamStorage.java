@@ -45,6 +45,7 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 	public void addBeamNoSync(PersistentBeam beam) {
 		PersistentBeam removed = this.beamsByOrigin.get(beam.origin);
 		if (removed != null) {
+			BigTechMod.LOGGER.warn("Replacing beam at ${beam.origin}: ${removed} -> ${beam}");
 			removed.removeFromWorld();
 		}
 		super.addBeamNoSync(beam);

@@ -109,7 +109,7 @@ done:
 		frames: looks like scaffolding, can be climbed like a ladder
 	redstone:
 		encased redstone block: emits a redstone signal in only one direction
-		encased slime block: only sticks to other blocks on one side.
+		encased slime block: only sticks to other blocks on one side. doesn't stick to honey blocks.
 			encased honey block: same. but doesn't stick to slime blocks.
 
 canceled:

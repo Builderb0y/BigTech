@@ -19,7 +19,8 @@
 		"PistonHandlerAccessor",
 		"PlayerEntity_HookIntoIsClimbing",
 		"PlayerEntity_OverrideIsClimbing",
-		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock"
+		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",
+		"WorldChunk_NotifyBeamsOfBlockChange"
 	],
 	"client": [ "WorldRenderer_FrustumGetter" ],
 	"injectors": {

@@ -71,20 +71,12 @@ public abstract class PersistentBeam extends Beam {
 				async.run(() -> existing.addAll(newStorage, false));
 				BigTechClientNetwork.send(
 					PlayerLookup.tracking(this.world.as(), new ChunkPos(sectionX, sectionZ)),
-					() -> new AddBeamPacket(
+					() -> AddBeamPacket.create(
 						sectionX,
 						sectionY,
 						sectionZ,
 						this.uuid,
 						newStorage
-						.short2ObjectEntrySet()
-						.stream()
-						.flatMap(blockEntry ->
-							blockEntry.value.stream().map(segment ->
-								MinimalBeamSegment.from(blockEntry.shortKey, segment)
-							)
-						)
-						.toList()
 					)
 				);
 			}

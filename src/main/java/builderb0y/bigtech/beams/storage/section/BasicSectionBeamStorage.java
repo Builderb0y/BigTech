@@ -79,6 +79,18 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 		);
 	}
 
+	public LinkedList<BeamSegment> checkSegments(BlockPos pos) {
+		return this.checkSegments(pos.x, pos.y, pos.z);
+	}
+
+	public LinkedList<BeamSegment> checkSegments(int x, int y, int z) {
+		return this.checkSegments(packIndex(x, y, z));
+	}
+
+	public LinkedList<BeamSegment> checkSegments(int index) {
+		return this.get((short)(Objects.checkIndex(index, 4096)));
+	}
+
 	public static int packIndex(int x, int y, int z) {
 		return ((x & 15) << 8) | ((z & 15) << 4) | (y & 15);
 	}

@@ -56,18 +56,6 @@ public class RedstoneTransmitterBlock extends Block {
 		return false;
 	}
 
-	public void setPowered(World world, BlockPos pos, BlockState state, boolean powered) {
-		if (!powered) {
-			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-			if (beam != null) beam.removeFromWorld();
-		}
-		world.setBlockState(pos, state.with(Properties.POWERED, powered), Block.NOTIFY_ALL);
-		if (powered) {
-			PersistentBeam beam = new RedstoneBeam(world, UUID.randomUUID());
-			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 16.0D);
-		}
-	}
-
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
@@ -76,7 +64,7 @@ public class RedstoneTransmitterBlock extends Block {
 		if (oldBeam != null) oldBeam.removeFromWorld();
 		PersistentBeam newBeam = new RedstoneBeam(world, UUID.randomUUID());
 		newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 16.0D);
-		return true;
+		return false;
 	}
 
 	@Override
@@ -87,7 +75,7 @@ public class RedstoneTransmitterBlock extends Block {
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = this.shouldBePowered(world, pos);
 		if (powered != shouldBePowered) {
-			this.setPowered(world, pos, state, shouldBePowered);
+			world.setBlockState(pos, state.with(Properties.POWERED, shouldBePowered), Block.NOTIFY_ALL);
 		}
 	}
 
@@ -108,10 +96,20 @@ public class RedstoneTransmitterBlock extends Block {
 	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
-		boolean powered = state.get(Properties.POWERED);
-		boolean shouldBePowered = this.shouldBePowered(world, pos);
-		if (powered != shouldBePowered) {
-			world.scheduleBlockTick(pos, this, 2);
+		if (state.get(Properties.POWERED)) {
+			PersistentBeam beam = new RedstoneBeam(world, UUID.randomUUID());
+			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 16.0D);
+		}
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		super.onStateReplaced(state, world, pos, newState, moved);
+		if (state.get(Properties.POWERED)) {
+			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
+			if (beam != null) beam.removeFromWorld();
 		}
 	}
 
