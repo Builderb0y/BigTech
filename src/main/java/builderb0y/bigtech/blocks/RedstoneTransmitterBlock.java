@@ -63,7 +63,7 @@ public class RedstoneTransmitterBlock extends Block {
 		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
 		if (oldBeam != null) oldBeam.removeFromWorld();
 		PersistentBeam newBeam = new RedstoneBeam(world, UUID.randomUUID());
-		newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 16.0D);
+		newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		return false;
 	}
 
@@ -98,7 +98,7 @@ public class RedstoneTransmitterBlock extends Block {
 		super.onBlockAdded(state, world, pos, oldState, moved);
 		if (state.get(Properties.POWERED)) {
 			PersistentBeam beam = new RedstoneBeam(world, UUID.randomUUID());
-			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 16.0D);
+			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		}
 	}
 

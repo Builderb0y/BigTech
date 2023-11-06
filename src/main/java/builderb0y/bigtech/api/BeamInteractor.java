@@ -78,11 +78,8 @@ public interface BeamInteractor {
 							if (extension != null) {
 								inputSegment.beam.addSegment(pos1, extension.withColor(actualColor));
 							}
-							return true;
 						}
-						else {
-							return false;
-						}
+						return true;
 					};
 				}
 			}

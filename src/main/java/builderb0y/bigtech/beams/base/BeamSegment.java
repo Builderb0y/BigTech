@@ -39,7 +39,7 @@ public record BeamSegment(
 
 	public BeamSegment addDistance(double distance, boolean terminate) {
 		double newDistance = this.distanceRemaining + distance;
-		return newDistance >= 0.0D ? this.withDistance(distance) : terminate ? this.terminate() : null;
+		return newDistance >= 0.0D ? this.withDistance(newDistance) : terminate ? this.terminate() : null;
 	}
 
 	public BeamSegment visible(boolean visible) {
@@ -51,11 +51,8 @@ public record BeamSegment(
 	}
 
 	public @Nullable BeamSegment extend() {
-		double distanceToSubtract = this.direction.type.magnitude;
-		if (distanceToSubtract != 0.0D && this.distanceRemaining >= distanceToSubtract) {
-			return new BeamSegment(this.beam, this.direction, this.distanceRemaining - distanceToSubtract, this.visible, this.color);
-		}
-		return null;
+		double toSubtract = this.direction.type.magnitude;
+		return toSubtract > 0.0D ? this.addDistance(-toSubtract, true) : null;
 	}
 
 	public BeamSegment terminate() {

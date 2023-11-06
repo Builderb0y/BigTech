@@ -3,6 +3,7 @@ package builderb0y.bigtech.blocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,13 +32,15 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
 
 import builderb0y.bigtech.api.BeaconBeamColorProvider;
+import builderb0y.bigtech.api.BeamInteractor;
+import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.mixins.ExplosionAccessor;
 import builderb0y.bigtech.models.CrystalBakedModel;
 import builderb0y.bigtech.particles.SparkleParticleEffect;
 import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
 
-public class CrystalClusterBlock extends Block implements Waterloggable, BeaconBeamColorProvider {
+public class CrystalClusterBlock extends Block implements Waterloggable, BeaconBeamColorProvider, BeamInteractor {
 
 	public static final VoxelShape SHAPE = VoxelShapes.cuboid(0.0625D, 0.0625D, 0.0625D, 0.9375D, 0.9375D, 0.9375D);
 
@@ -48,6 +51,17 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 		this.color = color;
 		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
 		BeaconBeamColorProvider.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
+		BeamInteractor.LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> this, this);
+	}
+
+	@Override
+	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
+		Vector3f color = this.color.colorVector;
+		if (inputSegment.color == null || inputSegment.color.equals(color)) {
+			BeamSegment extension = inputSegment.withColor(color).addDistance(15.0D, true);
+			inputSegment.beam.addSegment(pos, extension);
+		}
+		return true;
 	}
 
 	@Override
