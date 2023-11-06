@@ -444,6 +444,13 @@ public class BigTechBlocks {
 			AbstractBlock.Settings.copy(Blocks.QUARTZ_BLOCK)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final RedstoneReceiverBlock REDSTONE_RECEIVER = register(
+		"redstone_receiver",
+		new RedstoneReceiverBlock(
+			AbstractBlock.Settings.copy(Blocks.QUARTZ_BLOCK)
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

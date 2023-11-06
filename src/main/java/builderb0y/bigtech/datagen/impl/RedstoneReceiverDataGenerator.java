@@ -6,15 +6,13 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
-import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.BigTechItems;
 
-@Dependencies(CommonBeamEmitterDataGenerator.class)
-public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGenerator {
+public class RedstoneReceiverDataGenerator extends RedstoneTransceiverDataGenerator {
 
-	public RedstoneTransmitterDataGenerator(BlockItem blockItem) {
+	public RedstoneReceiverDataGenerator(BlockItem blockItem) {
 		super(blockItem);
 	}
 
@@ -31,9 +29,9 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 					"base_top":    "bigtech:block/beam_emitter_base_top",
 					"base_side":   "bigtech:block/beam_emitter_base_side",
 					"body_top":    "bigtech:block/quartz_top_bottom",
-					"body_front":  "bigtech:block/redstone_transmitter_front",
-					"body_side":   "bigtech:block/redstone_transmitter_side",
-					"particle":    "bigtech:block/redstone_transmitter_side"
+					"body_front":  "bigtech:block/redstone_receiver_front",
+					"body_side":   "bigtech:block/redstone_receiver_side",
+					"particle":    "bigtech:block/redstone_receiver_side"
 				},
 				"elements": [
 					{
@@ -83,14 +81,14 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 						}
 					},
 					{
-						"from": [ 7, 7, 0 ],
-						"to":   [ 9, 9, 1 ],
+						"from": [  6,  6, 0 ],
+						"to":   [ 10, 10, 1 ],
 						"faces": {
-							"up":    { "uv": [ 5, 3, 3, 4 ], "texture": "#body_front" },
-							"down":  { "uv": [ 5, 4, 3, 5 ], "texture": "#body_front" },
-							"north": { "uv": [ 3, 3, 5, 5 ], "texture": "#body_front" },
-							"east":  { "uv": [ 3, 3, 4, 5 ], "texture": "#body_front" },
-							"west":  { "uv": [ 4, 3, 5, 5 ], "texture": "#body_front" }
+							"up":    { "uv": [ 6, 2, 2, 3 ], "texture": "#body_front" },
+							"down":  { "uv": [ 6, 5, 2, 6 ], "texture": "#body_front" },
+							"north": { "uv": [ 2, 2, 6, 6 ], "texture": "#body_front" },
+							"east":  { "uv": [ 2, 2, 3, 6 ], "texture": "#body_front" },
+							"west":  { "uv": [ 5, 2, 6, 6 ], "texture": "#body_front" }
 						}
 					}
 				]
@@ -107,9 +105,9 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 					"base_top":    "bigtech:block/beam_emitter_base_top",
 					"base_side":   "bigtech:block/beam_emitter_base_side",
 					"body_top":    "bigtech:block/quartz_top_bottom",
-					"body_front":  "bigtech:block/redstone_transmitter_front",
-					"body_side":   "bigtech:block/redstone_transmitter_side",
-					"particle":    "bigtech:block/redstone_transmitter_side"
+					"body_front":  "bigtech:block/redstone_receiver_front",
+					"body_side":   "bigtech:block/redstone_receiver_side",
+					"particle":    "bigtech:block/redstone_receiver_side"
 				},
 				"elements": [
 					{
@@ -159,15 +157,15 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 						}
 					},
 					{
-						"from": [ 7, 7, 0 ],
-						"to":   [ 9, 9, 1 ],
+						"from": [ 6, 6, 0 ],
+						"to": [ 10, 10, 1 ],
 						"shade": false,
 						"faces": {
-							"up":    { "uv": [ 13, 3, 11, 4 ], "texture": "#body_front" },
-							"down":  { "uv": [ 13, 4, 11, 5 ], "texture": "#body_front" },
-							"north": { "uv": [ 11, 3, 13, 5 ], "texture": "#body_front" },
-							"east":  { "uv": [ 11, 3, 12, 5 ], "texture": "#body_front" },
-							"west":  { "uv": [ 12, 3, 13, 5 ], "texture": "#body_front" }
+							"up":    { "uv": [ 14, 2, 10, 3 ], "texture": "#body_front" },
+							"down":  { "uv": [ 14, 5, 10, 6 ], "texture": "#body_front" },
+							"north": { "uv": [ 10, 2, 14, 6 ], "texture": "#body_front" },
+							"east":  { "uv": [ 10, 2, 11, 6 ], "texture": "#body_front" },
+							"west":  { "uv": [ 13, 2, 14, 6 ], "texture": "#body_front" }
 						}
 					}
 				]
@@ -180,11 +178,10 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 		context.writeToFile(
 			context.recipePath(this.id),
 			new ShapedRecipeBuilder()
-			.pattern("qqq", "lcr", "bbb")
+			.pattern("qqq", "l r", "bbb")
 			.where('q', ConventionalItemTags.QUARTZ)
 			.where('l', BigTechItems.LENS)
-			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
-			.where('r', Items.REDSTONE_TORCH)
+			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
 			.where('b', Items.SMOOTH_STONE_SLAB)
 			.result(this.id)
 			.toString()

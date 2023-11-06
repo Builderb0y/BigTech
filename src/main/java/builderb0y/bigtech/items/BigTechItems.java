@@ -204,6 +204,10 @@ public class BigTechItems {
 	public static final BlockItem REDSTONE_TRANSMITTER = registerPlacer(
 		BigTechBlocks.REDSTONE_TRANSMITTER
 	);
+	@UseDataGen(RedstoneReceiverDataGenerator.class)
+	public static final BlockItem REDSTONE_RECEIVER = registerPlacer(
+		BigTechBlocks.REDSTONE_RECEIVER
+	);
 
 	public static void init() {}
 

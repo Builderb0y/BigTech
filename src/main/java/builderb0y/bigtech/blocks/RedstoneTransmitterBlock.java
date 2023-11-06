@@ -19,7 +19,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.RedstoneView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;

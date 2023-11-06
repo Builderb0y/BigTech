@@ -29,7 +29,7 @@
 				"up":    { "uv": [  3, 3, 13, 5 ], "texture": "#base_top"                  },
 				"north": { "uv": [ 13, 3,  3, 4 ], "texture": "#base_top"                  },
 				"south": { "uv": [  3, 4, 13, 5 ], "texture": "#base_top"                  },
-				"east":  { "uv": [ 12, 3, 13, 5 ], "texture": "#base_top", "rotation": 90  },
+				"east":  { "uv": [ 12, 3, 13, 5 ], "texture": "#base_top", "rotation":  90 },
 				"west":  { "uv": [  3, 3,  4, 5 ], "texture": "#base_top", "rotation": 270 }
 			}
 		},
@@ -40,7 +40,7 @@
 				"up":    { "uv": [  3, 11, 13, 13 ], "texture": "#base_top"                  },
 				"north": { "uv": [ 13, 11,  3, 12 ], "texture": "#base_top"                  },
 				"south": { "uv": [  3, 12, 13, 13 ], "texture": "#base_top"                  },
-				"east":  { "uv": [ 12, 11, 13, 13 ], "texture": "#base_top", "rotation": 90  },
+				"east":  { "uv": [ 12, 11, 13, 13 ], "texture": "#base_top", "rotation":  90 },
 				"west":  { "uv": [  3, 11,  4, 13 ], "texture": "#base_top", "rotation": 270 }
 			}
 		},
@@ -48,12 +48,12 @@
 			"from": [  4,  4,  1 ],
 			"to":   [ 12, 12, 15 ],
 			"faces": {
-				"up":    { "uv": [ 1, 0, 15,  8 ], "texture": "#body_top", "rotation": 90 },
-				"down":  { "uv": [ 1, 8, 15, 16 ], "texture": "#body_top", "rotation": 90 },
-				"north": { "uv": [ 8, 0, 16,  8 ], "texture": "#body_front" },
-				"south": { "uv": [ 4, 8, 12, 16 ], "texture": "#body_front" },
-				"east":  { "uv": [ 1, 0, 15,  8 ], "texture": "#body_side"  },
-				"west":  { "uv": [ 1, 0, 15,  8 ], "texture": "#body_side"  }
+				"up":    { "uv": [ 1, 0, 15,  8 ], "texture": "#body_top",  "rotation": 90 },
+				"down":  { "uv": [ 1, 8, 15, 16 ], "texture": "#body_top",  "rotation": 90 },
+				"north": { "uv": [ 8, 0, 16,  8 ], "texture": "#body_front"                },
+				"south": { "uv": [ 4, 8, 12, 16 ], "texture": "#body_front"                },
+				"east":  { "uv": [ 1, 0, 15,  8 ], "texture": "#body_side"                 },
+				"west":  { "uv": [ 1, 0, 15,  8 ], "texture": "#body_side"                 }
 			}
 		},
 		{

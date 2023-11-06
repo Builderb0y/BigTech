@@ -42,8 +42,6 @@ features:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
 			arrow: is attracted to mobs
 	lasers:
-		redstone transmitter: transmits a redstone signal across a large distance
-		redstone receiver: receivs a signal from a redstone transmitter
 		redstone detector: detects a redstone laser passing through the block
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
@@ -111,6 +109,9 @@ done:
 		encased redstone block: emits a redstone signal in only one direction
 		encased slime block: only sticks to other blocks on one side. doesn't stick to honey blocks.
 			encased honey block: same. but doesn't stick to slime blocks.
+	lasers:
+		redstone transmitter: transmits a redstone signal across a large distance
+		redstone receiver: receives a signal from a redstone transmitter
 
 canceled:
 	lightning rod: already in vanilla.
