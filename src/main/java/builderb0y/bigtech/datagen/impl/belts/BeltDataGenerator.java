@@ -1,7 +1,5 @@
 package builderb0y.bigtech.datagen.impl.belts;
 
-import java.util.Map;
-
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
@@ -79,9 +77,9 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
 			.pattern("ppp", "ioi")
-			.itemIngredient('p', Items.PAPER)
-			.tagIngredient('i', ConventionalItemTags.IRON_INGOTS)
-			.ingredient('o', otherIngredient)
+			.where('p', Items.PAPER)
+			.where('i', ConventionalItemTags.IRON_INGOTS)
+			.where('o', otherIngredient)
 			.result(this.blockItem)
 			.count(3)
 			.toString()
@@ -92,9 +90,9 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
 			.pattern("lll", "ioi")
-			.itemIngredient('l', Items.LEATHER)
-			.tagIngredient('i', ConventionalItemTags.IRON_INGOTS)
-			.ingredient('o', otherIngredient)
+			.where('l', Items.LEATHER)
+			.where('i', ConventionalItemTags.IRON_INGOTS)
+			.where('o', otherIngredient)
 			.result(this.blockItem)
 			.count(6)
 			.toString()

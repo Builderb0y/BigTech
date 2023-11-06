@@ -1,12 +1,10 @@
 package builderb0y.bigtech.datagen.impl;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
@@ -22,7 +20,6 @@ import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonMultipart;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.util.Enums;
 
 @Dependencies(CommonLightningDataGenerator.class)
 public class LightningCableDataGenerator extends BasicBlockDataGenerator {
@@ -119,8 +116,8 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 			.category(CraftingRecipeCategory.MISC)
 			.group("bigtech:lightning_cables")
 			.pattern("www", "iii", "www")
-			.tagIngredient('w', ItemTags.WOOL)
-			.tagIngredient('i', this.ingot)
+			.where('w', ItemTags.WOOL)
+			.where('i', this.ingot)
 			.result(this.id)
 			.count(6)
 			.toString()

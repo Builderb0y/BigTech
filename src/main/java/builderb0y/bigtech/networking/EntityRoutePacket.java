@@ -17,41 +17,38 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity.RoutingInfo;
 import builderb0y.bigtech.util.Enums;
 
-public record EntityRouteSyncPacket(int entityID, boolean present, BlockPos pos, BlockState state, Direction direction) implements S2CPlayPacket {
+public record EntityRoutePacket(int entityID, boolean present, BlockPos pos, BlockState state, Direction direction) implements S2CPlayPacket {
 
-	public static final PacketType<EntityRouteSyncPacket> TYPE = PacketType.create(BigTechMod.modID("entity_route_sync"), EntityRouteSyncPacket::parse);
-
-	public EntityRouteSyncPacket(int entityID) {
+	public EntityRoutePacket(int entityID) {
 		this(entityID, false, null, null, null);
 	}
 
-	public static EntityRouteSyncPacket from(Entity entity, RoutingInfo info) {
+	public static EntityRoutePacket from(Entity entity, RoutingInfo info) {
 		return (
 			info != null
-			? new EntityRouteSyncPacket(entity.id, true, info.pos, info.state, info.direction)
-			: new EntityRouteSyncPacket(entity.id)
+			? new EntityRoutePacket(entity.id, true, info.pos, info.state, info.direction)
+			: new EntityRoutePacket(entity.id)
 		);
 	}
 
-	public static EntityRouteSyncPacket parse(PacketByteBuf buffer) {
+	public static EntityRoutePacket parse(PacketByteBuf buffer) {
 		int entityID = buffer.readInt();
 		boolean present = buffer.readBoolean();
 		if (present) try {
 			BlockPos pos = buffer.readBlockPos();
 			BlockState state = BlockArgumentParser.block(Registries.BLOCK.readOnlyWrapper, buffer.readString(), false).blockState();
 			Direction direction = Enums.DIRECTIONS[buffer.readByte()];
-			return new EntityRouteSyncPacket(entityID, true, pos, state, direction);
+			return new EntityRoutePacket(entityID, true, pos, state, direction);
 		}
 		catch (CommandSyntaxException exception) {
 			throw new RuntimeException(exception);
 		}
 		else {
-			return new EntityRouteSyncPacket(entityID);
+			return new EntityRoutePacket(entityID);
 		}
 	}
 
@@ -86,6 +83,6 @@ public record EntityRouteSyncPacket(int entityID, boolean present, BlockPos pos,
 
 	@Override
 	public PacketType<?> getType() {
-		return TYPE;
+		return BigTechClientNetwork.ENTITY_ROUTE;
 	}
 }

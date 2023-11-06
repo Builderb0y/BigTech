@@ -26,8 +26,6 @@ import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 
 public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {
 
-	public static final PacketType<PulseBeamPacket> TYPE = PacketType.create(BigTechMod.modID("pulse_beam"), PulseBeamPacket::parse);
-
 	public static PulseBeamPacket parse(PacketByteBuf buffer) {
 		return parse0(buffer);
 	}
@@ -121,6 +119,6 @@ public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {
 
 	@Override
 	public PacketType<?> getType() {
-		return TYPE;
+		return BigTechClientNetwork.PULSE_BEAM;
 	}
 }

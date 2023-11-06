@@ -44,6 +44,7 @@ public class RedstoneTransmitterBlock extends Block {
 
 	public RedstoneTransmitterBlock(Settings settings) {
 		super(settings);
+		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
 	}
 
 	public boolean shouldBePowered(RedstoneView world, BlockPos pos) {

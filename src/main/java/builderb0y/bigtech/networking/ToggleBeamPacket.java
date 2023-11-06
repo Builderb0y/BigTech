@@ -16,15 +16,21 @@ import builderb0y.bigtech.beams.base.BeamType;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
-public record TogglePersistentBeamPacket(boolean adding, UUID uuid, BeamType type) implements S2CPlayPacket {
+public record ToggleBeamPacket(boolean adding, BeamType type, UUID uuid) implements S2CPlayPacket {
 
-	public static final PacketType<TogglePersistentBeamPacket> TYPE = PacketType.create(BigTechMod.modID("toggle_persistent_beam"), TogglePersistentBeamPacket::parse);
+	public static ToggleBeamPacket add(PersistentBeam beam) {
+		return new ToggleBeamPacket(true, beam.type, beam.uuid);
+	}
 
-	public static TogglePersistentBeamPacket parse(PacketByteBuf buffer) {
+	public static ToggleBeamPacket remove(PersistentBeam beam) {
+		return new ToggleBeamPacket(false, null, beam.uuid);
+	}
+
+	public static ToggleBeamPacket parse(PacketByteBuf buffer) {
 		boolean adding = buffer.readBoolean();
 		UUID uuid = buffer.readUuid();
 		BeamType type = adding ? buffer.readRegistryValue(BeamType.REGISTRY) : null;
-		return new TogglePersistentBeamPacket(adding, uuid, type);
+		return new ToggleBeamPacket(adding, type, uuid);
 	}
 
 	@Override
@@ -53,6 +59,6 @@ public record TogglePersistentBeamPacket(boolean adding, UUID uuid, BeamType typ
 
 	@Override
 	public PacketType<?> getType() {
-		return TYPE;
+		return BigTechClientNetwork.TOGGLE_BEAM;
 	}
 }

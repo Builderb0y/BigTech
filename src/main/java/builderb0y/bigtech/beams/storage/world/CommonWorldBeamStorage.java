@@ -1,5 +1,6 @@
 package builderb0y.bigtech.beams.storage.world;
 
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -7,7 +8,11 @@ import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
+import org.joml.Vector3f;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -19,9 +24,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.base.Beam;
-import builderb0y.bigtech.beams.base.BeamType;
-import builderb0y.bigtech.beams.base.PersistentBeam;
+import builderb0y.bigtech.beams.base.*;
+import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
+import builderb0y.bigtech.util.AsyncRunner;
 
 public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, ClientTickingComponent {
 
@@ -52,8 +57,6 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 		}
 	}
 
-	public abstract void removeBeam(BlockPos pos);
-
 	public PersistentBeam getBeam(UUID uuid) {
 		return this.beamsById.get(uuid);
 	}
@@ -61,8 +64,35 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 	public abstract PersistentBeam getBeam(BlockPos pos);
 
 	@Override
+	public void writeToNbt(NbtCompound tag) {
+		NbtList beamsTag = tag.createSubList("beams");
+		for (PersistentBeam beam : this.beamsById.values()) {
+			beamsTag
+			.createCompound()
+			.withIdentifier("type", BeamType.REGISTRY.getId(beam.type))
+			.withUuid("uuid", beam.uuid)
+			.withBlockPos("origin", beam.origin)
+			.withSubList("segment_sections", list -> {
+				try (AsyncRunner async = new AsyncRunner()) {
+					ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = beam.seen.long2ObjectEntrySet().fastIterator();
+					while (sectionIterator.hasNext()) {
+						Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
+						long sectionPos = sectionEntry.longKey;
+						BasicSectionBeamStorage section = sectionEntry.value;
+						NbtCompound sectionNbt = list.createCompound();
+						async.run(() -> {
+							sectionNbt.putLong("pos", sectionPos);
+							section.writeToNbt(sectionNbt, false);
+						});
+					}
+				}
+			});
+		}
+	}
+
+	@Override
 	public void readFromNbt(NbtCompound tag) {
-		this.beamsById.clear();
+		this.clear();
 		for (NbtCompound beamTag : tag.getList("beams", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
 			Identifier typeID = beamTag.getIdentifier("type");
 			BeamType type = BeamType.REGISTRY.get(typeID);
@@ -74,24 +104,21 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 			Beam beam = type.factory.create(this.world, uuid);
 			if (beam instanceof PersistentBeam persistentBeam) {
 				persistentBeam.origin = beamTag.getBlockPos("origin");
+				NbtList sectionsNbt = beamTag.getList("segment_sections", NbtElement.COMPOUND_TYPE);
+				try (AsyncRunner async = new AsyncRunner()) {
+					for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
+						long sectionPos = sectionNbt.getLong("pos");
+						BasicSectionBeamStorage section = persistentBeam.seen.getSegments(sectionPos);
+						async.run(() -> {
+							section.readFromNbt(sectionNbt, persistentBeam);
+						});
+					}
+				}
 				this.addBeamNoSync(persistentBeam);
 			}
 			else {
 				BigTechMod.LOGGER.warn("Skipping non-persistent beam ${typeID}");
 			}
-		}
-	}
-
-	@Override
-	public void writeToNbt(NbtCompound tag) {
-		NbtList beamsTag = tag.createSubList("beams");
-		for (PersistentBeam beam : this.beamsById.values()) {
-			beamsTag
-			.createCompound()
-			.withIdentifier("type", BeamType.REGISTRY.getId(beam.type))
-			.withUuid("uuid", beam.uuid)
-			.withBlockPos("origin", beam.origin)
-			;
 		}
 	}
 
@@ -107,18 +134,25 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 
 	@Override
 	public void applySyncPacket(PacketByteBuf buffer) {
-		this.beamsById.clear();
+		this.clear();
 		int count = buffer.readVarInt();
 		for (int index = 0; index < count; index++) {
 			BeamType type = buffer.readRegistryValue(BeamType.REGISTRY);
+			if (type == null) {
+				BigTechMod.LOGGER.warn("Received beam of unknown type.");
+				continue;
+			}
 			UUID uuid = buffer.readUuid();
 			Beam beam = type.factory.create(this.world, uuid);
-			if (beam instanceof PersistentBeam persistentBeam) {
-				this.addBeamNoSync(persistentBeam);
-			}
-			else {
+			if (!(beam instanceof PersistentBeam persistentBeam)) {
 				BigTechMod.LOGGER.warn("Received non-persistent beam??? ${builderb0y.bigtech.beams.base.BeamType.REGISTRY.getId(type)}");
+				continue;
 			}
+			this.addBeamNoSync(persistentBeam);
 		}
+	}
+
+	public void clear() {
+		this.beamsById.clear();
 	}
 }

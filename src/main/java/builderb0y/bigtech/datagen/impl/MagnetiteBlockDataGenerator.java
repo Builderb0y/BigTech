@@ -61,7 +61,7 @@ public class MagnetiteBlockDataGenerator extends BasicBlockDataGenerator {
 			context.recipePath(context.suffixPath(this.id, "_from_ingots")),
 			new ShapedRecipeBuilder()
 			.pattern("iii", "iii", "iii")
-			.tagIngredient('i', BigTechItemTags.MAGNETITE_INGOTS)
+			.where('i', BigTechItemTags.MAGNETITE_INGOTS)
 			.result(this.id)
 			.toString()
 		);

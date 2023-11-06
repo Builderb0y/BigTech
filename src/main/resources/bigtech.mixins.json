@@ -8,6 +8,7 @@
 		"AttractableEntities_AttractTowardsMagnetiteBlocks",
 		"BeaconBlockEntity_UseColorProviders",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
+		"ChunkDataSender_SyncBeamsManually",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_HeldItemGetter",
 		"ExplosionAccessor",

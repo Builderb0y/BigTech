@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
-import builderb0y.bigtech.networking.EntityRouteSyncPacket;
+import builderb0y.bigtech.networking.EntityRoutePacket;
 
 @Mixin(Entity.class)
 public abstract class Entity_MakeRoutable implements RoutableEntity {
@@ -40,7 +40,7 @@ public abstract class Entity_MakeRoutable implements RoutableEntity {
 				tracking.add(serverPlayerEntity); //players don't track themselves, so I have to special handle them.
 			}
 			if (!tracking.isEmpty) {
-				EntityRouteSyncPacket packet = EntityRouteSyncPacket.from(this.as(), info);
+				EntityRoutePacket packet = EntityRoutePacket.from(this.as(), info);
 				for (ServerPlayerEntity player : tracking) {
 					ServerPlayNetworking.send(player, packet);
 				}

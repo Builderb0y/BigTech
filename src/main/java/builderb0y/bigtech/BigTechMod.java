@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.beams.impl.BeamTypes;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.commands.BigTechCommands;
 import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.networking.BigTechClientNetwork;
@@ -38,6 +39,7 @@ public class BigTechMod implements ModInitializer {
 		BigTechParticles.init();
 		BigTechRecipeTypes.init();
 		BigTechRecipeSerializers.init();
+		BigTechCommands.init();
 		LOGGER.info("Done initializing.");
 	}
 

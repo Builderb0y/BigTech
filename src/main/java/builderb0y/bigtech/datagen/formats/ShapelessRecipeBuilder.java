@@ -5,11 +5,13 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.TableFormats.UnkeyedRecipeIngredient;
 import builderb0y.bigtech.datagen.tables.Table;
 
@@ -40,12 +42,17 @@ public class ShapelessRecipeBuilder {
 		return this;
 	}
 
+	public ShapelessRecipeBuilder ingredient(TagOrItem tagOrItem) {
+		this.ingredients.add(tagOrItem.toString());
+		return this;
+	}
+
 	public ShapelessRecipeBuilder itemIngredient(Identifier item) {
 		this.ingredients.add(item.toString());
 		return this;
 	}
 
-	public ShapelessRecipeBuilder itemIngredient(ItemConvertible item) {
+	public ShapelessRecipeBuilder ingredient(ItemConvertible item) {
 		return this.itemIngredient(Registries.ITEM.getId(item.asItem()));
 	}
 
@@ -54,7 +61,7 @@ public class ShapelessRecipeBuilder {
 		return this;
 	}
 
-	public ShapelessRecipeBuilder tagIngredient(TagKey<Item> tag) {
+	public ShapelessRecipeBuilder ingredient(TagKey<Item> tag) {
 		return this.tagIngredient(tag.id);
 	}
 

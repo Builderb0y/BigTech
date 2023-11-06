@@ -80,6 +80,7 @@
 	"container.bigtech.transmuter":                          "Transmuter",
 	"item.bigtech.copper_nugget":                            "Copper Nugget",
 	"item.bigtech.crystal_debris":                           "Crystal Debris",
+	"item.bigtech.lens":                                     "Lens",
 	"item.bigtech.magnetite_ingot":                          "Magnetite Ingot",
 	"item.bigtech.magnetite_nugget":                         "Magnetite Nugget",
 	"itemGroup.bigtech":                                     "Big Tech"

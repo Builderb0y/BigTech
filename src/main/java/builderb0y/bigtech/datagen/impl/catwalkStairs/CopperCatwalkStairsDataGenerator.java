@@ -67,8 +67,8 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group("bigtech:waxed_copper_catwalk_stairs")
-				.itemIngredient(BigTechItems.COPPER_CATWALK_STAIRS.get(this.type.notWaxed()))
-				.itemIngredient(Items.HONEYCOMB)
+				.ingredient(BigTechItems.COPPER_CATWALK_STAIRS.get(this.type.notWaxed()))
+				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.toString()
 			);

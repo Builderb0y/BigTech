@@ -1,6 +1,7 @@
 package builderb0y.bigtech.extensions.net.minecraft.nbt.NbtCompound;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.Self;
@@ -170,5 +171,23 @@ public class NbtCompoundExtensions {
 		NbtList result = new NbtList();
 		thiz.put(key, result);
 		return result;
+	}
+
+	public static void putSubCompound(@This NbtCompound thiz, String key, Consumer<NbtCompound> filler) {
+		filler.accept(thiz.createSubCompound(key));
+	}
+
+	public static void putSubList(@This NbtCompound thiz, String key, Consumer<NbtList> filler) {
+		filler.accept(thiz.createSubList(key));
+	}
+
+	public static @Self NbtCompound withSubCompound(@This NbtCompound thiz, String key, Consumer<NbtCompound> filler) {
+		thiz.putSubCompound(key, filler);
+		return thiz;
+	}
+
+	public static @Self NbtCompound withSubList(@This NbtCompound thiz, String key, Consumer<NbtList> filler) {
+		thiz.putSubList(key, filler);
+		return thiz;
 	}
 }

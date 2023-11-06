@@ -113,8 +113,8 @@ public class TransmuterDataGenerator extends BasicBlockDataGenerator {
 			context.recipePath(this.id),
 			new ShapedRecipeBuilder()
 			.pattern("fof", "o o", "fof")
-			.itemIngredient('f', BigTechItems.IRON_FRAME)
-			.tagIngredient('o', BigTechItemTags.OBSIDIAN)
+			.where('f', BigTechItems.IRON_FRAME)
+			.where('o', BigTechItemTags.OBSIDIAN)
 			.result(this.id)
 			.toString()
 		);

@@ -5,6 +5,8 @@ where I left off:
 
 things to finish for existing features:
 	JEI support for sorter belt GUI.
+	make redstone transmitters waterloggable.
+	support beam for copper stairs (and other stairs) has texture flipped.
 
 features:
 	general:

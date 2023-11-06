@@ -26,7 +26,7 @@ public class DescenderDataGenerator extends AbstractAscenderDataGenerator {
 			new ShapelessRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group(BigTechMod.modID("ascenders"))
-			.itemIngredient(BigTechItems.ASCENDER)
+			.ingredient(BigTechItems.ASCENDER)
 			.result(BigTechItems.DESCENDER)
 			.toString()
 		);

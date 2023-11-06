@@ -52,8 +52,8 @@ public class CrystallineSandDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.recipePath(this.id),
 			new ShapelessRecipeBuilder()
-			.tagIngredient(ItemTags.SAND)
-			.itemIngredient(BigTechItems.CRYSTAL_DEBRIS)
+			.ingredient(ItemTags.SAND)
+			.ingredient(BigTechItems.CRYSTAL_DEBRIS)
 			.result(this.id)
 			.toString()
 		);

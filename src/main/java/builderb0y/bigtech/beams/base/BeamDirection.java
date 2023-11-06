@@ -1,6 +1,7 @@
 package builderb0y.bigtech.beams.base;
 
-import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
@@ -70,6 +71,10 @@ public enum BeamDirection {
 
 	public static int multiplyBy3(int number) {
 		return number + (number << 1);
+	}
+
+	public static @Nullable BeamDirection get(int index) {
+		return index >= 0 && index < VALUES.length ? VALUES[index] : null;
 	}
 
 	public BeamDirection getOpposite() {

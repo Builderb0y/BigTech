@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
@@ -43,31 +42,31 @@ public class ShapedRecipeBuilder {
 		return this;
 	}
 
-	public ShapedRecipeBuilder ingredient(char key, String itemOrTag) {
+	public ShapedRecipeBuilder where(char key, String itemOrTag) {
 		this.ingredients.put(key, itemOrTag);
 		return this;
 	}
 
-	public ShapedRecipeBuilder ingredient(char key, TagOrItem tagOrItem) {
-		return this.ingredient(key, tagOrItem.toString());
+	public ShapedRecipeBuilder where(char key, TagOrItem tagOrItem) {
+		return this.where(key, tagOrItem.toString());
 	}
 
-	public ShapedRecipeBuilder itemIngredient(char key, Identifier item) {
+	public ShapedRecipeBuilder whereItem(char key, Identifier item) {
 		this.ingredients.put(key, item.toString());
 		return this;
 	}
 
-	public ShapedRecipeBuilder itemIngredient(char key, ItemConvertible item) {
-		return this.itemIngredient(key, Registries.ITEM.getId(item.asItem()));
+	public ShapedRecipeBuilder where(char key, ItemConvertible item) {
+		return this.whereItem(key, Registries.ITEM.getId(item.asItem()));
 	}
 
-	public ShapedRecipeBuilder tagIngredient(char key, Identifier tag) {
+	public ShapedRecipeBuilder whereTag(char key, Identifier tag) {
 		this.ingredients.put(key, "#" + tag);
 		return this;
 	}
 
-	public ShapedRecipeBuilder tagIngredient(char key, TagKey<Item> tag) {
-		return this.tagIngredient(key, tag.id);
+	public ShapedRecipeBuilder where(char key, TagKey<Item> tag) {
+		return this.whereTag(key, tag.id);
 	}
 
 	public ShapedRecipeBuilder result(String result) {

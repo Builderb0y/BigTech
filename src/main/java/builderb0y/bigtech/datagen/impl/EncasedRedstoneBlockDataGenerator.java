@@ -72,8 +72,8 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("crc", "c c", "ccc")
-			.tagIngredient('c', ItemTags.STONE_CRAFTING_MATERIALS)
-			.tagIngredient('r', BigTechItemTags.REDSTONE_BLOCKS)
+			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
+			.where('r', BigTechItemTags.REDSTONE_BLOCKS)
 			.result(this.id)
 			.toString()
 		);

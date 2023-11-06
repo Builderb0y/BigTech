@@ -1,14 +1,20 @@
 package builderb0y.bigtech.datagen.impl;
 
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Items;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
+import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.tables.Table;
+import builderb0y.bigtech.items.BigTechItemTags;
+import builderb0y.bigtech.items.BigTechItems;
 
 @Dependencies(CommonBeamEmitterDataGenerator.class)
 public class RedstoneTransmitterDataGenerator extends BasicBlockDataGenerator {
@@ -51,7 +57,8 @@ public class RedstoneTransmitterDataGenerator extends BasicBlockDataGenerator {
 					"base_side":   "bigtech:block/beam_emitter_base_side",
 					"body_top":    "bigtech:block/quartz_top_bottom",
 					"body_front":  "bigtech:block/redstone_transmitter_front",
-					"body_side":   "bigtech:block/redstone_transmitter_side"
+					"body_side":   "bigtech:block/redstone_transmitter_side",
+					"particle":    "bigtech:block/redstone_transmitter_side"
 				},
 				"elements": [
 					{
@@ -126,7 +133,8 @@ public class RedstoneTransmitterDataGenerator extends BasicBlockDataGenerator {
 					"base_side":   "bigtech:block/beam_emitter_base_side",
 					"body_top":    "bigtech:block/quartz_top_bottom",
 					"body_front":  "bigtech:block/redstone_transmitter_front",
-					"body_side":   "bigtech:block/redstone_transmitter_side"
+					"body_side":   "bigtech:block/redstone_transmitter_side",
+					"particle":    "bigtech:block/redstone_transmitter_side"
 				},
 				"elements": [
 					{
@@ -219,6 +227,17 @@ public class RedstoneTransmitterDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
-		//todo: recipe involving lens. (need to add lens)
+		context.writeToFile(
+			context.recipePath(this.id),
+			new ShapedRecipeBuilder()
+			.pattern("qqq", "lcr", "bbb")
+			.where('q', ConventionalItemTags.QUARTZ)
+			.where('l', BigTechItems.LENS)
+			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
+			.where('r', Items.REDSTONE_TORCH)
+			.where('b', Items.SMOOTH_STONE_SLAB)
+			.result(this.id)
+			.toString()
+		);
 	}
 }

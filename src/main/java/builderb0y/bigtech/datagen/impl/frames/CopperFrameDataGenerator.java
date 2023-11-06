@@ -60,8 +60,8 @@ public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group(BigTechMod.modID("frames"))
-				.itemIngredient(BigTechItems.COPPER_FRAMES.get(this.type.notWaxed()))
-				.itemIngredient(Items.HONEYCOMB)
+				.ingredient(BigTechItems.COPPER_FRAMES.get(this.type.notWaxed()))
+				.ingredient(Items.HONEYCOMB)
 				.result(this.item)
 				.toString()
 			);

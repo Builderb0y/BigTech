@@ -6,7 +6,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
@@ -31,8 +30,8 @@ public class AscenderDataGenerator extends AbstractAscenderDataGenerator {
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group(BigTechMod.modID("ascenders"))
 			.pattern("bgb", "b b", "bgb")
-			.itemIngredient('b', BigTechItems.BELT)
-			.tagIngredient('g', ConventionalItemTags.GLASS_BLOCKS)
+			.where('b', BigTechItems.BELT)
+			.where('g', ConventionalItemTags.GLASS_BLOCKS)
 			.result(BigTechItems.ASCENDER)
 			.count(6)
 			.toString()
@@ -42,7 +41,7 @@ public class AscenderDataGenerator extends AbstractAscenderDataGenerator {
 			new ShapelessRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group(BigTechMod.modID("ascenders"))
-			.itemIngredient(BigTechItems.DESCENDER)
+			.ingredient(BigTechItems.DESCENDER)
 			.result(BigTechItems.ASCENDER)
 			.toString()
 		);

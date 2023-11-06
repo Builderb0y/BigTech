@@ -5,18 +5,18 @@ import java.util.function.Supplier;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.CopyableComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
 
 import builderb0y.bigtech.BigTechMod;
 
-public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>, ServerTickingComponent, CopyableComponent<ChunkBeamStorageHolder> {
+public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>, CopyableComponent<ChunkBeamStorageHolder> {
 
 	public static final ComponentKey<ChunkBeamStorageHolder> KEY = ComponentRegistry.getOrCreate(BigTechMod.modID("chunk_beam_storage"), ChunkBeamStorageHolder.class);
 
@@ -56,12 +56,6 @@ public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>,
 		if (thisStorage != null && thatStorage != null) {
 			thisStorage.copyFrom(thatStorage);
 		}
-	}
-
-	@Override
-	public void serverTick() {
-		CommonChunkBeamStorage storage = this.get();
-		if (storage != null) storage.tick();
 	}
 
 	@Override

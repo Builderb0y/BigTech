@@ -19,7 +19,7 @@ public class MagnetiteNuggetDataGenerator extends BasicItemDataGenerator {
 			context.recipePath(context.suffixPath(this.id, "_from_ingot")),
 			new ShapedRecipeBuilder()
 			.pattern("i")
-			.tagIngredient('i', BigTechItemTags.MAGNETITE_INGOTS)
+			.where('i', BigTechItemTags.MAGNETITE_INGOTS)
 			.result(this.id)
 			.count(9)
 			.toString()

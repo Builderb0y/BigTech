@@ -2,9 +2,11 @@ package builderb0y.bigtech.beams.base;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.util.math.BlockPos;
 
-public record PositionedBeamSegment(BlockPos startPos, BeamSegment segment) {
+public record PositionedBeamSegment(@NotNull BlockPos startPos, @NotNull BeamSegment segment) {
 
 	public PositionedBeamSegment {
 		startPos = startPos.toImmutable();

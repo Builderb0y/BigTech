@@ -75,8 +75,8 @@ public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformData
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group("bigtech:waxed_copper_catwalk_platforms")
-				.itemIngredient(BigTechItems.COPPER_CATWALK_PLATFORMS.get(this.type.notWaxed()))
-				.itemIngredient(Items.HONEYCOMB)
+				.ingredient(BigTechItems.COPPER_CATWALK_PLATFORMS.get(this.type.notWaxed()))
+				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.toString()
 			);

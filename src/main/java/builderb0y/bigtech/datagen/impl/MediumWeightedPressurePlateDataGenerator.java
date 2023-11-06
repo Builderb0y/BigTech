@@ -91,7 +91,7 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("cc")
-			.tagIngredient('c', ConventionalItemTags.COPPER_INGOTS)
+			.where('c', ConventionalItemTags.COPPER_INGOTS)
 			.result(this.id)
 			.toString()
 		);

@@ -6,7 +6,8 @@
 		"base_side":   "bigtech:block/beam_emitter_base_side",
 		"body_top":    "bigtech:block/quartz_top_bottom",
 		"body_front":  "bigtech:block/redstone_transmitter_front",
-		"body_side":   "bigtech:block/redstone_transmitter_side"
+		"body_side":   "bigtech:block/redstone_transmitter_side",
+		"particle":    "bigtech:block/redstone_transmitter_side"
 	},
 	"elements": [
 		{

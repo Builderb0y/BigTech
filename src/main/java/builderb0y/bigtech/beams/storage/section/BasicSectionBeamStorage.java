@@ -7,11 +7,16 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.base.PositionedBeamSegment;
+import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
 public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<BeamSegment>> {
 
@@ -79,22 +84,54 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 	}
 
 	public void addAll( BasicSectionBeamStorage that, boolean unique) {
-		ObjectIterator<Entry<LinkedList<BeamSegment>>> iterator = that.short2ObjectEntrySet().fastIterator();
+		that.forEachSegment((pos, segment) -> this.addSegment(pos, segment, unique));
+	}
+
+	public void removeAll( BasicSectionBeamStorage that) {
+		that.forEachSegment(this::removeSegment);
+	}
+
+	public void forEachSegment(PackedPositionSegmentConsumer action) {
+		ObjectIterator<Entry<LinkedList<BeamSegment>>> iterator = this.short2ObjectEntrySet().fastIterator();
 		while (iterator.hasNext()) {
 			Short2ObjectMap.Entry<LinkedList<BeamSegment>> entry = iterator.next();
 			for (BeamSegment segment : entry.value) {
-				this.addSegment(entry.shortKey, segment, unique);
+				action.accept(entry.shortKey, segment);
 			}
 		}
 	}
 
-	public void removeAll( BasicSectionBeamStorage that) {
-		ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> iterator = that.short2ObjectEntrySet().fastIterator();
-		while (iterator.hasNext()) {
-			Short2ObjectMap.Entry<LinkedList<BeamSegment>> entry = iterator.next();
-			for (BeamSegment segment : entry.value) {
-				this.removeSegment(entry.shortKey, segment);
-			}
+	@FunctionalInterface
+	public static interface PackedPositionSegmentConsumer {
+
+		public abstract void accept(short packedPos, BeamSegment segment);
+	}
+
+	public void writeToNbt(NbtCompound tag, boolean includeUUID) {
+		tag.putSubList("segments", (NbtList segmentsTag) -> {
+			this.forEachSegment((short pos, BeamSegment segment) -> {
+				segmentsTag.addCompound((NbtCompound segmentTag) -> {
+					segment.toNbt(segmentTag.withShort("pos", pos), includeUUID);
+				});
+			});
+		});
+	}
+
+	public void readFromNbt(NbtCompound tag, CommonWorldBeamStorage world) {
+		this.clear();
+		for (NbtCompound compound : tag.getList("segments", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
+			short position = compound.getShort("pos");
+			BeamSegment segment = BeamSegment.fromNbt(compound, world);
+			if (segment != null) this.addSegment(position, segment, true);
+		}
+	}
+
+	public void readFromNbt(NbtCompound tag, Beam beam) {
+		this.clear();
+		for (NbtCompound compound : tag.getList("segments", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
+			short position = compound.getShort("pos");
+			BeamSegment segment = BeamSegment.fromNbt(compound, beam);
+			if (segment != null) this.addSegment(position, segment, true);
 		}
 	}
 }

@@ -73,8 +73,8 @@ public class EncasedSlimeBlockDataGenerator extends BasicBlockDataGenerator {
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:encased_slime_blocks")
 			.pattern("csc", "c c", "ccc")
-			.tagIngredient('c', ItemTags.STONE_CRAFTING_MATERIALS)
-			.itemIngredient('s', this.block.<EncasedSlimeBlock>as().isHoney ? Items.HONEY_BLOCK : Items.SLIME_BLOCK)
+			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
+			.where('s', this.block.<EncasedSlimeBlock>as().isHoney ? Items.HONEY_BLOCK : Items.SLIME_BLOCK)
 			.result(this.id)
 			.toString()
 		);

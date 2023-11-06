@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
 
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
@@ -21,11 +22,6 @@ public class ClientWorldBeamStorage extends CommonWorldBeamStorage {
 
 	@Override
 	public PersistentBeam getBeam(BlockPos pos) {
-		throw new UnsupportedOperationException("Beam origins do not exist on the client.");
-	}
-
-	@Override
-	public void removeBeam(BlockPos pos) {
 		throw new UnsupportedOperationException("Beam origins do not exist on the client.");
 	}
 
@@ -44,7 +40,7 @@ public class ClientWorldBeamStorage extends CommonWorldBeamStorage {
 		int maxZ = MathHelper.floor(player.z + 32.0D) >> 4;
 		for (int chunkZ = minZ; chunkZ <= maxZ; chunkZ++) {
 			for (int chunkX = minX; chunkX <= maxX; chunkX++) {
-				Chunk chunk = this.world.getChunk(chunkX, chunkZ);
+				Chunk chunk = this.world.getChunk(chunkX, chunkZ, ChunkStatus.FULL, false);
 				if (chunk != null) {
 					ChunkBeamStorageHolder.KEY.get(chunk).require().tick();
 				}
