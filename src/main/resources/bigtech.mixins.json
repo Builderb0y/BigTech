@@ -25,6 +25,5 @@
 	"client": [ "WorldRenderer_FrustumGetter" ],
 	"injectors": {
 		"defaultRequire": 1
-	},
-	"accessWidener": "bigtech.accesswidener"
+	}
 }

@@ -27,5 +27,6 @@
 			"bigtech:chunk_beam_storage",
 			"bigtech:world_beam_storage"
 		]
-	}
+	},
+	"accessWidener": "bigtech.accesswidener"
 }
