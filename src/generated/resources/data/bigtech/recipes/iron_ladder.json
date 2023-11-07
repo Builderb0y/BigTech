@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"i i",
+		"iii",
+		"i i"
+	],
+	"key": {
+		"i": { "tag": "c:iron_nuggets" }
+	},
+	"result": {
+		"item": "bigtech:iron_ladder",
+		"count": 3
+	}
+}

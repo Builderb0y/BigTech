@@ -13,11 +13,12 @@
 		"EntityShapeContext_HeldItemGetter",
 		"ExplosionAccessor",
 		"ItemEntity_DontMergeDuringTransport",
+		"LadderBlock_MakePlaceableOnFrames",
 		"LightningRod_EmitLightningPulse",
 		"MobSpawnerLogic_MakeForceable",
 		"PistonHandler_AddNecessaryMethods",
 		"PistonHandlerAccessor",
-		"PlayerEntity_HookIntoIsClimbing",
+		"PlayerEntity_NoClimbingWhileFlying",
 		"PlayerEntity_OverrideIsClimbing",
 		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",
 		"WorldChunk_NotifyBeamsOfBlockChange"

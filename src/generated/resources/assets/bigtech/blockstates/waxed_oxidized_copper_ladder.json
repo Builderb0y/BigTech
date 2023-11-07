@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "bigtech:block/waxed_oxidized_copper_ladder", "y":   0 },
+		"facing=east":  { "model": "bigtech:block/waxed_oxidized_copper_ladder", "y":  90 },
+		"facing=south": { "model": "bigtech:block/waxed_oxidized_copper_ladder", "y": 180 },
+		"facing=west":  { "model": "bigtech:block/waxed_oxidized_copper_ladder", "y": 270 }
+	}
+}

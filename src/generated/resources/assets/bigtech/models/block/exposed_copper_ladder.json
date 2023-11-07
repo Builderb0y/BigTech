@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/ladder",
+	"textures": {
+		"texture":  "bigtech:block/exposed_copper_ladder",
+		"particle": "bigtech:block/exposed_copper_ladder"
+	}
+}

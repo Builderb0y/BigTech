@@ -1,0 +1,13 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:copper_ladder",
+		"bigtech:exposed_copper_ladder",
+		"bigtech:oxidized_copper_ladder",
+		"bigtech:waxed_copper_ladder",
+		"bigtech:waxed_exposed_copper_ladder",
+		"bigtech:waxed_oxidized_copper_ladder",
+		"bigtech:waxed_weathered_copper_ladder",
+		"bigtech:weathered_copper_ladder"
+	]
+}

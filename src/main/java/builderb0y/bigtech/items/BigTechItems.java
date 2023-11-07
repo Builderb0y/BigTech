@@ -19,6 +19,8 @@ import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataG
 import builderb0y.bigtech.datagen.impl.catwalkStairs.CopperCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.IronCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.*;
+import builderb0y.bigtech.datagen.impl.metalLadders.CopperLadderDataGenerator;
+import builderb0y.bigtech.datagen.impl.metalLadders.IronLadderDataGenerator;
 
 public class BigTechItems {
 
@@ -111,6 +113,18 @@ public class BigTechItems {
 		MANGROVE_FRAME = registerPlacer(BigTechBlocks.MANGROVE_FRAME),
 		CRIMSON_FRAME  = registerPlacer(BigTechBlocks.CRIMSON_FRAME),
 		WARPED_FRAME   = registerPlacer(BigTechBlocks.WARPED_FRAME);
+	@UseDataGen(IronLadderDataGenerator.class)
+	public static final BlockItem IRON_LADDER = registerPlacer(
+		BigTechBlocks.IRON_LADDER
+	);
+	@UseDataGen(CopperLadderDataGenerator.class)
+	public static final CopperItemCollection COPPER_LADDERS = new CopperItemCollection(
+		"ladder",
+		type -> new BlockItem(
+			BigTechBlocks.COPPER_LADDERS.get(type),
+			new Item.Settings()
+		)
+	);
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)
 	public static final BlockItem ENCASED_REDSTONE_BLOCK = registerPlacer(
 		BigTechBlocks.ENCASED_REDSTONE_BLOCK

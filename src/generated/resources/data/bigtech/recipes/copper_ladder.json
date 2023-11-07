@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:copper_ladders",
+	"pattern": [
+		"c c",
+		"ccc",
+		"c c"
+	],
+	"key": {
+		"c": { "tag": "c:copper_nuggets" }
+	},
+	"result": {
+		"item": "bigtech:copper_ladder",
+		"count": 3
+	}
+}

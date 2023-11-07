@@ -90,10 +90,8 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	public boolean shouldHaveRail(
 		BlockView world,
 		BlockPos pos,
-		Direction direction,
-		boolean hasFrame
+		Direction direction
 	) {
-		if (hasFrame) return false;
 		BlockPos adjacentPos = pos.offset(direction);
 		BlockState adjacentState = world.getBlockState(adjacentPos);
 		if (adjacentState.isIn(BlockTags.CLIMBABLE)) return false;
@@ -104,15 +102,6 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		VoxelShape diagonalShape = diagonalState.getCollisionShape(world, diagonalPos);
 		if (touchesEdge(diagonalShape, direction.opposite) && touchesEdge(diagonalShape, Direction.UP)) return false;
 		return true;
-	}
-
-	public boolean shouldHaveRail_checkFrame(
-		BlockView world,
-		BlockPos pos,
-		Direction direction
-	) {
-		BlockState downState = world.getBlockState(pos.down());
-		return this.shouldHaveRail(world, pos, direction, downState.getBlock() instanceof FrameBlock && downState.isIn(BlockTags.CLIMBABLE));
 	}
 
 	@Override
@@ -131,57 +120,32 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (direction == Direction.DOWN) {
-			if (neighborState.getBlock() instanceof FrameBlock && neighborState.isIn(BlockTags.CLIMBABLE)) {
-				return (
-					state
-					.with(Properties.NORTH, Boolean.FALSE)
-					.with(Properties.EAST,  Boolean.FALSE)
-					.with(Properties.SOUTH, Boolean.FALSE)
-					.with(Properties.WEST,  Boolean.FALSE)
-				);
-			}
-			else {
-				return (
-					state
-					.with(Properties.NORTH, this.shouldHaveRail(world, pos, Direction.NORTH, false))
-					.with(Properties.EAST,  this.shouldHaveRail(world, pos, Direction.EAST,  false))
-					.with(Properties.SOUTH, this.shouldHaveRail(world, pos, Direction.SOUTH, false))
-					.with(Properties.WEST,  this.shouldHaveRail(world, pos, Direction.WEST,  false))
-				);
-			}
+			return (
+				state
+				.with(Properties.NORTH, this.shouldHaveRail(world, pos, Direction.NORTH))
+				.with(Properties.EAST,  this.shouldHaveRail(world, pos, Direction.EAST))
+				.with(Properties.SOUTH, this.shouldHaveRail(world, pos, Direction.SOUTH))
+				.with(Properties.WEST,  this.shouldHaveRail(world, pos, Direction.WEST))
+			);
 		}
 		else if (direction == Direction.UP) {
 			return state;
 		}
 		else {
-			return state.with(PROPERTY_LOOKUP.get(direction), this.shouldHaveRail_checkFrame(world, pos, direction));
+			return state.with(PROPERTY_LOOKUP.get(direction), this.shouldHaveRail(world, pos, direction));
 		}
 	}
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
-		BlockState state = super.getPlacementState(context);
-		state = state.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER));
-		BlockState downState = context.world.getBlockState(context.blockPos.down());
-		if (downState.getBlock() instanceof FrameBlock && downState.isIn(BlockTags.CLIMBABLE)) {
-			state = (
-				state
-				.with(Properties.NORTH, Boolean.FALSE)
-				.with(Properties.EAST,  Boolean.FALSE)
-				.with(Properties.SOUTH, Boolean.FALSE)
-				.with(Properties.WEST,  Boolean.FALSE)
-			);
-		}
-		else {
-			state = (
-				state
-				.with(Properties.NORTH, this.shouldHaveRail(context.world, context.blockPos, Direction.NORTH, false))
-				.with(Properties.EAST,  this.shouldHaveRail(context.world, context.blockPos, Direction.EAST,  false))
-				.with(Properties.SOUTH, this.shouldHaveRail(context.world, context.blockPos, Direction.SOUTH, false))
-				.with(Properties.WEST,  this.shouldHaveRail(context.world, context.blockPos, Direction.WEST,  false))
-			);
-		}
-		return state;
+		return (
+			super.getPlacementState(context)
+			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
+			.with(Properties.NORTH, this.shouldHaveRail(context.world, context.blockPos, Direction.NORTH))
+			.with(Properties.EAST,  this.shouldHaveRail(context.world, context.blockPos, Direction.EAST))
+			.with(Properties.SOUTH, this.shouldHaveRail(context.world, context.blockPos, Direction.SOUTH))
+			.with(Properties.WEST,  this.shouldHaveRail(context.world, context.blockPos, Direction.WEST))
+		);
 	}
 
 	public Direction getPlacementDirection(BlockPos origin, BlockState state, ItemPlacementContext context) {

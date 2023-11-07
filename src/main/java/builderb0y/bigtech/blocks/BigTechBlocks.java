@@ -243,6 +243,39 @@ public class BigTechBlocks {
 			)
 		);
 	@UseDataGen(void.class)
+	public static final LadderBlock IRON_LADDER = register(
+		"iron_ladder",
+		new LadderBlock(
+			AbstractBlock
+			.Settings
+			.copy(Blocks.IRON_BLOCK)
+			.strength(1.0F)
+			.notSolid()
+			.nonOpaque()
+			.pistonBehavior(PistonBehavior.DESTROY)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final CopperBlockCollection COPPER_LADDERS = new CopperBlockCollection(
+		"ladder",
+		type -> {
+			AbstractBlock.Settings settings = (
+				AbstractBlock
+				.Settings
+				.copy(VANILLA_COPPER_BLOCKS.get(type))
+				.strength(0.6F, 1.2F)
+				.notSolid()
+				.nonOpaque()
+				.pistonBehavior(PistonBehavior.DESTROY)
+			);
+			return (
+				type.waxed
+				? new LadderBlock(settings)
+				: new OxidizableLaderBlock(settings, type.level)
+			);
+		}
+	);
+	@UseDataGen(void.class)
 	public static final EncasedRedstoneBlock ENCASED_REDSTONE_BLOCK = register(
 		"encased_redstone_block",
 		new EncasedRedstoneBlock(
@@ -501,6 +534,7 @@ public class BigTechBlocks {
 			MANGROVE_FRAME,
 			CRIMSON_FRAME,
 			WARPED_FRAME,
+			IRON_LADDER,
 			TRANSMUTER,
 			IRON_CATWALK_PLATFORM,
 			IRON_CATWALK_STAIRS
@@ -509,6 +543,7 @@ public class BigTechBlocks {
 			RenderLayer.cutout,
 			Stream.of(
 				COPPER_FRAMES,
+				COPPER_LADDERS,
 				COPPER_CATWALK_PLATFORMS,
 				COPPER_CATWALK_STAIRS,
 				COPPER_BARS

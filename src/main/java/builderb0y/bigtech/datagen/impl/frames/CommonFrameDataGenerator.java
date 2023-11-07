@@ -37,7 +37,6 @@ public class CommonFrameDataGenerator implements DataGenerator {
 
 		context.getTags(BigTechItemTags.STICKS).add(Items.STICK);
 		context.getTags(BigTechItemTags.GOLD_NUGGETS).add(Items.GOLD_NUGGET);
-		context.getTags(BlockTags.CLIMBABLE).add(BigTechBlockTags.FRAMES);
 		context.getTags(BigTechBlockTags.STICKS_TO_COPPER_FRAME).add(BigTechBlockTags.COPPER_FRAMES);
 
 		context.writeToFile(
