@@ -5,7 +5,6 @@ where I left off:
 
 things to finish for existing features:
 	JEI support for sorter belt GUI.
-	make redstone transmitters and receivers waterloggable.
 	support beam for copper stairs (and other stairs) has texture flipped.
 
 features:
@@ -18,8 +17,6 @@ features:
 			still need wooden and gold variants.
 		catwalk stairs: includes rails on the side
 			still need wooden and gold variants.
-		more ladder variants: iron, gold, copper, and wood.
-			metal ones can be free-standing.
 		decorative lightning rod: summons lightning on demand, does not generate lightning power
 	transport:
 		belts:
@@ -101,7 +98,8 @@ done:
 			launcher belt: launches entities upwards
 		ascender/descender: transports entities vertically
 	decoration:
-		frames: looks like scaffolding, can be climbed like a ladder
+		frames: looks like scaffolding.
+		more ladders: iron and copper.
 	redstone:
 		encased redstone block: emits a redstone signal in only one direction
 		encased slime block: only sticks to other blocks on one side. doesn't stick to honey blocks.

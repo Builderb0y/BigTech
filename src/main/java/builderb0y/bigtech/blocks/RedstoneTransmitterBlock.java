@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.Waterloggable;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -19,6 +22,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.RedstoneView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
@@ -26,7 +30,7 @@ import builderb0y.bigtech.beams.impl.RedstoneBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.util.Enums;
 
-public class RedstoneTransmitterBlock extends Block {
+public class RedstoneTransmitterBlock extends Block implements Waterloggable {
 
 	public static VoxelShape NORTH_SOUTH_SHAPE = VoxelShapes.union(
 		VoxelShapes.cuboid(0.0D, 0.0D, 0.0D, 1.0D, 3.0D / 16.0D, 1.0D),
@@ -43,7 +47,11 @@ public class RedstoneTransmitterBlock extends Block {
 
 	public RedstoneTransmitterBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+		this.defaultState = (
+			this.defaultState
+			.with(Properties.POWERED, Boolean.FALSE)
+			.with(Properties.WATERLOGGED, Boolean.FALSE)
+		);
 	}
 
 	public boolean shouldBePowered(RedstoneView world, BlockPos pos) {
@@ -131,13 +139,34 @@ public class RedstoneTransmitterBlock extends Block {
 	}
 
 	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+		if (state.get(Properties.WATERLOGGED)) {
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+	}
+
+	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite);
+		return (
+			super.getPlacementState(context)
+			.with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite)
+			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
+		);
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public FluidState getFluidState(BlockState state) {
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
 	}
 
 	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
-		builder.add(Properties.HORIZONTAL_FACING, Properties.POWERED);
+		builder.add(Properties.HORIZONTAL_FACING, Properties.POWERED, Properties.WATERLOGGED);
 	}
 }

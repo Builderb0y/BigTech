@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.Waterloggable;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -18,6 +21,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
@@ -25,11 +29,15 @@ import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 
-public class RedstoneReceiverBlock extends Block implements BeamCallback {
+public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterloggable {
 
 	public RedstoneReceiverBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+		this.defaultState = (
+			this.defaultState
+			.with(Properties.POWERED, Boolean.FALSE)
+			.with(Properties.WATERLOGGED, Boolean.FALSE)
+		);
 	}
 
 	@Override
@@ -166,7 +174,11 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback {
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite);
+		return (
+			super.getPlacementState(context)
+			.with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite)
+			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
+		);
 	}
 
 	@Override
@@ -181,8 +193,25 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback {
 	}
 
 	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+		if (state.get(Properties.WATERLOGGED)) {
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public FluidState getFluidState(BlockState state) {
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+	}
+
+	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
-		builder.add(Properties.HORIZONTAL_FACING, Properties.POWERED);
+		builder.add(Properties.HORIZONTAL_FACING, Properties.POWERED, Properties.WATERLOGGED);
 	}
 }
