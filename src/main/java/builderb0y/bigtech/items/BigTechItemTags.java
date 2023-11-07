@@ -19,6 +19,7 @@ public class BigTechItemTags {
 		COPPER_LADDERS           = of("copper_ladders"),
 		METAL_LADDERS            = of("metal_ladders"),
 		LADDERS                  = common("ladders"),
+		COPPER_SLABS             = of("copper_slabs"),
 		LIGHTNING_CABLES         = of("lightning_cables"),
 		WOODEN_CATWALK_PLATFORMS = of("wooden_catwalk_platforms"),
 		COPPER_CATWALK_PLATFORMS = of("copper_catwalk_platforms"),

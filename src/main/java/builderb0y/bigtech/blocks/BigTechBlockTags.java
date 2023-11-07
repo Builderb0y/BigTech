@@ -34,6 +34,7 @@ public class BigTechBlockTags {
 		COPPER_LADDERS           = of("copper_ladders"),
 		METAL_LADDERS            = of("metal_ladders"),
 		LADDERS                  = common("ladders"),
+		COPPER_SLABS             = of("copper_slabs"),
 		/**
 		contains vanilla blocks which can conduct a lightning pulse.
 		notably, this includes iron blocks, copper blocks, and gold blocks.

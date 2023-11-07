@@ -1,0 +1,6 @@
+{
+	"type": "minecraft:stonecutting",
+	"count": 2,
+	"ingredient": { "item": "minecraft:exposed_copper" },
+	"result": "bigtech:exposed_copper_slab"
+}

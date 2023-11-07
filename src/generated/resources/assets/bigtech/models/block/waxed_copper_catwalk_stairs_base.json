@@ -1,7 +1,7 @@
 {
 	"parent": "bigtech:block/template_catwalk_stairs_base",
 	"textures": {
-		"base":   "minecraft:block/copper_block",
+		"base":   "bigtech:block/copper_slab",
 		"stairs": "bigtech:block/copper_catwalk_stairs"
 	}
 }

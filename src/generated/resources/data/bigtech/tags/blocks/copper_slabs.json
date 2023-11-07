@@ -1,0 +1,13 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:copper_slab",
+		"bigtech:exposed_copper_slab",
+		"bigtech:oxidized_copper_slab",
+		"bigtech:waxed_copper_slab",
+		"bigtech:waxed_exposed_copper_slab",
+		"bigtech:waxed_oxidized_copper_slab",
+		"bigtech:waxed_weathered_copper_slab",
+		"bigtech:weathered_copper_slab"
+	]
+}

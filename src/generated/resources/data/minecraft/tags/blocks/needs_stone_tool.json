@@ -2,6 +2,7 @@
 	"replace": false,
 	"values": [
 		"#bigtech:copper_bars",
+		"#bigtech:copper_slabs",
 		"#bigtech:metal_catwalk_platforms",
 		"#bigtech:metal_catwalk_stairs",
 		"#bigtech:metal_frames",

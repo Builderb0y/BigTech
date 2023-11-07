@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"type=bottom": { "model": "bigtech:block/exposed_copper_slab_bottom" },
+		"type=double": { "model": "bigtech:block/exposed_copper_slab_double" },
+		"type=top":    { "model": "bigtech:block/exposed_copper_slab_top"    }
+	}
+}

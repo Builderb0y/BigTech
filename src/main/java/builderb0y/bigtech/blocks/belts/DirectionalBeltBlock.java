@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -87,6 +88,13 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
 		return super.getPlacementState(context).with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing);
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public boolean canReplace(BlockState state, ItemPlacementContext context) {
+		return context.getStack().getItem() instanceof BlockItem blockItem && blockItem.block instanceof AbstractBeltBlock && !context.shouldCancelInteraction();
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class BigTechItems {
 		BigTechBlocks.INJECTOR_BELT
 	);
 	@UseDataGen(LauncherBeltDataGenerator.class)
-	public static final BlockItem LAUNCHER_BELT = registerPlacer(
+	public static final BlockItem LAUNCHER_BELT = registerBelt(
 		BigTechBlocks.LAUNCHER_BELT
 	);
 	@UseDataGen(AscenderDataGenerator.class)
@@ -122,6 +122,14 @@ public class BigTechItems {
 		"ladder",
 		type -> new BlockItem(
 			BigTechBlocks.COPPER_LADDERS.get(type),
+			new Item.Settings()
+		)
+	);
+	@UseDataGen(CopperSlabDataGenerator.class)
+	public static final CopperItemCollection COPPER_SLABS = new CopperItemCollection(
+		"slab",
+		type -> new BlockItem(
+			BigTechBlocks.COPPER_SLABS.get(type),
 			new Item.Settings()
 		)
 	);

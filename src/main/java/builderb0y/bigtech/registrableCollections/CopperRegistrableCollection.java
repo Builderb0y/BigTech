@@ -181,12 +181,14 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 
 		public final OxidationLevel level;
 		public final boolean waxed;
+		public final String lowerCaseName;
 		public final String prefix;
 
 		Type(OxidationLevel level, boolean waxed) {
 			this.level = level;
 			this.waxed = waxed;
-			this.prefix = this.name().toLowerCase(Locale.ROOT) + '_';
+			this.lowerCaseName = this.name().toLowerCase(Locale.ROOT);
+			this.prefix = this.lowerCaseName + '_';
 		}
 
 		public static Type get(OxidationLevel level, boolean waxed) {

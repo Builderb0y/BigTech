@@ -276,6 +276,18 @@ public class BigTechBlocks {
 		}
 	);
 	@UseDataGen(void.class)
+	public static final CopperBlockCollection COPPER_SLABS = new CopperBlockCollection(
+		"slab",
+		type -> {
+			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(VANILLA_COPPER_BLOCKS.get(type));
+			return (
+				type.waxed
+				? new SlabBlock(settings)
+				: new OxidizableSlabBlock(type.level, settings)
+			);
+		}
+	);
+	@UseDataGen(void.class)
 	public static final EncasedRedstoneBlock ENCASED_REDSTONE_BLOCK = register(
 		"encased_redstone_block",
 		new EncasedRedstoneBlock(

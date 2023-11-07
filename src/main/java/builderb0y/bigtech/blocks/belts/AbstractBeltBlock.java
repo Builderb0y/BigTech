@@ -107,13 +107,6 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
-	public boolean canReplace(BlockState state, ItemPlacementContext context) {
-		return context.getStack().getItem() instanceof BlockItem blockItem && blockItem.block instanceof AbstractBeltBlock && !context.shouldCancelInteraction();
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
 	}
