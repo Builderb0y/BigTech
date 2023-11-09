@@ -14,6 +14,8 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -69,8 +71,10 @@ public class RedstoneTransmitterBlock extends Block implements Waterloggable {
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
 		if (oldBeam != null) oldBeam.removeFromWorld();
-		PersistentBeam newBeam = new RedstoneBeam(world, UUID.randomUUID());
-		newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		if (state.get(Properties.POWERED)) {
+			PersistentBeam newBeam = new RedstoneBeam(world, UUID.randomUUID());
+			newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		}
 		return false;
 	}
 
@@ -162,6 +166,20 @@ public class RedstoneTransmitterBlock extends Block implements Waterloggable {
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override

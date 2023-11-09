@@ -10,8 +10,6 @@ features:
 	general:
 		config file for disabling non-essential mixins.
 	decoration:
-		copper slab blocks: texture that resembles polished stone slabs, in the sense that it's clearly split in two.
-			use that same texture for copper catwalk stairs.
 		catwalk platforms: looks like a catwalk, can be walked on
 			still need wooden and gold variants.
 		catwalk stairs: includes rails on the side
@@ -35,9 +33,9 @@ features:
 		lightning enchanter: uses lightning power to enchant items
 		magnetite:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
+				should this just be an item that works in your inventory instead?
 			arrow: is attracted to mobs
 	lasers:
-		redstone detector: detects a redstone laser passing through the block
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
 		thermal discouragement beam: ignites entities that touch the beam
@@ -99,6 +97,8 @@ done:
 	decoration:
 		frames: looks like scaffolding.
 		more ladders: iron and copper.
+		copper slab blocks: texture that resembles polished stone slabs, in the sense that it's clearly split in two.
+			use that same texture for copper catwalk stairs.
 	redstone:
 		encased redstone block: emits a redstone signal in only one direction
 		encased slime block: only sticks to other blocks on one side. doesn't stick to honey blocks.
@@ -106,6 +106,7 @@ done:
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receives a signal from a redstone transmitter
+		beam interceptor: detects a laser passing through the block
 		crystal clusters:
 			boosts the distance of lasers passing through it.
 		lens: placed on prisms to control their outputs. also used for crafting lasers.

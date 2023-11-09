@@ -1,0 +1,42 @@
+{
+	"parent": "bigtech:block/beam_interceptor_transforms",
+	"textures": {
+		"particle": "bigtech:block/beam_interceptor",
+		"detector": "bigtech:block/beam_interceptor"
+	},
+	"elements": [
+		{
+			"from": [  4, 0,  4 ],
+			"to":   [ 12, 2, 12 ],
+			"faces": {
+				"up":    { "uv": [ 0, 0,  8,  8  ], "texture": "#detector"                     },
+				"down":  { "uv": [ 0, 8,  8,  16 ], "texture": "#detector", "cullface": "down" },
+				"north": { "uv": [ 8, 14, 16, 16 ], "texture": "#detector"                     },
+				"south": { "uv": [ 8, 14, 16, 16 ], "texture": "#detector"                     },
+				"east":  { "uv": [ 8, 14, 16, 16 ], "texture": "#detector"                     },
+				"west":  { "uv": [ 8, 14, 16, 16 ], "texture": "#detector"                     }
+			}
+		},
+		{
+			"from": [ 7, 2, 7 ],
+			"to":   [ 9, 7, 9 ],
+			"faces": {
+				"north": { "uv": [ 9, 9, 11, 14 ], "texture": "#detector" },
+				"south": { "uv": [ 9, 9, 11, 14 ], "texture": "#detector" },
+				"east":  { "uv": [ 9, 9, 11, 14 ], "texture": "#detector" },
+				"west":  { "uv": [ 9, 9, 11, 14 ], "texture": "#detector" }
+			}
+		},
+		{
+			"from": [ 7, 7, 7 ],
+			"to":   [ 9, 9, 9 ],
+			"faces": {
+				"up":    { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
+				"north": { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
+				"south": { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
+				"east":  { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
+				"west":  { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 }
+			}
+		}
+	]
+}

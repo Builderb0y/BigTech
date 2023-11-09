@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
@@ -21,9 +22,12 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
+import builderb0y.bigtech.util.WorldHelper;
 
 public class BigTechBlocks {
 
@@ -496,6 +500,18 @@ public class BigTechBlocks {
 			AbstractBlock.Settings.copy(Blocks.QUARTZ_BLOCK)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final BeamInterceptorBlock BEAM_INTERCEPTOR = register(
+		"beam_interceptor",
+		new BeamInterceptorBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.pistonBehavior(PistonBehavior.DESTROY)
+			.nonOpaque()
+			.strength(0.2F)
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);
@@ -549,7 +565,8 @@ public class BigTechBlocks {
 			IRON_LADDER,
 			TRANSMUTER,
 			IRON_CATWALK_PLATFORM,
-			IRON_CATWALK_STAIRS
+			IRON_CATWALK_STAIRS,
+			BEAM_INTERCEPTOR
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.cutout,
@@ -568,6 +585,16 @@ public class BigTechBlocks {
 			CRYSTAl_ClUSTERS
 			.stream()
 			.toArray(Block[]::new)
+		);
+		ColorProviderRegistry.BLOCK.register(
+			(state, world, pos, tintIndex) -> {
+				BeamInterceptorBlockEntity blockEntity;
+				if (tintIndex == 1 && world != null && pos != null && (blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class)) != null && blockEntity.color != null) {
+					return BeamSegment.packRgb(blockEntity.color) | 0xFF000000;
+				}
+				return -1;
+			},
+			BEAM_INTERCEPTOR
 		);
 	}
 

@@ -1,13 +1,20 @@
 package builderb0y.bigtech.items;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.*;
@@ -230,8 +237,35 @@ public class BigTechItems {
 	public static final BlockItem REDSTONE_RECEIVER = registerPlacer(
 		BigTechBlocks.REDSTONE_RECEIVER
 	);
+	@UseDataGen(BeamInterceptorDataGenerator.class)
+	public static final BlockItem BEAM_INTERCEPTOR = register(
+		"beam_interceptor",
+		new ClientNbtCopyingBlockItem(
+			BigTechBlocks.BEAM_INTERCEPTOR,
+			new Item.Settings()
+		)
+	);
 
 	public static void init() {}
+
+	@Environment(EnvType.CLIENT)
+	public static void initClient() {
+		ColorProviderRegistry.ITEM.register(
+			(stack, tintIndex) -> {
+				if (tintIndex == 1) {
+					NbtCompound nbt = stack.getSubNbt(BlockItem.BLOCK_ENTITY_TAG_KEY);
+					if (nbt != null) {
+						float[] color = nbt.getFloatArray("color");
+						if (color.length == 3) {
+							return MathHelper.packRgb(color[0], color[1], color[2]) | 0xFF000000;
+						}
+					}
+				}
+				return -1;
+			},
+			BEAM_INTERCEPTOR
+		);
+	}
 
 	public static BeltBlockItem registerBelt(Block block) {
 		return register(Registries.BLOCK.getId(block), new BeltBlockItem(block, new Item.Settings()));

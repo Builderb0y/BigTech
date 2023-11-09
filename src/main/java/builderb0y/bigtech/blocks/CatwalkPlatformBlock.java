@@ -18,6 +18,8 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
@@ -31,6 +33,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.items.CatwalkStairsBlockItem;
+import builderb0y.bigtech.util.Enums;
 
 public class CatwalkPlatformBlock extends Block implements Waterloggable {
 
@@ -100,8 +103,7 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		BlockState diagonalState = world.getBlockState(diagonalPos);
 		if (diagonalState.isIn(BlockTags.CLIMBABLE)) return false;
 		VoxelShape diagonalShape = diagonalState.getCollisionShape(world, diagonalPos);
-		if (touchesEdge(diagonalShape, direction.opposite) && touchesEdge(diagonalShape, Direction.UP)) return false;
-		return true;
+		return !touchesEdge(diagonalShape, direction.opposite) || !touchesEdge(diagonalShape, Direction.UP);
 	}
 
 	@Override
@@ -194,6 +196,59 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPES[getShapeIndex(state)];
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return switch (rotation) {
+			case NONE -> (
+				state
+			);
+			case CLOCKWISE_90 -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.WEST ))
+				.with(Properties.EAST,  state.get(Properties.NORTH))
+				.with(Properties.SOUTH, state.get(Properties.EAST ))
+				.with(Properties.WEST,  state.get(Properties.SOUTH))
+			);
+			case CLOCKWISE_180 -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.SOUTH))
+				.with(Properties.EAST,  state.get(Properties.WEST ))
+				.with(Properties.SOUTH, state.get(Properties.NORTH))
+				.with(Properties.WEST,  state.get(Properties.EAST ))
+			);
+			case COUNTERCLOCKWISE_90 -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.EAST ))
+				.with(Properties.EAST,  state.get(Properties.SOUTH))
+				.with(Properties.SOUTH, state.get(Properties.WEST ))
+				.with(Properties.WEST,  state.get(Properties.NORTH))
+			);
+		};
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return switch (mirror) {
+			case NONE -> (
+				state
+			);
+			case LEFT_RIGHT -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.SOUTH))
+				.with(Properties.SOUTH, state.get(Properties.NORTH))
+			);
+			case FRONT_BACK -> (
+				state
+				.with(Properties.EAST, state.get(Properties.WEST))
+				.with(Properties.WEST, state.get(Properties.EAST))
+			);
+		};
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
@@ -207,6 +209,19 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterl
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+	}
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override

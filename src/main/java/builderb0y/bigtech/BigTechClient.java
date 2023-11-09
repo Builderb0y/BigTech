@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGen;
 import builderb0y.bigtech.handledScreens.BigTechHandledScreens;
+import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.models.BigTechModels;
 import builderb0y.bigtech.particles.BigTechParticles;
 
@@ -17,6 +18,7 @@ public class BigTechClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		BigTechMod.LOGGER.info("Initializing on client...");
 		BigTechBlocks.initClient();
+		BigTechItems.initClient();
 		BigTechHandledScreens.initClient();
 		BigTechModels.init();
 		BigTechParticles.initClient();

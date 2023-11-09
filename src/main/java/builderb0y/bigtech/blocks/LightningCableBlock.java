@@ -11,6 +11,8 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -127,6 +129,59 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return switch (rotation) {
+			case NONE -> (
+				state
+			);
+			case CLOCKWISE_90 -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.WEST ))
+				.with(Properties.EAST,  state.get(Properties.NORTH))
+				.with(Properties.SOUTH, state.get(Properties.EAST ))
+				.with(Properties.WEST,  state.get(Properties.SOUTH))
+			);
+			case CLOCKWISE_180 -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.SOUTH))
+				.with(Properties.EAST,  state.get(Properties.WEST ))
+				.with(Properties.SOUTH, state.get(Properties.NORTH))
+				.with(Properties.WEST,  state.get(Properties.EAST ))
+			);
+			case COUNTERCLOCKWISE_90 -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.EAST ))
+				.with(Properties.EAST,  state.get(Properties.SOUTH))
+				.with(Properties.SOUTH, state.get(Properties.WEST ))
+				.with(Properties.WEST,  state.get(Properties.NORTH))
+			);
+		};
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return switch (mirror) {
+			case NONE -> (
+				state
+			);
+			case LEFT_RIGHT -> (
+				state
+				.with(Properties.NORTH, state.get(Properties.SOUTH))
+				.with(Properties.SOUTH, state.get(Properties.NORTH))
+			);
+			case FRONT_BACK -> (
+				state
+				.with(Properties.EAST, state.get(Properties.WEST))
+				.with(Properties.WEST, state.get(Properties.EAST))
+			);
+		};
 	}
 
 	@Override

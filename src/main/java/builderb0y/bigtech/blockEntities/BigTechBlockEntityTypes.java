@@ -28,6 +28,12 @@ public class BigTechBlockEntityTypes {
 		TransmuterBlockEntity::new,
 		BigTechBlocks.TRANSMUTER
 	);
+	@UseDataGen(void.class) //handled by ItemBlock (BeamInterceptorDataGenerator).
+	public static final BlockEntityType<BeamInterceptorBlockEntity> BEAM_INTERCEPTOR = register(
+		"beam_interceptor",
+		BeamInterceptorBlockEntity::new,
+		BigTechBlocks.BEAM_INTERCEPTOR
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

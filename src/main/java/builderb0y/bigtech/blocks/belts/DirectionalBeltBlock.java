@@ -9,6 +9,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -95,6 +97,20 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	@SuppressWarnings("deprecation")
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return context.getStack().getItem() instanceof BlockItem blockItem && blockItem.block instanceof AbstractBeltBlock && !context.shouldCancelInteraction();
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override

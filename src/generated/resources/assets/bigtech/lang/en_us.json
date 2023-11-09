@@ -1,6 +1,12 @@
 {
+	"bigtech.beam_interceptor.cant_lock":                    "\u00A7cCannot lock without any beams",
+	"bigtech.beam_interceptor.current":                      "Current color: %s",
+	"bigtech.beam_interceptor.locked":                       "Now detecting %s",
+	"bigtech.beam_interceptor.no_color":                     "none",
+	"bigtech.beam_interceptor.unlocked":                     "Now detecting all colors",
 	"block.bigtech.acacia_frame":                            "Acacia Frame",
 	"block.bigtech.ascender":                                "Ascender",
+	"block.bigtech.beam_interceptor":                        "Beam Interceptor",
 	"block.bigtech.belt":                                    "Belt",
 	"block.bigtech.birch_frame":                             "Birch Frame",
 	"block.bigtech.black_crystal_cluster":                   "Black Crystal Cluster",
