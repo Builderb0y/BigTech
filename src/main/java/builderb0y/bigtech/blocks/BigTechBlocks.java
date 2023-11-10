@@ -512,6 +512,19 @@ public class BigTechBlocks {
 			.strength(0.2F)
 		)
 	);
+	@UseDataGen(void.class)
+	public static final MirrorBlock MIRROR = register(
+		"mirror",
+		new MirrorBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.IRON_GRAY)
+			.nonOpaque()
+			.strength(0.6F)
+			.requiresTool()
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

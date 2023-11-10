@@ -26,6 +26,7 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
+		config option to replace lightning renderer with a cooler one.
 		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
 		lightning electrode: stores lightning power in portable, item format. releases power on right click.
 		resurrector: uses lightning power and mob drops to summon the mob that drops those items
@@ -41,7 +42,6 @@ features:
 		thermal discouragement beam: ignites entities that touch the beam
 		tripwire beam: emits a redstone signal when an entity touches the beam
 		spotlight: illuminates every block the beam goes through
-		mirror: reflects beams so that they go somewhere else
 		prism: can split up a laser into several others
 		beam obscurator: makes laser beams invisible
 		beam revealer: makes laser beams visible again
@@ -108,8 +108,9 @@ done:
 		redstone receiver: receives a signal from a redstone transmitter
 		beam interceptor: detects a laser passing through the block
 		crystal clusters:
-			boosts the distance of lasers passing through it.
+			boosts the distance of lasers passing through it
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
+		mirror: reflects beams so that they go somewhere else
 
 canceled:
 	lightning rod: already in vanilla.

@@ -245,6 +245,10 @@ public class BigTechItems {
 			new Item.Settings()
 		)
 	);
+	@UseDataGen(MirrorDataGenerator.class)
+	public static final BlockItem MIRROR = registerPlacer(
+		BigTechBlocks.MIRROR
+	);
 
 	public static void init() {}
 

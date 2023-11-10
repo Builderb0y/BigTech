@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.IntProperty;
 
 import builderb0y.bigtech.blocks.belts.DirectorBeltBlock.DirectorBeltMode;
 
@@ -12,4 +13,6 @@ public class BigTechProperties {
 	public static final BooleanProperty
 		LEFT  = BooleanProperty.of("left"),
 		RIGHT = BooleanProperty.of("right");
+	public static final IntProperty
+		ROTATION_0_7 = IntProperty.of("rotation", 0, 7);
 }

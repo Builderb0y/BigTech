@@ -1,0 +1,27 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"particle": "bigtech:block/mirror",
+		"mirror": "bigtech:block/mirror"
+	},
+	"elements": [
+		{
+			"from": [  2,  4, 7.5 ],
+			"to":   [ 14, 12, 8.5 ],
+			"rotation": {
+				"origin": [ 8, 8, 8 ],
+				"axis": "y",
+				"angle": 0.0,
+				"rescale": false
+			},
+			"faces": {
+				"up":    { "uv": [  2,  4, 14,  5 ], "texture": "#mirror" },
+				"down":  { "uv": [  2, 11, 14, 12 ], "texture": "#mirror" },
+				"north": { "uv": [ 14,  4,  2, 12 ], "texture": "#mirror" },
+				"south": { "uv": [  2,  4, 14, 12 ], "texture": "#mirror" },
+				"east":  { "uv": [ 13,  4, 14, 12 ], "texture": "#mirror" },
+				"west":  { "uv": [  2,  4,  3, 12 ], "texture": "#mirror" }
+			}
+		}
+	]
+}

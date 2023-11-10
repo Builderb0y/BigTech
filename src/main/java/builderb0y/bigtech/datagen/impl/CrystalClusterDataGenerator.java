@@ -18,6 +18,11 @@ public class CrystalClusterDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
+	public String getLangValue(DataGenContext context) {
+		return "δβπψζλωΩ".charAt(this.color.ordinal()) + " Crystal Cluster";
+	}
+
+	@Override
 	public void writeBlockModels(DataGenContext context) {
 		//no-op.
 	}
