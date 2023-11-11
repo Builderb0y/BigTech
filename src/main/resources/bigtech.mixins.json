@@ -14,6 +14,7 @@
 		"ExplosionAccessor",
 		"ItemEntity_DontMergeDuringTransport",
 		"LadderBlock_MakePlaceableOnFrames",
+		"LightningEntity_TweakLogic",
 		"LightningRod_EmitLightningPulse",
 		"MobSpawnerLogic_MakeForceable",
 		"PistonHandler_AddNecessaryMethods",
