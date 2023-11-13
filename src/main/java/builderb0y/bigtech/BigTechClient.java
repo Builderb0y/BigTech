@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 import net.minecraft.entity.EntityType;
 
+import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGen;
 import builderb0y.bigtech.entities.BetterLightningEntityRenderer;
@@ -25,6 +26,7 @@ public class BigTechClient implements ClientModInitializer {
 		BigTechItems.initClient();
 		BigTechHandledScreens.initClient();
 		BigTechModels.init();
+		BigTechBlockEntityTypes.initClient();
 		EntityRendererRegistry.register(EntityType.LIGHTNING_BOLT, BetterLightningEntityRenderer::new);
 		BigTechParticles.initClient();
 		if (DataGen.isEnabled) DataGen.run();

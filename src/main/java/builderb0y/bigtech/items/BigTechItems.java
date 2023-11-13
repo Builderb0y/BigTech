@@ -14,7 +14,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.*;
@@ -25,7 +24,10 @@ import builderb0y.bigtech.datagen.impl.catwalkPlatforms.CopperCatwalkPlatformDat
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.CopperCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.IronCatwalkStairsDataGenerator;
-import builderb0y.bigtech.datagen.impl.frames.*;
+import builderb0y.bigtech.datagen.impl.frames.CopperFrameDataGenerator;
+import builderb0y.bigtech.datagen.impl.frames.GoldFrameDataGenerator;
+import builderb0y.bigtech.datagen.impl.frames.IronFrameDataGenerator;
+import builderb0y.bigtech.datagen.impl.frames.WoodenFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.CopperLadderDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.IronLadderDataGenerator;
 
@@ -248,6 +250,10 @@ public class BigTechItems {
 	@UseDataGen(MirrorDataGenerator.class)
 	public static final BlockItem MIRROR = registerPlacer(
 		BigTechBlocks.MIRROR
+	);
+	@UseDataGen(CopperCoilDataGenerator.class)
+	public static final BlockItem COPPER_COIL = registerPlacer(
+		BigTechBlocks.COPPER_COIL
 	);
 
 	public static void init() {}

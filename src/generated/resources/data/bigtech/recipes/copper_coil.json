@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"cpc",
+		"cpc",
+		"cpc"
+	],
+	"key": {
+		"c": { "tag": "c:copper_ingots"  },
+		"p": { "tag": "minecraft:planks" }
+	},
+	"result": {
+		"item": "bigtech:copper_coil"
+	}
+}

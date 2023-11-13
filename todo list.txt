@@ -10,12 +10,15 @@ features:
 	general:
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
+			another config option to control the quality of the lightning.
 	decoration:
 		catwalk platforms: looks like a catwalk, can be walked on
 			still need wooden and gold variants.
 		catwalk stairs: includes rails on the side
 			still need wooden and gold variants.
-		decorative lightning rod: summons lightning on demand, does not generate lightning power
+		colored lamps:
+			don't actually emit colored light.
+			multiple shapes?
 	transport:
 		belts:
 		hoppers:
@@ -36,6 +39,11 @@ features:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
 				should this just be an item that works in your inventory instead?
 			arrow: is attracted to mobs
+		socks:
+			when walking across carpet or wool while wearing them,
+			charges lightning electrodes in your inventory.
+			slowly though. like 1 unit per second or something.
+
 	lasers:
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
@@ -68,6 +76,7 @@ features:
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
 		power tools: pickaxe works like block excavator, axe works like block harvester. shovel will work on dirt/gravel veins. not sure about the other tools.
+		portable scanner: shows what blocks are hidden in front of you, at the cost of some lightning energy.
 
 done:
 	lightning power:
@@ -82,6 +91,7 @@ done:
 			nugget: crafting ingredient for magnetite arrows
 			ingot: crafting ingredient. made by transmuting iron
 			block: also attracts items, xp, and projectiles
+		tesla coil: shocks nearby entities, can summon lightning
 	transport:
 		belts:
 			belt: transports entities horizontally

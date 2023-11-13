@@ -2,10 +2,14 @@ package builderb0y.bigtech.blockEntities;
 
 import java.util.Set;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.BlockEntityType.BlockEntityFactory;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
@@ -34,10 +38,21 @@ public class BigTechBlockEntityTypes {
 		BeamInterceptorBlockEntity::new,
 		BigTechBlocks.BEAM_INTERCEPTOR
 	);
+	@UseDataGen(void.class)
+	public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = register(
+		"tesla_coil",
+		TeslaCoilBlockEntity::new,
+		BigTechBlocks.COPPER_COIL
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));
 	}
 
 	public static void init() {}
+
+	@Environment(EnvType.CLIENT)
+	public static void initClient() {
+		BlockEntityRendererFactories.register(TESLA_COIL, TeslaCoilBlockEntityRenderer::new);
+	}
 }

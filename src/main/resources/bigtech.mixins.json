@@ -9,6 +9,7 @@
 		"BeaconBlockEntity_UseColorProviders",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"ChunkDataSender_SyncBeamsManually",
+		"CreeperEntity_MakeChargeableByTeslaCoil",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_HeldItemGetter",
 		"ExplosionAccessor",

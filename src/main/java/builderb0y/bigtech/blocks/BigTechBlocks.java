@@ -525,6 +525,13 @@ public class BigTechBlocks {
 			.requiresTool()
 		)
 	);
+	@UseDataGen(void.class)
+	public static final CopperCoilBlock COPPER_COIL = register(
+		"copper_coil",
+		new CopperCoilBlock(
+			AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)
+		)
+	);
 
 	public static void init() {
 		LandPathNodeTypesRegistry.register(         BELT, PathNodeType.RAIL, null);

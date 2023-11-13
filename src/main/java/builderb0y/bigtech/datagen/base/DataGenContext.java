@@ -131,15 +131,31 @@ public class DataGenContext {
 		return this.tags.computeIfAbsent(key, k -> new TagBuilder());
 	}
 
-	public String     blockstatePath(Identifier identifier) { return "assets/${identifier.namespace}/blockstates/${                          identifier.path}.json"; }
-	public String     blockModelPath(Identifier identifier) { return "assets/${identifier.namespace}/models/block/${                         identifier.path}.json"; }
-	public String      itemModelPath(Identifier identifier) { return "assets/${identifier.namespace}/models/item/${                          identifier.path}.json"; }
-	public String       particlePath(Identifier identifier) { return "assets/${identifier.namespace}/particles/${                            identifier.path}.json"; }
-	public String blockLootTablePath(Identifier identifier) { return "data/${  identifier.namespace}/loot_tables/blocks/${                   identifier.path}.json"; }
-	public String         recipePath(Identifier identifier) { return "data/${  identifier.namespace}/recipes/${                              identifier.path}.json"; }
-	public String       blockTagPath(Identifier identifier) { return "data/${  identifier.namespace}/tags/blocks/${                          identifier.path}.json"; }
-	public String        itemTagPath(Identifier identifier) { return "data/${  identifier.namespace}/tags/items/${                           identifier.path}.json"; }
-	public String            tagPath(TagKey<?>  key       ) { return "data/${      key.id.namespace}/${TagManagerLoader.getPath(key.registry)}/${key.id.path}.json"; }
+	public String genericPath(String type, Identifier identifier, String subPath) {
+		StringBuilder builder = new StringBuilder(type).append('/').append(identifier.namespace);
+		if (subPath.charAt(0) != '/') builder.append('/');
+		builder.append(subPath);
+		if (subPath.charAt(subPath.length() - 1) != '/') builder.append('/');
+		return builder.append(identifier.path).append(".json").toString();
+	}
+
+	public String genericAssetsPath(Identifier identifier, String subPath) {
+		return this.genericPath("assets", identifier, subPath);
+	}
+
+	public String genericDataPath(Identifier identifier, String subPath) {
+		return this.genericPath("data", identifier, subPath);
+	}
+
+	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath(identifier, "blockstates"       ); }
+	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/block"      ); }
+	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/item"       ); }
+	public String       particlePath(Identifier identifier) { return this.genericAssetsPath(identifier, "particles"         ); }
+	public String blockLootTablePath(Identifier identifier) { return this.genericDataPath  (identifier, "loot_tables/blocks"); }
+	public String         recipePath(Identifier identifier) { return this.genericDataPath  (identifier, "recipes"           ); }
+	public String       blockTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/blocks"       ); }
+	public String        itemTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/items"        ); }
+	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath  (key.id,     TagManagerLoader.getPath(key.registry)); }
 
 	public void writeToFile(String path, String text) {
 		for (File root : DataGen.ROOT_DIRECTORIES) {
