@@ -37,7 +37,7 @@ public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntit
 		VertexConsumerProvider vertexConsumers,
 		int light
 	) {
-		VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.lightning);
+		VertexConsumer buffer = vertexConsumers.getBuffer(LightningRenderer.LIGHTNING_LAYER);
 		Matrix4f matrix = matrices.peek().positionMatrix;
 		//use java.util.SplittableRandom over java.util.Random
 		//because it's faster due to the non-atomic seed.

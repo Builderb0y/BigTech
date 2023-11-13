@@ -2,12 +2,31 @@ package builderb0y.bigtech.util;
 
 import java.util.random.RandomGenerator;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.joml.Matrix4f;
 
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.util.math.MathHelper;
 
+import builderb0y.bigtech.BigTechMod;
+
 public class LightningRenderer {
+
+	public static RenderLayer LIGHTNING_LAYER;
+	static {
+		RenderLayer layer = RenderLayer.lightning;
+		if (FabricLoader.instance.isModLoaded("iris")) {
+			BigTechMod.LOGGER.info("Iris is installed. Will use its lightning render layer.");
+			try {
+				layer = Class.forName("net.coderbot.iris.pipeline.LightningHandler").getDeclaredField("IRIS_LIGHTNING").get(null).as();
+			}
+			catch (Exception exception) {
+				BigTechMod.LOGGER.error("Failed to get iris's lightning render layer. Please report this to Big Tech for improved compatibility.", exception);
+			}
+		}
+		LIGHTNING_LAYER = layer;
+	}
 
 	public static void generatePoints(
 		RandomGenerator random,

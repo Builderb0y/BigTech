@@ -6,6 +6,8 @@ where I left off:
 things to finish for existing features:
 	JEI support for sorter belt GUI.
 
+compatibility:
+
 features:
 	general:
 		config file for disabling non-essential mixins.
@@ -49,7 +51,7 @@ features:
 		thermal discouragement beam: ignites entities that touch the beam
 		tripwire beam: emits a redstone signal when an entity touches the beam
 		spotlight: illuminates every block the beam goes through
-		prism: can split up a laser into several others
+		prism: can split up a laser into several others, or merge them together.
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:

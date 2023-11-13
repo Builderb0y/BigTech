@@ -63,6 +63,10 @@ dependencies() {
 	}
 
 	testImplementation('junit:junit:4.13.2')
+
+	modImplementation(fileTree("dependencies/${project.minecraft_version}/implementation"))
+	modCompileOnly(fileTree("dependencies/${project.minecraft_version}/compileOnly"))
+	modRuntimeOnly(fileTree("dependencies/${project.minecraft_version}/runtimeOnly"))
 }
 
 test() {

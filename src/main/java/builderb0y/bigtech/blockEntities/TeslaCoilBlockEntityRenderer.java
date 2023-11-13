@@ -32,9 +32,9 @@ public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCo
 		int light,
 		int overlay
 	) {
-		VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.lightning);
+		VertexConsumer buffer = vertexConsumers.getBuffer(LightningRenderer.LIGHTNING_LAYER);
 		Matrix4f matrix = matrices.peek().positionMatrix;
-		Vec3d camera = MinecraftClient.getInstance().gameRenderer.camera.pos.subtract(blockEntity.pos.toCenterPos());
+		Vec3d camera = MinecraftClient.instance.gameRenderer.camera.pos.subtract(blockEntity.pos.toCenterPos());
 		for (int index = 0; index < 8; index++) {
 			Target target = blockEntity.targets[index];
 			if (target == null) continue;
