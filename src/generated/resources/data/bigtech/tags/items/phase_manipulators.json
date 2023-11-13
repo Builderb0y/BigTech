@@ -1,0 +1,7 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:phase_aligner",
+		"bigtech:phase_scrambler"
+	]
+}

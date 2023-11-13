@@ -43,7 +43,6 @@ features:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
 			slowly though. like 1 unit per second or something.
-
 	lasers:
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
@@ -51,8 +50,6 @@ features:
 		tripwire beam: emits a redstone signal when an entity touches the beam
 		spotlight: illuminates every block the beam goes through
 		prism: can split up a laser into several others
-		beam obscurator: makes laser beams invisible
-		beam revealer: makes laser beams visible again
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:
@@ -122,6 +119,8 @@ done:
 			boosts the distance of lasers passing through it
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
 		mirror: reflects beams so that they go somewhere else
+		phase scrambler: makes laser beams invisible
+		phase aligner: makes laser beams visible again
 
 canceled:
 	lightning rod: already in vanilla.

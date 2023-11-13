@@ -70,6 +70,7 @@ public class BigTechBlockTags {
 		CATWALK_STAIRS           = of("catwalk_stairs"),
 		COPPER_BARS              = of("copper_bars"),
 		CRYSTAL_CLUSTERS         = of("crystal_clusters"),
+		PHASE_MANIPULATORS       = of("phase_manipulators"),
 		IRON_BLOCKS              = common("iron_blocks"),
 		MAGNETITE_BLOCKS         = common("magnetite_blocks");
 

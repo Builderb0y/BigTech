@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"group": "bigtech:phase_manipulator",
+	"pattern": [
+		"ggg",
+		"gcg",
+		"ggg"
+	],
+	"key": {
+		"g": { "item": "minecraft:black_stained_glass_pane" },
+		"c": { "item": "bigtech:black_crystal_cluster"      }
+	},
+	"result": {
+		"item": "bigtech:phase_scrambler"
+	}
+}

@@ -251,6 +251,14 @@ public class BigTechItems {
 	public static final BlockItem MIRROR = registerPlacer(
 		BigTechBlocks.MIRROR
 	);
+	@UseDataGen(PhaseScramblerDataGenerator.class)
+	public static final BlockItem PHASE_SCRAMBLER = registerPlacer(
+		BigTechBlocks.PHASE_SCRAMBLER
+	);
+	@UseDataGen(PhaseAlignerDataGenerator.class)
+	public static final BlockItem PHASE_ALIGNER = registerPlacer(
+		BigTechBlocks.PHASE_ALIGNER
+	);
 	@UseDataGen(CopperCoilDataGenerator.class)
 	public static final BlockItem COPPER_COIL = registerPlacer(
 		BigTechBlocks.COPPER_COIL

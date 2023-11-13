@@ -526,6 +526,28 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final PhaseManipulatorBlock
+		PHASE_SCRAMBLER = register(
+			"phase_scrambler",
+			new PhaseManipulatorBlock(
+				AbstractBlock
+				.Settings
+				.copy(Blocks.BLACK_STAINED_GLASS)
+				.sounds(BlockSoundGroup.STONE),
+				false
+			)
+		),
+		PHASE_ALIGNER = register(
+			"phase_aligner",
+			new PhaseManipulatorBlock(
+				AbstractBlock
+				.Settings
+				.copy(Blocks.WHITE_STAINED_GLASS)
+				.sounds(BlockSoundGroup.STONE),
+				true
+			)
+		);
+	@UseDataGen(void.class)
 	public static final CopperCoilBlock COPPER_COIL = register(
 		"copper_coil",
 		new CopperCoilBlock(
@@ -599,6 +621,11 @@ public class BigTechBlocks {
 			)
 			.flatMap(RegistrableCollection::stream)
 			.toArray(Block[]::new)
+		);
+		BlockRenderLayerMap.INSTANCE.putBlocks(
+			RenderLayer.getTranslucent(),
+			PHASE_SCRAMBLER,
+			PHASE_ALIGNER
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),

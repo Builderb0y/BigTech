@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import org.joml.Vector3f;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.BigTechMod;
@@ -22,6 +23,17 @@ this interface on your Block class. either works.
 public interface BeamInteractor {
 
 	public static final BlockApiLookup<BeamInteractor, Beam> LOOKUP = BlockApiLookup.get(BigTechMod.modID("beam_interactor"), BeamInteractor.class, Beam.class);
+
+	/**
+	a simple implementation of BeamInteractor which
+	allows beams to simply pass through the block,
+	even if they normally wouldn't. this interactor is used
+	for {@link Blocks#GLASS} and {@link Blocks#GLASS_PANE}.
+	*/
+	public static final BeamInteractor TRANSPARENT_BLOCK = (pos, state, inputSegment) -> {
+		inputSegment.beam.addSegment(pos, inputSegment.extend());
+		return true;
+	};
 
 	/**
 	called while the beam is still in its spreading phase, before it is added to the world.
@@ -78,6 +90,7 @@ public interface BeamInteractor {
 	}
 
 	public static final Object INITIALIZER = new Object() {{
+		LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> TRANSPARENT_BLOCK, Blocks.GLASS, Blocks.GLASS_PANE);
 		LOOKUP.registerFallback((world, pos, state, blockEntity, beam) -> {
 			if (state.block instanceof BeamInteractor interactor) {
 				return interactor;

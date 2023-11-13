@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/phase_manipulator",
+	"textures": {
+		"texture": "bigtech:block/phase_aligner"
+	}
+}

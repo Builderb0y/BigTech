@@ -81,7 +81,7 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterl
 			if (segments != null) {
 				BeamDirection beamDirection = BeamDirection.from(direction.opposite);
 				for (BeamSegment segment : segments) {
-					if (segment.direction == beamDirection) {
+					if (segment.visible && segment.direction == beamDirection) {
 						return true;
 					}
 				}
@@ -99,7 +99,7 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterl
 			if (segments != null) {
 				BeamDirection beamDirection = BeamDirection.from(direction.opposite);
 				for (BeamSegment segment : segments) {
-					if (segment.direction == beamDirection) {
+					if (segment.visible && segment.direction == beamDirection) {
 						return true;
 					}
 				}
