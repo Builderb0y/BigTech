@@ -185,6 +185,12 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		//copy-paste logic from Block. do not let ConnectingBlock override this.
+		return !Block.isShapeFullCube(state.getOutlineShape(world, pos)) && state.getFluidState().isEmpty();
+	}
+
+	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(UP, DOWN, NORTH, EAST, SOUTH, WEST, Properties.WATERLOGGED);
