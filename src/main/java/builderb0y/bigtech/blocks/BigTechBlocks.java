@@ -526,6 +526,13 @@ public class BigTechBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final PrismBlock PRISM = register(
+		"prism",
+		new PrismBlock(
+			AbstractBlock.Settings.copy(Blocks.GLASS)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final PhaseManipulatorBlock
 		PHASE_SCRAMBLER = register(
 			"phase_scrambler",
@@ -625,7 +632,8 @@ public class BigTechBlocks {
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),
 			PHASE_SCRAMBLER,
-			PHASE_ALIGNER
+			PHASE_ALIGNER,
+			PRISM
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),

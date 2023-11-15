@@ -251,6 +251,14 @@ public class BigTechItems {
 	public static final BlockItem MIRROR = registerPlacer(
 		BigTechBlocks.MIRROR
 	);
+	@UseDataGen(PrismDataGenerator.class)
+	public static final BlockItem PRISM = register(
+		"prism",
+		new ClientNbtCopyingBlockItem(
+			BigTechBlocks.PRISM,
+			new Item.Settings()
+		)
+	);
 	@UseDataGen(PhaseScramblerDataGenerator.class)
 	public static final BlockItem PHASE_SCRAMBLER = registerPlacer(
 		BigTechBlocks.PHASE_SCRAMBLER

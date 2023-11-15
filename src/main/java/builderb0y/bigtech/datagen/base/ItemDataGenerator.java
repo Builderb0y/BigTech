@@ -18,13 +18,13 @@ public interface ItemDataGenerator extends LocalizedDataGenerator {
 		LocalizedDataGenerator.super.run(context);
 
 		this.writeItemModels(context);
-		this.writeRecipes(context);
 		this.setupOtherItemTags(context);
+		this.writeRecipes(context);
 	}
 
 	public abstract void writeItemModels(DataGenContext context);
 
-	public abstract void writeRecipes(DataGenContext context);
-
 	public abstract void setupOtherItemTags(DataGenContext context);
+
+	public abstract void writeRecipes(DataGenContext context);
 }

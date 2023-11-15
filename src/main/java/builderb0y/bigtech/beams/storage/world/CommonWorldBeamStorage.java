@@ -1,6 +1,6 @@
 package builderb0y.bigtech.beams.storage.world;
 
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,8 +11,6 @@ import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
-import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
-import org.joml.Vector3f;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -24,7 +22,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.base.*;
+import builderb0y.bigtech.beams.base.Beam;
+import builderb0y.bigtech.beams.base.BeamType;
+import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.util.AsyncRunner;
 
@@ -72,6 +72,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 			.withIdentifier("type", BeamType.REGISTRY.getId(beam.type))
 			.withUuid("uuid", beam.uuid)
 			.withBlockPos("origin", beam.origin)
+			.withLongArray("callbacks", beam.callbacks.stream().mapToLong(BlockPos::asLong).toArray())
 			.withSubList("segment_sections", list -> {
 				try (AsyncRunner async = new AsyncRunner()) {
 					ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = beam.seen.long2ObjectEntrySet().fastIterator();
@@ -114,6 +115,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 						});
 					}
 				}
+				Arrays.stream(beamTag.getLongArray("callbacks")).mapToObj(BlockPos::fromLong).forEach(persistentBeam.callbacks::add);
 				this.addBeamNoSync(persistentBeam);
 			}
 			else {
@@ -145,7 +147,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 			UUID uuid = buffer.readUuid();
 			Beam beam = type.factory.create(this.world, uuid);
 			if (!(beam instanceof PersistentBeam persistentBeam)) {
-				BigTechMod.LOGGER.warn("Received non-persistent beam??? ${builderb0y.bigtech.beams.base.BeamType.REGISTRY.getId(type)}");
+				BigTechMod.LOGGER.warn("Received non-persistent beam??? ${BeamType.REGISTRY.getId(type)}");
 				continue;
 			}
 			this.addBeamNoSync(persistentBeam);

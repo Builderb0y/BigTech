@@ -28,6 +28,8 @@ public class BigTechModels {
 				new CrystalUnbakedModel(BigTechMod.modID("block/" + color.prefix + "crystal_cluster"))
 			);
 		}
+		LOOKUP.put(BigTechMod.modID("block/prism"), new PrismUnbakedModel());
+		LOOKUP.put(BigTechMod.modID( "item/prism"), new PrismUnbakedModel());
 	}
 
 	public static void init() {

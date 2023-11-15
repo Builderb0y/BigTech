@@ -63,6 +63,7 @@
 	"block.bigtech.oxidized_copper_slab":                    "Oxidized Copper Slab",
 	"block.bigtech.phase_aligner":                           "Phase Aligner",
 	"block.bigtech.phase_scrambler":                         "Phase Scrambler",
+	"block.bigtech.prism":                                   "Prism",
 	"block.bigtech.red_crystal_cluster":                     "\u03B4 Crystal Cluster",
 	"block.bigtech.redstone_receiver":                       "Redstone Receiver",
 	"block.bigtech.redstone_transmitter":                    "Redstone Transmitter",

@@ -2,7 +2,6 @@ package builderb0y.bigtech.beams.base;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -19,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.WorldChunk;
 
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
@@ -27,7 +27,6 @@ import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.networking.AddBeamPacket;
-import builderb0y.bigtech.networking.AddBeamPacket.MinimalBeamSegment;
 import builderb0y.bigtech.networking.BigTechClientNetwork;
 import builderb0y.bigtech.networking.RemoveBeamPacket;
 import builderb0y.bigtech.util.AsyncConsumer;
@@ -43,6 +42,24 @@ public abstract class PersistentBeam extends Beam {
 
 	public PersistentBeam(World world, UUID uuid) {
 		super(world, uuid);
+	}
+
+	public static void notifyBlockChanged(World world, BlockPos pos, BlockState oldState, BlockState newState) {
+		notifyBlockChanged(world.getChunk(pos).<WorldChunk>as(), pos, oldState, newState);
+	}
+
+	public static void notifyBlockChanged(WorldChunk chunk, BlockPos pos, BlockState oldState, BlockState newState) {
+		if (!chunk.world.isClient) {
+			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().get(pos.y >> 4);
+			if (sectionStorage != null) {
+				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
+				if (segments != null) {
+					for (BeamSegment segment : segments) {
+						((PersistentBeam)(segment.beam)).onBlockChanged(pos, oldState, newState);
+					}
+				}
+			}
+		}
 	}
 
 	public abstract void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState);

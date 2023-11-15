@@ -51,7 +51,6 @@ features:
 		thermal discouragement beam: ignites entities that touch the beam
 		tripwire beam: emits a redstone signal when an entity touches the beam
 		spotlight: illuminates every block the beam goes through
-		prism: can split up a laser into several others, or merge them together.
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:
@@ -121,8 +120,9 @@ done:
 			boosts the distance of lasers passing through it
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
 		mirror: reflects beams so that they go somewhere else
-		phase scrambler: makes laser beams invisible
-		phase aligner: makes laser beams visible again
+		prism: can split up a beam into several others, or merge several beams into one.
+		phase scrambler: makes laser beams invisible and undetectable by redstone components
+		phase aligner: makes laser beams visible and detectable by redstone components again
 
 canceled:
 	lightning rod: already in vanilla.

@@ -39,6 +39,12 @@ public class BigTechBlockEntityTypes {
 		BigTechBlocks.BEAM_INTERCEPTOR
 	);
 	@UseDataGen(void.class)
+	public static final BlockEntityType<PrismBlockEntity> PRISM = register(
+		"prism",
+		PrismBlockEntity::new,
+		BigTechBlocks.PRISM
+	);
+	@UseDataGen(void.class)
 	public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = register(
 		"tesla_coil",
 		TeslaCoilBlockEntity::new,
