@@ -9,6 +9,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -182,13 +185,29 @@ public interface LightningPulseInteractor {
 	*/
 	public abstract void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse);
 
+	public default ActionResult interactWithBattery(World world, BlockPos pos, BlockState state, PlayerEntity player, ItemStack stack, LightningStorageItem battery) {
+		int charge = battery.getCharge(stack);
+		if (charge > 0) {
+			if (!world.isClient) {
+				new LightningPulse(world, pos, state, this, charge, battery.getDefaultSpreadEvents(stack)).run();
+				if (player == null || !player.isCreative) {
+					battery.setCharge(stack, 0);
+				}
+			}
+			return ActionResult.SUCCESS;
+		}
+		else {
+			return ActionResult.PASS;
+		}
+	}
+
 	/**
 	damages all entities within 1 block of the provided position with lightning damage.
 	the damage dealt to each entity is the pulse's {@link LightningPulse#totalEnergy} divided by 1000.
 	*/
 	public default void shockEntitiesAround(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
 		for (Entity entity : world.getNonSpectatingEntities(Entity.class, new Box(pos.x - 1, pos.y - 1, pos.z - 1, pos.x + 2, pos.y + 2, pos.z + 2))) {
-			entity.damage(entity.damageSources.lightningBolt(), pulse.totalEnergy / 1000.0F);
+			LightningPulse.shockEntity(entity, pulse.totalEnergy / 1000.0F);
 		}
 	}
 

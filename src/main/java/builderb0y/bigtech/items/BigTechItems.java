@@ -5,12 +5,23 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPointer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.BigTechMod;
@@ -28,6 +39,8 @@ import builderb0y.bigtech.datagen.impl.frames.CopperFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.GoldFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.IronFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.WoodenFrameDataGenerator;
+import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
+import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.CopperLadderDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.IronLadderDataGenerator;
 
@@ -155,6 +168,29 @@ public class BigTechItems {
 		IRON_LIGHTNING_CAbLE   = registerPlacer(BigTechBlocks.IRON_LIGHTNING_CABLE),
 		GOLD_LIGHTNING_CABLE   = registerPlacer(BigTechBlocks.GOLD_LIGHTNING_CABLE),
 		COPPER_LIGHTNING_CABLE = registerPlacer(BigTechBlocks.COPPER_LIGHTNING_CABLE);
+	@UseDataGen(LightningElectrodeDataGenerator.class)
+	public static final Item LIGHTNING_ELECTRODE = register(
+		"lightning_electrode",
+		new Item(new Item.Settings())
+	);
+	@UseDataGen(QuadLightningElectrodeDataGenerator.class)
+	public static final Item QUAD_LIGHTNING_ELECTRODE = register(
+		"quad_lightning_electrode",
+		new Item(new Item.Settings())
+	);
+	@UseDataGen(LightningBatteryDataGenerator.class)
+	public static final LightningBatteryItem LIGHTNING_BATTERY = register(
+		"lightning_battery",
+		new LightningBatteryItem(new Item.Settings().maxDamage(1000))
+	);
+	@UseDataGen(SmallLightningJarDataGenerator.class)
+	public static final BlockItem SMALL_LIGHTNING_JAR = registerPlacer(
+		BigTechBlocks.SMALL_LIGHTNING_JAR
+	);
+	@UseDataGen(LargeLightningJarDataGenerator.class)
+	public static final BlockItem LARGE_LIGHTNING_JAR = registerPlacer(
+		BigTechBlocks.LARGE_LIGHTNING_JAR
+	);
 	@UseDataGen(TransmuterDataGenerator.class)
 	public static final BlockItem TRANSMUTER = registerPlacer(
 		BigTechBlocks.TRANSMUTER
@@ -272,7 +308,44 @@ public class BigTechItems {
 		BigTechBlocks.COPPER_COIL
 	);
 
-	public static void init() {}
+	public static void init() {
+		DispenserBlock.registerBehavior(
+			LIGHTNING_BATTERY,
+			new ItemDispenserBehavior() {
+
+				public static final ItemDispenserBehavior fallbackBehavior = new ItemDispenserBehavior();
+
+				@Override
+				public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+					Direction direction = pointer.state.get(Properties.FACING);
+					BlockPos pos = pointer.pos.offset(direction);
+					if (
+						stack
+						.useOnBlock(
+							new ItemUsageContext(
+								pointer.world,
+								null,
+								Hand.MAIN_HAND,
+								stack,
+								new BlockHitResult(
+									pos.toCenterPos(),
+									direction.opposite,
+									pos,
+									false
+								)
+							)
+						)
+						!= ActionResult.PASS
+					) {
+						return stack;
+					}
+					else {
+						return fallbackBehavior.dispense(pointer, stack);
+					}
+				}
+			}
+		);
+	}
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {

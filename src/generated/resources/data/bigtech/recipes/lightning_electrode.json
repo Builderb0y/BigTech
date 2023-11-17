@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"i",
+		"i"
+	],
+	"key": {
+		"i": { "item": "bigtech:magnetite_ingot" }
+	},
+	"result": {
+		"item": "bigtech:lightning_electrode"
+	}
+}

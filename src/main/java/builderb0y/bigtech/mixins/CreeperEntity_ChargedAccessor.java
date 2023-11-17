@@ -8,7 +8,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.mob.CreeperEntity;
 
 @Mixin(CreeperEntity.class)
-public interface CreeperEntity_MakeChargeableByTeslaCoil {
+public interface CreeperEntity_ChargedAccessor {
 
 	@Accessor("CHARGED")
 	public static TrackedData<Boolean> getCharged() {

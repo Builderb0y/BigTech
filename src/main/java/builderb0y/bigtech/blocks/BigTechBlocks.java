@@ -355,6 +355,27 @@ public class BigTechBlocks {
 			)
 		);
 	@UseDataGen(void.class)
+	public static final SmallLightningJarBlock SMALL_LIGHTNING_JAR = register(
+		"small_lightning_jar",
+		new SmallLightningJarBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.ORANGE)
+			.strength(2.0F, 1.0F)
+			.nonOpaque()
+			.requiresTool()
+			.sounds(BlockSoundGroup.COPPER)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final LargeLightningJarBlock LARGE_LIGHTNING_JAR = register(
+		"large_lightning_jar",
+		new LargeLightningJarBlock(
+			AbstractBlock.Settings.copy(SMALL_LIGHTNING_JAR)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final TransmuterBlock TRANSMUTER = register(
 		"transmuter",
 		new TransmuterBlock(
@@ -613,6 +634,8 @@ public class BigTechBlocks {
 			WARPED_FRAME,
 			IRON_LADDER,
 			TRANSMUTER,
+			SMALL_LIGHTNING_JAR,
+			LARGE_LIGHTNING_JAR,
 			IRON_CATWALK_PLATFORM,
 			IRON_CATWALK_STAIRS,
 			BEAM_INTERCEPTOR

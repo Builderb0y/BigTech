@@ -14,10 +14,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterials;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.*;
@@ -25,7 +21,7 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
-import builderb0y.bigtech.mixins.CreeperEntity_MakeChargeableByTeslaCoil;
+import builderb0y.bigtech.lightning.LightningPulse;
 
 public class TeslaCoilBlockEntity extends BlockEntity {
 
@@ -67,21 +63,12 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 			Orientation orientation = Orientation.from(facing);
 			List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, orientation.box.offset(this.pos).expand(this.random.nextDouble(2.0D, 3.0D)));
 			if (!entities.isEmpty) {
-				LivingEntity entity = entities.get(this.random.nextInt(entities.size()));
-				float damage = 1.0F;
-				for (ItemStack armorStack : entity.armorItems) {
-					if (armorStack.item instanceof ArmorItem armorItem) {
-						if (armorItem.material instanceof ArmorMaterials material) {
-							switch (material) {
-								case LEATHER, DIAMOND, TURTLE, NETHERITE -> {}
-								case CHAIN, IRON, GOLD -> damage -= 0.25F;
-							}
-						}
-					}
-				}
-				if (damage > 0.0F && entity.damage(this.damageSource, damage) && entity instanceof CreeperEntity) {
-					entity.dataTracker.set(CreeperEntity_MakeChargeableByTeslaCoil.charged, Boolean.TRUE);
-				}
+				LightningPulse.shockEntity(
+					entities.get(
+						this.random.nextInt(entities.size())
+					),
+					1.0F
+				);
 			}
 		}
 	}

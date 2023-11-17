@@ -5,6 +5,13 @@ where I left off:
 
 things to finish for existing features:
 	JEI support for sorter belt GUI.
+	beacons need to boost beams.
+	fix tooltips of lightning batteries.
+		currently displays durability, which is undesirable.
+		also doesn't show durability when fully charged.
+		may need to duplicate some of the logic for damage.
+	make tooltips of NBT-copied lightning jars display stored energy.
+	test death message of tesla coils.
 
 compatibility:
 
@@ -13,6 +20,7 @@ features:
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
+		separate creative tab for functional vs. decorational items.
 	decoration:
 		catwalk platforms: looks like a catwalk, can be walked on
 			still need wooden and gold variants.
@@ -44,7 +52,7 @@ features:
 		socks:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
-			slowly though. like 1 unit per second or something.
+			slowly though. like 1 unit per 10 ticks or something.
 	lasers:
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver

@@ -27,24 +27,23 @@ public class BigTechItemGroups {
 		.stream(BigTechItems.class.getDeclaredFields())
 		.filter((Field field) -> (field.getModifiers() & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL))
 		.flatMap((Field field) -> {
-			if (Item.class.isAssignableFrom(field.type)) {
-				try {
-					return Stream.of(field.get(null).<Item>as().defaultStack);
+			try {
+				if (Item.class.isAssignableFrom(field.type)) {
+					Item item = field.get(null).as();
+					if (item instanceof InventoryVariants variants) {
+						return variants.getInventoryStacks();
+					}
+					return Stream.of(item.defaultStack);
 				}
-				catch (ReflectiveOperationException exception) {
-					throw new AssertionError("Should not fail to get public field", exception);
-				}
-			}
-			else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
-				try {
+				else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
 					return Arrays.stream(field.get(null).<RegistrableCollection<?>>as().getRegistrableVariants()).map(variant -> variant.object.<Item>as().defaultStack);
 				}
-				catch (ReflectiveOperationException exception) {
-					throw new AssertionError("Should not fail to get public field", exception);
+				else {
+					return Stream.empty();
 				}
 			}
-			else {
-				return Stream.empty();
+			catch (ReflectiveOperationException exception) {
+				throw new AssertionError("Should not fail to get public field", exception);
 			}
 		})
 		.toList()

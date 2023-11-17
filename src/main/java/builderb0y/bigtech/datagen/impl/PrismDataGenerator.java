@@ -1,9 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
@@ -29,7 +26,7 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 		//before 1.15, alpha testing would allow me to do the sphere in layers.
 		//but now alpha testing no longer exists for translucents.
 		//so, have a greedy mesh instead.
-		Set<VoxelQuad> rawMesh = new HashSet<>(1024);
+		Set<VoxelQuad> rawMesh = new LinkedHashSet<>(1024);
 		for (int voxelZ = 0; voxelZ < 16; voxelZ++) {
 			double centerZ = (voxelZ + 0.5D) * 0.0625D - 0.5D;
 			for (int voxelX = 0; voxelX < 16; voxelX++) {
@@ -53,7 +50,7 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 		if (rawMesh.isEmpty) {
 			throw new IllegalStateException("rawMesh is empty");
 		}
-		Map<VoxelQuad, VoxelSize> greedyMesh = new HashMap<>(512);
+		Map<VoxelQuad, VoxelSize> greedyMesh = new LinkedHashMap<>(512);
 		while (!rawMesh.isEmpty) {
 			//pick any quad.
 			VoxelQuad quad = rawMesh.iterator().next();

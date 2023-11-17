@@ -50,6 +50,13 @@ public class BigTechBlockEntityTypes {
 		TeslaCoilBlockEntity::new,
 		BigTechBlocks.COPPER_COIL
 	);
+	@UseDataGen(void.class)
+	public static final BlockEntityType<LightningJarBlockEntity> LIGHTNING_JAR = register(
+		"lightning_jar",
+		LightningJarBlockEntity::new,
+		BigTechBlocks.SMALL_LIGHTNING_JAR,
+		BigTechBlocks.LARGE_LIGHTNING_JAR
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

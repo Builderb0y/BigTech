@@ -7,12 +7,18 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.CreeperEntity;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterials;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
+import builderb0y.bigtech.mixins.CreeperEntity_ChargedAccessor;
 
 public class LightningPulse {
 
@@ -31,6 +37,7 @@ public class LightningPulse {
 		int totalEnergy,
 		int remainingSpreadEvents
 	) {
+		if (world.isClient) throw new IllegalStateException("Attempt to spawn a LightningPulse on the client");
 		this.world                 = world;
 		this.originPos             = new LinkedBlockPos(originPos, null);
 		this.totalEnergy           = totalEnergy;
@@ -39,6 +46,47 @@ public class LightningPulse {
 		this.spreadQueue           = new ObjectArrayList<>(remainingSpreadEvents << 1);
 		this.sinks                 = new ObjectOpenHashSet<>(4);
 		this.addNode(this.originPos);
+	}
+
+	public LightningPulse(
+		World world,
+		BlockPos blockPos,
+		BlockState state,
+		LightningPulseInteractor interactor,
+		int totalEnergy,
+		int remainingSpreadEvents
+	) {
+		if (world.isClient) throw new IllegalStateException("Attempt to spawn a LightningPulse on the client");
+		this.world                 = world;
+		this.originPos             = new LinkedBlockPos(blockPos, null);
+		this.totalEnergy           = totalEnergy;
+		this.remainingSpreadEvents = remainingSpreadEvents;
+		this.explored              = new ObjectOpenHashSet<>(remainingSpreadEvents);
+		this.spreadQueue           = new ObjectArrayList<>(remainingSpreadEvents << 1);
+		this.sinks                 = new ObjectOpenHashSet<>(4);
+		interactor.spreadIn(world, this.originPos, state, this);
+	}
+
+	public static void shockEntity(Entity entity, float amount) {
+		float multiplier = 1.0F;
+		for (ItemStack stack : entity.armorItems) {
+			if (stack.item instanceof ArmorItem armor) {
+				if (armor.material instanceof ArmorMaterials material) {
+					switch (material) {
+						case LEATHER, DIAMOND, TURTLE, NETHERITE -> {}
+						case CHAIN, IRON, GOLD -> multiplier -= 0.25F;
+					}
+				}
+			}
+		}
+		amount *= multiplier;
+		if (
+			amount > 0.0F &&
+			entity.damage(entity.damageSources.lightningBolt(), amount) &&
+			entity instanceof CreeperEntity creeper
+		) {
+			creeper.dataTracker.set(CreeperEntity_ChargedAccessor.charged, Boolean.TRUE);
+		}
 	}
 
 	public void run() {

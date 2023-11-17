@@ -1,0 +1,224 @@
+package builderb0y.bigtech.blocks;
+
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.util.ParticleUtil;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+
+import builderb0y.bigtech.api.LightningStorageItem;
+import builderb0y.bigtech.api.LightningPulseInteractor;
+import builderb0y.bigtech.blockEntities.LightningJarBlockEntity;
+import builderb0y.bigtech.lightning.LightningPulse;
+import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
+import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.WorldHelper;
+
+public abstract class AbstractLightningJarBlock extends Block implements BlockEntityProvider, LightningPulseInteractor {
+
+	public AbstractLightningJarBlock(Settings settings) {
+		super(settings);
+		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+	}
+
+	public abstract int getCapacity();
+
+	public abstract int getPulseSteps();
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public abstract VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context);
+
+	@Override
+	public ActionResult interactWithBattery(World world, BlockPos pos, BlockState state, PlayerEntity player, ItemStack stack, LightningStorageItem battery) {
+		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+		if (jar != null) {
+			int charge = battery.getCharge(stack);
+			int maxCharge = battery.getMaxCharge(stack);
+			int jarCharge = jar.storedEnergy;
+			int maxJarCharge = this.capacity;
+			if (charge > 0 && jarCharge < maxJarCharge) {
+				if (!world.isClient) {
+					int transferred = Math.min(charge, maxJarCharge - jarCharge);
+					jar.setStoredEnergyAndSync(jarCharge + transferred);
+					if (player == null || !player.isCreative) {
+						battery.setCharge(stack, charge - transferred);
+					}
+				}
+				return ActionResult.SUCCESS;
+			}
+			else if (jarCharge > 0 && charge < maxCharge) {
+				if (!world.isClient) {
+					int transferred = Math.min(jarCharge, maxCharge - charge);
+					jar.setStoredEnergyAndSync(jarCharge - transferred);
+					if (player == null || !player.isCreative) {
+						battery.setCharge(stack, charge + transferred);
+					}
+				}
+				return ActionResult.SUCCESS;
+			}
+			else {
+				return ActionResult.FAIL;
+			}
+		}
+		else {
+			return ActionResult.FAIL;
+		}
+	}
+
+	@Override
+	public boolean isSink(World world, BlockPos pos, BlockState state) {
+		return !state.get(Properties.POWERED);
+	}
+
+	@Override
+	public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+		return side == Direction.DOWN && !state.get(Properties.POWERED);
+	}
+
+	@Override
+	public boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+		return side == Direction.DOWN;
+	}
+
+	@Override
+	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+		if (jar != null) {
+			jar.setStoredEnergyAndSync(Math.min(jar.storedEnergy + pulse.distributedEnergy, this.capacity));
+			this.spawnLightningParticles(world, pos, state, pulse);
+		}
+	}
+
+	@Override
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		super.randomDisplayTick(state, world, pos, random);
+		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+		if (jar != null) {
+			double chance = ((double)(jar.storedEnergy)) / ((double)(this.capacity));
+			if (world.random.nextDouble() < chance) {
+				ParticleUtil.spawnParticle(
+					world,
+					pos,
+					Enums.DIRECTIONS[random.nextInt(6)],
+					ParticleTypes.ELECTRIC_SPARK,
+					new Vec3d(
+						random.nextDouble(-0.125D, 0.125D),
+						random.nextDouble(-0.125D, 0.125D),
+						random.nextDouble(-0.125D, 0.125D)
+					),
+					0.55D
+				);
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!player.getStackInHand(hand).isEmpty) {
+			return ActionResult.PASS;
+		}
+		if (!world.isClient) {
+			LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+			if (jar != null) {
+				player.sendMessage(Text.translatable("bigtech.lightning_jar.stored", jar.storedEnergy, this.capacity, jar.storedEnergy * 100 / this.capacity), true);
+			}
+		}
+		return ActionResult.SUCCESS;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+		world.scheduleBlockTick(pos, this, 2);
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		super.scheduledTick(state, world, pos, random);
+		boolean powered = state.get(Properties.POWERED);
+		int power = world.getReceivedRedstonePower(pos);
+		boolean shouldBePowered = power != 0;
+		if (powered != shouldBePowered) {
+			world.setBlockState(pos, state.with(Properties.POWERED, shouldBePowered));
+			if (shouldBePowered) {
+				LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+				if (jar != null && jar.storedEnergy > 0) {
+					int subtracted = Math.min(this.capacity * power / 15, jar.storedEnergy);
+					LightningPulse pulse = new LightningPulse(world, pos.down(), subtracted, this.pulseSteps);
+					pulse.run();
+					this.spawnLightningParticles(world, pos, state, pulse);
+					jar.setStoredEnergyAndSync(jar.storedEnergy - subtracted);
+				}
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public boolean emitsRedstonePower(BlockState state) {
+		return true;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+		if (jar != null) {
+			return Math.min(Math.max(MathHelper.ceilDiv(jar.storedEnergy * 15, this.capacity), 0), 15);
+		}
+		else {
+			return 0;
+		}
+	}
+
+	@Nullable
+	@Override
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new LightningJarBlockEntity(pos, state);
+	}
+
+	@Override
+	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		super.appendProperties(builder);
+		builder.add(Properties.POWERED);
+	}
+}
