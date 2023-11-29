@@ -1,9 +1,6 @@
 package builderb0y.bigtech.registrableCollections;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class WoodRegistrableCollection<T> implements RegistrableCollection<T> {
@@ -181,5 +178,11 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		WARPED;
 
 		public static final Type[] VALUES = values();
+
+		public final String prefix;
+
+		Type() {
+			this.prefix = this.name().toLowerCase(Locale.ROOT) + '_';
+		}
 	}
 }

@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_catwalk_stairs_rail_right",
+	"textures": {
+		"stairs": "bigtech:block/oak_catwalk_stairs"
+	}
+}

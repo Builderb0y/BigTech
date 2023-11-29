@@ -2,6 +2,7 @@ bugs:
 	none yet.
 
 where I left off:
+	ensure that sideways tesla coil lightning cannot trigger a lightning rod diagonally downwards from the "top" end.
 
 things to finish for existing features:
 	JEI support for sorter belt GUI.
@@ -22,9 +23,9 @@ features:
 		separate creative tab for functional vs. decorational items.
 	decoration:
 		catwalk platforms: looks like a catwalk, can be walked on
-			still need wooden and gold variants.
+			still need gold variant.
 		catwalk stairs: includes rails on the side
-			still need wooden and gold variants.
+			still need gold variant.
 		colored lamps:
 			don't actually emit colored light.
 			multiple shapes?

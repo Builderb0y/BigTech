@@ -2,10 +2,9 @@ package builderb0y.bigtech.datagen.impl.frames;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
+import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.items.BigTechItemTags;
@@ -17,7 +16,7 @@ public class WoodenFrameDataGenerator extends FrameDataGenerator {
 
 	public WoodenFrameDataGenerator(BlockItem blockItem, WoodRegistrableCollection.Type type) {
 		super(blockItem);
-		this.planks = Registries.ITEM.get(new Identifier("minecraft", this.id.path.substring(0, this.id.path.length() - "_frame".length()) + "_planks"));
+		this.planks = BigTechBlocks.VANILLA_PLANKS.get(type).asItem();
 	}
 
 	@Override

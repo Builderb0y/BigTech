@@ -20,10 +20,6 @@ public class CommonCatwalkPlatformDataGenerator implements DataGenerator {
 		context.getTags(MiningToolTags.PICKAXE).add(BigTechBlockTags.METAL_CATWALK_PLATFORMS);
 		context.getTags(MiningLevelTags.STONE).add(BigTechBlockTags.METAL_CATWALK_PLATFORMS);
 		context.getTags(MiningToolTags.AXE).add(BigTechBlockTags.WOODEN_CATWALK_PLATFORMS);
-		context.getTags(BigTechBlockTags.WOODEN_CATWALK_PLATFORMS); //todo: remove once I have wooden platforms added.
-		context.getTags(BigTechItemTags.WOODEN_CATWALK_PLATFORMS); //todo: remove once I have wooden platforms added.
-		context.getTags(BigTechBlockTags.COPPER_CATWALK_PLATFORMS); //todo: remove once I have copper platforms added.
-		context.getTags(BigTechItemTags.COPPER_CATWALK_PLATFORMS); //todo: remove once I have copper platforms added.
 		context.getTags(BigTechBlockTags.METAL_CATWALK_PLATFORMS).add(BigTechBlockTags.COPPER_CATWALK_PLATFORMS);
 		context.getTags(BigTechItemTags.METAL_CATWALK_PLATFORMS).add(BigTechItemTags.COPPER_CATWALK_PLATFORMS);
 		context.getTags(BigTechBlockTags.CATWALK_PLATFORMS).addAll(List.of(

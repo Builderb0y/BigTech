@@ -1,0 +1,7 @@
+{
+	"parent": "bigtech:block/template_catwalk_stairs_base",
+	"textures": {
+		"base":   "minecraft:block/spruce_planks",
+		"stairs": "bigtech:block/spruce_catwalk_stairs"
+	}
+}

@@ -20,8 +20,6 @@ public class CommonCatwalkStairsDataGenerator implements DataGenerator {
 		context.getTags(MiningToolTags.PICKAXE).add(BigTechBlockTags.METAL_CATWALK_STAIRS);
 		context.getTags(MiningLevelTags.STONE).add(BigTechBlockTags.METAL_CATWALK_STAIRS);
 		context.getTags(MiningToolTags.AXE).add(BigTechBlockTags.WOODEN_CATWALK_STAIRS);
-		context.getTags(BigTechBlockTags.WOODEN_CATWALK_STAIRS); //todo: remove once I have wooden stairs added.
-		context.getTags(BigTechItemTags.WOODEN_CATWALK_STAIRS); //todo: remove once I have wooden stairs added.
 		context.getTags(BigTechBlockTags.CATWALK_STAIRS).addAll(List.of(
 			new TagOrItem(BigTechBlockTags.WOODEN_CATWALK_STAIRS),
 			new TagOrItem(BigTechBlockTags.METAL_CATWALK_STAIRS)

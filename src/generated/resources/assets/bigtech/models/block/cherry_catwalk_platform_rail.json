@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_catwalk_platform_rail",
+	"textures": {
+		"rail": "bigtech:block/cherry_catwalk_platform_rail"
+	}
+}

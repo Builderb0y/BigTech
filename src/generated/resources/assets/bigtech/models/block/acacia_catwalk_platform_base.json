@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_catwalk_platform_base",
+	"textures": {
+		"base": "minecraft:block/acacia_planks"
+	}
+}

@@ -1,6 +1,15 @@
 {
 	"replace": false,
 	"values": [
-
+		"bigtech:acacia_catwalk_stairs",
+		"bigtech:birch_catwalk_stairs",
+		"bigtech:cherry_catwalk_stairs",
+		"bigtech:crimson_catwalk_stairs",
+		"bigtech:dark_oak_catwalk_stairs",
+		"bigtech:jungle_catwalk_stairs",
+		"bigtech:mangrove_catwalk_stairs",
+		"bigtech:oak_catwalk_stairs",
+		"bigtech:spruce_catwalk_stairs",
+		"bigtech:warped_catwalk_stairs"
 	]
 }

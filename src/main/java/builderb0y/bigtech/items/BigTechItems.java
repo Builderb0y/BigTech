@@ -33,8 +33,10 @@ import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.CopperCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataGenerator;
+import builderb0y.bigtech.datagen.impl.catwalkPlatforms.WoodCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.CopperCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkStairs.IronCatwalkStairsDataGenerator;
+import builderb0y.bigtech.datagen.impl.catwalkStairs.WoodCatwalkStairsDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.CopperFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.GoldFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.IronFrameDataGenerator;
@@ -217,6 +219,14 @@ public class BigTechItems {
 			new Item.Settings()
 		)
 	);
+	@UseDataGen(WoodCatwalkPlatformDataGenerator.class)
+	public static final WoodItemCollection WOOD_CATWALK_PLATFORMS = new WoodItemCollection(
+		"catwalk_platform",
+		type -> new BlockItem(
+			BigTechBlocks.WOOD_CATWALK_PLATFORMS.get(type),
+			new Item.Settings()
+		)
+	);
 	@UseDataGen(IronCatwalkStairsDataGenerator.class)
 	public static final CatwalkStairsBlockItem IRON_CATWALK_STAIRS = registerCatwalkStairs(
 		BigTechBlocks.IRON_CATWALK_STAIRS
@@ -226,6 +236,14 @@ public class BigTechItems {
 		"catwalk_stairs",
 		type -> new CatwalkStairsBlockItem(
 			BigTechBlocks.COPPER_CATWALK_STAIRS.get(type),
+			new Item.Settings()
+		)
+	);
+	@UseDataGen(WoodCatwalkStairsDataGenerator.class)
+	public static final WoodItemCollection WOOD_CATWALK_STAIRS = new WoodItemCollection(
+		"catwalk_stairs",
+		type -> new CatwalkStairsBlockItem(
+			BigTechBlocks.WOOD_CATWALK_STAIRS.get(type),
 			new Item.Settings()
 		)
 	);

@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:catwalk_stairs",
+	"pattern": [
+		"r ",
+		"br",
+		" b"
+	],
+	"key": {
+		"b": { "item": "minecraft:crimson_planks" },
+		"r": { "item": "minecraft:stick"          }
+	},
+	"result": {
+		"item": "bigtech:crimson_catwalk_stairs",
+		"count": 2
+	}
+}

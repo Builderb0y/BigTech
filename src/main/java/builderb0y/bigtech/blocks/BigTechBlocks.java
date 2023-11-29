@@ -377,6 +377,13 @@ public class BigTechBlocks {
 		}
 	);
 	@UseDataGen(void.class)
+	public static final WoodBlockCollection WOOD_CATWALK_PLATFORMS = new WoodBlockCollection(
+		"catwalk_platform",
+		type -> new CatwalkPlatformBlock(
+			AbstractBlock.Settings.copy(VANILLA_PLANKS.get(type))
+		)
+	);
+	@UseDataGen(void.class)
 	public static final CatwalkStairsBlock IRON_CATWALK_STAIRS = register(
 		"iron_catwalk_stairs",
 		new CatwalkStairsBlock(
@@ -394,6 +401,13 @@ public class BigTechBlocks {
 				: new OxidizableCatwalkStairsBlock(settings, type.level)
 			);
 		}
+	);
+	@UseDataGen(void.class)
+	public static final WoodBlockCollection WOOD_CATWALK_STAIRS = new WoodBlockCollection(
+		"catwalk_stairs",
+		type -> new CatwalkStairsBlock(
+			AbstractBlock.Settings.copy(VANILLA_PLANKS.get(type))
+		)
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_BARS = new CopperBlockCollection(
@@ -580,7 +594,9 @@ public class BigTechBlocks {
 				COPPER_LADDERS,
 				COPPER_CATWALK_PLATFORMS,
 				COPPER_CATWALK_STAIRS,
-				COPPER_BARS
+				COPPER_BARS,
+				WOOD_CATWALK_PLATFORMS,
+				WOOD_CATWALK_STAIRS
 			)
 			.flatMap(RegistrableCollection::stream)
 			.toArray(Block[]::new)
