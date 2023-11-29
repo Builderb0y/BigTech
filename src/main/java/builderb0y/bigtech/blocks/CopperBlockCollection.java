@@ -32,11 +32,11 @@ public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 		);
 	}
 
-	public CopperBlockCollection(String suffix, SeparateCopperBlockFactory<Block> unwaxedFactory, SeparateCopperBlockFactory<Block> waxedFactory) {
+	public CopperBlockCollection(String suffix, SeparateCopperRegistrableFactory<Block> unwaxedFactory, SeparateCopperRegistrableFactory<Block> waxedFactory) {
 		super(suffix, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperBlockCollection(String suffix, MergedCopperBlockFactory<Block> factory) {
+	public CopperBlockCollection(String suffix, MergedCopperRegistrableFactory<Block> factory) {
 		super(suffix, factory);
 	}
 
@@ -51,7 +51,10 @@ public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 		BigTechBlocks.register("waxed_weathered_copper_" + suffix, this.waxed_weathered_copper);
 		BigTechBlocks.register( "waxed_oxidized_copper_" + suffix, this. waxed_oxidized_copper);
 
-		BigTechBlocks.registerOxidizables(this.copper, this.exposed_copper, this.weathered_copper, this.oxidized_copper);
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.          copper, this.  exposed_copper);
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.  exposed_copper, this.weathered_copper);
+		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.weathered_copper, this. oxidized_copper);
+
 		OxidizableBlocksRegistry.registerWaxableBlockPair(this.          copper, this.          waxed_copper);
 		OxidizableBlocksRegistry.registerWaxableBlockPair(this.  exposed_copper, this.  waxed_exposed_copper);
 		OxidizableBlocksRegistry.registerWaxableBlockPair(this.weathered_copper, this.waxed_weathered_copper);

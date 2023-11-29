@@ -30,11 +30,11 @@ public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 		);
 	}
 
-	public CopperItemCollection(String suffix, SeparateCopperBlockFactory<Item> unwaxedFactory, SeparateCopperBlockFactory<Item> waxedFactory) {
+	public CopperItemCollection(String suffix, SeparateCopperRegistrableFactory<Item> unwaxedFactory, SeparateCopperRegistrableFactory<Item> waxedFactory) {
 		super(suffix, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperItemCollection(String suffix, MergedCopperBlockFactory<Item> factory) {
+	public CopperItemCollection(String suffix, MergedCopperRegistrableFactory<Item> factory) {
 		super(suffix, factory);
 	}
 

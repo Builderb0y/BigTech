@@ -7,9 +7,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
-import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
-import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
@@ -48,6 +46,20 @@ public class BigTechBlocks {
 		Blocks.WAXED_EXPOSED_COPPER,
 		Blocks.WAXED_WEATHERED_COPPER,
 		Blocks.WAXED_OXIDIZED_COPPER
+	);
+	@UseDataGen(void.class)
+	public static final WoodBlockCollection VANILLA_PLANKS = new WoodBlockCollection(
+		null,
+		Blocks.OAK_PLANKS,
+		Blocks.SPRUCE_PLANKS,
+		Blocks.BIRCH_PLANKS,
+		Blocks.JUNGLE_PLANKS,
+		Blocks.ACACIA_PLANKS,
+		Blocks.DARK_OAK_PLANKS,
+		Blocks.MANGROVE_PLANKS,
+		Blocks.CHERRY_PLANKS,
+		Blocks.CRIMSON_PLANKS,
+		Blocks.WARPED_PLANKS
 	);
 
 	@UseDataGen(void.class)
@@ -175,77 +187,24 @@ public class BigTechBlocks {
 		}
 	);
 	@UseDataGen(void.class)
-	public static final FrameBlock
-		OAK_FRAME = register(
-			"oak_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.OAK_PLANKS),
-				BigTechBlockTags.STICKS_TO_OAK_FRAME
-			)
-		),
-		SPRUCE_FRAME = register(
-			"spruce_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.SPRUCE_PLANKS),
-				BigTechBlockTags.STICKS_TO_SPRUCE_FRAME
-			)
-		),
-		BIRCH_FRAME = register(
-			"birch_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.BIRCH_PLANKS),
-				BigTechBlockTags.STICKS_TO_BIRCH_FRAME
-			)
-		),
-		JUNGLE_FRAME = register(
-			"jungle_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.JUNGLE_PLANKS),
-				BigTechBlockTags.STICKS_TO_JUNGLE_FRAME
-			)
-		),
-		ACACIA_FRAME = register(
-			"acacia_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.ACACIA_PLANKS),
-				BigTechBlockTags.STICKS_TO_ACACIA_FRAME
-			)
-		),
-		DARK_OAK_FRAME = register(
-			"dark_oak_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.DARK_OAK_PLANKS),
-				BigTechBlockTags.STICKS_TO_DARK_OAK_FRAME
-			)
-		),
-		CHERRY_FRAME = register(
-			"cherry_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.CHERRY_PLANKS),
-				BigTechBlockTags.STICKS_TO_CHERRY_FRAME
-			)
-		),
-		MANGROVE_FRAME = register(
-			"mangrove_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.MANGROVE_PLANKS),
-				BigTechBlockTags.STICKS_TO_MANGROVE_FRAME
-			)
-		),
-		CRIMSON_FRAME = register(
-			"crimson_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.CRIMSON_PLANKS),
-				BigTechBlockTags.STICKS_TO_CRIMSON_FRAME
-			)
-		),
-		WARPED_FRAME = register(
-			"warped_frame",
-			new FrameBlock(
-				AbstractBlock.Settings.copy(Blocks.WARPED_PLANKS),
-				BigTechBlockTags.STICKS_TO_WARPED_FRAME
-			)
-		);
+	public static final WoodBlockCollection WOOD_FRAMES = new WoodBlockCollection(
+		"frame",
+		type -> new FrameBlock(
+			AbstractBlock.Settings.copy(VANILLA_PLANKS.get(type)),
+			switch (type) {
+				case OAK      -> BigTechBlockTags.STICKS_TO_OAK_FRAME;
+				case SPRUCE   -> BigTechBlockTags.STICKS_TO_SPRUCE_FRAME;
+				case BIRCH    -> BigTechBlockTags.STICKS_TO_BIRCH_FRAME;
+				case JUNGLE   -> BigTechBlockTags.STICKS_TO_JUNGLE_FRAME;
+				case ACACIA   -> BigTechBlockTags.STICKS_TO_ACACIA_FRAME;
+				case DARK_OAK -> BigTechBlockTags.STICKS_TO_DARK_OAK_FRAME;
+				case MANGROVE -> BigTechBlockTags.STICKS_TO_MANGROVE_FRAME;
+				case CHERRY   -> BigTechBlockTags.STICKS_TO_CHERRY_FRAME;
+				case CRIMSON  -> BigTechBlockTags.STICKS_TO_CRIMSON_FRAME;
+				case WARPED   -> BigTechBlockTags.STICKS_TO_WARPED_FRAME;
+			}
+		)
+	);
 	@UseDataGen(void.class)
 	public static final LadderBlock IRON_LADDER = register(
 		"iron_ladder",
@@ -594,23 +553,6 @@ public class BigTechBlocks {
 		LandPathNodeTypesRegistry.register( EJECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(INJECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(LAUNCHER_BELT, PathNodeType.RAIL, null);
-
-		FlammableBlockRegistry.getDefaultInstance().add(     OAK_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(  SPRUCE_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(   BIRCH_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(  JUNGLE_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(  ACACIA_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(DARK_OAK_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(  CHERRY_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(MANGROVE_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add( CRIMSON_FRAME, 5, 20);
-		FlammableBlockRegistry.getDefaultInstance().add(  WARPED_FRAME, 5, 20);
-	}
-
-	public static void registerOxidizables(Block unaffected, Block exposed, Block weathered, Block oxidized) {
-		OxidizableBlocksRegistry.registerOxidizableBlockPair(unaffected, exposed  );
-		OxidizableBlocksRegistry.registerOxidizableBlockPair(exposed,    weathered);
-		OxidizableBlocksRegistry.registerOxidizableBlockPair(weathered,  oxidized );
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -622,16 +564,6 @@ public class BigTechBlocks {
 			DESCENDER,
 			IRON_FRAME,
 			GOLD_FRAME,
-			OAK_FRAME,
-			SPRUCE_FRAME,
-			BIRCH_FRAME,
-			JUNGLE_FRAME,
-			ACACIA_FRAME,
-			DARK_OAK_FRAME,
-			CHERRY_FRAME,
-			MANGROVE_FRAME,
-			CRIMSON_FRAME,
-			WARPED_FRAME,
 			IRON_LADDER,
 			TRANSMUTER,
 			SMALL_LIGHTNING_JAR,
@@ -644,6 +576,7 @@ public class BigTechBlocks {
 			RenderLayer.cutout,
 			Stream.of(
 				COPPER_FRAMES,
+				WOOD_FRAMES,
 				COPPER_LADDERS,
 				COPPER_CATWALK_PLATFORMS,
 				COPPER_CATWALK_STAIRS,

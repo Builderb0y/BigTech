@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
@@ -67,7 +68,7 @@ public class LightningPulse {
 		interactor.spreadIn(world, this.originPos, state, this);
 	}
 
-	public static void shockEntity(Entity entity, float amount) {
+	public static void shockEntity(Entity entity, float amount, DamageSource source) {
 		float multiplier = 1.0F;
 		for (ItemStack stack : entity.armorItems) {
 			if (stack.item instanceof ArmorItem armor) {
@@ -82,7 +83,7 @@ public class LightningPulse {
 		amount *= multiplier;
 		if (
 			amount > 0.0F &&
-			entity.damage(entity.damageSources.lightningBolt(), amount) &&
+			entity.damage(source, amount) &&
 			entity instanceof CreeperEntity creeper
 		) {
 			creeper.dataTracker.set(CreeperEntity_ChargedAccessor.charged, Boolean.TRUE);

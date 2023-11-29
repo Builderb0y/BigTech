@@ -11,7 +11,6 @@ things to finish for existing features:
 		also doesn't show durability when fully charged.
 		may need to duplicate some of the logic for damage.
 	make tooltips of NBT-copied lightning jars display stored energy.
-	test death message of tesla coils.
 
 compatibility:
 
@@ -40,8 +39,6 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
-		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
-		lightning electrode: stores lightning power in portable, item format. releases power on right click.
 		resurrector: uses lightning power and mob drops to summon the mob that drops those items
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
 		lightning enchanter: uses lightning power to enchant items
@@ -98,6 +95,8 @@ done:
 			ingot: crafting ingredient. made by transmuting iron
 			block: also attracts items, xp, and projectiles
 		tesla coil: shocks nearby entities, can summon lightning
+		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
+		lightning battery: stores lightning power in portable, item format. releases power on right click.
 	transport:
 		belts:
 			belt: transports entities horizontally

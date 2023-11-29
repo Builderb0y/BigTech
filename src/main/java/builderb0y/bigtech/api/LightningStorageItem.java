@@ -45,7 +45,8 @@ public interface LightningStorageItem {
 	*/
 	public default ActionResult defaultUseOnBlock(ItemUsageContext context) {
 		BlockState state = context.world.getBlockState(context.blockPos);
-		if (state.getBlock() instanceof LightningPulseInteractor interactor) {
+		LightningPulseInteractor interactor = LightningPulseInteractor.LOOKUP.find(context.world, context.blockPos, state, null, null);
+		if (interactor != null) {
 			return interactor.interactWithBattery(context.world, context.blockPos, state, context.player, context.stack, this);
 		}
 		return ActionResult.PASS;

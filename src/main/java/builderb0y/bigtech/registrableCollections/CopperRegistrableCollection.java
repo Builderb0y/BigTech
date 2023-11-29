@@ -40,7 +40,7 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		if (suffix != null) this.register(suffix);
 	}
 
-	public CopperRegistrableCollection(String suffix, SeparateCopperBlockFactory<T> unwaxedFactory, SeparateCopperBlockFactory<T> waxedFactory) {
+	public CopperRegistrableCollection(String suffix, SeparateCopperRegistrableFactory<T> unwaxedFactory, SeparateCopperRegistrableFactory<T> waxedFactory) {
 		this(
 			suffix,
 			unwaxedFactory.create(OxidationLevel.UNAFFECTED),
@@ -54,7 +54,7 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		);
 	}
 
-	public CopperRegistrableCollection(String suffix, MergedCopperBlockFactory<T> factory) {
+	public CopperRegistrableCollection(String suffix, MergedCopperRegistrableFactory<T> factory) {
 		this(
 			suffix,
 			factory.create(Type.                COPPER),
@@ -71,13 +71,13 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 	public abstract void register(String suffix);
 
 	@FunctionalInterface
-	public static interface MergedCopperBlockFactory<T> {
+	public static interface MergedCopperRegistrableFactory<T> {
 
 		public abstract T create(Type type);
 	}
 
 	@FunctionalInterface
-	public static interface SeparateCopperBlockFactory<T> {
+	public static interface SeparateCopperRegistrableFactory<T> {
 
 		public abstract T create(OxidationLevel level);
 	}

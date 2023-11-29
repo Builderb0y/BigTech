@@ -9,12 +9,13 @@ import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.items.BigTechItemTags;
+import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
 public class WoodenFrameDataGenerator extends FrameDataGenerator {
 
 	public Item planks;
 
-	public WoodenFrameDataGenerator(BlockItem blockItem) {
+	public WoodenFrameDataGenerator(BlockItem blockItem, WoodRegistrableCollection.Type type) {
 		super(blockItem);
 		this.planks = Registries.ITEM.get(new Identifier("minecraft", this.id.path.substring(0, this.id.path.length() - "_frame".length()) + "_planks"));
 	}

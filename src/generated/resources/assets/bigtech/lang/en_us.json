@@ -110,6 +110,8 @@
 	"block.bigtech.yellow_crystal_cluster":                  "\u03B2 Crystal Cluster",
 	"container.bigtech.sorter_belt":                         "Sorter Belt",
 	"container.bigtech.transmuter":                          "Transmuter",
+	"death.attack.bigtech.shocking":                         "%1$s got electrocuted",
+	"death.attack.bigtech.tesla_coil":                       "%1$s stood too close to a tesla coil",
 	"item.bigtech.copper_nugget":                            "Copper Nugget",
 	"item.bigtech.crystal_debris":                           "Crystal Debris",
 	"item.bigtech.lens":                                     "Lens",

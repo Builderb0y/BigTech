@@ -12,11 +12,13 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.datagen.formats.TableFormats.LangEntry;
 import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
 import builderb0y.bigtech.datagen.tables.Table;
@@ -62,6 +64,7 @@ public class DataGen {
 		context.collectGenerators(BigTechBlocks          .class, Block          .class);
 		context.collectGenerators(BigTechItems           .class, Item           .class);
 		context.collectGenerators(BigTechBlockEntityTypes.class, BlockEntityType.class);
+		context.collectGenerators(BigTechDamageTypes     .class, RegistryKey    .class);
 		context.collectGenerators(BigTechItemGroups      .class, ItemGroup      .class);
 		context.collectGenerators(BigTechParticles       .class, ParticleType   .class);
 		context.empty("assets");

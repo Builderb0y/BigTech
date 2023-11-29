@@ -67,7 +67,8 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 					entities.get(
 						this.random.nextInt(entities.size())
 					),
-					1.0F
+					1.0F,
+					this.damageSource
 				);
 			}
 		}

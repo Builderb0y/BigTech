@@ -1,0 +1,79 @@
+package builderb0y.bigtech.datagen.impl;
+
+import java.util.Map;
+
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
+
+import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.LocalizedDataGenerator;
+
+public abstract class DamageTypeDataGenerator implements LocalizedDataGenerator {
+
+	public final RegistryKey<DamageType> key;
+	public final TagKey<DamageType>[] tags;
+
+	@SafeVarargs
+	public DamageTypeDataGenerator(RegistryKey<DamageType> key, TagKey<DamageType>... tags) {
+		this.key = key;
+		this.tags = tags;
+	}
+
+	@Override
+	public Identifier getId() {
+		return this.key.value;
+	}
+
+	@Override
+	public String getLangKey(DataGenContext context) {
+		return "death.attack.${this.id.namespace}.${this.id.path}";
+	}
+
+	@Override
+	public void run(DataGenContext context) {
+		LocalizedDataGenerator.super.run(context);
+		context.writeToFile(
+			context.genericDataPath(this.id, "damage_type"),
+			context.replace(
+				//language=json
+				"""
+				{
+					"exhaustion": 0.1,
+					"message_id": "%MESSAGE",
+					"scaling": "when_caused_by_living_non_player"
+				}""",
+				Map.of("MESSAGE", "${this.id.namespace}.${this.id.path}")
+			)
+		);
+		for (TagKey<DamageType> tag : this.tags) {
+			context.getTags(tag).addElement(this.id);
+		}
+	}
+
+	public static class Shocking extends DamageTypeDataGenerator {
+
+		public Shocking(RegistryKey<DamageType> key) {
+			super(key, DamageTypeTags.BYPASSES_ARMOR);
+		}
+
+		@Override
+		public String getLangValue(DataGenContext context) {
+			return "%1\$s got electrocuted";
+		}
+	}
+
+	public static class TeslaCoil extends DamageTypeDataGenerator {
+
+		public TeslaCoil(RegistryKey<DamageType> key) {
+			super(key, DamageTypeTags.BYPASSES_ARMOR);
+		}
+
+		@Override
+		public String getLangValue(DataGenContext context) {
+			return "%1\$s stood too close to a tesla coil";
+		}
+	}
+}

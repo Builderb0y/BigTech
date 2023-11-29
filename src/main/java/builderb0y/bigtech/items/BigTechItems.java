@@ -124,17 +124,13 @@ public class BigTechItems {
 		)
 	);
 	@UseDataGen(WoodenFrameDataGenerator.class)
-	public static final BlockItem
-		OAK_FRAME      = registerPlacer(BigTechBlocks.OAK_FRAME),
-		SPRUCE_FRAME   = registerPlacer(BigTechBlocks.SPRUCE_FRAME),
-		BIRCH_FRAME    = registerPlacer(BigTechBlocks.BIRCH_FRAME),
-		JUNGLE_FRAME   = registerPlacer(BigTechBlocks.JUNGLE_FRAME),
-		ACACIA_FRAME   = registerPlacer(BigTechBlocks.ACACIA_FRAME),
-		DARK_OAK_FRAME = registerPlacer(BigTechBlocks.DARK_OAK_FRAME),
-		CHERRY_FRAME   = registerPlacer(BigTechBlocks.CHERRY_FRAME),
-		MANGROVE_FRAME = registerPlacer(BigTechBlocks.MANGROVE_FRAME),
-		CRIMSON_FRAME  = registerPlacer(BigTechBlocks.CRIMSON_FRAME),
-		WARPED_FRAME   = registerPlacer(BigTechBlocks.WARPED_FRAME);
+	public static final WoodItemCollection WOOD_FRAMES = new WoodItemCollection(
+		"frame",
+		type -> new BlockItem(
+			BigTechBlocks.WOOD_FRAMES.get(type),
+			new Item.Settings()
+		)
+	);
 	@UseDataGen(IronLadderDataGenerator.class)
 	public static final BlockItem IRON_LADDER = registerPlacer(
 		BigTechBlocks.IRON_LADDER

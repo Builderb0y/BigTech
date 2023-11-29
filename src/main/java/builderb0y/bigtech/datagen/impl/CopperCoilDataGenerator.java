@@ -88,28 +88,4 @@ public class CopperCoilDataGenerator extends BasicBlockDataGenerator {
 			.toString()
 		);
 	}
-
-	public void setupDamageType(DataGenContext context) {
-		context.writeToFile(
-			context.genericDataPath(BigTechDamageTypes.TESLA_COIL.value, "damage_type"),
-			//language=json
-			"""
-			{
-				"exhaustion": 0.1,
-				"message_id": "bigtech.tesla_coil",
-				"scaling": "when_caused_by_living_non_player"
-			}"""
-		);
-	}
-
-	public void setupDamageTags(DataGenContext context) {
-		context.getTags(DamageTypeTags.BYPASSES_ARMOR).addElement(BigTechDamageTypes.TESLA_COIL.value);
-	}
-
-	@Override
-	public void run(DataGenContext context) {
-		super.run(context);
-		this.setupDamageType(context);
-		this.setupDamageTags(context);
-	}
 }

@@ -9,8 +9,10 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +27,7 @@ import net.minecraft.world.WorldEvents;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
+import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.lightning.LightningPulseInteractors;
@@ -207,7 +210,16 @@ public interface LightningPulseInteractor {
 	*/
 	public default void shockEntitiesAround(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
 		for (Entity entity : world.getNonSpectatingEntities(Entity.class, new Box(pos.x - 1, pos.y - 1, pos.z - 1, pos.x + 2, pos.y + 2, pos.z + 2))) {
-			LightningPulse.shockEntity(entity, pulse.totalEnergy / 1000.0F);
+			LightningPulse.shockEntity(
+				entity,
+				pulse.totalEnergy / 1000.0F,
+				new DamageSource(
+					world
+					.registryManager
+					.get(RegistryKeys.DAMAGE_TYPE)
+					.entryOf(BigTechDamageTypes.SHOCKING)
+				)
+			);
 		}
 	}
 

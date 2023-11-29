@@ -3,14 +3,17 @@ package builderb0y.bigtech.items;
 import java.util.stream.Stream;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
 import builderb0y.bigtech.api.LightningStorageItem;
+import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.lightning.LightningPulse;
 
 public class LightningBatteryItem extends Item implements InventoryVariants, LightningStorageItem {
@@ -48,7 +51,17 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
 		int charge = this.getCharge(stack);
 		if (charge > 0) {
-			LightningPulse.shockEntity(entity, charge / 200.0F);
+			LightningPulse.shockEntity(
+				entity,
+				charge / 200.0F,
+				new DamageSource(
+					entity
+					.world
+					.registryManager
+					.get(RegistryKeys.DAMAGE_TYPE)
+					.entryOf(BigTechDamageTypes.SHOCKING)
+				)
+			);
 			return ActionResult.SUCCESS;
 		}
 		else {
