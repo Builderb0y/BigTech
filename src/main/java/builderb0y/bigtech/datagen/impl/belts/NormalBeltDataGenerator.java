@@ -8,7 +8,7 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 
@@ -26,7 +26,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 			.pattern("ppp", "i i")
 			.where('p', Items.PAPER)
 			.where('i', ConventionalItemTags.IRON_INGOTS)
-			.result(BigTechItems.BELT)
+			.result(FunctionalItems.BELT)
 			.count(3)
 			.toString()
 		);
@@ -38,7 +38,7 @@ public class NormalBeltDataGenerator extends DirectionalBeltDataGenerator {
 			.pattern("lll", "i i")
 			.where('l', Items.LEATHER)
 			.where('i', ConventionalItemTags.IRON_INGOTS)
-			.result(BigTechItems.BELT)
+			.result(FunctionalItems.BELT)
 			.count(6)
 			.toString()
 		);

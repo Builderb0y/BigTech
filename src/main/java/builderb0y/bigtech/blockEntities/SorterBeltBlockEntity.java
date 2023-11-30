@@ -34,7 +34,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.SorterBeltScreenHandler;
 import builderb0y.bigtech.util.FairSharing;

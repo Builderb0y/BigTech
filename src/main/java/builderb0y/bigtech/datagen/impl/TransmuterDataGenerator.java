@@ -8,7 +8,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
 
 @Dependencies(CommonTransmuterDataGenerator.class)
 public class TransmuterDataGenerator extends BasicBlockDataGenerator {
@@ -113,7 +113,7 @@ public class TransmuterDataGenerator extends BasicBlockDataGenerator {
 			context.recipePath(this.id),
 			new ShapedRecipeBuilder()
 			.pattern("fof", "o o", "fof")
-			.where('f', BigTechItems.IRON_FRAME)
+			.where('f', DecoItems.IRON_FRAME)
 			.where('o', BigTechItemTags.OBSIDIAN)
 			.result(this.id)
 			.toString()

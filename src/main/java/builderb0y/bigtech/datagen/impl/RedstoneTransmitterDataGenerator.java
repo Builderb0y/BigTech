@@ -9,7 +9,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 @Dependencies(CommonBeamEmitterDataGenerator.class)
 public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGenerator {
@@ -182,7 +182,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 			new ShapedRecipeBuilder()
 			.pattern("qqq", "lcr", "bbb")
 			.where('q', ConventionalItemTags.QUARTZ)
-			.where('l', BigTechItems.LENS)
+			.where('l', FunctionalItems.LENS)
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('r', Items.REDSTONE_TORCH)
 			.where('b', Items.SMOOTH_STONE_SLAB)

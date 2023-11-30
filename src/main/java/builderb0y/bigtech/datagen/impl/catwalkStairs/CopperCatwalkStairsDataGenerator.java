@@ -3,16 +3,15 @@ package builderb0y.bigtech.datagen.impl.catwalkStairs;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.Registries;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
-import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
+import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGenerator {
@@ -57,8 +56,8 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			this.writeCatwalkStairsRecipe(
 				context,
-				new TagOrItem(BigTechItems.MEDIUM_WEIGHTED_PRESSURE_PLATE),
-				new TagOrItem(BigTechItems.COPPER_BARS.copper)
+				new TagOrItem(FunctionalItems.MEDIUM_WEIGHTED_PRESSURE_PLATE),
+				new TagOrItem(DecoItems.COPPER_BARS.copper)
 			);
 		}
 		else if (this.type.waxed) {
@@ -67,7 +66,7 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group("bigtech:waxed_copper_catwalk_stairs")
-				.ingredient(BigTechItems.COPPER_CATWALK_STAIRS.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_CATWALK_STAIRS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.toString()

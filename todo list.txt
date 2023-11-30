@@ -19,7 +19,6 @@ features:
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
-		separate creative tab for functional vs. decorational items.
 	decoration:
 		catwalk platforms: looks like a catwalk, can be walked on
 			still need gold variant.
@@ -45,6 +44,7 @@ features:
 		magnetite:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
 				should this just be an item that works in your inventory instead?
+					nah, that's been done by other mods plenty of times already.
 			arrow: is attracted to mobs
 		socks:
 			when walking across carpet or wool while wearing them,

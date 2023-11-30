@@ -11,7 +11,7 @@ import builderb0y.bigtech.datagen.base.BasicItemDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class CopperNuggetDataGenerator extends BasicItemDataGenerator {
 
@@ -27,7 +27,7 @@ public class CopperNuggetDataGenerator extends BasicItemDataGenerator {
 			.category(CraftingRecipeCategory.MISC)
 			.pattern("i")
 			.where('i', ConventionalItemTags.COPPER_INGOTS)
-			.result(BigTechItems.COPPER_NUGGET)
+			.result(FunctionalItems.COPPER_NUGGET)
 			.count(9)
 			.toString()
 		);

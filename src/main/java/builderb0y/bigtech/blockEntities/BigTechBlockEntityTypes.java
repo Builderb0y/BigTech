@@ -14,7 +14,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.InventoryDataGenerator;
 
@@ -24,38 +24,38 @@ public class BigTechBlockEntityTypes {
 	public static final BlockEntityType<SorterBeltBlockEntity> SORTER_BELT = register(
 		"sorter_belt",
 		SorterBeltBlockEntity::new,
-		BigTechBlocks.SORTER_BELT
+		FunctionalBlocks.SORTER_BELT
 	);
 	@UseDataGen(InventoryDataGenerator.class)
 	public static final BlockEntityType<TransmuterBlockEntity> TRANSMUTER = register(
 		"transmuter",
 		TransmuterBlockEntity::new,
-		BigTechBlocks.TRANSMUTER
+		FunctionalBlocks.TRANSMUTER
 	);
 	@UseDataGen(void.class) //handled by ItemBlock (BeamInterceptorDataGenerator).
 	public static final BlockEntityType<BeamInterceptorBlockEntity> BEAM_INTERCEPTOR = register(
 		"beam_interceptor",
 		BeamInterceptorBlockEntity::new,
-		BigTechBlocks.BEAM_INTERCEPTOR
+		FunctionalBlocks.BEAM_INTERCEPTOR
 	);
 	@UseDataGen(void.class)
 	public static final BlockEntityType<PrismBlockEntity> PRISM = register(
 		"prism",
 		PrismBlockEntity::new,
-		BigTechBlocks.PRISM
+		FunctionalBlocks.PRISM
 	);
 	@UseDataGen(void.class)
 	public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = register(
 		"tesla_coil",
 		TeslaCoilBlockEntity::new,
-		BigTechBlocks.COPPER_COIL
+		FunctionalBlocks.COPPER_COIL
 	);
 	@UseDataGen(void.class)
 	public static final BlockEntityType<LightningJarBlockEntity> LIGHTNING_JAR = register(
 		"lightning_jar",
 		LightningJarBlockEntity::new,
-		BigTechBlocks.SMALL_LIGHTNING_JAR,
-		BigTechBlocks.LARGE_LIGHTNING_JAR
+		FunctionalBlocks.SMALL_LIGHTNING_JAR,
+		FunctionalBlocks.LARGE_LIGHTNING_JAR
 	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {

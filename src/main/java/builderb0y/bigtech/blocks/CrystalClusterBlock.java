@@ -34,7 +34,7 @@ import net.minecraft.world.explosion.Explosion;
 import builderb0y.bigtech.api.BeaconBeamColorProvider;
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamSegment;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.mixins.ExplosionAccessor;
 import builderb0y.bigtech.models.CrystalBakedModel;
 import builderb0y.bigtech.particles.SparkleParticleEffect;
@@ -90,7 +90,7 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 				motionX *= scalar;
 				motionY *= scalar;
 				motionZ *= scalar;
-				ItemEntity itemEntity = new ItemEntity(world, spawnX, spawnY, spawnZ, new ItemStack(BigTechItems.CRYSTAL_DEBRIS), motionX, motionY, motionZ);
+				ItemEntity itemEntity = new ItemEntity(world, spawnX, spawnY, spawnZ, new ItemStack(FunctionalItems.CRYSTAL_DEBRIS), motionX, motionY, motionZ);
 				itemEntity.setToDefaultPickupDelay();
 				world.spawnEntity(itemEntity);
 			}

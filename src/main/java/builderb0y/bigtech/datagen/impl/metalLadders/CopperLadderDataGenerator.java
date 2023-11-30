@@ -8,12 +8,12 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
-import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperLadderDataGenerator extends MetalLadderDataGenerator {
@@ -27,7 +27,7 @@ public class CopperLadderDataGenerator extends MetalLadderDataGenerator {
 
 	@Override
 	public Identifier getTexture(DataGenContext context) {
-		return Registries.BLOCK.getId(BigTechBlocks.COPPER_LADDERS.get(this.type.notWaxed()));
+		return Registries.BLOCK.getId(DecoBlocks.COPPER_LADDERS.get(this.type.notWaxed()));
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class CopperLadderDataGenerator extends MetalLadderDataGenerator {
 				context.recipePath(this.id),
 				new ShapelessRecipeBuilder()
 				.group(BigTechMod.modID("copper_ladders"))
-				.ingredient(BigTechItems.COPPER_LADDERS.get(this.type.notWaxed()))
-				.ingredient(BigTechItems.COPPER_LADDERS.get(this.type.notWaxed()))
-				.ingredient(BigTechItems.COPPER_LADDERS.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_LADDERS.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_LADDERS.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_LADDERS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.count(3)

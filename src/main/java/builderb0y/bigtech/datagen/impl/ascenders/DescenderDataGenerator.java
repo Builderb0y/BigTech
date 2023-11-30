@@ -6,7 +6,7 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class DescenderDataGenerator extends AbstractAscenderDataGenerator {
 
@@ -26,8 +26,8 @@ public class DescenderDataGenerator extends AbstractAscenderDataGenerator {
 			new ShapelessRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group(BigTechMod.modID("ascenders"))
-			.ingredient(BigTechItems.ASCENDER)
-			.result(BigTechItems.DESCENDER)
+			.ingredient(FunctionalItems.ASCENDER)
+			.result(FunctionalItems.DESCENDER)
 			.toString()
 		);
 	}

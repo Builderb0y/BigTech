@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import builderb0y.bigtech.datagen.base.BasicItemDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class LightningBatteryDataGenerator extends BasicItemDataGenerator {
 
@@ -27,7 +27,7 @@ public class LightningBatteryDataGenerator extends BasicItemDataGenerator {
 			new ShapedRecipeBuilder()
 			.pattern(" g ", "geg", "gcg")
 			.where('g', ConventionalItemTags.GLASS_PANES)
-			.where('e', BigTechItems.LIGHTNING_ELECTRODE)
+			.where('e', FunctionalItems.LIGHTNING_ELECTRODE)
 			.where('c', ConventionalItemTags.COPPER_INGOTS)
 			.result(this.id)
 			.toString()

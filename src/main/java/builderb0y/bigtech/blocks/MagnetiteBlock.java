@@ -9,7 +9,6 @@ import net.minecraft.util.collection.PaletteStorage;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.Palette;
 import net.minecraft.world.chunk.PalettedContainer;
 
@@ -55,7 +54,7 @@ public class MagnetiteBlock extends Block {
 			sectionMaxX = blockMaxX >> 4,
 			sectionMaxY = blockMaxY >> 4,
 			sectionMaxZ = blockMaxZ >> 4;
-		BlockState search = BigTechBlocks.MAGNETITE_BLOCK.defaultState;
+		BlockState search = FunctionalBlocks.MAGNETITE_BLOCK.defaultState;
 		Predicate<BlockState> predicate = (BlockState state) -> state == search;
 		for (int sectionZ = sectionMinZ; sectionZ <= sectionMaxZ; sectionZ++) {
 			int intersectionMinZ = Math.max(blockMinZ, sectionZ << 4);

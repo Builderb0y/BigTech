@@ -140,5 +140,6 @@
 	"item.bigtech.magnetite_ingot":                          "Magnetite Ingot",
 	"item.bigtech.magnetite_nugget":                         "Magnetite Nugget",
 	"item.bigtech.quad_lightning_electrode":                 "Quad Lightning Electrode",
-	"itemGroup.bigtech":                                     "Big Tech"
+	"itemGroup.bigtech.deco":                                "Bigtech (Deco)",
+	"itemGroup.bigtech.functional":                          "Bigtech (Functional)"
 }

@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import builderb0y.bigtech.datagen.base.BasicItemDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class LightningElectrodeDataGenerator extends BasicItemDataGenerator {
 
@@ -24,7 +24,7 @@ public class LightningElectrodeDataGenerator extends BasicItemDataGenerator {
 			context.recipePath(this.id),
 			new ShapedRecipeBuilder()
 			.pattern("i", "i")
-			.where('i', BigTechItems.MAGNETITE_INGOT)
+			.where('i', FunctionalItems.MAGNETITE_INGOT)
 			.result(this.id)
 			.toString()
 		);

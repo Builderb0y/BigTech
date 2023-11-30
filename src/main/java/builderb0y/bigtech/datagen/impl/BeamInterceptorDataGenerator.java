@@ -13,7 +13,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.tables.Table;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 
@@ -237,7 +237,7 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("l", "t", "b")
-			.where('l', BigTechItems.LENS)
+			.where('l', FunctionalItems.LENS)
 			.where('t', Items.REDSTONE_TORCH)
 			.where('b', Items.SMOOTH_STONE_SLAB)
 			.result(this.id)

@@ -7,8 +7,7 @@ import net.minecraft.item.Items;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class RedstoneReceiverDataGenerator extends RedstoneTransceiverDataGenerator {
 
@@ -180,7 +179,7 @@ public class RedstoneReceiverDataGenerator extends RedstoneTransceiverDataGenera
 			new ShapedRecipeBuilder()
 			.pattern("qqq", "l r", "bbb")
 			.where('q', ConventionalItemTags.QUARTZ)
-			.where('l', BigTechItems.LENS)
+			.where('l', FunctionalItems.LENS)
 			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
 			.where('b', Items.SMOOTH_STONE_SLAB)
 			.result(this.id)

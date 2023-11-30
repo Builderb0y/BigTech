@@ -19,7 +19,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.lightning.LightningPulse;
 
@@ -128,7 +128,7 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 		BlockState tmpState;
 		for (Vec3i offset : orientation.copperOffsetsExcludingSelf) {
 			tmpState = this.world.getBlockState(mutablePos.set(this.pos, offset));
-			if (!tmpState.isOf(BigTechBlocks.COPPER_COIL) || tmpState.get(Properties.FACING) != primaryDirection) return false;
+			if (!tmpState.isOf(FunctionalBlocks.COPPER_COIL) || tmpState.get(Properties.FACING) != primaryDirection) return false;
 		}
 		for (Vec3i offset : orientation.ironOffsets) {
 			tmpState = this.world.getBlockState(mutablePos.set(this.pos, offset));

@@ -17,7 +17,7 @@ import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
@@ -127,7 +127,7 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group(BigTechMod.modID("waxed_copper_bars"))
-				.ingredient(BigTechItems.COPPER_BARS.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_BARS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.toString()

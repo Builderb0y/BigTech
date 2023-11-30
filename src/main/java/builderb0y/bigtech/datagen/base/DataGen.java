@@ -17,13 +17,15 @@ import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
-import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.DecoBlocks;
+import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.datagen.formats.TableFormats.LangEntry;
 import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
 import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemGroups;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
+import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.particles.BigTechParticles;
 
 public class DataGen {
@@ -61,8 +63,10 @@ public class DataGen {
 		if (!isEnabled()) throw new IllegalStateException("DataGen not enabled.");
 		LOGGER.info("Running data gen...");
 		DataGenContext context = new DataGenContext();
-		context.collectGenerators(BigTechBlocks          .class, Block          .class);
-		context.collectGenerators(BigTechItems           .class, Item           .class);
+		context.collectGenerators(FunctionalBlocks       .class, Block          .class);
+		context.collectGenerators(DecoBlocks             .class, Block          .class);
+		context.collectGenerators(FunctionalItems        .class, Item           .class);
+		context.collectGenerators(DecoItems              .class, Item           .class);
 		context.collectGenerators(BigTechBlockEntityTypes.class, BlockEntityType.class);
 		context.collectGenerators(BigTechDamageTypes     .class, RegistryKey    .class);
 		context.collectGenerators(BigTechItemGroups      .class, ItemGroup      .class);

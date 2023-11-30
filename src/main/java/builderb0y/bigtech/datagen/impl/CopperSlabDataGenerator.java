@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
@@ -132,8 +133,8 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 				context.recipePath(context.suffixPath(this.id, "_from_honeycomb")),
 				new ShapelessRecipeBuilder()
 				.group(BigTechMod.modID("copper_slabs"))
-				.ingredient(BigTechBlocks.COPPER_SLABS.get(this.type.notWaxed()))
-				.ingredient(BigTechBlocks.COPPER_SLABS.get(this.type.notWaxed()))
+				.ingredient(DecoBlocks.COPPER_SLABS.get(this.type.notWaxed()))
+				.ingredient(DecoBlocks.COPPER_SLABS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.count(2)

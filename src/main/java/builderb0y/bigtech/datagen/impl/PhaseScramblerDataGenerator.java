@@ -4,7 +4,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class PhaseScramblerDataGenerator extends PhaseManipulatorDataGenerator {
 
@@ -14,6 +14,6 @@ public class PhaseScramblerDataGenerator extends PhaseManipulatorDataGenerator {
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
-		this.writePhaseAdjusterRecipe(context, Items.BLACK_STAINED_GLASS_PANE, BigTechItems.CRYSTAL_CLUSTERS.black);
+		this.writePhaseAdjusterRecipe(context, Items.BLACK_STAINED_GLASS_PANE, FunctionalItems.CRYSTAL_CLUSTERS.black);
 	}
 }

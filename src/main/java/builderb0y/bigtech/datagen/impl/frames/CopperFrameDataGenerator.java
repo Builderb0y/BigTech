@@ -10,12 +10,12 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
-import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
@@ -30,7 +30,7 @@ public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 	@Override
 	public Identifier getBaseTexture() {
 		if (this.type.waxed) {
-			return Registries.BLOCK.getId(BigTechBlocks.COPPER_FRAMES.get(this.type.notWaxed()));
+			return Registries.BLOCK.getId(DecoBlocks.COPPER_FRAMES.get(this.type.notWaxed()));
 		}
 		return super.getBaseTexture();
 	}
@@ -60,7 +60,7 @@ public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group(BigTechMod.modID("frames"))
-				.ingredient(BigTechItems.COPPER_FRAMES.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_FRAMES.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
 				.result(this.item)
 				.toString()

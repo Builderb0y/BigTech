@@ -8,7 +8,7 @@ import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class CrystallineSandDataGenerator extends BasicBlockDataGenerator {
 
@@ -53,7 +53,7 @@ public class CrystallineSandDataGenerator extends BasicBlockDataGenerator {
 			context.recipePath(this.id),
 			new ShapelessRecipeBuilder()
 			.ingredient(ItemTags.SAND)
-			.ingredient(BigTechItems.CRYSTAL_DEBRIS)
+			.ingredient(FunctionalItems.CRYSTAL_DEBRIS)
 			.result(this.id)
 			.toString()
 		);

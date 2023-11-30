@@ -6,7 +6,7 @@ import net.minecraft.item.BlockItem;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class LargeLightningJarDataGenerator extends LightningJarDataGenerator {
 
@@ -114,8 +114,8 @@ public class LargeLightningJarDataGenerator extends LightningJarDataGenerator {
 			new ShapedRecipeBuilder()
 			.pattern("ggg", "geg", "ppp")
 			.where('g', ConventionalItemTags.GLASS_PANES)
-			.where('e', BigTechItems.QUAD_LIGHTNING_ELECTRODE)
-			.where('p', BigTechItems.MEDIUM_WEIGHTED_PRESSURE_PLATE)
+			.where('e', FunctionalItems.QUAD_LIGHTNING_ELECTRODE)
+			.where('p', FunctionalItems.MEDIUM_WEIGHTED_PRESSURE_PLATE)
 			.result(this.id)
 			.toString()
 		);

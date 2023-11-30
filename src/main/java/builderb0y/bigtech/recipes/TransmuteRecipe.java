@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import builderb0y.autocodec.annotations.*;
 import builderb0y.autocodec.coders.AutoCoder;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 
@@ -81,7 +81,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 
 	@Override
 	public ItemStack createIcon() {
-		return new ItemStack(BigTechItems.TRANSMUTER);
+		return new ItemStack(FunctionalItems.TRANSMUTER);
 	}
 
 	@Override

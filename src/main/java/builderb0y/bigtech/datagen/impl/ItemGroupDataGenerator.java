@@ -22,11 +22,13 @@ public class ItemGroupDataGenerator implements LocalizedDataGenerator {
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		return "itemGroup.bigtech";
+		Identifier id = this.id;
+		return "itemGroup.${id.namespace}.${id.path}";
 	}
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		return "Big Tech";
+		Identifier id = this.id;
+		return "${context.underscoresToCapitals(id.namespace)} (${context.underscoresToCapitals(id.path)})";
 	}
 }

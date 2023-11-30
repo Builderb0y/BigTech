@@ -5,13 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
+import builderb0y.bigtech.items.FunctionalItems;
 
 /**
 specifies a DataGenerator to use for the annotated element.
 the {@link #value()} is expected to have a single constructor
 taking an instance of the annotated element.
-see {@link BigTechItems} for a good example of how this works.
+see {@link FunctionalItems} or {@link DecoItems}
+for a good example of how this works.
 
 if {@link #value()} returns {@code void.class}, this indicates that
 the annotated element should not have an associated data generator.

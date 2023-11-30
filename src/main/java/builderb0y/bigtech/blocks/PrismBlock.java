@@ -31,7 +31,7 @@ import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.blockEntities.PrismBlockEntity;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class PrismBlock extends Block implements BeamInteractor, BlockEntityProvider, Waterloggable {
@@ -51,12 +51,12 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	@SuppressWarnings("deprecation")
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		ItemStack stack = player.getStackInHand(hand);
-		if (stack.isEmpty || stack.isOf(BigTechItems.LENS)) {
+		if (stack.isEmpty || stack.isOf(FunctionalItems.LENS)) {
 			//workaround for bug in vanilla code:
 			//returning FAIL from the main hand doesn't prevent the offhand from being used.
 			if (hand == Hand.OFF_HAND) {
 				ItemStack mainHand = player.getStackInHand(Hand.MAIN_HAND);
-				if (mainHand.isEmpty || mainHand.isOf(BigTechItems.LENS)) {
+				if (mainHand.isEmpty || mainHand.isOf(FunctionalItems.LENS)) {
 					return ActionResult.FAIL;
 				}
 			}
@@ -126,7 +126,7 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 						}
 						else {
 							if (prism.removeLens(direction)) {
-								ItemStack toInsert = BigTechItems.LENS.defaultStack;
+								ItemStack toInsert = FunctionalItems.LENS.defaultStack;
 								if (player.abilities.creativeMode) {
 									if (!player.inventory.contains(toInsert)) {
 										player.setStackInHand(hand, toInsert);
@@ -204,7 +204,7 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
 		if (prism != null && prism.hasAnyLenses()) {
-			ItemScatterer.spawn(world, pos.x, pos.y, pos.z, new ItemStack(BigTechItems.LENS, prism.countLenses()));
+			ItemScatterer.spawn(world, pos.x, pos.y, pos.z, new ItemStack(FunctionalItems.LENS, prism.countLenses()));
 		}
 		super.onStateReplaced(state, world, pos, newState, moved);
 	}

@@ -13,7 +13,7 @@ public class CopperCatwalkStairsBlock extends CatwalkStairsBlock {
 
 	@Override
 	public BlockState handleMismatchedNeighbor(WorldAccess world, BlockPos pos, BlockState state, BlockPos neighborPos, BlockState neighborState, Direction direction) {
-		if (BigTechBlocks.COPPER_CATWALK_STAIRS.contains(neighborState.getBlock())) {
+		if (DecoBlocks.COPPER_CATWALK_STAIRS.contains(neighborState.getBlock())) {
 			return this.transferState(neighborState.getBlock().getStateWithProperties(state), neighborState);
 		}
 		return super.handleMismatchedNeighbor(world, pos, state, neighborPos, neighborState, direction);

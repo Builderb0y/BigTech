@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.beams.base.BeamType;
 import builderb0y.bigtech.beams.base.PersistentBeam;
-import builderb0y.bigtech.blocks.BigTechBlocks;
+import builderb0y.bigtech.blocks.FunctionalBlocks;
 
 public class RedstoneBeam extends PersistentBeam {
 
@@ -33,8 +33,8 @@ public class RedstoneBeam extends PersistentBeam {
 	@Override
 	public void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState) {
 		BlockState originState = this.world.getBlockState(this.origin);
-		if (originState.isOf(BigTechBlocks.REDSTONE_TRANSMITTER)) {
-			this.world.addSyncedBlockEvent(this.origin, BigTechBlocks.REDSTONE_TRANSMITTER, 0, 0);
+		if (originState.isOf(FunctionalBlocks.REDSTONE_TRANSMITTER)) {
+			this.world.addSyncedBlockEvent(this.origin, FunctionalBlocks.REDSTONE_TRANSMITTER, 0, 0);
 		}
 		else {
 			this.removeFromWorld();

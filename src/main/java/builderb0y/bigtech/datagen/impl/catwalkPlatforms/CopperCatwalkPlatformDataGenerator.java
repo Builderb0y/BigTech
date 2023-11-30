@@ -13,7 +13,8 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.TagOrItem;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.BigTechItems;
+import builderb0y.bigtech.items.DecoItems;
+import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformDataGenerator {
@@ -65,8 +66,8 @@ public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformData
 		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			this.writeCatwalkPlatformRecipe(
 				context,
-				new TagOrItem(BigTechItems.MEDIUM_WEIGHTED_PRESSURE_PLATE),
-				new TagOrItem(BigTechItems.COPPER_BARS.copper)
+				new TagOrItem(FunctionalItems.MEDIUM_WEIGHTED_PRESSURE_PLATE),
+				new TagOrItem(DecoItems.COPPER_BARS.copper)
 			);
 		}
 		else if (this.type.waxed) {
@@ -75,7 +76,7 @@ public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformData
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group("bigtech:waxed_copper_catwalk_platforms")
-				.ingredient(BigTechItems.COPPER_CATWALK_PLATFORMS.get(this.type.notWaxed()))
+				.ingredient(DecoItems.COPPER_CATWALK_PLATFORMS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
 				.result(this.id)
 				.toString()
