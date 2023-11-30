@@ -2,7 +2,6 @@ bugs:
 	none yet.
 
 where I left off:
-	ensure that sideways tesla coil lightning cannot trigger a lightning rod diagonally downwards from the "top" end.
 
 things to finish for existing features:
 	JEI support for sorter belt GUI.
