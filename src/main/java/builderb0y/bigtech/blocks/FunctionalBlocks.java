@@ -287,6 +287,18 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final DestroyerBlock DESTROYER = BigTechBlocks.register(
+		"destroyer",
+		new DestroyerBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.LIGHT_GRAY)
+			.requiresTool()
+			.strength(2.0F, 6.0F)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final MirrorBlock MIRROR = BigTechBlocks.register(
 		"mirror",
 		new MirrorBlock(
@@ -313,6 +325,10 @@ public class FunctionalBlocks {
 			AbstractBlock
 			.Settings
 			.copy(Blocks.BLACK_STAINED_GLASS)
+			.allowsSpawning(Blocks::never)
+			.solidBlock(Blocks::never)
+			.suffocates(Blocks::never)
+			.blockVision(Blocks::never)
 			.sounds(BlockSoundGroup.STONE),
 			false
 		)
@@ -324,6 +340,10 @@ public class FunctionalBlocks {
 			AbstractBlock
 			.Settings
 			.copy(Blocks.WHITE_STAINED_GLASS)
+			.allowsSpawning(Blocks::never)
+			.solidBlock(Blocks::never)
+			.suffocates(Blocks::never)
+			.blockVision(Blocks::never)
 			.sounds(BlockSoundGroup.STONE),
 			true
 		)

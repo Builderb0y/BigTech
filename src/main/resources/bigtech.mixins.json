@@ -23,6 +23,7 @@
 		"PlayerEntity_NoClimbingWhileFlying",
 		"PlayerEntity_OverrideIsClimbing",
 		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",
+		"ServerEntityManager_EntityAddedToWorldEventHook",
 		"WorldChunk_NotifyBeamsOfBlockChange"
 	],
 	"client": [ "WorldRenderer_FrustumGetter" ],

@@ -2,9 +2,11 @@ bugs:
 	none yet.
 
 where I left off:
+	separate out destroyer from ranged destroyer.
 
 things to finish for existing features:
-	JEI support for sorter belt GUI.
+	JEI support for sorter belt (click and dragging items into the GUI).
+	JEI support for transmuter (recipe lookup).
 	beacons need to boost beams.
 	fix tooltips of lightning batteries.
 		currently displays durability, which is undesirable.

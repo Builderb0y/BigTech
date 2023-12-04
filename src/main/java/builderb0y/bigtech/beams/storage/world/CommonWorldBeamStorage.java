@@ -1,6 +1,5 @@
 package builderb0y.bigtech.beams.storage.world;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -8,9 +7,7 @@ import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -25,8 +22,6 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamType;
 import builderb0y.bigtech.beams.base.PersistentBeam;
-import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
-import builderb0y.bigtech.util.AsyncRunner;
 
 public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, ClientTickingComponent {
 
@@ -67,27 +62,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 	public void writeToNbt(NbtCompound tag) {
 		NbtList beamsTag = tag.createSubList("beams");
 		for (PersistentBeam beam : this.beamsById.values()) {
-			beamsTag
-			.createCompound()
-			.withIdentifier("type", BeamType.REGISTRY.getId(beam.type))
-			.withUuid("uuid", beam.uuid)
-			.withBlockPos("origin", beam.origin)
-			.withLongArray("callbacks", beam.callbacks.stream().mapToLong(BlockPos::asLong).toArray())
-			.withSubList("segment_sections", list -> {
-				try (AsyncRunner async = new AsyncRunner()) {
-					ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = beam.seen.long2ObjectEntrySet().fastIterator();
-					while (sectionIterator.hasNext()) {
-						Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-						long sectionPos = sectionEntry.longKey;
-						BasicSectionBeamStorage section = sectionEntry.value;
-						NbtCompound sectionNbt = list.createCompound();
-						async.run(() -> {
-							sectionNbt.putLong("pos", sectionPos);
-							section.writeToNbt(sectionNbt, false);
-						});
-					}
-				}
-			});
+			beam.writeToNbt(beamsTag.createCompound());
 		}
 	}
 
@@ -104,18 +79,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, Cli
 			UUID uuid = beamTag.getUuid("uuid");
 			Beam beam = type.factory.create(this.world, uuid);
 			if (beam instanceof PersistentBeam persistentBeam) {
-				persistentBeam.origin = beamTag.getBlockPos("origin");
-				NbtList sectionsNbt = beamTag.getList("segment_sections", NbtElement.COMPOUND_TYPE);
-				try (AsyncRunner async = new AsyncRunner()) {
-					for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
-						long sectionPos = sectionNbt.getLong("pos");
-						BasicSectionBeamStorage section = persistentBeam.seen.getSegments(sectionPos);
-						async.run(() -> {
-							section.readFromNbt(sectionNbt, persistentBeam);
-						});
-					}
-				}
-				Arrays.stream(beamTag.getLongArray("callbacks")).mapToObj(BlockPos::fromLong).forEach(persistentBeam.callbacks::add);
+				persistentBeam.readFromNbt(beamTag);
 				this.addBeamNoSync(persistentBeam);
 			}
 			else {

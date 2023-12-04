@@ -3,13 +3,18 @@ package builderb0y.bigtech.extensions.net.minecraft.nbt.NbtCompound;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.Self;
 import manifold.ext.rt.api.This;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.command.argument.BlockArgumentParser;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -159,6 +164,24 @@ public class NbtCompoundExtensions {
 	public static @Self NbtCompound withBlockPos(@This NbtCompound thiz, String key, BlockPos value) {
 		thiz.putBlockPos(key, value);
 		return thiz;
+	}
+
+	public static void putBlockState(@This NbtCompound thiz, String key, BlockState state) {
+		thiz.putString(key, BlockArgumentParser.stringifyBlockState(state));
+	}
+
+	public static @Self NbtCompound withBlockState(@This NbtCompound thiz, String key, BlockState state) {
+		thiz.putBlockState(key, state);
+		return thiz;
+	}
+
+	public static BlockState getBlockState(@This NbtCompound thiz, String key) {
+		String value = thiz.getString(key);
+		if (!value.isEmpty) try {
+			return BlockArgumentParser.block(Registries.BLOCK.readOnlyWrapper, value, false).blockState();
+		}
+		catch (CommandSyntaxException ignored) {}
+		return Blocks.AIR.defaultState;
 	}
 
 	public static NbtCompound createSubCompound(@This NbtCompound thiz, String key) {

@@ -176,6 +176,10 @@ public class FunctionalItems {
 			new Item.Settings()
 		)
 	);
+	@UseDataGen(DestroyerDataGenerator.class)
+	public static final BlockItem DESTROYER = BigTechItems.registerPlacer(
+		FunctionalBlocks.DESTROYER
+	);
 	@UseDataGen(MirrorDataGenerator.class)
 	public static final BlockItem MIRROR = BigTechItems.registerPlacer(
 		FunctionalBlocks.MIRROR

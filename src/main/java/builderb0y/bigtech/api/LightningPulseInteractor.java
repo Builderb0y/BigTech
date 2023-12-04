@@ -31,6 +31,7 @@ import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.lightning.LightningPulseInteractors;
+import builderb0y.bigtech.util.BlockApiLookups;
 import builderb0y.bigtech.util.Enums;
 
 /**
@@ -229,15 +230,15 @@ public interface LightningPulseInteractor {
 
 	public static final Object INITIALIZER = new Object() {{
 		LOOKUP.registerForBlocks(
-			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.TNT,
+			BlockApiLookups.constant(LightningPulseInteractors.TNT),
 			Blocks.TNT
 		);
 		LOOKUP.registerForBlocks(
-			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.LIGHTNING_ROD,
+			BlockApiLookups.constant(LightningPulseInteractors.LIGHTNING_ROD),
 			Blocks.LIGHTNING_ROD
 		);
 		LOOKUP.registerForBlocks(
-			(world, pos, state, blockEntity, context) -> LightningPulseInteractors.MOB_SPAWNER,
+			BlockApiLookups.constant(LightningPulseInteractors.MOB_SPAWNER),
 			Blocks.SPAWNER
 		);
 		LOOKUP.registerFallback(

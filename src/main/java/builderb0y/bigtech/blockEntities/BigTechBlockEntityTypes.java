@@ -44,6 +44,12 @@ public class BigTechBlockEntityTypes {
 		PrismBlockEntity::new,
 		FunctionalBlocks.PRISM
 	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final BlockEntityType<DestroyerBlockEntity> DESTROYER = register(
+		"destroyer",
+		DestroyerBlockEntity::new,
+		FunctionalBlocks.DESTROYER
+	);
 	@UseDataGen(void.class)
 	public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = register(
 		"tesla_coil",

@@ -12,6 +12,7 @@ import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.base.PulseBeam;
+import builderb0y.bigtech.util.BlockApiLookups;
 
 /**
 a block which does something when a beam hits it,
@@ -90,7 +91,7 @@ public interface BeamInteractor {
 	}
 
 	public static final Object INITIALIZER = new Object() {{
-		LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> TRANSPARENT_BLOCK, Blocks.GLASS, Blocks.GLASS_PANE);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(TRANSPARENT_BLOCK), Blocks.GLASS, Blocks.GLASS_PANE);
 		LOOKUP.registerFallback((world, pos, state, blockEntity, beam) -> {
 			if (state.block instanceof BeamInteractor interactor) {
 				return interactor;

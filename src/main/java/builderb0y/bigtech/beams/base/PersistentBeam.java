@@ -1,5 +1,6 @@
 package builderb0y.bigtech.beams.base;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -13,6 +14,9 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -34,7 +38,7 @@ import builderb0y.bigtech.util.AsyncRunner;
 
 /**
 a laser beam which stays in the world until manually removed.
-they will spawn particles while in the world.
+they will spawn particles while in the world. todo: replace with actual geometry.
 additionally, they have a hook for performing an action when a block in their path changes.
 they may use this to, for example, discard themselves and fire a new laser from their origin position.
 */
@@ -168,5 +172,43 @@ public abstract class PersistentBeam extends Beam {
 				callback.onBeamRemoved(pos, state, this);
 			}
 		}
+	}
+
+	public void writeToNbt(NbtCompound nbt) {
+		nbt
+		.withIdentifier("type", BeamType.REGISTRY.getId(this.type))
+		.withUuid("uuid", this.uuid)
+		.withBlockPos("origin", this.origin)
+		.withLongArray("callbacks", this.callbacks.stream().mapToLong(BlockPos::asLong).toArray())
+		.withSubList("segment_sections", list -> {
+			try (AsyncRunner async = new AsyncRunner()) {
+				ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
+				while (sectionIterator.hasNext()) {
+					Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
+					long sectionPos = sectionEntry.longKey;
+					BasicSectionBeamStorage section = sectionEntry.value;
+					NbtCompound sectionNbt = list.createCompound();
+					async.run(() -> {
+						sectionNbt.putLong("pos", sectionPos);
+						section.writeToNbt(sectionNbt, false);
+					});
+				}
+			}
+		});
+	}
+
+	public void readFromNbt(NbtCompound nbt) {
+		this.origin = nbt.getBlockPos("origin");
+		NbtList sectionsNbt = nbt.getList("segment_sections", NbtElement.COMPOUND_TYPE);
+		try (AsyncRunner async = new AsyncRunner()) {
+			for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
+				long sectionPos = sectionNbt.getLong("pos");
+				BasicSectionBeamStorage section = this.seen.getSegments(sectionPos);
+				async.run(() -> {
+					section.readFromNbt(sectionNbt, this);
+				});
+			}
+		}
+		Arrays.stream(nbt.getLongArray("callbacks")).mapToObj(BlockPos::fromLong).forEach(this.callbacks::add);
 	}
 }

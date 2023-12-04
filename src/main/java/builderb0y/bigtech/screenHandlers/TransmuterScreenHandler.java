@@ -40,14 +40,16 @@ public class TransmuterScreenHandler extends BigTechScreenHandler {
 		if (slot.hasStack()) {
 			ItemStack stack = slot.getStack();
 			if (slotIndex < 36) {
-				for (int slotIndex2 = 36; slotIndex2 < 36 + 15; slotIndex2++) {
-					Slot slot2 = this.slots.get(slotIndex2);
-					if (!slot2.hasStack() && TransmuterBlockEntity.isValidInput(player.world.recipeManager, stack)) {
-						slot2.setStack(stack.split(1));
-						if (stack.isEmpty) break;
+				if (TransmuterBlockEntity.isValidInput(player.world.recipeManager, stack)) {
+					for (int slotIndex2 = 36; slotIndex2 < 36 + 15; slotIndex2++) {
+						Slot slot2 = this.slots.get(slotIndex2);
+						if (!slot2.hasStack()) {
+							slot2.setStack(stack.split(1));
+							if (stack.isEmpty) break;
+						}
 					}
+					slot.onTakeItem(player, stack);
 				}
-				slot.onTakeItem(player, stack);
 			}
 			else {
 				this.insertItem(stack, 0, 36, false);
