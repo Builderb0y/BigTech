@@ -1,0 +1,19 @@
+{
+	"parent": "block/cube",
+	"display": {
+		"firstperson_righthand": {
+			"rotation":    [ 0,   135,   0   ],
+			"translation": [ 0,     0,   0   ],
+			"scale":       [ 0.4,   0.4, 0.4 ]
+		}
+	},
+	"textures": {
+		"up":       "bigtech:block/destroyer_top",
+		"down":     "bigtech:block/destroyer_top",
+		"north":    "bigtech:block/long_range_destroyer_front",
+		"east":     "bigtech:block/destroyer_side",
+		"south":    "bigtech:block/destroyer_back",
+		"west":     "bigtech:block/destroyer_side",
+		"particle": "bigtech:block/long_range_destroyer_front"
+	}
+}

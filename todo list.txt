@@ -2,7 +2,6 @@ bugs:
 	none yet.
 
 where I left off:
-	separate out destroyer from ranged destroyer.
 
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
@@ -66,9 +65,6 @@ features:
 			stone: keeps its inventory when you close the GUI
 			iron: basically a placeable version of the techno crafter
 		deployer: places blocks.
-		destroyer: breaks blocks.
-		block excavator: upgraded version of the block breaker which can mine entire ore veins at once
-		block harvester: upgraded version of the block breaker which can chop down entire trees at once
 		ignitor: smelts items on top of it, sets entities on fire
 		XP storage device: not sure about the details yet.
 		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
@@ -132,6 +128,9 @@ done:
 		prism: can split up a beam into several others, or merge several beams into one.
 		phase scrambler: makes laser beams invisible and undetectable by redstone components
 		phase aligner: makes laser beams visible and detectable by redstone components again
+	automation:
+		destroyer: breaks blocks and ejects them out the back. can destroy entire trees at once.
+			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.
 
 canceled:
 	lightning rod: already in vanilla.

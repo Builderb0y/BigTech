@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"sss",
+		"lcd",
+		"sss"
+	],
+	"key": {
+		"s": { "item": "minecraft:smooth_stone"        },
+		"l": { "item": "bigtech:lens"                  },
+		"c": { "tag":  "bigtech:crystal_clusters"      },
+		"d": { "item": "bigtech:short_range_destroyer" }
+	},
+	"result": {
+		"item": "bigtech:long_range_destroyer"
+	}
+}

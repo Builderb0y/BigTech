@@ -10,6 +10,8 @@ import builderb0y.bigtech.datagen.impl.*;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
+import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDestroyerDataGenerator;
+import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
 
@@ -176,9 +178,13 @@ public class FunctionalItems {
 			new Item.Settings()
 		)
 	);
-	@UseDataGen(DestroyerDataGenerator.class)
-	public static final BlockItem DESTROYER = BigTechItems.registerPlacer(
-		FunctionalBlocks.DESTROYER
+	@UseDataGen(ShortRangeDestroyerDataGenerator.class)
+	public static final BlockItem SHORT_RANGE_DESTROYER = BigTechItems.registerPlacer(
+		FunctionalBlocks.SHORT_RANGE_DESTROYER
+	);
+	@UseDataGen(LongRangeDestroyerDataGenerator.class)
+	public static final BlockItem LONG_RANGE_DESTROYER = BigTechItems.registerPlacer(
+		FunctionalBlocks.LONG_RANGE_DESTROYER
 	);
 	@UseDataGen(MirrorDataGenerator.class)
 	public static final BlockItem MIRROR = BigTechItems.registerPlacer(

@@ -22,6 +22,7 @@ import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.datagen.formats.TableFormats.LangEntry;
 import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
+import builderb0y.bigtech.datagen.impl.VanillaTweaksDataGenerator;
 import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.DecoItems;
@@ -63,6 +64,7 @@ public class DataGen {
 		if (!isEnabled()) throw new IllegalStateException("DataGen not enabled.");
 		LOGGER.info("Running data gen...");
 		DataGenContext context = new DataGenContext();
+		context.generators.add(new VanillaTweaksDataGenerator());
 		context.collectGenerators(FunctionalBlocks       .class, Block          .class);
 		context.collectGenerators(DecoBlocks             .class, Block          .class);
 		context.collectGenerators(FunctionalItems        .class, Item           .class);

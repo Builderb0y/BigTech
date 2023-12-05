@@ -4,7 +4,7 @@
 		"rolls": 1,
 		"entries": [{
 			"type": "minecraft:item",
-			"name": "bigtech:destroyer"
+			"name": "bigtech:long_range_destroyer"
 		}],
 		"conditions": [{
 			"condition": "minecraft:survives_explosion"

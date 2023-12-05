@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 
-import builderb0y.bigtech.blockEntities.DestroyerBlockEntity;
+import builderb0y.bigtech.blockEntities.LongRangeDestroyerBlockEntity;
 
 public class DestroyerScreenHandler extends BigTechScreenHandler {
 
@@ -37,7 +37,7 @@ public class DestroyerScreenHandler extends BigTechScreenHandler {
 		if (slot.hasStack()) {
 			ItemStack stack = slot.getStack();
 			if (slotIndex < 36) {
-				if (DestroyerBlockEntity.OVERRIDES_IS_SUITABLE_FOR.get(stack.item.getClass())) {
+				if (LongRangeDestroyerBlockEntity.OVERRIDES_IS_SUITABLE_FOR.get(stack.item.getClass())) {
 					this.insertItem(stack, 36, 37, false);
 				}
 			}

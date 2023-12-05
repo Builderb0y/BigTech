@@ -45,10 +45,16 @@ public class BigTechBlockEntityTypes {
 		FunctionalBlocks.PRISM
 	);
 	@UseDataGen(InventoryDataGenerator.class)
-	public static final BlockEntityType<DestroyerBlockEntity> DESTROYER = register(
-		"destroyer",
-		DestroyerBlockEntity::new,
-		FunctionalBlocks.DESTROYER
+	public static final BlockEntityType<ShortRangeDestroyerBlockEntity> SHORT_RANGE_DESTROYER = register(
+		"short_range_destroyer",
+		ShortRangeDestroyerBlockEntity::new,
+		FunctionalBlocks.SHORT_RANGE_DESTROYER
+	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final BlockEntityType<LongRangeDestroyerBlockEntity> LONG_RANGE_DESTROYER = register(
+		"long_range_destroyer",
+		LongRangeDestroyerBlockEntity::new,
+		FunctionalBlocks.LONG_RANGE_DESTROYER
 	);
 	@UseDataGen(void.class)
 	public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = register(
