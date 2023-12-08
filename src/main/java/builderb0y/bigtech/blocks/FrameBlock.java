@@ -23,7 +23,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.PistonInteractor;
-import builderb0y.bigtech.mixins.EntityShapeContext_HeldItemGetter;
+import builderb0y.bigtech.mixinterfaces.HeldItemGetter;
 
 public class FrameBlock extends Block implements PistonInteractor, Waterloggable {
 
@@ -76,15 +76,13 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		if (context instanceof EntityShapeContext_HeldItemGetter heldItemGetter) {
+		if (context instanceof HeldItemGetter heldItemGetter) {
 			ItemStack heldItem = heldItemGetter.bigtech_getHeldItem();
-			if (heldItem != null) { //why is this ever null? it should never be null. but it is, apparently.
-				if (heldItem.item instanceof BlockItem) {
-					return VoxelShapes.fullCube();
-				}
-				if (heldItem.isSuitableFor(state)) {
-					return VoxelShapes.fullCube();
-				}
+			if (heldItem.item instanceof BlockItem) {
+				return VoxelShapes.fullCube();
+			}
+			if (heldItem.isSuitableFor(state)) {
+				return VoxelShapes.fullCube();
 			}
 		}
 		return COLLISION_SHAPE;

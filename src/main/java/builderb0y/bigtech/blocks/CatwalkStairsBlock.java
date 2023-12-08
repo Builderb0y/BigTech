@@ -28,7 +28,7 @@ import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.PistonInteractor;
 import builderb0y.bigtech.items.CatwalkStairsBlockItem;
-import builderb0y.bigtech.mixins.EntityShapeContext_HeldItemGetter;
+import builderb0y.bigtech.mixinterfaces.HeldItemGetter;
 import builderb0y.bigtech.util.VoxelShapeBuilder;
 
 public class CatwalkStairsBlock extends Block implements Waterloggable, PistonInteractor {
@@ -127,7 +127,7 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return (
-			context instanceof EntityShapeContext_HeldItemGetter getter && (
+			context instanceof HeldItemGetter getter && (
 				getter.bigtech_getHeldItem().item instanceof BlockItem ||
 				getter.bigtech_getHeldItem().isSuitableFor(state)
 			)

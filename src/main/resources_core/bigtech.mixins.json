@@ -13,7 +13,7 @@
 		"ChunkDataSender_SyncBeamsManually",
 		"CreeperEntity_ChargedAccessor",
 		"Entity_MakeRoutable",
-		"EntityShapeContext_HeldItemGetter",
+		"EntityShapeContext_ImplementHeldItemGetter",
 		"ExplosionAccessor",
 		"ItemEntity_DontMergeDuringTransport",
 		"LadderBlock_MakePlaceableOnFrames",
