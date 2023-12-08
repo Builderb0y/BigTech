@@ -38,7 +38,7 @@ import builderb0y.bigtech.util.AsyncRunner;
 
 /**
 a laser beam which stays in the world until manually removed.
-they will spawn particles while in the world. todo: replace with actual geometry.
+they will spawn particles while in the world.
 additionally, they have a hook for performing an action when a block in their path changes.
 they may use this to, for example, discard themselves and fire a new laser from their origin position.
 */

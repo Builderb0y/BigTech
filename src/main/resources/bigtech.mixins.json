@@ -6,6 +6,8 @@
 	"plugin": "builderb0y.bigtech.mixins.BigTechMixinPlugin",
 	"mixins": [
 		"AttractableEntities_AttractTowardsMagnetiteBlocks",
+		"BeaconBlockEntity_LevelGetter",
+		"BeaconBlockEntity_NotifyBeamsOnLevelChange",
 		"BeaconBlockEntity_UseColorProviders",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"ChunkDataSender_SyncBeamsManually",

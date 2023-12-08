@@ -8,7 +8,6 @@ where I left off:
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
 	JEI support for transmuter (recipe lookup).
-	beacons need to boost beams.
 	fix tooltips of lightning batteries.
 		currently displays durability, which is undesirable.
 		also doesn't show durability when fully charged.
@@ -128,6 +127,10 @@ done:
 		prism: can split up a beam into several others, or merge several beams into one.
 		phase scrambler: makes laser beams invisible and undetectable by redstone components
 		phase aligner: makes laser beams visible and detectable by redstone components again
+		vanilla interactions:
+			glass: beams pass right through.
+			stained glass: beams change color when passing through, but do not get boosted.
+			beacons: beams get boosted by 32 blocks per level when passing through.
 	automation:
 		destroyer: breaks blocks and ejects them out the back. can destroy entire trees at once.
 			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.

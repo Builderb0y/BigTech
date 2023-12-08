@@ -32,12 +32,9 @@ repositories() {
 }
 
 dependencies() {
-	//To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${project.minecraft_version}")
 	mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
-
-	//Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
 	//AutoCodec
@@ -61,9 +58,12 @@ dependencies() {
 		implementation("systems.manifold:manifold-$name-rt:$manifoldVersion")
 		include("systems.manifold:manifold-$name-rt:$manifoldVersion")
 	}
+	include("systems.manifold:manifold-rt:$manifoldVersion")
+	include("systems.manifold:manifold-util:$manifoldVersion")
 
 	testImplementation('junit:junit:4.13.2')
 
+	//everything else that's not required but I like to use in-game.
 	modImplementation(fileTree("dependencies/${project.minecraft_version}/implementation"))
 	modCompileOnly(fileTree("dependencies/${project.minecraft_version}/compileOnly"))
 	modRuntimeOnly(fileTree("dependencies/${project.minecraft_version}/runtimeOnly"))

@@ -8,10 +8,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.beams.base.Beam;
-import builderb0y.bigtech.beams.base.BeamSegment;
-import builderb0y.bigtech.beams.base.PersistentBeam;
-import builderb0y.bigtech.beams.base.PulseBeam;
+import builderb0y.bigtech.beams.base.*;
+import builderb0y.bigtech.mixins.BeaconBlockEntity_LevelGetter;
 import builderb0y.bigtech.util.BlockApiLookups;
 
 /**
@@ -92,6 +90,21 @@ public interface BeamInteractor {
 
 	public static final Object INITIALIZER = new Object() {{
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(TRANSPARENT_BLOCK), Blocks.GLASS, Blocks.GLASS_PANE);
+		LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> {
+			if (blockEntity instanceof BeaconBlockEntity_LevelGetter beacon) {
+				int extraDistance = beacon.bigtech_getLevel() << 5;
+				return (pos1, state1, inputSegment) -> {
+					if (extraDistance == 0) {
+						inputSegment.beam.addSegment(pos1, inputSegment.terminate());
+					}
+					else {
+						inputSegment.beam.addSegment(pos1, inputSegment.withDirection(BeamDirection.UP).addDistance(extraDistance, true));
+					}
+					return true;
+				};
+			}
+			return null;
+		}, Blocks.BEACON);
 		LOOKUP.registerFallback((world, pos, state, blockEntity, beam) -> {
 			if (state.block instanceof BeamInteractor interactor) {
 				return interactor;
