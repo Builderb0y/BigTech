@@ -25,7 +25,7 @@ import net.minecraft.world.WorldAccess;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.api.LightningPulseInteractor;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 public class LightningCableBlock extends ConnectingBlock implements LightningPulseInteractor, Waterloggable {
 
@@ -109,7 +109,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 
 	@Override
 	public void forceSpreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-		for (Direction direction : Enums.DIRECTIONS) {
+		for (Direction direction : Directions.ALL) {
 			if (!state.get(FACING_PROPERTIES.get(direction))) continue;
 			LinkedBlockPos adjacentPos = pos.offset(direction);
 			if (pulse.hasNode(adjacentPos)) continue;

@@ -38,7 +38,7 @@ public record AddBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uuid,
 				entry
 				.value
 				.stream()
-				.filter(segment -> segment.visible && segment.direction != BeamDirection.CENTER)
+				.filter(segment -> segment.visible)
 				.map(segment -> MinimalBeamSegment.from(entry.shortKey, segment))
 			)
 			.toList()

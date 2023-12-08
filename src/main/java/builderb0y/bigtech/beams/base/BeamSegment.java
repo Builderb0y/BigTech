@@ -56,7 +56,7 @@ public record BeamSegment(
 	}
 
 	public BeamSegment terminate() {
-		return new BeamSegment(this.beam, BeamDirection.CENTER, 0.0D, false, this.color);
+		return new BeamSegment(this.beam, BeamDirection.CENTER, 0.0D, this.visible, this.color);
 	}
 
 	public void toNbt(NbtCompound compound, boolean includeUUID) {

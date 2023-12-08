@@ -1,5 +1,7 @@
 package builderb0y.bigtech.api;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import com.google.common.base.Predicates;
@@ -15,9 +17,17 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 public class Harvestables {
+
+	public static final BeamDirection[] BEAM_DIRECTIONS_BY_DISTANCE = (
+		Arrays
+		.stream(BeamDirection.VALUES)
+		.filter(direction -> direction != BeamDirection.CENTER)
+		.sorted(Comparator.comparing(direction -> direction.type))
+		.toArray(BeamDirection[]::new)
+	);
 
 	public static <C extends Comparable<C>> Harvestable crop(Property<C> property, C value) {
 		return new Harvestable() {
@@ -34,7 +44,7 @@ public class Harvestables {
 
 			@Override
 			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
-				for (Direction direction : Enums.DIRECTIONS) {
+				for (Direction direction : Directions.ALL) {
 					if (direction == Direction.DOWN) continue;
 					BlockPos adjacentPos = pos.offset(direction);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
@@ -76,7 +86,7 @@ public class Harvestables {
 			@Override
 			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
 				int currentDistance = state.contains(LeavesBlock.DISTANCE) ? state.get(LeavesBlock.DISTANCE) : -1;
-				for (Direction direction : Enums.DIRECTIONS) {
+				for (Direction direction : Directions.ALL) {
 					BlockPos adjacentPos = pos.offset(direction);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
 					if (isLeaf.test(adjacentState) && (!adjacentState.contains(LeavesBlock.DISTANCE) || adjacentState.get(LeavesBlock.DISTANCE) >= currentDistance)) {
@@ -97,8 +107,7 @@ public class Harvestables {
 
 			@Override
 			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
-				for (BeamDirection direction : BeamDirection.VALUES) {
-					if (direction == BeamDirection.CENTER) continue;
+				for (BeamDirection direction : BEAM_DIRECTIONS_BY_DISTANCE) {
 					BlockPos adjacentPos = pos.offset(direction);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
 					if (isLeaf.test(adjacentState)) {
@@ -145,8 +154,7 @@ public class Harvestables {
 
 			@Override
 			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
-				for (BeamDirection direction : BeamDirection.VALUES) {
-					if (direction == BeamDirection.CENTER) continue;
+				for (BeamDirection direction : BEAM_DIRECTIONS_BY_DISTANCE) {
 					BlockPos adjacentPos = pos.offset(direction);
 					BlockState adjacentState = world.getBlockState(adjacentPos);
 					if (isBlock.test(adjacentState)) {

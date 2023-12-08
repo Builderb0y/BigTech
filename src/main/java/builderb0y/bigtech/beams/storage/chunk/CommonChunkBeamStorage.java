@@ -40,10 +40,6 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 		return this.computeIfAbsent(sectionCoordY, this::newSection);
 	}
 
-	public void tick() {
-		if (!this.isEmpty) this.values().forEach(CommonSectionBeamStorage::tick);
-	}
-
 	public void writeToNbt(NbtCompound tag) {
 		if (!this.isEmpty) {
 			NbtList sectionsNbt = tag.createSubList("sections");

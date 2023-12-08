@@ -23,7 +23,7 @@ import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamType;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 
-public abstract class CommonWorldBeamStorage implements AutoSyncedComponent, ClientTickingComponent {
+public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 
 	public static final ComponentKey<CommonWorldBeamStorage> KEY = ComponentRegistry.getOrCreate(BigTechMod.modID("world_beam_storage"), CommonWorldBeamStorage.class);
 

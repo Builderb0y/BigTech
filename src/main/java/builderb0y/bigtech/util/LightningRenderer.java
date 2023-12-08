@@ -76,77 +76,63 @@ public class LightningRenderer {
 			double midY = (startY + endY) * 0.5D;
 			double midZ = (startZ + endZ) * 0.5D;
 			float midFrac = (startFrac + endFrac) * 0.5F;
-			//generate a point on the unit sphere.
-			double unitX, unitY, unitZ;
+			//normally I'd generate a point on or in a unit sphere,
+			//so that the direction is not biased in any direction,
+			//but I think a cube is fine in this case.
+			//the bias is not noticeable at all to me.
+			double offsetX = random.nextDouble(-1.0D, +1.0D);
+			double offsetY = random.nextDouble(-1.0D, +1.0D);
+			double offsetZ = random.nextDouble(-1.0D, +1.0D);
+			//now project the cube onto the plane defined by the point
+			//(start + end) / 2, and the normal vector (end - start).
+			double dx = endX - startX;
+			double dy = endY - startY;
+			double dz = endZ - startZ;
+			double normalMagnitudeSquared = MathHelper.squaredMagnitude(dx, dy, dz);
 			{
-				double x = random.nextDouble(-1.0D, 1.0D);
-				double y = random.nextDouble(Math.PI * 2.0D);
-				double r = Math.sqrt(1.0D - x * x);
-				unitX = Math.cos(y) * r;
-				unitY = Math.sin(y) * r;
-				unitZ = x;
-			}
-			//take the cross product between (end - start) and unit.
-			//this will allow us to offset mid in a direction that is perpendicular to (end - start).
-			//matrix:
-			//[ x  y  z]
-			//[dx dy dz]
-			//[ux uy uz]
-			double crossX, crossY, crossZ;
-			{
-				double dx = endX - startX;
-				double dy = endY - startY;
-				double dz = endZ - startZ;
-				crossX = dy * unitZ - dz * unitY;
-				crossY = dz * unitX - dx * unitZ;
-				crossZ = dx * unitY - dy * unitX;
-				//scale cross product to be half the length of (end - start).
-				double currentLengthSquared = MathHelper.squaredMagnitude(crossX, crossY, crossZ);
-				double desiredLengthSquared = MathHelper.squaredMagnitude(dx, dy, dz);
+				double dot = (offsetX * dx + offsetY * dy + offsetZ * dz) / normalMagnitudeSquared;
+				offsetX -= dx * dot;
+				offsetY -= dy * dot;
+				offsetZ -= dz * dot;
+
+				//scale offset to be 0.1875x the length of (end - start).
+				double currentLengthSquared = MathHelper.squaredMagnitude(offsetX, offsetY, offsetZ);
 				//sqrt(a) / sqrt(b) = sqrt(a / b).
-				double scalar = 0.25D / Math.sqrt(desiredLengthSquared / currentLengthSquared);
-				crossX *= scalar;
-				crossY *= scalar;
-				crossZ *= scalar;
+				double scalar = 0.1875D * Math.sqrt(normalMagnitudeSquared / currentLengthSquared);
+				offsetX *= scalar;
+				offsetY *= scalar;
+				offsetZ *= scalar;
 			}
 			//offset midpoint.
-			midX += crossX;
-			midY += crossY;
-			midZ += crossZ;
+			midX += offsetX;
+			midY += offsetY;
+			midZ += offsetZ;
 
 			//do all that over again to generate the branch.
 			double branchX = midX;
 			double branchY = midY;
 			double branchZ = midZ;
 
+			offsetX = random.nextDouble(-1.0D, +1.0D);
+			offsetY = random.nextDouble(-1.0D, +1.0D);
+			offsetZ = random.nextDouble(-1.0D, +1.0D);
 			{
-				double x = random.nextDouble(-1.0D, 1.0D);
-				double y = random.nextDouble(Math.PI * 2.0D);
-				double r = Math.sqrt(1.0D - x * x);
-				unitX = Math.cos(y) * r;
-				unitY = Math.sin(y) * r;
-				unitZ = x;
-			}
+				double dot = (offsetX * dx + offsetY * dy + offsetZ * dz) / normalMagnitudeSquared;
+				offsetX -= dx * dot;
+				offsetY -= dy * dot;
+				offsetZ -= dz * dot;
 
-			{
-				double dx = endX - startX;
-				double dy = endY - startY;
-				double dz = endZ - startZ;
-				crossX = dy * unitZ - dz * unitY;
-				crossY = dz * unitX - dx * unitZ;
-				crossZ = dx * unitY - dy * unitX;
-				//scale cross product to be half the length of (end - start).
-				double currentLengthSquared = MathHelper.squaredMagnitude(crossX, crossY, crossZ);
-				double desiredLengthSquared = MathHelper.squaredMagnitude(dx, dy, dz);
+				//scale offset to be 0.375x the length of (end - start).
+				double currentLengthSquared = MathHelper.squaredMagnitude(offsetX, offsetY, offsetZ);
 				//sqrt(a) / sqrt(b) = sqrt(a / b).
-				double scalar = 0.5D / Math.sqrt(desiredLengthSquared / currentLengthSquared);
-				crossX *= scalar;
-				crossY *= scalar;
-				crossZ *= scalar;
+				double scalar = 0.375D * Math.sqrt(normalMagnitudeSquared / currentLengthSquared);
+				offsetX *= scalar;
+				offsetY *= scalar;
+				offsetZ *= scalar;
 			}
-			branchX += crossX;
-			branchY += crossY;
-			branchZ += crossZ;
+			branchX += offsetX;
+			branchY += offsetY;
+			branchZ += offsetZ;
 
 			//now generate child branches.
 			generatePointsRecursive(

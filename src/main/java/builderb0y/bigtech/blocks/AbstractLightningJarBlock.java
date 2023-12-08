@@ -33,7 +33,7 @@ import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.blockEntities.LightningJarBlockEntity;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 import builderb0y.bigtech.util.WorldHelper;
 
 public abstract class AbstractLightningJarBlock extends Block implements BlockEntityProvider, LightningPulseInteractor {
@@ -123,7 +123,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 				ParticleUtil.spawnParticle(
 					world,
 					pos,
-					Enums.DIRECTIONS[random.nextInt(6)],
+					Directions.ALL[random.nextInt(6)],
 					ParticleTypes.ELECTRIC_SPARK,
 					new Vec3d(
 						random.nextDouble(-0.125D, 0.125D),

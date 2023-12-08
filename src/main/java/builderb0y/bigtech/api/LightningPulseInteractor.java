@@ -32,7 +32,7 @@ import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.lightning.LightningPulseInteractors;
 import builderb0y.bigtech.util.BlockApiLookups;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 /**
 a block which does something special when hit by a lightning pulse.
@@ -168,7 +168,7 @@ public interface LightningPulseInteractor {
 	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
 	public default void forceSpreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-		for (Direction direction : Enums.DIRECTIONS) {
+		for (Direction direction : Directions.ALL) {
 			LinkedBlockPos adjacentPos = pos.offset(direction);
 			if (pulse.hasNode(adjacentPos)) continue;
 			BlockState adjacentState = world.getBlockState(adjacentPos);

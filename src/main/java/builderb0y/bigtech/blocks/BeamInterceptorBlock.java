@@ -2,8 +2,6 @@ package builderb0y.bigtech.blocks;
 
 import java.text.NumberFormat;
 import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -24,7 +22,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -36,7 +33,6 @@ import net.minecraft.world.WorldView;
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
-import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.util.WorldHelper;
 
@@ -311,54 +307,5 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(Properties.FACING, Properties.POWERED, Properties.WATERLOGGED);
-	}
-
-	public static class ColorAccumulator implements Consumer<BeamSegment> {
-
-		public final Vector3f color = new Vector3f();
-		public int count = 0;
-
-		public void acceptAll(BlockPos pos, BasicSectionBeamStorage sectionStorage) {
-			if (sectionStorage != null) {
-				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
-				if (segments != null) {
-					segments.forEach(this);
-				}
-			}
-		}
-
-		@Override
-		public void accept(BeamSegment segment) {
-			if (segment.visible) this.accept(segment.effectiveColor);
-		}
-
-		public void accept(Vector3f color) {
-			if (this.count == 0) {
-				this.color.set(color);
-			}
-			else {
-				if (this.count == 1) {
-					this.color.mul(this.color);
-				}
-				this.color.x += color.x * color.x;
-				this.color.y += color.y * color.y;
-				this.color.z += color.z * color.z;
-			}
-			this.count++;
-		}
-
-		public @Nullable Vector3f getColor() {
-			return switch (this.count) {
-				case 0 -> null;
-				case 1 -> this.color;
-				default -> {
-					this.color.div(this.count);
-					this.color.x = MathHelper.sqrt(this.color.x);
-					this.color.y = MathHelper.sqrt(this.color.y);
-					this.color.z = MathHelper.sqrt(this.color.z);
-					yield this.color;
-				}
-			};
-		}
 	}
 }

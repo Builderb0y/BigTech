@@ -9,7 +9,7 @@ import net.minecraft.util.math.Direction;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 public class PrismDataGenerator extends BasicBlockDataGenerator {
 
@@ -34,7 +34,7 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 				for (int voxelY = 0; voxelY < 16; voxelY++) {
 					double centerY = (voxelY + 0.5D) * 0.0625D - 0.5D;
 					if (isOnSurface(centerX, centerY, centerZ)) {
-						for (Direction direction : Enums.DIRECTIONS) {
+						for (Direction direction : Directions.ALL) {
 							if (!isInside(
 								centerX + direction.offsetX * 0.0625D,
 								centerY + direction.offsetY * 0.0625D,

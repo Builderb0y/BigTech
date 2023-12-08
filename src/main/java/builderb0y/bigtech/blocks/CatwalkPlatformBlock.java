@@ -33,7 +33,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.items.CatwalkStairsBlockItem;
-import builderb0y.bigtech.util.Enums;
 
 public class CatwalkPlatformBlock extends Block implements Waterloggable {
 

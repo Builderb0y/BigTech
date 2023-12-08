@@ -19,7 +19,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity.RoutingInfo;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 public record EntityRoutePacket(int entityID, boolean present, BlockPos pos, BlockState state, Direction direction) implements S2CPlayPacket {
 
@@ -41,7 +41,7 @@ public record EntityRoutePacket(int entityID, boolean present, BlockPos pos, Blo
 		if (present) try {
 			BlockPos pos = buffer.readBlockPos();
 			BlockState state = BlockArgumentParser.block(Registries.BLOCK.readOnlyWrapper, buffer.readString(), false).blockState();
-			Direction direction = Enums.DIRECTIONS[buffer.readByte()];
+			Direction direction = Directions.ALL[buffer.readByte()];
 			return new EntityRoutePacket(entityID, true, pos, state, direction);
 		}
 		catch (CommandSyntaxException exception) {

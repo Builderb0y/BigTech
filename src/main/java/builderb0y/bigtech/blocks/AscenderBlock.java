@@ -22,7 +22,7 @@ import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 import builderb0y.bigtech.util.FairSharing;
 
 public class AscenderBlock extends Block implements AscenderInteractor {
@@ -66,7 +66,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		ArrayList<Direction> bestDirections = new ArrayList<>(5);
 		int bestPriority = 1;
-		for (Direction direction : Enums.DIRECTIONS) {
+		for (Direction direction : Directions.ALL) {
 			if (direction == this.direction.opposite) continue;
 			BlockState adjacentState = world.getBlockState(mutablePos.set(pos, direction));
 			AscenderInteractor interactor = AscenderInteractor.get(world, mutablePos, adjacentState);

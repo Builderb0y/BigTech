@@ -33,8 +33,10 @@ public class ChunkDataSender_SyncBeamsManually {
 		CallbackInfo callback
 	) {
 		CommonChunkBeamStorage chunkStorage = ChunkBeamStorageHolder.KEY.get(chunk).require();
-		PacketByteBuf buffer = PacketByteBufs.create();
-		chunkStorage.writeSyncPacket(buffer, handler.player);
-		handler.sendPacket(ServerPlayNetworking.createS2CPacket(new LoadBeamPacket(chunk.pos.x, chunk.pos.z, buffer)));
+		if (!chunkStorage.isEmpty) {
+			PacketByteBuf buffer = PacketByteBufs.create();
+			chunkStorage.writeSyncPacket(buffer, handler.player);
+			handler.sendPacket(ServerPlayNetworking.createS2CPacket(new LoadBeamPacket(chunk.pos.x, chunk.pos.z, buffer)));
+		}
 	}
 }

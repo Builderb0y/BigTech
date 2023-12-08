@@ -72,11 +72,6 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 	}
 
 	@Override
-	public void clientTick() {
-		//no-op on servers (obviously).
-	}
-
-	@Override
 	public void clear() {
 		super.clear();
 		this.beamsByOrigin.clear();

@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
@@ -25,7 +24,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 @Environment(EnvType.CLIENT)
 public class CrystalBakedModel implements BakedModel {
@@ -178,7 +177,7 @@ public class CrystalBakedModel implements BakedModel {
 	@Override
 	public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-		for (Direction direction : Enums.DIRECTIONS) {
+		for (Direction direction : Directions.ALL) {
 			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
 			if (!adjacentState.isOpaqueFullCube(blockView, mutablePos)) {
 				this.emitQuads(this.getSeedForPosition(pos), context.emitter);

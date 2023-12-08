@@ -95,6 +95,18 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 		return ((x & 15) << 8) | ((z & 15) << 4) | (y & 15);
 	}
 
+	public static int unpackX(int packed) {
+		return packed >>> 8;
+	}
+
+	public static int unpackY(int packed) {
+		return packed & 15;
+	}
+
+	public static int unpackZ(int packed) {
+		return (packed >>> 4) & 15;
+	}
+
 	public void addAll( BasicSectionBeamStorage that, boolean unique) {
 		that.forEachSegment((pos, segment) -> this.addSegment(pos, segment, unique));
 	}

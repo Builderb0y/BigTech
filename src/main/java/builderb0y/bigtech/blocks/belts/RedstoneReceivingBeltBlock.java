@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 
@@ -34,7 +34,7 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	public boolean shouldBePowered(World world, BlockPos pos, BlockState state) {
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 		if (world.getEmittedRedstonePower(mutable.set(pos, Direction.DOWN), Direction.DOWN) > 0) return true;
-		for (Direction direction : Enums.HORIZONTAL_DIRECTIONS) {
+		for (Direction direction : Directions.HORIZONTAL) {
 			if (world.getEmittedRedstonePower(mutable.set(pos, direction), direction) > 0) return true;
 		}
 		return false;

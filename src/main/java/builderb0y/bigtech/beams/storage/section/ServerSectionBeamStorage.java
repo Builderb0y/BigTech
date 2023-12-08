@@ -8,9 +8,4 @@ public class ServerSectionBeamStorage extends CommonSectionBeamStorage {
 	public ServerSectionBeamStorage(WorldChunk chunk, int sectionCoordY) {
 		super(chunk, sectionCoordY);
 	}
-
-	@Override
-	public void tick() {
-		//no-op on servers.
-	}
 }

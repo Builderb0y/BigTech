@@ -81,7 +81,6 @@ public class PrismBakedModel implements BakedModel {
 
 	@Override
 	public void emitBlockQuads(BlockRenderView world, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-		initMatrices();
 		this.baseModel.emitBlockQuads(world, state, pos, randomSupplier, context);
 		PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
 		if (prism != null && prism.hasAnyLenses()) {

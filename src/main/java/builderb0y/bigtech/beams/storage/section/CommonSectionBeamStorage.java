@@ -18,8 +18,6 @@ public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {
 		this.sectionCoordY = sectionCoordY;
 	}
 
-	public abstract void tick();
-
 	public void readFromNbt(NbtCompound tag) {
 		this.readFromNbt(tag, CommonWorldBeamStorage.KEY.get(this.chunk.world));
 	}

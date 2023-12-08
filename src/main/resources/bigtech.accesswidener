@@ -1,4 +1,12 @@
 accessWidener v2 named
 
+#used for fast checking of nearby magnet blocks from projectiles.
+#cause projectiles check 125 blocks around them every tick,
+#so I want these checks to be as fast as possible.
 accessible class net/minecraft/world/chunk/PalettedContainer$Data
 accessible field net/minecraft/world/chunk/PalettedContainer data Lnet/minecraft/world/chunk/PalettedContainer$Data;
+
+#used to get a list of loaded chunks, so that beams can render in all loaded chunks.
+accessible class net/minecraft/client/world/ClientChunkManager$ClientChunkMap
+accessible field net/minecraft/client/world/ClientChunkManager chunks Lnet/minecraft/client/world/ClientChunkManager$ClientChunkMap;
+accessible field net/minecraft/client/world/ClientChunkManager$ClientChunkMap chunks Ljava/util/concurrent/atomic/AtomicReferenceArray;

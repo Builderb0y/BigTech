@@ -69,14 +69,12 @@ public record RemoveBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uu
 		ShortIterator blockIterator = this.segmentPositions.iterator();
 		while (blockIterator.hasNext()) {
 			short position = blockIterator.nextShort();
-			LinkedList<BeamSegment> segments = sectionStorage.get(position);
-			if (segments != null) {
-				if (!segments.removeIf(segment -> segment.beam.uuid.equals(this.uuid))) {
-					BigTechMod.LOGGER.warn("No segments removed at ${this.sectionX}, ${this.sectionY}, ${this.sectionZ} position index ${position}");
-				}
+			LinkedList<BeamSegment> segments = sectionStorage.getSegments(position);
+			if (!segments.removeIf(segment -> segment.beam.uuid.equals(this.uuid))) {
+				BigTechMod.LOGGER.warn("No segments removed at ${this.sectionX}, ${this.sectionY}, ${this.sectionZ} position index ${position}");
 			}
-			else {
-				BigTechMod.LOGGER.warn("No segments at ${this.sectionX}, ${this.sectionY}, ${this.sectionZ} position index ${position}");
+			if (segments.isEmpty()) {
+				sectionStorage.remove(position);
 			}
 		}
 	}

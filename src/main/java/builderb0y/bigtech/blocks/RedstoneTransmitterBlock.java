@@ -30,7 +30,7 @@ import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.impl.RedstoneBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
-import builderb0y.bigtech.util.Enums;
+import builderb0y.bigtech.util.Directions;
 
 public class RedstoneTransmitterBlock extends Block implements Waterloggable {
 
@@ -59,7 +59,7 @@ public class RedstoneTransmitterBlock extends Block implements Waterloggable {
 	public boolean shouldBePowered(RedstoneView world, BlockPos pos) {
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 		if (world.getEmittedRedstonePower(mutable.set(pos, Direction.DOWN), Direction.DOWN) > 0) return true;
-		for (Direction direction : Enums.HORIZONTAL_DIRECTIONS) {
+		for (Direction direction : Directions.HORIZONTAL) {
 			if (world.getEmittedRedstonePower(mutable.set(pos, direction), direction) > 0) return true;
 		}
 		return false;
@@ -157,6 +157,7 @@ public class RedstoneTransmitterBlock extends Block implements Waterloggable {
 		return (
 			super.getPlacementState(context)
 			.with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite)
+			.with(Properties.POWERED, this.shouldBePowered(context.world, context.blockPos))
 			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
 		);
 	}
