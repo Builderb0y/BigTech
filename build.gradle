@@ -58,8 +58,8 @@ dependencies() {
 		implementation("systems.manifold:manifold-$name-rt:$manifoldVersion")
 		include("systems.manifold:manifold-$name-rt:$manifoldVersion")
 	}
-	include("systems.manifold:manifold-rt:$manifoldVersion")
-	include("systems.manifold:manifold-util:$manifoldVersion")
+	include(implementation("systems.manifold:manifold-rt:$manifoldVersion"))
+	include(implementation("systems.manifold:manifold-util:$manifoldVersion"))
 
 	testImplementation('junit:junit:4.13.2')
 
@@ -74,13 +74,13 @@ test() {
 }
 
 loom() {
-	accessWidenerPath = file('src/main/resources/bigtech.accesswidener')
+	accessWidenerPath = file('src/main/resources_core/bigtech.accesswidener')
 }
 
 sourceSets() {
-	generated() {
+	main() {
 		resources() {
-			srcDir(file('src/generated/resources'))
+			srcDir(file('src/main/resources_core'))
 		}
 	}
 }
@@ -102,6 +102,7 @@ processResources() {
 			'loader_version': project.loader_version
 		)
 	}
+	exclude('src/main/resources/assets/***', 'src/main/resources/data/***')
 }
 
 def targetJavaVersion = 17

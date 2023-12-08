@@ -86,17 +86,7 @@ public class PistonHandlerASM {
 		IS_BLOCK_STICKY_METHOD                = PISTON_HANDLER_TYPE.method("method_23367", ParamMapping.of(DescMapping.BOOLEAN, BLOCK_STATE_TYPE.desc)),
 		IS_ADJACENT_BLOCK_STUCK_METHOD        = PISTON_HANDLER_TYPE.method("method_23675", ParamMapping.of(DescMapping.BOOLEAN, BLOCK_STATE_TYPE.desc, BLOCK_STATE_TYPE.desc)),
 		GET_OPPOSITE_METHOD                   =      DIRECTION_TYPE.method("method_10153", ParamMapping.of(DIRECTION_TYPE.desc)),
-		OFFSET_METHOD                         = new MethodMapping(
-			//not only is this method inherited, but it also changes the return type.
-			//so trying to get a MethodMapping for it is a bit weird and hard-code-y.
-			BLOCK_POS_TYPE.name,
-			MixinEnvironment.getDefaultEnvironment().getRemappers().mapMethodName(
-				VEC3I_TYPE.name,
-				"method_23226",
-				ParamMapping.of(VEC3I_TYPE.desc, DIRECTION_TYPE.desc, DescMapping.INT).desc
-			),
-			ParamMapping.of(BLOCK_POS_TYPE.desc, DIRECTION_TYPE.desc, DescMapping.INT).desc
-		),
+		OFFSET_METHOD                         =      BLOCK_POS_TYPE.method("method_10079", ParamMapping.of(BLOCK_POS_TYPE.desc, DIRECTION_TYPE.desc, DescMapping.INT)),
 		CUSTOM_IS_BLOCK_STICKY_METHOD         = PISTON_HANDLER_TYPE.deobfMethod("bigtech_isBlockSticky",        ParamMapping.of(DescMapping.BOOLEAN, BLOCK_STATE_TYPE.desc, BLOCK_POS_TYPE.desc, PISTON_HANDLER_TYPE.desc)),
 		CUSTOM_IS_ADJACENT_BLOCK_STUCK_METHOD = PISTON_HANDLER_TYPE.deobfMethod("bigtech_isAdjacentBlockStuck", ParamMapping.of(DescMapping.BOOLEAN, BLOCK_STATE_TYPE.desc, BLOCK_STATE_TYPE.desc, BLOCK_POS_TYPE.desc, BLOCK_POS_TYPE.desc, DIRECTION_TYPE.desc, PISTON_HANDLER_TYPE.desc));
 
