@@ -78,11 +78,13 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		if (context instanceof EntityShapeContext_HeldItemGetter heldItemGetter) {
 			ItemStack heldItem = heldItemGetter.bigtech_getHeldItem();
-			if (heldItem.item instanceof BlockItem) {
-				return VoxelShapes.fullCube();
-			}
-			if (heldItem.isSuitableFor(state)) {
-				return VoxelShapes.fullCube();
+			if (heldItem != null) { //why is this ever null? it should never be null. but it is, apparently.
+				if (heldItem.item instanceof BlockItem) {
+					return VoxelShapes.fullCube();
+				}
+				if (heldItem.isSuitableFor(state)) {
+					return VoxelShapes.fullCube();
+				}
 			}
 		}
 		return COLLISION_SHAPE;
