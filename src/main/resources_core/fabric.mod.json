@@ -26,7 +26,10 @@
 		"cardinal-components": [
 			"bigtech:chunk_beam_storage",
 			"bigtech:world_beam_storage"
-		]
+		],
+		"lithium:options": {
+			"mixin.shapes.lazy_shape_context": false
+		}
 	},
 	"accessWidener": "bigtech.accesswidener"
 }
