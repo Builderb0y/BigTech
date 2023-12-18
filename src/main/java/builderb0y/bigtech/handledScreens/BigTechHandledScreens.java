@@ -14,5 +14,6 @@ public class BigTechHandledScreens {
 		HandledScreens.register(BigTechScreenHandlerTypes.SORTER_BELT, SorterBeltHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.TRANSMUTER,  TransmuterHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.DESTROYER,    DestroyerHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.MINER,            MinerHandledScreen::new);
 	}
 }

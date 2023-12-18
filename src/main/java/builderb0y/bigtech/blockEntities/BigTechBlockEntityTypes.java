@@ -15,54 +15,44 @@ import net.minecraft.registry.Registry;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
-import builderb0y.bigtech.datagen.base.UseDataGen;
-import builderb0y.bigtech.datagen.impl.InventoryDataGenerator;
 
 public class BigTechBlockEntityTypes {
 
-	@UseDataGen(InventoryDataGenerator.class)
 	public static final BlockEntityType<SorterBeltBlockEntity> SORTER_BELT = register(
 		"sorter_belt",
 		SorterBeltBlockEntity::new,
 		FunctionalBlocks.SORTER_BELT
 	);
-	@UseDataGen(InventoryDataGenerator.class)
 	public static final BlockEntityType<TransmuterBlockEntity> TRANSMUTER = register(
 		"transmuter",
 		TransmuterBlockEntity::new,
 		FunctionalBlocks.TRANSMUTER
 	);
-	@UseDataGen(void.class) //handled by ItemBlock (BeamInterceptorDataGenerator).
 	public static final BlockEntityType<BeamInterceptorBlockEntity> BEAM_INTERCEPTOR = register(
 		"beam_interceptor",
 		BeamInterceptorBlockEntity::new,
 		FunctionalBlocks.BEAM_INTERCEPTOR
 	);
-	@UseDataGen(void.class)
 	public static final BlockEntityType<PrismBlockEntity> PRISM = register(
 		"prism",
 		PrismBlockEntity::new,
 		FunctionalBlocks.PRISM
 	);
-	@UseDataGen(InventoryDataGenerator.class)
 	public static final BlockEntityType<ShortRangeDestroyerBlockEntity> SHORT_RANGE_DESTROYER = register(
 		"short_range_destroyer",
 		ShortRangeDestroyerBlockEntity::new,
 		FunctionalBlocks.SHORT_RANGE_DESTROYER
 	);
-	@UseDataGen(InventoryDataGenerator.class)
 	public static final BlockEntityType<LongRangeDestroyerBlockEntity> LONG_RANGE_DESTROYER = register(
 		"long_range_destroyer",
 		LongRangeDestroyerBlockEntity::new,
 		FunctionalBlocks.LONG_RANGE_DESTROYER
 	);
-	@UseDataGen(void.class)
 	public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = register(
 		"tesla_coil",
 		TeslaCoilBlockEntity::new,
 		FunctionalBlocks.COPPER_COIL
 	);
-	@UseDataGen(void.class)
 	public static final BlockEntityType<LightningJarBlockEntity> LIGHTNING_JAR = register(
 		"lightning_jar",
 		LightningJarBlockEntity::new,

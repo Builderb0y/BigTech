@@ -12,8 +12,20 @@ public class TagBuilder extends TreeSet<TagOrItem> {
 		this.add(new TagOrItem(item));
 	}
 
+	public void addAll(ItemConvertible... items) {
+		for (ItemConvertible item : items) {
+			this.add(new TagOrItem(item));
+		}
+	}
+
 	public void add(TagKey<?> tag) {
 		this.add(new TagOrItem(tag));
+	}
+
+	public void addAll(TagKey<?>... tags) {
+		for (TagKey<?> tag : tags) {
+			this.add(new TagOrItem(tag));
+		}
 	}
 
 	public void addElement(Identifier identifier) {

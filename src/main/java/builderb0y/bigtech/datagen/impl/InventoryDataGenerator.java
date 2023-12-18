@@ -1,7 +1,7 @@
 package builderb0y.bigtech.datagen.impl;
 
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 
@@ -10,15 +10,15 @@ import builderb0y.bigtech.datagen.base.LocalizedDataGenerator;
 
 public class InventoryDataGenerator implements LocalizedDataGenerator {
 
-	public final BlockEntityType<?> blockEntityType;
+	public final ScreenHandlerType<?> screenHandlerType;
 
-	public InventoryDataGenerator(BlockEntityType<?> blockEntityType) {
-		this.blockEntityType = blockEntityType;
+	public InventoryDataGenerator(ScreenHandlerType<?> screenHandlerType) {
+		this.screenHandlerType = screenHandlerType;
 	}
 
 	@Override
 	public Identifier getId() {
-		return Registries.BLOCK_ENTITY_TYPE.getId(this.blockEntityType);
+		return Registries.SCREEN_HANDLER.getId(this.screenHandlerType);
 	}
 
 	@Override

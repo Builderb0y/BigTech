@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:copper_bars",
+		"bigtech:exposed_copper_bars",
+		"bigtech:oxidized_copper_bars",
+		"bigtech:weathered_copper_bars"
+	]
+}

@@ -10,6 +10,7 @@
 		"BeaconBlockEntity_NotifyBeamsOnLevelChange",
 		"BeaconBlockEntity_UseColorProviders",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
+		"ChestBlock_CreateMiner",
 		"ChunkDataSender_SyncBeamsManually",
 		"CreeperEntity_ChargedAccessor",
 		"Entity_MakeRoutable",

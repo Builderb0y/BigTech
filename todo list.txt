@@ -13,6 +13,8 @@ things to finish for existing features:
 		also doesn't show durability when fully charged.
 		may need to duplicate some of the logic for damage.
 	make tooltips of NBT-copied lightning jars display stored energy.
+	make miner destroyable.
+		waiting on update to 1.20.4, which adds a new class to help with this.
 
 compatibility:
 
@@ -22,6 +24,7 @@ features:
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
 		fancier 3D models for things.
+		need an icon for the mod.
 	decoration:
 		colored lamps:
 			don't actually emit colored light.

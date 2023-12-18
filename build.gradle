@@ -45,6 +45,9 @@ dependencies() {
 	//JMXL
 	include(modImplementation('maven.modrinth:jmxl:1.4+mc1.20.2'))
 
+	//lambdynamiclights
+	modImplementation('maven.modrinth:lambdynamiclights:2.3.3+1.20.2')
+
 	//cardinal components
 	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.3.0'))
 	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-world:5.3.0'))

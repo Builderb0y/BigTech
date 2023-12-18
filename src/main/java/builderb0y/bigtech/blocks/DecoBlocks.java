@@ -5,6 +5,8 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
 public class DecoBlocks {
 
@@ -29,7 +31,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_FRAMES = new CopperBlockCollection(
 		"frame",
-		type -> {
+		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
 				type.waxed
@@ -41,7 +43,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_FRAMES = new WoodBlockCollection(
 		"frame",
-		type -> new FrameBlock(
+		(WoodRegistrableCollection.Type type) -> new FrameBlock(
 			AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_PLANKS.get(type)),
 			switch (type) {
 				case OAK      -> BigTechBlockTags.STICKS_TO_OAK_FRAME;
@@ -70,7 +72,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_CATWALK_PLATFORMS = new CopperBlockCollection(
 		"catwalk_platform",
-		type -> {
+		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
 				type.waxed
@@ -82,7 +84,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_CATWALK_PLATFORMS = new WoodBlockCollection(
 		"catwalk_platform",
-		type -> new CatwalkPlatformBlock(
+		(WoodRegistrableCollection.Type type) -> new CatwalkPlatformBlock(
 			AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_PLANKS.get(type))
 		)
 	);
@@ -99,7 +101,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_CATWALK_STAIRS = new CopperBlockCollection(
 		"catwalk_stairs",
-		type -> {
+		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
 				type.waxed
@@ -111,7 +113,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_CATWALK_STAIRS = new WoodBlockCollection(
 		"catwalk_stairs",
-		type -> new CatwalkStairsBlock(
+		(WoodRegistrableCollection.Type type) -> new CatwalkStairsBlock(
 			AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_PLANKS.get(type))
 		)
 	);
@@ -134,7 +136,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_LADDERS = new CopperBlockCollection(
 		"ladder",
-		type -> {
+		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
 				AbstractBlock
 				.Settings
@@ -154,7 +156,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_BARS = new CopperBlockCollection(
 		"bars",
-		type -> {
+		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
 				AbstractBlock
 				.Settings
@@ -180,7 +182,7 @@ public class DecoBlocks {
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_SLABS = new CopperBlockCollection(
 		"slab",
-		type -> {
+		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
 				type.waxed

@@ -1,5 +1,7 @@
 package builderb0y.bigtech.items;
 
+import net.fabricmc.fabric.api.registry.FuelRegistry;
+
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
@@ -237,6 +239,16 @@ public class FunctionalItems {
 	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = BigTechItems.registerPlacer(
 		FunctionalBlocks.MEDIUM_WEIGHTED_PRESSURE_PLATE
 	);
+	@UseDataGen(MinerToolDataGenerator.class)
+	public static final Item MINER_TOOL = BigTechItems.register(
+		"miner_tool",
+		new MinerToolItem(new Item.Settings())
+	);
 
-	public static void init() {}
+	public static void init() {
+		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);
+		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_CATWALK_PLATFORMS, 300);
+		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_CATWALK_STAIRS, 300);
+		FuelRegistry.INSTANCE.add(CRYSTAL_DEBRIS, 1200);
+	}
 }

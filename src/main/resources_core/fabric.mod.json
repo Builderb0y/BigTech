@@ -5,14 +5,15 @@
 	"name": "BigTech",
 	"description": "Technology mod inspired by PowerCraft",
 	"authors": [ "Builderb0y" ],
-	"contact": { "repo": "https://github.com/builderb0y/bigtech" },
+	"contact": { "repo": "https://github.com/Builderb0y/BigTech" },
 	"license": "CC-BY-NC-4.0",
 	"icon": "assets/bigtech/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main":                [ "builderb0y.bigtech.BigTechMod"                   ],
-		"client":              [ "builderb0y.bigtech.BigTechClient"                ],
-		"cardinal-components": [ "builderb0y.bigtech.CardinalComponentsEntrypoint" ]
+		"main":                [ "builderb0y.bigtech.BigTechMod"                     ],
+		"client":              [ "builderb0y.bigtech.BigTechClient"                  ],
+		"cardinal-components": [ "builderb0y.bigtech.CardinalComponentsEntrypoint"   ],
+		"dynamiclights":       [ "builderb0y.bigtech.compat.LambDynamicLightsCompat" ]
 	},
 	"mixins": [
 		"bigtech.mixins.json"

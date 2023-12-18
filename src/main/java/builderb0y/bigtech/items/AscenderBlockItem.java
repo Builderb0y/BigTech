@@ -34,10 +34,11 @@ public class AscenderBlockItem extends BlockItem {
 					if (actual.isOf(expected)) {
 						continue;
 					}
+					else if (actual.canReplace(context)) {
+						return ItemPlacementContext.offset(context, pos, direction);
+					}
 					else {
-						if (actual.canReplace(context)) {
-							return ItemPlacementContext.offset(context, pos, direction);
-						}
+						return null;
 					}
 				}
 			}

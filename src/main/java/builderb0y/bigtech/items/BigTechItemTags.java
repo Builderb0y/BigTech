@@ -43,7 +43,20 @@ public class BigTechItemTags {
 		IRON_BLOCKS              = common("iron_blocks"),
 		MAGNETITE_NUGGETS        = common("magnetite_nuggets"),
 		MAGNETITE_INGOTS         = common("magnetite_ingots"),
-		MAGNETITE_BLOCKS         = common("magnetite_blocks");
+		MAGNETITE_BLOCKS         = common("magnetite_blocks"),
+		UNWAXED_COPPER_BLOCKS    = common("unwaxed_copper_blocks"),
+		WAXED_COPPER_BLOCKS      = common("waxed_copper_blocks"),
+		UNWAXED_CUT_COPPER_BLOCKS = common("unwaxed_cut_copper_blocks"),
+		WAXED_CUT_COPPER_BLOCKS   = common("waxed_cut_copper_blocks"),
+		UNWAXED_CUT_COPPER_STAIRS = common("unwaxed_cut_copper_stairs"),
+		WAXED_CUT_COPPER_STAIRS   = common("waxed_cut_copper_stairs"),
+		UNWAXED_CUT_COPPER_SLABS  = common("unwaxed_cut_copper_slabs"),
+		WAXED_CUT_COPPER_SLABS    = common("waxed_cut_copper_slabs"),
+		UNWAXED_COPPER_BARS       = of("unwaxed_copper_bars"),
+		WAXED_COPPER_BARS         = of("waxed_copper_bars"),
+		UNWAXED_COPPER_SLABS      = of("unwaxed_copper_slabs"),
+		WAXED_COPPER_SLABS        = of("waxed_copper_slabs");
+
 
 	public static TagKey<Item> of(String name) {
 		return TagKey.of(RegistryKeys.ITEM, BigTechMod.modID(name));

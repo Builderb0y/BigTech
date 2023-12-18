@@ -40,6 +40,53 @@ public class DestructionManager {
 		return this.breakingPositions.computeIfAbsent(pos.toImmutable(), Info::new);
 	}
 
+	public static enum IncreaseDamageResult {
+		DIDNT_DESTROY,
+		DESTROYED,
+		DESTROYED_AND_DAMAGED_TOOL;
+	}
+
+	public IncreaseDamageResult increaseDamage(BlockPos pos, BlockState actualState, float baseSpeed, ItemStack tool) {
+		if (!actualState.isToolRequired || tool.isSuitableFor(actualState)) {
+			float hardness = actualState.getHardness(this.world, pos);
+			if (hardness > 0.0F) {
+				float speed = tool.getMiningSpeedMultiplier(actualState);
+				if (speed > 1.0F) {
+					int efficiency = EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, tool);
+					if (efficiency > 0 && !tool.isEmpty) {
+						speed += efficiency * efficiency + 1;
+					}
+				}
+				speed /= hardness * 30.0F;
+				speed *= baseSpeed;
+
+				DestructionManager.Info info = this.getInfo(pos);
+				info.progress += speed;
+				this.world.setBlockBreakingInfo(info.breakerID, pos, (int)(info.progress * 10.0F));
+				if (info.progress >= 1.0F) {
+					this.breakingPositions.remove(pos);
+					WorldHelper.destroyBlockWithTool((ServerWorld)(this.world), pos, actualState, tool);
+					if (tool.damage(1, this.world.random, null)) {
+						tool.decrement(1);
+						tool.setDamage(0);
+					}
+					return IncreaseDamageResult.DESTROYED_AND_DAMAGED_TOOL;
+				}
+			}
+			else if (hardness == 0.0F) {
+				WorldHelper.destroyBlockWithTool((ServerWorld)(this.world), pos, actualState, tool);
+				return IncreaseDamageResult.DESTROYED;
+			}
+			else { //hardness is negative. or NaN for whatever reason. either way, treat as unbreakable.
+				this.resetProgress(pos);
+			}
+		}
+		else { //can't break with current tool.
+			this.resetProgress(pos);
+		}
+		return IncreaseDamageResult.DIDNT_DESTROY;
+	}
+
 	public void resetProgress(BlockPos pos) {
 		Info info = this.breakingPositions.remove(pos);
 		if (info != null) this.world.setBlockBreakingInfo(info.breakerID, pos, -1);
@@ -74,7 +121,7 @@ public class DestructionManager {
 		public DestroyQueue(World world, BlockPos origin, double distanceRemaining) {
 			this.world = world;
 			this.origin = origin.toImmutable();
-			this.destroySpeed = (float)(distanceRemaining);
+			this.destroySpeed = ((float)(distanceRemaining)) * 0.0625F;
 			this.maxDistanceSquared = (int)(distanceRemaining * distanceRemaining);
 		}
 
@@ -107,44 +154,11 @@ public class DestructionManager {
 			BlockState actualState = this.world.getBlockState(pos);
 			if (actualState.block == expectedState.block) {
 				if (data.harvestable.canHarvest(this.world, pos, actualState)) {
-					if (!actualState.isToolRequired || tool.isSuitableFor(actualState)) {
-						float hardness = actualState.getHardness(this.world, pos);
-						if (hardness > 0.0F) {
-							float speed = tool.getMiningSpeedMultiplier(actualState);
-							if (speed > 1.0F) {
-								int efficiency = EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, tool);
-								if (efficiency > 0 && !tool.isEmpty) {
-									speed += efficiency * efficiency + 1;
-								}
-							}
-							speed /= hardness * 30.0F;
-							speed *= this.destroySpeed * 0.0625F;
-
-							DestructionManager.Info info = manager.getInfo(pos);
-							info.progress += speed;
-							this.world.setBlockBreakingInfo(info.breakerID, pos, (int)(info.progress * 10.0F));
-							if (info.progress >= 1.0F) {
-								manager.breakingPositions.remove(pos);
-								WorldHelper.destroyBlockWithTool((ServerWorld)(this.world), pos, actualState, tool);
-								this.inactive.remove(pos);
-								if (tool.damage(1, this.world.random, null)) {
-									tool.decrement(1);
-									tool.setDamage(0);
-								}
-								return true;
-							}
-						}
-						else if (hardness == 0.0F) {
-							WorldHelper.destroyBlockWithTool((ServerWorld)(this.world), pos, actualState, tool);
-							this.inactive.remove(pos);
-						}
-						else { //hardness is negative. or NaN for whatever reason. either way, treat as unbreakable.
-							manager.resetProgress(pos);
-						}
+					IncreaseDamageResult result = manager.increaseDamage(pos, actualState, this.destroySpeed, tool);
+					if (result != IncreaseDamageResult.DIDNT_DESTROY) {
+						this.inactive.remove(pos);
 					}
-					else { //can't break with current tool.
-						manager.resetProgress(pos);
-					}
+					return result == IncreaseDamageResult.DESTROYED_AND_DAMAGED_TOOL;
 				}
 				else { //can't harvest (harvestable said no).
 					manager.resetProgress(pos);

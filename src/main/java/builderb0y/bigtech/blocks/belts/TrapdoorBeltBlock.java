@@ -22,11 +22,19 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import builderb0y.bigtech.api.AscenderInteractor;
+
 public class TrapdoorBeltBlock extends RedstoneReceivingBeltBlock {
 
 	public TrapdoorBeltBlock(Settings settings) {
 		super(settings);
 		this.defaultState = this.defaultState.with(Properties.INVERTED, Boolean.FALSE);
+	}
+
+	@Override
+	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
+		if (state.get(Properties.POWERED) != state.get(Properties.INVERTED)) return AscenderInteractor.BLOCKED;
+		return super.getAscenderPriority(world, pos, state, face);
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
@@ -23,8 +22,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.api.EntityAddedToWorldEvent;
-import builderb0y.bigtech.beams.impl.DestroyerBeam;
-import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.DestroyerScreenHandler;
 

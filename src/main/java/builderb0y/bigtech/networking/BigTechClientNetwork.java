@@ -34,11 +34,9 @@ public class BigTechClientNetwork {
 	public static void send(Collection<ServerPlayerEntity> players, Supplier<? extends S2CPlayPacket> packetSupplier) {
 		if (!players.isEmpty) {
 			S2CPlayPacket packet = packetSupplier.get();
-			players.forEach(player -> ServerPlayNetworking.send(player, packet));
+			players.forEach((ServerPlayerEntity player) -> ServerPlayNetworking.send(player, packet));
 		}
 	}
-
-	public static void init() {}
 
 	public static PacketType<?> register(String name, Function<PacketByteBuf, ? extends S2CPlayPacket> parser) {
 		Identifier identifier = BigTechMod.modID(name);
@@ -48,4 +46,6 @@ public class BigTechClientNetwork {
 		}
 		return type;
 	}
+
+	public static void init() {}
 }

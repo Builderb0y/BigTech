@@ -43,6 +43,12 @@ public abstract class BigTechScreenHandler extends ScreenHandler {
 			return this;
 		}
 
+		public SlotGrid space(int spaceX, int spaceY) {
+			this.spaceX = spaceX;
+			this.spaceY = spaceY;
+			return this;
+		}
+
 		public SlotGrid inventory(Inventory inventory) {
 			this.inventory = inventory;
 			this.index = 0;

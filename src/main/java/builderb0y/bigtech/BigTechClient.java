@@ -11,6 +11,8 @@ import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGen;
 import builderb0y.bigtech.entities.BetterLightningEntityRenderer;
+import builderb0y.bigtech.entities.BigTechEntityTypes;
+import builderb0y.bigtech.entities.MinerEntityRenderer;
 import builderb0y.bigtech.handledScreens.BigTechHandledScreens;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.models.BigTechModels;
@@ -28,6 +30,7 @@ public class BigTechClient implements ClientModInitializer {
 		BigTechModels.init();
 		BigTechBlockEntityTypes.initClient();
 		EntityRendererRegistry.register(EntityType.LIGHTNING_BOLT, BetterLightningEntityRenderer::new);
+		EntityRendererRegistry.register(BigTechEntityTypes.MINER, MinerEntityRenderer::new);
 		BigTechParticles.initClient();
 		if (DataGen.isEnabled) DataGen.run();
 		BigTechMod.LOGGER.info("Done initializing on client.");

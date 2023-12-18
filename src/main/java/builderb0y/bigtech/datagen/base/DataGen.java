@@ -8,15 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.screen.ScreenHandlerType;
 
-import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
@@ -28,10 +26,11 @@ import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.particles.BigTechParticles;
+import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 
 public class DataGen {
 
-	public static final Logger LOGGER = LoggerFactory.getLogger("${BigTechMod.MODNAME}/DataGen");
+	public static final Logger LOGGER = LoggerFactory.getLogger("${builderb0y.bigtech.BigTechMod.MODNAME}/DataGen");
 
 	public static final File MANUAL_RESOURCES;
 	static {
@@ -65,14 +64,14 @@ public class DataGen {
 		LOGGER.info("Running data gen...");
 		DataGenContext context = new DataGenContext();
 		context.generators.add(new VanillaTweaksDataGenerator());
-		context.collectGenerators(FunctionalBlocks       .class, Block          .class);
-		context.collectGenerators(DecoBlocks             .class, Block          .class);
-		context.collectGenerators(FunctionalItems        .class, Item           .class);
-		context.collectGenerators(DecoItems              .class, Item           .class);
-		context.collectGenerators(BigTechBlockEntityTypes.class, BlockEntityType.class);
-		context.collectGenerators(BigTechDamageTypes     .class, RegistryKey    .class);
-		context.collectGenerators(BigTechItemGroups      .class, ItemGroup      .class);
-		context.collectGenerators(BigTechParticles       .class, ParticleType   .class);
+		context.collectGenerators(FunctionalBlocks         .class, Block            .class);
+		context.collectGenerators(DecoBlocks               .class, Block            .class);
+		context.collectGenerators(FunctionalItems          .class, Item             .class);
+		context.collectGenerators(DecoItems                .class, Item             .class);
+		context.collectGenerators(BigTechScreenHandlerTypes.class, ScreenHandlerType.class);
+		context.collectGenerators(BigTechDamageTypes       .class, RegistryKey      .class);
+		context.collectGenerators(BigTechItemGroups        .class, ItemGroup        .class);
+		context.collectGenerators(BigTechParticles         .class, ParticleType     .class);
 		context.empty("assets");
 		context.empty("data");
 		context.copy(new File(MANUAL_RESOURCES, "assets"), "assets");
