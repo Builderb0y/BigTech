@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
+import builderb0y.bigtech.datagen.TripwireDataGenerator;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.*;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
@@ -179,6 +180,10 @@ public class FunctionalItems {
 			FunctionalBlocks.BEAM_INTERCEPTOR,
 			new Item.Settings()
 		)
+	);
+	@UseDataGen(TripwireDataGenerator.class)
+	public static final BlockItem TRIPWIRE = BigTechItems.registerPlacer(
+		FunctionalBlocks.TRIPWIRE
 	);
 	@UseDataGen(ShortRangeDestroyerDataGenerator.class)
 	public static final BlockItem SHORT_RANGE_DESTROYER = BigTechItems.registerPlacer(

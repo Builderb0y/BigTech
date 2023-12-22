@@ -6,24 +6,16 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
@@ -31,7 +23,7 @@ import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 
-public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterloggable {
+public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 
 	public RedstoneReceiverBlock(Settings settings) {
 		super(settings);
@@ -108,7 +100,6 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterl
 		return false;
 	}
 
-
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
@@ -130,13 +121,6 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterl
 			world.scheduleBlockTick(pos, this, 2);
 		}
 		return false;
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public boolean emitsRedstonePower(BlockState state) {
-		return true;
 	}
 
 	@Override
@@ -176,57 +160,13 @@ public class RedstoneReceiverBlock extends Block implements BeamCallback, Waterl
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
-		return (
-			super.getPlacementState(context)
-			.with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite)
-			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
-		);
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return switch (state.get(Properties.HORIZONTAL_FACING)) {
-			case NORTH, SOUTH -> RedstoneTransmitterBlock.NORTH_SOUTH_SHAPE;
-			case EAST, WEST -> RedstoneTransmitterBlock.EAST_WEST_SHAPE;
-			case UP, DOWN -> throw new AssertionError("vertical redstone receiver?");
-		};
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-		}
-		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
-	}
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
+		BlockState state = super.getPlacementState(context);
+		return state.with(Properties.POWERED, this.shouldBePowered(context.world, context.blockPos, state));
 	}
 
 	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
-		builder.add(Properties.HORIZONTAL_FACING, Properties.POWERED, Properties.WATERLOGGED);
+		builder.add(Properties.POWERED);
 	}
 }

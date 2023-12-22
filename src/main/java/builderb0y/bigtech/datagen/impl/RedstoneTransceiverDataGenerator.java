@@ -1,5 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -23,7 +24,7 @@ public abstract class RedstoneTransceiverDataGenerator extends BasicBlockDataGen
 			.addRows(
 				BlockStateJsonVariant
 				.streamStatesSorted(this.block)
-				.map(state -> new BlockStateJsonVariant(
+				.map((BlockState state) -> new BlockStateJsonVariant(
 					state,
 					context.prefixSuffixPath("block/", this.id, state.get(Properties.POWERED) ? "_on" : "_off").toString(),
 					null,

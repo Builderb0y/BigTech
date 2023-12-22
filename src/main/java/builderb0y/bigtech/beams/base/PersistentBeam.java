@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -67,6 +68,8 @@ public abstract class PersistentBeam extends Beam {
 	}
 
 	public abstract void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState);
+
+	public void onEntityCollision(BlockPos pos, Entity entity) {}
 
 	@Override
 	public void addToWorld() {

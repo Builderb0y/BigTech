@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ppp",
+		"lcr",
+		"bbb"
+	],
+	"key": {
+		"p": { "tag":  "minecraft:planks"            },
+		"l": { "item": "bigtech:lens"                },
+		"c": { "tag":  "bigtech:crystal_clusters"    },
+		"r": { "item": "minecraft:tripwire_hook"     },
+		"b": { "item": "minecraft:smooth_stone_slab" }
+	},
+	"result": {
+		"item": "bigtech:tripwire"
+	}
+}

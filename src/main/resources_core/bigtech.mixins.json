@@ -13,6 +13,7 @@
 		"ChestBlock_CreateMiner",
 		"ChunkDataSender_SyncBeamsManually",
 		"CreeperEntity_ChargedAccessor",
+		"Entity_CollideWithBeams",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_ImplementHeldItemGetter",
 		"ExplosionAccessor",

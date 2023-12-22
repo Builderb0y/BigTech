@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.blockEntities.AbstractDestroyerBlockEntity;
 import builderb0y.bigtech.blockEntities.LongRangeDestroyerBlockEntity;
 import builderb0y.bigtech.util.WorldHelper;
 
@@ -74,7 +75,7 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!newState.isOf(this)) {
-			LongRangeDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, LongRangeDestroyerBlockEntity.class);
+			AbstractDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, AbstractDestroyerBlockEntity.class);
 			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
 		}
 		super.onStateReplaced(state, world, pos, newState, moved);

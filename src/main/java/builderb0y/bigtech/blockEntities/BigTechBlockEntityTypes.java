@@ -33,6 +33,11 @@ public class BigTechBlockEntityTypes {
 		BeamInterceptorBlockEntity::new,
 		FunctionalBlocks.BEAM_INTERCEPTOR
 	);
+	public static final BlockEntityType<TripwireBlockEntity> TRIPWIRE = register(
+		"tripwire",
+		TripwireBlockEntity::new,
+		FunctionalBlocks.TRIPWIRE
+	);
 	public static final BlockEntityType<PrismBlockEntity> PRISM = register(
 		"prism",
 		PrismBlockEntity::new,

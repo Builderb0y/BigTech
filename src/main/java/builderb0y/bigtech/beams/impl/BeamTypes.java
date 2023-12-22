@@ -8,8 +8,9 @@ import builderb0y.bigtech.beams.base.BeamType;
 public class BeamTypes {
 
 	public static final BeamType
-		REDSTONE = register("redstone", RedstoneBeam::new),
-		DESTROYER = register("destroyer", DestroyerBeam::new);
+		REDSTONE  = register("redstone",   RedstoneBeam::new),
+		DESTROYER = register("destroyer", DestroyerBeam::new),
+		TRIPWIRE  = register("tripwire",   TripwireBeam::new);
 
 	public static void init() {}
 

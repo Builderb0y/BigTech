@@ -53,9 +53,12 @@ public class DestroyerBeam extends PersistentBeam {
 	@Override
 	public void onRemoved() {
 		super.onRemoved();
-		for (DestroyQueue queue : this.toDestroy.values()) {
-			if (queue.populated && !queue.inactive.isEmpty) {
-				DestructionManager.forWorld(this.world).resetProgress(queue.inactive.lastKey());
+		if (!this.toDestroy.isEmpty) {
+			DestructionManager manager = DestructionManager.forWorld(this.world);
+			for (DestroyQueue queue : this.toDestroy.values()) {
+				if (queue.populated && !queue.inactive.isEmpty) {
+					manager.resetProgress(queue.inactive.lastKey());
+				}
 			}
 		}
 	}

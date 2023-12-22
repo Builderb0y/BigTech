@@ -19,6 +19,7 @@
 		"bigtech:redstone_receiver",
 		"bigtech:redstone_transmitter",
 		"bigtech:short_range_destroyer",
-		"bigtech:transmuter"
+		"bigtech:transmuter",
+		"bigtech:tripwire"
 	]
 }

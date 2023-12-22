@@ -287,6 +287,16 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final TripwireBlock TRIPWIRE = BigTechBlocks.register(
+		"tripwire",
+		new TripwireBlock(
+			AbstractBlock
+			.Settings
+			.copy(Blocks.QUARTZ_BLOCK)
+			.mapColor(MapColor.OAK_TAN)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final ShortRangeDestroyerBlock SHORT_RANGE_DESTROYER = BigTechBlocks.register(
 		"short_range_destroyer",
 		new ShortRangeDestroyerBlock(

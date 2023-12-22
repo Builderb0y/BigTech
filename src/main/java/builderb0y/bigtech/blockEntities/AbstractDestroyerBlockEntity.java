@@ -10,6 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -45,7 +46,7 @@ public abstract class AbstractDestroyerBlockEntity extends LootableContainerBloc
 	};
 	public static final ThreadLocal<AbstractDestroyerBlockEntity> ACTIVE_DESTROYER = new ThreadLocal<>();
 	static {
-		EntityAddedToWorldEvent.EVENT.register(entity -> {
+		EntityAddedToWorldEvent.EVENT.register((Entity entity) -> {
 			AbstractDestroyerBlockEntity blockEntity = ACTIVE_DESTROYER.get();
 			if (blockEntity != null) {
 				Direction front = blockEntity.cachedState.get(Properties.HORIZONTAL_FACING);

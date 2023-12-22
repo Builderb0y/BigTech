@@ -3,7 +3,6 @@ bugs:
 
 where I left off:
 	make destroyers play tool breaking sound when breaking a tool.
-	make sure short range destroyers reset breaking progress when block in front of them changes.
 
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
@@ -56,7 +55,6 @@ features:
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
 		thermal discouragement beam: ignites entities that touch the beam
-		tripwire beam: emits a redstone signal when an entity touches the beam
 		spotlight: illuminates every block the beam goes through
 		crystal clusters:
 			make spawn in caves and in rocks.
@@ -68,7 +66,6 @@ features:
 		deployer: places blocks.
 		ignitor: smelts items on top of it, sets entities on fire
 		XP storage device: not sure about the details yet.
-		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
 		spawner jammer: disables spawners unless powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
 	redstone:
@@ -123,6 +120,7 @@ done:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receives a signal from a redstone transmitter
 		beam interceptor: detects a laser passing through the block
+		tripwire beam: emits a redstone signal when an entity touches the beam
 		crystal clusters:
 			boosts the distance of lasers passing through it
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
@@ -137,6 +135,7 @@ done:
 	automation:
 		destroyer: breaks blocks and ejects them out the back. can destroy entire trees at once.
 			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.
+		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
 
 canceled:
 	lightning rod: already in vanilla.
