@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
 import builderb0y.bigtech.api.BeamInteractor;
-import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 
 public class PhaseManipulatorBlock extends Block implements BeamInteractor {
 
@@ -18,8 +18,8 @@ public class PhaseManipulatorBlock extends Block implements BeamInteractor {
 	}
 
 	@Override
-	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
-		inputSegment.beam.addSegment(pos, inputSegment.visible(this.visible));
+	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+		inputSegment.beam.addSegment(inputSegment.withVisibility(this.visible).extend());
 		return true;
 	}
 

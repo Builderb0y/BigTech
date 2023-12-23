@@ -3,6 +3,7 @@ package builderb0y.bigtech.beams.impl;
 import java.util.UUID;
 
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -18,7 +19,7 @@ import builderb0y.bigtech.util.WorldHelper;
 
 public class TripwireBeam extends PersistentBeam {
 
-	public static final Vector3f COLOR = new Vector3f(0.75F, 0.5F, 1.0F);
+	public static final Vector3fc COLOR = new Vector3f(0.75F, 0.5F, 1.0F);
 
 	public TripwireBeam(World world, UUID uuid) {
 		super(world, uuid);
@@ -30,7 +31,7 @@ public class TripwireBeam extends PersistentBeam {
 	}
 
 	@Override
-	public Vector3f getInitialColor() {
+	public Vector3fc getInitialColor() {
 		return COLOR;
 	}
 

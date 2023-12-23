@@ -89,8 +89,8 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
-		inputSegment.beam.addSegment(pos, inputSegment.extend());
+	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+		inputSegment.beam.addSegment(inputSegment.extend());
 		return true;
 	}
 

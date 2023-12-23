@@ -29,7 +29,7 @@ import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
-import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.blockEntities.PrismBlockEntity;
 import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.util.WorldHelper;
@@ -182,18 +182,18 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	}
 
 	@Override
-	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
-		PrismBlockEntity prism = WorldHelper.getBlockEntity(inputSegment.beam.world, pos, PrismBlockEntity.class);
+	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+		PrismBlockEntity prism = WorldHelper.getBlockEntity(inputSegment.beam.world, inputSegment.endPos, PrismBlockEntity.class);
 		if (prism != null && prism.hasAnyLenses()) {
-			inputSegment = inputSegment.withDistance(inputSegment.distanceRemaining / prism.countLenses());
+			double baseDistance = inputSegment.distanceRemaining / prism.countLenses();
 			for (BeamDirection direction : BeamDirection.VALUES) {
 				if (prism.hasLens(direction)) {
-					inputSegment.beam.addSegment(pos, inputSegment.withDirection(direction).extend());
+					inputSegment.beam.addSegment(inputSegment.extend(baseDistance - direction.type.magnitude, direction));
 				}
 			}
 		}
 		else {
-			inputSegment.beam.addSegment(pos, inputSegment.terminate());
+			inputSegment.beam.addSegment(inputSegment.terminate());
 		}
 		return true;
 	}

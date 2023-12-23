@@ -47,9 +47,10 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 				ObjectIterator<Int2ObjectMap.Entry<CommonSectionBeamStorage>> iterator = this.int2ObjectEntrySet().fastIterator();
 				while (iterator.hasNext()) {
 					Int2ObjectMap.Entry<CommonSectionBeamStorage> entry = iterator.next();
-					if (!entry.value.isEmpty) {
+					CommonSectionBeamStorage sectionStorage = entry.value;
+					if (!sectionStorage.isEmpty) {
 						NbtCompound compound = sectionsNbt.createCompound().withInt("coord", entry.intKey);
-						async.run(() -> entry.value.writeToNbt(compound, true));
+						async.submit(() -> sectionStorage.writeToNbt(compound, true));
 					}
 				}
 			}
@@ -70,7 +71,7 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 				CommonSectionBeamStorage section = this.newSection(actualCoord);
 				CommonSectionBeamStorage old = this.putIfAbsent(actualCoord, section);
 				if (old == null) {
-					async.run(() -> section.readFromNbt(sectionNbt));
+					async.submit(() -> section.readFromNbt(sectionNbt));
 				}
 				else {
 					BigTechMod.LOGGER.warn("Skipping beam section storage with duplicate coord: ${actualCoord}");
@@ -95,7 +96,7 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 					Int2ObjectMap.Entry<CommonSectionBeamStorage> entry = iterator.next();
 					CommonSectionBeamStorage thisSection = this.getSection(entry.intKey);
 					CommonSectionBeamStorage thatSection = entry.value;
-					async.run(() -> thisSection.addAll(thatSection, false));
+					async.submit(() -> thisSection.addAll(thatSection, false));
 				}
 			}
 		}
@@ -145,7 +146,7 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 					BigTechMod.LOGGER.warn("Received beam segment for unknown beam ${uuid}");
 					continue;
 				}
-				section.addSegment(position, new BeamSegment(beam, direction, 0.0D, true, color), false);
+				section.addSegment(position, new BeamSegment(beam, direction, true, color), false);
 			}
 		}
 	}

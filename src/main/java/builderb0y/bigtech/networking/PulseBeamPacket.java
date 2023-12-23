@@ -49,7 +49,7 @@ public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {
 			int z = buffer.readInt();
 			BeamDirection direction = BeamDirection.VALUES[buffer.readByte()];
 			Vector3f color = BeamSegment.unpackRgb(buffer.readUnsignedMedium());
-			pulseBeam.seen.addSegment(x, y, z, new BeamSegment(pulseBeam, direction, 0.0D, false, color), false);
+			pulseBeam.seen.addSegment(x, y, z, new BeamSegment(pulseBeam, direction, false, color), false);
 		}
 		return new PulseBeamPacket(pulseBeam);
 	}
@@ -111,7 +111,7 @@ public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {
 					double x        = centerX + dx * fraction;
 					double y        = centerY + dy * fraction;
 					double z        = centerZ + dz * fraction;
-					player.world.addParticle(new DustParticleEffect(segment.color, 1.0F), x, y, z, dx, dy, dz);
+					player.world.addParticle(new DustParticleEffect(new Vector3f(segment.effectiveColor), 1.0F), x, y, z, dx, dy, dz);
 				}
 			}
 		}

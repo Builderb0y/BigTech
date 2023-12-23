@@ -3,7 +3,7 @@ package builderb0y.bigtech.beams.base;
 import java.util.*;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.hit.BlockHitResult;
@@ -30,7 +30,7 @@ public abstract class Beam {
 	public final World world;
 	public final UUID uuid;
 	public BlockPos origin;
-	public ArrayDeque<PositionedBeamSegment> queue;
+	public ArrayDeque<SpreadingBeamSegment> queue;
 	public SortedSectionBeamStorage seen;
 	public Set<BlockPos> callbacks;
 
@@ -44,7 +44,7 @@ public abstract class Beam {
 
 	public abstract BeamType getType();
 
-	public abstract Vector3f getInitialColor();
+	public abstract Vector3fc getInitialColor();
 
 	public void fire(BlockPos startPos, BeamDirection direction, double distance) {
 		this.prepare(startPos, direction, distance);
@@ -54,11 +54,11 @@ public abstract class Beam {
 
 	public void prepare(BlockPos startPos, BeamDirection direction, double distance) {
 		this.origin = startPos.toImmutable();
-		this.queue.addLast(new PositionedBeamSegment(this.origin, new BeamSegment(this, direction, distance, true, null)));
+		this.queue.addLast(new SpreadingBeamSegment(this.origin, new BeamSegment(this, direction, true, null), distance));
 	}
 
 	public void fire() {
-		for (PositionedBeamSegment segment; (segment = this.queue.pollFirst()) != null;) {
+		for (SpreadingBeamSegment segment; (segment = this.queue.pollFirst()) != null;) {
 			if (this.seen.addSegment(segment, true) && segment.segment.direction != BeamDirection.CENTER) {
 				BlockPos pos = segment.endPos;
 				BlockState state = this.world.getBlockState(pos);
@@ -67,20 +67,20 @@ public abstract class Beam {
 					if (interactor instanceof BeamCallback) {
 						this.callbacks.add(pos);
 					}
-					if (interactor.spreadOut(pos, state, segment.segment)) {
+					if (interactor.spreadOut(segment, state)) {
 						continue;
 					}
 				}
-				this.defaultSpreadOut(pos, state, segment.segment);
+				this.defaultSpreadOut(segment, state);
 			}
 		}
 	}
 
-	public void addSegment(BlockPos pos, BeamSegment segment) {
-		if (segment != null) this.queue.addLast(new PositionedBeamSegment(pos, segment));
+	public void addSegment(BlockPos pos, BeamSegment segment, double distanceRemaining) {
+		if (segment != null) this.queue.addLast(new SpreadingBeamSegment(pos, segment, distanceRemaining));
 	}
 
-	public void addSegment(PositionedBeamSegment segment) {
+	public void addSegment(SpreadingBeamSegment segment) {
 		if (segment != null) this.queue.addLast(segment);
 	}
 
@@ -88,36 +88,38 @@ public abstract class Beam {
 		return state.getCollisionShape(this.world, pos);
 	}
 
-	public static BlockHitResult rayCast(BlockPos pos, VoxelShape shape, BeamSegment segment) {
+	public static BlockHitResult rayCast(SpreadingBeamSegment segment, VoxelShape shape) {
+		BlockPos pos = segment.startPos;
+		BeamDirection direction = segment.segment.direction;
 		Vec3d start = new Vec3d(
-			pos.x + 0.5D - segment.direction.x,
-			pos.y + 0.5D - segment.direction.y,
-			pos.z + 0.5D - segment.direction.z
+			pos.x + 0.5D - direction.x,
+			pos.y + 0.5D - direction.y,
+			pos.z + 0.5D - direction.z
 		);
 		Vec3d end = new Vec3d(
-			pos.x + 0.5D + segment.direction.x,
-			pos.y + 0.5D + segment.direction.y,
-			pos.z + 0.5D + segment.direction.z
+			pos.x + 0.5D + direction.x,
+			pos.y + 0.5D + direction.y,
+			pos.z + 0.5D + direction.z
 		);
 		return shape.raycast(start, end, pos);
 	}
 
-	public void defaultSpreadOut(BlockPos pos, BlockState state, BeamSegment segment) {
-		BlockHitResult hitResult = rayCast(pos, this.getShape(pos, state), segment);
+	public void defaultSpreadOut(SpreadingBeamSegment segment, BlockState state) {
+		BlockHitResult hitResult = rayCast(segment, this.getShape(segment.startPos, state));
 		if (hitResult != null) {
-			this.handleIntersection(pos, state, segment, hitResult);
+			this.handleIntersection(segment, state, hitResult);
 		}
 		else {
-			this.handleNonIntersection(pos, state, segment);
+			this.handleNonIntersection(segment, state);
 		}
 	}
 
-	public void handleIntersection(BlockPos pos, BlockState state, BeamSegment segment, BlockHitResult hitResult) {
-		this.addSegment(pos, segment.terminate());
+	public void handleIntersection(SpreadingBeamSegment segment, BlockState state, BlockHitResult hitResult) {
+		this.addSegment(segment.terminate());
 	}
 
-	public void handleNonIntersection(BlockPos pos, BlockState state, BeamSegment segment) {
-		this.addSegment(pos, segment.extend());
+	public void handleNonIntersection(SpreadingBeamSegment segment, BlockState state) {
+		this.addSegment(segment.extend());
 	}
 
 	public abstract void addToWorld();

@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamSegment;
-import builderb0y.bigtech.beams.base.PositionedBeamSegment;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
 public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<BeamSegment>> {
@@ -24,7 +24,7 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 		super(32);
 	}
 
-	public boolean addSegment(PositionedBeamSegment segment, boolean unique) {
+	public boolean addSegment(SpreadingBeamSegment segment, boolean unique) {
 		return this.addSegment(segment.startPos, segment.segment, unique);
 	}
 
@@ -42,7 +42,7 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 		return segments.add(segment);
 	}
 
-	public void removeSegment(PositionedBeamSegment segment) {
+	public void removeSegment(SpreadingBeamSegment segment) {
 		this.removeSegment(segment.startPos, segment.segment);
 	}
 
@@ -107,11 +107,11 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 		return (packed >>> 4) & 15;
 	}
 
-	public void addAll( BasicSectionBeamStorage that, boolean unique) {
-		that.forEachSegment((pos, segment) -> this.addSegment(pos, segment, unique));
+	public void addAll(BasicSectionBeamStorage that, boolean unique) {
+		that.forEachSegment((short pos, BeamSegment segment) -> this.addSegment(pos, segment, unique));
 	}
 
-	public void removeAll( BasicSectionBeamStorage that) {
+	public void removeAll(BasicSectionBeamStorage that) {
 		that.forEachSegment(this::removeSegment);
 	}
 

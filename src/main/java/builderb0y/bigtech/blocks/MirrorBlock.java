@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
-import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -28,7 +27,7 @@ import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
-import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 
 public class MirrorBlock extends Block implements Waterloggable, BeamInteractor {
 
@@ -77,9 +76,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	@Override
-	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
-		inputSegment = inputSegment.extend();
-		if (inputSegment == null) return false;
+	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
 		BeamDirection entryDirection = inputSegment.direction;
 		double normalX, normalY, normalZ;
 		int rotation = state.get(BigTechProperties.ROTATION_0_7);
@@ -96,7 +93,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 		}
 		BeamDirection exitDirection = entryDirection.reflectUnchecked(normalX, normalY, normalZ);
 		if (entryDirection == exitDirection) return false;
-		inputSegment.beam.addSegment(pos, inputSegment.withDirection(exitDirection));
+		inputSegment.beam.addSegment(inputSegment.extend(inputSegment.distanceRemaining - exitDirection.type.magnitude, exitDirection));
 		return true;
 	}
 

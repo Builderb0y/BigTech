@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
@@ -17,15 +18,15 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.base.BeamType;
 import builderb0y.bigtech.beams.base.PersistentBeam;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.beams.impl.DestructionManager.DestroyQueue;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
 
 public class DestroyerBeam extends PersistentBeam {
 
-	public static final Vector3f DEFAULT_COLOR = new Vector3f(0.25F, 0.75F, 0.25F);
+	public static final Vector3fc DEFAULT_COLOR = new Vector3f(0.25F, 0.75F, 0.25F);
 
 	public Map<BlockPos, DestroyQueue> toDestroy = new HashMap<>();
 
@@ -64,13 +65,13 @@ public class DestroyerBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void defaultSpreadOut(BlockPos pos, BlockState state, BeamSegment segment) {
-		super.defaultSpreadOut(pos, state, segment);
+	public void defaultSpreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+		super.defaultSpreadOut(inputSegment, state);
 		if (!state.isAir && state.getFluidState().getBlockState() != state) {
 			this.toDestroy.merge(
-				pos.toImmutable(),
-				new DestroyQueue(this.world, pos, segment.distanceRemaining),
-				(oldQueue, newQueue) -> {
+				inputSegment.endPos.toImmutable(),
+				new DestroyQueue(this.world, inputSegment.endPos, inputSegment.distanceRemaining),
+				(DestroyQueue oldQueue, DestroyQueue newQueue) -> {
 					oldQueue.maxDistanceSquared = Math.max(oldQueue.maxDistanceSquared, newQueue.maxDistanceSquared);
 					oldQueue.destroySpeed += newQueue.destroySpeed;
 					return oldQueue;
@@ -85,7 +86,7 @@ public class DestroyerBeam extends PersistentBeam {
 	}
 
 	@Override
-	public Vector3f getInitialColor() {
+	public Vector3fc getInitialColor() {
 		return DEFAULT_COLOR;
 	}
 

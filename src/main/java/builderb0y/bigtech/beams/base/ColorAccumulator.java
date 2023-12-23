@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -30,7 +31,7 @@ public class ColorAccumulator implements Consumer<BeamSegment> {
 		if (segment.visible) this.accept(segment.effectiveColor);
 	}
 
-	public void accept(Vector3f color) {
+	public void accept(Vector3fc color) {
 		if (this.count == 0) {
 			this.color.set(color);
 		}
@@ -38,9 +39,9 @@ public class ColorAccumulator implements Consumer<BeamSegment> {
 			if (this.count == 1) {
 				this.color.mul(this.color);
 			}
-			this.color.x += color.x * color.x;
-			this.color.y += color.y * color.y;
-			this.color.z += color.z * color.z;
+			this.color.x += color.x() * color.x();
+			this.color.y += color.y() * color.y();
+			this.color.z += color.z() * color.z();
 		}
 		this.count++;
 	}

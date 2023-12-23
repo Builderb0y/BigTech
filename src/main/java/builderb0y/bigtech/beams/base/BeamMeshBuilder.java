@@ -34,7 +34,7 @@ import builderb0y.bigtech.util.Directions;
 @Environment(EnvType.CLIENT)
 public class BeamMeshBuilder {
 
-	public static final float r = 0.0625F;
+	public static final float r = 0.0625F - 1.0F / 1024.0F;
 	public static final Mesh EMPTY_MESH = RendererAccess.INSTANCE.renderer.meshBuilder().build();
 	public static final EnumMap<BeamDirection, Extrusion[]> EXTRUSIONS = new EnumMap<>(BeamDirection.class);
 	static {
@@ -48,16 +48,16 @@ public class BeamMeshBuilder {
 				default -> { continue; }
 				case CENTER -> { continue; }
 				case FACE -> {
-					starts = Arrays.stream(edges).filter(edge -> edge.start.dot(direction) > 0.0F && edge.end.dot(direction) > 0.0F).toArray(Line[]::new);
-					ends = Arrays.stream(edges).filter(edge -> edge.start.dot(direction) < 0.0F && edge.end.dot(direction) < 0.0F).toArray(Line[]::new);
+					starts = Arrays.stream(edges).filter((Line edge) -> edge.start.dot(direction) > 0.0F && edge.end.dot(direction) > 0.0F).toArray(Line[]::new);
+					ends = Arrays.stream(edges).filter((Line edge) -> edge.start.dot(direction) < 0.0F && edge.end.dot(direction) < 0.0F).toArray(Line[]::new);
 				}
 				case EDGE -> {
-					starts = Arrays.stream(edges).filter(edge -> edge.start.dot(direction) >= 0.0F && edge.end.dot(direction) >= 0.0F && !(edge.start.dot(direction) > 0.0F && edge.end.dot(direction) > 0.0F)).toArray(Line[]::new);
-					ends = Arrays.stream(edges).filter(edge -> edge.start.dot(direction) <= 0.0F && edge.end.dot(direction) <= 0.0F && !(edge.start.dot(direction) < 0.0F && edge.end.dot(direction) < 0.0F)).toArray(Line[]::new);
+					starts = Arrays.stream(edges).filter((Line edge) -> edge.start.dot(direction) >= 0.0F && edge.end.dot(direction) >= 0.0F && !(edge.start.dot(direction) > 0.0F && edge.end.dot(direction) > 0.0F)).toArray(Line[]::new);
+					ends = Arrays.stream(edges).filter((Line edge) -> edge.start.dot(direction) <= 0.0F && edge.end.dot(direction) <= 0.0F && !(edge.start.dot(direction) < 0.0F && edge.end.dot(direction) < 0.0F)).toArray(Line[]::new);
 				}
 				case CORNER -> {
-					starts = Arrays.stream(edges).filter(edge -> Math.abs(edge.start.dot(direction)) < r * 3.0F && Math.abs(edge.end.dot(direction)) < r * 3.0F).toArray(Line[]::new);
-					ends = Arrays.stream(edges).filter(edge -> Math.abs(edge.start.dot(direction)) < r * 3.0F && Math.abs(edge.end.dot(direction)) < r * 3.0F).toArray(Line[]::new);
+					starts = Arrays.stream(edges).filter((Line edge) -> Math.abs(edge.start.dot(direction)) < r * 3.0F && Math.abs(edge.end.dot(direction)) < r * 3.0F).toArray(Line[]::new);
+					ends = Arrays.stream(edges).filter((Line edge) -> Math.abs(edge.start.dot(direction)) < r * 3.0F && Math.abs(edge.end.dot(direction)) < r * 3.0F).toArray(Line[]::new);
 				}
 			}
 			assert starts.length == ends.length;
@@ -68,7 +68,7 @@ public class BeamMeshBuilder {
 			}
 			sortEdges(starts);
 			sortEdges(ends);
-			EXTRUSIONS.put(direction, IntStream.range(0, starts.length).mapToObj(index -> new Extrusion(starts[index], ends[index])).toArray(Extrusion[]::new));
+			EXTRUSIONS.put(direction, IntStream.range(0, starts.length).mapToObj((int index) -> new Extrusion(starts[index], ends[index])).toArray(Extrusion[]::new));
 		}
 	}
 	public static final byte[] FACE_FLAGS = new byte[BeamDirection.VALUES.length];

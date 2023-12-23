@@ -1,11 +1,14 @@
 package builderb0y.bigtech.api;
 
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.*;
@@ -29,8 +32,8 @@ public interface BeamInteractor {
 	even if they normally wouldn't. this interactor is used
 	for {@link Blocks#GLASS} and {@link Blocks#GLASS_PANE}.
 	*/
-	public static final BeamInteractor TRANSPARENT_BLOCK = (pos, state, inputSegment) -> {
-		inputSegment.beam.addSegment(pos, inputSegment.extend());
+	public static final BeamInteractor TRANSPARENT_BLOCK = (SpreadingBeamSegment inputSegment, BlockState state) -> {
+		inputSegment.beam.addSegment(inputSegment.extend());
 		return true;
 	};
 
@@ -41,9 +44,9 @@ public interface BeamInteractor {
 
 	the {@link Beam} instance can be obtained via {@link BeamSegment#beam}.
 	this can be used to add new segments to the beam's queue
-	via {@link Beam#addSegment(BlockPos, BeamSegment)}.
+	via {@link Beam#addSegment(SpreadingBeamSegment)}.
 
-	the world may be obtained via {@link BeamSegment#beam} and {@link Beam#world},
+	the world may be obtained via {@link SpreadingBeamSegment#beam} and {@link Beam#world},
 	but obtaining the world this way should be reserved for querying other
 	blocks or block entities only. this method should NOT modify the world.
 	the reason for this is that the beam may not be added to the world after spreading finishes,
@@ -53,7 +56,7 @@ public interface BeamInteractor {
 	through it, consider registering a {@link BeamCallback} to {@link #LOOKUP},
 	instead of just a BeamInteractor.
 	*/
-	public abstract boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment);
+	public abstract boolean spreadOut(SpreadingBeamSegment segment, BlockState state);
 
 	/**
 	an extension of BeamInteractor with additional callback
@@ -90,22 +93,25 @@ public interface BeamInteractor {
 
 	public static final Object INITIALIZER = new Object() {{
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(TRANSPARENT_BLOCK), Blocks.GLASS, Blocks.GLASS_PANE);
-		LOOKUP.registerForBlocks((world, pos, state, blockEntity, context) -> {
-			if (blockEntity instanceof BeaconBlockEntity_LevelGetter beacon) {
-				int extraDistance = beacon.bigtech_getLevel() << 5;
-				return (pos1, state1, inputSegment) -> {
-					if (extraDistance == 0) {
-						inputSegment.beam.addSegment(pos1, inputSegment.terminate());
-					}
-					else {
-						inputSegment.beam.addSegment(pos1, inputSegment.withDirection(BeamDirection.UP).addDistance(extraDistance, true));
-					}
-					return true;
-				};
-			}
-			return null;
-		}, Blocks.BEACON);
-		LOOKUP.registerFallback((world, pos, state, blockEntity, beam) -> {
+		LOOKUP.registerForBlocks(
+			(World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Beam context) -> {
+				if (blockEntity instanceof BeaconBlockEntity_LevelGetter beacon) {
+					int extraDistance = beacon.bigtech_getLevel() << 5;
+					return (SpreadingBeamSegment inputSegment, BlockState state1) -> {
+						if (extraDistance == 0) {
+							inputSegment.beam.addSegment(inputSegment.terminate());
+						}
+						else {
+							inputSegment.beam.addSegment(inputSegment.extend(inputSegment.distanceRemaining + extraDistance, BeamDirection.UP));
+						}
+						return true;
+					};
+				}
+				return null;
+			},
+			Blocks.BEACON
+		);
+		LOOKUP.registerFallback((World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Beam beam) -> {
 			if (state.block instanceof BeamInteractor interactor) {
 				return interactor;
 			}
@@ -114,12 +120,12 @@ public interface BeamInteractor {
 				float[] color = provider.getBeaconColor(world, pos, state);
 				if (color != null) {
 					Vector3f actualColor = new Vector3f(color[0], color[1], color[2]);
-					return (pos1, state1, inputSegment) -> {
-						if (inputSegment.color == null || inputSegment.color.equals(actualColor)) {
-							BeamSegment extension = inputSegment.extend();
-							if (extension != null) {
-								inputSegment.beam.addSegment(pos1, extension.withColor(actualColor));
-							}
+					return (SpreadingBeamSegment inputSegment, BlockState state1) -> {
+						if (inputSegment.segment.color == null || inputSegment.segment.color.equals(actualColor)) {
+							inputSegment.beam.addSegment(inputSegment.withColor(actualColor).extend());
+						}
+						else {
+							inputSegment.beam.addSegment(inputSegment.terminate());
 						}
 						return true;
 					};

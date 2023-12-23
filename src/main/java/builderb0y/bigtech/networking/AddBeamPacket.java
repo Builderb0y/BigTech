@@ -8,6 +8,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
@@ -115,14 +116,14 @@ public record AddBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uuid,
 		return BigTechClientNetwork.ADD_BEAM;
 	}
 
-	public static record MinimalBeamSegment(short position, BeamDirection direction, Vector3f color) {
+	public static record MinimalBeamSegment(short position, BeamDirection direction, Vector3fc color) {
 
 		public static MinimalBeamSegment from(short position, BeamSegment segment) {
 			return new MinimalBeamSegment(position, segment.direction, segment.effectiveColor);
 		}
 
 		public BeamSegment toBeamSegment(PersistentBeam beam) {
-			return new BeamSegment(beam, this.direction, 0.0D, true, this.color);
+			return new BeamSegment(beam, this.direction, true, this.color);
 		}
 	}
 }

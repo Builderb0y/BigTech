@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.ShortIterator;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -22,7 +23,7 @@ import builderb0y.bigtech.blocks.FunctionalBlocks;
 
 public class SpotlightBeam extends PersistentBeam {
 
-	public static final Vector3f COLOR = new Vector3f(1.0F, 1.0F, 0.5F);
+	public static final Vector3fc COLOR = new Vector3f(1.0F, 1.0F, 0.5F);
 
 	public SpotlightBeam(World world, UUID uuid) {
 		super(world, uuid);
@@ -39,7 +40,7 @@ public class SpotlightBeam extends PersistentBeam {
 	}
 
 	@Override
-	public Vector3f getInitialColor() {
+	public Vector3fc getInitialColor() {
 		return COLOR;
 	}
 

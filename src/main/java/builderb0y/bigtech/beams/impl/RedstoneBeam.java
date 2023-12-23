@@ -3,6 +3,7 @@ package builderb0y.bigtech.beams.impl;
 import java.util.UUID;
 
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +15,7 @@ import builderb0y.bigtech.blocks.FunctionalBlocks;
 
 public class RedstoneBeam extends PersistentBeam {
 
-	public static final Vector3f COLOR = new Vector3f(1.0F, 0.25F, 0.0F);
+	public static final Vector3fc COLOR = new Vector3f(1.0F, 0.25F, 0.0F);
 
 	public RedstoneBeam(World world, UUID uuid) {
 		super(world, uuid);
@@ -26,7 +27,7 @@ public class RedstoneBeam extends PersistentBeam {
 	}
 
 	@Override
-	public Vector3f getInitialColor() {
+	public Vector3fc getInitialColor() {
 		return COLOR;
 	}
 

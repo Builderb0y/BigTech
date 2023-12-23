@@ -6,12 +6,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 
 import builderb0y.bigtech.beams.base.BeamSegment;
-import builderb0y.bigtech.beams.base.PositionedBeamSegment;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 
 public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectionBeamStorage> {
 
-	public boolean addSegment(PositionedBeamSegment segment, boolean unique) {
+	public boolean addSegment(SpreadingBeamSegment segment, boolean unique) {
 		return this.addSegment(segment.startPos, segment.segment, unique);
 	}
 
@@ -23,7 +23,7 @@ public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectio
 		return this.getSegments(x >> 4, y >> 4, z >> 4).addSegment(x, y, z, segment, unique);
 	}
 
-	public void removeSegment(PositionedBeamSegment segment) {
+	public void removeSegment(SpreadingBeamSegment segment) {
 		this.removeSegment(segment.startPos, segment.segment);
 	}
 

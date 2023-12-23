@@ -96,7 +96,7 @@ public abstract class PersistentBeam extends Beam {
 					.getSection(sectionY)
 				);
 				BasicSectionBeamStorage newStorage = entry.value;
-				async.run(() -> existing.addAll(newStorage, false));
+				async.submit(() -> existing.addAll(newStorage, false));
 				BigTechClientNetwork.send(
 					PlayerLookup.tracking(this.world.as(), new ChunkPos(sectionX, sectionZ)),
 					() -> AddBeamPacket.create(
@@ -138,7 +138,7 @@ public abstract class PersistentBeam extends Beam {
 					.getSection(sectionY)
 				);
 				BasicSectionBeamStorage newStorage = sectionEntry.value;
-				syncer.add(() -> {
+				syncer.submit(() -> {
 					existing.removeAll(newStorage);
 					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(this.world.as(), new ChunkPos(sectionX, sectionZ));
 					if (tracking.isEmpty) return null;
@@ -187,18 +187,15 @@ public abstract class PersistentBeam extends Beam {
 		.withUuid("uuid", this.uuid)
 		.withBlockPos("origin", this.origin)
 		.withLongArray("callbacks", this.callbacks.stream().mapToLong(BlockPos::asLong).toArray())
-		.withSubList("segment_sections", list -> {
+		.withSubList("segment_sections", (NbtList list) -> {
 			try (AsyncRunner async = new AsyncRunner()) {
 				ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
 				while (sectionIterator.hasNext()) {
 					Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
 					long sectionPos = sectionEntry.longKey;
 					BasicSectionBeamStorage section = sectionEntry.value;
-					NbtCompound sectionNbt = list.createCompound();
-					async.run(() -> {
-						sectionNbt.putLong("pos", sectionPos);
-						section.writeToNbt(sectionNbt, false);
-					});
+					NbtCompound sectionNbt = list.createCompound().withLong("pos", sectionPos);
+					async.submit(() -> section.writeToNbt(sectionNbt, false));
 				}
 			}
 		});
@@ -211,9 +208,7 @@ public abstract class PersistentBeam extends Beam {
 			for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
 				long sectionPos = sectionNbt.getLong("pos");
 				BasicSectionBeamStorage section = this.seen.getSegments(sectionPos);
-				async.run(() -> {
-					section.readFromNbt(sectionNbt, this);
-				});
+				async.submit(() -> section.readFromNbt(sectionNbt, this));
 			}
 		}
 		Arrays.stream(nbt.getLongArray("callbacks")).mapToObj(BlockPos::fromLong).forEach(this.callbacks::add);

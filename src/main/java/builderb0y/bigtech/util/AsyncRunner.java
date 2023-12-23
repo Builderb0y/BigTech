@@ -15,15 +15,15 @@ any tasks which are not finished when {@link #close()} is called
 will be waited for before the calling thread resumes execution.
 example usage: {@code
 	try (AsyncRunner async = new AsyncRunner()) {
-		async.run(() -> expensiveOperation(1));
-		async.run(() -> expensiveOperation(2));
-		async.run(() -> expensiveOperation(3));
+		async.submit(() -> expensiveOperation(1));
+		async.submit(() -> expensiveOperation(2));
+		async.submit(() -> expensiveOperation(3));
 		//all 3 tasks are worked on in parallel.
 	}
 	//closing waits for all 3 tasks to finish running.
 }
 note: while this class assists with parallel computation,
-it is not itself thread safe. do not add new tasks concurrently!
+it is not itself thread safe. do not submit new tasks concurrently!
 
 see also: {@link AsyncConsumer}.
 */
@@ -31,7 +31,7 @@ public class AsyncRunner implements AutoCloseable {
 
 	public final LinkedList<CompletableFuture<Void>> waitingOn = new LinkedList<>();
 
-	public void run(Runnable runnable) {
+	public void submit(Runnable runnable) {
 		this.waitingOn.add(CompletableFuture.runAsync(runnable));
 	}
 

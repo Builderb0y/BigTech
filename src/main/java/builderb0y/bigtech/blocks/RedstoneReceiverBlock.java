@@ -35,9 +35,9 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	}
 
 	@Override
-	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
-		if (inputSegment.direction == BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)).opposite) {
-			inputSegment.beam.addSegment(pos, inputSegment.terminate());
+	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+		if (inputSegment.segment.direction == BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)).opposite) {
+			inputSegment.beam.addSegment(inputSegment.terminate());
 			return true;
 		}
 		return false;

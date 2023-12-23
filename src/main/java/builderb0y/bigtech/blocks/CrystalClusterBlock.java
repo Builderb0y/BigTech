@@ -33,7 +33,7 @@ import net.minecraft.world.explosion.Explosion;
 
 import builderb0y.bigtech.api.BeaconBeamColorProvider;
 import builderb0y.bigtech.api.BeamInteractor;
-import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.mixins.ExplosionAccessor;
 import builderb0y.bigtech.models.CrystalBakedModel;
@@ -53,11 +53,13 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 	}
 
 	@Override
-	public boolean spreadOut(BlockPos pos, BlockState state, BeamSegment inputSegment) {
+	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
 		Vector3f color = this.color.colorVector;
 		if (inputSegment.color == null || inputSegment.color.equals(color)) {
-			BeamSegment extension = inputSegment.withColor(color).addDistance(15.0D, true);
-			inputSegment.beam.addSegment(pos, extension);
+			inputSegment.beam.addSegment(inputSegment.withColor(color).extend(inputSegment.distanceRemaining + 15.0D, inputSegment.direction));
+		}
+		else {
+			inputSegment.beam.addSegment(inputSegment.terminate());
 		}
 		return true;
 	}
