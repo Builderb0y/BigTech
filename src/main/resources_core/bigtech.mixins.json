@@ -11,6 +11,7 @@
 		"BeaconBlockEntity_UseColorProviders",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"ChestBlock_CreateMiner",
+		"ChunkBlockLightProvider_AllowBeamsToEmitLight",
 		"ChunkDataSender_SyncBeamsManually",
 		"CreeperEntity_ChargedAccessor",
 		"Entity_CollideWithBeams",

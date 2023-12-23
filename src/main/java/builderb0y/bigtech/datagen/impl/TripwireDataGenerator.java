@@ -1,4 +1,4 @@
-package builderb0y.bigtech.datagen;
+package builderb0y.bigtech.datagen.impl;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;

@@ -55,7 +55,6 @@ features:
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
 		thermal discouragement beam: ignites entities that touch the beam
-		spotlight: illuminates every block the beam goes through
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:
@@ -121,6 +120,7 @@ done:
 		redstone receiver: receives a signal from a redstone transmitter
 		beam interceptor: detects a laser passing through the block
 		tripwire beam: emits a redstone signal when an entity touches the beam
+		spotlight: illuminates every block the beam goes through
 		crystal clusters:
 			boosts the distance of lasers passing through it
 		lens: placed on prisms to control their outputs. also used for crafting lasers.

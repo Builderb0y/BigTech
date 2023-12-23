@@ -11,16 +11,21 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.light.LightingProvider;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.chunk.CommonChunkBeamStorage;
+import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 
 public record RemoveBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uuid, ShortCollection segmentPositions) implements S2CPlayPacket {
@@ -66,12 +71,30 @@ public record RemoveBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uu
 			BigTechMod.LOGGER.warn("Received beam removal packet for empty section: ${this.sectionX}, ${this.sectionY}, ${this.sectionZ}");
 			return;
 		}
+		LightingProvider lightingProvider = player.world.chunkManager.lightingProvider;
+		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		ShortIterator blockIterator = this.segmentPositions.iterator();
+		MutableBoolean needLightUpdate = new MutableBoolean();
 		while (blockIterator.hasNext()) {
 			short position = blockIterator.nextShort();
 			LinkedList<BeamSegment> segments = sectionStorage.getSegments(position);
-			if (!segments.removeIf(segment -> segment.beam.uuid.equals(this.uuid))) {
+			needLightUpdate.setFalse();
+			if (!segments.removeIf((BeamSegment segment) -> {
+				if (segment.beam.uuid.equals(this.uuid)) {
+					if (((PersistentBeam)(segment.beam)).getLightLevel(segment) > 0) {
+						needLightUpdate.setTrue();
+					}
+					return true;
+				}
+				return false;
+			})) {
 				BigTechMod.LOGGER.warn("No segments removed at ${this.sectionX}, ${this.sectionY}, ${this.sectionZ} position index ${position}");
+			}
+			else if (needLightUpdate.booleanValue()) {
+				int x = (this.sectionX << 4) | BasicSectionBeamStorage.unpackX(position);
+				int y = (this.sectionY << 4) | BasicSectionBeamStorage.unpackY(position);
+				int z = (this.sectionZ << 4) | BasicSectionBeamStorage.unpackZ(position);
+				lightingProvider.checkBlock(mutablePos.set(x, y, z));
 			}
 			if (segments.isEmpty()) {
 				sectionStorage.remove(position);

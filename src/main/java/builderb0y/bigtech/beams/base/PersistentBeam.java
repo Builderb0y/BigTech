@@ -71,6 +71,10 @@ public abstract class PersistentBeam extends Beam {
 
 	public void onEntityCollision(BlockPos pos, Entity entity) {}
 
+	public int getLightLevel(BeamSegment segment) {
+		return 0;
+	}
+
 	@Override
 	public void addToWorld() {
 		if (this.origin == null) {

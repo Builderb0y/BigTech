@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"top":    "bigtech:block/spotlight_top_off",
+		"bottom": "bigtech:block/spotlight_bottom",
+		"side":   "bigtech:block/spotlight_side"
+	}
+}

@@ -10,7 +10,8 @@ public class BeamTypes {
 	public static final BeamType
 		REDSTONE  = register("redstone",   RedstoneBeam::new),
 		DESTROYER = register("destroyer", DestroyerBeam::new),
-		TRIPWIRE  = register("tripwire",   TripwireBeam::new);
+		TRIPWIRE  = register("tripwire",   TripwireBeam::new),
+		SPOTLIGHT = register("spotlight", SpotlightBeam::new);
 
 	public static void init() {}
 

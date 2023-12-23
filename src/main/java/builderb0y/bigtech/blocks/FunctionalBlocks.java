@@ -1,9 +1,6 @@
 package builderb0y.bigtech.blocks;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.WeightedPressurePlateBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
@@ -294,6 +291,20 @@ public class FunctionalBlocks {
 			.Settings
 			.copy(Blocks.QUARTZ_BLOCK)
 			.mapColor(MapColor.OAK_TAN)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final SpotlightBlock SPOTLIGHT = BigTechBlocks.register(
+		"spotlight",
+		new SpotlightBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor((BlockState state) -> {
+				return state.get(Properties.FACING) == Direction.UP ? MapColor.PALE_YELLOW : MapColor.BLACK;
+			})
+			.requiresTool()
+			.strength(2.0F, 6.0F)
 		)
 	);
 	@UseDataGen(void.class)

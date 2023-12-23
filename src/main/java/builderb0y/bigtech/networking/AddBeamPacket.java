@@ -2,6 +2,7 @@ package builderb0y.bigtech.networking;
 
 import java.util.*;
 
+import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -10,8 +11,10 @@ import org.joml.Vector3f;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.light.LightingProvider;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.BeamDirection;
@@ -34,12 +37,12 @@ public record AddBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uuid,
 			storage
 			.short2ObjectEntrySet()
 			.stream()
-			.flatMap(entry ->
+			.flatMap((Short2ObjectMap.Entry<LinkedList<BeamSegment>> entry) ->
 				entry
 				.value
 				.stream()
-				.filter(segment -> segment.visible)
-				.map(segment -> MinimalBeamSegment.from(entry.shortKey, segment))
+				.filter((BeamSegment segment) -> segment.visible)
+				.map((BeamSegment segment) -> MinimalBeamSegment.from(entry.shortKey, segment))
 			)
 			.toList()
 		);
@@ -93,8 +96,17 @@ public record AddBeamPacket(int sectionX, int sectionY, int sectionZ, UUID uuid,
 		}
 		CommonChunkBeamStorage chunkStorage = ChunkBeamStorageHolder.KEY.get(chunk).require();
 		CommonSectionBeamStorage sectionStorage = chunkStorage.getSection(this.sectionY);
-		for (MinimalBeamSegment segment : this.segments) {
-			sectionStorage.addSegment(segment.position, segment.toBeamSegment(beam), false);
+		LightingProvider lightingProvider = player.world.chunkManager.lightingProvider;
+		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+		for (MinimalBeamSegment minimalSegment : this.segments) {
+			BeamSegment segment = minimalSegment.toBeamSegment(beam);
+			sectionStorage.addSegment(minimalSegment.position, segment, false);
+			if (beam.getLightLevel(segment) > 0) {
+				int x = (this.sectionX << 4) | BasicSectionBeamStorage.unpackX(minimalSegment.position);
+				int y = (this.sectionY << 4) | BasicSectionBeamStorage.unpackY(minimalSegment.position);
+				int z = (this.sectionZ << 4) | BasicSectionBeamStorage.unpackZ(minimalSegment.position);
+				lightingProvider.checkBlock(mutablePos.set(x, y, z));
+			}
 		}
 	}
 
