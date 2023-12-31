@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
+import net.fabricmc.fabric.api.renderer.v1.mesh.QuadView;
 import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.client.MinecraftClient;
@@ -26,6 +27,7 @@ import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.chunk.ClientChunkBeamStorage;
 import builderb0y.bigtech.compatibility.SodiumCompatibility;
+import builderb0y.bigtech.entities.EntityRenderHelper;
 
 public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 
@@ -42,6 +44,13 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 			if (player != null) {
 				AtomicReferenceArray<WorldChunk> chunks = ((ClientChunkManager)(player.world.chunkManager)).chunks.chunks;
 				Vec3d cameraPos = context.camera().pos;
+				VertexConsumer vertices = context.consumers().getBuffer(RenderLayer.solid);
+				EntityRenderHelper helper = (
+					new EntityRenderHelper()
+					.vertexConsumer(vertices)
+					.lightmap(0xF000F0)
+				);
+				MatrixStack matrixStack = context.matrixStack();
 				boolean renderedAny = false;
 				for (int index = 0; index < chunks.length(); index++) {
 					WorldChunk chunk = chunks.getPlain(index);
@@ -50,25 +59,28 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 						if (chunkStorage.size() <= 4 || context.frustum().isVisible(chunkStorage.box)) {
 							for (ClientSectionBeamStorage sectionStorage : chunkStorage.values().<Iterable<ClientSectionBeamStorage>>as()) {
 								if (!sectionStorage.isEmpty && context.frustum().isVisible(sectionStorage.box)) {
-									context.matrixStack().push();
+									matrixStack.push();
 									try {
-										context.matrixStack().translate(
+										matrixStack.translate(
 											sectionStorage.chunk.pos.startX - cameraPos.x,
 											(sectionStorage.sectionCoordY << 4) - cameraPos.y,
 											sectionStorage.chunk.pos.startZ - cameraPos.z
 										);
-										MatrixStack.Entry matrices = context.matrixStack().peek();
-										VertexConsumer vertices = context.consumers().getBuffer(RenderLayer.solid);
-										sectionStorage.getMesh().forEach(quad -> {
-											vertices.vertex(matrices.positionMatrix, quad.x(0), quad.y(0), quad.z(0)).color(quad.color(0)).texture(quad.u(0), quad.v(0)).light(quad.lightmap(0)).normal(matrices.normalMatrix, quad.normalX(0), quad.normalY(0), quad.normalZ(0)).next();
-											vertices.vertex(matrices.positionMatrix, quad.x(1), quad.y(1), quad.z(1)).color(quad.color(1)).texture(quad.u(1), quad.v(1)).light(quad.lightmap(1)).normal(matrices.normalMatrix, quad.normalX(1), quad.normalY(1), quad.normalZ(1)).next();
-											vertices.vertex(matrices.positionMatrix, quad.x(2), quad.y(2), quad.z(2)).color(quad.color(2)).texture(quad.u(2), quad.v(2)).light(quad.lightmap(2)).normal(matrices.normalMatrix, quad.normalX(2), quad.normalY(2), quad.normalZ(2)).next();
-											vertices.vertex(matrices.positionMatrix, quad.x(3), quad.y(3), quad.z(3)).color(quad.color(3)).texture(quad.u(3), quad.v(3)).light(quad.lightmap(3)).normal(matrices.normalMatrix, quad.normalX(3), quad.normalY(3), quad.normalZ(3)).next();
+										helper.transform(matrixStack.peek());
+										sectionStorage.getMesh().forEach((QuadView quad) -> {
+											helper.quad(
+												quad.x(0), quad.x(1), quad.x(2), quad.x(3),
+												quad.y(0), quad.y(1), quad.y(2), quad.y(3),
+												quad.z(0), quad.z(1), quad.z(2), quad.z(3),
+												quad.u(0), quad.u(3), quad.v(0), quad.v(1),
+												quad.color(0),
+												quad.normalX(0), quad.normalY(0), quad.normalZ(0)
+											);
 										});
 										renderedAny = true;
 									}
 									finally {
-										context.matrixStack().pop();
+										matrixStack.pop();
 									}
 								}
 							}

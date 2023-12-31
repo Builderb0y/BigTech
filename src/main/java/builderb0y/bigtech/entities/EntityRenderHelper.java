@@ -7,6 +7,7 @@ import org.joml.Vector4f;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.util.math.MatrixStack;
 
 public class EntityRenderHelper {
 
@@ -27,6 +28,10 @@ public class EntityRenderHelper {
 		this.positionMatrix = positionMatrix;
 		this.normalMatrix = normalMatrix;
 		return this;
+	}
+
+	public EntityRenderHelper transform(MatrixStack.Entry entry) {
+		return this.transform(entry.positionMatrix, entry.normalMatrix);
 	}
 
 	public EntityRenderHelper lightmap(int lightmap) {
@@ -92,10 +97,17 @@ public class EntityRenderHelper {
 		//I use a shared vector instead,
 		//which means doing the transformations manually.
 
+		this.normalMatrix.transform(this.normalVector.set(nx, ny, nz));
+		nx = this.normalVector.x;
+		ny = this.normalVector.y;
+		nz = this.normalVector.z;
+
 		this.positionMatrix.transform(this.positionVector.set(x0, y0, z0, 1.0F));
 		x0 = this.positionVector.x;
 		y0 = this.positionVector.y;
 		z0 = this.positionVector.z;
+
+		if (!(nx * x0 + ny * y0 + nz * z0 < 0.0F)) return; //early discard back faces.
 
 		this.positionMatrix.transform(this.positionVector.set(x1, y1, z1, 1.0F));
 		x1 = this.positionVector.x;
@@ -112,15 +124,13 @@ public class EntityRenderHelper {
 		y3 = this.positionVector.y;
 		z3 = this.positionVector.z;
 
-		this.normalMatrix.transform(this.normalVector.set(nx, ny, nz));
-		nx = this.normalVector.x;
-		ny = this.normalVector.y;
-		nz = this.normalVector.z;
-
 		u0 *= this.textureScaleX;
 		u1 *= this.textureScaleX;
 		v0 *= this.textureScaleY;
 		v1 *= this.textureScaleY;
+
+		//debug:
+		//color = MathHelper.packRgb(nx * 0.5F + 0.5F, ny * 0.5F + 0.5F, nz * 0.5F + 0.5F) | 0xFF000000;
 
 		this.vertexConsumer.vertex(x0, y0, z0).color(color).texture(u0, v0).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz).next();
 		this.vertexConsumer.vertex(x1, y1, z1).color(color).texture(u0, v1).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz).next();

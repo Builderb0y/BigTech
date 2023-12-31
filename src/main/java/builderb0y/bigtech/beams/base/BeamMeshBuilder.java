@@ -68,6 +68,9 @@ public class BeamMeshBuilder {
 			}
 			sortEdges(starts);
 			sortEdges(ends);
+			for (int index = 0, length = ends.length; index < length; index++) {
+				ends[index] = ends[index].offset(direction.x, direction.y, direction.z);
+			}
 			EXTRUSIONS.put(direction, IntStream.range(0, starts.length).mapToObj((int index) -> new Extrusion(starts[index], ends[index])).toArray(Extrusion[]::new));
 		}
 	}
@@ -85,6 +88,9 @@ public class BeamMeshBuilder {
 		}
 	}
 
+	//todo: consider using a dedicated class that isn't Mesh,
+	//	so that normals and UVs can be encoded more efficiently
+	//	(meaning on a per-quad basis, not a per-vertex basis).
 	public static Mesh build(CommonSectionBeamStorage storage) {
 		if (!storage.isEmpty) {
 			MeshBuilder builder = RendererAccess.INSTANCE.renderer.meshBuilder();
@@ -122,9 +128,9 @@ public class BeamMeshBuilder {
 						}
 					}
 				}
-				float x1 = x + 0.5F;
-				float y1 = y + 0.5F;
-				float z1 = z + 0.5F;
+				float centerX = x + 0.5F;
+				float centerY = y + 0.5F;
+				float centerZ = z + 0.5F;
 				int faceFlags = 0b111_111;
 				for (BeamDirection direction : BeamDirection.VALUES) {
 					if (direction == BeamDirection.CENTER) continue;
@@ -140,9 +146,6 @@ public class BeamMeshBuilder {
 						if (containsAdjacents && direction.ordinal() < BeamDirection.CENTER.ordinal()) {
 							continue;
 						}
-						float x2 = x1 + direction.x;
-						float y2 = y1 + direction.y;
-						float z2 = z1 + direction.z;
 						Extrusion[] extrusions = EXTRUSIONS.get(direction);
 						for (Extrusion extrusion : extrusions) {
 							Point p0 = extrusion.start.start;
@@ -151,11 +154,12 @@ public class BeamMeshBuilder {
 							Point p3 = extrusion.end.start;
 							quad(
 								emitter,
-								x1 + p0.x, x1 + p1.x, x2 + p2.x, x2 + p3.x,
-								y1 + p0.y, y1 + p1.y, y2 + p2.y, y2 + p3.y,
-								z1 + p0.z, z1 + p1.z, z2 + p2.z, z2 + p3.z,
+								centerX + p0.x, centerX + p1.x, centerX + p2.x, centerX + p3.x,
+								centerY + p0.y, centerY + p1.y, centerY + p2.y, centerY + p3.y,
+								centerZ + p0.z, centerZ + p1.z, centerZ + p2.z, centerZ + p3.z,
 								0.0F, 1.0F, containsAdjacents ? 0.125F : 0.0F, containsAdjacents ? 0.25F : 0.125F,
 								red, green, blue, 1.0F,
+								extrusion.normal.x, extrusion.normal.y, extrusion.normal.z,
 								sprite
 							);
 						}
@@ -179,56 +183,62 @@ public class BeamMeshBuilder {
 					averageColor.reset();
 					if ((faceFlags & Directions.POSITIVE_Y.flag()) != 0) quad(
 						emitter,
-						x1 - r, x1 - r, x1 + r, x1 + r,
-						y1 + r, y1 + r, y1 + r, y1 + r,
-						z1 - r, z1 + r, z1 + r, z1 - r,
+						centerX - r, centerX - r, centerX + r, centerX + r,
+						centerY + r, centerY + r, centerY + r, centerY + r,
+						centerZ - r, centerZ + r, centerZ + r, centerZ - r,
 						0.0F, 0.125F, 0.875F, 1.0F,
 						red, green, blue, 1.0F,
+						0.0F, 1.0F, 0.0F,
 						sprite
 					);
 					if ((faceFlags & Directions.NEGATIVE_Y.flag()) != 0) quad(
 						emitter,
-						x1 - r, x1 - r, x1 + r, x1 + r,
-						y1 - r, y1 - r, y1 - r, y1 - r,
-						z1 + r, z1 - r, z1 - r, z1 + r,
+						centerX - r, centerX - r, centerX + r, centerX + r,
+						centerY - r, centerY - r, centerY - r, centerY - r,
+						centerZ + r, centerZ - r, centerZ - r, centerZ + r,
 						0.0F, 0.125F, 0.875F, 1.0F,
 						red, green, blue, 1.0F,
+						0.0F, -1.0F, 0.0F,
 						sprite
 					);
 					if ((faceFlags & Directions.POSITIVE_X.flag()) != 0) quad(
 						emitter,
-						x1 + r, x1 + r, x1 + r, x1 + r,
-						y1 + r, y1 - r, y1 - r, y1 + r,
-						z1 + r, z1 + r, z1 - r, z1 - r,
+						centerX + r, centerX + r, centerX + r, centerX + r,
+						centerY + r, centerY - r, centerY - r, centerY + r,
+						centerZ + r, centerZ + r, centerZ - r, centerZ - r,
 						0.0F, 0.125F, 0.875F, 1.0F,
 						red, green, blue, 1.0F,
+						1.0F, 0.0F, 0.0F,
 						sprite
 					);
 					if ((faceFlags & Directions.NEGATIVE_X.flag()) != 0) quad(
 						emitter,
-						x1 - r, x1 - r, x1 - r, x1 - r,
-						y1 + r, y1 - r, y1 - r, y1 + r,
-						z1 - r, z1 - r, z1 + r, z1 + r,
+						centerX - r, centerX - r, centerX - r, centerX - r,
+						centerY + r, centerY - r, centerY - r, centerY + r,
+						centerZ - r, centerZ - r, centerZ + r, centerZ + r,
 						0.0F, 0.125F, 0.875F, 1.0F,
 						red, green, blue, 1.0F,
+						-1.0F, 0.0F, 0.0F,
 						sprite
 					);
 					if ((faceFlags & Directions.POSITIVE_Z.flag()) != 0) quad(
 						emitter,
-						x1 - r, x1 - r, x1 + r, x1 + r,
-						y1 + r, y1 - r, y1 - r, y1 + r,
-						z1 + r, z1 + r, z1 + r, z1 + r,
+						centerX - r, centerX - r, centerX + r, centerX + r,
+						centerY + r, centerY - r, centerY - r, centerY + r,
+						centerZ + r, centerZ + r, centerZ + r, centerZ + r,
 						0.0F, 0.125F, 0.875F, 1.0F,
 						red, green, blue, 1.0F,
+						0.0F, 0.0F, 1.0F,
 						sprite
 					);
 					if ((faceFlags & Directions.NEGATIVE_Z.flag()) != 0) quad(
 						emitter,
-						x1 + r, x1 + r, x1 - r, x1 - r,
-						y1 + r, y1 - r, y1 - r, y1 + r,
-						z1 - r, z1 - r, z1 - r, z1 - r,
+						centerX + r, centerX + r, centerX - r, centerX - r,
+						centerY + r, centerY - r, centerY - r, centerY + r,
+						centerZ - r, centerZ - r, centerZ - r, centerZ - r,
 						0.0F, 0.125F, 0.875F, 1.0F,
 						red, green, blue, 1.0F,
+						0.0F, 0.0F, -1.0F,
 						sprite
 					);
 				}
@@ -272,6 +282,7 @@ public class BeamMeshBuilder {
 		float z0, float z1, float z2, float z3,
 		float u0, float u1, float v0, float v1,
 		float r,  float g,  float b,  float a,
+		float nx, float ny, float nz,
 		Sprite sprite
 	) {
 		float lerpedU0 = MathHelper.lerp(u0, sprite.minU, sprite.maxU);
@@ -297,6 +308,10 @@ public class BeamMeshBuilder {
 		.color(1, color)
 		.color(2, color)
 		.color(3, color)
+		.normal(0, nx, ny, nz)
+		.normal(1, nx, ny, nz)
+		.normal(2, nx, ny, nz)
+		.normal(3, nx, ny, nz)
 		.lightmap(0, 0xF000F0)
 		.lightmap(1, 0xF000F0)
 		.lightmap(2, 0xF000F0)
@@ -320,15 +335,46 @@ public class BeamMeshBuilder {
 		public float dot(BeamDirection direction) {
 			return this.x * direction.x + this.y * direction.y + this.z * direction.z;
 		}
+
+		public Point offset(float x, float y, float z) {
+			return new Point(this.x + x, this.y + y, this.z + z);
+		}
 	}
 	public static record Line(Point start, Point end) {
 
 		public Line flip() {
 			return new Line(this.end, this.start);
 		}
+
+		public Line offset(float x, float y, float z) {
+			return new Line(this.start.offset(x, y, z), this.end.offset(x, y, z));
+		}
 	}
 
-	public static record Extrusion(Line start, Line end) {}
+	public static record Extrusion(Line start, Line end, Point normal) {
+
+		public Extrusion(Line start, Line end) {
+			this(start, end, computeNormal(start, end));
+		}
+
+		public static Point computeNormal(Line start, Line end) {
+			float
+				x1 = start.end.x - start.start.x,
+				y1 = start.end.y - start.start.y,
+				z1 = start.end.z - start.start.z,
+				x2 = end.start.x - start.start.x,
+				y2 = end.start.y - start.start.y,
+				z2 = end.start.z - start.start.z,
+				//x  y  z
+				//x1 y1 z1
+				//x2 y2 z2
+				crossX = y1 * z2 - z1 * y2,
+				crossY = z1 * x2 - x1 * z2,
+				crossZ = x1 * y2 - y1 * x2,
+				scalar = (float)(1.0D / Math.sqrt(crossX * crossX + crossY * crossY + crossZ * crossZ));
+			return new Point(crossX * scalar, crossY * scalar, crossZ * scalar);
+		}
+	}
 
 	public static Point[] computeCorners() {
 		Point[] corners = new Point[8];

@@ -45,7 +45,7 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 						)
 					)
 				)
-				.transform(matrices.peek().positionMatrix, matrices.peek().normalMatrix)
+				.transform(matrices.peek())
 				.textureScale(TEXTURE_SCALE_X, TEXTURE_SCALE_Y)
 				.lightmap(light)
 			);
@@ -82,21 +82,21 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 		helper.quad(-14, -14,  14,  14,     1,  1,  1,  1,      8, -15, -15,   8,      0,  28,  31,  54,     0, -1,  0); //bottom
 		helper.quad(-14, -14,  14,  14,    31,  1,  1, 31,      8,   8,   8,   8,     24,  52,   0,  30,     0,  0,  1); //front
 		helper.quad( 14,  14, -14, -14,    31,  1,  1, 31,    -15, -15, -15, -15,     77, 105,   0,  30,     0,  0, -1); //back
-		helper.quad( 14,  14,  14,  14,    31,  7,  7, 31,      8,   8, -15, -15,     53,  76,   0,  24,    -1,  0,  0); //left
-		helper.quad(-14, -14, -14, -14,    31,  7,  7, 31,    -15, -15,   8,   8,      0,  23,   0,  24,     1,  0,  0); //right
+		helper.quad( 14,  14,  14,  14,    31,  7,  7, 31,      8,   8, -15, -15,     53,  76,   0,  24,     1,  0,  0); //left
+		helper.quad(-14, -14, -14, -14,    31,  7,  7, 31,    -15, -15,   8,   8,      0,  23,   0,  24,    -1,  0,  0); //right
 
 		//left wheels
-		helper.quad( 15,  15,  15,  15,     7,  0,  0,  7,      8,   8, -15, -15,     77, 100, 111, 118,    -1,  0,  0); //left
+		helper.quad( 15,  15,  15,  15,     7,  0,  0,  7,      8,   8, -15, -15,     77, 100, 111, 118,     1,  0,  0); //left
 		helper.quad( 15,  15,  14,  14,     7,  0,  0,  7,    -15, -15, -15, -15,    101, 102, 111, 118,     0,  0, -1); //back
-		helper.quad( 14,  14,  14,  14,     1,  0,  0,  1,    -15, -15,   8,   8,    103, 126, 117, 118,     1,  0,  0); //right
+		helper.quad( 14,  14,  14,  14,     1,  0,  0,  1,    -15, -15,   8,   8,    103, 126, 117, 118,    -1,  0,  0); //right
 		helper.quad( 14,  14,  15,  15,     7,  0,  0,  7,      8,   8,   8,   8,    127, 128, 111, 118,     0,  0,  1); //front
 		helper.quad( 14,  15,  15,  14,     7,  7,  7,  7,      8,   8, -15, -15,     77, 100, 109, 110,     0,  1,  0); //top
 		helper.quad( 15,  14,  14,  15,     0,  0,  0,  0,      8,   8, -15, -15,    103, 126, 109, 110,     0, -1,  0); //bottom
 
 		//right wheels
-		helper.quad(-15, -15, -15, -15,     7,  0,  0,  7,    -15, -15,   8,   8,     77, 100, 121, 128,     1,  0,  0); //right
+		helper.quad(-15, -15, -15, -15,     7,  0,  0,  7,    -15, -15,   8,   8,     77, 100, 121, 128,    -1,  0,  0); //right
 		helper.quad(-15, -15, -14, -14,     7,  0,  0,  7,      8,   8,   8,   8,    101, 102, 121, 128,     0,  0,  1); //front
-		helper.quad(-14, -14, -14, -14,     1,  0,  0,  1,      8,   8, -15, -15,    103, 126, 127, 128,    -1,  0,  0); //left
+		helper.quad(-14, -14, -14, -14,     1,  0,  0,  1,      8,   8, -15, -15,    103, 126, 127, 128,     1,  0,  0); //left
 		helper.quad(-14, -14, -15, -15,     7,  0,  0,  7,    -15, -15, -15, -15,    127, 128, 121, 128,     0,  0, -1); //back
 		helper.quad(-14, -15, -15, -14,     7,  7,  7,  7,    -15, -15,   8,   8,     77, 100, 119, 120,     0,  1,  0); //top
 		helper.quad(-15, -14, -14, -15,     0,  0,  0,  0,    -15, -15,   8,   8,    103, 126, 119, 120,     0, -1,  0); //bottom
@@ -105,8 +105,8 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 	public void renderMainInner(EntityRenderHelper helper) {
 		//main interior
 		helper.quad( 14,  14, -14, -14,    31,  1,  1, 31,      8,   8,   8,   8,     24,  52,  55,  85,     0,  0, -1); //front
-		helper.quad( 14,  14,  14,  14,    31,  1,  1, 31,    -15, -15,   8,   8,      0,  23,  55,  85,     1,  0,  0); //left door
-		helper.quad(-14, -14, -14, -14,    31,  1,  1, 31,      8,   8, -15, -15,     53,  76,  55,  85,    -1,  0,  0); //right door
+		helper.quad( 14,  14,  14,  14,    31,  1,  1, 31,    -15, -15,   8,   8,      0,  23,  55,  85,    -1,  0,  0); //left door
+		helper.quad(-14, -14, -14, -14,    31,  1,  1, 31,      8,   8, -15, -15,     53,  76,  55,  85,     1,  0,  0); //right door
 		helper.quad(-14, -14,  14,  14,    31, 31, 31, 31,      8, -15, -15,   8,     58,  86,  31,  54,     0, -1,  0); //ceiling
 		helper.quad(-14, -14,  14,  14,    31, 21, 21, 31,    -15, -15, -15, -15,     97, 125,  31,  41,     0,  0,  1); //back wall
 		helper.quad(-14, -14,  14,  14,    21, 21, 21, 21,    -15, -11, -11, -15,     97, 125,  42,  46,     0,  1,  0); //top of chair
@@ -115,48 +115,48 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 		helper.quad(-14, -14,  14,  14,     9,  1,  1,  9,     -3,  -3,  -3,  -3,     97, 125,  69,  77,     0,  0,  1); //front of foot area
 		helper.quad(-14, -14,  14,  14,     1,  1,  1,  1,     -3,   8,   8,  -3,     97, 125,  78,  89,     0,  1,  0); //bottom of foot area
 		helper.quad( -2,   2,   2,  -2,    13, 13, 13, 13,      8,   8, -11, -11,     77,  96,  68,  72,     0,  1,  0); //top of arm rest
-		helper.quad(  2,   2,   2,   2,    13,  1,  1, 13,      8,   8, -11, -11,     77,  96,  73,  85,    -1,  0,  0); //left side of arm rest
-		helper.quad( -2,  -2,  -2,  -2,     1, 13, 13,  1,      8,   8, -11, -11,     77,  96,  55,  67,     1,  0,  0); //right side of arm rest
+		helper.quad(  2,   2,   2,   2,    13,  1,  1, 13,      8,   8, -11, -11,     77,  96,  73,  85,     1,  0,  0); //left side of arm rest
+		helper.quad( -2,  -2,  -2,  -2,     1, 13, 13,  1,      8,   8, -11, -11,     77,  96,  55,  67,    -1,  0,  0); //right side of arm rest
 
 		//left head rest, pillow
 		helper.quad(  5,   5,  11,  11,    27, 23, 23, 27,    -11, -11, -11, -11,     88,  94, 101, 105,     0,  0,  1); //front
-		helper.quad( 11,  11,  11,  11,    27, 23, 23, 27,    -11, -11, -14, -14,     95,  98, 101, 105,    -1,  0,  0); //left
+		helper.quad( 11,  11,  11,  11,    27, 23, 23, 27,    -11, -11, -14, -14,     95,  98, 101, 105,     1,  0,  0); //left
 		helper.quad( 11,  11,   5,   5,    27, 23, 23, 27,    -14, -14, -14, -14,     77,  83, 101, 105,     0,  0, -1); //back
-		helper.quad(  5,   5,   5,   5,    27, 23, 23, 27,    -14, -14, -11, -11,     84,  87, 101, 105,     1,  0,  0); //right
+		helper.quad(  5,   5,   5,   5,    27, 23, 23, 27,    -14, -14, -11, -11,     84,  87, 101, 105,    -1,  0,  0); //right
 		helper.quad(  5,   5,  11,  11,    27, 27, 27, 27,    -14, -11, -11, -14,     77,  83,  97, 100,     0,  1,  0); //top
 		helper.quad(  5,   5,  11,  11,    23, 23, 23, 23,    -11, -14, -14, -11,     88,  94,  97, 100,     0, -1,  0); //bottom
 
 		//left head rest, left bar
 		helper.quad( 10,  10,   9,   9,    23, 21, 21, 23,    -13, -13, -13, -13,     77,  78, 106, 108,     0,  0, -1); //back
-		helper.quad(  9,   9,   9,   9,    23, 21, 21, 23,    -13, -13, -12, -12,     79,  80, 106, 108,     1,  0,  0); //right
+		helper.quad(  9,   9,   9,   9,    23, 21, 21, 23,    -13, -13, -12, -12,     79,  80, 106, 108,    -1,  0,  0); //right
 		helper.quad(  9,   9,  10,  10,    23, 21, 21, 23,    -12, -12, -12, -12,     81,  82, 106, 108,     0,  0,  1); //front
-		helper.quad( 10,  10,  10,  10,    23, 21, 21, 23,    -12, -12, -13, -13,     83,  84, 106, 108,    -1,  0,  0); //left
+		helper.quad( 10,  10,  10,  10,    23, 21, 21, 23,    -12, -12, -13, -13,     83,  84, 106, 108,    1,  0,  0); //left
 
 		//left head rest, right bar
 		helper.quad(  7,   7,   6,   6,    23, 21, 21, 23,    -13, -13, -13, -13,     88,  89, 106, 108,     0,  0, -1); //back
-		helper.quad(  6,   6,   6,   6,    23, 21, 21, 23,    -13, -13, -12, -12,     90,  91, 106, 108,     1,  0,  0); //right
+		helper.quad(  6,   6,   6,   6,    23, 21, 21, 23,    -13, -13, -12, -12,     90,  91, 106, 108,    -1,  0,  0); //right
 		helper.quad(  6,   6,   7,   7,    23, 21, 21, 23,    -12, -12, -12, -12,     92,  93, 106, 108,     0,  0,  1); //front
-		helper.quad(  7,   7,   7,   7,    23, 21, 21, 23,    -12, -12, -13, -13,     94,  95, 106, 108,    -1,  0,  0); //left
+		helper.quad(  7,   7,   7,   7,    23, 21, 21, 23,    -12, -12, -13, -13,     94,  95, 106, 108,     1,  0,  0); //left
 
 		//right head rest, pillow
 		helper.quad(-11, -11,  -5,  -5,    27, 23, 23, 27,    -11, -11, -11, -11,    114, 120, 101, 105,     0,  0,  1); //front
-		helper.quad( -5,  -5,  -5,  -5,    27, 23, 23, 27,    -11, -11, -14, -14,    121, 124, 101, 105,    -1,  0,  0); //left
+		helper.quad( -5,  -5,  -5,  -5,    27, 23, 23, 27,    -11, -11, -14, -14,    121, 124, 101, 105,     1,  0,  0); //left
 		helper.quad( -5,  -5, -11, -11,    27, 23, 23, 27,    -14, -14, -14, -14,    103, 109, 101, 105,     0,  0, -1); //back
-		helper.quad(-11, -11, -11, -11,    27, 23, 23, 27,    -14, -14, -11, -11,    110, 113, 101, 105,     1,  0,  0); //right
+		helper.quad(-11, -11, -11, -11,    27, 23, 23, 27,    -14, -14, -11, -11,    110, 113, 101, 105,    -1,  0,  0); //right
 		helper.quad(-11, -11,  -5,  -5,    27, 27, 27, 27,    -14, -11, -11, -14,    103, 109,  97, 100,     0,  1,  0); //top
 		helper.quad(-11, -11,  -5,  -5,    23, 23, 23, 23,    -11, -14, -14, -11,    114, 120,  97, 100,     0, -1,  0); //bottom
 
 		//right head rest, left bar
 		helper.quad( -6,  -6,  -7,  -7,    23, 21, 21, 23,    -13, -13, -13, -13,    103, 104, 106, 108,     0,  0, -1); //back
-		helper.quad( -7,  -7,  -7,  -7,    23, 21, 21, 23,    -13, -13, -12, -12,    105, 106, 106, 108,     1,  0,  0); //right
+		helper.quad( -7,  -7,  -7,  -7,    23, 21, 21, 23,    -13, -13, -12, -12,    105, 106, 106, 108,    -1,  0,  0); //right
 		helper.quad( -7,  -7,  -6,  -6,    23, 21, 21, 23,    -12, -12, -12, -12,    107, 108, 106, 108,     0,  0,  1); //front
-		helper.quad( -6,  -6,  -6,  -6,    23, 21, 21, 23,    -12, -12, -13, -13,    109, 110, 106, 108,    -1,  0,  0); //left
+		helper.quad( -6,  -6,  -6,  -6,    23, 21, 21, 23,    -12, -12, -13, -13,    109, 110, 106, 108,     1,  0,  0); //left
 
 		//right head rest, right bar
 		helper.quad( -9,  -9, -10, -10,    23, 21, 21, 23,    -13, -13, -13, -13,    114, 115, 106, 108,     0,  0, -1); //back
-		helper.quad(-10, -10, -10, -10,    23, 21, 21, 23,    -13, -13, -12, -12,    116, 117, 106, 108,     1,  0,  0); //right
+		helper.quad(-10, -10, -10, -10,    23, 21, 21, 23,    -13, -13, -12, -12,    116, 117, 106, 108,    -1,  0,  0); //right
 		helper.quad(-10, -10,  -9,  -9,    23, 21, 21, 23,    -12, -12, -12, -12,    118, 119, 106, 108,     0,  0,  1); //front
-		helper.quad( -9,  -9,  -9,  -9,    23, 21, 21, 23,    -12, -12, -13, -13,    120, 121, 106, 108,    -1,  0,  0); //left
+		helper.quad( -9,  -9,  -9,  -9,    23, 21, 21, 23,    -12, -12, -13, -13,    120, 121, 106, 108,     1,  0,  0); //left
 	}
 
 	public void renderScoop(EntityRenderHelper helper) {
@@ -192,8 +192,8 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 
 			helper.quad(-15, -15,  15,  15,    i2, i1, i1, i2,    topFront, bottomFront, bottomFront, topFront,     0, 30, minV, maxV,     0,  run,  rise); //front
 			helper.quad( 15,  15, -15, -15,    i2, i1, i1, i2,    topBack,  bottomBack,  bottomBack,  topBack,     33, 63, minV, maxV,     0, -run, -rise); //back
-			helper.quad( 15,  15,  15,  15,    i2, i1, i1, i2,    topFront, bottomFront, bottomBack,  topBack,     31, 32, minV, maxV,    -1, 0, 0); //left
-			helper.quad(-15, -15, -15, -15,    i2, i1, i1, i2,    topBack,  bottomBack,  bottomFront, topFront,    64, 65, minV, maxV,     1, 0, 0); //right
+			helper.quad( 15,  15,  15,  15,    i2, i1, i1, i2,    topFront, bottomFront, bottomBack,  topBack,     31, 32, minV, maxV,     1, 0, 0); //left
+			helper.quad(-15, -15, -15, -15,    i2, i1, i1, i2,    topBack,  bottomBack,  bottomFront, topFront,    64, 65, minV, maxV,    -1, 0, 0); //right
 			i1 = i2;
 		}
 
