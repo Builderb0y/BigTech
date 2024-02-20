@@ -204,6 +204,10 @@ public class FunctionalItems {
 	public static final BlockItem LONG_RANGE_DESTROYER = BigTechItems.registerPlacer(
 		FunctionalBlocks.LONG_RANGE_DESTROYER
 	);
+	@UseDataGen(IgnitorBeamDataGenerator.class)
+	public static final BlockItem IGNITOR_BEAM = BigTechItems.registerPlacer(
+		FunctionalBlocks.IGNITOR_BEAM
+	);
 	@UseDataGen(MirrorDataGenerator.class)
 	public static final BlockItem MIRROR = BigTechItems.registerPlacer(
 		FunctionalBlocks.MIRROR

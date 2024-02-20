@@ -67,7 +67,8 @@ public class BigTechBlockEntityTypes {
 	public static final BlockEntityType<IgnitorBlockEntity> IGNITOR = register(
 		"ignitor",
 		IgnitorBlockEntity::new,
-		FunctionalBlocks.IGNITOR
+		FunctionalBlocks.IGNITOR,
+		FunctionalBlocks.IGNITOR_BEAM
 	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {

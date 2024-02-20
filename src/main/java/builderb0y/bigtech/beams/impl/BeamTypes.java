@@ -11,7 +11,8 @@ public class BeamTypes {
 		REDSTONE  = register("redstone",   RedstoneBeam::new),
 		DESTROYER = register("destroyer", DestroyerBeam::new),
 		TRIPWIRE  = register("tripwire",   TripwireBeam::new),
-		SPOTLIGHT = register("spotlight", SpotlightBeam::new);
+		SPOTLIGHT = register("spotlight", SpotlightBeam::new),
+		IGNITOR   = register("ignitor",     IgnitorBeam::new);
 
 	public static void init() {}
 

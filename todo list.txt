@@ -54,7 +54,6 @@ features:
 	lasers:
 		lightning transmitter: on lightning pulse, emits a beam
 		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
-		thermal discouragement beam: ignites entities that touch the beam
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:
@@ -63,7 +62,6 @@ features:
 			stone: keeps its inventory when you close the GUI
 			iron: basically a placeable version of the techno crafter
 		deployer: places blocks.
-		ignitor: smelts items on top of it, sets entities on fire
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
 		spawner jammer: disables spawners unless powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
@@ -121,6 +119,7 @@ done:
 		beam interceptor: detects a laser passing through the block
 		tripwire beam: emits a redstone signal when an entity touches the beam
 		spotlight: illuminates every block the beam goes through
+		thermal discouragement beam: ignites entities that touch the beam
 		crystal clusters:
 			boosts the distance of lasers passing through it
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
@@ -135,6 +134,7 @@ done:
 	automation:
 		destroyer: breaks blocks and ejects them out the back. can destroy entire trees at once.
 			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.
+		ignitor: smelts items on top of it, sets entities on fire
 		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
 
 canceled:

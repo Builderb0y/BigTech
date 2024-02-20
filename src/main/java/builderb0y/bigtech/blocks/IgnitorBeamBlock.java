@@ -5,11 +5,21 @@ import java.util.UUID;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -18,19 +28,53 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
+import builderb0y.bigtech.beams.impl.IgnitorBeam;
 import builderb0y.bigtech.beams.impl.RedstoneBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
+import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
+import builderb0y.bigtech.blockEntities.IgnitorBlockEntity;
 import builderb0y.bigtech.util.Directions;
+import builderb0y.bigtech.util.WorldHelper;
 
-public class RedstoneTransmitterBlock extends BeamBlock {
+public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
 
-	public RedstoneTransmitterBlock(Settings settings) {
+	public IgnitorBeamBlock(Settings settings) {
 		super(settings);
 		this.defaultState = (
-			this.defaultState
+			this
+			.defaultState
 			.with(Properties.POWERED, Boolean.FALSE)
-			.with(Properties.WATERLOGGED, Boolean.FALSE)
+			.with(Properties.LIT, Boolean.FALSE)
 		);
+	}
+
+	@Override
+	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new IgnitorBlockEntity(pos, state);
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return world.isClient ? null : IgnitorBlockEntity.SERVER_TICKER.as();
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!world.isClient) {
+			NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
+			if (factory != null) player.openHandledScreen(factory);
+		}
+		return ActionResult.SUCCESS;
+	}
+
+	@Override
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+		return world.getBlockEntity(pos) instanceof IgnitorBlockEntity blockEntity ? blockEntity : null;
 	}
 
 	public boolean shouldBePowered(RedstoneView world, BlockPos pos) {
@@ -48,8 +92,8 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
 		if (oldBeam != null) oldBeam.removeFromWorld();
-		if (state.get(Properties.POWERED)) {
-			PersistentBeam newBeam = new RedstoneBeam(world, UUID.randomUUID());
+		if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
+			PersistentBeam newBeam = new IgnitorBeam(world, UUID.randomUUID());
 			newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		}
 		return false;
@@ -84,8 +128,8 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
-		if (state.get(Properties.POWERED)) {
-			PersistentBeam beam = new RedstoneBeam(world, UUID.randomUUID());
+		if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
+			PersistentBeam beam = new IgnitorBeam(world, UUID.randomUUID());
 			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		}
 	}
@@ -94,6 +138,10 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (!BigTechBlockEntityTypes.IGNITOR.supports(newState)) {
+			IgnitorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
+			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
+		}
 		super.onStateReplaced(state, world, pos, newState, moved);
 		if (state.get(Properties.POWERED)) {
 			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
@@ -113,6 +161,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
-		builder.add(Properties.POWERED);
+		builder.add(Properties.POWERED, Properties.LIT);
 	}
 }

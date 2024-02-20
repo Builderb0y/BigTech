@@ -343,6 +343,18 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final IgnitorBeamBlock IGNITOR_BEAM = BigTechBlocks.register(
+		"ignitor_beam",
+		new IgnitorBeamBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.STONE_GRAY)
+			.requiresTool()
+			.strength(3.0F)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final MirrorBlock MIRROR = BigTechBlocks.register(
 		"mirror",
 		new MirrorBlock(

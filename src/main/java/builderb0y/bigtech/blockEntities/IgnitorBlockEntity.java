@@ -29,6 +29,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.IgnitorScreenHandler;
@@ -58,14 +59,21 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 		this.world.setBlockState(this.pos, this.cachedState.with(Properties.LIT, lit));
 	}
 
+	public boolean shouldKeepBurning() {
+		return this.cachedState.isOf(FunctionalBlocks.IGNITOR_BEAM) && this.cachedState.get(Properties.POWERED);
+	}
+
 	public void serverTick() {
 		int time = this.remainingBurnTime.get();
 		if (time > 0) {
 			this.remainingBurnTime.set(--time);
-			if (time == 0) {
+			if (time == 0 && !(this.shouldKeepBurning() && this.refuel(1))) {
 				this.setLit(false);
 			}
 			this.markDirty();
+		}
+		else if (this.shouldKeepBurning() && this.refuel(1)) {
+			this.setLit(true);
 		}
 	}
 
