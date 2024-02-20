@@ -48,7 +48,6 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 
 	public IgnitorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
-		this.totalBurnTime.set(1);
 	}
 
 	public IgnitorBlockEntity(BlockPos pos, BlockState state) {
@@ -66,6 +65,7 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 			if (time == 0) {
 				this.setLit(false);
 			}
+			this.markDirty();
 		}
 	}
 
@@ -195,11 +195,15 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	public void writeNbt(NbtCompound nbt) {
 		super.writeNbt(nbt);
 		nbt.put("stack", this.stack.writeNbt(new NbtCompound()));
+		nbt.putInt("fuel", this.remainingBurnTime.get());
+		nbt.putInt("maxFuel", this.remainingBurnTime.get());
 	}
 
 	@Override
 	public void readNbt(NbtCompound nbt) {
 		super.readNbt(nbt);
 		this.stack = ItemStack.fromNbt(nbt.getCompound("stack"));
+		this.remainingBurnTime.set(nbt.getInt("fuel"));
+		this.remainingBurnTime.set(nbt.getInt("maxFuel"));
 	}
 }
