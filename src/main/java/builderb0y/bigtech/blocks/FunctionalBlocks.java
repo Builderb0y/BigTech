@@ -8,6 +8,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
 
 public class FunctionalBlocks {
 
@@ -113,6 +114,16 @@ public class FunctionalBlocks {
 		)
 	);
 
+	//////////////////////////////// automation ////////////////////////////////
+
+	@UseDataGen(void.class)
+	public static final IgnitorBlock IGNITOR = BigTechBlocks.register(
+		"ignitor",
+		new IgnitorBlock(
+			AbstractBlock.Settings.copy(Blocks.FURNACE)
+		)
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(void.class)
@@ -122,7 +133,7 @@ public class FunctionalBlocks {
 			AbstractBlock
 			.Settings
 			.create()
-			.mapColor(state -> state.get(Properties.FACING) == Direction.UP ? MapColor.BRIGHT_RED : MapColor.STONE_GRAY)
+			.mapColor((BlockState state) -> state.get(Properties.FACING) == Direction.UP ? MapColor.BRIGHT_RED : MapColor.STONE_GRAY)
 			.strength(3.0F, 6.0F)
 			.requiresTool()
 		)
@@ -134,7 +145,7 @@ public class FunctionalBlocks {
 			AbstractBlock
 			.Settings
 			.create()
-			.mapColor(state -> state.get(Properties.FACING) == Direction.UP ? MapColor.PALE_GREEN : MapColor.STONE_GRAY)
+			.mapColor((BlockState state) -> state.get(Properties.FACING) == Direction.UP ? MapColor.PALE_GREEN : MapColor.STONE_GRAY)
 			.strength(3.0F, 6.0F)
 			.requiresTool(),
 			false
@@ -147,7 +158,7 @@ public class FunctionalBlocks {
 			AbstractBlock
 			.Settings
 			.create()
-			.mapColor(state -> state.get(Properties.FACING) == Direction.UP ? MapColor.ORANGE : MapColor.STONE_GRAY)
+			.mapColor((BlockState state) -> state.get(Properties.FACING) == Direction.UP ? MapColor.ORANGE : MapColor.STONE_GRAY)
 			.strength(3.0F, 6.0F)
 			.requiresTool(),
 			true
@@ -229,7 +240,7 @@ public class FunctionalBlocks {
 	@UseDataGen(void.class)
 	public static final CrystalClusterBlockCollection CRYSTAl_ClUSTERS = new CrystalClusterBlockCollection(
 		true,
-		color -> {
+		(CrystalClusterColor color) -> {
 			return new CrystalClusterBlock(
 				AbstractBlock
 				.Settings
@@ -242,7 +253,7 @@ public class FunctionalBlocks {
 				.solidBlock(Blocks::never)
 				.suffocates(Blocks::never)
 				.blockVision(Blocks::never)
-				.luminance(state -> 7),
+				.luminance((BlockState state) -> 7),
 				color
 			);
 		}

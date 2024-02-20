@@ -82,6 +82,13 @@ public class FunctionalItems {
 		)
 	);
 
+	//////////////////////////////// automation ////////////////////////////////
+
+	@UseDataGen(IgnitorDataGenerator.class)
+	public static final BlockItem IGNITOR = BigTechItems.registerPlacer(
+		FunctionalBlocks.IGNITOR
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)

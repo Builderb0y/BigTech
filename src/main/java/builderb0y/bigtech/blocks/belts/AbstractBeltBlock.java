@@ -60,6 +60,11 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 		if (this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity)) {
 			this.move(world, pos, state, entity);
 		}
+		BlockPos downPos = pos.down();
+		BlockState downState = world.getBlockState(downPos);
+		if (!(downState.getBlock() instanceof AbstractBeltBlock)) {
+			downState.onEntityCollision(world, downPos, entity);
+		}
 	}
 
 	@Override

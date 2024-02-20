@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
-import builderb0y.bigtech.beams.impl.RedstoneBeam;
 import builderb0y.bigtech.beams.impl.SpotlightBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
@@ -113,7 +112,7 @@ public class SpotlightBlock extends Block {
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(Properties.FACING, Properties.POWERED);
 	}

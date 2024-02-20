@@ -23,7 +23,7 @@ public class InjectorBeltBlock extends DirectionalBeltBlock {
 
 	@Override
 	public void move(World world, BlockPos pos, BlockState state, Entity entity) {
-		if (!this.tryStoreInBlocks(world, pos, state, entity)) {
+		if (world.isClient || !this.tryStoreInBlocks(world, pos, state, entity)) {
 			super.move(world, pos, state, entity);
 		}
 	}

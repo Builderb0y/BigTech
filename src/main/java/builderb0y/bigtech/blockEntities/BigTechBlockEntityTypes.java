@@ -64,6 +64,11 @@ public class BigTechBlockEntityTypes {
 		FunctionalBlocks.SMALL_LIGHTNING_JAR,
 		FunctionalBlocks.LARGE_LIGHTNING_JAR
 	);
+	public static final BlockEntityType<IgnitorBlockEntity> IGNITOR = register(
+		"ignitor",
+		IgnitorBlockEntity::new,
+		FunctionalBlocks.IGNITOR
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

@@ -1,0 +1,9 @@
+{
+	"parent": "minecraft:block/orientable_with_bottom",
+	"textures": {
+		"side":   "bigtech:block/ignitor_side",
+		"front":  "bigtech:block/ignitor_front",
+		"top":    "bigtech:block/ignitor_top",
+		"bottom": "minecraft:block/smooth_stone"
+	}
+}

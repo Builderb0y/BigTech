@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"did",
+		"d d",
+		"ddd"
+	],
+	"key": {
+		"d": { "item": "minecraft:cobbled_deepslate" },
+		"i": { "item": "minecraft:iron_bars"         }
+	},
+	"result": {
+		"item": "bigtech:ignitor"
+	}
+}

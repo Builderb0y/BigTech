@@ -139,3 +139,7 @@ done:
 
 canceled:
 	lightning rod: already in vanilla.
+
+when updating to MC 1.20.4/5:
+	there is apparently an attribute for player reach distance now.
+		use this in all implementations of Inventory.canPlayerUse().

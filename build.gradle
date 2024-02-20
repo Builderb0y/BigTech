@@ -54,7 +54,7 @@ dependencies() {
 	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.3.0'))
 
 	//manifold
-	String manifoldVersion = '2023.1.31'
+	String manifoldVersion = '2024.1.1'
 	annotationProcessor("systems.manifold:manifold-strings:$manifoldVersion")
 	for (String name : [ 'ext', 'props', 'tuple' ]) {
 		annotationProcessor("systems.manifold:manifold-$name:$manifoldVersion")

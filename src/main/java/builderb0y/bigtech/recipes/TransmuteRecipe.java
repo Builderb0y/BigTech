@@ -19,13 +19,11 @@ import net.minecraft.util.collection.Weighting;
 import net.minecraft.world.World;
 
 import builderb0y.autocodec.annotations.*;
-import builderb0y.autocodec.coders.AutoCoder;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.items.FunctionalItems;
 
 public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 
-	public static final AutoCoder<ItemStack> ITEM_STACK_CODER = BigTechAutoCodec.AUTO_CODEC.wrapDFUCodec(RecipeCodecs.CRAFTING_RESULT, false);
 	public static final Codec<TransmuteRecipe> CODEC = BigTechAutoCodec.AUTO_CODEC.createDFUCodec(TransmuteRecipe.class);
 
 	public final Ingredient input;

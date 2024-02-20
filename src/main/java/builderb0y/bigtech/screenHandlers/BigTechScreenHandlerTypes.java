@@ -33,6 +33,11 @@ public class BigTechScreenHandlerTypes {
 		"miner",
 		MinerScreenHandler::new
 	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final ScreenHandlerType<IgnitorScreenHandler> IGNITOR = register(
+		"ignitor",
+		IgnitorScreenHandler::new
+	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {
 		return Registry.register(Registries.SCREEN_HANDLER, BigTechMod.modID(name), new ScreenHandlerType<>(factory, FeatureSet.empty()));

@@ -76,4 +76,16 @@ public abstract class DamageTypeDataGenerator implements LocalizedDataGenerator 
 			return "%1\$s stood too close to a tesla coil";
 		}
 	}
+
+	public static class Ignitor extends DamageTypeDataGenerator {
+
+		public Ignitor(RegistryKey<DamageType> key) {
+			super(key, DamageTypeTags.IS_FIRE);
+		}
+
+		@Override
+		public String getLangValue(DataGenContext context) {
+			return "%1\$s got ignited";
+		}
+	}
 }

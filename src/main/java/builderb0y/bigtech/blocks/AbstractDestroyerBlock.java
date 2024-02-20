@@ -18,7 +18,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.AbstractDestroyerBlockEntity;
-import builderb0y.bigtech.blockEntities.LongRangeDestroyerBlockEntity;
 import builderb0y.bigtech.util.WorldHelper;
 
 public abstract class AbstractDestroyerBlock extends Block implements BlockEntityProvider {

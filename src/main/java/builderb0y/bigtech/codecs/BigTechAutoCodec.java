@@ -77,5 +77,12 @@ public class BigTechAutoCodec {
 				}
 			};
 		}
+
+		/*
+		@Override
+		public @NotNull TaskLogger createFactoryLogger(@NotNull ReentrantLock lock) {
+			return new IndentedTaskLogger(lock, Printer.SYSTEM, true);
+		}
+		*/
 	};
 }
