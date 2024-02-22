@@ -1,5 +1,7 @@
 package builderb0y.bigtech.screenHandlers;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -38,9 +40,18 @@ public class BigTechScreenHandlerTypes {
 		"ignitor",
 		IgnitorScreenHandler::new
 	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final ScreenHandlerType<SilverIodideCannonScreenHandler> SILVER_IODIDE_CANNON = registerExtended(
+		"silver_iodide_cannon",
+		SilverIodideCannonScreenHandler::create
+	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {
 		return Registry.register(Registries.SCREEN_HANDLER, BigTechMod.modID(name), new ScreenHandlerType<>(factory, FeatureSet.empty()));
+	}
+
+	public static <H extends ScreenHandler> ScreenHandlerType<H> registerExtended(String name, ExtendedScreenHandlerType.ExtendedFactory<H> factory) {
+		return Registry.register(Registries.SCREEN_HANDLER, BigTechMod.modID(name), new ExtendedScreenHandlerType<>(factory));
 	}
 
 	public static void init() {}

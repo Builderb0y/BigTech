@@ -14,7 +14,9 @@ public class BigTechServerNetwork {
 
 	public static final PacketType<?>
 		/** sent every tick while the player is controlling a miner. */
-		CONTROL_MINER = register("control_miner", ControlMinerPacket::parse);
+		CONTROL_MINER = register("control_miner", ControlMinerPacket::parse),
+		/** sent when a player attempts to fire a silver iodide cannon. */
+		FIRE_SILVER_IODIDE_CANNON = register("fire_silver_iodide_cannon", SilverIodideCannonFirePacket::parse);
 
 	public static PacketType<?> register(String name, Function<PacketByteBuf, ? extends C2SPlayPacket> parser) {
 		Identifier identifier = BigTechMod.modID(name);

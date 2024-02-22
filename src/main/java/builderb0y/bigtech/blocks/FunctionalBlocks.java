@@ -124,6 +124,19 @@ public class FunctionalBlocks {
 		)
 	);
 
+	@UseDataGen(void.class)
+	public static final SilverIodideCannonBlock SILVER_IODIDE_CANNON = BigTechBlocks.register(
+		"silver_iodide_cannon",
+		new SilverIodideCannonBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.BLACK)
+			.requiresTool()
+			.strength(5.0F, 50.0F)
+		)
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(void.class)

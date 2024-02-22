@@ -11,10 +11,11 @@ import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 public class BigTechHandledScreens {
 
 	public static void initClient() {
-		HandledScreens.register(BigTechScreenHandlerTypes.SORTER_BELT, SorterBeltHandledScreen::new);
-		HandledScreens.register(BigTechScreenHandlerTypes.TRANSMUTER,  TransmuterHandledScreen::new);
-		HandledScreens.register(BigTechScreenHandlerTypes.DESTROYER,    DestroyerHandledScreen::new);
-		HandledScreens.register(BigTechScreenHandlerTypes.MINER,            MinerHandledScreen::new);
-		HandledScreens.register(BigTechScreenHandlerTypes.IGNITOR,        IgnitorHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.SORTER_BELT,                  SorterBeltHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.TRANSMUTER,                   TransmuterHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.DESTROYER,                     DestroyerHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.MINER,                             MinerHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.IGNITOR,                         IgnitorHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, SilverIodideCannonHandledScreen::new);
 	}
 }

@@ -70,6 +70,11 @@ public class BigTechBlockEntityTypes {
 		FunctionalBlocks.IGNITOR,
 		FunctionalBlocks.IGNITOR_BEAM
 	);
+	public static final BlockEntityType<SilverIodideCannonBlockEntity> SILVER_IODIDE_CANNON = register(
+		"silver_iodide_cannon",
+		SilverIodideCannonBlockEntity::new,
+		FunctionalBlocks.SILVER_IODIDE_CANNON
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

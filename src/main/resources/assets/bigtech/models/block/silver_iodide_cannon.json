@@ -1,0 +1,33 @@
+{
+	"parent": "minecraft:block/block",
+	"textures": {
+		"exterior": "bigtech:block/silver_iodide_cannon_exterior",
+		"interior": "bigtech:block/silver_iodide_cannon_interior",
+		"particle": "bigtech:block/silver_iodide_cannon_exterior"
+	},
+	"elements": [
+		{
+			"from": [  4,  0,  4 ],
+			"to":   [ 12, 16, 12 ],
+			"faces": {
+				"north": { "uv": [ 0, 0,  8, 16 ], "texture": "exterior" },
+				"east":  { "uv": [ 0, 0,  8, 16 ], "texture": "exterior" },
+				"south": { "uv": [ 0, 0,  8, 16 ], "texture": "exterior" },
+				"west":  { "uv": [ 0, 0,  8, 16 ], "texture": "exterior" },
+				"up":    { "uv": [ 8, 0, 16,  8 ], "texture": "exterior", "cullface": "up"   },
+				"down":  { "uv": [ 8, 8, 16, 16 ], "texture": "exterior", "cullface": "down" }
+			}
+		},
+		{
+			"from": [  5, 16,  5 ],
+			"to":   [ 11,  1, 11 ],
+			"faces": {
+				"north": { "uv": [  0, 15,  6,  0 ], "texture": "interior", "cullface": "up" },
+				"east":  { "uv": [  0, 15,  6,  0 ], "texture": "interior", "cullface": "up" },
+				"south": { "uv": [  0, 15,  6,  0 ], "texture": "interior", "cullface": "up" },
+				"west":  { "uv": [  0, 15,  6,  0 ], "texture": "interior", "cullface": "up" },
+				"up":    { "uv": [ 10, 10, 16, 16 ], "texture": "interior", "cullface": "up" }
+			}
+		}
+	]
+}

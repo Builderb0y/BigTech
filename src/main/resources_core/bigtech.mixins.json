@@ -18,6 +18,7 @@
 		"Entity_MakeRoutable",
 		"EntityShapeContext_ImplementHeldItemGetter",
 		"ExplosionAccessor",
+		"FireworkRocket_ImplementSilverIodideProjectile",
 		"ItemEntity_DontMergeDuringTransport",
 		"LadderBlock_MakePlaceableOnFrames",
 		"LightningEntity_TweakLogic",

@@ -40,7 +40,6 @@ features:
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
 		resurrector: uses lightning power and mob drops to summon the mob that drops those items
-		silver iodide cannon: used to make it rain. if it's already raining, it'll start storming.
 		lightning enchanter: uses lightning power to enchant items
 		magnetite:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
@@ -90,6 +89,7 @@ done:
 		tesla coil: shocks nearby entities, can summon lightning
 		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
 		lightning battery: stores lightning power in portable, item format. releases power on right click.
+		silver iodide cannon: used to make it rain. if it's already raining, it'll start thundering.
 	transport:
 		belts:
 			belt: transports entities horizontally

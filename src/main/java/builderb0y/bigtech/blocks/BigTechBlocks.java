@@ -104,6 +104,10 @@ public class BigTechBlocks {
 			.toArray(Block[]::new)
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
+			RenderLayer.cutoutMipped,
+			FunctionalBlocks.SILVER_IODIDE_CANNON
+		);
+		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),
 			FunctionalBlocks.PHASE_SCRAMBLER,
 			FunctionalBlocks.PHASE_ALIGNER,

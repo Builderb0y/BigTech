@@ -89,6 +89,11 @@ public class FunctionalItems {
 		FunctionalBlocks.IGNITOR
 	);
 
+	@UseDataGen(SilverIodideCannonDataGenerator.class)
+	public static final BlockItem SILVER_IODIDE_CANNON = BigTechItems.registerPlacer(
+		FunctionalBlocks.SILVER_IODIDE_CANNON
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)

@@ -29,6 +29,10 @@ import builderb0y.bigtech.util.WorldHelper;
 
 public class IgnitorBlock extends Block implements BlockEntityProvider {
 
+	/**
+	entity collision logic skips the ground, so we need to slightly
+	contract the bounding box for entities to be able to collide properly.
+	*/
 	public static final VoxelShape COLLISION_SHAPE = VoxelShapes.cuboid(0.0D, 0.0D, 0.0D, 1.0D, 0.999D, 1.0D);
 
 	public IgnitorBlock(Settings settings) {
