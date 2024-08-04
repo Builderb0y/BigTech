@@ -447,6 +447,13 @@ public class FunctionalBlocks {
 			BigTechBlocks.COPPER_BLOCK_SET_TYPE
 		)
 	);
+	@UseDataGen(void.class)
+	public static final StoneCraftingTableBlock STONE_CRAFTING_TABLE = BigTechBlocks.register(
+		"stone_crafting_table",
+		new StoneCraftingTableBlock(
+			AbstractBlock.Settings.copy(Blocks.COBBLESTONE)
+		)
+	);
 
 	public static void init() {}
 }

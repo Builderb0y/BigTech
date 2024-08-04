@@ -65,7 +65,7 @@ public class BeaconBlockEntityASM {
 			INVOKESTATIC BeaconBlockEntity.bigtech_getColor()[F
 			ASTORE 13
 			ALOAD 13
-			IFNUlL L20
+			IFNULL L20
 	*/
 	public static void transformTick(MethodNode method) {
 		BigTechMixinPlugin.ASM_LOGGER.info("Transforming BeaconBlockEntity.tick()...");

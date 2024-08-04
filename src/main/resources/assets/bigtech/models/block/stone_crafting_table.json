@@ -1,0 +1,12 @@
+{
+	"parent": "minecraft:block/cube",
+	"textures": {
+		"up":       "bigtech:block/stone_crafting_table_top",
+		"down":     "minecraft:block/cobblestone",
+		"north":    "bigtech:block/stone_crafting_table_front",
+		"south":    "bigtech:block/stone_crafting_table_side",
+		"east":     "bigtech:block/stone_crafting_table_side",
+		"west":     "bigtech:block/stone_crafting_table_front",
+		"particle": "bigtech:block/stone_crafting_table_front"
+	}
+}

@@ -1,5 +1,7 @@
 package builderb0y.bigtech.codecs;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.block.Block;
@@ -16,11 +18,13 @@ import builderb0y.autocodec.decoders.LookupDecoderFactory;
 import builderb0y.autocodec.encoders.AutoEncoder;
 import builderb0y.autocodec.encoders.EncoderFactoryList;
 import builderb0y.autocodec.encoders.LookupEncoderFactory;
+import builderb0y.autocodec.logging.IndentedTaskLogger;
+import builderb0y.autocodec.logging.Printer;
+import builderb0y.autocodec.logging.TaskLogger;
 import builderb0y.autocodec.reflection.ReflectionManager;
 
 public class BigTechAutoCodec {
 
-	@SuppressWarnings("OverrideOnly") //super calls.
 	public static final AutoCodec AUTO_CODEC = new AutoCodec() {
 
 		@Override
@@ -83,6 +87,6 @@ public class BigTechAutoCodec {
 		public @NotNull TaskLogger createFactoryLogger(@NotNull ReentrantLock lock) {
 			return new IndentedTaskLogger(lock, Printer.SYSTEM, true);
 		}
-		*/
+		//*/
 	};
 }

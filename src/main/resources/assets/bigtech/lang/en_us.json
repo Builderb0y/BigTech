@@ -102,6 +102,7 @@
 	"block.bigtech.spruce_catwalk_platform":                  "Spruce Catwalk Platform",
 	"block.bigtech.spruce_catwalk_stairs":                    "Spruce Catwalk Stairs",
 	"block.bigtech.spruce_frame":                             "Spruce Frame",
+	"block.bigtech.stone_crafting_table":                     "Stone Crafting Table",
 	"block.bigtech.transmuter":                               "Transmuter",
 	"block.bigtech.trapdoor_belt":                            "Trapdoor Belt",
 	"block.bigtech.tripwire":                                 "Tripwire",
@@ -160,6 +161,6 @@
 	"item.bigtech.magnetite_nugget":                          "Magnetite Nugget",
 	"item.bigtech.miner_tool":                                "Miner Tool",
 	"item.bigtech.quad_lightning_electrode":                  "Quad Lightning Electrode",
-	"itemGroup.bigtech.deco":                                 "Bigtech (Deco)",
-	"itemGroup.bigtech.functional":                           "Bigtech (Functional)"
+	"itemGroup.bigtech.deco":                                 "Big Tech (Deco)",
+	"itemGroup.bigtech.functional":                           "Big Tech (Functional)"
 }

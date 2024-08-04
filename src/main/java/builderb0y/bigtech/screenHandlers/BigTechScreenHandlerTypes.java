@@ -45,6 +45,11 @@ public class BigTechScreenHandlerTypes {
 		"silver_iodide_cannon",
 		SilverIodideCannonScreenHandler::create
 	);
+	@UseDataGen(void.class)
+	public static final ScreenHandlerType<StoneCraftingTableScreenHandler> STONE_CRAFTING_TABLE = register(
+		"stone_crafting_table",
+		StoneCraftingTableScreenHandler::new
+	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {
 		return Registry.register(Registries.SCREEN_HANDLER, BigTechMod.modID(name), new ScreenHandlerType<>(factory, FeatureSet.empty()));

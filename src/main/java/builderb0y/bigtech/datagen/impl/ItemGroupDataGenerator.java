@@ -4,6 +4,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.LocalizedDataGenerator;
 
@@ -29,6 +30,6 @@ public class ItemGroupDataGenerator implements LocalizedDataGenerator {
 	@Override
 	public String getLangValue(DataGenContext context) {
 		Identifier id = this.id;
-		return "${context.underscoresToCapitals(id.namespace)} (${context.underscoresToCapitals(id.path)})";
+		return "${BigTechMod.MODNAME} (${context.underscoresToCapitals(id.path)})";
 	}
 }

@@ -75,6 +75,11 @@ public class BigTechBlockEntityTypes {
 		SilverIodideCannonBlockEntity::new,
 		FunctionalBlocks.SILVER_IODIDE_CANNON
 	);
+	public static final BlockEntityType<StoneCraftingTableBlockEntity> STONE_CRAFTING_TABLE = register(
+		"stone_crafting_table",
+		StoneCraftingTableBlockEntity::new,
+		FunctionalBlocks.STONE_CRAFTING_TABLE
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

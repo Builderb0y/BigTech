@@ -269,6 +269,10 @@ public class FunctionalItems {
 		"miner_tool",
 		new MinerToolItem(new Item.Settings())
 	);
+	@UseDataGen(StoneCraftingTableDataGenerator.class)
+	public static final BlockItem STONE_CRAFTING_TABLE = BigTechItems.registerPlacer(
+		FunctionalBlocks.STONE_CRAFTING_TABLE
+	);
 
 	public static void init() {
 		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);

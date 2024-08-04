@@ -13,6 +13,7 @@
 		"ChestBlock_CreateMiner",
 		"ChunkBlockLightProvider_AllowBeamsToEmitLight",
 		"ChunkDataSender_SyncBeamsManually",
+		"CraftingScreenHandler_Accessors",
 		"CreeperEntity_ChargedAccessor",
 		"Entity_CollideWithBeams",
 		"Entity_MakeRoutable",
@@ -30,6 +31,7 @@
 		"PlayerEntity_OverrideIsClimbing",
 		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",
 		"ServerEntityManager_EntityAddedToWorldEventHook",
+		"Slot_MutableInventory",
 		"WorldChunk_NotifyBeamsOfBlockChange"
 	],
 	"client": [ "WorldRenderer_FrustumGetter" ],

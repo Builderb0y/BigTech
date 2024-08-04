@@ -1,8 +1,6 @@
 package builderb0y.bigtech.datagen.base;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -158,14 +156,15 @@ public class DataGenContext {
 	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath  (key.id,     TagManagerLoader.getPath(key.registry)); }
 
 	public void writeToFile(String path, String text) {
+		byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
 		for (File root : DataGen.ROOT_DIRECTORIES) {
 			File file = new File(root, path.replace('/', File.separatorChar));
 			if (file.exists()) {
 				this.error(new IllegalStateException("Duplicate file: " + path + " -> " + file.getAbsolutePath()));
 			}
 			file.getParentFile().mkdirs();
-			try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
-				writer.write(text);
+			try (FileOutputStream writer = new FileOutputStream(file)) {
+				writer.write(bytes);
 			}
 			catch (IOException exception) {
 				exception.printStackTrace();

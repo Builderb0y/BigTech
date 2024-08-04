@@ -16,6 +16,7 @@ things to finish for existing features:
 		waiting on update to 1.20.4, which adds a new class to help with this.
 
 compatibility:
+	LightningHandler.IRIS_LIGHTNING is moving to a different package.
 
 features:
 	general:
