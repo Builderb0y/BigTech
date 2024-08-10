@@ -92,7 +92,7 @@ public interface PistonInteractor {
 
 	public static final Object INITIAlIZER = new Object() {{
 		LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> {
-			if (state.block instanceof PistonInteractor interactor) {
+			if (state.getBlock() instanceof PistonInteractor interactor) {
 				return interactor;
 			}
 			return null;

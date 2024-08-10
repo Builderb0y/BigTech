@@ -27,14 +27,14 @@ public class CopperCoilDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				Arrays
 				.stream(BlockStateJsonVariant.FACING_ORDER)
 				.map(direction -> new BlockStateJsonVariant(
 					"facing=${direction.getName()}",
-					context.prefixPath("block/", this.id).toString(),
+					context.prefixPath("block/", this.getId()).toString(),
 					BlockStateJsonVariant.xFromUp(direction),
 					Objects.requireNonNullElse(BlockStateJsonVariant.yFromNorth(direction), 0)
 				))
@@ -47,23 +47,23 @@ public class CopperCoilDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "cube_column"))
-			.blockTexture("side", context.suffixPath(this.id, "_side"))
-			.blockTexture("end", context.suffixPath(this.id, "_end"))
+			.blockParent(Identifier.ofVanilla("cube_column"))
+			.blockTexture("side", context.suffixPath(this.getId(), "_side"))
+			.blockTexture("end", context.suffixPath(this.getId(), "_end"))
 			.toString()
 		);
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.STONE).addElement(this.id);
+		context.getTags(MiningLevelTags.STONE).addElement(this.getId());
 	}
 
 	@Override
@@ -79,12 +79,12 @@ public class CopperCoilDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("cpc", "cpc", "cpc")
 			.where('c', ConventionalItemTags.COPPER_INGOTS)
 			.where('p', ItemTags.PLANKS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

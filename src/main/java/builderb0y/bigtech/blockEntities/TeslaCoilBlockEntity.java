@@ -26,8 +26,8 @@ import builderb0y.bigtech.lightning.LightningPulse;
 public class TeslaCoilBlockEntity extends BlockEntity {
 
 	public static final BlockEntityTicker<TeslaCoilBlockEntity>
-		CLIENT_TICKER = (world, pos, state, blockEntity) -> blockEntity.tickClient(),
-		SERVER_TICKER = (world, pos, state, blockEntity) -> blockEntity.tickServer();
+		CLIENT_TICKER = (World world, BlockPos pos, BlockState state, TeslaCoilBlockEntity blockEntity) -> blockEntity.tickClient(),
+		SERVER_TICKER = (World world, BlockPos pos, BlockState state, TeslaCoilBlockEntity blockEntity) -> blockEntity.tickServer();
 
 	public Target[] targets = new Target[8];
 	public RandomGenerator random = new SplittableRandom();
@@ -42,27 +42,27 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 	}
 
 	public void onLightningPulse() {
-		Direction direction = this.cachedState.get(Properties.FACING);
+		Direction direction = this.getCachedState().get(Properties.FACING);
 		if (this.checkStructure() && this.world.isSkyVisible(this.pos.offset(direction, 3))) {
 			LightningEntity entity = new LightningEntity(EntityType.LIGHTNING_BOLT, this.world);
 			entity.refreshPositionAndAngles(
-				this.pos.x + 0.5D + direction.offsetX * 2.5D,
-				this.pos.y + 0.5D + direction.offsetY * 2.5D,
-				this.pos.z + 0.5D + direction.offsetZ * 2.5D,
+				this.pos.getX() + 0.5D + direction.getOffsetX() * 2.5D,
+				this.pos.getY() + 0.5D + direction.getOffsetY() * 2.5D,
+				this.pos.getZ() + 0.5D + direction.getOffsetZ() * 2.5D,
 				0.0F,
 				0.0F
 			);
-			entity.cosmetic = true;
+			entity.setCosmetic(true);
 			this.world.spawnEntity(entity);
 		}
 	}
 
 	public void tickServer() {
-		if (this.cachedState.get(Properties.POWERED) && this.checkStructure()) {
-			Direction facing = this.cachedState.get(Properties.FACING);
+		if (this.getCachedState().get(Properties.POWERED) && this.checkStructure()) {
+			Direction facing = this.getCachedState().get(Properties.FACING);
 			Orientation orientation = Orientation.from(facing);
 			List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, orientation.box.offset(this.pos).expand(this.random.nextDouble(2.0D, 3.0D)));
-			if (!entities.isEmpty) {
+			if (!entities.isEmpty()) {
 				LightningPulse.shockEntity(
 					entities.get(
 						this.random.nextInt(entities.size())
@@ -77,19 +77,19 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 	public void tickClient() {
 		System.arraycopy(this.targets, 0, this.targets, 1, 7);
 		this.targets[0] = (
-			this.cachedState.get(Properties.POWERED) && this.checkStructure()
+			this.getCachedState().get(Properties.POWERED) && this.checkStructure()
 			? this.newTarget()
 			: null
 		);
 	}
 
 	public Target newTarget() {
-		Direction facing = this.cachedState.get(Properties.FACING);
+		Direction facing = this.getCachedState().get(Properties.FACING);
 		Orientation orientation = Orientation.from(facing);
 		Box ironBox = orientation.box.offset(this.pos);
 		List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, ironBox.expand(this.random.nextDouble(1.0D, 3.0D)));
-		if (!entities.isEmpty) {
-			Box entityBox = entities.get(this.random.nextInt(entities.size())).boundingBox;
+		if (!entities.isEmpty()) {
+			Box entityBox = entities.get(this.random.nextInt(entities.size())).getBoundingBox();
 			double endX = this.random.nextDouble(entityBox.minX, entityBox.maxX);
 			double endY = this.random.nextDouble(entityBox.minY, entityBox.maxY);
 			double endZ = this.random.nextDouble(entityBox.minZ, entityBox.maxZ);
@@ -100,9 +100,9 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 		}
 		else {
 			Vec3i ironOffset = orientation.ironOffsets.get(this.random.nextInt() & 7);
-			double centerX = this.pos.x + ironOffset.x + 0.5D;
-			double centerY = this.pos.y + ironOffset.y + 0.5D;
-			double centerZ = this.pos.z + ironOffset.z + 0.5D;
+			double centerX = this.pos.getX() + ironOffset.getX() + 0.5D;
+			double centerY = this.pos.getY() + ironOffset.getY() + 0.5D;
+			double centerZ = this.pos.getZ() + ironOffset.getZ() + 0.5D;
 			double unitX = this.random.nextDouble() - 0.5D;
 			double unitY = this.random.nextDouble() - 0.5D;
 			double unitZ = this.random.nextDouble() - 0.5D;
@@ -122,7 +122,7 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 	}
 
 	public boolean checkStructure() {
-		Direction primaryDirection = this.cachedState.get(Properties.FACING);
+		Direction primaryDirection = this.getCachedState().get(Properties.FACING);
 		Orientation orientation = Orientation.from(primaryDirection);
 		BlockPos.Mutable mutablePos = this.pos.mutableCopy();
 		BlockState tmpState;
@@ -143,7 +143,7 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 		if (world != null) {
 			this.damageSource = new DamageSource(
 				world
-				.registryManager
+				.getRegistryManager()
 				.get(RegistryKeys.DAMAGE_TYPE)
 				.entryOf(BigTechDamageTypes.TESLA_COIL),
 				this.pos.toCenterPos()
@@ -194,9 +194,9 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 			this.copperOffsetsExcludingSelf = new ArrayList<>(2);
 			this.copperOffsetsIncludingSelf.add(new Vec3i(0, 0, 0));
 			int
-				offsetX = direction.offsetX,
-				offsetY = direction.offsetY,
-				offsetZ = direction.offsetZ;
+				offsetX = direction.getOffsetX(),
+				offsetY = direction.getOffsetY(),
+				offsetZ = direction.getOffsetZ();
 			Vec3i tmp = new Vec3i(offsetX, offsetY, offsetZ);
 			this.copperOffsetsIncludingSelf.add(tmp);
 			this.copperOffsetsExcludingSelf.add(tmp);
@@ -214,7 +214,7 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 				maxX = +1,
 				maxY = +1,
 				maxZ = +1;
-			switch (direction.axis) {
+			switch (direction.getAxis()) {
 				case X -> minX = maxX = 0;
 				case Y -> minY = maxY = 0;
 				case Z -> minZ = maxZ = 0;

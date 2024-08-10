@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Intersectiond;
 import org.joml.Vector2d;
@@ -15,6 +16,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -31,6 +33,7 @@ import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.blockEntities.PrismBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.util.WorldHelper;
 
@@ -41,29 +44,38 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 		RADIUS_SQUARED = RADIUS * RADIUS;
 	public static final VoxelShape SHAPE = VoxelShapes.cuboid(0.0625D, 0.0625D, 0.0625D, 0.9375D, 0.9375D, 0.9375D);
 
+	public static final MapCodec<PrismBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public PrismBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.WATERLOGGED, Boolean.FALSE)
+		);
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ItemStack stack = player.getStackInHand(hand);
-		if (stack.isEmpty || stack.isOf(FunctionalItems.LENS)) {
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (stack.isEmpty() || stack.isOf(FunctionalItems.LENS)) {
 			//workaround for bug in vanilla code:
 			//returning FAIL from the main hand doesn't prevent the offhand from being used.
 			if (hand == Hand.OFF_HAND) {
 				ItemStack mainHand = player.getStackInHand(Hand.MAIN_HAND);
-				if (mainHand.isEmpty || mainHand.isOf(FunctionalItems.LENS)) {
-					return ActionResult.FAIL;
+				if (mainHand.isEmpty() || mainHand.isOf(FunctionalItems.LENS)) {
+					return ItemActionResult.FAIL;
 				}
 			}
 			PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
 			if (prism != null) {
-				Vec3d eyePos = player.eyePos;
-				Vec3d lookDir = player.rotationVector;
+				Vec3d eyePos = player.getEyePos();
+				Vec3d lookDir = player.getRotationVector();
 				Vector2d intersectionDistances = new Vector2d();
 				//step 1: ray trace the sphere.
 				//this turns out to be trivial because joml has a method to do that for me.
@@ -76,9 +88,9 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 						lookDir.x,
 						lookDir.y,
 						lookDir.z,
-						pos.x + 0.5D,
-						pos.y + 0.5D,
-						pos.z + 0.5D,
+						pos.getX() + 0.5D,
+						pos.getY() + 0.5D,
+						pos.getZ() + 0.5D,
 						RADIUS_SQUARED,
 						intersectionDistances
 					)
@@ -87,17 +99,17 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 					//which lens the player wants to interact with.
 					double rayDistance = (
 						MathHelper.squaredMagnitude(
-							eyePos.x - (pos.x + 0.5D),
-							eyePos.y - (pos.y + 0.5D),
-							eyePos.z - (pos.z + 0.5D)
+							eyePos.x - (pos.getX() + 0.5D),
+							eyePos.y - (pos.getY() + 0.5D),
+							eyePos.z - (pos.getZ() + 0.5D)
 						)
 						< RADIUS_SQUARED
 						? intersectionDistances.y
 						: intersectionDistances.x
 					);
-					double intersectionX = eyePos.x + lookDir.x * rayDistance - (pos.x + 0.5D);
-					double intersectionY = eyePos.y + lookDir.y * rayDistance - (pos.y + 0.5D);
-					double intersectionZ = eyePos.z + lookDir.z * rayDistance - (pos.z + 0.5D);
+					double intersectionX = eyePos.x + lookDir.x * rayDistance - (pos.getX() + 0.5D);
+					double intersectionY = eyePos.y + lookDir.y * rayDistance - (pos.getY() + 0.5D);
+					double intersectionZ = eyePos.z + lookDir.z * rayDistance - (pos.getZ() + 0.5D);
 					double scalar = 1.0D / Math.max(Math.max(Math.abs(intersectionX), Math.abs(intersectionY)), Math.abs(intersectionZ));
 					intersectionX *= scalar;
 					intersectionY *= scalar;
@@ -115,85 +127,85 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 					//except if the player is both in creative and already has a lens.
 					//and also don't modify the prism or the lens on the client.
 					//only do that on the server.
-					if (stack.isEmpty) {
+					if (stack.isEmpty()) {
 						if (world.isClient) {
 							if (prism.hasLens(direction)) {
-								return ActionResult.SUCCESS;
+								return ItemActionResult.SUCCESS;
 							}
 							else {
-								return ActionResult.FAIL;
+								return ItemActionResult.FAIL;
 							}
 						}
 						else {
 							if (prism.removeLens(direction)) {
-								ItemStack toInsert = FunctionalItems.LENS.defaultStack;
-								if (player.abilities.creativeMode) {
-									if (!player.inventory.contains(toInsert)) {
+								ItemStack toInsert = FunctionalItems.LENS.getDefaultStack();
+								if (player.getAbilities().creativeMode) {
+									if (!player.getInventory().contains(toInsert)) {
 										player.setStackInHand(hand, toInsert);
 									}
 								}
 								else {
-									player.inventory.offerOrDrop(toInsert);
+									player.getInventory().offerOrDrop(toInsert);
 								}
-								return ActionResult.SUCCESS;
+								return ItemActionResult.SUCCESS;
 							}
 							else {
-								return ActionResult.FAIL;
+								return ItemActionResult.FAIL;
 							}
 						}
 					}
 					else {
 						if (world.isClient) {
 							if (prism.hasLens(direction)) {
-								return ActionResult.FAIL;
+								return ItemActionResult.FAIL;
 							}
 							else {
-								return ActionResult.SUCCESS;
+								return ItemActionResult.SUCCESS;
 							}
 						}
 						else {
 							if (prism.addLens(direction)) {
-								if (!player.abilities.creativeMode) {
+								if (!player.getAbilities().creativeMode) {
 									stack.decrement(1);
 								}
-								return ActionResult.SUCCESS;
+								return ItemActionResult.SUCCESS;
 							}
 							else {
-								return ActionResult.FAIL;
+								return ItemActionResult.FAIL;
 							}
 						}
 					}
 				}
 				else {
 					//ray does not intersect with prism. no action is performed in this case.
-					return ActionResult.FAIL;
+					return ItemActionResult.FAIL;
 				}
 			}
 			else {
 				//BlockEntity missing. can't perform any actions in this case.
-				return ActionResult.FAIL;
+				return ItemActionResult.FAIL;
 			}
 		}
 		else {
 			//holding an item that we don't care about.
 			//in other words, not an empty hand or a lens.
-			return ActionResult.PASS;
+			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 	}
 
 	@Override
 	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		PrismBlockEntity prism = WorldHelper.getBlockEntity(inputSegment.beam.world, inputSegment.endPos, PrismBlockEntity.class);
+		PrismBlockEntity prism = WorldHelper.getBlockEntity(inputSegment.beam().world, inputSegment.endPos(), PrismBlockEntity.class);
 		if (prism != null && prism.hasAnyLenses()) {
-			double baseDistance = inputSegment.distanceRemaining / prism.countLenses();
+			double baseDistance = inputSegment.distanceRemaining() / prism.countLenses();
 			for (BeamDirection direction : BeamDirection.VALUES) {
 				if (prism.hasLens(direction)) {
-					inputSegment.beam.addSegment(inputSegment.extend(baseDistance - direction.type.magnitude, direction));
+					inputSegment.beam().addSegment(inputSegment.extend(baseDistance - direction.type.magnitude, direction));
 				}
 			}
 		}
 		else {
-			inputSegment.beam.addSegment(inputSegment.terminate());
+			inputSegment.beam().addSegment(inputSegment.terminate());
 		}
 		return true;
 	}
@@ -204,7 +216,7 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
 		if (prism != null && prism.hasAnyLenses()) {
-			ItemScatterer.spawn(world, pos.x, pos.y, pos.z, new ItemStack(FunctionalItems.LENS, prism.countLenses()));
+			ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FunctionalItems.LENS, prism.countLenses()));
 		}
 		super.onStateReplaced(state, world, pos, newState, moved);
 	}
@@ -235,14 +247,14 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER));
+		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).isEqualAndStill(Fluids.WATER));
 	}
 
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Override

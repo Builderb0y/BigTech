@@ -12,11 +12,11 @@ import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectionBeamStorage> {
 
 	public boolean addSegment(SpreadingBeamSegment segment, boolean unique) {
-		return this.addSegment(segment.startPos, segment.segment, unique);
+		return this.addSegment(segment.startPos(), segment.segment(), unique);
 	}
 
 	public boolean addSegment(BlockPos pos, BeamSegment segment, boolean unique) {
-		return this.addSegment(pos.x, pos.y, pos.z, segment, unique);
+		return this.addSegment(pos.getX(), pos.getY(), pos.getZ(), segment, unique);
 	}
 
 	public boolean addSegment(int x, int y, int z, BeamSegment segment, boolean unique) {
@@ -24,11 +24,11 @@ public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectio
 	}
 
 	public void removeSegment(SpreadingBeamSegment segment) {
-		this.removeSegment(segment.startPos, segment.segment);
+		this.removeSegment(segment.startPos(), segment.segment());
 	}
 
 	public void removeSegment(BlockPos pos, BeamSegment segment) {
-		this.removeSegment(pos.x, pos.y, pos.z, segment);
+		this.removeSegment(pos.getX(), pos.getY(), pos.getZ(), segment);
 	}
 
 	public void removeSegment(int x, int y, int z, BeamSegment segment) {

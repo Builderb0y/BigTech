@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -13,17 +14,31 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
+
 public class EncasedRedstoneBlock extends Block {
+
+	public static final MapCodec<EncasedRedstoneBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public EncasedRedstoneBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.FACING, Direction.UP);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.FACING, Direction.UP)
+		);
 	}
 
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return this.defaultState.with(Properties.FACING, context.playerLookDirection.opposite);
+		return this.getDefaultState().with(Properties.FACING, context.getPlayerLookDirection().getOpposite());
 	}
 
 	@Override
@@ -37,7 +52,7 @@ public class EncasedRedstoneBlock extends Block {
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return direction == state.get(Properties.FACING).opposite ? 15 : 0;
+		return direction == state.get(Properties.FACING).getOpposite() ? 15 : 0;
 	}
 
 	@Override

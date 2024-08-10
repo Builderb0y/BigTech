@@ -1,5 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
@@ -24,14 +25,14 @@ public class EncasedSlimeBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
-				.map(state -> new BlockStateJsonVariant(
+				.streamStatesSorted(this.getBlock())
+				.map((BlockState state) -> new BlockStateJsonVariant(
 					state,
-					context.prefixPath("block/", this.id).toString(),
+					context.prefixPath("block/", this.getId()).toString(),
 					BlockStateJsonVariant.xFromUp(state.get(Properties.FACING)),
 					BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
 				))
@@ -44,10 +45,10 @@ public class EncasedSlimeBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "cube_bottom_top"))
-			.blockTexture("top", context.suffixPath(this.id, "_front"))
+			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
+			.blockTexture("top", context.suffixPath(this.getId(), "_front"))
 			.texture("bottom", "minecraft:block/furnace_top")
 			.texture("side", "bigtech:block/encased_redstone_block_side")
 			.toString()
@@ -56,7 +57,7 @@ public class EncasedSlimeBlockDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
@@ -68,14 +69,14 @@ public class EncasedSlimeBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:encased_slime_blocks")
 			.pattern("csc", "c c", "ccc")
 			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
-			.where('s', this.block.<EncasedSlimeBlock>as().isHoney ? Items.HONEY_BLOCK : Items.SLIME_BLOCK)
-			.result(this.id)
+			.where('s', this.getBlock().<EncasedSlimeBlock>as().honey ? Items.HONEY_BLOCK : Items.SLIME_BLOCK)
+			.result(this.getId())
 			.toString()
 		);
 	}

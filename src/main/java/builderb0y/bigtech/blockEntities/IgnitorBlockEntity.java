@@ -20,7 +20,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
+import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.property.Properties;
@@ -33,7 +35,6 @@ import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.IgnitorScreenHandler;
-import builderb0y.bigtech.screenHandlers.SingleStackInventoryImpl;
 
 public class IgnitorBlockEntity extends LockableContainerBlockEntity implements SingleStackInventory {
 
@@ -41,7 +42,10 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 
 	public static final int IGNITE_ENTITY_COST = 100;
 
-	public ItemStack stack = ItemStack.EMPTY;
+	//I used to just have an ItemStack here,
+	//but then getHeldStacks() was added,
+	//so now I need a full DefaultedList.
+	public DefaultedList<ItemStack> stacks = DefaultedList.ofSize(1, ItemStack.EMPTY);
 	public final Property
 		totalBurnTime = Property.create(),
 		remainingBurnTime = Property.create();
@@ -56,11 +60,11 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	}
 
 	public void setLit(boolean lit) {
-		this.world.setBlockState(this.pos, this.cachedState.with(Properties.LIT, lit));
+		this.world.setBlockState(this.pos, this.getCachedState().with(Properties.LIT, lit));
 	}
 
 	public boolean shouldKeepBurning() {
-		return this.cachedState.isOf(FunctionalBlocks.IGNITOR_BEAM) && this.cachedState.get(Properties.POWERED);
+		return this.getCachedState().isOf(FunctionalBlocks.IGNITOR_BEAM) && this.getCachedState().get(Properties.POWERED);
 	}
 
 	public void serverTick() {
@@ -79,12 +83,12 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 
 	public boolean refuel(int amount) {
 		if (this.remainingBurnTime.get() >= amount) return true;
-		if (!this.stack.isEmpty) {
-			int burnTime = FuelRegistry.INSTANCE.get(this.stack.item);
+		if (!this.getStack().isEmpty()) {
+			int burnTime = FuelRegistry.INSTANCE.get(this.getStack().getItem());
 			if (burnTime > 0) {
-				int consume = Math.min(this.stack.count, (amount + burnTime - 1) / burnTime);
+				int consume = Math.min(this.getStack().getCount(), (amount + burnTime - 1) / burnTime);
 				assert consume > 0;
-				this.stack.decrement(consume);
+				this.getStack().decrement(consume);
 				boolean wasUnlit = this.remainingBurnTime.get() <= 0;
 				int newTime = this.remainingBurnTime.get() + burnTime * consume;
 				this.remainingBurnTime.set(newTime);
@@ -109,19 +113,19 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	}
 
 	public boolean smeltItem(ItemEntity itemEntity) {
-		ItemStack inputStack = itemEntity.stack;
-		SingleStackInventoryImpl recipeInput = new SingleStackInventoryImpl(inputStack);
-		RecipeEntry<SmeltingRecipe> entry = this.world.recipeManager.getFirstMatch(RecipeType.SMELTING, recipeInput, this.world).orElse(null);
+		ItemStack inputStack = itemEntity.getStack();
+		SingleStackRecipeInput recipeInput = new SingleStackRecipeInput(inputStack);
+		RecipeEntry<SmeltingRecipe> entry = this.world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, recipeInput, this.world).orElse(null);
 		if (entry != null) {
-			ItemStack primaryOutputStack = entry.value.craft(recipeInput, this.world.registryManager);
-			int fuelRequired = entry.value.cookingTime << 1;
-			if (!primaryOutputStack.isEmpty && this.consumeFuel(fuelRequired)) {
-				DefaultedList<ItemStack> remainder = entry.value.getRemainder(recipeInput);
-				itemEntity.setStack(inputStack.copyWithCount(inputStack.count - 1));
-				this.world.spawnEntity(new ItemEntity(this.world, itemEntity.x, itemEntity.y, itemEntity.z, primaryOutputStack));
+			ItemStack primaryOutputStack = entry.value().craft(recipeInput, this.world.getRegistryManager());
+			int fuelRequired = entry.value().getCookingTime() << 1;
+			if (!primaryOutputStack.isEmpty() && this.consumeFuel(fuelRequired)) {
+				DefaultedList<ItemStack> remainder = entry.value().getRemainder(recipeInput);
+				itemEntity.setStack(inputStack.copyWithCount(inputStack.getCount() - 1));
+				this.world.spawnEntity(new ItemEntity(this.world, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), primaryOutputStack));
 				for (ItemStack secondaryOutputStack : remainder) {
-					if (!secondaryOutputStack.isEmpty) {
-						this.world.spawnEntity(new ItemEntity(this.world, itemEntity.x, itemEntity.y, itemEntity.z, secondaryOutputStack));
+					if (!secondaryOutputStack.isEmpty()) {
+						this.world.spawnEntity(new ItemEntity(this.world, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), secondaryOutputStack));
 					}
 				}
 				return true;
@@ -132,7 +136,7 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 
 	public boolean igniteEntity(Entity entity) {
 		if (
-			!entity.isFireImmune &&
+			!entity.isFireImmune() &&
 			this.refuel(IGNITE_ENTITY_COST) &&
 			entity.damage(this.damageSource, 2.0F)
 		) {
@@ -155,7 +159,7 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 		if (world != null) {
 			this.damageSource = new DamageSource(
 				world
-				.registryManager
+				.getRegistryManager()
 				.get(RegistryKeys.DAMAGE_TYPE)
 				.entryOf(BigTechDamageTypes.IGNITOR),
 				this.pos.toCenterPos()
@@ -164,24 +168,23 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
-		Objects.checkIndex(slot, 1);
-		return this.stack;
+	public DefaultedList<ItemStack> getHeldStacks() {
+		return this.stacks;
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		Objects.checkIndex(slot, 1);
-		ItemStack result = this.stack.split(amount);
-		this.markDirty();
-		return result;
+	public void setHeldStacks(DefaultedList<ItemStack> inventory) {
+		this.stacks = inventory;
 	}
 
 	@Override
-	public void setStack(int slot, ItemStack stack) {
-		Objects.checkIndex(slot, 1);
-		this.stack = stack;
-		this.markDirty();
+	public ItemStack getStack() {
+		return this.stacks.get(0);
+	}
+
+	@Override
+	public void setStack(ItemStack stack) {
+		this.stacks.set(0, stack);
 	}
 
 	@Override
@@ -200,17 +203,17 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
-		nbt.put("stack", this.stack.writeNbt(new NbtCompound()));
+	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
+		nbt.put("stack", this.getStack().encodeAllowEmpty(registryLookup));
 		nbt.putInt("fuel", this.remainingBurnTime.get());
 		nbt.putInt("maxFuel", this.remainingBurnTime.get());
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
-		this.stack = ItemStack.fromNbt(nbt.getCompound("stack"));
+	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
+		this.setStack(ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound("stack")));
 		this.remainingBurnTime.set(nbt.getInt("fuel"));
 		this.remainingBurnTime.set(nbt.getInt("maxFuel"));
 	}

@@ -5,6 +5,8 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -33,14 +35,11 @@ public class ClientNbtCopyingBlockItem extends BlockItem {
 	@Override
 	public boolean postPlacement(BlockPos pos, World world, @Nullable PlayerEntity player, ItemStack stack, BlockState state) {
 		if (world.isClient) {
-			NbtCompound storedData = BlockItem.getBlockEntityNbt(stack);
-			if (storedData != null) {
+			NbtComponent storedData = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT);
+			if (!storedData.isEmpty()) {
 				BlockEntity blockEntity = world.getBlockEntity(pos);
 				if (blockEntity != null) {
-					NbtCompound data = blockEntity.createNbt();
-					data.copyFrom(storedData);
-					blockEntity.readNbt(data);
-					return true;
+					return storedData.applyToBlockEntity(blockEntity, world.getRegistryManager());
 				}
 			}
 		}

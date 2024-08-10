@@ -59,8 +59,8 @@ public abstract class Beam {
 
 	public void fire() {
 		for (SpreadingBeamSegment segment; (segment = this.queue.pollFirst()) != null;) {
-			if (this.seen.addSegment(segment, true) && segment.segment.direction != BeamDirection.CENTER) {
-				BlockPos pos = segment.endPos;
+			if (this.seen.addSegment(segment, true) && segment.segment().direction() != BeamDirection.CENTER) {
+				BlockPos pos = segment.endPos();
 				BlockState state = this.world.getBlockState(pos);
 				BeamInteractor interactor = BeamInteractor.LOOKUP.find(this.world, pos, state, null, this);
 				if (interactor != null) {
@@ -89,23 +89,23 @@ public abstract class Beam {
 	}
 
 	public static BlockHitResult rayCast(SpreadingBeamSegment segment, VoxelShape shape) {
-		BlockPos pos = segment.startPos;
-		BeamDirection direction = segment.segment.direction;
+		BlockPos pos = segment.startPos();
+		BeamDirection direction = segment.segment().direction();
 		Vec3d start = new Vec3d(
-			pos.x + 0.5D - direction.x,
-			pos.y + 0.5D - direction.y,
-			pos.z + 0.5D - direction.z
+			pos.getX() + 0.5D - direction.x,
+			pos.getY() + 0.5D - direction.y,
+			pos.getZ() + 0.5D - direction.z
 		);
 		Vec3d end = new Vec3d(
-			pos.x + 0.5D + direction.x,
-			pos.y + 0.5D + direction.y,
-			pos.z + 0.5D + direction.z
+			pos.getX() + 0.5D + direction.x,
+			pos.getY() + 0.5D + direction.y,
+			pos.getZ() + 0.5D + direction.z
 		);
 		return shape.raycast(start, end, pos);
 	}
 
 	public void defaultSpreadOut(SpreadingBeamSegment segment, BlockState state) {
-		BlockHitResult hitResult = rayCast(segment, this.getShape(segment.startPos, state));
+		BlockHitResult hitResult = rayCast(segment, this.getShape(segment.startPos(), state));
 		if (hitResult != null) {
 			this.handleIntersection(segment, state, hitResult);
 		}
@@ -126,6 +126,6 @@ public abstract class Beam {
 
 	@Override
 	public String toString() {
-		return "${this.getClass().getName()}: { type: ${this.type}, uuid: ${this.uuid}, origin: ${this.origin} }";
+		return "${this.getClass().getName()}: { type: ${this.getType()}, uuid: ${this.uuid}, origin: ${this.origin} }";
 	}
 }

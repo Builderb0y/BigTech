@@ -1,12 +1,14 @@
 package builderb0y.bigtech.particles;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
@@ -25,8 +27,8 @@ public class BigTechParticles {
 		BigTechMod.modID("sparkle"),
 		new SimpleParticleType<>(
 			false,
-			DustParticleEffect.PARAMETERS_FACTORY,
-			DustParticleEffect.CODEC
+			DustParticleEffect.CODEC,
+			DustParticleEffect.PACKET_CODEC
 		)
 	);
 
@@ -34,7 +36,7 @@ public class BigTechParticles {
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
-		ParticleFactoryRegistry.instance.register(
+		ParticleFactoryRegistry.getInstance().register(
 			SPARKLE_TYPE,
 			(FabricSpriteProvider spriteProvider) -> (
 				(
@@ -56,9 +58,9 @@ public class BigTechParticles {
 					velocityX,
 					velocityY,
 					velocityZ,
-					parameters.color.x,
-					parameters.color.y,
-					parameters.color.z
+					parameters.getColor().x,
+					parameters.getColor().y,
+					parameters.getColor().z
 				)
 			)
 		);
@@ -66,16 +68,23 @@ public class BigTechParticles {
 
 	public static class SimpleParticleType<T extends ParticleEffect> extends ParticleType<T> {
 
-		public final Codec<T> codec;
+		public final MapCodec<T> codec;
+		public final PacketCodec<? super RegistryByteBuf, T> packetCodec;
 
-		public SimpleParticleType(boolean alwaysShow, ParticleEffect.Factory<T> parametersFactory, Codec<T> codec) {
-			super(alwaysShow, parametersFactory);
+		public SimpleParticleType(boolean alwaysShow, MapCodec<T> codec, PacketCodec<? super RegistryByteBuf, T> packetCodec) {
+			super(alwaysShow);
 			this.codec = codec;
+			this.packetCodec = packetCodec;
 		}
 
 		@Override
-		public Codec<T> getCodec() {
+		public MapCodec<T> getCodec() {
 			return this.codec;
+		}
+
+		@Override
+		public PacketCodec<? super RegistryByteBuf, T> getPacketCodec() {
+			return this.packetCodec;
 		}
 	}
 }

@@ -26,7 +26,9 @@ public class MinerToolDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void run(DataGenContext context) {
 		super.run(context);
-		context.getTags(BigTechBlockTags.MINER_BREAKABLE).add(MiningToolTags.PICKAXE);
-		context.getTags(BigTechBlockTags.MINER_BREAKABLE).add(MiningToolTags.SHOVEL);
+		context.getTags(BigTechBlockTags.MINER_BREAKABLE).addAll(
+			MiningToolTags.PICKAXE,
+			MiningToolTags.SHOVEL
+		);
 	}
 }

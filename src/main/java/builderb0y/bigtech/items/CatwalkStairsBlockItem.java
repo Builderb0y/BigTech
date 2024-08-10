@@ -29,24 +29,24 @@ public class CatwalkStairsBlockItem extends BlockItem {
 	}
 
 	public @Nullable ItemPlacementContext modifyPlacementContext(ItemPlacementContext context) {
-		BlockPos placementPos = context.blockPos;
+		BlockPos placementPos = context.getBlockPos();
 		BlockPos againstPos = placementPos;
 		if (!context.canReplaceExisting()) {
-			againstPos = againstPos.offset(context.side.opposite);
+			againstPos = againstPos.offset(context.getSide().getOpposite());
 		}
-		BlockState againstState = context.world.getBlockState(againstPos);
+		BlockState againstState = context.getWorld().getBlockState(againstPos);
 		if (againstState.getBlock() instanceof CatwalkStairsBlock) {
 			placementPos = againstPos;
 			if (againstState.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
 				placementPos = placementPos.down();
 			}
 			Direction againstFacing = againstState.get(Properties.HORIZONTAL_FACING);
-			Direction  playerFacing = context.horizontalPlayerFacing;
+			Direction  playerFacing = context.getHorizontalPlayerFacing();
 			double sidewaysPosition = switch (againstFacing) {
-				case NORTH    ->        (context.hitPos.x - againstPos.x);
-				case SOUTH    -> 1.0D - (context.hitPos.x - againstPos.x);
-				case EAST     ->        (context.hitPos.z - againstPos.z);
-				case WEST     -> 1.0D - (context.hitPos.z - againstPos.z);
+				case NORTH    ->        (context.getHitPos().x - againstPos.getX());
+				case SOUTH    -> 1.0D - (context.getHitPos().x - againstPos.getX());
+				case EAST     ->        (context.getHitPos().z - againstPos.getZ());
+				case WEST     -> 1.0D - (context.getHitPos().z - againstPos.getZ());
 				case UP, DOWN -> throw new AssertionError();
 			};
 			if (sidewaysPosition < 0.0626D) {
@@ -57,21 +57,21 @@ public class CatwalkStairsBlockItem extends BlockItem {
 			}
 			else {
 				if (context.shouldCancelInteraction()) {
-					playerFacing = playerFacing.opposite;
+					playerFacing = playerFacing.getOpposite();
 				}
-				int dot = playerFacing.offsetX * againstFacing.offsetX + playerFacing.offsetZ * againstFacing.offsetZ;
-				placementPos = placementPos.add(playerFacing.offsetX, dot, playerFacing.offsetZ);
+				int dot = playerFacing.getOffsetX() * againstFacing.getOffsetX() + playerFacing.getOffsetZ() * againstFacing.getOffsetZ();
+				placementPos = placementPos.add(playerFacing.getOffsetX(), dot, playerFacing.getOffsetZ());
 			}
-			return new AutomaticItemPlacementContext(context.world, placementPos, againstFacing, context.stack, context.side);
+			return new AutomaticItemPlacementContext(context.getWorld(), placementPos, againstFacing, context.getStack(), context.getSide());
 		}
 		else if (againstState.getBlock() instanceof CatwalkPlatformBlock platform) {
 			Direction offsetDirection = platform.getPlacementDirection(againstPos, againstState, context);
 			placementPos = againstPos.offset(offsetDirection);
 			if (context.shouldCancelInteraction()) {
 				placementPos = placementPos.down();
-				offsetDirection = offsetDirection.opposite;
+				offsetDirection = offsetDirection.getOpposite();
 			}
-			return new AutomaticItemPlacementContext(context.world, placementPos, offsetDirection, context.stack, context.side);
+			return new AutomaticItemPlacementContext(context.getWorld(), placementPos, offsetDirection, context.getStack(), context.getSide());
 		}
 		else {
 			return context;

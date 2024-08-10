@@ -2,14 +2,16 @@ package builderb0y.bigtech.beams.storage.chunk;
 
 import java.util.function.Supplier;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.component.CopyableComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.CopyableComponent;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
@@ -31,7 +33,7 @@ public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>,
 	public @Nullable CommonChunkBeamStorage get() {
 		Chunk chunk = this.chunk;
 		if (chunk instanceof WorldChunk worldChunk) {
-			if (worldChunk.world.isClient) {
+			if (worldChunk.getWorld().isClient) {
 				this.storage = new ClientChunkBeamStorage(worldChunk);
 			}
 			else {
@@ -50,7 +52,7 @@ public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>,
 	}
 
 	@Override
-	public void copyFrom(ChunkBeamStorageHolder that) {
+	public void copyFrom(ChunkBeamStorageHolder that, RegistryWrapper.WrapperLookup registryLookup) {
 		CommonChunkBeamStorage thisStorage = this.get();
 		CommonChunkBeamStorage thatStorage = that.get();
 		if (thisStorage != null && thatStorage != null) {
@@ -59,13 +61,13 @@ public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>,
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		CommonChunkBeamStorage storage = this.get();
 		if (storage != null) storage.readFromNbt(tag);
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		CommonChunkBeamStorage storage = this.get();
 		if (storage != null) storage.writeToNbt(tag);
 	}

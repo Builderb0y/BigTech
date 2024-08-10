@@ -16,16 +16,16 @@ public class MagnetiteNuggetDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_ingot")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_ingot")),
 			new ShapedRecipeBuilder()
 			.pattern("i")
 			.where('i', BigTechItemTags.MAGNETITE_INGOTS)
-			.result(this.id)
+			.result(this.getId())
 			.count(9)
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_transmute")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_transmute")),
 			//language=json
 			"""
 			{
@@ -39,6 +39,6 @@ public class MagnetiteNuggetDataGenerator extends BasicItemDataGenerator {
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.MAGNETITE_NUGGETS).addElement(this.id);
+		context.getTags(BigTechItemTags.MAGNETITE_NUGGETS).addElement(this.getId());
 	}
 }

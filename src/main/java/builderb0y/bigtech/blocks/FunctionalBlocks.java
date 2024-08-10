@@ -308,9 +308,9 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final TripwireBlock TRIPWIRE = BigTechBlocks.register(
+	public static final TripwireBeamBlock TRIPWIRE = BigTechBlocks.register(
 		"tripwire",
-		new TripwireBlock(
+		new TripwireBeamBlock(
 			AbstractBlock
 			.Settings
 			.copy(Blocks.QUARTZ_BLOCK)
@@ -435,6 +435,7 @@ public class FunctionalBlocks {
 		"medium_weighted_pressure_plate",
 		new WeightedPressurePlateBlock(
 			60,
+			BigTechBlocks.COPPER_BLOCK_SET_TYPE,
 			AbstractBlock
 			.Settings
 			.create()
@@ -443,8 +444,7 @@ public class FunctionalBlocks {
 			.requiresTool()
 			.noCollision()
 			.strength(0.5F)
-			.pistonBehavior(PistonBehavior.DESTROY),
-			BigTechBlocks.COPPER_BLOCK_SET_TYPE
+			.pistonBehavior(PistonBehavior.DESTROY)
 		)
 	);
 	@UseDataGen(void.class)

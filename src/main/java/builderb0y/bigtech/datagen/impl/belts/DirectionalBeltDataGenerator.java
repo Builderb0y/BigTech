@@ -17,7 +17,7 @@ public abstract class DirectionalBeltDataGenerator extends BeltDataGenerator {
 	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
 		return new BlockStateJsonVariant(
 			state,
-			context.prefixPath("block/", this.id).toString(),
+			context.prefixPath("block/", this.getId()).toString(),
 			null,
 			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);
@@ -26,10 +26,10 @@ public abstract class DirectionalBeltDataGenerator extends BeltDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			BlockStateJsonVariant
-			.streamStatesSorted(this.block)
-			.map(state -> this.createVariant(context, state))
+			.streamStatesSorted(this.getBlock())
+			.map((BlockState state) -> this.createVariant(context, state))
 			.collect(Table.collector(BlockStateJsonVariant.FORMAT))
 			.toString()
 		);

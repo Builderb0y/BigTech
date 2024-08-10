@@ -6,10 +6,8 @@ import java.util.Map;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -21,16 +19,22 @@ import net.minecraft.block.enums.ChestType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.*;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.vehicle.VehicleEntity;
 import net.minecraft.entity.vehicle.VehicleInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -39,18 +43,21 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
+import net.minecraft.recipe.input.SingleStackRecipeInput;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.screen.Property;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes.BoxConsumer;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.EntityAddedToWorldEvent;
@@ -59,10 +66,9 @@ import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.networking.ControlMinerPacket;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.MinerScreenHandler;
-import builderb0y.bigtech.screenHandlers.SingleStackInventoryImpl;
 import builderb0y.bigtech.util.WorldHelper;
 
-public class MinerEntity extends Entity implements VehicleInventory, SidedInventory, RideableInventory {
+public class MinerEntity extends VehicleEntity implements VehicleInventory, SidedInventory, RideableInventory {
 
 	public static final int
 		FORWARD   = 1 << 0,
@@ -90,25 +96,25 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 			if (entity instanceof ItemEntity itemEntity) {
 				MinerEntity miner = MINING_MINER.get();
 				if (miner != null) {
-					ItemStack stack = itemEntity.stack;
+					ItemStack stack = itemEntity.getStack();
 					for (int slot = STORAGE_START; slot < STORAGE_END; slot++) {
 						ItemStack existing = miner.getStack(slot);
-						if (existing.isEmpty) {
+						if (existing.isEmpty()) {
 							miner.setStack(slot, stack);
-							itemEntity.stack = ItemStack.EMPTY;
+							itemEntity.setStack(ItemStack.EMPTY);
 							return false;
 						}
-						else if (ItemStack.canCombine(existing, stack)) {
-							int transferred = Math.min(stack.count, existing.maxCount - existing.count);
+						else if (ItemStack.areItemsAndComponentsEqual(existing, stack)) {
+							int transferred = Math.min(stack.getCount(), existing.getMaxCount() - existing.getCount());
 							existing.increment(transferred);
 							stack.decrement(transferred);
-							if (stack.isEmpty) {
-								itemEntity.stack = ItemStack.EMPTY;
+							if (stack.isEmpty()) {
+								itemEntity.setStack(ItemStack.EMPTY);
 								return false;
 							}
 						}
 					}
-					itemEntity.stack = stack.copy();
+					itemEntity.setStack(stack.copy());
 				}
 			}
 			return true;
@@ -133,14 +139,18 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 	public MinerEntity(EntityType<?> type, World world) {
 		super(type, world);
-		this.stepHeight = 0.6F;
 		this.number = (short)(world.random.nextInt(1000));
 	}
 
 	@Override
-	public void initDataTracker() {
-		this.dataTracker.startTracking(INPUT, (byte)(0));
-		this.dataTracker.startTracking(FUEL_FRACTION, 0.0F);
+	public float getStepHeight() {
+		return 0.6F;
+	}
+
+	@Override
+	public void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+		builder.add(INPUT, (byte)(0)).add(FUEL_FRACTION, 0.0F);
 	}
 
 	public static void trySpawnAt(World world, BlockPos pos, BlockState chestState) {
@@ -166,9 +176,9 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 		MinerEntity miner = new MinerEntity(BigTechEntityTypes.MINER, world);
 		miner.refreshPositionAndAngles(
-			terracottaPos1.x + 0.5D + backDirection.offsetX * 0.5D + sideDirection.offsetX * 0.5D,
-			terracottaPos1.y,
-			terracottaPos1.z + 0.5D + backDirection.offsetZ * 0.5D + sideDirection.offsetZ * 0.5D,
+			terracottaPos1.getX() + 0.5D + backDirection.getOffsetX() * 0.5D + sideDirection.getOffsetX() * 0.5D,
+			terracottaPos1.getY(),
+			terracottaPos1.getZ() + 0.5D + backDirection.getOffsetZ() * 0.5D + sideDirection.getOffsetZ() * 0.5D,
 			backDirection.asRotation(),
 			0.0F
 		);
@@ -222,7 +232,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 		if (client.input.pressingBack   ) input |= BACKWARD;
 		if (client.input.pressingLeft   ) input |= LEFT;
 		if (client.input.pressingRight  ) input |= RIGHT;
-		if (client.isSprinting          ) input |= SPRINTING;
+		if (client.isSprinting()        ) input |= SPRINTING;
 		return (byte)(input);
 	}
 
@@ -230,7 +240,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 	public void updateInput(PlayerEntity player) {
 		byte input = encodeInput((ClientPlayerEntity)(player));
 		this.dataTracker.set(INPUT, input);
-		ClientPlayNetworking.send(new ControlMinerPacket(input));
+		ControlMinerPacket.INSTANCE.send(input);
 	}
 
 	@Override
@@ -243,45 +253,45 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 			this.smeltingTicks = 0;
 			return;
 		}
-		if (this.fuelTicks.get() > 0) this.fuelTicks.set(this.fuelTicks.get() - (controller.isSprinting ? 2 : 1));
+		if (this.fuelTicks.get() > 0) this.fuelTicks.set(this.fuelTicks.get() - (controller.isSprinting() ? 2 : 1));
 		if (this.fuelTicks.get() < SLOWDOWN_THRESHOLD) {
 			ItemStack stack = this.getStack(FUEL_START);
 			int fuel;
-			if (!stack.isEmpty && (fuel = FuelRegistry.INSTANCE.get(stack.item)) > 0) {
+			if (!stack.isEmpty() && (fuel = FuelRegistry.INSTANCE.get(stack.getItem())) > 0) {
 				stack.decrement(1);
 				this.fuelTicks.set(this.fuelTicks.get() + fuel);
 			}
 		}
 		if (this.fuelTicks.get() > 0) {
 			ItemStack toSmelt = this.getStack(SMELTING_START);
-			if (!toSmelt.isEmpty) {
-				SingleStackInventoryImpl inventory = new SingleStackInventoryImpl(toSmelt);
+			if (!toSmelt.isEmpty()) {
+				SingleStackRecipeInput inventory = new SingleStackRecipeInput(toSmelt);
 				if (this.activeSmeltingRecipe == null || !this.activeSmeltingRecipe.matches(inventory, this.getWorld())) {
-					this.activeSmeltingRecipe = this.getWorld().recipeManager.getFirstMatch(RecipeType.SMELTING, inventory, this.getWorld()).map(RecipeEntry::value).orElse(null);
+					this.activeSmeltingRecipe = this.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, inventory, this.getWorld()).map(RecipeEntry::value).orElse(null);
 				}
-				if (this.activeSmeltingRecipe != null && ++this.smeltingTicks >= this.activeSmeltingRecipe.cookingTime) {
-					ItemStack smelted = this.activeSmeltingRecipe.craft(inventory, this.getWorld().registryManager);
-					if (!smelted.isEmpty) {
+				if (this.activeSmeltingRecipe != null && ++this.smeltingTicks >= this.activeSmeltingRecipe.getCookingTime()) {
+					ItemStack smelted = this.activeSmeltingRecipe.craft(inventory, this.getWorld().getRegistryManager());
+					if (!smelted.isEmpty()) {
 						int available = 0;
 						for (int slot = STORAGE_END; --slot >= STORAGE_START; ) {
 							ItemStack existing = this.getStack(slot);
-							if (existing.isEmpty) {
-								available = smelted.count;
+							if (existing.isEmpty()) {
+								available = smelted.getCount();
 								break;
 							}
-							else if (ItemStack.canCombine(existing, smelted)) {
-								available += existing.maxCount - existing.count;
+							else if (ItemStack.areItemsAndComponentsEqual(existing, smelted)) {
+								available += existing.getMaxCount() - existing.getCount();
 							}
 						}
-						if (available >= smelted.count) {
+						if (available >= smelted.getCount()) {
 							for (int slot = STORAGE_END; --slot >= STORAGE_START; ) {
 								ItemStack existing = this.getStack(slot);
-								if (existing.isEmpty) {
+								if (existing.isEmpty()) {
 									this.setStack(slot, smelted);
 									break;
 								}
-								else if (ItemStack.canCombine(existing, smelted)) {
-									int transferred = Math.min(smelted.count, existing.maxCount - existing.count);
+								else if (ItemStack.areItemsAndComponentsEqual(existing, smelted)) {
+									int transferred = Math.min(smelted.getCount(), existing.getMaxCount() - existing.getCount());
 									existing.increment(transferred);
 									smelted.decrement(transferred);
 								}
@@ -301,6 +311,15 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 	@Override
 	public void tick() {
 		super.tick();
+
+		if (this.getDamageWobbleTicks() > 0) {
+			this.setDamageWobbleTicks(this.getDamageWobbleTicks() - 1);
+		}
+
+		if (this.getDamageWobbleStrength() > 0.0F) {
+			this.setDamageWobbleStrength(this.getDamageWobbleStrength() - 1.0F);
+		}
+
 		PlayerEntity controller = this.getControllingPassenger();
 
 		this.updateFuel(controller);
@@ -324,20 +343,20 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 			this.angularMomentum = 0.0F;
 		}
 		else {
-			this.yaw += this.angularMomentum;
+			this.setYaw(this.getYaw() + this.angularMomentum);
 		}
 		double newForwardSpeed = this.getTargetForwardMomentum(input);
-		double velocityX = -Math.sin(Math.toRadians(this.yaw)) * newForwardSpeed;
-		double velocityZ =  Math.cos(Math.toRadians(this.yaw)) * newForwardSpeed;
-		this.velocity = new Vec3d(
-			MathHelper.lerp(slipperiness, velocityX, this.velocity.x),
-			(this.velocity.y - 0.08D) * 0.99D,
-			MathHelper.lerp(slipperiness, velocityZ, this.velocity.z)
+		double velocityX = -Math.sin(Math.toRadians(this.getYaw())) * newForwardSpeed;
+		double velocityZ =  Math.cos(Math.toRadians(this.getYaw())) * newForwardSpeed;
+		this.setVelocity(
+			MathHelper.lerp(slipperiness, velocityX, this.getVelocity().x),
+			(this.getVelocity().y - 0.08D) * 0.99D,
+			MathHelper.lerp(slipperiness, velocityZ, this.getVelocity().z)
 		);
-		this.move(MovementType.SELF, this.velocity);
+		this.move(MovementType.SELF, this.getVelocity());
 
-		if (this.isOnGround && newForwardSpeed > 0.0D && this.horizontalCollision) {
-			float adjustment = ((float)(Math.sin(this.yaw * (Math.PI / 45.0D)))) * -4.0F;
+		if (this.isOnGround() && newForwardSpeed > 0.0D && this.horizontalCollision) {
+			float adjustment = ((float)(Math.sin(this.getYaw() * (Math.PI / 45.0D)))) * -4.0F;
 			this.angularMomentum = MathHelper.lerp(slipperiness, adjustment, this.angularMomentum);
 		}
 
@@ -356,7 +375,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 				MINING_MINER.set(this);
 				float breakSpeed = this.isPressingSprint(input) ? 1.5F : 1.0F;
 				currBreakingPositions.forEach((BlockPos pos, BlockState state) -> {
-					manager.increaseDamage(pos, state, breakSpeed, FunctionalItems.MINER_TOOL.defaultStack);
+					manager.increaseDamage(pos, state, breakSpeed, FunctionalItems.MINER_TOOL.getDefaultStack());
 				});
 			}
 			finally {
@@ -367,12 +386,12 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 		else {
 			this.spawnBreakingParticles(currBreakingPositions);
 		}
-		if (this.isLogicalSideForUpdatingMovement) {
+		if (this.isLogicalSideForUpdatingMovement()) {
 			this.lerpTicks = 0;
-			this.updateTrackedPosition(this.x, this.y, this.z);
+			this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
 		}
 		else if (this.lerpTicks > 0) {
-			this.lerpPosAndRotation(this.lerpTicks, this.lerpX, this.lerpY, this.lerpZ, this.lerpYaw, this.pitch);
+			this.lerpPosAndRotation(this.lerpTicks, this.lerpX, this.lerpY, this.lerpZ, this.lerpYaw, this.getPitch());
 			this.lerpTicks--;
 		}
 	}
@@ -388,13 +407,13 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 			@Override
 			public void consume(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-				maxY += this.pos.y;
-				Box minerBox = MinerEntity.this.boundingBox;
+				maxY += this.pos.getY();
+				Box minerBox = MinerEntity.this.getBoundingBox();
 				if (MathHelper.approximatelyEquals(maxY, minerBox.minY)) {
-					minX = Math.max(minX + this.pos.x, minerBox.minX);
-					maxX = Math.min(maxX + this.pos.x, minerBox.maxX);
-					minZ = Math.max(minZ + this.pos.z, minerBox.minZ);
-					maxZ = Math.min(maxZ + this.pos.z, minerBox.maxZ);
+					minX = Math.max(minX + this.pos.getX(), minerBox.minX);
+					maxX = Math.min(maxX + this.pos.getX(), minerBox.maxX);
+					minZ = Math.max(minZ + this.pos.getZ(), minerBox.minZ);
+					maxZ = Math.min(maxZ + this.pos.getZ(), minerBox.maxZ);
 					float intersectedArea = (float)(Math.max(maxX - minX, 0.0D) * Math.max(maxZ - minZ, 0.0D));
 					this.area += intersectedArea;
 					this.sum += intersectedArea * this.currentSlipperiness;
@@ -405,19 +424,19 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 				return this.area == 0.0F ? 1.0F : this.sum / this.area;
 			}
 		}
-		if (!this.isOnGround) return 1.0F;
+		if (!this.isOnGround()) return 1.0F;
 		Accumulator accumulator = new Accumulator();
-		int minX = MathHelper.floor(this.boundingBox.minX);
-		int minZ = MathHelper.floor(this.boundingBox.minZ);
-		int maxX = MathHelper.ceil(this.boundingBox.maxX) - 1;
-		int maxZ = MathHelper.ceil(this.boundingBox.maxZ) - 1;
-		int y = MathHelper.floor(this.y - 0.0001D);
+		int minX = MathHelper.floor(this.getBoundingBox().minX);
+		int minZ = MathHelper.floor(this.getBoundingBox().minZ);
+		int maxX = MathHelper.ceil(this.getBoundingBox().maxX) - 1;
+		int maxZ = MathHelper.ceil(this.getBoundingBox().maxZ) - 1;
+		int y = MathHelper.floor(this.getY() - 0.0001D);
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		accumulator.pos = mutablePos;
 		for (int z = minZ; z <= maxZ; z++) {
 			for (int x = minX; x <= maxX; x++) {
 				BlockState state = this.getWorld().getBlockState(mutablePos.set(x, y, z));
-				accumulator.currentSlipperiness = state.block.getSlipperiness();
+				accumulator.currentSlipperiness = state.getBlock().getSlipperiness();
 				VoxelShape shape = state.getCollisionShape(this.getWorld(), mutablePos, ShapeContext.of(this));
 				shape.forEachBox(accumulator);
 			}
@@ -427,11 +446,11 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 	public Map<BlockPos, BlockState> computeBreakingPositions() {
 		Map<BlockPos, BlockState> positions = new HashMap<>(8);
-		double sin = Math.sin(Math.toRadians(this.yaw));
-		double cos = Math.cos(Math.toRadians(this.yaw));
-		double baseX = this.x - sin * 1.125D;
-		double baseY = this.y;
-		double baseZ = this.z + cos * 1.125D;
+		double sin = Math.sin(Math.toRadians(this.getYaw()));
+		double cos = Math.cos(Math.toRadians(this.getYaw()));
+		double baseX = this.getX() - sin * 1.125D;
+		double baseY = this.getY();
+		double baseZ = this.getZ() + cos * 1.125D;
 		sin *= 0.5D;
 		cos *= 0.5D;
 		this.addPosition(positions, baseX - cos, baseY + 0.5D, baseZ - sin);
@@ -446,16 +465,16 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 		if (positions.containsKey(pos)) return;
 		BlockState state = this.getWorld().getBlockState(pos);
 		VoxelShape shape = state.getCollisionShape(this.getWorld(), pos, ShapeContext.of(this));
-		if (shape.isEmpty) return;
+		if (shape.isEmpty()) return;
 		Box box = shape.getBoundingBox();
 		if (
-			this.boundingBox.intersects(
-				box.minX + pos.x - 0.0001D,
-				box.minY + pos.y,
-				box.minZ + pos.z - 0.0001D,
-				box.maxX + pos.x + 0.0001D,
-				box.maxY + pos.y,
-				box.maxZ + pos.z + 0.0001D
+			this.getBoundingBox().intersects(
+				box.minX + pos.getX() - 0.0001D,
+				box.minY + pos.getY(),
+				box.minZ + pos.getZ() - 0.0001D,
+				box.maxX + pos.getX() + 0.0001D,
+				box.maxY + pos.getY(),
+				box.maxZ + pos.getZ() + 0.0001D
 			)
 		) {
 			positions.put(pos, state);
@@ -464,40 +483,43 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 	@Environment(EnvType.CLIENT)
 	public void spawnBreakingParticles(Map<BlockPos, BlockState> positions) {
-		Direction facing = this.horizontalFacing.opposite;
+		Direction facing = this.getHorizontalFacing().getOpposite();
 		for (BlockPos pos : positions.keySet()) {
-			MinecraftClient.instance.particleManager.addBlockBreakingParticles(pos, facing);
+			MinecraftClient.getInstance().particleManager.addBlockBreakingParticles(pos, facing);
 		}
 	}
 
 	@Override
 	public void move(MovementType movementType, Vec3d movement) {
 		super.move(movementType, movement);
-		this.getWorld().getEntitiesByClass(Entity.class, this.boundingBox, (Entity entity) -> {
-			return entity.rootVehicle != this && !entity.isSpectator && entity.pistonBehavior != PistonBehavior.IGNORE;
+		this.getWorld().getEntitiesByClass(Entity.class, this.getBoundingBox(), (Entity entity) -> {
+			return entity.getRootVehicle() != this && !entity.isSpectator() && entity.getPistonBehavior() != PistonBehavior.IGNORE;
 		})
 		.forEach((Entity entity) -> entity.move(MovementType.PISTON, movement));
 	}
 
 	@Override
 	public boolean canAddPassenger(Entity passenger) {
-		return this.passengerList.size() < 2;
+		return this.getPassengerList().size() < 2;
 	}
 
 	@Override
-	public Vector3f getPassengerAttachmentPos(Entity passenger, EntityDimensions dimensions, float scaleFactor) {
-		return switch (this.passengerList.indexOf(passenger)) {
-			case 0 -> new Vector3f( 0.5F, 0.5F, -0.3125F);
-			case 1 -> new Vector3f(-0.5F, 0.5F, -0.3125F);
-			default -> super.getPassengerAttachmentPos(passenger, dimensions, scaleFactor);
-		};
+	public Vec3d getPassengerAttachmentPos(Entity passenger, EntityDimensions dimensions, float scaleFactor) {
+		return (
+			switch (this.getPassengerList().indexOf(passenger)) {
+				case 0 -> new Vec3d( 0.5F, 0.5F, -0.3125F);
+				case 1 -> new Vec3d(-0.5F, 0.5F, -0.3125F);
+				default -> super.getPassengerAttachmentPos(passenger, dimensions, scaleFactor);
+			}
+		)
+		.rotateY(this.getYaw() * ((float)(Math.PI / -180.0D)));
 	}
 
 	public int removedPassengerIndex = -1;
 
 	@Override
 	public void removePassenger(Entity passenger) {
-		this.removedPassengerIndex = this.passengerList.indexOf(passenger);
+		this.removedPassengerIndex = this.getPassengerList().indexOf(passenger);
 		super.removePassenger(passenger);
 	}
 
@@ -505,15 +527,15 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 	public Vec3d updatePassengerForDismount(LivingEntity passenger) {
 		return switch (this.removedPassengerIndex) {
 			case 0 -> {
-				Vec3d position = getPassengerDismountOffset(this.width * 1.4142135623730951D /* sqrt(2) */, passenger.width, this.yaw - 90.0F);
-				if (!this.getWorld().getBlockCollisions(passenger, passenger.type.createSimpleBoundingBox(this.x + position.x, this.y + position.y, this.z + position.z)).iterator().hasNext()) {
+				Vec3d position = getPassengerDismountOffset(this.getWidth() * 1.4142135623730951D /* sqrt(2) */, passenger.getWidth(), this.getYaw() - 90.0F);
+				if (!this.getWorld().getBlockCollisions(passenger, passenger.getType().getSpawnBox(this.getX() + position.x, this.getY() + position.y, this.getZ() + position.z)).iterator().hasNext()) {
 					yield this.getPos().add(position);
 				}
 				yield this.getPos();
 			}
 			case 1 -> {
-				Vec3d position = getPassengerDismountOffset(this.width * 1.4142135623730951D /* sqrt(2) */, passenger.width, this.yaw + 90.0F);
-				if (!this.getWorld().getBlockCollisions(passenger, passenger.type.createSimpleBoundingBox(this.x + position.x, this.y + position.y, this.z + position.z)).iterator().hasNext()) {
+				Vec3d position = getPassengerDismountOffset(this.getWidth() * 1.4142135623730951D /* sqrt(2) */, passenger.getWidth(), this.getYaw() + 90.0F);
+				if (!this.getWorld().getBlockCollisions(passenger, passenger.getType().getSpawnBox(this.getX() + position.x, this.getY() + position.y, this.getZ() + position.z)).iterator().hasNext()) {
 					yield this.getPos().add(position);
 				}
 				yield this.getPos();
@@ -527,15 +549,15 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 	@Nullable
 	@Override
 	public PlayerEntity getControllingPassenger() {
-		return this.firstPassenger instanceof PlayerEntity player ? player : null;
+		return this.getFirstPassenger() instanceof PlayerEntity player ? player : null;
 	}
 
 	@Override
 	public void updatePassengerPosition(Entity passenger, PositionUpdater positionUpdater) {
 		super.updatePassengerPosition(passenger, positionUpdater);
 		passenger.horizontalCollision = false; //fix passenger randomly stopping sprinting.
-		passenger.yaw += this.yaw - this.prevYaw;
-		passenger.bodyYaw = this.yaw;
+		passenger.setYaw(passenger.getYaw() + this.getYaw() - this.prevYaw);
+		passenger.setBodyYaw(this.getYaw());
 		this.clampPassengerYaw(passenger);
 	}
 
@@ -549,7 +571,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 		float offset = MathHelper.wrapDegrees(passenger.getYaw() - this.getYaw());
 		float clampedOffset = MathHelper.clamp(offset, -105.0F, 105.0F);
 		passenger.prevYaw += clampedOffset - offset;
-		passenger.yaw += clampedOffset - offset;
+		passenger.setYaw(passenger.getYaw() + clampedOffset - offset);
 		passenger.setHeadYaw(passenger.getYaw());
 	}
 
@@ -564,22 +586,22 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 	@Override
 	public double getLerpTargetX() {
-		return this.lerpTicks > 0 ? this.lerpX : this.x;
+		return this.lerpTicks > 0 ? this.lerpX : this.getX();
 	}
 
 	@Override
 	public double getLerpTargetY() {
-		return this.lerpTicks > 0 ? this.lerpY : this.y;
+		return this.lerpTicks > 0 ? this.lerpY : this.getY();
 	}
 
 	@Override
 	public double getLerpTargetZ() {
-		return this.lerpTicks > 0 ? this.lerpZ : this.z;
+		return this.lerpTicks > 0 ? this.lerpZ : this.getZ();
 	}
 
 	@Override
 	public float getLerpTargetYaw() {
-		return this.lerpTicks > 0 ? this.lerpYaw : this.yaw;
+		return this.lerpTicks > 0 ? this.lerpYaw : this.getYaw();
 	}
 
 	@Override
@@ -589,26 +611,26 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 	@Override
 	public boolean canHit() {
-		return !this.isRemoved() && !this.isThePlayerRiding;
+		return !this.isRemoved() && !this.isThePlayerRiding();
 	}
 
 	@Override
 	public ActionResult interact(PlayerEntity player, Hand hand) {
 		if (!this.getWorld().isClient) {
-			if (player.isSneaking) player.openHandledScreen(this);
+			if (player.isSneaking()) player.openHandledScreen(this);
 			else player.startRiding(this);
 		}
 		return ActionResult.SUCCESS;
 	}
 
 	public boolean isThePlayerRiding() {
-		return this.getWorld().isClient && this.isThePlayerRiding0;
+		return this.getWorld().isClient && this.isThePlayerRiding0();
 	}
 
 	@Environment(EnvType.CLIENT)
 	public boolean isThePlayerRiding0() {
-		Entity entity = MinecraftClient.instance.cameraEntity;
-		return entity != null && entity.vehicle == this;
+		Entity entity = MinecraftClient.getInstance().cameraEntity;
+		return entity != null && entity.getVehicle() == this;
 	}
 
 	@Override
@@ -622,7 +644,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 			this.number = nbt.getShort("number");
 		}
 		this.inventory.clear();
-		Inventories.readNbt(nbt, this.inventory);
+		Inventories.readNbt(nbt, this.inventory, this.getWorld().getRegistryManager());
 		this.angularMomentum = nbt.getFloat("angular_momentum");
 		if (!Float.isFinite(this.angularMomentum)) this.angularMomentum = 0.0F;
 		this.fuelTicks.set(nbt.getInt("fuel_ticks"));
@@ -632,21 +654,21 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		nbt.putShort("number", this.number);
-		Inventories.writeNbt(nbt, this.inventory);
+		Inventories.writeNbt(nbt, this.inventory, this.getWorld().getRegistryManager());
 		nbt.putFloat("angular_momentum", this.angularMomentum);
 		nbt.putInt("fuel_ticks", this.fuelTicks.get());
 		nbt.putInt("smelting_ticks", this.smeltingTicks);
 	}
 
 	@Override
-	public Packet<ClientPlayPacketListener> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this, this.number);
+	public Packet<ClientPlayPacketListener> createSpawnPacket(EntityTrackerEntry entityTrackerEntry) {
+		return new EntitySpawnS2CPacket(this, entityTrackerEntry, this.number);
 	}
 
 	@Override
 	public void onSpawnPacket(EntitySpawnS2CPacket packet) {
 		super.onSpawnPacket(packet);
-		this.number = (short)(packet.entityData);
+		this.number = (short)(packet.getEntityData());
 	}
 
 	//////////////////////////////// inventory stuff ////////////////////////////////
@@ -656,7 +678,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 		FUEL_SLOTS      = { FUEL_START, SMELTING_START };
 
 	public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(TOTAL_SIZE, ItemStack.EMPTY);
-	public Identifier lootTableId;
+	public RegistryKey<LootTable> lootTableId;
 	public long lootTableSeed;
 
 	public static int[] slotRange(int start, int end) {
@@ -670,7 +692,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 
 	@Override
 	public int[] getAvailableSlots(Direction side) {
-		return side.axis == Axis.Y ? INVENTORY_SLOTS : FUEL_SLOTS;
+		return side.getAxis() == Axis.Y ? INVENTORY_SLOTS : FUEL_SLOTS;
 	}
 
 	@Override
@@ -682,7 +704,7 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 			return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
 		}
 		if (slot >= SMELTING_START && slot < SMELTING_END) {
-			return this.getWorld().recipeManager.getFirstMatch(RecipeType.SMELTING, new SingleStackInventoryImpl(stack), this.getWorld()).isPresent();
+			return this.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(stack), this.getWorld()).isPresent();
 		}
 		return false;
 	}
@@ -701,20 +723,20 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 			return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
 		}
 		if (slot >= SMELTING_START && slot < SMELTING_END) {
-			return this.getWorld().recipeManager.getFirstMatch(RecipeType.SMELTING, new SingleStackInventoryImpl(stack), this.getWorld()).isPresent();
+			return this.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(stack), this.getWorld()).isPresent();
 		}
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public Identifier getLootTableId() {
+	public RegistryKey<LootTable> getLootTable() {
 		return this.lootTableId;
 	}
 
 	@Override
-	public void setLootTableId(@Nullable Identifier lootTableId) {
-		this.lootTableId = lootTableId;
+	public void setLootTable(@Nullable RegistryKey<LootTable> lootTable) {
+		this.lootTableId = lootTable;
 	}
 
 	@Override
@@ -790,5 +812,26 @@ public class MinerEntity extends Entity implements VehicleInventory, SidedInvent
 	@Override
 	public void openInventory(PlayerEntity player) {
 		player.openHandledScreen(this);
+	}
+
+	@Override
+	public void killAndDropSelf(DamageSource source) {
+		this.kill();
+		if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+			this.dropStack(new ItemStack(Items.CHEST));
+			this.dropStack(new ItemStack(Items.CHEST));
+			this.dropStack(new ItemStack(Items.YELLOW_TERRACOTTA));
+			this.dropStack(new ItemStack(Items.YELLOW_TERRACOTTA));
+			this.dropStack(new ItemStack(Items.IRON_BLOCK));
+			this.dropStack(new ItemStack(Items.IRON_BLOCK));
+			this.dropStack(new ItemStack(Items.IRON_BLOCK));
+			this.dropStack(new ItemStack(Items.IRON_BLOCK));
+			ItemScatterer.spawn(this.getWorld(), this, this);
+		}
+	}
+
+	@Override
+	public Item asItem() {
+		return Items.AIR;
 	}
 }

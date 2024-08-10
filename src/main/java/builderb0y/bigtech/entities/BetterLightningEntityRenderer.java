@@ -38,11 +38,11 @@ public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntit
 		int light
 	) {
 		VertexConsumer buffer = vertexConsumers.getBuffer(LightningRenderer.LIGHTNING_LAYER);
-		Matrix4f matrix = matrices.peek().positionMatrix;
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
 		//use java.util.SplittableRandom over java.util.Random
 		//because it's faster due to the non-atomic seed.
 		RandomGenerator random = new SplittableRandom(entity.seed);
-		Vec3d camera = MinecraftClient.getInstance().gameRenderer.camera.pos.subtract(entity.pos);
+		Vec3d camera = MinecraftClient.getInstance().gameRenderer.getCamera().getPos().subtract(entity.getPos());
 		float age = entity.age + tickDelta;
 		LightningRenderer.generatePoints(
 			random,

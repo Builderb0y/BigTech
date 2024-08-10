@@ -21,7 +21,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_off")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
 			//language=json
 			"""
 			{
@@ -97,7 +97,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 			}"""
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_on")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
 			//language=json
 			"""
 			{
@@ -178,7 +178,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("qqq", "lcr", "bbb")
 			.where('q', ConventionalItemTags.QUARTZ)
@@ -186,7 +186,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('r', Items.REDSTONE_TORCH)
 			.where('b', Items.SMOOTH_STONE_SLAB)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

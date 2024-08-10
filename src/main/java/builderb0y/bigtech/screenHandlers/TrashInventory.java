@@ -9,17 +9,12 @@ public class TrashInventory implements SingleStackInventory {
 	public static final TrashInventory INSTANCE = new TrashInventory();
 
 	@Override
-	public ItemStack getStack(int slot) {
+	public ItemStack getStack() {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public void setStack(int slot, ItemStack stack) {
+	public void setStack(ItemStack stack) {
 
 	}
 

@@ -24,7 +24,7 @@ public class DirectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 		DirectorBeltMode mode = state.get(BigTechProperties.DIRECTOR_BELT_MODE);
 		return new BlockStateJsonVariant(
 			state,
-			context.prefixSuffixPath("block/", this.id, '_' + (state.get(Properties.POWERED) == state.get(Properties.INVERTED) ? mode.regularName : mode.invertedName)).toString(),
+			context.prefixSuffixPath("block/", this.getId(), '_' + (state.get(Properties.POWERED) == state.get(Properties.INVERTED) ? mode.regularName : mode.invertedName)).toString(),
 			null,
 			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);

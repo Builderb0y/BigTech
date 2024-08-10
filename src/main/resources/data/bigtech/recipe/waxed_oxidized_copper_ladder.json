@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "bigtech:copper_ladders",
+	"ingredients": [
+		{ "item": "bigtech:oxidized_copper_ladder" },
+		{ "item": "bigtech:oxidized_copper_ladder" },
+		{ "item": "bigtech:oxidized_copper_ladder" },
+		{ "item": "minecraft:honeycomb"            }
+	],
+	"result": {
+		"id": "bigtech:waxed_oxidized_copper_ladder",
+		"count": 3
+	}
+}

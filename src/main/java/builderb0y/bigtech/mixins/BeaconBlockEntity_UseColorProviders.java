@@ -16,8 +16,8 @@ public class BeaconBlockEntity_UseColorProviders {
 
 	/** called by ASM, see {@link BeaconBlockEntityASM}. */
 	@Unique
-	private static float[] bigtech_getColor(World world, BlockPos pos, BlockState state, BeaconBlockEntity beacon) {
+	private static int bigtech_getColor(World world, BlockPos pos, BlockState state, BeaconBlockEntity beacon) {
 		BeaconBeamColorProvider provider = BeaconBeamColorProvider.LOOKUP.find(world, pos, state, null, beacon);
-		return provider != null ? provider.getBeaconColor(world, pos, state) : null;
+		return provider != null ? provider.getBeaconColor(world, pos, state) : 0;
 	}
 }

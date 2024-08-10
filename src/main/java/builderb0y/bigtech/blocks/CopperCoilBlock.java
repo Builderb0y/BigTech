@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -18,17 +19,26 @@ import net.minecraft.world.World;
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.TeslaCoilBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class CopperCoilBlock extends Block implements BlockEntityProvider, LightningPulseInteractor {
 
+	public static final MapCodec<CopperCoilBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public CopperCoilBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
+		this.setDefaultState(
 			this
-			.defaultState
+			.getDefaultState()
 			.with(Properties.FACING, Direction.UP)
 			.with(Properties.POWERED, Boolean.FALSE)
 		);
@@ -77,8 +87,8 @@ public class CopperCoilBlock extends Block implements BlockEntityProvider, Light
 		return (
 			super
 			.getPlacementState(context)
-			.with(Properties.FACING, context.side)
-			.with(Properties.POWERED, context.world.isReceivingRedstonePower(context.blockPos))
+			.with(Properties.FACING, context.getSide())
+			.with(Properties.POWERED, context.getWorld().isReceivingRedstonePower(context.getBlockPos()))
 		);
 	}
 

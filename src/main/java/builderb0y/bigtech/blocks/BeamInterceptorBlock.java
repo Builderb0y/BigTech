@@ -3,6 +3,7 @@ package builderb0y.bigtech.blocks;
 import java.text.NumberFormat;
 import java.util.EnumMap;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -11,12 +12,11 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextContent;
+import net.minecraft.text.*;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -34,6 +34,7 @@ import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class BeamInterceptorBlock extends Block implements BeamCallback, Waterloggable, BlockEntityProvider {
@@ -71,10 +72,19 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 		NUMBER_FORMAT.setMaximumFractionDigits(3);
 	}
 
+	public static final MapCodec<BeamInterceptorBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public BeamInterceptorBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
-			this.defaultState
+		this.setDefaultState(
+			this
+			.getDefaultState()
 			.with(Properties.FACING, Direction.DOWN)
 			.with(Properties.POWERED, Boolean.FALSE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
@@ -90,7 +100,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 
 	@Override
 	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		inputSegment.beam.addSegment(inputSegment.extend());
+		inputSegment.beam().addSegment(inputSegment.extend());
 		return true;
 	}
 
@@ -129,7 +139,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return state.get(Properties.POWERED) && state.get(Properties.FACING) == direction.opposite ? 15 : 0;
+		return state.get(Properties.POWERED) && state.get(Properties.FACING) == direction.getOpposite() ? 15 : 0;
 	}
 
 	public boolean checkPowered(World world, BlockPos pos, BlockState state, @Nullable Beam pulse) {
@@ -141,7 +151,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 		if (pulse != null) {
 			accumulator.acceptAll(pos, pulse.seen.get(ChunkSectionPos.toLong(pos)));
 		}
-		accumulator.acceptAll(pos, ChunkBeamStorageHolder.KEY.get(world.getChunk(pos)).require().get(pos.y >> 4));
+		accumulator.acceptAll(pos, ChunkBeamStorageHolder.KEY.get(world.getChunk(pos)).require().get(pos.getY() >> 4));
 		Vector3f sum = accumulator.getColor();
 		if (sum == null) {
 			if (!blockEntity.locked) {
@@ -184,8 +194,8 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 		return (
 			super
 			.getPlacementState(context)
-			.with(Properties.FACING, context.getSide().opposite)
-			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
+			.with(Properties.FACING, context.getSide().getOpposite())
+			.with(Properties.WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).isEqualAndStill(Fluids.WATER))
 		);
 	}
 
@@ -195,20 +205,18 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
 		Direction direction = state.get(Properties.FACING);
 		BlockPos offset = pos.offset(direction);
-		return world.getBlockState(offset).isSideSolid(world, offset, direction.opposite, SideShapeType.CENTER);
+		return world.getBlockState(offset).isSideSolid(world, offset, direction.getOpposite(), SideShapeType.CENTER);
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!player.getStackInHand(hand).isEmpty) {
-			return ActionResult.PASS;
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!player.getStackInHand(hand).isEmpty()) {
+			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 		if (!world.isClient) {
 			BeamInterceptorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class);
 			if (blockEntity != null) {
-				if (player.isSneaking) {
+				if (player.isSneaking()) {
 					if (blockEntity.locked) {
 						blockEntity.locked = false;
 						player.sendMessage(Text.translatable("bigtech.beam_interceptor.unlocked"), true);
@@ -230,7 +238,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 				}
 			}
 		}
-		return ActionResult.SUCCESS;
+		return ItemActionResult.SUCCESS;
 	}
 
 	public static Text getColorCode(String prefix, Vector3f color) {
@@ -240,12 +248,12 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 			? Text.translatable("bigtech.beam_interceptor.no_color")
 			: (
 				MutableText
-				.of(TextContent.EMPTY)
-				.append(Text.literal(NUMBER_FORMAT.format(color.x)).styled(style -> style.withColor(0xFFFF3F3F)))
+				.of(PlainTextContent.EMPTY)
+				.append(Text.literal(NUMBER_FORMAT.format(color.x)).styled((Style style) -> style.withColor(0xFFFF3F3F)))
 				.append(Text.literal(", "))
-				.append(Text.literal(NUMBER_FORMAT.format(color.y)).styled(style -> style.withColor(0xFF3FFF3F)))
+				.append(Text.literal(NUMBER_FORMAT.format(color.y)).styled((Style style) -> style.withColor(0xFF3FFF3F)))
 				.append(Text.literal(", "))
-				.append(Text.literal(NUMBER_FORMAT.format(color.z)).styled(style -> style.withColor(0xFF3F3FFF)))
+				.append(Text.literal(NUMBER_FORMAT.format(color.z)).styled((Style style) -> style.withColor(0xFF3F3FFF)))
 			)
 		);
 	}
@@ -262,8 +270,8 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
-		if (direction == state.get(Properties.FACING) && !neighborState.isSideSolid(world, pos, direction.opposite, SideShapeType.CENTER)) {
-			return (state.get(Properties.WATERLOGGED) ? Blocks.WATER : Blocks.AIR).defaultState;
+		if (direction == state.get(Properties.FACING) && !neighborState.isSideSolid(world, pos, direction.getOpposite(), SideShapeType.CENTER)) {
+			return (state.get(Properties.WATERLOGGED) ? Blocks.WATER : Blocks.AIR).getDefaultState();
 		}
 		return state;
 	}

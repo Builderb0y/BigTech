@@ -35,7 +35,7 @@ import builderb0y.bigtech.util.Directions;
 public class BeamMeshBuilder {
 
 	public static final float r = 0.0625F - 1.0F / 1024.0F;
-	public static final Mesh EMPTY_MESH = RendererAccess.INSTANCE.renderer.meshBuilder().build();
+	public static final Mesh EMPTY_MESH = RendererAccess.INSTANCE.getRenderer().meshBuilder().build();
 	public static final EnumMap<BeamDirection, Extrusion[]> EXTRUSIONS = new EnumMap<>(BeamDirection.class);
 	static {
 		Point[] corners = computeCorners();
@@ -92,36 +92,36 @@ public class BeamMeshBuilder {
 	//	so that normals and UVs can be encoded more efficiently
 	//	(meaning on a per-quad basis, not a per-vertex basis).
 	public static Mesh build(CommonSectionBeamStorage storage) {
-		if (!storage.isEmpty) {
-			MeshBuilder builder = RendererAccess.INSTANCE.renderer.meshBuilder();
-			QuadEmitter emitter = builder.emitter;
+		if (!storage.isEmpty()) {
+			MeshBuilder builder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
+			QuadEmitter emitter = builder.getEmitter();
 			EnumMap<BeamDirection, AdjacentColorAccumulator> directionToColor = new EnumMap<>(BeamDirection.class);
 			for (BeamDirection direction : BeamDirection.VALUES) {
 				directionToColor.put(direction, new AdjacentColorAccumulator());
 			}
 			ColorAccumulator averageColor = new ColorAccumulator();
-			Sprite sprite = MinecraftClient.instance.bakedModelManager.getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).getSprite(BigTechMod.modID("block/beam"));
+			Sprite sprite = MinecraftClient.getInstance().getBakedModelManager().getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).getSprite(BigTechMod.modID("block/beam"));
 			SodiumCompatibility.markSpriteActive(sprite);
 			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> iterator = storage.short2ObjectEntrySet().fastIterator();
 			while (iterator.hasNext()) {
 				Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = iterator.next();
-				short packedPos = blockEntry.shortKey;
+				short packedPos = blockEntry.getShortKey();
 				int x = BasicSectionBeamStorage.unpackX(packedPos);
 				int y = BasicSectionBeamStorage.unpackY(packedPos);
 				int z = BasicSectionBeamStorage.unpackZ(packedPos);
-				for (BeamSegment segment : blockEntry.value) {
-					AdjacentColorAccumulator accumulator = directionToColor.get(segment.direction);
-					accumulator.accept(segment.color);
-					averageColor.accept(segment.color);
-					if (segment.direction != BeamDirection.CENTER) {
-						int adjacentX = x + segment.direction.x;
-						int adjacentY = y + segment.direction.y;
-						int adjacentZ = z + segment.direction.z;
+				for (BeamSegment segment : blockEntry.getValue()) {
+					AdjacentColorAccumulator accumulator = directionToColor.get(segment.direction());
+					accumulator.accept(segment.color());
+					averageColor.accept(segment.color());
+					if (segment.direction() != BeamDirection.CENTER) {
+						int adjacentX = x + segment.direction().x;
+						int adjacentY = y + segment.direction().y;
+						int adjacentZ = z + segment.direction().z;
 						LinkedList<BeamSegment> adjacentSegments = getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
 						if (adjacentSegments != null) {
 							for (BeamSegment adjacentSegment : adjacentSegments) {
-								if (adjacentSegment.direction == segment.direction.opposite) {
-									accumulator.accept(adjacentSegment.color);
+								if (adjacentSegment.direction() == segment.direction().getOpposite()) {
+									accumulator.accept(adjacentSegment.color());
 									accumulator.containsAdjacents = true;
 								}
 							}
@@ -168,7 +168,7 @@ public class BeamMeshBuilder {
 						LinkedList<BeamSegment> adjacentSegments = getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
 						if (adjacentSegments != null) {
 							for (BeamSegment segment : adjacentSegments) {
-								if (segment.direction == direction.opposite) {
+								if (segment.direction() == direction.getOpposite()) {
 									faceFlags &= ~FACE_FLAGS[direction.ordinal()];
 								}
 							}
@@ -265,7 +265,7 @@ public class BeamMeshBuilder {
 			}
 		}
 		else {
-			Chunk chunk = storage.chunk.world.getChunk(storage.chunk.pos.x + (adjacentX >> 4), storage.chunk.pos.z + (adjacentZ >> 4), ChunkStatus.FULL, false);
+			Chunk chunk = storage.chunk.getWorld().getChunk(storage.chunk.getPos().x + (adjacentX >> 4), storage.chunk.getPos().z + (adjacentZ >> 4), ChunkStatus.FULL, false);
 			if (chunk != null) {
 				return ChunkBeamStorageHolder.KEY.get(chunk).require().get(storage.sectionCoordY + (adjacentY >> 4));
 			}
@@ -285,10 +285,10 @@ public class BeamMeshBuilder {
 		float nx, float ny, float nz,
 		Sprite sprite
 	) {
-		float lerpedU0 = MathHelper.lerp(u0, sprite.minU, sprite.maxU);
-		float lerpedU1 = MathHelper.lerp(u1, sprite.minU, sprite.maxU);
-		float lerpedV0 = MathHelper.lerp(v0, sprite.minV, sprite.maxV);
-		float lerpedV1 = MathHelper.lerp(v1, sprite.minV, sprite.maxV);
+		float lerpedU0 = MathHelper.lerp(u0, sprite.getMinU(), sprite.getMaxU());
+		float lerpedU1 = MathHelper.lerp(u1, sprite.getMinU(), sprite.getMaxU());
+		float lerpedV0 = MathHelper.lerp(v0, sprite.getMinV(), sprite.getMaxV());
+		float lerpedV1 = MathHelper.lerp(v1, sprite.getMinV(), sprite.getMaxV());
 		int color = (
 			Math.max(Math.min((int)(a * 256.0F), 255), 0) << 24 |
 			Math.max(Math.min((int)(r * 256.0F), 255), 0) << 16 |

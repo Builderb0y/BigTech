@@ -12,6 +12,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
@@ -78,18 +79,18 @@ public class PrismBlockEntity extends BlockEntity {
 	public void lensesChanged() {
 		if (this.world instanceof ServerWorld serverWorld) {
 			serverWorld.getChunkManager().markForUpdate(this.pos);
-			PersistentBeam.notifyBlockChanged(serverWorld, this.pos, this.cachedState, this.cachedState);
+			PersistentBeam.notifyBlockChanged(serverWorld, this.pos, this.getCachedState(), this.getCachedState());
 		}
 	}
 
 	@Environment(EnvType.CLIENT)
 	public void reRender() {
-		MinecraftClient.getInstance().worldRenderer.updateBlock(this.world, this.pos, this.cachedState, this.cachedState,  8);
+		MinecraftClient.getInstance().worldRenderer.updateBlock(this.world, this.pos, this.getCachedState(), this.getCachedState(),  8);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
 		this.lenses = nbt.getInt("lenses") & FLAG_MASK;
 		if (this.world != null && this.world.isClient) {
 			this.reRender();
@@ -97,14 +98,14 @@ public class PrismBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
+	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
 		nbt.putInt("lenses", this.lenses);
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		return super.toInitialChunkDataNbt().withInt("lenses", this.lenses);
+	public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+		return super.toInitialChunkDataNbt(registryLookup).withInt("lenses", this.lenses);
 	}
 
 	@Nullable

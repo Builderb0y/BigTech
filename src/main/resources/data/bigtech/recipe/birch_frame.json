@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:frames",
+	"pattern": [
+		"ini",
+		"n n",
+		"ini"
+	],
+	"key": {
+		"i": { "item": "minecraft:birch_planks" },
+		"n": { "tag":  "c:wood_sticks"          }
+	},
+	"result": {
+		"id": "bigtech:birch_frame",
+		"count": 4
+	}
+}

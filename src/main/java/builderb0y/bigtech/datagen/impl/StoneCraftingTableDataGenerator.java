@@ -18,7 +18,7 @@ public class StoneCraftingTableDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			//language=json
 			"""
 			{
@@ -38,7 +38,7 @@ public class StoneCraftingTableDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
@@ -59,17 +59,17 @@ public class StoneCraftingTableDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_without_wood")),
+			context.recipePath(context.suffixPath(this.getId(), "_without_wood")),
 			new ShapedRecipeBuilder()
-			.result(this.id)
+			.result(this.getId())
 			.pattern("cc", "cc")
 			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_with_wood")),
+			context.recipePath(context.suffixPath(this.getId(), "_with_wood")),
 			new ShapelessRecipeBuilder()
-			.result(this.id)
+			.result(this.getId())
 			.ingredient(Items.CRAFTING_TABLE)
 			.ingredient(ItemTags.STONE_CRAFTING_MATERIALS)
 			.ingredient(ItemTags.STONE_CRAFTING_MATERIALS)

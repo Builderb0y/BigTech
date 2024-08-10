@@ -22,31 +22,31 @@ public abstract class FrameDataGenerator extends BasicBlockDataGenerator {
 
 	public void writeFrameRecipe(DataGenContext context, TagOrItem cornerIngredient, TagOrItem edgeIngredient) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.BUILDING)
 			.group("bigtech:frames")
 			.pattern("ini", "n n", "ini")
 			.where('i', cornerIngredient)
 			.where('n', edgeIngredient)
-			.result(this.id)
+			.result(this.getId())
 			.count(4)
 			.toString()
 		);
 	}
 
 	public Identifier getBaseTexture() {
-		return this.id;
+		return this.getId();
 	}
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("template_frame"))
-			.blockTexture("outer", context.suffixPath(this.baseTexture, "_outer"))
-			.blockTexture("inner", context.suffixPath(this.baseTexture, "_inner"))
+			.blockTexture("outer", context.suffixPath(this.getBaseTexture(), "_outer"))
+			.blockTexture("inner", context.suffixPath(this.getBaseTexture(), "_inner"))
 			.toString()
 		);
 	}
@@ -63,6 +63,6 @@ public abstract class FrameDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(this.block.<FrameBlock>as().sticksTo).addElement(this.id);
+		context.getTags(this.getBlock().<FrameBlock>as().sticksTo).addElement(this.getId());
 	}
 }

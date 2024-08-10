@@ -27,14 +27,14 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
+				.streamStatesSorted(this.getBlock())
 				.map((BlockState state) -> new BlockStateJsonVariant(
 					state,
-					context.prefixSuffixPath("block/", this.id, state.get(Properties.LIT) ? "_lit" : "").toString(),
+					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.LIT) ? "_lit" : "").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 				))
@@ -47,7 +47,7 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			//language=json
 			"""
 			{
@@ -123,7 +123,7 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 			}"""
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_lit")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_lit")),
 			//language=json
 			"""
 			{
@@ -203,7 +203,7 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
@@ -224,7 +224,7 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("ddd", "lci", "bbb")
 			.where('d', Items.COBBLED_DEEPSLATE)
@@ -232,7 +232,7 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('i', FunctionalItems.IGNITOR)
 			.where('b', Items.SMOOTH_STONE_SLAB)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

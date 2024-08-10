@@ -25,11 +25,11 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 	}
 
 	public boolean addSegment(SpreadingBeamSegment segment, boolean unique) {
-		return this.addSegment(segment.startPos, segment.segment, unique);
+		return this.addSegment(segment.startPos(), segment.segment(), unique);
 	}
 
 	public boolean addSegment(BlockPos pos, BeamSegment segment, boolean unique) {
-		return this.addSegment(pos.x, pos.y, pos.z, segment, unique);
+		return this.addSegment(pos.getX(), pos.getY(), pos.getZ(), segment, unique);
 	}
 
 	public boolean addSegment(int x, int y, int z, BeamSegment segment, boolean unique) {
@@ -43,11 +43,11 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 	}
 
 	public void removeSegment(SpreadingBeamSegment segment) {
-		this.removeSegment(segment.startPos, segment.segment);
+		this.removeSegment(segment.startPos(), segment.segment());
 	}
 
 	public void removeSegment(BlockPos pos, BeamSegment segment) {
-		this.removeSegment(pos.x, pos.y, pos.z, segment);
+		this.removeSegment(pos.getX(), pos.getY(), pos.getZ(), segment);
 	}
 
 	public void removeSegment(int x, int y, int z, BeamSegment segment) {
@@ -65,7 +65,7 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 	}
 
 	public LinkedList<BeamSegment> getSegments(BlockPos pos) {
-		return this.getSegments(pos.x, pos.y, pos.z);
+		return this.getSegments(pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	public LinkedList<BeamSegment> getSegments(int x, int y, int z) {
@@ -80,7 +80,7 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 	}
 
 	public LinkedList<BeamSegment> checkSegments(BlockPos pos) {
-		return this.checkSegments(pos.x, pos.y, pos.z);
+		return this.checkSegments(pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	public LinkedList<BeamSegment> checkSegments(int x, int y, int z) {
@@ -119,8 +119,8 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 		ObjectIterator<Entry<LinkedList<BeamSegment>>> iterator = this.short2ObjectEntrySet().fastIterator();
 		while (iterator.hasNext()) {
 			Short2ObjectMap.Entry<LinkedList<BeamSegment>> entry = iterator.next();
-			for (BeamSegment segment : entry.value) {
-				action.accept(entry.shortKey, segment);
+			for (BeamSegment segment : entry.getValue()) {
+				action.accept(entry.getShortKey(), segment);
 			}
 		}
 	}

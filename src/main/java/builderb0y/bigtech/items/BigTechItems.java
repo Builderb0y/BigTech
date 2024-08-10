@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,19 +41,19 @@ public class BigTechItems {
 
 				@Override
 				public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-					Direction direction = pointer.state.get(Properties.FACING);
-					BlockPos pos = pointer.pos.offset(direction);
+					Direction direction = pointer.state().get(Properties.FACING);
+					BlockPos pos = pointer.pos().offset(direction);
 					if (
 						stack
 						.useOnBlock(
 							new ItemUsageContext(
-								pointer.world,
+								pointer.world(),
 								null,
 								Hand.MAIN_HAND,
 								stack,
 								new BlockHitResult(
 									pos.toCenterPos(),
-									direction.opposite,
+									direction.getOpposite(),
 									pos,
 									false
 								)
@@ -72,13 +74,20 @@ public class BigTechItems {
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
 		ColorProviderRegistry.ITEM.register(
-			(stack, tintIndex) -> {
+			(ItemStack stack, int tintIndex) -> {
 				if (tintIndex == 1) {
-					NbtCompound nbt = stack.getSubNbt(BlockItem.BLOCK_ENTITY_TAG_KEY);
+					NbtCompound nbt = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT).getNbt();
 					if (nbt != null) {
-						float[] color = nbt.getFloatArray("color");
+						int[] color = nbt.getIntArray("color");
 						if (color.length == 3) {
-							return MathHelper.packRgb(color[0], color[1], color[2]) | 0xFF000000;
+							return (
+								MathHelper.packRgb(
+									Float.intBitsToFloat(color[0]),
+									Float.intBitsToFloat(color[1]),
+									Float.intBitsToFloat(color[2])
+								)
+								| 0xFF000000
+							);
 						}
 					}
 				}

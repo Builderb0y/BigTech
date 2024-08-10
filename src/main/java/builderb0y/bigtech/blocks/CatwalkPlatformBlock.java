@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.util.EnumMap;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -17,10 +18,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -32,6 +30,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.items.CatwalkStairsBlockItem;
 
 public class CatwalkPlatformBlock extends Block implements Waterloggable {
@@ -45,10 +44,10 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		VoxelShape west  = VoxelShapes.cuboid(0.0D,    0.0625D, 0.0D,    0.0625D, 0.75D,   1.0D   );
 		for (int index = 0; index < 16; index++) {
 			VoxelShape shape = base;
-			if ((index & (1 << Direction.NORTH.horizontal)) != 0) shape = VoxelShapes.combine(shape, north, BooleanBiFunction.OR);
-			if ((index & (1 << Direction.EAST .horizontal)) != 0) shape = VoxelShapes.combine(shape, east,  BooleanBiFunction.OR);
-			if ((index & (1 << Direction.SOUTH.horizontal)) != 0) shape = VoxelShapes.combine(shape, south, BooleanBiFunction.OR);
-			if ((index & (1 << Direction.WEST .horizontal)) != 0) shape = VoxelShapes.combine(shape, west,  BooleanBiFunction.OR);
+			if ((index & (1 << Direction.NORTH.getHorizontal())) != 0) shape = VoxelShapes.combine(shape, north, BooleanBiFunction.OR);
+			if ((index & (1 << Direction.EAST .getHorizontal())) != 0) shape = VoxelShapes.combine(shape, east,  BooleanBiFunction.OR);
+			if ((index & (1 << Direction.SOUTH.getHorizontal())) != 0) shape = VoxelShapes.combine(shape, south, BooleanBiFunction.OR);
+			if ((index & (1 << Direction.WEST .getHorizontal())) != 0) shape = VoxelShapes.combine(shape, west,  BooleanBiFunction.OR);
 			SHAPES[index] = shape.simplify();
 		}
 	}
@@ -61,10 +60,19 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		PROPERTY_LOOKUP.put(Direction.WEST,  Properties.WEST );
 	}
 
+	public static final MapCodec<CatwalkPlatformBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public CatwalkPlatformBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
-			this.defaultState
+		this.setDefaultState(
+			this
+			.getDefaultState()
 			.with(Properties.NORTH, Boolean.TRUE)
 			.with(Properties.EAST,  Boolean.TRUE)
 			.with(Properties.SOUTH, Boolean.TRUE)
@@ -75,17 +83,17 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 
 	public static int getShapeIndex(BlockState state) {
 		int index = 0;
-		if (state.get(Properties.NORTH)) index |= 1 << Direction.NORTH.horizontal;
-		if (state.get(Properties.EAST )) index |= 1 << Direction.EAST .horizontal;
-		if (state.get(Properties.SOUTH)) index |= 1 << Direction.SOUTH.horizontal;
-		if (state.get(Properties.WEST )) index |= 1 << Direction.WEST .horizontal;
+		if (state.get(Properties.NORTH)) index |= 1 << Direction.NORTH.getHorizontal();
+		if (state.get(Properties.EAST )) index |= 1 << Direction.EAST .getHorizontal();
+		if (state.get(Properties.SOUTH)) index |= 1 << Direction.SOUTH.getHorizontal();
+		if (state.get(Properties.WEST )) index |= 1 << Direction.WEST .getHorizontal();
 		return index;
 	}
 
 	public static boolean touchesEdge(VoxelShape shape, Direction direction) {
-		return switch (direction.direction) {
-			case POSITIVE -> shape.getMax(direction.axis) >= 1.0D;
-			case NEGATIVE -> shape.getMin(direction.axis) <= 0.0D;
+		return switch (direction.getDirection()) {
+			case POSITIVE -> shape.getMax(direction.getAxis()) >= 1.0D;
+			case NEGATIVE -> shape.getMin(direction.getAxis()) <= 0.0D;
 		};
 	}
 
@@ -97,12 +105,12 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		BlockPos adjacentPos = pos.offset(direction);
 		BlockState adjacentState = world.getBlockState(adjacentPos);
 		if (adjacentState.isIn(BlockTags.CLIMBABLE)) return false;
-		if (touchesEdge(adjacentState.getCollisionShape(world, adjacentPos), direction.opposite)) return false;
+		if (touchesEdge(adjacentState.getCollisionShape(world, adjacentPos), direction.getOpposite())) return false;
 		BlockPos diagonalPos = adjacentPos.down();
 		BlockState diagonalState = world.getBlockState(diagonalPos);
 		if (diagonalState.isIn(BlockTags.CLIMBABLE)) return false;
 		VoxelShape diagonalShape = diagonalState.getCollisionShape(world, diagonalPos);
-		return !touchesEdge(diagonalShape, direction.opposite) || !touchesEdge(diagonalShape, Direction.UP);
+		return !touchesEdge(diagonalShape, direction.getOpposite()) || !touchesEdge(diagonalShape, Direction.UP);
 	}
 
 	@Override
@@ -116,7 +124,7 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		BlockPos pos,
 		BlockPos neighborPos
 	) {
-		if (world.isClient) return state;
+		if (world.isClient()) return state;
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -139,22 +147,24 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
+		World world = context.getWorld();
+		BlockPos pos = context.getBlockPos();
 		return (
 			super.getPlacementState(context)
-			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
-			.with(Properties.NORTH, this.shouldHaveRail(context.world, context.blockPos, Direction.NORTH))
-			.with(Properties.EAST,  this.shouldHaveRail(context.world, context.blockPos, Direction.EAST))
-			.with(Properties.SOUTH, this.shouldHaveRail(context.world, context.blockPos, Direction.SOUTH))
-			.with(Properties.WEST,  this.shouldHaveRail(context.world, context.blockPos, Direction.WEST))
+			.with(Properties.NORTH, this.shouldHaveRail(world, pos, Direction.NORTH))
+			.with(Properties.EAST,  this.shouldHaveRail(world, pos, Direction.EAST))
+			.with(Properties.SOUTH, this.shouldHaveRail(world, pos, Direction.SOUTH))
+			.with(Properties.WEST,  this.shouldHaveRail(world, pos, Direction.WEST))
+			.with(Properties.WATERLOGGED, world.getFluidState(pos).isEqualAndStill(Fluids.WATER))
 		);
 	}
 
 	public Direction getPlacementDirection(BlockPos origin, BlockState state, ItemPlacementContext context) {
-		Vec3d hitVec = context.hitPos;
-		double y = hitVec.y - origin.y;
-		boolean useRotation = context.side.horizontal < 0 && y < 0.5D;
+		Vec3d hitVec = context.getHitPos();
+		double y = hitVec.y - origin.getY();
+		boolean useRotation = context.getSide().getHorizontal() < 0 && y < 0.5D;
 		if (useRotation) {
-			return context.horizontalPlayerFacing;
+			return context.getHorizontalPlayerFacing();
 		}
 		else {
 			double x = hitVec.x - origin.getX();
@@ -176,18 +186,25 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ItemStack stack = player.getStackInHand(hand);
-		if (stack.item instanceof BlockItem blockItem && !(blockItem instanceof CatwalkStairsBlockItem)) {
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (stack.getItem() instanceof BlockItem blockItem && !(blockItem instanceof CatwalkStairsBlockItem)) {
 			ItemPlacementContext context = new ItemPlacementContext(player, hand, stack, hit);
 			Direction direction = this.getPlacementDirection(pos, state, context);
 			context = new ItemPlacementContext(player, hand, stack, hit.withSide(direction));
 			ActionResult result = blockItem.place(context);
-			return result.isAccepted ? result : ActionResult.CONSUME_PARTIAL;
+			return (
+				result.isAccepted()
+				? switch (result) {
+					case SUCCESS -> ItemActionResult.SUCCESS;
+					case CONSUME -> ItemActionResult.CONSUME;
+					case CONSUME_PARTIAL -> ItemActionResult.CONSUME_PARTIAL;
+					case SUCCESS_NO_ITEM_USED -> ItemActionResult.SUCCESS;
+					default -> throw new AssertionError(result);
+				}
+				: ItemActionResult.CONSUME_PARTIAL
+			);
 		}
-		return super.onUse(state, world, pos, player, hand, hit);
+		return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
 	}
 
 	@Override

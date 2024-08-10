@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" i ",
+		"igi",
+		" i "
+	],
+	"key": {
+		"i": { "tag": "c:iron_nuggets" },
+		"g": { "tag": "c:glass_panes"  }
+	},
+	"result": {
+		"id": "bigtech:lens"
+	}
+}

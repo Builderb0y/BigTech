@@ -1,30 +1,36 @@
 package builderb0y.bigtech.recipes;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.*;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.collection.Weight;
-import net.minecraft.util.collection.Weighted;
-import net.minecraft.util.collection.Weighting;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.collection.*;
 import net.minecraft.world.World;
 
 import builderb0y.autocodec.annotations.*;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.networking.PacketCodecs2;
 
 public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 
-	public static final Codec<TransmuteRecipe> CODEC = BigTechAutoCodec.AUTO_CODEC.createDFUCodec(TransmuteRecipe.class);
+	public static final MapCodec<TransmuteRecipe> CODEC = BigTechAutoCodec.callerMapCodec();
+	public static final PacketCodec<RegistryByteBuf, TransmuteRecipe> PACKET_CODEC = PacketCodec.tuple(
+		Ingredient.PACKET_CODEC,                 (TransmuteRecipe recipe) -> recipe.input,
+		PacketCodecs2.list(Output.PACKET_CODEC), (TransmuteRecipe recipe) -> recipe.output,
+		PacketCodecs.VAR_INT,                    (TransmuteRecipe recipe) -> recipe.energy,
+		TransmuteRecipe::new
+	);
 
 	public final Ingredient input;
 	public final @SingletonArray @VerifySizeRange(min = 1) List<Output> output;
@@ -44,7 +50,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 	}
 
 	@Override
-	public ItemStack craft(TransmuteRecipeInventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack craft(TransmuteRecipeInventory inventory, WrapperLookup lookup) {
 		double scaledEnergy = ((double)(inventory.slotEnergy)) / ((double)(this.energy));
 		if (inventory.random.nextDouble() >= 1.0D / (scaledEnergy * scaledEnergy + 1.0D)) {
 			return Weighting.getAt(this.output, inventory.random.nextInt(this.outputWeight)).orElseThrow().toStack();
@@ -58,7 +64,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 	}
 
 	@Override
-	public ItemStack getResult(DynamicRegistryManager registryManager) {
+	public ItemStack getResult(WrapperLookup registriesLookup) {
 		return this.output.get(0).toStack();
 	}
 
@@ -84,20 +90,27 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 
 	@Override
 	public boolean isEmpty() {
-		return this.input.isEmpty;
+		return this.input.isEmpty();
 	}
 
 	public static class Output implements Weighted {
 
-		public final Item item;
-		public final @VerifyNullable NbtCompound nbt;
+		public static final PacketCodec<RegistryByteBuf, Output> PACKET_CODEC = PacketCodec.tuple(
+			PacketCodecs.registryEntry(RegistryKeys.ITEM),          (Output output) -> output.item,
+			PacketCodecs2.nullable(ComponentChanges.PACKET_CODEC),  (Output output) -> output.components,
+			PacketCodecs2.nullableDefault(PacketCodecs.VAR_INT, 1), (Output output) -> output.weight,
+			Output::new
+		);
+
+		public final RegistryEntry<Item> item;
+		public final @VerifyNullable ComponentChanges components;
 		public final @DefaultInt(1) @VerifyIntRange(min = 1) int weight;
 		public final transient Weight weightObject;
 
-		public Output(Item item, @VerifyNullable NbtCompound nbt, int weight) {
+		public Output(RegistryEntry<Item> item, @VerifyNullable ComponentChanges components, int weight) {
 			this.item = item;
 			this.weight = weight;
-			this.nbt = nbt;
+			this.components = components;
 			this.weightObject = Weight.of(weight);
 		}
 
@@ -107,46 +120,25 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 		}
 
 		public ItemStack toStack() {
-			ItemStack stack = new ItemStack(this.item, 1);
-			stack.nbt = this.nbt;
-			return stack;
+			if (this.components != null) {
+				return new ItemStack(this.item, 1, this.components);
+			}
+			else {
+				return new ItemStack(this.item, 1);
+			}
 		}
 	}
 
 	public static class Serializer implements RecipeSerializer<TransmuteRecipe> {
 
 		@Override
-		public Codec<TransmuteRecipe> codec() {
+		public MapCodec<TransmuteRecipe> codec() {
 			return CODEC;
 		}
 
 		@Override
-		public TransmuteRecipe read(PacketByteBuf buffer) {
-			Ingredient input = Ingredient.fromPacket(buffer);
-			int outputCount = buffer.readVarInt();
-			List<Output> output = new ArrayList<>(outputCount);
-			for (int index = 0; index < outputCount; index++) {
-				Item item = Registries.ITEM.get(buffer.readInt());
-				NbtCompound nbt = buffer.readNbt();
-				int weight = buffer.readVarInt();
-				output.add(new Output(item, nbt, weight));
-			}
-			int energy = buffer.readVarInt();
-			return new TransmuteRecipe(input, output, energy);
-		}
-
-		@Override
-		public void write(PacketByteBuf buffer, TransmuteRecipe recipe) {
-			recipe.input.write(buffer);
-			int size = recipe.output.size();
-			buffer.writeVarInt(size);
-			for (int index = 0; index < size; index++) {
-				Output output = recipe.output.get(index);
-				buffer.writeInt(Registries.ITEM.getRawId(output.item));
-				buffer.writeNbt(output.nbt);
-				buffer.writeVarInt(output.weight);
-			}
-			buffer.writeVarInt(recipe.energy);
+		public PacketCodec<RegistryByteBuf, TransmuteRecipe> packetCodec() {
+			return PACKET_CODEC;
 		}
 	}
 }

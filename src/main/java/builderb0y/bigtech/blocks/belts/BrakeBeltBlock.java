@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blocks.belts;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.property.Properties;
@@ -8,8 +10,18 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.AscenderInteractor;
+import builderb0y.bigtech.blocks.LightningCableBlock;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class BrakeBeltBlock extends RedstoneReceivingBeltBlock {
+
+	public static final MapCodec<BrakeBeltBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public BrakeBeltBlock(Settings settings) {
 		super(settings);

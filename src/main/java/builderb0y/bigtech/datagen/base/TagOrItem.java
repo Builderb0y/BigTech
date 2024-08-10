@@ -2,6 +2,7 @@ package builderb0y.bigtech.datagen.base;
 
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 
 public record TagOrItem(String asString) implements Comparable<TagOrItem> {
@@ -11,19 +12,23 @@ public record TagOrItem(String asString) implements Comparable<TagOrItem> {
 	}
 
 	public TagOrItem(TagKey<?> tag) {
-		this("#" + tag.id);
+		this("#" + tag.id());
+	}
+
+	public TagOrItem(RegistryEntry<?> entry) {
+		this(entry.getKey().orElseThrow().getValue().toString());
 	}
 
 	public boolean isTag() {
-		return !this.asString.isEmpty && this.asString.charAt(0) == '#';
+		return !this.asString.isEmpty() && this.asString.charAt(0) == '#';
 	}
 
 	public boolean isItem() {
-		return this.asString.isEmpty || this.asString.charAt(0) != '#';
+		return this.asString.isEmpty() || this.asString.charAt(0) != '#';
 	}
 
 	public String id() {
-		return this.isTag ? this.asString.substring(1) : this.asString;
+		return this.isTag() ? this.asString.substring(1) : this.asString;
 	}
 
 	@Override

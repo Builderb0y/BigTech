@@ -22,7 +22,7 @@ public class WorldHelper {
 
 	public static <B extends BlockEntity> @Nullable B getBlockEntity(BlockView world, BlockPos pos, BlockEntityType<B> type) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity != null && blockEntity.type == type) {
+		if (blockEntity != null && blockEntity.getType() == type) {
 			return blockEntity.as();
 		}
 		else {

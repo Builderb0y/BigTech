@@ -44,10 +44,10 @@ public interface LightningStorageItem {
 	such as transferring energy between the block and the item.
 	*/
 	public default ActionResult defaultUseOnBlock(ItemUsageContext context) {
-		BlockState state = context.world.getBlockState(context.blockPos);
-		LightningPulseInteractor interactor = LightningPulseInteractor.LOOKUP.find(context.world, context.blockPos, state, null, null);
+		BlockState state = context.getWorld().getBlockState(context.getBlockPos());
+		LightningPulseInteractor interactor = LightningPulseInteractor.LOOKUP.find(context.getWorld(), context.getBlockPos(), state, null, null);
 		if (interactor != null) {
-			return interactor.interactWithBattery(context.world, context.blockPos, state, context.player, context.stack, this);
+			return interactor.interactWithBattery(context.getWorld(), context.getBlockPos(), state, context.getPlayer(), context.getStack(), this);
 		}
 		return ActionResult.PASS;
 	}

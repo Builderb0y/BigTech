@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"group": "bigtech:phase_manipulator",
+	"pattern": [
+		"ggg",
+		"gcg",
+		"ggg"
+	],
+	"key": {
+		"g": { "item": "minecraft:white_stained_glass_pane" },
+		"c": { "item": "bigtech:white_crystal_cluster"      }
+	},
+	"result": {
+		"id": "bigtech:phase_aligner"
+	}
+}

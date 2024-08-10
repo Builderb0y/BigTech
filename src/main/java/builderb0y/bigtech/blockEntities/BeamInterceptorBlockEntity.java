@@ -9,10 +9,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
@@ -38,15 +41,15 @@ public class BeamInterceptorBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
+	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
 		if (this.color != null) nbt.putFloatArray("color", new float[] { this.color.x, this.color.y, this.color.z });
 		nbt.putBoolean("locked", this.locked);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
 		float[] color = nbt.getFloatArray("color");
 		if (color.length == 3) {
 			this.color = new Vector3f(color);
@@ -62,12 +65,12 @@ public class BeamInterceptorBlockEntity extends BlockEntity {
 
 	@Environment(EnvType.CLIENT)
 	public void reRender() {
-		MinecraftClient.getInstance().worldRenderer.updateBlock(this.world, this.pos, this.cachedState, this.cachedState,  8);
+		MinecraftClient.getInstance().worldRenderer.updateBlock(this.world, this.pos, this.getCachedState(), this.getCachedState(),  8);
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		NbtCompound nbt = super.toInitialChunkDataNbt();
+	public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+		NbtCompound nbt = super.toInitialChunkDataNbt(registryLookup);
 		if (this.color != null) {
 			nbt.putFloatArray("color", new float[] { this.color.x, this.color.y, this.color.z });
 		}

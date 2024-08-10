@@ -1,6 +1,8 @@
 package builderb0y.bigtech.datagen.base;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -9,8 +11,8 @@ import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.registry.tag.TagManagerLoader;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
@@ -36,22 +38,22 @@ public class DataGenContext {
 
 	public void collectGenerators(Class<?> registryClass, Class<?> baseType) {
 		for (Field field : registryClass.getDeclaredFields()) {
-			if ((field.modifiers & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) {
-				if (baseType.isAssignableFrom(field.type)) {
+			if ((field.getModifiers() & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) {
+				if (baseType.isAssignableFrom(field.getType())) {
 					UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
 					if (annotation == null) {
-						this.error("Missing data generator for ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						this.error("Missing data generator for ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
 					Class<?> dataGenClass = annotation.value();
 					if (dataGenClass == void.class) continue;
 					Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
 					if (constructors.length != 1) {
-						this.error("${dataGenClass} does not have exactly one constructor! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						this.error("${dataGenClass} does not have exactly one constructor! For field ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
-					if (constructors[0].parameterCount != 1) {
-						this.error("${dataGenClass}'s constructor does not take exactly 1 argument! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+					if (constructors[0].getParameterCount() != 1) {
+						this.error("${dataGenClass}'s constructor does not take exactly 1 argument! For field ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
 					DataGenerator generator;
@@ -64,28 +66,28 @@ public class DataGenContext {
 					}
 					this.addWithDependencies(dataGenClass.asSubclass(DataGenerator.class), generator);
 				}
-				else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
+				else if (RegistrableCollection.class.isAssignableFrom(field.getType())) {
 					UseDataGen annotation = field.getDeclaredAnnotation(UseDataGen.class);
 					if (annotation == null) {
-						this.error("Missing data generator for ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						this.error("Missing data generator for ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
 					Class<?> dataGenClass = annotation.value();
 					if (dataGenClass == void.class) continue;
 					Constructor<?>[] constructors = dataGenClass.getDeclaredConstructors();
 					if (constructors.length != 1) {
-						this.error("${dataGenClass} does not have exactly one constructor! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+						this.error("${dataGenClass} does not have exactly one constructor! For field ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
-					if (constructors[0].parameterCount != 2) {
-						this.error("${dataGenClass}'s constructor does not take exactly 2 arguments! For field ${field.type} ${registryClass.getSimpleName()}.${field.name}");
+					if (constructors[0].getParameterCount() != 2) {
+						this.error("${dataGenClass}'s constructor does not take exactly 2 arguments! For field ${field.getType()} ${registryClass.getSimpleName()}.${field.getName()}");
 						continue;
 					}
 					try {
 						for (RegistrableVariant<?> variant : ((RegistrableCollection<?>)(field.get(null))).getRegistrableVariants()) {
 							this.addWithDependencies(
 								dataGenClass.asSubclass(DataGenerator.class),
-								constructors[0].newInstance(variant.object, variant.variant).as()
+								constructors[0].newInstance(variant.object(), variant.variant()).as()
 							);
 						}
 					}
@@ -108,7 +110,7 @@ public class DataGenContext {
 					this.error("${dependencyClass} does not have exactly one constructor! From @Dependencies applied to ${dataGenClass}");
 					continue;
 				}
-				if (constructors[0].parameterCount != 0) {
+				if (constructors[0].getParameterCount() != 0) {
 					this.error("${dependencyClass}'s constructor does not take exactly 0 arguments! From @Dependencies applied to ${dataGenClass}");
 					continue;
 				}
@@ -130,11 +132,11 @@ public class DataGenContext {
 	}
 
 	public String genericPath(String type, Identifier identifier, String subPath) {
-		StringBuilder builder = new StringBuilder(type).append('/').append(identifier.namespace);
+		StringBuilder builder = new StringBuilder(type).append('/').append(identifier.getNamespace());
 		if (subPath.charAt(0) != '/') builder.append('/');
 		builder.append(subPath);
 		if (subPath.charAt(subPath.length() - 1) != '/') builder.append('/');
-		return builder.append(identifier.path).append(".json").toString();
+		return builder.append(identifier.getPath()).append(".json").toString();
 	}
 
 	public String genericAssetsPath(Identifier identifier, String subPath) {
@@ -145,15 +147,15 @@ public class DataGenContext {
 		return this.genericPath("data", identifier, subPath);
 	}
 
-	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath(identifier, "blockstates"       ); }
-	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/block"      ); }
-	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/item"       ); }
-	public String       particlePath(Identifier identifier) { return this.genericAssetsPath(identifier, "particles"         ); }
-	public String blockLootTablePath(Identifier identifier) { return this.genericDataPath  (identifier, "loot_tables/blocks"); }
-	public String         recipePath(Identifier identifier) { return this.genericDataPath  (identifier, "recipes"           ); }
-	public String       blockTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/blocks"       ); }
-	public String        itemTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/items"        ); }
-	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath  (key.id,     TagManagerLoader.getPath(key.registry)); }
+	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath(identifier, "blockstates"      ); }
+	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/block"     ); }
+	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/item"      ); }
+	public String       particlePath(Identifier identifier) { return this.genericAssetsPath(identifier, "particles"        ); }
+	public String blockLootTablePath(Identifier identifier) { return this.genericDataPath  (identifier, "loot_table/blocks"); }
+	public String         recipePath(Identifier identifier) { return this.genericDataPath  (identifier, "recipe"           ); }
+	public String       blockTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/blocks"      ); }
+	public String        itemTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/items"       ); }
+	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath  (key.id(), RegistryKeys.getTagPath(key.registry())); }
 
 	public void writeToFile(String path, String text) {
 		byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
@@ -173,18 +175,18 @@ public class DataGenContext {
 	}
 
 	public Identifier prefixPath(String prefix, Identifier identifier) {
-		if (prefix.isEmpty) return identifier;
-		return new Identifier(identifier.namespace, prefix + identifier.path);
+		if (prefix.isEmpty()) return identifier;
+		return Identifier.of(identifier.getNamespace(), prefix + identifier.getPath());
 	}
 
 	public Identifier suffixPath(Identifier identifier, String suffix) {
-		if (suffix.isEmpty) return identifier;
-		return new Identifier(identifier.namespace, identifier.path + suffix);
+		if (suffix.isEmpty()) return identifier;
+		return Identifier.of(identifier.getNamespace(), identifier.getPath() + suffix);
 	}
 
 	public Identifier prefixSuffixPath(String prefix, Identifier identifier, String suffix) {
-		if (prefix.isEmpty && suffix.isEmpty) return identifier;
-		return new Identifier(identifier.namespace, prefix + identifier.path + suffix);
+		if (prefix.isEmpty() && suffix.isEmpty()) return identifier;
+		return Identifier.of(identifier.getNamespace(), prefix + identifier.getPath() + suffix);
 	}
 
 	public String replace(String text, Map<String, String> replacements) {
@@ -218,8 +220,8 @@ public class DataGenContext {
 		//and then immediately truncating it,
 		//which is another array copy operation.
 		//so, trim early here to avoid that.
-		while (!builder.isEmpty && Character.isWhitespace(builder.charAt(builder.length() - 1))) {
-			builder.length = builder.length() - 1;
+		while (!builder.isEmpty() && Character.isWhitespace(builder.charAt(builder.length() - 1))) {
+			builder.setLength(builder.length() - 1);
 		}
 		return builder.toString();
 	}
@@ -258,7 +260,7 @@ public class DataGenContext {
 				FileUtils.copyDirectory(from, to);
 			}
 			else {
-				this.error(new IOException("Not a file or directory: ${from.absolutePath}"));
+				this.error(new IOException("Not a file or directory: ${from.getAbsolutePath()}"));
 			}
 		}
 		catch (Exception exception) {

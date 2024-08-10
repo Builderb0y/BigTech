@@ -149,7 +149,7 @@ public class DecoBlocks {
 			return (
 				type.waxed
 				? new LadderBlock(settings)
-				: new OxidizableLaderBlock(settings, type.level)
+				: new OxidizableLadderBlock(settings, type.level)
 			);
 		}
 	);

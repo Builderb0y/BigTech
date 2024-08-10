@@ -20,7 +20,7 @@ public record BeamSegment(
 ) {
 
 	public Vector3fc getEffectiveColor() {
-		return this.color != null ? this.color : this.beam.initialColor;
+		return this.color != null ? this.color : this.beam.getInitialColor();
 	}
 
 	public BeamSegment withDirection(BeamDirection direction) {

@@ -36,9 +36,9 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 					if (isOnSurface(centerX, centerY, centerZ)) {
 						for (Direction direction : Directions.ALL) {
 							if (!isInside(
-								centerX + direction.offsetX * 0.0625D,
-								centerY + direction.offsetY * 0.0625D,
-								centerZ + direction.offsetZ * 0.0625D
+								centerX + direction.getOffsetX() * 0.0625D,
+								centerY + direction.getOffsetY() * 0.0625D,
+								centerZ + direction.getOffsetZ() * 0.0625D
 							)) {
 								rawMesh.add(new VoxelQuad(voxelX, voxelY, voxelZ, direction));
 							}
@@ -47,11 +47,11 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 				}
 			}
 		}
-		if (rawMesh.isEmpty) {
+		if (rawMesh.isEmpty()) {
 			throw new IllegalStateException("rawMesh is empty");
 		}
 		Map<VoxelQuad, VoxelSize> greedyMesh = new LinkedHashMap<>(512);
-		while (!rawMesh.isEmpty) {
+		while (!rawMesh.isEmpty()) {
 			//pick any quad.
 			VoxelQuad quad = rawMesh.iterator().next();
 			//move as far in the negative direction as possible.
@@ -114,7 +114,7 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 				throw new IllegalStateException("${quad} already in ${greedyMesh}");
 			}
 		}
-		if (greedyMesh.isEmpty) {
+		if (greedyMesh.isEmpty()) {
 			throw new IllegalStateException("greedyMesh is empty");
 		}
 		//now generate the actual model.
@@ -129,19 +129,21 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 				"elements": ["""
 		);
 		for (Map.Entry<VoxelQuad, VoxelSize> entry : greedyMesh.entrySet()) {
+			VoxelQuad quad = entry.getKey();
+			VoxelSize size = entry.getValue();
 			model
 			.append("\n\t\t{")
 			.append("\n\t\t\t\"from\": [ ");
-			appendThreeNumbers(model, entry.key.x, entry.key.y, entry.key.z);
+			appendThreeNumbers(model, quad.x, quad.y, quad.z);
 			model
 			.append(" ],")
 			.append("\n\t\t\t\"to\":   [ ");
-			appendThreeNumbers(model, entry.key.x + entry.value.x, entry.key.y + entry.value.y, entry.key.z + entry.value.z);
+			appendThreeNumbers(model, quad.x + size.x, quad.y + size.y, quad.z + size.z);
 			model
 			.append(" ],")
 			.append("\n\t\t\t\"faces\": {")
 			.append("\n\t\t\t\t\"")
-			.append(entry.key.facing.getName())
+			.append(quad.facing.getName())
 			.append("\": { \"texture\": \"#texture\" }")
 			.append("\n\t\t\t}")
 			.append("\n\t\t},");
@@ -151,11 +153,11 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 		.append("\n\t]")
 		.append("\n}");
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_base")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_base")),
 			model.toString()
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_lens")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_lens")),
 			//language=json
 			"""
 			{
@@ -330,12 +332,12 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("pbp", "bbb", "pbp")
 			.where('p', Items.GLASS_PANE)
 			.where('b', Items.GLASS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

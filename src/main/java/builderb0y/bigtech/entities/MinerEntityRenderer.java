@@ -12,6 +12,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 
 import builderb0y.bigtech.BigTechMod;
 
@@ -34,8 +35,22 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 		matrices.push();
 		try {
 			matrices.scale(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE);
-			matrices.peek().positionMatrix.rotateY(yaw * (((float)(Math.PI)) / -180.0F));
-			matrices.peek().  normalMatrix.rotateY(yaw * (((float)(Math.PI)) / -180.0F));
+			matrices.peek().getPositionMatrix().rotateY(yaw * ((float)(Math.PI / -180.0F)));
+			matrices.peek().  getNormalMatrix().rotateY(yaw * ((float)(Math.PI / -180.0F)));
+
+			//copy-pasted from MinecartEntityRenderer.
+			float ticks    = miner.getDamageWobbleTicks() - tickDelta;
+			float strength = miner.getDamageWobbleStrength() - tickDelta;
+			if (strength < 0.0F) {
+				strength = 0.0F;
+			}
+
+			if (ticks > 0.0F) {
+				//change X axis to Z axis.
+				matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.sin(ticks) * ticks * strength / 10.0F * miner.getDamageWobbleSide()));
+			}
+			//end of copy-pasted region.
+
 			EntityRenderHelper helper = (
 				new EntityRenderHelper()
 				.vertexConsumer(
@@ -50,12 +65,12 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 				.lightmap(light)
 			);
 			this.renderMainInner(helper);
-			if (!miner.isThePlayerRiding0 || MinecraftClient.instance.options.perspective != Perspective.FIRST_PERSON) {
+			if (!miner.isThePlayerRiding0() || MinecraftClient.getInstance().options.getPerspective() != Perspective.FIRST_PERSON) {
 				this.renderMainOuter(helper);
 				this.renderScoop(helper);
 				this.renderNumbers(helper, miner.number);
-				if (miner.controllingPassenger != null) {
-					float brightness =miner.dataTracker.get(MinerEntity.FUEL_FRACTION);
+				if (miner.getControllingPassenger() != null) {
+					float brightness = miner.getDataTracker().get(MinerEntity.FUEL_FRACTION);
 					if (brightness > 0.0F) {
 						this.renderLights(
 							helper.vertexConsumer(

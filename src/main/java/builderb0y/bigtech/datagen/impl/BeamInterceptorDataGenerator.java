@@ -2,6 +2,7 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.Objects;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
@@ -34,16 +35,16 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
-				.map(state -> new BlockStateJsonVariant(
+				.streamStatesSorted(this.getBlock())
+				.map((BlockState state) -> new BlockStateJsonVariant(
 					state,
-					context.prefixSuffixPath("block/", this.id, state.get(Properties.POWERED) ? "_on" : "_off").toString(),
-					BlockStateJsonVariant.xFromUp(state.get(Properties.FACING).opposite),
-					Objects.requireNonNullElse(BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING).opposite), 0)
+					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
+					BlockStateJsonVariant.xFromUp(state.get(Properties.FACING).getOpposite()),
+					Objects.requireNonNullElse(BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING).getOpposite()), 0)
 				))
 				::iterator
 			)
@@ -54,7 +55,7 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_transforms")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_transforms")),
 			//language=json
 			"""
 			{
@@ -94,7 +95,7 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 			}"""
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_off")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
 			//language=json
 			"""
 			{
@@ -141,7 +142,7 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 			}"""
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_on")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
 			//language=json
 			"""
 			{
@@ -207,7 +208,7 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
-		return context.suffixPath(this.id, "_off");
+		return context.suffixPath(this.getId(), "_off");
 	}
 
 	@Override
@@ -233,14 +234,14 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("l", "t", "b")
 			.where('l', FunctionalItems.LENS)
 			.where('t', Items.REDSTONE_TORCH)
 			.where('b', Items.SMOOTH_STONE_SLAB)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

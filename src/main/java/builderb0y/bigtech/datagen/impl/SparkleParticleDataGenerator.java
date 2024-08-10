@@ -22,7 +22,7 @@ public class SparkleParticleDataGenerator implements DataGenerator {
 	@Override
 	public void run(DataGenContext context) {
 		context.writeToFile(
-			context.particlePath(this.id),
+			context.particlePath(this.getId()),
 			//language=json
 			"""
 			{

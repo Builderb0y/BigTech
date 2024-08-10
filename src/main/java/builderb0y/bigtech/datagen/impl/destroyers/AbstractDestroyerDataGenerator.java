@@ -19,14 +19,14 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
 				.map(direction -> new BlockStateJsonVariant(
 					"facing=${direction.getName()}",
-					context.prefixPath("block/", this.id).toString(),
+					context.prefixPath("block/", this.getId()).toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)
 				))
@@ -39,7 +39,7 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			context.replace(
 				//use furnace rotation to face the player.
 				//language=json
@@ -63,14 +63,14 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 						"particle": "%FRONT"
 					}
 				}""",
-				Map.of("FRONT", context.prefixSuffixPath("block/", this.id, "_front").toString())
+				Map.of("FRONT", context.prefixSuffixPath("block/", this.getId(), "_front").toString())
 			)
 		);
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override

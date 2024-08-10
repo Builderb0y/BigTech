@@ -25,18 +25,18 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 	}
 
 	public Identifier getBlockModelIdentifier() {
-		return this.id;
+		return this.getId();
 	}
 
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonMultipart.FORMAT)
 			.addRow(new BlockStateJsonMultipart(
 				null,
 				null,
-				context.prefixSuffixPath("block/", this.blockModelIdentifier, "_base").toString(),
+				context.prefixSuffixPath("block/", this.getBlockModelIdentifier(), "_base").toString(),
 				null,
 				null
 			))
@@ -44,9 +44,9 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
 				.map(direction -> new BlockStateJsonMultipart(
-					direction.name,
+					direction.getName(),
 					"true",
-					context.prefixSuffixPath("block/", this.blockModelIdentifier, "_rail").toString(),
+					context.prefixSuffixPath("block/", this.getBlockModelIdentifier(), "_rail").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)
 				))
@@ -61,14 +61,14 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 
 	public void writeCatwalkPlatformBlockModels(DataGenContext context, Identifier baseTexture, Identifier railTexture) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_base")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_base")),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("template_catwalk_platform_base"))
 			.blockTexture("base", baseTexture)
 			.toString()
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_rail")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_rail")),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("template_catwalk_platform_rail"))
 			.blockTexture("rail", railTexture)
@@ -81,7 +81,7 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 
 	public void writeCatwalkPlatformItemModels(DataGenContext context, Identifier baseTexture, Identifier railTexture) {
 		context.writeToFile(
-			context.itemModelPath(this.id),
+			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.itemParent(BigTechMod.modID("template_catwalk_platform"))
 			.blockTexture("base", baseTexture)
@@ -92,14 +92,14 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 
 	public void writeCatwalkPlatformRecipe(DataGenContext context, TagOrItem baseItem, TagOrItem railItem) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.BUILDING)
 			.group("bigtech:catwalk_platforms")
 			.pattern("r r", "bbb")
 			.where('b', baseItem)
 			.where('r', railItem)
-			.result(this.id)
+			.result(this.getId())
 			.count(4)
 			.toString()
 		);

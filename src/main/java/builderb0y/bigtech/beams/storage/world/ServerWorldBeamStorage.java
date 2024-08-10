@@ -32,13 +32,7 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 	@Override
 	public void addBeam(PersistentBeam beam) {
 		super.addBeam(beam);
-		Collection<ServerPlayerEntity> players = PlayerLookup.world(this.world.as());
-		if (!players.isEmpty) {
-			ToggleBeamPacket packet = ToggleBeamPacket.add(beam);
-			for (ServerPlayerEntity player : players) {
-				ServerPlayNetworking.send(player, packet);
-			}
-		}
+		ToggleBeamPacket.INSTANCE.sendAdd(PlayerLookup.world(this.world.as()), beam);
 	}
 
 	@Override
@@ -62,13 +56,7 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 			BigTechMod.LOGGER.warn("Attempt to remove non-existent beam ${uuid}.");
 			return;
 		}
-		Collection<ServerPlayerEntity> players = PlayerLookup.world(this.world.as());
-		if (!players.isEmpty) {
-			ToggleBeamPacket packet = ToggleBeamPacket.remove(removed);
-			for (ServerPlayerEntity player : players) {
-				ServerPlayNetworking.send(player, packet);
-			}
-		}
+		ToggleBeamPacket.INSTANCE.sendRemove(PlayerLookup.world(this.world.as()), removed);
 	}
 
 	@Override

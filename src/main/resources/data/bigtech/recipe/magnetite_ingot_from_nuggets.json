@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"nnn",
+		"nnn",
+		"nnn"
+	],
+	"key": {
+		"n": { "tag": "c:magnetite_nuggets" }
+	},
+	"result": {
+		"id": "bigtech:magnetite_ingot"
+	}
+}

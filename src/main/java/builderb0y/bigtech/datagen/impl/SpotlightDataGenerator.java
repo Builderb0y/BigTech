@@ -28,14 +28,14 @@ public class SpotlightDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
+				.streamStatesSorted(this.getBlock())
 				.map((BlockState state) -> new BlockStateJsonVariant(
 					state,
-					context.prefixSuffixPath("block/", this.id, state.get(Properties.POWERED) ? "_on" : "_off").toString(),
+					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
 					BlockStateJsonVariant.xFromUp(state.get(Properties.FACING)),
 					BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
 				))
@@ -48,18 +48,18 @@ public class SpotlightDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_off")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "cube_bottom_top"))
+			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
 			.blockTexture("top", BigTechMod.modID("spotlight_top_off"))
 			.blockTexture("bottom", BigTechMod.modID("spotlight_bottom"))
 			.blockTexture("side", BigTechMod.modID("spotlight_side"))
 			.toString()
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_on")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "cube_bottom_top"))
+			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
 			.blockTexture("top", BigTechMod.modID("spotlight_top_on"))
 			.blockTexture("bottom", BigTechMod.modID("spotlight_bottom"))
 			.blockTexture("side", BigTechMod.modID("spotlight_side"))
@@ -69,12 +69,12 @@ public class SpotlightDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
-		return context.suffixPath(this.id, "_off");
+		return context.suffixPath(this.getId(), "_off");
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class SpotlightDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.MISC)
 			.pattern("iii", "lcg", "iii")
@@ -103,7 +103,7 @@ public class SpotlightDataGenerator extends BasicBlockDataGenerator {
 			.where('l', FunctionalItems.LENS)
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('g', Items.GLOWSTONE)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

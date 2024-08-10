@@ -23,13 +23,13 @@ public class LightningBatteryDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern(" g ", "geg", "gcg")
 			.where('g', ConventionalItemTags.GLASS_PANES)
 			.where('e', FunctionalItems.LIGHTNING_ELECTRODE)
 			.where('c', ConventionalItemTags.COPPER_INGOTS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

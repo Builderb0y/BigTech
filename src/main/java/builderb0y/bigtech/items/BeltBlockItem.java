@@ -25,8 +25,8 @@ public class BeltBlockItem extends BlockItem {
 	@Override
 	public ItemPlacementContext getPlacementContext(ItemPlacementContext context) {
 		if (!context.shouldCancelInteraction()) {
-			World world = context.world;
-			BlockPos.Mutable pos = context.blockPos.mutableCopy();
+			World world = context.getWorld();
+			BlockPos.Mutable pos = context.getBlockPos().mutableCopy();
 			BlockState actual = world.getBlockState(pos);
 			if (actual.getBlock() instanceof DirectionalBeltBlock) {
 				Direction direction = actual.get(Properties.HORIZONTAL_FACING);

@@ -27,11 +27,11 @@ public abstract class LightningJarDataGenerator extends BasicBlockDataGenerator 
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.LIGHTNING_JARS).addElement(this.id);
+		context.getTags(BigTechBlockTags.LIGHTNING_JARS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.LIGHTNING_JARS).addElement(this.id);
+		context.getTags(BigTechItemTags.LIGHTNING_JARS).addElement(this.getId());
 	}
 }

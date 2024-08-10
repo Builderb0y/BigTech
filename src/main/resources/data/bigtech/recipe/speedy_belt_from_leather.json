@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"group": "bigtech:belts",
+	"pattern": [
+		"lll",
+		"i i"
+	],
+	"key": {
+		"l": { "item": "minecraft:leather" },
+		"i": { "tag":  "c:gold_ingots"     }
+	},
+	"result": {
+		"id": "bigtech:speedy_belt",
+		"count": 6
+	}
+}

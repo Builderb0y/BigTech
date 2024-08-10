@@ -11,6 +11,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
+import net.minecraft.component.ComponentChanges;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -26,6 +29,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.property.Properties;
@@ -52,20 +56,21 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 			if (inventoryStack.getItem() != entityStack.getItem()) return 0;
 
 			int similarity = 1;
-			if (inventoryStack.isDamaged) {
-				if (inventoryStack.damage == entityStack.damage) similarity += 2;
+			if (inventoryStack.isDamaged()) {
+				if (inventoryStack.getDamage() == entityStack.getDamage()) similarity += 2;
 				else return 0;
 			}
 			else {
-				similarity += entityStack.isDamaged ? 1 : 2;
+				similarity += entityStack.isDamaged() ? 1 : 2;
 			}
 
-			if (inventoryStack.hasNbt()) {
-				if (inventoryStack.nbt.equals(entityStack.nbt)) similarity += 2;
+			ComponentChanges changes = inventoryStack.getComponentChanges();
+			if (!changes.isEmpty()) {
+				if (changes.equals(entityStack.getComponentChanges())) similarity += 2;
 				else return 0;
 			}
 			else {
-				similarity += entityStack.hasNbt() ? 1 : 2;
+				similarity += entityStack.getComponentChanges().isEmpty() ? 2 : 1;
 			}
 
 			return similarity;
@@ -73,11 +78,9 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 		registerMatcher(EntityType.EXPERIENCE_ORB, EntityStackMatcher.forItem(Items.EXPERIENCE_BOTTLE));
 		registerMatcher(EntityType.PLAYER, (PlayerEntity player, ItemStack stack) -> {
 			if (stack.getItem() != Items.PLAYER_HEAD) return 0;
-			NbtCompound nbt = stack.getNbt();
-			if (nbt == null || !nbt.contains(PlayerHeadItem.SKULL_OWNER_KEY, NbtElement.COMPOUND_TYPE)) return 1;
-			GameProfile profile = NbtHelper.toGameProfile(nbt.getCompound(PlayerHeadItem.SKULL_OWNER_KEY));
-			if (profile == null) return 1;
-			return profile.equals(player.gameProfile) ? Integer.MAX_VALUE : 0;
+			ProfileComponent profileComponent = stack.get(DataComponentTypes.PROFILE);
+			if (profileComponent == null) return 1;
+			return profileComponent.gameProfile().equals(player.getGameProfile()) ? Integer.MAX_VALUE : 0;
 		});
 	}
 
@@ -105,9 +108,9 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 	}
 
 	public Direction getDistributionDirection(Entity entity) {
-		Direction forward = this.cachedState.get(Properties.HORIZONTAL_FACING);
+		Direction forward = this.getCachedState().get(Properties.HORIZONTAL_FACING);
 		@SuppressWarnings("unchecked")
-		EntityStackMatcher<Entity> matcher = (EntityStackMatcher<Entity>)(getMatcher(entity.type));
+		EntityStackMatcher<Entity> matcher = (EntityStackMatcher<Entity>)(getMatcher(entity.getType()));
 		int  leftMatch = this.getMatch(0,  9, entity, matcher);
 		int rightMatch = this.getMatch(9, 18, entity, matcher);
 
@@ -121,7 +124,7 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 		int match = 0;
 		for (int slot = startIndex; slot < endIndex; slot++) {
 			ItemStack stack = this.inventory.getStack(slot);
-			if (!stack.isEmpty) {
+			if (!stack.isEmpty()) {
 				int newMatch = matcher.test(entity, stack);
 				if (newMatch > match && (match = newMatch) == Integer.MAX_VALUE) break;
 			}
@@ -144,7 +147,7 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 
 	@Override
 	public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-		if (LockableContainerBlockEntity.checkUnlocked(player, this.lock, this.displayName)) {
+		if (LockableContainerBlockEntity.checkUnlocked(player, this.lock, this.getDisplayName())) {
 			return new SorterBeltScreenHandler(BigTechScreenHandlerTypes.SORTER_BELT, syncId, this.inventory, playerInventory);
 		}
 		else {
@@ -153,25 +156,25 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
 		this.distributionIndex = nbt.getInt("index");
-		this.inventory.readNbtList(nbt.getList("items", NbtElement.COMPOUND_TYPE));
+		this.inventory.readNbtList(nbt.getList("items", NbtElement.COMPOUND_TYPE), registryLookup);
 		this.lock = ContainerLock.fromNbt(nbt);
 		if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
-			this.customName = Text.Serializer.fromJson(nbt.getString("CustomName"));
+			this.customName = Text.Serialization.fromJson(nbt.getString("CustomName"), registryLookup);
 		}
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
+	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
 		nbt
 		.withInt("index", this.distributionIndex)
-		.with("items", this.inventory.toNbtList());
+		.with("items", this.inventory.toNbtList(registryLookup));
 		this.lock.writeNbt(nbt);
 		if (this.customName != null) {
-			nbt.putString("CustomName", Text.Serializer.toJson(this.customName));
+			nbt.putString("CustomName", Text.Serialization.toJsonString(this.customName, registryLookup));
 		}
 	}
 
@@ -196,14 +199,23 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 		}
 
 		@Override
-		public void readNbtList(NbtList nbtList) {
+		public void readNbtList(NbtList nbtList, RegistryWrapper.WrapperLookup registryLookup) {
 			this.clear();
-			Inventories2.readItems(nbtList).filter(slotStack -> slotStack.slot >= 0 && slotStack.slot < 18).forEach(slotStack -> this.setStack(slotStack.slot, slotStack.stack()));
+			Inventories2
+			.readItems(nbtList, registryLookup)
+			.filter((SlotStack slotStack) -> slotStack.slot() >= 0 && slotStack.slot() < 18)
+			.forEach((SlotStack slotStack) -> this.setStack(slotStack.slot(), slotStack.stack()));
 		}
 
 		@Override
-		public NbtList toNbtList() {
-			return Inventories2.writeItems(IntStream.range(0, 18).mapToObj(slot -> new SlotStack(slot, this.getStack(slot))).filter(slotStack -> !slotStack.stack.isEmpty));
+		public NbtList toNbtList(RegistryWrapper.WrapperLookup registryLookup) {
+			return Inventories2.writeItems(
+				IntStream
+				.range(0, 18)
+				.mapToObj((int slot) -> new SlotStack(slot, this.getStack(slot)))
+				.filter((SlotStack slotStack) -> !slotStack.stack().isEmpty()),
+				registryLookup
+			);
 		}
 
 		@Override

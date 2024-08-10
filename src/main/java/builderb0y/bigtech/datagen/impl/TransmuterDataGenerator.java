@@ -20,7 +20,7 @@ public class TransmuterDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			//language=json
 			"""
 			{
@@ -99,23 +99,23 @@ public class TransmuterDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.DIAMOND).addElement(this.id);
+		context.getTags(MiningLevelTags.DIAMOND).addElement(this.getId());
 	}
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("fof", "o o", "fof")
 			.where('f', DecoItems.IRON_FRAME)
 			.where('o', BigTechItemTags.OBSIDIAN)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

@@ -28,7 +28,7 @@ public class ColorAccumulator implements Consumer<BeamSegment> {
 
 	@Override
 	public void accept(BeamSegment segment) {
-		if (segment.visible) this.accept(segment.effectiveColor);
+		if (segment.visible()) this.accept(segment.getEffectiveColor());
 	}
 
 	public void accept(Vector3fc color) {

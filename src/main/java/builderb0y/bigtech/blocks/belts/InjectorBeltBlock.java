@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks.belts;
 
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -15,7 +16,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
+
 public class InjectorBeltBlock extends DirectionalBeltBlock {
+
+	public static final MapCodec<InjectorBeltBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public InjectorBeltBlock(Settings settings) {
 		super(settings);
@@ -49,23 +60,23 @@ public class InjectorBeltBlock extends DirectionalBeltBlock {
 	}
 
 	public boolean tryStoreInBlocks(World world, BlockPos pos, ItemEntity item, Direction first, Direction second, Direction third) {
-		if (!item.stack.isEmpty) this.tryStoreInBlocks(world, pos, item, first );
-		if (!item.stack.isEmpty) this.tryStoreInBlocks(world, pos, item, second);
-		if (!item.stack.isEmpty) this.tryStoreInBlocks(world, pos, item, third );
-		return item.stack.isEmpty;
+		if (!item.getStack().isEmpty()) this.tryStoreInBlocks(world, pos, item, first );
+		if (!item.getStack().isEmpty()) this.tryStoreInBlocks(world, pos, item, second);
+		if (!item.getStack().isEmpty()) this.tryStoreInBlocks(world, pos, item, third );
+		return item.getStack().isEmpty();
 	}
 
 	@SuppressWarnings("UnstableApiUsage")
 	public void tryStoreInBlocks(World world, BlockPos pos, ItemEntity item, Direction direction) {
 		BlockPos adjacentPos = pos.offset(direction);
-		Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, adjacentPos, direction.opposite);
+		Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, adjacentPos, direction.getOpposite());
 		if (storage != null) {
 			try (Transaction transaction = Transaction.openOuter()) {
 				ItemStack stack = item.getStack();
-				int inserted = (int)(storage.insert(ItemVariant.of(stack), stack.count, transaction));
+				int inserted = (int)(storage.insert(ItemVariant.of(stack), stack.getCount(), transaction));
 				if (inserted > 0) {
-					item.setStack(stack = stack.copyWithCount(stack.count - inserted));
-					if (stack.isEmpty) item.discard();
+					item.setStack(stack = stack.copyWithCount(stack.getCount() - inserted));
+					if (stack.isEmpty()) item.discard();
 					transaction.commit();
 					world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1.0F, 0.5F + world.random.nextFloat() * 0.25F);
 				}

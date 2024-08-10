@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
@@ -17,9 +18,18 @@ import builderb0y.bigtech.beams.impl.DestructionManager;
 import builderb0y.bigtech.blockEntities.AbstractDestroyerBlockEntity;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.ShortRangeDestroyerBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
+
+	public static final MapCodec<ShortRangeDestroyerBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public ShortRangeDestroyerBlock(Settings settings) {
 		super(settings);
@@ -32,7 +42,7 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 		if (direction == state.get(Properties.HORIZONTAL_FACING)) {
 			ShortRangeDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
 			if (blockEntity != null && blockEntity.queue != null) {
-				if (world instanceof ServerWorld serverWorld && blockEntity.queue.populated && !blockEntity.queue.inactive.isEmpty) {
+				if (world instanceof ServerWorld serverWorld && blockEntity.queue.populated && !blockEntity.queue.inactive.isEmpty()) {
 					DestructionManager.forWorld(serverWorld).resetProgress(blockEntity.queue.inactive.lastKey());
 				}
 				blockEntity.queue = null;
@@ -48,7 +58,7 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 		if (state.get(Properties.POWERED)) {
 			ShortRangeDestroyerBlockEntity destroyer = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
 			if (destroyer != null) {
-				if (destroyer.queue != null && destroyer.queue.populated && !destroyer.queue.inactive.isEmpty) {
+				if (destroyer.queue != null && destroyer.queue.populated && !destroyer.queue.inactive.isEmpty()) {
 					DestructionManager.forWorld(world).resetProgress(destroyer.queue.inactive.lastKey());
 				}
 				if (!newState.isOf(this)) destroyer.queue = null;

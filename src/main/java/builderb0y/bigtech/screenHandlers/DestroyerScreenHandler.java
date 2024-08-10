@@ -2,6 +2,7 @@ package builderb0y.bigtech.screenHandlers;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -37,7 +38,7 @@ public class DestroyerScreenHandler extends BigTechScreenHandler {
 		if (slot.hasStack()) {
 			ItemStack stack = slot.getStack();
 			if (slotIndex < 36) {
-				if (LongRangeDestroyerBlockEntity.OVERRIDES_IS_SUITABLE_FOR.get(stack.item.getClass())) {
+				if (stack.get(DataComponentTypes.TOOL) != null) {
 					this.insertItem(stack, 36, 37, false);
 				}
 			}

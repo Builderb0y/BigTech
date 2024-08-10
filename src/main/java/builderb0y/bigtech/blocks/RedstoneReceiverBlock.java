@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.util.LinkedList;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -22,13 +23,23 @@ import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 
+	public static final MapCodec<RedstoneReceiverBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public RedstoneReceiverBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
-			this.defaultState
+		this.setDefaultState(
+			this
+			.getDefaultState()
 			.with(Properties.POWERED, Boolean.FALSE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
@@ -36,8 +47,8 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 
 	@Override
 	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		if (inputSegment.segment.direction == BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)).opposite) {
-			inputSegment.beam.addSegment(inputSegment.terminate());
+		if (inputSegment.segment().direction() == BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)).getOpposite()) {
+			inputSegment.beam().addSegment(inputSegment.terminate());
 			return true;
 		}
 		return false;
@@ -67,13 +78,13 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	public boolean shouldBePowered(World world, BlockPos pos, BlockState state) {
 		Direction direction = state.get(Properties.HORIZONTAL_FACING);
 		BlockPos query = pos.offset(direction);
-		CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(query)).require().get(query.y >> 4);
+		CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(query)).require().get(query.getY() >> 4);
 		if (sectionStorage != null) {
 			LinkedList<BeamSegment> segments = sectionStorage.checkSegments(query);
 			if (segments != null) {
-				BeamDirection beamDirection = BeamDirection.from(direction.opposite);
+				BeamDirection beamDirection = BeamDirection.from(direction.getOpposite());
 				for (BeamSegment segment : segments) {
-					if (segment.visible && segment.direction == beamDirection) {
+					if (segment.visible() && segment.direction() == beamDirection) {
 						return true;
 					}
 				}
@@ -89,9 +100,9 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 		if (sectionStorage != null) {
 			LinkedList<BeamSegment> segments = sectionStorage.checkSegments(query);
 			if (segments != null) {
-				BeamDirection beamDirection = BeamDirection.from(direction.opposite);
+				BeamDirection beamDirection = BeamDirection.from(direction.getOpposite());
 				for (BeamSegment segment : segments) {
-					if (segment.visible && segment.direction == beamDirection) {
+					if (segment.visible() && segment.direction() == beamDirection) {
 						return true;
 					}
 				}
@@ -127,7 +138,7 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return direction.horizontal >= 0 && state.get(Properties.POWERED) ? 15 : 0;
+		return direction.getHorizontal() >= 0 && state.get(Properties.POWERED) ? 15 : 0;
 	}
 
 	@Override
@@ -161,7 +172,7 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
 		BlockState state = super.getPlacementState(context);
-		return state.with(Properties.POWERED, this.shouldBePowered(context.world, context.blockPos, state));
+		return state.with(Properties.POWERED, this.shouldBePowered(context.getWorld(), context.getBlockPos(), state));
 	}
 
 	@Override

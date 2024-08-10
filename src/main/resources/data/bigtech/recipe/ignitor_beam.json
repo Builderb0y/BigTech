@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ddd",
+		"lci",
+		"bbb"
+	],
+	"key": {
+		"d": { "item": "minecraft:cobbled_deepslate" },
+		"l": { "item": "bigtech:lens"                },
+		"c": { "tag":  "bigtech:crystal_clusters"    },
+		"i": { "item": "bigtech:ignitor"             },
+		"b": { "item": "minecraft:smooth_stone_slab" }
+	},
+	"result": {
+		"id": "bigtech:ignitor_beam"
+	}
+}

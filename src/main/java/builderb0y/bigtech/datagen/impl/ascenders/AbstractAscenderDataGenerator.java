@@ -20,7 +20,7 @@ public abstract class AbstractAscenderDataGenerator extends BasicBlockDataGenera
 
 	public void writeAscenderModel(DataGenContext context, Identifier translucentLayer) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.jmxl(true)
 			.blockParent(BigTechMod.modID("template_ascender"))
@@ -41,11 +41,11 @@ public abstract class AbstractAscenderDataGenerator extends BasicBlockDataGenera
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.ASCENDERS).addElement(this.id);
+		context.getTags(BigTechBlockTags.ASCENDERS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.ASCENDERS).addElement(this.id);
+		context.getTags(BigTechItemTags.ASCENDERS).addElement(this.getId());
 	}
 }

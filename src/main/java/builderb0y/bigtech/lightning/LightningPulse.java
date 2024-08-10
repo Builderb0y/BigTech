@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.item.ArmorItem;
@@ -19,6 +20,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
+import builderb0y.bigtech.armorMaterials.ArmorMaterialTags;
 import builderb0y.bigtech.mixins.CreeperEntity_ChargedAccessor;
 
 public class LightningPulse {
@@ -70,13 +72,10 @@ public class LightningPulse {
 
 	public static void shockEntity(Entity entity, float amount, DamageSource source) {
 		float multiplier = 1.0F;
-		for (ItemStack stack : entity.armorItems) {
-			if (stack.item instanceof ArmorItem armor) {
-				if (armor.material instanceof ArmorMaterials material) {
-					switch (material) {
-						case LEATHER, DIAMOND, TURTLE, NETHERITE -> {}
-						case CHAIN, IRON, GOLD -> multiplier -= 0.25F;
-					}
+		if (entity instanceof LivingEntity living) {
+			for (ItemStack stack : living.getAllArmorItems()) {
+				if (stack.getItem() instanceof ArmorItem armor && armor.getMaterial().isIn(ArmorMaterialTags.SHOCK_PROTECTION)) {
+					multiplier -= 0.25F;
 				}
 			}
 		}
@@ -86,7 +85,7 @@ public class LightningPulse {
 			entity.damage(source, amount) &&
 			entity instanceof CreeperEntity creeper
 		) {
-			creeper.dataTracker.set(CreeperEntity_ChargedAccessor.charged, Boolean.TRUE);
+			creeper.getDataTracker().set(CreeperEntity_ChargedAccessor.getCharged(), Boolean.TRUE);
 		}
 	}
 
@@ -96,7 +95,7 @@ public class LightningPulse {
 	}
 
 	public void spread() {
-		while (this.remainingSpreadEvents > 0 && !this.spreadQueue.isEmpty) {
+		while (this.remainingSpreadEvents > 0 && !this.spreadQueue.isEmpty()) {
 			int index = this.world.random.nextInt(this.spreadQueue.size());
 			LinkedBlockPos from = (
 				index == this.spreadQueue.size() - 1
@@ -110,7 +109,7 @@ public class LightningPulse {
 	}
 
 	public void interact() {
-		if (this.sinks.isEmpty) {
+		if (this.sinks.isEmpty()) {
 			this.interactWithoutSinks();
 		}
 		else {
@@ -155,7 +154,7 @@ public class LightningPulse {
 
 	@SuppressWarnings("UseOfDivisionOperator")
 	public int getDistributedEnergy() {
-		return this.totalEnergy / Math.max(1, (this.sinks.isEmpty ? this.explored : this.sinks).size());
+		return this.totalEnergy / Math.max(1, (this.sinks.isEmpty() ? this.explored : this.sinks).size());
 	}
 
 	public static class LinkedBlockPos extends BlockPos {
@@ -175,9 +174,9 @@ public class LightningPulse {
 		@Override
 		public LinkedBlockPos offset(Direction direction, int i) {
 			return new LinkedBlockPos(
-				this.x + direction.offsetX * i,
-				this.y + direction.offsetY * i,
-				this.z + direction.offsetZ * i,
+				this.getX() + direction.getOffsetX() * i,
+				this.getY() + direction.getOffsetY() * i,
+				this.getZ() + direction.getOffsetZ() * i,
 				this
 			);
 		}
@@ -185,9 +184,9 @@ public class LightningPulse {
 		@Override
 		public LinkedBlockPos offset(Direction direction) {
 			return new LinkedBlockPos(
-				this.x + direction.offsetX,
-				this.y + direction.offsetY,
-				this.z + direction.offsetZ,
+				this.getX() + direction.getOffsetX(),
+				this.getY() + direction.getOffsetY(),
+				this.getZ() + direction.getOffsetZ(),
 				this
 			);
 		}
@@ -195,9 +194,9 @@ public class LightningPulse {
 		@Override
 		public LinkedBlockPos add(int x, int y, int z) {
 			return new LinkedBlockPos(
-				this.x + x,
-				this.y + y,
-				this.z + z,
+				this.getX() + x,
+				this.getY() + y,
+				this.getZ() + z,
 				this
 			);
 		}
@@ -205,9 +204,9 @@ public class LightningPulse {
 		@Override
 		public LinkedBlockPos add(Vec3i that) {
 			return new LinkedBlockPos(
-				this.x + that.x,
-				this.y + that.y,
-				this.z + that.z,
+				this.getX() + that.getX(),
+				this.getY() + that.getY(),
+				this.getZ() + that.getZ(),
 				this
 			);
 		}

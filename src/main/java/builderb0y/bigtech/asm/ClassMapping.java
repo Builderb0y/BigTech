@@ -34,7 +34,7 @@ public class ClassMapping {
 	}
 
 	public Type getType() {
-		return this.desc.type;
+		return this.getDesc().getType();
 	}
 
 	public FieldMapping field(String name, DescMapping desc) {

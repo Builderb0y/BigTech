@@ -29,11 +29,11 @@ public class RetexturedModelBuilder {
 	}
 
 	public RetexturedModelBuilder blockParent(Identifier parent) {
-		return this.parent("${parent.namespace}:block/${parent.path}");
+		return this.parent("${parent.getNamespace()}:block/${parent.getPath()}");
 	}
 
 	public RetexturedModelBuilder itemParent(Identifier parent) {
-		return this.parent("${parent.namespace}:item/${parent.path}");
+		return this.parent("${parent.getNamespace()}:item/${parent.getPath()}");
 	}
 
 	public RetexturedModelBuilder texture(String key, String texture) {
@@ -46,11 +46,11 @@ public class RetexturedModelBuilder {
 	}
 
 	public RetexturedModelBuilder blockTexture(String key, Identifier texture) {
-		return this.texture(key, "${texture.namespace}:block/${texture.path}");
+		return this.texture(key, "${texture.getNamespace()}:block/${texture.getPath()}");
 	}
 
 	public RetexturedModelBuilder itemTexture(String key, Identifier texture) {
-		return this.texture(key, "${texture.namespace}:item/${texture.path}");
+		return this.texture(key, "${texture.getNamespace()}:item/${texture.getPath()}");
 	}
 
 	@Override

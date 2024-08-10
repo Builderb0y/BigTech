@@ -2,6 +2,8 @@ package builderb0y.bigtech.blocks;
 
 import java.util.function.Predicate;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -12,9 +14,18 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.Palette;
 import net.minecraft.world.chunk.PalettedContainer;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.mixins.AttractableEntities_AttractTowardsMagnetiteBlocks;
 
 public class MagnetiteBlock extends Block {
+
+	public static final MapCodec<MagnetiteBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public MagnetiteBlock(Settings settings) {
 		super(settings);
@@ -22,9 +33,9 @@ public class MagnetiteBlock extends Block {
 
 	public static void attract(Entity entity, double x, double y, double z, double force, double range) {
 		double
-			dx = x - entity.pos.x,
-			dy = y - entity.pos.y,
-			dz = z - entity.pos.z;
+			dx = x - entity.getX(),
+			dy = y - entity.getY(),
+			dz = z - entity.getZ();
 		double squareDistance = dx * dx + dy * dy + dz * dz;
 		if (squareDistance < range * range) {
 			double scalar = force / Math.sqrt(squareDistance);
@@ -38,23 +49,23 @@ public class MagnetiteBlock extends Block {
 	that's why I do all these hacks to get block states in such an unsafe way.
 	*/
 	public static void attract(Entity entity, double force, double range) {
-		World    world  = entity.world;
-		BlockPos center = entity.blockPos;
+		World    world  = entity.getWorld();
+		BlockPos center = entity.getBlockPos();
 		int blockRange  = (int)(range);
 		int
-			blockMinX   = center.x - blockRange,
-			blockMinY   = center.y - blockRange,
-			blockMinZ   = center.z - blockRange,
-			blockMaxX   = center.x + blockRange,
-			blockMaxY   = center.y + blockRange,
-			blockMaxZ   = center.z + blockRange,
+			blockMinX   = center.getX() - blockRange,
+			blockMinY   = center.getY() - blockRange,
+			blockMinZ   = center.getZ() - blockRange,
+			blockMaxX   = center.getX() + blockRange,
+			blockMaxY   = center.getY() + blockRange,
+			blockMaxZ   = center.getZ() + blockRange,
 			sectionMinX = blockMinX >> 4,
 			sectionMinY = blockMinY >> 4,
 			sectionMinZ = blockMinZ >> 4,
 			sectionMaxX = blockMaxX >> 4,
 			sectionMaxY = blockMaxY >> 4,
 			sectionMaxZ = blockMaxZ >> 4;
-		BlockState search = FunctionalBlocks.MAGNETITE_BLOCK.defaultState;
+		BlockState search = FunctionalBlocks.MAGNETITE_BLOCK.getDefaultState();
 		Predicate<BlockState> predicate = (BlockState state) -> state == search;
 		for (int sectionZ = sectionMinZ; sectionZ <= sectionMaxZ; sectionZ++) {
 			int intersectionMinZ = Math.max(blockMinZ, sectionZ << 4);
@@ -66,13 +77,13 @@ public class MagnetiteBlock extends Block {
 				for (int sectionY = sectionMinY; sectionY <= sectionMaxY; sectionY++) {
 					int intersectionMinY = Math.max(blockMinY, sectionY << 4);
 					int intersectionMaxY = Math.min(blockMaxY, (sectionY << 4) | 15);
-					PalettedContainer<BlockState> section = chunk.getSection(chunk.sectionCoordToIndex(sectionY)).blockStateContainer;
+					PalettedContainer<BlockState> section = chunk.getSection(chunk.sectionCoordToIndex(sectionY)).getBlockStateContainer();
 					if (section.hasAny(predicate)) {
 						section.lock();
 						try {
-							Palette<BlockState> palette = section.data.palette;
+							Palette<BlockState> palette = section.data.palette();
 							int searchIndex = palette.index(search);
-							PaletteStorage storage = section.data.storage;
+							PaletteStorage storage = section.data.storage();
 							for (int y = intersectionMinY; y <= intersectionMaxY; y++) {
 								int yIndex = (y & 15) << 8;
 								for (int z = intersectionMinZ; z <= intersectionMaxZ; z++) {

@@ -3,6 +3,7 @@ package builderb0y.bigtech.api;
 import java.util.Objects;
 
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -79,10 +80,10 @@ public interface LightningPulseInteractor {
 	) {
 		return (
 			fromInteractor.canConductOut(world, fromPos, fromState, fromFromToTo) &&
-			toInteractor  .canConductIn (world,   toPos,   toState, fromFromToTo.opposite) &&
+			toInteractor  .canConductIn (world,   toPos,   toState, fromFromToTo.getOpposite()) &&
 			VoxelShapes.matchesAnywhere(
 				fromInteractor.getConductionShape(world, fromPos, fromState, fromFromToTo),
-				toInteractor  .getConductionShape(world,   toPos, toState, fromFromToTo.opposite),
+				toInteractor  .getConductionShape(world,   toPos, toState, fromFromToTo.getOpposite()),
 				BooleanBiFunction.AND
 			)
 		);
@@ -189,12 +190,19 @@ public interface LightningPulseInteractor {
 	*/
 	public abstract void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse);
 
-	public default ActionResult interactWithBattery(World world, BlockPos pos, BlockState state, PlayerEntity player, ItemStack stack, LightningStorageItem battery) {
+	public default ActionResult interactWithBattery(
+		World world,
+		BlockPos pos,
+		BlockState state,
+		PlayerEntity player,
+		ItemStack stack,
+		LightningStorageItem battery
+	) {
 		int charge = battery.getCharge(stack);
 		if (charge > 0) {
 			if (!world.isClient) {
 				new LightningPulse(world, pos, state, this, charge, battery.getDefaultSpreadEvents(stack)).run();
-				if (player == null || !player.isCreative) {
+				if (player == null || !player.isCreative()) {
 					battery.setCharge(stack, 0);
 				}
 			}
@@ -210,13 +218,25 @@ public interface LightningPulseInteractor {
 	the damage dealt to each entity is the pulse's {@link LightningPulse#totalEnergy} divided by 1000.
 	*/
 	public default void shockEntitiesAround(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
-		for (Entity entity : world.getNonSpectatingEntities(Entity.class, new Box(pos.x - 1, pos.y - 1, pos.z - 1, pos.x + 2, pos.y + 2, pos.z + 2))) {
+		for (
+			Entity entity : world.getNonSpectatingEntities(
+				Entity.class,
+				new Box(
+					pos.getX() - 1,
+					pos.getY() - 1,
+					pos.getZ() - 1,
+					pos.getX() + 2,
+					pos.getY() + 2,
+					pos.getZ() + 2
+				)
+			)
+		) {
 			LightningPulse.shockEntity(
 				entity,
 				pulse.totalEnergy / 1000.0F,
 				new DamageSource(
 					world
-					.registryManager
+					.getRegistryManager()
 					.get(RegistryKeys.DAMAGE_TYPE)
 					.entryOf(BigTechDamageTypes.SHOCKING)
 				)
@@ -242,11 +262,11 @@ public interface LightningPulseInteractor {
 			Blocks.SPAWNER
 		);
 		LOOKUP.registerFallback(
-			(world, pos, state, blockEntity, context) -> {
-				if (state.block instanceof LightningPulseInteractor interactor) {
+			(World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Void context) -> {
+				if (state.getBlock() instanceof LightningPulseInteractor interactor) {
 					return interactor;
 				}
-				if (state.block instanceof Oxidizable) {
+				if (state.getBlock() instanceof Oxidizable) {
 					return LightningPulseInteractors.OXIDIZABLE;
 				}
 				if (state.isIn(BigTechBlockTags.CONDUCTS_LIGHTNING)) {

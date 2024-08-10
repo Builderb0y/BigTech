@@ -51,7 +51,7 @@ public interface AscenderInteractor {
 
 	public static final Object INITIALIZER = new Object() {{
 		LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> {
-			if (state.block instanceof AscenderInteractor interactor) {
+			if (state.getBlock() instanceof AscenderInteractor interactor) {
 				return interactor;
 			}
 			return null;

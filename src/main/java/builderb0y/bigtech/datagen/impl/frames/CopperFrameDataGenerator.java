@@ -1,6 +1,6 @@
 package builderb0y.bigtech.datagen.impl.frames;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
@@ -37,12 +37,12 @@ public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.COPPER_FRAMES).addElement(this.id);
+		context.getTags(BigTechBlockTags.COPPER_FRAMES).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.COPPER_FRAMES).addElement(this.id);
+		context.getTags(BigTechItemTags.COPPER_FRAMES).addElement(this.getId());
 	}
 
 	@Override
@@ -56,13 +56,13 @@ public class CopperFrameDataGenerator extends MetalFrameDataGenerator {
 		}
 		else if (this.type.waxed) {
 			context.writeToFile(
-				context.recipePath(this.id),
+				context.recipePath(this.getId()),
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group(BigTechMod.modID("frames"))
 				.ingredient(DecoItems.COPPER_FRAMES.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
-				.result(this.item)
+				.result(this.getItem())
 				.toString()
 			);
 		}

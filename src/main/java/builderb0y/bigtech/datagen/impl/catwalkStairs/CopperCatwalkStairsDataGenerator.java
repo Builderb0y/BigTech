@@ -43,12 +43,12 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.COPPER_CATWALK_STAIRS).addElement(this.id);
+		context.getTags(BigTechBlockTags.COPPER_CATWALK_STAIRS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.COPPER_CATWALK_STAIRS).addElement(this.id);
+		context.getTags(BigTechItemTags.COPPER_CATWALK_STAIRS).addElement(this.getId());
 	}
 
 	@Override
@@ -62,13 +62,13 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 		}
 		else if (this.type.waxed) {
 			context.writeToFile(
-				context.recipePath(this.id),
+				context.recipePath(this.getId()),
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group("bigtech:waxed_copper_catwalk_stairs")
 				.ingredient(DecoItems.COPPER_CATWALK_STAIRS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
-				.result(this.id)
+				.result(this.getId())
 				.toString()
 			);
 		}

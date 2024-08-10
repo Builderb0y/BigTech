@@ -25,6 +25,7 @@ public class BigTechEntityTypes {
 			true,
 			ImmutableSet.of(),
 			EntityDimensions.fixed(1.875F, 1.9375F),
+			1.0F,
 			10,
 			3,
 			FeatureSet.empty()

@@ -19,14 +19,14 @@ public abstract class RedstoneTransceiverDataGenerator extends BasicBlockDataGen
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
+				.streamStatesSorted(this.getBlock())
 				.map((BlockState state) -> new BlockStateJsonVariant(
 					state,
-					context.prefixSuffixPath("block/", this.id, state.get(Properties.POWERED) ? "_on" : "_off").toString(),
+					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 				))
@@ -38,12 +38,12 @@ public abstract class RedstoneTransceiverDataGenerator extends BasicBlockDataGen
 
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
-		return context.suffixPath(this.id, "_off");
+		return context.suffixPath(this.getId(), "_off");
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override

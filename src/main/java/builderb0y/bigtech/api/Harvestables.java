@@ -24,8 +24,8 @@ public class Harvestables {
 	public static final BeamDirection[] BEAM_DIRECTIONS_BY_DISTANCE = (
 		Arrays
 		.stream(BeamDirection.VALUES)
-		.filter(direction -> direction != BeamDirection.CENTER)
-		.sorted(Comparator.comparing(direction -> direction.type))
+		.filter((BeamDirection direction) -> direction != BeamDirection.CENTER)
+		.sorted(Comparator.comparing((BeamDirection direction) -> direction.type))
 		.toArray(BeamDirection[]::new)
 	);
 
@@ -270,7 +270,7 @@ public class Harvestables {
 
 			@Override
 			public boolean test(BlockState state) {
-				Block block = state.block;
+				Block block = state.getBlock();
 				for (Block compare : blocks) {
 					if (block == compare) return true;
 				}

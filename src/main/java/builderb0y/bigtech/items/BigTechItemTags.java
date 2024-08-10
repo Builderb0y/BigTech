@@ -63,6 +63,6 @@ public class BigTechItemTags {
 	}
 
 	public static TagKey<Item> common(String name) {
-		return TagKey.of(RegistryKeys.ITEM, new Identifier("c", name));
+		return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", name));
 	}
 }

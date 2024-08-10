@@ -7,16 +7,17 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.util.ParticleUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.ParticleUtil;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -40,7 +41,11 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 
 	public AbstractLightningJarBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.POWERED, Boolean.FALSE)
+		);
 	}
 
 	public abstract int getCapacity();
@@ -59,12 +64,12 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 			int charge = battery.getCharge(stack);
 			int maxCharge = battery.getMaxCharge(stack);
 			int jarCharge = jar.storedEnergy;
-			int maxJarCharge = this.capacity;
+			int maxJarCharge = this.getCapacity();
 			if (charge > 0 && jarCharge < maxJarCharge) {
 				if (!world.isClient) {
 					int transferred = Math.min(charge, maxJarCharge - jarCharge);
 					jar.setStoredEnergyAndSync(jarCharge + transferred);
-					if (player == null || !player.isCreative) {
+					if (player == null || !player.isCreative()) {
 						battery.setCharge(stack, charge - transferred);
 					}
 				}
@@ -74,7 +79,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 				if (!world.isClient) {
 					int transferred = Math.min(jarCharge, maxCharge - charge);
 					jar.setStoredEnergyAndSync(jarCharge - transferred);
-					if (player == null || !player.isCreative) {
+					if (player == null || !player.isCreative()) {
 						battery.setCharge(stack, charge + transferred);
 					}
 				}
@@ -108,7 +113,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 		if (jar != null) {
-			jar.setStoredEnergyAndSync(Math.min(jar.storedEnergy + pulse.distributedEnergy, this.capacity));
+			jar.setStoredEnergyAndSync(Math.min(jar.storedEnergy + pulse.getDistributedEnergy(), this.getCapacity()));
 			this.spawnLightningParticles(world, pos, state, pulse);
 		}
 	}
@@ -118,7 +123,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 		super.randomDisplayTick(state, world, pos, random);
 		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 		if (jar != null) {
-			double chance = ((double)(jar.storedEnergy)) / ((double)(this.capacity));
+			double chance = ((double)(jar.storedEnergy)) / ((double)(this.getCapacity()));
 			if (world.random.nextDouble() < chance) {
 				ParticleUtil.spawnParticle(
 					world,
@@ -137,19 +142,17 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!player.getStackInHand(hand).isEmpty) {
-			return ActionResult.PASS;
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!player.getStackInHand(hand).isEmpty()) {
+			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 		if (!world.isClient) {
 			LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 			if (jar != null) {
-				player.sendMessage(Text.translatable("bigtech.lightning_jar.stored", jar.storedEnergy, this.capacity, jar.storedEnergy * 100 / this.capacity), true);
+				player.sendMessage(Text.translatable("bigtech.lightning_jar.stored", jar.storedEnergy, this.getCapacity(), jar.storedEnergy * 100 / this.getCapacity()), true);
 			}
 		}
-		return ActionResult.SUCCESS;
+		return ItemActionResult.SUCCESS;
 	}
 
 	@Override
@@ -173,8 +176,8 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 			if (shouldBePowered) {
 				LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 				if (jar != null && jar.storedEnergy > 0) {
-					int subtracted = Math.min(this.capacity * power / 15, jar.storedEnergy);
-					LightningPulse pulse = new LightningPulse(world, pos.down(), subtracted, this.pulseSteps);
+					int subtracted = Math.min(this.getCapacity() * power / 15, jar.storedEnergy);
+					LightningPulse pulse = new LightningPulse(world, pos.down(), subtracted, this.getPulseSteps());
 					pulse.run();
 					this.spawnLightningParticles(world, pos, state, pulse);
 					jar.setStoredEnergyAndSync(jar.storedEnergy - subtracted);
@@ -203,7 +206,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
 		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 		if (jar != null) {
-			return Math.min(Math.max(MathHelper.ceilDiv(jar.storedEnergy * 15, this.capacity), 0), 15);
+			return Math.min(Math.max(MathHelper.ceilDiv(jar.storedEnergy * 15, this.getCapacity()), 0), 15);
 		}
 		else {
 			return 0;

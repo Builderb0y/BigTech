@@ -26,8 +26,8 @@ public class TripwireBlockEntity extends BlockEntity {
 		if (this.delay != delay) {
 			this.delay = delay;
 			boolean powered = delay > 0;
-			if (this.cachedState.get(Properties.POWERED) != powered) {
-				this.world.setBlockState(this.pos, this.cachedState.with(Properties.POWERED, powered));
+			if (this.getCachedState().get(Properties.POWERED) != powered) {
+				this.world.setBlockState(this.pos, this.getCachedState().with(Properties.POWERED, powered));
 			}
 			this.markDirty();
 		}

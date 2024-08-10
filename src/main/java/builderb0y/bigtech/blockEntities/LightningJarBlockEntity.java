@@ -9,6 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
@@ -29,26 +30,26 @@ public class LightningJarBlockEntity extends BlockEntity {
 			this.storedEnergy = storedEnergy;
 			if (this.world instanceof ServerWorld serverWorld) {
 				serverWorld.getChunkManager().markForUpdate(this.pos);
-				this.world.updateComparators(this.pos, this.cachedState.getBlock());
+				this.world.updateComparators(this.pos, this.getCachedState().getBlock());
 			}
 		}
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
 		this.storedEnergy = nbt.getInt("energy");
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
+	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
 		nbt.putInt("energy", this.storedEnergy);
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		return super.toInitialChunkDataNbt().withInt("energy", this.storedEnergy);
+	public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+		return super.toInitialChunkDataNbt(registryLookup).withInt("energy", this.storedEnergy);
 	}
 
 	@Nullable

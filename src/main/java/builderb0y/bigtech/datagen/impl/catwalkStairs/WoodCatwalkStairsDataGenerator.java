@@ -26,12 +26,12 @@ public class WoodCatwalkStairsDataGenerator extends CatwalkStairsDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.WOODEN_CATWALK_STAIRS).addElement(this.id);
+		context.getTags(BigTechBlockTags.WOODEN_CATWALK_STAIRS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.WOODEN_CATWALK_STAIRS).addElement(this.id);
+		context.getTags(BigTechItemTags.WOODEN_CATWALK_STAIRS).addElement(this.getId());
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class WoodCatwalkStairsDataGenerator extends CatwalkStairsDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		this.writeCatwalkStairsBlockModels(
 			context,
-			new Identifier("minecraft", "${this.type.prefix}planks"),
+			Identifier.ofVanilla("${this.type.prefix}planks"),
 			BigTechMod.modID("${this.type.prefix}catwalk_stairs")
 		);
 	}
@@ -56,7 +56,7 @@ public class WoodCatwalkStairsDataGenerator extends CatwalkStairsDataGenerator {
 	public void writeItemModels(DataGenContext context) {
 		this.writeCatwalkStairsItemModels(
 			context,
-			new Identifier("minecraft", "${this.type.prefix}planks"),
+			Identifier.ofVanilla("${this.type.prefix}planks"),
 			BigTechMod.modID("${this.type.prefix}catwalk_stairs")
 		);
 	}

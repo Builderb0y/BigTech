@@ -7,6 +7,8 @@ import org.joml.Vector3f;
 
 import net.minecraft.util.DyeColor;
 
+import builderb0y.bigtech.api.BeaconBeamColorProvider;
+
 public abstract class CrystalClusterRegistrableCollection<T> implements RegistrableCollection<T> {
 
 	public final T
@@ -149,30 +151,30 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 	}
 
 	public static enum CrystalClusterColor {
-		RED    (DyeColor.RED,     1.0F,  0.25F, 0.25F),
-		YELLOW (DyeColor.YELLOW,  1.0F,  1.0F,  0.25F),
-		GREEN  (DyeColor.LIME,    0.25F, 1.0F,  0.25F),
-		CYAN   (DyeColor.CYAN,    0.25F, 1.0F,  1.0F ),
-		BLUE   (DyeColor.BLUE,    0.25F, 0.25F, 1.0F ),
-		MAGENTA(DyeColor.MAGENTA, 1.0F,  0.25F, 1.0F ),
-		BLACK  (DyeColor.BLACK,   0.25F, 0.25F, 0.25F),
-		WHITE  (DyeColor.WHITE,   1.0F,  1.0F,  1.0F );
+		RED    (DyeColor.RED,     255,  63,  63),
+		YELLOW (DyeColor.YELLOW,  255, 255,  63),
+		GREEN  (DyeColor.LIME,     63, 255,  63),
+		CYAN   (DyeColor.CYAN,     63, 255, 255),
+		BLUE   (DyeColor.BLUE,     63,  63, 255),
+		MAGENTA(DyeColor.MAGENTA, 255,  63, 255),
+		BLACK  (DyeColor.BLACK,    63,  63,  63),
+		WHITE  (DyeColor.WHITE,   255, 255, 255);
 
 		public static final CrystalClusterColor[] VALUES = values();
 
 		public final DyeColor closestDyeColor;
 		public final String prefix;
-		public final float red, green, blue;
-		public final float[] colorArray;
+		public final int red, green, blue;
+		public final int color;
 		public final Vector3f colorVector;
 
-		CrystalClusterColor(DyeColor dyeColor, float red, float green, float blue) {
+		CrystalClusterColor(DyeColor dyeColor, int red, int green, int blue) {
 			this.closestDyeColor = dyeColor;
 			this.red = red;
 			this.green = green;
 			this.blue = blue;
-			this.colorArray = new float[] { red, green, blue };
-			this.colorVector = new Vector3f(red, green, blue);
+			this.color = BeaconBeamColorProvider.packRGB(red, green, blue);
+			this.colorVector = new Vector3f(red, green, blue).div(255.0F);
 			this.prefix = this.name().toLowerCase(Locale.ROOT) + '_';
 		}
 	}

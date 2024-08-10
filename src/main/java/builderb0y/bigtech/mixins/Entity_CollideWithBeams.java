@@ -32,7 +32,7 @@ public abstract class Entity_CollideWithBeams {
 				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(mutablePos);
 				if (segments != null) {
 					for (BeamSegment segment : segments) {
-						((PersistentBeam)(segment.beam)).onEntityCollision(mutablePos, (Entity)(Object)(this));
+						segment.beam().<PersistentBeam>as().onEntityCollision(mutablePos, this.as());
 					}
 				}
 			}

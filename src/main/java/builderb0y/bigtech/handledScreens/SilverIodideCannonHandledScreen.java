@@ -1,5 +1,7 @@
 package builderb0y.bigtech.handledScreens;
 
+import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -9,6 +11,9 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FireworkExplosionComponent;
+import net.minecraft.component.type.FireworksComponent;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.ItemStack;
@@ -52,22 +57,18 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 
 	public Text getStatusMessage() {
 		World world = this.client.world;
-		if (world.getTopY(Heightmap.Type.MOTION_BLOCKING, this.handler.pos.x, this.handler.pos.z) > this.handler.pos.y + 1) {
+		if (world.getTopY(Heightmap.Type.MOTION_BLOCKING, this.handler.pos.getX(), this.handler.pos.getZ()) > this.handler.pos.getY() + 1) {
 			return Text.translatable("bigtech.silver_iodide_cannon.cant_see_the_sky");
 		}
 		ItemStack stack = this.handler.inventory.getStack(0);
-		if (stack.isEmpty) {
+		if (stack.isEmpty()) {
 			return Text.translatable("bigtech.silver_iodide_cannon.no_ammunition");
 		}
-		if (stack.item != Items.FIREWORK_ROCKET) {
+		if (stack.getItem() != Items.FIREWORK_ROCKET) {
 			return Text.translatable("bigtech.silver_iodide_cannon.not_a_firework");
 		}
-		NbtCompound fireworks = stack.getSubNbt(FireworkRocketItem.FIREWORKS_KEY);
-		if (fireworks == null) {
-			return Text.translatable("bigtech.silver_iodide_cannon.no_stars");
-		}
-		NbtList explosions = fireworks.getList(FireworkRocketItem.EXPLOSIONS_KEY, NbtElement.COMPOUND_TYPE);
-		if (explosions.isEmpty) {
+		FireworksComponent fireworks = stack.get(DataComponentTypes.FIREWORKS);
+		if (fireworks == null || fireworks.explosions().isEmpty()) {
 			return Text.translatable("bigtech.silver_iodide_cannon.no_stars");
 		}
 		return Text.translatable("bigtech.silver_iodide_cannon.ready_to_launch");
@@ -94,16 +95,16 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 
 		public WeatherButton(int x, int y, int width, int height, Text text, boolean moreRainy) {
 			super(x, y, width, height, text);
-			this.tooltip = Tooltip.of(Text.translatable("container.bigtech.silver_iodide_cannon.make_${moreRainy ? \"more\" : \"less\"}_rainy"));
+			this.setTooltip(Tooltip.of(Text.translatable("container.bigtech.silver_iodide_cannon.make_${moreRainy ? \"more\" : \"less\"}_rainy")));
 			this.moreRainy = moreRainy;
 		}
 
 		@Override
-		public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+		public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 			context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			Identifier texture;
 			if (this.moreRainy) {
-				if (MinecraftClient.instance.world.isRaining) {
+				if (MinecraftClient.getInstance().world.isRaining()) {
 					texture = this.hovered ? MAKE_THUNDERY_HOVERED : MAKE_THUNDERY;
 				}
 				else {
@@ -111,20 +112,20 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 				}
 			}
 			else {
-				if (MinecraftClient.instance.world.isThundering) {
+				if (MinecraftClient.getInstance().world.isThundering()) {
 					texture = this.hovered ? MAKE_RAINY_HOVERED : MAKE_RAINY;
 				}
 				else {
 					texture = this.hovered ? MAKE_SUNNY_HOVERED : MAKE_SUNNY;
 				}
 			}
-			context.drawGuiTexture(texture, this.x, this.y, this.width, this.height);
+			context.drawGuiTexture(texture, this.getX(), this.getY(), this.width, this.height);
 		}
 
 		@Override
 		public void onPress() {
-			ClientPlayNetworking.send(new SilverIodideCannonFirePacket(this.moreRainy));
-			MinecraftClient.instance.player.closeHandledScreen();
+			SilverIodideCannonFirePacket.INSTANCE.send(this.moreRainy);
+			MinecraftClient.getInstance().player.closeHandledScreen();
 		}
 
 		@Override

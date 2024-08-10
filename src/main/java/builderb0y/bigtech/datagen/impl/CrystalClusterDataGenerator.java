@@ -39,12 +39,12 @@ public class CrystalClusterDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.CRYSTAL_CLUSTERS).addElement(this.id);
+		context.getTags(BigTechBlockTags.CRYSTAL_CLUSTERS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.CRYSTAL_CLUSTERS).addElement(this.id);
+		context.getTags(BigTechItemTags.CRYSTAL_CLUSTERS).addElement(this.getId());
 	}
 
 	@Override

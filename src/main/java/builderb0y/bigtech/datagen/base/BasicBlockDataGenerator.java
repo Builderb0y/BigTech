@@ -14,9 +14,15 @@ import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator {
 
 	public final BlockItem blockItem;
+	public Identifier lazyId;
 
 	public BasicBlockDataGenerator(BlockItem blockItem) {
 		this.blockItem = blockItem;
+	}
+
+	@Override
+	public Identifier getId() {
+		return this.lazyId == null ? this.lazyId = BlockItemDataGenerator.super.getId() : this.lazyId;
 	}
 
 	@Override
@@ -31,7 +37,7 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		return context.underscoresToCapitals(this.id.path);
+		return context.underscoresToCapitals(this.getId().getPath());
 	}
 
 	public boolean hasMorePropertiesThan(Property<?> expected) {
@@ -64,12 +70,12 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 		if (this.hasMorePropertiesThan(Properties.WATERLOGGED)) {
 			context.error(new IllegalStateException("Should override writeBlockstateJson() to handle multiple states: " + this));
 		}
-		this.writeDefaultBlockstateJson(context, this.id);
+		this.writeDefaultBlockstateJson(context, this.getId());
 	}
 
 	public void writeDefaultBlockstateJson(DataGenContext context, Identifier blockModel) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			context.replace(
 				"""
 				{
@@ -86,7 +92,7 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	@Override
 	public void writeLootTableJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockLootTablePath(this.id),
+			context.blockLootTablePath(this.getId()),
 			context.replace(
 				"""
 				{
@@ -103,19 +109,19 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 					}]
 				}
 				""",
-				Map.of("BLOCK", this.id.toString())
+				Map.of("BLOCK", this.getId().toString())
 			)
 		);
 	}
 
 	public Identifier getItemModelParent(DataGenContext context) {
-		return this.id;
+		return this.getId();
 	}
 
 	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
-			context.itemModelPath(this.id),
+			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.blockParent(this.getItemModelParent(context))
 			.toString()

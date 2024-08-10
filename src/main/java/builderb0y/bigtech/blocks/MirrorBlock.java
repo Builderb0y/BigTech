@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,10 +14,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
@@ -28,20 +31,29 @@ import net.minecraft.world.WorldAccess;
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class MirrorBlock extends Block implements Waterloggable, BeamInteractor {
 
 	public static final double[] aabbNumbers = { 0.125D, 0.125D, 0.1875D, 0.3125D, 0.46875D, 0.3125D, 0.1875D, 0.125D };
 	public static final double[] sinCache = { 0.0D, 0.38268343236509D, 0.707106781186548D, 0.923879532511287D, 1.0D, 0.923879532511287D, 0.707106781186548D, 0.38268343236509D, 0.0D, -0.38268343236509D, -0.707106781186548D, -0.923879532511287D };
 
+	public static final MapCodec<MirrorBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public Map<BlockState, VoxelShape> shapes;
 
 	public MirrorBlock(Settings settings) {
 		super(settings);
 		this.shapes = this.createShapeMap();
-		this.defaultState = (
+		this.setDefaultState(
 			this
-			.defaultState
+			.getDefaultState()
 			.with(Properties.FACING, Direction.DOWN)
 			.with(Properties.ATTACHED, Boolean.FALSE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
@@ -49,7 +61,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	public Map<BlockState, VoxelShape> createShapeMap() {
-		ImmutableList<BlockState> states = this.stateManager.states;
+		ImmutableList<BlockState> states = this.stateManager.getStates();
 		Map<BlockState, VoxelShape> shapes = new HashMap<>(states.size());
 		Map<Box, VoxelShape> cache = new HashMap<>(states.size());
 		for (BlockState state : states) {
@@ -77,7 +89,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 
 	@Override
 	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		BeamDirection entryDirection = inputSegment.direction;
+		BeamDirection entryDirection = inputSegment.direction();
 		double normalX, normalY, normalZ;
 		int rotation = state.get(BigTechProperties.ROTATION_0_7);
 		double sin = sinCache[rotation];
@@ -93,19 +105,17 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 		}
 		BeamDirection exitDirection = entryDirection.reflectUnchecked(normalX, normalY, normalZ);
 		if (entryDirection == exitDirection) return false;
-		inputSegment.beam.addSegment(inputSegment.extend(inputSegment.distanceRemaining - exitDirection.type.magnitude, exitDirection));
+		inputSegment.beam().addSegment(inputSegment.extend(inputSegment.distanceRemaining() - exitDirection.type.magnitude, exitDirection));
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!player.getStackInHand(hand).isEmpty) return ActionResult.PASS;
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!stack.isEmpty()) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		if (!world.isClient) {
-			world.setBlockState(pos, state.with(BigTechProperties.ROTATION_0_7, (state.get(BigTechProperties.ROTATION_0_7) + (player.isSneaking ? 1 : -1)) & 7));
+			world.setBlockState(pos, state.with(BigTechProperties.ROTATION_0_7, (state.get(BigTechProperties.ROTATION_0_7) + (player.isSneaking() ? 1 : -1)) & 7));
 		}
-		return ActionResult.SUCCESS;
+		return ItemActionResult.SUCCESS;
 	}
 
 	@Override
@@ -118,18 +128,18 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 		Direction currentFacing = state.get(Properties.FACING);
 		if (state.get(Properties.ATTACHED)) {
 			if (direction == currentFacing) {
-				if (!neighborState.isSideSolidFullSquare(world, neighborPos, direction.opposite)) {
+				if (!neighborState.isSideSolidFullSquare(world, neighborPos, direction.getOpposite())) {
 					return this.tryAttachOpposite(world, pos, state, direction);
 				}
 			}
 		}
 		else {
 			if (direction == currentFacing) {
-				if (neighborState.isSideSolidFullSquare(world, neighborPos, direction.opposite)) {
+				if (neighborState.isSideSolidFullSquare(world, neighborPos, direction.getOpposite())) {
 					return state.with(Properties.ATTACHED, Boolean.TRUE);
 				}
 			}
-			else if (direction == currentFacing.opposite) {
+			else if (direction == currentFacing.getOpposite()) {
 				if (neighborState.isSideSolidFullSquare(world, neighborPos, currentFacing)) {
 					return (
 						state
@@ -144,7 +154,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	public BlockState tryAttachOpposite(WorldAccess world, BlockPos pos, BlockState state, Direction direction) {
-		Direction opposite = direction.opposite;
+		Direction opposite = direction.getOpposite();
 		BlockPos oppositePos = pos.offset(opposite);
 		BlockState oppositeState = world.getBlockState(oppositePos);
 		if (oppositeState.isSideSolidFullSquare(world, oppositePos, direction)) {
@@ -161,34 +171,34 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		BlockPos offsetPos = context.blockPos.offset(context.side.opposite);
+		BlockPos offsetPos = context.getBlockPos().offset(context.getSide().getOpposite());
 		BlockState state = (
 			super
 			.getPlacementState(context)
-			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
-			.with(Properties.FACING, context.side.opposite)
-			.with(Properties.ATTACHED, context.world.getBlockState(offsetPos).isSideSolidFullSquare(context.world, offsetPos, context.side))
+			.with(Properties.WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).isEqualAndStill(Fluids.WATER))
+			.with(Properties.FACING, context.getSide().getOpposite())
+			.with(Properties.ATTACHED, context.getWorld().getBlockState(offsetPos).isSideSolidFullSquare(context.getWorld(), offsetPos, context.getSide()))
 		);
-		PlayerEntity player = context.player;
+		PlayerEntity player = context.getPlayer();
 		if (player != null) {
 			Vec3d look;
-			double rotation = switch (context.side) {
-				case UP -> player.yaw / -22.5F;
-				case DOWN -> player.yaw / 22.5F;
+			double rotation = switch (context.getSide()) {
+				case UP -> player.getYaw() / -22.5F;
+				case DOWN -> player.getYaw() / 22.5F;
 				case NORTH -> {
-					look = player.rotationVector;
+					look = player.getRotationVector();
 					yield getAngle(look.x, look.y);
 				}
 				case SOUTH -> {
-					look = player.rotationVector;
+					look = player.getRotationVector();
 					yield getAngle(-look.x, look.y);
 				}
 				case WEST -> {
-					look = player.rotationVector;
+					look = player.getRotationVector();
 					yield getAngle(-look.z, look.y);
 				}
 				case EAST -> {
-					look = player.rotationVector;
+					look = player.getRotationVector();
 					yield getAngle(look.z, look.y);
 				}
 			};
@@ -217,7 +227,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Override

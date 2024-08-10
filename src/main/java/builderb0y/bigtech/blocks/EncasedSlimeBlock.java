@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -14,15 +15,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.api.PistonInteractor;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class EncasedSlimeBlock extends Block implements PistonInteractor {
 
-	public final boolean isHoney;
+	public static final MapCodec<EncasedSlimeBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
+	public final boolean honey;
 
 	public EncasedSlimeBlock(Settings settings, boolean honey) {
 		super(settings);
-		this.isHoney = honey;
-		this.defaultState = this.defaultState.with(Properties.FACING, Direction.UP);
+		this.honey = honey;
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.FACING, Direction.UP)
+		);
 	}
 
 	@Override
@@ -39,7 +53,7 @@ public class EncasedSlimeBlock extends Block implements PistonInteractor {
 		BlockState otherState,
 		Direction face
 	) {
-		if (this.isHoney) {
+		if (this.honey) {
 			if (otherState.isOf(Blocks.SLIME_BLOCK)) return false;
 		}
 		else {
@@ -51,7 +65,7 @@ public class EncasedSlimeBlock extends Block implements PistonInteractor {
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return this.defaultState.with(Properties.FACING, context.playerLookDirection.opposite);
+		return this.getDefaultState().with(Properties.FACING, context.getPlayerLookDirection().getOpposite());
 	}
 
 	@Override

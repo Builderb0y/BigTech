@@ -39,7 +39,7 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
-		this.writeBeltBlockModel(context, this.id);
+		this.writeBeltBlockModel(context, this.getId());
 	}
 
 	@Override
@@ -54,12 +54,12 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.BELTS).addElement(this.id);
+		context.getTags(BigTechBlockTags.BELTS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.BELTS).addElement(this.id);
+		context.getTags(BigTechItemTags.BELTS).addElement(this.getId());
 	}
 
 	public void writeBeltRecipes(DataGenContext context, ItemConvertible item) {
@@ -67,12 +67,12 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	public void writeBeltRecipes(DataGenContext context, TagKey<Item> tag) {
-		this.writeBeltRecipes(context, "#" + tag.id);
+		this.writeBeltRecipes(context, "#" + tag.id());
 	}
 
 	public void writeBeltRecipes(DataGenContext context, String otherIngredient) {
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_paper")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_paper")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
@@ -85,7 +85,7 @@ public abstract class BeltDataGenerator extends BasicBlockDataGenerator {
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_leather")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_leather")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")

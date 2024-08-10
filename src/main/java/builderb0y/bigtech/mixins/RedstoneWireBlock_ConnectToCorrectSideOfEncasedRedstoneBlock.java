@@ -18,7 +18,7 @@ public class RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock {
 	@Inject(method = "connectsTo(Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;)Z", at = @At("HEAD"), cancellable = true)
 	private static void bigtech_connectToCorrectSideOfEncasedRedstoneBlock(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> callback) {
 		if (state.getBlock() instanceof EncasedRedstoneBlock) {
-			callback.setReturnValue(direction == state.get(Properties.FACING).opposite);
+			callback.setReturnValue(direction == state.get(Properties.FACING).getOpposite());
 		}
 	}
 }

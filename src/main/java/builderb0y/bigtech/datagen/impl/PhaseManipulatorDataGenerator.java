@@ -22,10 +22,10 @@ public abstract class PhaseManipulatorDataGenerator extends BasicBlockDataGenera
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("phase_manipulator"))
-			.blockTexture("texture", this.id)
+			.blockTexture("texture", this.getId())
 			.toString()
 		);
 	}
@@ -42,23 +42,23 @@ public abstract class PhaseManipulatorDataGenerator extends BasicBlockDataGenera
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.PHASE_MANIPULATORS).addElement(this.id);
+		context.getTags(BigTechBlockTags.PHASE_MANIPULATORS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.PHASE_MANIPULATORS).addElement(this.id);
+		context.getTags(BigTechItemTags.PHASE_MANIPULATORS).addElement(this.getId());
 	}
 
 	public void writePhaseAdjusterRecipe(DataGenContext context, Item pane, Item crystal) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.group(BigTechMod.modID("phase_manipulator"))
 			.pattern("ggg", "gcg", "ggg")
 			.where('g', pane)
 			.where('c', crystal)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

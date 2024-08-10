@@ -14,11 +14,11 @@ public abstract class MetalCatwalkStairsDataGenerator extends CatwalkStairsDataG
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.METAL_CATWALK_STAIRS).addElement(this.id);
+		context.getTags(BigTechBlockTags.METAL_CATWALK_STAIRS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.METAL_CATWALK_STAIRS).addElement(this.id);
+		context.getTags(BigTechItemTags.METAL_CATWALK_STAIRS).addElement(this.getId());
 	}
 }

@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"qqq",
+		"lcr",
+		"bbb"
+	],
+	"key": {
+		"q": { "tag":  "c:quartz"                    },
+		"l": { "item": "bigtech:lens"                },
+		"c": { "tag":  "bigtech:crystal_clusters"    },
+		"r": { "item": "minecraft:redstone_torch"    },
+		"b": { "item": "minecraft:smooth_stone_slab" }
+	},
+	"result": {
+		"id": "bigtech:redstone_transmitter"
+	}
+}

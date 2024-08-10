@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "building",
+	"group": "bigtech:waxed_copper_bars",
+	"ingredients": [
+		{ "item": "bigtech:oxidized_copper_bars" },
+		{ "item": "minecraft:honeycomb"          }
+	],
+	"result": {
+		"id": "bigtech:waxed_oxidized_copper_bars"
+	}
+}

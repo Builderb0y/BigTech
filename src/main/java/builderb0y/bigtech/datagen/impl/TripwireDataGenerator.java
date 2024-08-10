@@ -19,7 +19,7 @@ public class TripwireDataGenerator extends RedstoneTransceiverDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_off")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
 			//language=json
 			"""
 			{
@@ -95,7 +95,7 @@ public class TripwireDataGenerator extends RedstoneTransceiverDataGenerator {
 			}"""
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_on")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
 			//language=json
 			"""
 			{
@@ -176,7 +176,7 @@ public class TripwireDataGenerator extends RedstoneTransceiverDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("ppp", "lcr", "bbb")
 			.where('p', ItemTags.PLANKS)
@@ -184,7 +184,7 @@ public class TripwireDataGenerator extends RedstoneTransceiverDataGenerator {
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('r', Items.TRIPWIRE_HOOK)
 			.where('b', Items.SMOOTH_STONE_SLAB)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 

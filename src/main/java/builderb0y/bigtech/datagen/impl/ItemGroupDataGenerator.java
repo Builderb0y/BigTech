@@ -23,13 +23,13 @@ public class ItemGroupDataGenerator implements LocalizedDataGenerator {
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		Identifier id = this.id;
-		return "itemGroup.${id.namespace}.${id.path}";
+		Identifier id = this.getId();
+		return "itemGroup.${id.getNamespace()}.${id.getPath()}";
 	}
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		Identifier id = this.id;
-		return "${BigTechMod.MODNAME} (${context.underscoresToCapitals(id.path)})";
+		Identifier id = this.getId();
+		return "${BigTechMod.MODNAME} (${context.underscoresToCapitals(id.getPath())})";
 	}
 }

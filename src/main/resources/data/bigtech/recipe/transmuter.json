@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"fof",
+		"o o",
+		"fof"
+	],
+	"key": {
+		"f": { "item": "bigtech:iron_frame" },
+		"o": { "tag":  "c:obsidian"         }
+	},
+	"result": {
+		"id": "bigtech:transmuter"
+	}
+}

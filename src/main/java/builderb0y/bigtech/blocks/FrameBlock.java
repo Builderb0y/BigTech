@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -23,6 +24,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.PistonInteractor;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.mixinterfaces.HeldItemGetter;
 
 public class FrameBlock extends Block implements PistonInteractor, Waterloggable {
@@ -37,12 +39,24 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 		BooleanBiFunction.ONLY_FIRST
 	);
 
+	public static final MapCodec<FrameBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public final TagKey<Block> sticksTo;
 
 	public FrameBlock(Settings settings, TagKey<Block> sticksTo) {
 		super(settings);
 		this.sticksTo = sticksTo;
-		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.WATERLOGGED, Boolean.FALSE)
+		);
 	}
 
 	@Override
@@ -78,7 +92,7 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		if (context instanceof HeldItemGetter heldItemGetter) {
 			ItemStack heldItem = heldItemGetter.bigtech_getHeldItem();
-			if (heldItem.item instanceof BlockItem) {
+			if (heldItem.getItem() instanceof BlockItem) {
 				return VoxelShapes.fullCube();
 			}
 			if (heldItem.isSuitableFor(state)) {
@@ -106,13 +120,13 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER));
+		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).isEqualAndStill(Fluids.WATER));
 	}
 
 	@Override

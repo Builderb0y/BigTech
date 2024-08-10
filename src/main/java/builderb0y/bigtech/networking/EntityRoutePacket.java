@@ -1,19 +1,19 @@
 package builderb0y.bigtech.networking;
 
+import java.util.Collection;
+
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.argument.BlockArgumentParser;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
@@ -21,66 +21,86 @@ import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity.RoutingInfo;
 import builderb0y.bigtech.util.Directions;
 
-public record EntityRoutePacket(int entityID, boolean present, BlockPos pos, BlockState state, Direction direction) implements S2CPlayPacket {
+public class EntityRoutePacket implements S2CPlayPacket<EntityRoutePacket.Payload> {
 
-	public EntityRoutePacket(int entityID) {
-		this(entityID, false, null, null, null);
-	}
+	public static final EntityRoutePacket INSTANCE = new EntityRoutePacket();
 
-	public static EntityRoutePacket from(Entity entity, RoutingInfo info) {
-		return (
-			info != null
-			? new EntityRoutePacket(entity.id, true, info.pos, info.state, info.direction)
-			: new EntityRoutePacket(entity.id)
-		);
-	}
-
-	public static EntityRoutePacket parse(PacketByteBuf buffer) {
-		int entityID = buffer.readInt();
-		boolean present = buffer.readBoolean();
-		if (present) try {
-			BlockPos pos = buffer.readBlockPos();
-			BlockState state = BlockArgumentParser.block(Registries.BLOCK.readOnlyWrapper, buffer.readString(), false).blockState();
-			Direction direction = Directions.ALL[buffer.readByte()];
-			return new EntityRoutePacket(entityID, true, pos, state, direction);
+	public void send(Collection<ServerPlayerEntity> tracking, Entity self, RoutingInfo info) {
+		Payload payload = null;
+		if (self instanceof ServerPlayerEntity player) {
+			payload = Payload.from(self, info);
+			BigTechNetwork.sendToClient(player, payload);
 		}
-		catch (CommandSyntaxException exception) {
-			throw new RuntimeException(exception);
-		}
-		else {
-			return new EntityRoutePacket(entityID);
-		}
-	}
-
-	@Override
-	public void write(PacketByteBuf buffer) {
-		buffer.writeInt(this.entityID);
-		buffer.writeBoolean(this.present);
-		if (this.present) {
-			buffer.writeBlockPos(this.pos);
-			buffer.writeString(BlockArgumentParser.stringifyBlockState(this.state));
-			buffer.writeByte(this.direction.ordinal());
-		}
-	}
-
-	public RoutingInfo toRoutingInfo() {
-		return this.present ? new RoutingInfo(this.pos, this.state, this.direction, true) : null;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void handle(ClientPlayerEntity player, PacketSender responseSender) {
-		ClientWorld world = MinecraftClient.getInstance().world;
-		if (world != null) {
-			Entity entity = world.getEntityById(this.entityID);
-			if (entity != null) {
-				entity.<RoutableEntity>as().bigtech_setRoutingInfo(this.toRoutingInfo(), true);
+		if (!tracking.isEmpty()) {
+			if (payload == null) payload = Payload.from(self, info);
+			for (ServerPlayerEntity player : tracking) {
+				BigTechNetwork.sendToClient(player, payload);
 			}
 		}
 	}
 
 	@Override
-	public PacketType<?> getType() {
-		return BigTechClientNetwork.ENTITY_ROUTE;
+	public Payload decode(RegistryByteBuf buffer) {
+		int entityID = buffer.readInt();
+		boolean present = buffer.readBoolean();
+		if (present) try {
+			BlockPos pos = buffer.readBlockPos();
+			BlockState state = BlockArgumentParser.block(Registries.BLOCK.getReadOnlyWrapper(), buffer.readString(), false).blockState();
+			Direction direction = Directions.ALL[buffer.readByte()];
+			return new Payload(entityID, true, pos, state, direction);
+		}
+		catch (CommandSyntaxException exception) {
+			throw new RuntimeException(exception);
+		}
+		else {
+			return new Payload(entityID);
+		}
+	}
+
+	public static record Payload(int entityID, boolean present, BlockPos pos, BlockState state, Direction direction) implements S2CPayload {
+
+		public Payload(int entityID) {
+			this(entityID, false, null, null, null);
+		}
+
+		public static Payload from(Entity entity, RoutingInfo info) {
+			return (
+				info != null
+				? new Payload(entity.getId(), true, info.pos(), info.state(), info.direction())
+				: new Payload(entity.getId())
+			);
+		}
+
+		@Override
+		public PacketHandler<?> getAssociatedPacket() {
+			return INSTANCE;
+		}
+
+		@Override
+		public void encode(RegistryByteBuf buffer) {
+			buffer.writeInt(this.entityID);
+			buffer.writeBoolean(this.present);
+			if (this.present) {
+				buffer.writeBlockPos(this.pos);
+				buffer.writeString(BlockArgumentParser.stringifyBlockState(this.state));
+				buffer.writeByte(this.direction.ordinal());
+			}
+		}
+
+		public RoutingInfo toRoutingInfo() {
+			return this.present ? new RoutingInfo(this.pos, this.state, this.direction, true) : null;
+		}
+
+		@Override
+		@Environment(EnvType.CLIENT)
+		public void process(ClientPlayNetworking.Context context) {
+			ClientWorld world = context.client().world;
+			if (world != null) {
+				Entity entity = world.getEntityById(this.entityID);
+				if (entity != null) {
+					entity.<RoutableEntity>as().bigtech_setRoutingInfo(this.toRoutingInfo(), true);
+				}
+			}
+		}
 	}
 }

@@ -22,13 +22,13 @@ public class DetectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
-		this.writeBeltBlockModel(context, context.suffixPath(this.id, "_off"));
-		this.writeBeltBlockModel(context, context.suffixPath(this.id, "_on"));
+		this.writeBeltBlockModel(context, context.suffixPath(this.getId(), "_off"));
+		this.writeBeltBlockModel(context, context.suffixPath(this.getId(), "_on"));
 	}
 
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
-		return context.suffixPath(this.id, "_off");
+		return context.suffixPath(this.getId(), "_off");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class DetectorBeltDataGenerator extends DirectionalBeltDataGenerator {
 			state,
 			context.prefixSuffixPath(
 				"block/",
-				this.id,
+				this.getId(),
 				state.get(Properties.POWER) != 0 ? "_on" : "_off"
 			)
 			.toString(),

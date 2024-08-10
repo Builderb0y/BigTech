@@ -1,15 +1,19 @@
 package builderb0y.bigtech.blocks.belts;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -18,14 +22,23 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.blocks.BigTechProperties;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 
+	public static final MapCodec<DirectorBeltBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public DirectorBeltBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
+		this.setDefaultState(
 			this
-			.defaultState
+			.getDefaultState()
 			.with(BigTechProperties.DIRECTOR_BELT_MODE, DirectorBeltMode.LEFT_RIGHT)
 			.with(Properties.INVERTED, Boolean.FALSE)
 		);
@@ -36,7 +49,7 @@ public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 		if (face == Direction.UP) return AscenderInteractor.BELT_TOP;
 		if (face == Direction.DOWN) return AscenderInteractor.BLOCKED;
 		Direction facing = state.get(Properties.FACING);
-		if (face == facing.opposite) return AscenderInteractor.BELT_BACK;
+		if (face == facing.getOpposite()) return AscenderInteractor.BELT_BACK;
 		return AscenderInteractor.BLOCKED;
 	}
 
@@ -48,11 +61,9 @@ public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (!world.isClient) {
-			if (player.isSneaking) {
+			if (player.isSneaking()) {
 				world.setBlockState(pos, state.cycle(BigTechProperties.DIRECTOR_BELT_MODE));
 			}
 			else {
@@ -60,7 +71,7 @@ public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 			}
 			world.playSound(null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, 0.5F);
 		}
-		return ActionResult.SUCCESS;
+		return ItemActionResult.SUCCESS;
 	}
 
 	@Override

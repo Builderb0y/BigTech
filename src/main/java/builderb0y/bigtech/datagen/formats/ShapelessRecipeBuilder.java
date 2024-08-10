@@ -62,7 +62,7 @@ public class ShapelessRecipeBuilder {
 	}
 
 	public ShapelessRecipeBuilder ingredient(TagKey<Item> tag) {
-		return this.tagIngredient(tag.id);
+		return this.tagIngredient(tag.id());
 	}
 
 	public ShapelessRecipeBuilder result(String result) {
@@ -96,7 +96,7 @@ public class ShapelessRecipeBuilder {
 		builder.append(table);
 		builder.append("\n\t],\n");
 		builder.append("\t\"result\": {\n");
-		builder.append("\t\t\"item\": \"").append(this.result).append('"');
+		builder.append("\t\t\"id\": \"").append(this.result).append('"');
 		if (this.count != 1) builder.append(",\n\t\t\"count\": ").append(this.count);
 		builder.append("\n\t}\n");
 		builder.append('}');

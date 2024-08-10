@@ -26,12 +26,12 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
-				BlockStateJsonVariant.streamStatesSorted(this.block).map(state -> new BlockStateJsonVariant(
+				BlockStateJsonVariant.streamStatesSorted(this.getBlock()).map(state -> new BlockStateJsonVariant(
 					state,
-					context.prefixSuffixPath("block/", this.id, state.get(Properties.POWER) != 0 ? "_down" : "_up").toString(),
+					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWER) != 0 ? "_down" : "_up").toString(),
 					null,
 					null
 				))
@@ -44,16 +44,16 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_up")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_up")),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "pressure_plate_up"))
+			.blockParent(Identifier.ofVanilla("pressure_plate_up"))
 			.blockTexture("texture", BigTechMod.modID("medium_weighted_pressure_plate"))
 			.toString()
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_down")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_down")),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "pressure_plate_down"))
+			.blockParent(Identifier.ofVanilla("pressure_plate_down"))
 			.blockTexture("texture", BigTechMod.modID("medium_weighted_pressure_plate"))
 			.toString()
 		);
@@ -66,33 +66,33 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.STONE).addElement(this.id);
+		context.getTags(MiningLevelTags.STONE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BlockTags.PRESSURE_PLATES).addElement(this.id);
+		context.getTags(BlockTags.PRESSURE_PLATES).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.PRESSURE_PLATES).addElement(this.id);
+		context.getTags(BigTechItemTags.PRESSURE_PLATES).addElement(this.getId());
 	}
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("cc")
 			.where('c', ConventionalItemTags.COPPER_INGOTS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

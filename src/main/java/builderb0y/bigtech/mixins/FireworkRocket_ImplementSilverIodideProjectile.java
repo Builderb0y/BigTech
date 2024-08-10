@@ -25,23 +25,23 @@ public abstract class FireworkRocket_ImplementSilverIodideProjectile extends Ent
 
 	@Inject(method = "explode", at = @At("HEAD"))
 	private void bigtech_changeWeather(CallbackInfo callback) {
-		if (this.world instanceof ServerWorld world && world.isSkyVisible(this.blockPos)) {
+		if (this.getWorld() instanceof ServerWorld world && world.isSkyVisible(this.getBlockPos())) {
 			switch (this.bigtech_getProjectileType()) {
 				case NONE -> {}
 				case LESS_RAINY -> {
-					if (world.isThundering) {
-						world.setWeather(0, ServerWorld.RAIN_WEATHER_DURATION_PROVIDER.get(world.getRandom()), true, false);
+					if (world.isThundering()) {
+						world.setWeather(0, ServerWorld.RAIN_WEATHER_DURATION_PROVIDER.get(world.random), true, false);
 					}
 					else {
-						world.setWeather(ServerWorld.CLEAR_WEATHER_DURATION_PROVIDER.get(world.getRandom()), 0, false, false);
+						world.setWeather(ServerWorld.CLEAR_WEATHER_DURATION_PROVIDER.get(world.random), 0, false, false);
 					}
 				}
 				case MORE_RAINY -> {
-					if (world.isRaining) {
-						world.setWeather(0, ServerWorld.THUNDER_WEATHER_DURATION_PROVIDER.get(world.getRandom()), true, true);
+					if (world.isRaining()) {
+						world.setWeather(0, ServerWorld.THUNDER_WEATHER_DURATION_PROVIDER.get(world.random), true, true);
 					}
 					else {
-						world.setWeather(0, ServerWorld.RAIN_WEATHER_DURATION_PROVIDER.get(world.getRandom()), true, false);
+						world.setWeather(0, ServerWorld.RAIN_WEATHER_DURATION_PROVIDER.get(world.random), true, false);
 					}
 				}
 			}

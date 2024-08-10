@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"crc",
+		"c c",
+		"ccc"
+	],
+	"key": {
+		"c": { "tag": "minecraft:stone_crafting_materials" },
+		"r": { "tag": "c:redstone_blocks"                  }
+	},
+	"result": {
+		"id": "bigtech:encased_redstone_block"
+	}
+}

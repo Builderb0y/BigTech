@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "building",
+	"group": "bigtech:waxed_copper_catwalk_stairs",
+	"ingredients": [
+		{ "item": "bigtech:weathered_copper_catwalk_stairs" },
+		{ "item": "minecraft:honeycomb"                     }
+	],
+	"result": {
+		"id": "bigtech:waxed_weathered_copper_catwalk_stairs"
+	}
+}

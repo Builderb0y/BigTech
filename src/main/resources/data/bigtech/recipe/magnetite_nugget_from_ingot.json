@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"i"
+	],
+	"key": {
+		"i": { "tag": "c:magnetite_ingots" }
+	},
+	"result": {
+		"id": "bigtech:magnetite_nugget",
+		"count": 9
+	}
+}

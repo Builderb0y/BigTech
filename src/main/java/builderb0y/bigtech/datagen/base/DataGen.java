@@ -86,8 +86,8 @@ public class DataGen {
 		}
 		for (Map.Entry<TagKey<?>, TagBuilder> entry : context.tags.entrySet()) {
 			Table<TagElement> table = new Table<>(TagElement.FORMAT);
-			entry.value.stream().map(TagElement::new).forEachOrdered(table.rows::add);
-			context.writeToFile(context.tagPath(entry.key), table.toString());
+			entry.getValue().stream().map(TagElement::new).forEachOrdered(table.rows::add);
+			context.writeToFile(context.tagPath(entry.getKey()), table.toString());
 		}
 		LOGGER.info("Done running data gen.");
 		if (context.errored) try {

@@ -26,7 +26,7 @@ public class WoodCatwalkPlatformDataGenerator extends CatwalkPlatformDataGenerat
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.AXE).addElement(this.id);
+		context.getTags(MiningToolTags.AXE).addElement(this.getId());
 	}
 
 	@Override
@@ -36,12 +36,12 @@ public class WoodCatwalkPlatformDataGenerator extends CatwalkPlatformDataGenerat
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.WOODEN_CATWALK_PLATFORMS).addElement(this.id);
+		context.getTags(BigTechBlockTags.WOODEN_CATWALK_PLATFORMS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.WOODEN_CATWALK_PLATFORMS).addElement(this.id);
+		context.getTags(BigTechItemTags.WOODEN_CATWALK_PLATFORMS).addElement(this.getId());
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class WoodCatwalkPlatformDataGenerator extends CatwalkPlatformDataGenerat
 	public void writeBlockModels(DataGenContext context) {
 		this.writeCatwalkPlatformBlockModels(
 			context,
-			new Identifier("minecraft", "${this.type.prefix}planks"),
+			Identifier.ofVanilla("${this.type.prefix}planks"),
 			BigTechMod.modID("${this.type.prefix}catwalk_platform_rail")
 		);
 	}
@@ -66,7 +66,7 @@ public class WoodCatwalkPlatformDataGenerator extends CatwalkPlatformDataGenerat
 	public void writeItemModels(DataGenContext context) {
 		this.writeCatwalkPlatformItemModels(
 			context,
-			new Identifier("minecraft", "${this.type.prefix}planks"),
+			Identifier.ofVanilla("${this.type.prefix}planks"),
 			BigTechMod.modID("${this.type.prefix}catwalk_platform_rail")
 		);
 	}

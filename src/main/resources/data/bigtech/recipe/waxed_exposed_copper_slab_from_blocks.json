@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:copper_slabs",
+	"pattern": [
+		"bbb"
+	],
+	"key": {
+		"b": { "item": "minecraft:waxed_exposed_copper" }
+	},
+	"result": {
+		"id": "bigtech:waxed_exposed_copper_slab",
+		"count": 6
+	}
+}

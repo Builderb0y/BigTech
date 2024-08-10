@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -20,6 +21,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
+
 public class BeamBlock extends Block implements Waterloggable {
 
 	public static VoxelShape NORTH_SOUTH_SHAPE = VoxelShapes.union(
@@ -35,9 +38,21 @@ public class BeamBlock extends Block implements Waterloggable {
 		VoxelShapes.cuboid(1.0D / 16.0D, 4.0D / 16.0D, 4.0D / 16.0D, 15.0D / 16.0D, 12.0D / 16.0D, 12.0D / 16.0D)
 	);
 
+	public static final MapCodec<BeamBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public BeamBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.WATERLOGGED, Boolean.FALSE)
+		);
 	}
 
 	@Override
@@ -72,8 +87,8 @@ public class BeamBlock extends Block implements Waterloggable {
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
 		return (
 			super.getPlacementState(context)
-			.with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite)
-			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).isEqualAndStill(Fluids.WATER))
+			.with(Properties.HORIZONTAL_FACING, context.getHorizontalPlayerFacing().getOpposite())
+			.with(Properties.WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).isEqualAndStill(Fluids.WATER))
 		);
 	}
 
@@ -81,7 +96,7 @@ public class BeamBlock extends Block implements Waterloggable {
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Override

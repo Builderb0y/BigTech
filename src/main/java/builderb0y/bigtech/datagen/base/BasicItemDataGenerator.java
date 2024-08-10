@@ -19,21 +19,21 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		return this.item.translationKey;
+		return this.item.getTranslationKey();
 	}
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		return context.underscoresToCapitals(this.id.path);
+		return context.underscoresToCapitals(this.getId().getPath());
 	}
 
 	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
-			context.itemModelPath(this.id),
+			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.parent("minecraft:item/generated")
-			.itemTexture("layer0", this.id)
+			.itemTexture("layer0", this.getId())
 			.toString()
 		);
 	}

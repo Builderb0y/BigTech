@@ -1,33 +1,43 @@
 package builderb0y.bigtech.networking;
 
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import builderb0y.bigtech.entities.MinerEntity;
 
-public record ControlMinerPacket(byte input) implements C2SPlayPacket {
+public class ControlMinerPacket implements C2SPlayPacket<ControlMinerPacket.Payload> {
 
-	public static ControlMinerPacket parse(PacketByteBuf buffer) {
-		return new ControlMinerPacket(buffer.readByte());
+	public static final ControlMinerPacket INSTANCE = new ControlMinerPacket();
+
+	public void send(byte input) {
+		BigTechNetwork.sendToServer(new Payload(input));
 	}
 
 	@Override
-	public void handle(ServerPlayerEntity player, PacketSender responseSender) {
-		if (player.vehicle instanceof MinerEntity miner && miner.getControllingPassenger() == player) {
-			miner.dataTracker.set(MinerEntity.INPUT, this.input);
+	public Payload decode(RegistryByteBuf buffer) {
+		return new Payload(buffer.readByte());
+	}
+
+	public static record Payload(byte input) implements C2SPayload {
+
+		@Override
+		public PacketHandler<?> getAssociatedPacket() {
+			return INSTANCE;
 		}
-	}
 
-	@Override
-	public void write(PacketByteBuf buffer) {
-		buffer.writeByte(this.input);
-	}
+		@Override
+		public void encode(RegistryByteBuf buffer) {
+			buffer.writeByte(this.input);
+		}
 
-	@Override
-	public PacketType<?> getType() {
-		return BigTechServerNetwork.CONTROL_MINER;
+		@Override
+		public void process(ServerPlayNetworking.Context context) {
+			ServerPlayerEntity player = context.player();
+			if (player.getVehicle() instanceof MinerEntity miner && miner.getControllingPassenger() == player) {
+				miner.getDataTracker().set(MinerEntity.INPUT, this.input);
+			}
+		}
 	}
 }

@@ -19,20 +19,13 @@ public class SingleStackInventoryImpl implements SingleStackInventory {
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
-		Objects.checkIndex(slot, 1);
+	public ItemStack getStack() {
 		return this.stack;
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		Objects.checkIndex(slot, 1);
-		return this.stack.split(amount);
-	}
-
-	@Override
-	public void setStack(int slot, ItemStack stack) {
-		Objects.checkIndex(slot, 1);
+	public void setStack(ItemStack stack) {
+		this.stack = stack;
 	}
 
 	@Override

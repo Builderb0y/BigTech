@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadView;
@@ -32,19 +33,19 @@ import builderb0y.bigtech.entities.EntityRenderHelper;
 public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 
 	static {
-		if (FabricLoader.instance.environmentType == EnvType.CLIENT) {
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			initClient();
 		}
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
-		WorldRenderEvents.AFTER_ENTITIES.register(context -> {
-			ClientPlayerEntity player = MinecraftClient.instance.player;
+		WorldRenderEvents.AFTER_ENTITIES.register((WorldRenderContext context) -> {
+			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (player != null) {
-				AtomicReferenceArray<WorldChunk> chunks = ((ClientChunkManager)(player.world.chunkManager)).chunks.chunks;
-				Vec3d cameraPos = context.camera().pos;
-				VertexConsumer vertices = context.consumers().getBuffer(RenderLayer.solid);
+				AtomicReferenceArray<WorldChunk> chunks = player.getWorld().getChunkManager().<ClientChunkManager>as().chunks.chunks;
+				Vec3d cameraPos = context.camera().getPos();
+				VertexConsumer vertices = context.consumers().getBuffer(RenderLayer.getSolid());
 				EntityRenderHelper helper = (
 					new EntityRenderHelper()
 					.vertexConsumer(vertices)
@@ -58,13 +59,13 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 						ClientChunkBeamStorage chunkStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().as();
 						if (chunkStorage.size() <= 4 || context.frustum().isVisible(chunkStorage.box)) {
 							for (ClientSectionBeamStorage sectionStorage : chunkStorage.values().<Iterable<ClientSectionBeamStorage>>as()) {
-								if (!sectionStorage.isEmpty && context.frustum().isVisible(sectionStorage.box)) {
+								if (!sectionStorage.isEmpty() && context.frustum().isVisible(sectionStorage.box)) {
 									matrixStack.push();
 									try {
 										matrixStack.translate(
-											sectionStorage.chunk.pos.startX - cameraPos.x,
+											sectionStorage.chunk.getPos().getStartX() - cameraPos.x,
 											(sectionStorage.sectionCoordY << 4) - cameraPos.y,
-											sectionStorage.chunk.pos.startZ - cameraPos.z
+											sectionStorage.chunk.getPos().getStartZ() - cameraPos.z
 										);
 										helper.transform(matrixStack.peek());
 										sectionStorage.getMesh().forEach((QuadView quad) -> {
@@ -90,8 +91,8 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 				if (renderedAny) {
 					SodiumCompatibility.markSpriteActive(
 						MinecraftClient
-						.instance
-						.bakedModelManager
+						.getInstance()
+						.getBakedModelManager()
 						.getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
 						.getSprite(BigTechMod.modID("block/beam"))
 					);
@@ -107,12 +108,12 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 	public ClientSectionBeamStorage(WorldChunk chunk, int sectionCoordY) {
 		super(chunk, sectionCoordY);
 		this.box = new Box(
-			chunk.pos.startX - 0.5D,
+			chunk.getPos().getStartX() - 0.5D,
 			(sectionCoordY << 4) - 0.5D,
-			chunk.pos.startZ - 0.5D,
-			chunk.pos.startX + 16.5D,
+			chunk.getPos().getStartZ() - 0.5D,
+			chunk.getPos().getStartX() + 16.5D,
 			(sectionCoordY << 4) + 16.5D,
-			chunk.pos.startZ + 16.5D
+			chunk.getPos().getStartZ() + 16.5D
 		);
 	}
 

@@ -23,12 +23,12 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			BlockStateJsonVariant
-			.streamStatesSorted(this.block)
+			.streamStatesSorted(this.getBlock())
 			.map(state -> new BlockStateJsonVariant(
 				state,
-				context.prefixPath("block/", this.id).toString(),
+				context.prefixPath("block/", this.getId()).toString(),
 				BlockStateJsonVariant.xFromUp(state.get(Properties.FACING)),
 				BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
 			))
@@ -40,19 +40,19 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.parent("minecraft:block/cube_bottom_top")
-			.blockTexture("top",    context.suffixPath(this.id, "_front"))
+			.blockTexture("top",    context.suffixPath(this.getId(), "_front"))
 			.texture     ("bottom", "minecraft:block/furnace_top")
-			.blockTexture("side",   context.suffixPath(this.id, "_side"))
+			.blockTexture("side",   context.suffixPath(this.getId(), "_side"))
 			.toString()
 		);
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
@@ -68,13 +68,13 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("crc", "c c", "ccc")
 			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
 			.where('r', BigTechItemTags.REDSTONE_BLOCKS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

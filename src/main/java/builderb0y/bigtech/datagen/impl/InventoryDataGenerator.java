@@ -23,11 +23,11 @@ public class InventoryDataGenerator implements LocalizedDataGenerator {
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		return Util.createTranslationKey("container", this.id);
+		return Util.createTranslationKey("container", this.getId());
 	}
 
 	@Override
 	public String getLangValue(DataGenContext context) {
-		return context.underscoresToCapitals(this.id.path);
+		return context.underscoresToCapitals(this.getId().getPath());
 	}
 }

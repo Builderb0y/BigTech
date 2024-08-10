@@ -27,17 +27,17 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonMultipart3.FORMAT)
 			.addRows(
 				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map(direction -> new BlockStateJsonMultipart3(
 					"half",
 					"lower",
 					"facing",
-					direction.name,
+					direction.getName(),
 					null,
 					null,
-					context.prefixSuffixPath("block/", this.id, "_base").toString(),
+					context.prefixSuffixPath("block/", this.getId(), "_base").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)
 				))
@@ -48,10 +48,10 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 					"half",
 					"lower",
 					"facing",
-					direction.name,
+					direction.getName(),
 					"left",
 					"true",
-					context.prefixSuffixPath("block/", this.id, "_rail_left").toString(),
+					context.prefixSuffixPath("block/", this.getId(), "_rail_left").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)
 				))
@@ -62,10 +62,10 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 					"half",
 					"lower",
 					"facing",
-					direction.name,
+					direction.getName(),
 					"right",
 					"true",
-					context.prefixSuffixPath("block/", this.id, "_rail_right").toString(),
+					context.prefixSuffixPath("block/", this.getId(), "_rail_right").toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)
 				))
@@ -77,7 +77,7 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 
 	public void writeCatwalkStairsBlockModels(DataGenContext context, Identifier baseTexture, Identifier stairsTexture) {
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_base")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_base")),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("template_catwalk_stairs_base"))
 			.blockTexture("base", baseTexture)
@@ -85,14 +85,14 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 			.toString()
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_rail_left")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_rail_left")),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("template_catwalk_stairs_rail_left"))
 			.blockTexture("stairs", stairsTexture)
 			.toString()
 		);
 		context.writeToFile(
-			context.blockModelPath(context.suffixPath(this.id, "_rail_right")),
+			context.blockModelPath(context.suffixPath(this.getId(), "_rail_right")),
 			new RetexturedModelBuilder()
 			.blockParent(BigTechMod.modID("template_catwalk_stairs_rail_right"))
 			.blockTexture("stairs", stairsTexture)
@@ -105,7 +105,7 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 
 	public void writeCatwalkStairsItemModels(DataGenContext context, Identifier baseTexture, Identifier stairsTexture) {
 		context.writeToFile(
-			context.itemModelPath(this.id),
+			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.itemParent(BigTechMod.modID("template_catwalk_stairs"))
 			.blockTexture("base", baseTexture)
@@ -116,14 +116,14 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 
 	public void writeCatwalkStairsRecipe(DataGenContext context, TagOrItem baseItem, TagOrItem railItem) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.BUILDING)
 			.group("bigtech:catwalk_stairs")
 			.pattern("r ", "br", " b")
 			.where('b', baseItem)
 			.where('r', railItem)
-			.result(this.id)
+			.result(this.getId())
 			.count(2)
 			.toString()
 		);

@@ -11,10 +11,10 @@ import builderb0y.bigtech.beams.base.BeamDirection;
 public class BlockPosExtensions {
 
 	public static BlockPos offset(@This BlockPos thiz, BeamDirection direction) {
-		return new BlockPos(thiz.x + direction.x, thiz.y + direction.y, thiz.z + direction.z);
+		return new BlockPos(thiz.getX() + direction.x, thiz.getY() + direction.y, thiz.getZ() + direction.z);
 	}
 
 	public static BlockPos offset(@This BlockPos thiz, BeamDirection direction, int distance) {
-		return new BlockPos(thiz.x + direction.x * distance, thiz.y + direction.y * distance, thiz.z + direction.z * distance);
+		return new BlockPos(thiz.getX() + direction.x * distance, thiz.getY() + direction.y * distance, thiz.getZ() + direction.z * distance);
 	}
 }

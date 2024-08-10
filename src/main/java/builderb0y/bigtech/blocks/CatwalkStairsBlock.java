@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.*;
@@ -13,10 +14,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -27,6 +25,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.PistonInteractor;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.items.CatwalkStairsBlockItem;
 import builderb0y.bigtech.mixinterfaces.HeldItemGetter;
 import builderb0y.bigtech.util.VoxelShapeBuilder;
@@ -37,10 +36,19 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 		SHAPES         = generateShapes(false),
 		HOVERED_SHAPES = generateShapes(true );
 
+	public static final MapCodec<CatwalkStairsBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public CatwalkStairsBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
-			this.defaultState
+		this.setDefaultState(
+			this
+			.getDefaultState()
 			.with(Properties.HORIZONTAL_FACING, Direction.NORTH)
 			.with(Properties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
 			.with(BigTechProperties.LEFT, Boolean.TRUE)
@@ -128,7 +136,7 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return (
 			context instanceof HeldItemGetter getter && (
-				getter.bigtech_getHeldItem().item instanceof BlockItem ||
+				getter.bigtech_getHeldItem().getItem() instanceof BlockItem ||
 				getter.bigtech_getHeldItem().isSuitableFor(state)
 			)
 			? HOVERED_SHAPES
@@ -154,7 +162,7 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	public BlockState getRemovalState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Blocks.WATER : Blocks.AIR).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Blocks.WATER : Blocks.AIR).getDefaultState();
 	}
 
 	public boolean needsRail(BlockState thisState, BlockState thatState) {
@@ -191,7 +199,7 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 		BlockPos pos,
 		BlockPos neighborPos
 	) {
-		if (world.isClient) return state;
+		if (world.isClient()) return state;
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -243,13 +251,13 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		World world = context.world;
-		BlockPos bottomPos = context.blockPos;
-		if (world.isOutOfHeightLimit(bottomPos.y + 1)) return null;
+		World world = context.getWorld();
+		BlockPos bottomPos = context.getBlockPos();
+		if (world.isOutOfHeightLimit(bottomPos.getY() + 1)) return null;
 		BlockPos topPos = bottomPos.up();
 		if (!world.getBlockState(topPos).canReplace(context)) return null;
 
-		Direction front = context.horizontalPlayerFacing;
+		Direction front = context.getHorizontalPlayerFacing();
 		BlockState state = this.getDefaultState().with(Properties.HORIZONTAL_FACING, front);
 		return (
 			state
@@ -266,29 +274,26 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState againstState, World world, BlockPos againstPos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ItemStack stack = player.getStackInHand(hand);
-		if (stack.item instanceof BlockItem blockItem && !(blockItem instanceof CatwalkStairsBlockItem)) {
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState againstState, World world, BlockPos againstPos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (stack.getItem() instanceof BlockItem blockItem && !(blockItem instanceof CatwalkStairsBlockItem)) {
 			if (againstState.get(Properties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
-				if (hit.pos.y - hit.blockPos.y < 0.0D) {
+				if (hit.getBlockPos().getY() - hit.getBlockPos().getY() < 0.0D) {
 					againstPos = againstPos.down();
 				}
 			}
 			else {
-				if (hit.pos.y - hit.blockPos.y > 1.0D) {
+				if (hit.getBlockPos().getY() - hit.getBlockPos().getY() > 1.0D) {
 					againstPos = againstPos.up();
 				}
 			}
 			Direction offsetDirection;
 			Direction againstFacing = againstState.get(Properties.HORIZONTAL_FACING);
-			Direction playerFacing = player.horizontalFacing;
+			Direction playerFacing = player.getHorizontalFacing();
 			double sidewaysPosition = switch (againstFacing) {
-				case NORTH    ->        (hit.pos.x - againstPos.x);
-				case SOUTH    -> 1.0D - (hit.pos.x - againstPos.x);
-				case EAST     ->        (hit.pos.z - againstPos.z);
-				case WEST     -> 1.0D - (hit.pos.z - againstPos.z);
+				case NORTH    ->        (hit.getPos().x - againstPos.getX());
+				case SOUTH    -> 1.0D - (hit.getPos().x - againstPos.getX());
+				case EAST     ->        (hit.getPos().z - againstPos.getZ());
+				case WEST     -> 1.0D - (hit.getPos().z - againstPos.getZ());
 				case UP, DOWN -> throw new AssertionError();
 			};
 			if (sidewaysPosition < 0.0626D) {
@@ -310,11 +315,21 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 				}
 				offsetDirection = playerFacing;
 			}
-			ItemPlacementContext context = new ItemPlacementContext(player, hand, stack, new BlockHitResult(hit.pos, offsetDirection, againstPos, hit.isInsideBlock));
+			ItemPlacementContext context = new ItemPlacementContext(player, hand, stack, new BlockHitResult(hit.getPos(), offsetDirection, againstPos, hit.isInsideBlock()));
 			ActionResult result = blockItem.place(context);
-			return result.isAccepted ? result : ActionResult.CONSUME_PARTIAL;
+			return (
+				result.isAccepted()
+				? switch (result) {
+					case SUCCESS -> ItemActionResult.SUCCESS;
+					case CONSUME -> ItemActionResult.CONSUME;
+					case CONSUME_PARTIAL -> ItemActionResult.CONSUME_PARTIAL;
+					case SUCCESS_NO_ITEM_USED -> ItemActionResult.SUCCESS;
+					default -> throw new AssertionError(result);
+				}
+				: ItemActionResult.CONSUME_PARTIAL
+			);
 		}
-		return super.onUse(againstState, world, againstPos, player, hand, hit);
+		return super.onUseWithItem(stack, againstState, world, againstPos, player, hand, hit);
 	}
 
 	@Override

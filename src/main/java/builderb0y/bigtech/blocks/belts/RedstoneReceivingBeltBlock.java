@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks.belts;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -11,13 +12,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.Directions;
 
 public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 
+	public static final MapCodec<RedstoneReceivingBeltBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public RedstoneReceivingBeltBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.POWERED, Boolean.FALSE)
+		);
 	}
 
 	/**
@@ -51,7 +65,7 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
 		BlockState state = super.getPlacementState(context);
-		return state.with(Properties.POWERED, this.shouldBePowered(context.world, context.blockPos, state));
+		return state.with(Properties.POWERED, this.shouldBePowered(context.getWorld(), context.getBlockPos(), state));
 	}
 
 	@Override

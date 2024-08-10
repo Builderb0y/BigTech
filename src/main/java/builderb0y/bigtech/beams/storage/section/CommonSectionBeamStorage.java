@@ -19,12 +19,12 @@ public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {
 	}
 
 	public void readFromNbt(NbtCompound tag) {
-		this.readFromNbt(tag, CommonWorldBeamStorage.KEY.get(this.chunk.world));
+		this.readFromNbt(tag, CommonWorldBeamStorage.KEY.get(this.chunk.getWorld()));
 	}
 
 	@Override
 	public LinkedList<BeamSegment> getSegments(int index) {
-		this.chunk.needsSaving = true;
+		this.chunk.setNeedsSaving(true);
 		return super.getSegments(index);
 	}
 }

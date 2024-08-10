@@ -3,16 +3,17 @@ package builderb0y.bigtech.beams.storage.world;
 import java.util.Map;
 import java.util.UUID;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -59,7 +60,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 	public abstract PersistentBeam getBeam(BlockPos pos);
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		NbtList beamsTag = tag.createSubList("beams");
 		for (PersistentBeam beam : this.beamsById.values()) {
 			beam.writeToNbt(beamsTag.createCompound());
@@ -67,7 +68,7 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		this.clear();
 		for (NbtCompound beamTag : tag.getList("beams", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
 			Identifier typeID = beamTag.getIdentifier("type");
@@ -89,21 +90,21 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 	}
 
 	@Override
-	public void writeSyncPacket(PacketByteBuf buffer, ServerPlayerEntity recipient) {
+	public void writeSyncPacket(RegistryByteBuf buffer, ServerPlayerEntity recipient) {
 		int count = this.beamsById.size();
 		buffer.writeVarInt(count);
 		for (PersistentBeam beam : this.beamsById.values()) {
-			buffer.writeRegistryValue(BeamType.REGISTRY, beam.type);
+			buffer.writeRegistryValue(BeamType.REGISTRY_KEY, beam.getType());
 			buffer.writeUuid(beam.uuid);
 		}
 	}
 
 	@Override
-	public void applySyncPacket(PacketByteBuf buffer) {
+	public void applySyncPacket(RegistryByteBuf buffer) {
 		this.clear();
 		int count = buffer.readVarInt();
 		for (int index = 0; index < count; index++) {
-			BeamType type = buffer.readRegistryValue(BeamType.REGISTRY);
+			BeamType type = buffer.readRegistryValue(BeamType.REGISTRY_KEY);
 			if (type == null) {
 				BigTechMod.LOGGER.warn("Received beam of unknown type.");
 				continue;

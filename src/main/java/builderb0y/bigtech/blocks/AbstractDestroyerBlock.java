@@ -24,13 +24,15 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 
 	public AbstractDestroyerBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.POWERED, Boolean.FALSE)
+		);
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
 			NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
 			if (factory != null) player.openHandledScreen(factory);
@@ -86,8 +88,8 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 		return (
 			super
 			.getPlacementState(context)
-			.with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite)
-			.with(Properties.POWERED, context.world.isReceivingRedstonePower(context.blockPos))
+			.with(Properties.HORIZONTAL_FACING, context.getHorizontalPlayerFacing().getOpposite())
+			.with(Properties.POWERED, context.getWorld().isReceivingRedstonePower(context.getBlockPos()))
 		);
 	}
 

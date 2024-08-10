@@ -16,13 +16,13 @@ public class SmallLightningJarDataGenerator extends LightningJarDataGenerator {
 
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
-		this.writeDefaultBlockstateJson(context, this.id);
+		this.writeDefaultBlockstateJson(context, this.getId());
 	}
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			//language=json
 			"""
 			{
@@ -77,13 +77,13 @@ public class SmallLightningJarDataGenerator extends LightningJarDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("ggg", "geg", "ppp")
 			.where('g', ConventionalItemTags.GLASS_PANES)
 			.where('e', FunctionalItems.LIGHTNING_ELECTRODE)
 			.where('p', FunctionalItems.MEDIUM_WEIGHTED_PRESSURE_PLATE)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

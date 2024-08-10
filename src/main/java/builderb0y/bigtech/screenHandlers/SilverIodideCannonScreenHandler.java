@@ -32,10 +32,6 @@ public class SilverIodideCannonScreenHandler extends BigTechScreenHandler {
 		this(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, syncId, new SimpleInventory(1), playerInventory, pos);
 	}
 
-	public static SilverIodideCannonScreenHandler create(int syncID, PlayerInventory playerInventory, PacketByteBuf buffer) {
-		return new SilverIodideCannonScreenHandler(syncID, playerInventory, buffer.readBlockPos());
-	}
-
 	@Override
 	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
 		Slot slot = this.slots.get(slotIndex);

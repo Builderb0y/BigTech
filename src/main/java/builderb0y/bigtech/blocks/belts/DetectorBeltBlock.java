@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks.belts;
 
+import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.objects.*;
 
 import net.minecraft.block.Block;
@@ -18,6 +19,9 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.blocks.LightningCableBlock;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
+
 public class DetectorBeltBlock extends DirectionalBeltBlock {
 
 	public static final Object2ObjectMap<EntityType<?>, EntityCounter<?>> COUNTERS = new Object2ObjectOpenHashMap<>(4);
@@ -27,7 +31,7 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 
 			@Override
 			public int getCount(ItemEntity entity) {
-				return entity.stack.count;
+				return entity.getStack().getCount();
 			}
 
 			@Override
@@ -69,9 +73,21 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 		return (EntityCounter<E>)(COUNTERS.get(type));
 	}
 
+	public static final MapCodec<DetectorBeltBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public DetectorBeltBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWER, 0);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.POWER, 0)
+		);
 	}
 
 	@Override
@@ -88,13 +104,13 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 		for (Entity entity : world.getEntitiesByClass(Entity.class, new Box(pos), (Entity entity) -> {
 			return this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity);
 		})) {
-			typeToCount.addTo(entity.type, COUNTERS.get(entity.type).<EntityCounter<Entity>>as().getCount(entity));
+			typeToCount.addTo(entity.getType(), COUNTERS.get(entity.getType()).<EntityCounter<Entity>>as().getCount(entity));
 		}
 		int sum = 0;
 		ObjectIterator<Object2IntMap.Entry<EntityType<?>>> iterator = typeToCount.object2IntEntrySet().fastIterator();
 		while (iterator.hasNext()) {
 			Object2IntMap.Entry<EntityType<?>> entry = iterator.next();
-			sum += COUNTERS.get(entry.key).scaleCount(entry.intValue);
+			sum += COUNTERS.get(entry.getKey()).scaleCount(entry.getIntValue());
 		}
 		return Math.min(sum, 15);
 	}

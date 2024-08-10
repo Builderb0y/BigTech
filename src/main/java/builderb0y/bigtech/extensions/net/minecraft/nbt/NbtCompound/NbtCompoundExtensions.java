@@ -135,7 +135,7 @@ public class NbtCompoundExtensions {
 	}
 
 	public static Identifier getIdentifier(@This NbtCompound thiz, String key) {
-		return new Identifier(thiz.getString(key));
+		return Identifier.of(thiz.getString(key));
 	}
 
 	public static void putIdentifier(@This NbtCompound thiz, String key, Identifier value) {
@@ -158,7 +158,7 @@ public class NbtCompoundExtensions {
 	}
 
 	public static void putBlockPos(@This NbtCompound thiz, String key, BlockPos value) {
-		thiz.putIntArray(key, new int[] { value.x, value.y, value.z });
+		thiz.putIntArray(key, new int[] { value.getX(), value.getY(), value.getZ() });
 	}
 
 	public static @Self NbtCompound withBlockPos(@This NbtCompound thiz, String key, BlockPos value) {
@@ -177,11 +177,11 @@ public class NbtCompoundExtensions {
 
 	public static BlockState getBlockState(@This NbtCompound thiz, String key) {
 		String value = thiz.getString(key);
-		if (!value.isEmpty) try {
-			return BlockArgumentParser.block(Registries.BLOCK.readOnlyWrapper, value, false).blockState();
+		if (!value.isEmpty()) try {
+			return BlockArgumentParser.block(Registries.BLOCK.getReadOnlyWrapper(), value, false).blockState();
 		}
 		catch (CommandSyntaxException ignored) {}
-		return Blocks.AIR.defaultState;
+		return Blocks.AIR.getDefaultState();
 	}
 
 	public static NbtCompound createSubCompound(@This NbtCompound thiz, String key) {

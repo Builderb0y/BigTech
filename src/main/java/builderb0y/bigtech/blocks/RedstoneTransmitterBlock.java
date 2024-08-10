@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.util.UUID;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -20,14 +21,24 @@ import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.impl.RedstoneBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.Directions;
 
 public class RedstoneTransmitterBlock extends BeamBlock {
 
+	public static final MapCodec<RedstoneTransmitterBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public RedstoneTransmitterBlock(Settings settings) {
 		super(settings);
-		this.defaultState = (
-			this.defaultState
+		this.setDefaultState(
+			this
+			.getDefaultState()
 			.with(Properties.POWERED, Boolean.FALSE)
 			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
@@ -106,7 +117,7 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 		return (
 			super
 			.getPlacementState(context)
-			.with(Properties.POWERED, this.shouldBePowered(context.world, context.blockPos))
+			.with(Properties.POWERED, this.shouldBePowered(context.getWorld(), context.getBlockPos()))
 		);
 	}
 

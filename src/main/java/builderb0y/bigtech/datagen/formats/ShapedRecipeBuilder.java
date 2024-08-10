@@ -66,7 +66,7 @@ public class ShapedRecipeBuilder {
 	}
 
 	public ShapedRecipeBuilder where(char key, TagKey<Item> tag) {
-		return this.whereTag(key, tag.id);
+		return this.whereTag(key, tag.id());
 	}
 
 	public ShapedRecipeBuilder result(String result) {
@@ -106,7 +106,7 @@ public class ShapedRecipeBuilder {
 		builder.append(table);
 		builder.append("\n\t},\n");
 		builder.append("\t\"result\": {\n");
-		builder.append("\t\t\"item\": \"").append(this.result).append('"');
+		builder.append("\t\t\"id\": \"").append(this.result).append('"');
 		if (this.count != 1) builder.append(",\n\t\t\"count\": ").append(this.count);
 		builder.append("\n\t}\n");
 		builder.append('}');

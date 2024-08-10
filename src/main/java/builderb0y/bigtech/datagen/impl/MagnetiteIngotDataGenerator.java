@@ -17,23 +17,23 @@ public class MagnetiteIngotDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_nuggets")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_nuggets")),
 			new ShapedRecipeBuilder()
 			.pattern("nnn", "nnn", "nnn")
 			.where('n', BigTechItemTags.MAGNETITE_NUGGETS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_block")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_block")),
 			new ShapedRecipeBuilder()
 			.pattern("b")
 			.where('b', BigTechItemTags.MAGNETITE_BLOCKS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_transmute")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_transmute")),
 			//language=json
 			"""
 			{
@@ -47,7 +47,7 @@ public class MagnetiteIngotDataGenerator extends BasicItemDataGenerator {
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.MAGNETITE_NUGGETS).addElement(this.id);
-		context.getTags(ItemTags.BEACON_PAYMENT_ITEMS).addElement(this.id);
+		context.getTags(BigTechItemTags.MAGNETITE_NUGGETS).addElement(this.getId());
+		context.getTags(ItemTags.BEACON_PAYMENT_ITEMS).addElement(this.getId());
 	}
 }

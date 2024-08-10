@@ -1,13 +1,10 @@
 package builderb0y.bigtech.mixins;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ChunkDataSender;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.world.ServerWorld;
@@ -33,10 +30,8 @@ public class ChunkDataSender_SyncBeamsManually {
 		CallbackInfo callback
 	) {
 		CommonChunkBeamStorage chunkStorage = ChunkBeamStorageHolder.KEY.get(chunk).require();
-		if (!chunkStorage.isEmpty) {
-			PacketByteBuf buffer = PacketByteBufs.create();
-			chunkStorage.writeSyncPacket(buffer, handler.player);
-			handler.sendPacket(ServerPlayNetworking.createS2CPacket(new LoadBeamPacket(chunk.pos.x, chunk.pos.z, buffer)));
+		if (!chunkStorage.isEmpty()) {
+			LoadBeamPacket.INSTANCE.send(chunk.getPos().x, chunk.getPos().z, chunkStorage, handler.player);
 		}
 	}
 }

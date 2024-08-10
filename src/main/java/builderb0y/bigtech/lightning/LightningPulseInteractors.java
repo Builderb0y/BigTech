@@ -101,7 +101,7 @@ public class LightningPulseInteractors {
 
 			@Override
 			public boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
-				return side == state.get(Properties.FACING).opposite;
+				return side == state.get(Properties.FACING).getOpposite();
 			}
 
 			@Override

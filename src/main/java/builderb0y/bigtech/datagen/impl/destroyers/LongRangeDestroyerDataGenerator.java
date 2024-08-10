@@ -18,7 +18,7 @@ public class LongRangeDestroyerDataGenerator extends AbstractDestroyerDataGenera
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("sss", "lcd", "sss")
@@ -26,7 +26,7 @@ public class LongRangeDestroyerDataGenerator extends AbstractDestroyerDataGenera
 			.where('l', FunctionalItems.LENS)
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('d', FunctionalItems.SHORT_RANGE_DESTROYER)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

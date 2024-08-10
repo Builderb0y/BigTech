@@ -7,18 +7,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
 
 public class Inventories2 {
 
-	public static Stream<SlotStack> readItems(NbtList list) {
-		if (list.heldType == NbtElement.COMPOUND_TYPE) {
+	public static Stream<SlotStack> readItems(NbtList list, RegistryWrapper.WrapperLookup registryLookup) {
+		if (list.getHeldType() == NbtElement.COMPOUND_TYPE) {
 			return (
 				list
 				.stream()
 				.map(NbtCompound.class::cast)
-				.map(compound -> new SlotStack(
+				.map((NbtCompound compound) -> new SlotStack(
 					Byte.toUnsignedInt(compound.getByte("Slot")),
-					ItemStack.fromNbt(compound)
+					ItemStack.fromNbtOrEmpty(registryLookup, compound)
 				))
 			);
 		}
@@ -27,13 +28,14 @@ public class Inventories2 {
 		}
 	}
 
-	public static NbtList writeItems(Stream<SlotStack> items) {
+	public static NbtList writeItems(Stream<SlotStack> items, RegistryWrapper.WrapperLookup registryLookup) {
 		return (
 			items
-			.map(slotStack ->
+			.map((SlotStack slotStack) ->
 				slotStack
 				.stack
-				.writeNbt(new NbtCompound())
+				.encodeAllowEmpty(registryLookup)
+				.<NbtCompound>as()
 				.withInt("Slot", slotStack.slot)
 			)
 			.collect(

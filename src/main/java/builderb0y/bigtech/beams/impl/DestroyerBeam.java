@@ -36,11 +36,11 @@ public class DestroyerBeam extends PersistentBeam {
 
 	public boolean serverTick(ItemStack tool) {
 		boolean toolChanged = false;
-		if (!this.toDestroy.isEmpty) {
+		if (!this.toDestroy.isEmpty()) {
 			for (Iterator<DestroyQueue> iterator = this.toDestroy.values().iterator(); iterator.hasNext(); ) {
 				DestroyQueue queue = iterator.next();
 				queue.populate();
-				if (queue.inactive.isEmpty) {
+				if (queue.inactive.isEmpty()) {
 					iterator.remove();
 					continue;
 				}
@@ -54,10 +54,10 @@ public class DestroyerBeam extends PersistentBeam {
 	@Override
 	public void onRemoved() {
 		super.onRemoved();
-		if (!this.toDestroy.isEmpty) {
+		if (!this.toDestroy.isEmpty()) {
 			DestructionManager manager = DestructionManager.forWorld(this.world);
 			for (DestroyQueue queue : this.toDestroy.values()) {
-				if (queue.populated && !queue.inactive.isEmpty) {
+				if (queue.populated && !queue.inactive.isEmpty()) {
 					manager.resetProgress(queue.inactive.lastKey());
 				}
 			}
@@ -67,10 +67,10 @@ public class DestroyerBeam extends PersistentBeam {
 	@Override
 	public void defaultSpreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
 		super.defaultSpreadOut(inputSegment, state);
-		if (!state.isAir && state.getFluidState().getBlockState() != state) {
+		if (!state.isAir() && state.getFluidState().getBlockState() != state) {
 			this.toDestroy.merge(
-				inputSegment.endPos.toImmutable(),
-				new DestroyQueue(this.world, inputSegment.endPos, inputSegment.distanceRemaining),
+				inputSegment.endPos().toImmutable(),
+				new DestroyQueue(this.world, inputSegment.endPos(), inputSegment.distanceRemaining()),
 				(DestroyQueue oldQueue, DestroyQueue newQueue) -> {
 					oldQueue.maxDistanceSquared = Math.max(oldQueue.maxDistanceSquared, newQueue.maxDistanceSquared);
 					oldQueue.destroySpeed += newQueue.destroySpeed;

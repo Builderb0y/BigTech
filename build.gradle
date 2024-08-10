@@ -1,5 +1,5 @@
 plugins() {
-	id('fabric-loom') version('1.4-SNAPSHOT')
+	id('fabric-loom') version('1.7-SNAPSHOT')
 	id('maven-publish')
 }
 
@@ -37,26 +37,30 @@ dependencies() {
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
-	//AutoCodec
-	include(implementation('builderb0y:autocodec:4.11.0') {
+	//AutoCodec.
+	include(implementation('builderb0y:autocodec:4.12.1') {
 		transitive = false
 	})
 
-	//JMXL
-	include(modImplementation('maven.modrinth:jmxl:1.4+mc1.20.2'))
+	//JMXL.
+	include(modImplementation('maven.modrinth:jmxl:1.5+mc1.21'))
 
-	//lambdynamiclights
-	modImplementation('maven.modrinth:lambdynamiclights:2.3.3+1.20.2')
+	//lambdynamiclights.
+	modCompileOnly('maven.modrinth:lambdynamiclights:2.3.4+1.20.4')
 
-	//cardinal components
-	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.3.0'))
-	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-world:5.3.0'))
-	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.3.0'))
+	//sodium, indium.
+	modImplementation('maven.modrinth:sodium:mc1.21-0.5.11')
+	modRuntimeOnly('maven.modrinth:indium:1.0.34+mc1.21')
 
-	//manifold
+	//cardinal components.
+	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.1'))
+	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-world:6.1.1'))
+	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:6.1.1'))
+
+	//manifold.
 	String manifoldVersion = '2024.1.20'
 	annotationProcessor("systems.manifold:manifold-strings:$manifoldVersion")
-	for (String name : [ 'ext', 'props', 'tuple' ]) {
+	for (String name : [ 'ext' /*, 'props', 'tuple' */ ]) {
 		annotationProcessor("systems.manifold:manifold-$name:$manifoldVersion")
 		implementation("systems.manifold:manifold-$name-rt:$manifoldVersion")
 		include("systems.manifold:manifold-$name-rt:$manifoldVersion")
@@ -108,7 +112,7 @@ processResources() {
 	exclude('src/main/resources/assets/***', 'src/main/resources/data/***')
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach() {
 	//ensure that the encoding is set to UTF-8, no matter what the system default is
 	//this fixes some edge cases with special characters not displaying correctly

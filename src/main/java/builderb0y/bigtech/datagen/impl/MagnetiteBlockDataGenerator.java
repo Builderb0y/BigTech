@@ -22,51 +22,51 @@ public class MagnetiteBlockDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "cube_bottom_top"))
-			.blockTexture("top",    context.suffixPath(this.id, "_top"   ))
-			.blockTexture("bottom", context.suffixPath(this.id, "_bottom"))
-			.blockTexture("side",   context.suffixPath(this.id, "_side"  ))
+			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
+			.blockTexture("top",    context.suffixPath(this.getId(), "_top"   ))
+			.blockTexture("bottom", context.suffixPath(this.getId(), "_bottom"))
+			.blockTexture("side",   context.suffixPath(this.getId(), "_side"  ))
 			.toString()
 		);
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.STONE).addElement(this.id);
+		context.getTags(MiningLevelTags.STONE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
 		context.getTags(BigTechBlockTags.IRON_BLOCKS).add(Blocks.IRON_BLOCK);
-		context.getTags(BigTechBlockTags.MAGNETITE_BLOCKS).addElement(this.id);
-		context.getTags(BlockTags.BEACON_BASE_BLOCKS).addElement(this.id);
+		context.getTags(BigTechBlockTags.MAGNETITE_BLOCKS).addElement(this.getId());
+		context.getTags(BlockTags.BEACON_BASE_BLOCKS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
 		context.getTags(BigTechItemTags.IRON_BLOCKS).add(Items.IRON_BLOCK);
-		context.getTags(BigTechItemTags.MAGNETITE_BLOCKS).addElement(this.id);
+		context.getTags(BigTechItemTags.MAGNETITE_BLOCKS).addElement(this.getId());
 	}
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_ingots")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_ingots")),
 			new ShapedRecipeBuilder()
 			.pattern("iii", "iii", "iii")
 			.where('i', BigTechItemTags.MAGNETITE_INGOTS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_transmute")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_transmute")),
 			//language=json
 			"""
 			{

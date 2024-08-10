@@ -38,17 +38,17 @@ public class PrismUnbakedModel implements UnbakedModel {
 		this.base.setParents(modelLoader); //why is this necessary?
 	}
 
+	@Nullable
 	@Override
-	public @Nullable BakedModel bake(
+	public BakedModel bake(
 		Baker baker,
 		Function<SpriteIdentifier, Sprite> textureGetter,
-		ModelBakeSettings rotationContainer,
-		Identifier modelId
+		ModelBakeSettings rotationContainer
 	) {
 		return new PrismBakedModel(
 			baker.bake(BigTechMod.modID("block/prism_base"), rotationContainer),
 			baker.bake(BigTechMod.modID("block/prism_lens"), rotationContainer),
-			this.base.<JsonUnbakedModel>as().transformations
+			this.base.<JsonUnbakedModel>as().getTransformations()
 		);
 	}
 }

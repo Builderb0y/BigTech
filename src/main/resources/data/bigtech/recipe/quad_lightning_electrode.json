@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ee",
+		"ee"
+	],
+	"key": {
+		"e": { "item": "bigtech:lightning_electrode" }
+	},
+	"result": {
+		"id": "bigtech:quad_lightning_electrode"
+	}
+}

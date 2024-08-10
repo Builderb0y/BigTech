@@ -3,10 +3,21 @@ package builderb0y.bigtech.datagen.base;
 import java.util.TreeSet;
 
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 public class TagBuilder extends TreeSet<TagOrItem> {
+
+	public void add(RegistryEntry<?> entry) {
+		this.add(new TagOrItem(entry));
+	}
+
+	public void addAll(RegistryEntry<?>... entries) {
+		for (RegistryEntry<?> entry : entries) {
+			this.add(new TagOrItem(entry));
+		}
+	}
 
 	public void add(ItemConvertible item) {
 		this.add(new TagOrItem(item));

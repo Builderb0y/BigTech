@@ -30,22 +30,20 @@ public class CrystalUnbakedModel implements UnbakedModel {
 
 	@Override
 	public Collection<Identifier> getModelDependencies() {
-		return Collections.singletonList(new Identifier("minecraft", "block/block"));
+		return Collections.singletonList(Identifier.ofVanilla("block/block"));
 	}
 
 	@Override
 	public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
-		this.block = modelLoader.apply(new Identifier("minecraft", "block/block"));
+		this.block = modelLoader.apply(Identifier.ofVanilla("block/block"));
 	}
 
 	@Nullable
 	@Override
-	@SuppressWarnings("deprecation")
 	public BakedModel bake(
 		Baker baker,
 		Function<SpriteIdentifier, Sprite> textureGetter,
-		ModelBakeSettings rotationContainer,
-		Identifier modelId
+		ModelBakeSettings rotationContainer
 	) {
 		return new CrystalBakedModel(
 			textureGetter.apply(
@@ -54,7 +52,7 @@ public class CrystalUnbakedModel implements UnbakedModel {
 					this.texture
 				)
 			),
-			this.block.<JsonUnbakedModel>as().transformations
+			this.block.<JsonUnbakedModel>as().getTransformations()
 		);
 	}
 }

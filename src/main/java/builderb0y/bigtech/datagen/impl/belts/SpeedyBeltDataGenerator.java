@@ -19,7 +19,7 @@ public class SpeedyBeltDataGenerator extends DirectionalBeltDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_paper")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_paper")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")
@@ -31,7 +31,7 @@ public class SpeedyBeltDataGenerator extends DirectionalBeltDataGenerator {
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.id, "_from_leather")),
+			context.recipePath(context.suffixPath(this.getId(), "_from_leather")),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:belts")

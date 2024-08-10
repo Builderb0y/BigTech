@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockRenderType;
@@ -11,12 +12,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -33,6 +36,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.TransmuterBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.api.LightningPulseInteractor;
@@ -55,6 +59,14 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 			BooleanBiFunction.ONLY_FIRST
 		)
 	);
+
+	public static final MapCodec<TransmuterBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public TransmuterBlock(Settings settings) {
 		super(settings);
@@ -87,13 +99,13 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 			//so, that's an opportunity for optimization as well.
 			record RecipeSlot(TransmuteRecipe recipe, int slot) {}
 			List<RecipeSlot> recipeSlots = new ArrayList<>(15);
-			List<RecipeEntry<TransmuteRecipe>> allRecipes = world.recipeManager.listAllOfType(BigTechRecipeTypes.TRANSMUTE);
+			List<RecipeEntry<TransmuteRecipe>> allRecipes = world.getRecipeManager().listAllOfType(BigTechRecipeTypes.TRANSMUTE);
 			{
 				//first iteration.
 				TransmuteRecipe activeRecipe = null;
 				for (int slot = 0; slot < 15; slot++) {
 					ItemStack stack = transmuter.getStack(slot);
-					if (!stack.isEmpty) {
+					if (!stack.isEmpty()) {
 						if (activeRecipe != null && activeRecipe.input.test(stack)) {
 							recipeSlots.add(new RecipeSlot(activeRecipe, slot));
 						}
@@ -107,20 +119,20 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 					}
 				}
 			}
-			if (!recipeSlots.isEmpty) {
+			if (!recipeSlots.isEmpty()) {
 				TransmuteRecipeInventory inventory = new TransmuteRecipeInventory(world.random);
-				inventory.totalEnergy = pulse.distributedEnergy;
+				inventory.totalEnergy = pulse.getDistributedEnergy();
 				inventory.slotEnergy = inventory.totalEnergy / recipeSlots.size();
 				//second iteration..
 				for (RecipeSlot recipeSlot : recipeSlots) {
 					inventory.stack = transmuter.getStack(recipeSlot.slot);
-					ItemStack result = recipeSlot.recipe.craft(inventory, world.registryManager);
-					if (!result.isEmpty) {
+					ItemStack result = recipeSlot.recipe.craft(inventory, world.getRegistryManager());
+					if (!result.isEmpty()) {
 						transmuter.setStack(recipeSlot.slot, result);
 					}
 				}
-				world.<ServerWorld>as().spawnParticles(ParticleTypes.EXPLOSION, pos.x + 0.5D, pos.y + 0.5D, pos.z + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);
-				world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 1.0F, 2.0F - world.random.nextFloat() * 0.25F);
+				world.<ServerWorld>as().spawnParticles(ParticleTypes.EXPLOSION, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+				world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 1.0F, 2.0F - world.random.nextFloat() * 0.25F);
 				this.spawnLightningParticles(world, pos, state, pulse);
 			}
 		}
@@ -131,17 +143,6 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
-	}
-
-	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		super.onPlaced(world, pos, state, placer, stack);
-		if (stack.hasCustomName()) {
-			TransmuterBlockEntity transmuter = WorldHelper.getBlockEntity(world, pos, TransmuterBlockEntity.class);
-			if (transmuter != null) {
-				transmuter.customName = stack.getName();
-			}
-		}
 	}
 
 	@Override
@@ -157,9 +158,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
 			NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
 			if (factory != null) player.openHandledScreen(factory);
@@ -182,7 +181,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 		if (transmuter != null) {
 			int sum = 0;
 			for (int index = 0; index < 15; index++) {
-				if (!transmuter.getStack(index).isEmpty) sum++;
+				if (!transmuter.getStack(index).isEmpty()) sum++;
 			}
 			return sum;
 		}

@@ -1,6 +1,6 @@
 package builderb0y.bigtech.datagen.impl.destroyers;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
@@ -18,14 +18,14 @@ public class ShortRangeDestroyerDataGenerator extends AbstractDestroyerDataGener
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("ccc", "cpc", "crc")
 			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
-			.where('p', ItemTags.TOOLS)
+			.where('p', ConventionalItemTags.TOOLS)
 			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

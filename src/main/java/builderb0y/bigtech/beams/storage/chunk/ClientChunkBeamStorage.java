@@ -12,12 +12,12 @@ public class ClientChunkBeamStorage extends CommonChunkBeamStorage {
 	public ClientChunkBeamStorage(WorldChunk chunk) {
 		super(chunk);
 		this.box = new Box(
-			chunk.pos.startX - 0.5D,
-			chunk.bottomY - 0.5D,
-			chunk.pos.startZ - 0.5D,
-			chunk.pos.startX + 16.5D,
-			chunk.topY + 0.5D,
-			chunk.pos.startZ + 0.5D
+			chunk.getPos().getStartX() - 0.5D,
+			chunk.getBottomY() - 0.5D,
+			chunk.getPos().getStartZ() - 0.5D,
+			chunk.getPos().getStartX() + 16.5D,
+			chunk.getTopY() + 0.5D,
+			chunk.getPos().getStartZ() + 0.5D
 		);
 	}
 

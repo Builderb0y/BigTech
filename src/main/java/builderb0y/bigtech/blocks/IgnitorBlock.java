@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -25,6 +26,7 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.IgnitorBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class IgnitorBlock extends Block implements BlockEntityProvider {
@@ -35,9 +37,21 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	*/
 	public static final VoxelShape COLLISION_SHAPE = VoxelShapes.cuboid(0.0D, 0.0D, 0.0D, 1.0D, 0.999D, 1.0D);
 
+	public static final MapCodec<IgnitorBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public IgnitorBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.LIT, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.LIT, Boolean.FALSE)
+		);
 	}
 
 	@Override
@@ -57,9 +71,7 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
 			NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
 			if (factory != null) player.openHandledScreen(factory);
@@ -87,7 +99,7 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.HORIZONTAL_FACING, context.horizontalPlayerFacing.opposite);
+		return super.getPlacementState(context).with(Properties.HORIZONTAL_FACING, context.getHorizontalPlayerFacing().getOpposite());
 	}
 
 	@Override

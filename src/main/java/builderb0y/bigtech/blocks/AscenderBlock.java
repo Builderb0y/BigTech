@@ -2,6 +2,8 @@ package builderb0y.bigtech.blocks;
 
 import java.util.*;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -21,11 +23,20 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import builderb0y.bigtech.api.AscenderInteractor;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.mixinterfaces.RoutableEntity;
 import builderb0y.bigtech.util.Directions;
 import builderb0y.bigtech.util.FairSharing;
 
 public class AscenderBlock extends Block implements AscenderInteractor {
+
+	public static final MapCodec<AscenderBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public final Direction direction;
 
@@ -50,16 +61,16 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 
 	public boolean canMove(World world, BlockPos pos, BlockState state, Entity entity) {
 		return !(
-			entity.isRemoved   ||
-			entity.isSpectator ||
-			entity.isSneaking  ||
-			(entity instanceof PlayerEntity player && player.abilities.flying)
+			entity.isRemoved()   ||
+			entity.isSpectator() ||
+			entity.isSneaking()  ||
+			(entity instanceof PlayerEntity player && player.getAbilities().flying)
 		);
 	}
 
 	@Override
 	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
-		return face == this.direction.opposite ? AscenderInteractor.ASCENDER_TOP_BOTTOM : AscenderInteractor.BLOCKED;
+		return face == this.direction.getOpposite() ? AscenderInteractor.ASCENDER_TOP_BOTTOM : AscenderInteractor.BLOCKED;
 	}
 
 	public Direction[] getApplicableDirections(World world, BlockPos pos, BlockState state) {
@@ -67,12 +78,12 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 		ArrayList<Direction> bestDirections = new ArrayList<>(5);
 		int bestPriority = 1;
 		for (Direction direction : Directions.ALL) {
-			if (direction == this.direction.opposite) continue;
+			if (direction == this.direction.getOpposite()) continue;
 			BlockState adjacentState = world.getBlockState(mutablePos.set(pos, direction));
 			AscenderInteractor interactor = AscenderInteractor.get(world, mutablePos, adjacentState);
 			int priority;
 			if (interactor != null) {
-				priority = interactor.getAscenderPriority(world, mutablePos, adjacentState, direction.opposite);
+				priority = interactor.getAscenderPriority(world, mutablePos, adjacentState, direction.getOpposite());
 			}
 			else {
 				priority = AscenderInteractor.BLOCKED;
@@ -85,7 +96,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 				bestDirections.add(direction);
 			}
 		}
-		if (bestDirections.isEmpty) {
+		if (bestDirections.isEmpty()) {
 			bestDirections.add(this.direction);
 		}
 		return bestDirections.toArray(Direction[]::new);
@@ -112,7 +123,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	public Direction getMovementDirection(World world, BlockPos pos, BlockState state, Entity entity) {
-		return entity.<RoutableEntity>as().bigtech_computeRoutingInfo(pos, state, this.direction, this::computeMovementDirection).direction;
+		return entity.<RoutableEntity>as().bigtech_computeRoutingInfo(pos, state, this.direction, this::computeMovementDirection).direction();
 	}
 
 	public void move(World world, BlockPos pos, BlockState state, Entity entity) {
@@ -157,7 +168,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 		super.onEntityCollision(state, world, pos, entity);
 		if (
 			this.canMove(world, pos, state, entity) &&
-			entity.blockPos.equals(pos)
+			entity.getBlockPos().equals(pos)
 		) {
 			this.move(world, pos, state, entity);
 		}

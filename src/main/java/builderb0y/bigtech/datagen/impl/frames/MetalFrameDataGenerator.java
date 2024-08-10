@@ -15,11 +15,11 @@ public abstract class MetalFrameDataGenerator extends FrameDataGenerator {
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
 		super.setupOtherBlockTags(context);
-		context.getTags(BigTechBlockTags.METAL_FRAMES).addElement(this.id);
+		context.getTags(BigTechBlockTags.METAL_FRAMES).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.METAL_FRAMES).addElement(this.id);
+		context.getTags(BigTechItemTags.METAL_FRAMES).addElement(this.getId());
 	}
 }

@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blocks.belts;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -23,12 +25,25 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 import builderb0y.bigtech.api.AscenderInteractor;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class TrapdoorBeltBlock extends RedstoneReceivingBeltBlock {
 
+	public static final MapCodec<TrapdoorBeltBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public TrapdoorBeltBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.INVERTED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.INVERTED, Boolean.FALSE)
+		);
 	}
 
 	@Override
@@ -49,9 +64,7 @@ public class TrapdoorBeltBlock extends RedstoneReceivingBeltBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		boolean inverted;
 		world.setBlockState(pos, state = state.with(Properties.INVERTED, inverted = !state.get(Properties.INVERTED)));
 		world.playSound(null, pos, state.get(Properties.POWERED) == inverted ? SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE : SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN, SoundCategory.BLOCKS);

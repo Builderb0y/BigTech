@@ -34,7 +34,7 @@ public class LadderBlock_MakePlaceableOnFrames {
 		cancellable = true
 	)
 	private void bigtech_makePlaceableOnFrames(BlockView world, BlockPos pos, Direction side, CallbackInfoReturnable<Boolean> callback, BlockState againstState) {
-		if (againstState.block instanceof FrameBlock) {
+		if (againstState.getBlock() instanceof FrameBlock) {
 			callback.setReturnValue(Boolean.TRUE);
 		}
 	}

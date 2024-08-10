@@ -63,11 +63,11 @@ public class LinkedMultiMap<K, V> {
 		int hash, index;
 		if (key == null) {
 			hash = 0;
-			index = this.tableSize;
+			index = this.getTableSize();
 		}
 		else {
 			hash = HashCommon.mix(key.hashCode());
-			index = hash & this.mask;
+			index = hash & this.getMask();
 		}
 		return new IteratorImpl<>(this.table[index], key, hash);
 	}
@@ -80,11 +80,11 @@ public class LinkedMultiMap<K, V> {
 		int hash, index;
 		if (key == null) {
 			hash = 0;
-			index = this.tableSize;
+			index = this.getTableSize();
 		}
 		else {
 			hash = HashCommon.mix(key.hashCode());
-			index = hash & this.mask;
+			index = hash & this.getMask();
 		}
 		return (
 			Stream
@@ -98,11 +98,11 @@ public class LinkedMultiMap<K, V> {
 		int hash, index;
 		if (key == null) {
 			hash = 0;
-			index = this.tableSize;
+			index = this.getTableSize();
 		}
 		else {
 			hash = HashCommon.mix(key.hashCode());
-			index = hash & this.mask;
+			index = hash & this.getMask();
 		}
 		Entry<K, V> entry = new Entry<>(key, hash, value);
 		entry.next = this.table[index];
@@ -129,11 +129,11 @@ public class LinkedMultiMap<K, V> {
 		int hash, index;
 		if (key == null) {
 			hash = 0;
-			index = this.tableSize;
+			index = this.getTableSize();
 		}
 		else {
 			hash = HashCommon.mix(key.hashCode());
-			index = hash & this.mask;
+			index = hash & this.getMask();
 		}
 		Entry<K, V> entry = this.table[index];
 		if (entry == null) return false;
@@ -165,11 +165,11 @@ public class LinkedMultiMap<K, V> {
 	public void checkSize() {
 		int newSize;
 		if (this.binsInUse >= this.maxFill) {
-			newSize = this.tableSize << 1;
+			newSize = this.getTableSize() << 1;
 			this.rehash(newSize);
 		}
 		else if (this.binsInUse < this.minFill) {
-			newSize = this.tableSize >>> 1;
+			newSize = this.getTableSize() >>> 1;
 			if (newSize >= MIN_SIZE) {
 				this.rehash(newSize);
 			}
@@ -181,7 +181,7 @@ public class LinkedMultiMap<K, V> {
 		Entry<K, V>[] oldArray = this.table;
 		@SuppressWarnings("unchecked")
 		Entry<K, V>[] newArray = new Entry[newSize + 1];
-		int oldArraySize = this.tableSize;
+		int oldArraySize = this.getTableSize();
 		int newArrayMask = newSize - 1;
 		int newBinsInUse = 0;
 		for (int index = 0; index < oldArraySize; index++) {
@@ -204,10 +204,10 @@ public class LinkedMultiMap<K, V> {
 
 	public void transferNodesFrom(LinkedMultiMap<K, V> that) {
 		int newCapacity = MathHelper.smallestEncompassingPowerOfTwo(this.binsInUse + that.binsInUse);
-		if (this.tableSize < newCapacity) this.rehash(newCapacity);
-		int thisTableSize = this.tableSize;
-		int thisMask = this.mask;
-		int thatTableSize = that.tableSize;
+		if (this.getTableSize() < newCapacity) this.rehash(newCapacity);
+		int thisTableSize = this.getTableSize();
+		int thisMask = this.getMask();
+		int thatTableSize = that.getTableSize();
 		for (int thatIndex = 0; thatIndex < thatTableSize; thatIndex++) {
 			Entry<K, V> entry = that.table[thatIndex];
 			that.table[thatIndex] = null;

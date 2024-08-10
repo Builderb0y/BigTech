@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"m m",
+		"m m",
+		"mbm"
+	],
+	"key": {
+		"m": { "tag":  "c:magnetite_ingots" },
+		"b": { "item": "minecraft:bow"      }
+	},
+	"result": {
+		"id": "bigtech:silver_iodide_cannon"
+	}
+}

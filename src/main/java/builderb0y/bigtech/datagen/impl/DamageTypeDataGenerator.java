@@ -24,19 +24,19 @@ public abstract class DamageTypeDataGenerator implements LocalizedDataGenerator 
 
 	@Override
 	public Identifier getId() {
-		return this.key.value;
+		return this.key.getValue();
 	}
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		return "death.attack.${this.id.namespace}.${this.id.path}";
+		return "death.attack.${this.getId().getNamespace()}.${this.getId().getPath()}";
 	}
 
 	@Override
 	public void run(DataGenContext context) {
 		LocalizedDataGenerator.super.run(context);
 		context.writeToFile(
-			context.genericDataPath(this.id, "damage_type"),
+			context.genericDataPath(this.getId(), "damage_type"),
 			context.replace(
 				//language=json
 				"""
@@ -45,11 +45,11 @@ public abstract class DamageTypeDataGenerator implements LocalizedDataGenerator 
 					"message_id": "%MESSAGE",
 					"scaling": "when_caused_by_living_non_player"
 				}""",
-				Map.of("MESSAGE", "${this.id.namespace}.${this.id.path}")
+				Map.of("MESSAGE", "${this.getId().getNamespace()}.${this.getId().getPath()}")
 			)
 		);
 		for (TagKey<DamageType> tag : this.tags) {
-			context.getTags(tag).addElement(this.id);
+			context.getTags(tag).addElement(this.getId());
 		}
 	}
 

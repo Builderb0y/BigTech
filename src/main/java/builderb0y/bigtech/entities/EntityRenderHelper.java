@@ -31,7 +31,7 @@ public class EntityRenderHelper {
 	}
 
 	public EntityRenderHelper transform(MatrixStack.Entry entry) {
-		return this.transform(entry.positionMatrix, entry.normalMatrix);
+		return this.transform(entry.getPositionMatrix(), entry.getNormalMatrix());
 	}
 
 	public EntityRenderHelper lightmap(int lightmap) {
@@ -132,9 +132,10 @@ public class EntityRenderHelper {
 		//debug:
 		//color = MathHelper.packRgb(nx * 0.5F + 0.5F, ny * 0.5F + 0.5F, nz * 0.5F + 0.5F) | 0xFF000000;
 
-		this.vertexConsumer.vertex(x0, y0, z0).color(color).texture(u0, v0).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz).next();
-		this.vertexConsumer.vertex(x1, y1, z1).color(color).texture(u0, v1).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz).next();
-		this.vertexConsumer.vertex(x2, y2, z2).color(color).texture(u1, v1).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz).next();
-		this.vertexConsumer.vertex(x3, y3, z3).color(color).texture(u1, v0).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz).next();
+		this.vertexConsumer
+		.vertex(x0, y0, z0).color(color).texture(u0, v0).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz)
+		.vertex(x1, y1, z1).color(color).texture(u0, v1).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz)
+		.vertex(x2, y2, z2).color(color).texture(u1, v1).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz)
+		.vertex(x3, y3, z3).color(color).texture(u1, v0).overlay(OverlayTexture.DEFAULT_UV).light(this.lightmap).normal(nx, ny, nz);
 	}
 }

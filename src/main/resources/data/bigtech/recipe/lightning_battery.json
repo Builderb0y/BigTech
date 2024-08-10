@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" g ",
+		"geg",
+		"gcg"
+	],
+	"key": {
+		"g": { "tag":  "c:glass_panes"               },
+		"e": { "item": "bigtech:lightning_electrode" },
+		"c": { "tag":  "c:copper_ingots"             }
+	},
+	"result": {
+		"id": "bigtech:lightning_battery"
+	}
+}

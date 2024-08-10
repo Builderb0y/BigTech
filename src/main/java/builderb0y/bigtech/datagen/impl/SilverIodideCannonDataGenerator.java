@@ -30,7 +30,7 @@ public class SilverIodideCannonDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			//language=json
 			"""
 			{
@@ -71,12 +71,12 @@ public class SilverIodideCannonDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
 	public void setupMiningLevelTags(DataGenContext context) {
-		context.getTags(MiningLevelTags.STONE).addElement(this.id);
+		context.getTags(MiningLevelTags.STONE).addElement(this.getId());
 	}
 
 	@Override
@@ -92,12 +92,12 @@ public class SilverIodideCannonDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("m m", "m m", "mbm")
 			.where('m', BigTechItemTags.MAGNETITE_INGOTS)
 			.where('b', Items.BOW)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

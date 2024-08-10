@@ -11,7 +11,9 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -19,6 +21,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
+import builderb0y.bigtech.recipes.TransmuteRecipe;
+import builderb0y.bigtech.recipes.TransmuteRecipe.Output;
 import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.screenHandlers.TransmuterScreenHandler;
 
@@ -38,11 +42,28 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 	}
 
 	public static boolean isValidInput(RecipeManager recipeManager, ItemStack stack) {
-		return recipeManager.listAllOfType(BigTechRecipeTypes.TRANSMUTE).stream().anyMatch(entry -> entry.value().input.test(stack));
+		return (
+			recipeManager
+			.listAllOfType(BigTechRecipeTypes.TRANSMUTE)
+			.stream()
+			.anyMatch((RecipeEntry<TransmuteRecipe> entry) ->
+				entry.value().input.test(stack)
+			)
+		);
 	}
 
 	public static boolean isValidOutput(RecipeManager recipeManager, ItemStack stack) {
-		return recipeManager.listAllOfType(BigTechRecipeTypes.TRANSMUTE).stream().flatMap(entry -> entry.value().output.stream()).anyMatch(output -> ItemStack.canCombine(output.toStack(), stack));
+		return (
+			recipeManager
+			.listAllOfType(BigTechRecipeTypes.TRANSMUTE)
+			.stream()
+			.flatMap((RecipeEntry<TransmuteRecipe> entry) ->
+				entry.value().output.stream()
+			)
+			.anyMatch((Output output) ->
+				ItemStack.areItemsAndComponentsEqual(output.toStack(), stack)
+			)
+		);
 	}
 
 	@Override
@@ -52,12 +73,12 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
-		return this.getStack(slot).isEmpty && isValidInput(this.world.recipeManager, stack);
+		return this.getStack(slot).isEmpty() && isValidInput(this.world.getRecipeManager(), stack);
 	}
 
 	@Override
 	public boolean canTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
-		return isValidOutput(this.world.recipeManager, stack);
+		return isValidOutput(this.world.getRecipeManager(), stack);
 	}
 
 	@Override
@@ -67,21 +88,21 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-		return this.getStack(slot).isEmpty && isValidInput(this.world.recipeManager, stack);
+		return this.getStack(slot).isEmpty() && isValidInput(this.world.getRecipeManager(), stack);
 	}
 
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		return isValidOutput(this.world.recipeManager, stack);
+		return isValidOutput(this.world.getRecipeManager(), stack);
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getInvStackList() {
+	public DefaultedList<ItemStack> getHeldStacks() {
 		return this.items;
 	}
 
 	@Override
-	public void setInvStackList(DefaultedList<ItemStack> list) {
+	public void setHeldStacks(DefaultedList<ItemStack> list) {
 		this.items = list;
 	}
 
@@ -101,19 +122,19 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
-		if (!this.serializeLootTable(nbt)) {
-			Inventories.writeNbt(nbt, this.items);
+	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
+		if (!this.writeLootTable(nbt)) {
+			Inventories.writeNbt(nbt, this.items, registryLookup);
 		}
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
 		this.items.clear();
-		if (!this.deserializeLootTable(nbt)) {
-			Inventories.readNbt(nbt, this.items);
+		if (!this.readLootTable(nbt)) {
+			Inventories.readNbt(nbt, this.items, registryLookup);
 		}
 	}
 }

@@ -31,11 +31,11 @@ public class WoodenFrameDataGenerator extends FrameDataGenerator {
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
 		super.setupOtherBlockTags(context);
-		context.getTags(BigTechBlockTags.WOODEN_FRAMES).addElement(this.id);
+		context.getTags(BigTechBlockTags.WOODEN_FRAMES).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.WOODEN_FRAMES).addElement(this.id);
+		context.getTags(BigTechItemTags.WOODEN_FRAMES).addElement(this.getId());
 	}
 }

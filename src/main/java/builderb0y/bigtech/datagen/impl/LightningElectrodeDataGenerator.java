@@ -21,11 +21,11 @@ public class LightningElectrodeDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("i", "i")
 			.where('i', FunctionalItems.MAGNETITE_INGOT)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

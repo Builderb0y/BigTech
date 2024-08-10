@@ -25,11 +25,11 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
+				.streamStatesSorted(this.getBlock())
 				.map(state -> new BlockStateJsonVariant(
 					state,
 					"bigtech:block/mirror_${state.get(Properties.ATTACHED) ? \"attached\" : \"unattached\"}_${state.get(builderb0y.bigtech.blocks.BigTechProperties.ROTATION_0_7)}",
@@ -126,7 +126,7 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 						}"""
 			);
 			context.writeToFile(
-				context.blockModelPath(context.suffixPath(this.id, "_unattached_${rotation.index}")),
+				context.blockModelPath(context.suffixPath(this.getId(), "_unattached_${rotation.index}")),
 				context.replace(
 					unattached,
 					Map.of(
@@ -136,7 +136,7 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 				)
 			);
 			context.writeToFile(
-				context.blockModelPath(context.suffixPath(this.id, "_attached_${rotation.index}")),
+				context.blockModelPath(context.suffixPath(this.getId(), "_attached_${rotation.index}")),
 				context.replace(
 					unattached,
 					Map.of(
@@ -229,7 +229,7 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 						}"""
 			);
 			context.writeToFile(
-				context.blockModelPath(context.suffixPath(this.id, "_unattached_${rotation.index}")),
+				context.blockModelPath(context.suffixPath(this.getId(), "_unattached_${rotation.index}")),
 				context.replace(
 					unattached,
 					Map.of(
@@ -239,7 +239,7 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 				)
 			);
 			context.writeToFile(
-				context.blockModelPath(context.suffixPath(this.id, "_attached_${rotation.index}")),
+				context.blockModelPath(context.suffixPath(this.getId(), "_attached_${rotation.index}")),
 				context.replace(
 					unattached,
 					Map.of(
@@ -259,12 +259,12 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
-		return context.suffixPath(this.id, "_attached_4");
+		return context.suffixPath(this.getId(), "_attached_4");
 	}
 
 	@Override
 	public void setupMiningToolTags(DataGenContext context) {
-		context.getTags(MiningToolTags.PICKAXE).addElement(this.id);
+		context.getTags(MiningToolTags.PICKAXE).addElement(this.getId());
 	}
 
 	@Override
@@ -285,13 +285,13 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("ggg", "ggg", " i ")
 			.where('g', ConventionalItemTags.GLASS_PANES)
 			.where('i', ConventionalItemTags.IRON_INGOTS)
-			.result(this.id)
+			.result(this.getId())
 			.count(6)
 			.toString()
 		);

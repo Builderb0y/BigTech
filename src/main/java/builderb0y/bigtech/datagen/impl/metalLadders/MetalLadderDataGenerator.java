@@ -21,14 +21,14 @@ public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
 				BlockStateJsonVariant
-				.streamStatesSorted(this.block)
+				.streamStatesSorted(this.getBlock())
 				.map(state -> new BlockStateJsonVariant(
 					state,
-					context.prefixPath("block/", this.id).toString(),
+					context.prefixPath("block/", this.getId()).toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 				))
@@ -39,15 +39,15 @@ public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	public Identifier getTexture(DataGenContext context) {
-		return this.id;
+		return this.getId();
 	}
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "ladder"))
+			.blockParent(Identifier.ofVanilla("ladder"))
 			.blockTexture("texture", this.getTexture(context))
 			.blockTexture("particle", this.getTexture(context))
 			.toString()
@@ -57,9 +57,9 @@ public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
-			context.itemModelPath(this.id),
+			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.itemParent(new Identifier("minecraft", "generated"))
+			.itemParent(Identifier.ofVanilla("generated"))
 			.blockTexture("layer0", this.getTexture(context))
 			.toString()
 		);

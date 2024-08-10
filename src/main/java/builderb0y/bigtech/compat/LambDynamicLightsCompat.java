@@ -13,8 +13,8 @@ public class LambDynamicLightsCompat implements DynamicLightsInitializer {
 		DynamicLightHandlers.registerDynamicLightHandler(
 			BigTechEntityTypes.MINER,
 			(MinerEntity miner) -> (
-				miner.controllingPassenger != null
-				? (int)(miner.dataTracker.get(MinerEntity.FUEL_FRACTION) * 15.0F)
+				miner.getControllingPassenger() != null
+				? (int)(miner.getDataTracker().get(MinerEntity.FUEL_FRACTION) * 15.0F)
 				: 0
 			)
 		);

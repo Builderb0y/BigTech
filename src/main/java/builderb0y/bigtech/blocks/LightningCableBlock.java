@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -22,12 +23,21 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.util.Directions;
 
 public class LightningCableBlock extends ConnectingBlock implements LightningPulseInteractor, Waterloggable {
+
+	public static final MapCodec<LightningCableBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public static final VoxelShape[] CONDUCTION_SHAPES = {
 		VoxelShapes.cuboid(0.0D, 0.25D, 0.25D, 1.0D, 0.75D, 0.75D),
@@ -37,8 +47,9 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 
 	public LightningCableBlock(Settings settings) {
 		super(0.25F, settings);
-		this.defaultState = (
-			this.defaultState
+		this.setDefaultState(
+			this
+			.getDefaultState()
 			.with(UP,    Boolean.FALSE)
 			.with(DOWN,  Boolean.FALSE)
 			.with(NORTH, Boolean.FALSE)
@@ -51,7 +62,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 
 	@Override
 	public VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
-		return CONDUCTION_SHAPES[face.axis.ordinal()];
+		return CONDUCTION_SHAPES[face.getAxis().ordinal()];
 	}
 
 	@Override
@@ -69,16 +80,19 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext context) {
+		World world = context.getWorld();
+		BlockPos pos = context.getBlockPos();
+		BlockState state = this.getDefaultState();
 		return (
 			super
 			.getPlacementState(context)
-			.with(UP,    this.canConnect(context.world, context.blockPos, this.defaultState, Direction.UP))
-			.with(DOWN,  this.canConnect(context.world, context.blockPos, this.defaultState, Direction.DOWN))
-			.with(NORTH, this.canConnect(context.world, context.blockPos, this.defaultState, Direction.NORTH))
-			.with(EAST,  this.canConnect(context.world, context.blockPos, this.defaultState, Direction.EAST))
-			.with(SOUTH, this.canConnect(context.world, context.blockPos, this.defaultState, Direction.SOUTH))
-			.with(WEST,  this.canConnect(context.world, context.blockPos, this.defaultState, Direction.WEST))
-			.with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).fluid == Fluids.WATER)
+			.with(UP,    this.canConnect(world, pos, state, Direction.UP))
+			.with(DOWN,  this.canConnect(world, pos, state, Direction.DOWN))
+			.with(NORTH, this.canConnect(world, pos, state, Direction.NORTH))
+			.with(EAST,  this.canConnect(world, pos, state, Direction.EAST))
+			.with(SOUTH, this.canConnect(world, pos, state, Direction.SOUTH))
+			.with(WEST,  this.canConnect(world, pos, state, Direction.WEST))
+			.with(Properties.WATERLOGGED, world.getFluidState(pos).isEqualAndStill(Fluids.WATER))
 		);
 	}
 
@@ -95,13 +109,13 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 		LightningPulseInteractor adjacentInteractor = LightningPulseInteractor.get(world, adjacentPos, adjacentState);
 		return (
 			(
-				adjacentInteractor.canConductIn (world, adjacentPos, adjacentState, direction.opposite) ||
-				adjacentInteractor.canConductOut(world, adjacentPos, adjacentState, direction.opposite)
+				adjacentInteractor.canConductIn (world, adjacentPos, adjacentState, direction.getOpposite()) ||
+				adjacentInteractor.canConductOut(world, adjacentPos, adjacentState, direction.getOpposite())
 			)
 			&&
 			VoxelShapes.matchesAnywhere(
 				this.getConductionShape(world, pos, state, direction),
-				adjacentInteractor.getConductionShape(world, adjacentPos, adjacentState, direction.opposite),
+				adjacentInteractor.getConductionShape(world, adjacentPos, adjacentState, direction.getOpposite()),
 				BooleanBiFunction.AND
 			)
 		);
@@ -128,7 +142,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Override

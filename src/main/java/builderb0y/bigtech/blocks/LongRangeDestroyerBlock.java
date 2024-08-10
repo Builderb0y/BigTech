@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.util.UUID;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
@@ -19,8 +20,17 @@ import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.blockEntities.AbstractDestroyerBlockEntity;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.LongRangeDestroyerBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class LongRangeDestroyerBlock extends AbstractDestroyerBlock {
+
+	public static final MapCodec<LongRangeDestroyerBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public LongRangeDestroyerBlock(Settings settings) {
 		super(settings);

@@ -24,11 +24,11 @@ public abstract class MetalCatwalkPlatformDataGenerator extends CatwalkPlatformD
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.METAL_CATWALK_PLATFORMS).addElement(this.id);
+		context.getTags(BigTechBlockTags.METAL_CATWALK_PLATFORMS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.METAL_CATWALK_PLATFORMS).addElement(this.id);
+		context.getTags(BigTechItemTags.METAL_CATWALK_PLATFORMS).addElement(this.getId());
 	}
 }

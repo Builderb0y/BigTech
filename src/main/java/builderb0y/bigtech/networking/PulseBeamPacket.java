@@ -1,42 +1,89 @@
 package builderb0y.bigtech.networking;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.LongIterator;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import org.joml.Vector3f;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.random.Random;
 
-import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 
-public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {
+public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 
-	public static PulseBeamPacket parse(PacketByteBuf buffer) {
-		return parse0(buffer);
+	public static final PulseBeamPacket INSTANCE = new PulseBeamPacket();
+
+	public void send(PulseBeam beam) {
+		//todo: when migrating to actual world geometry, send to larger area.
+		Collection<ServerPlayerEntity> worldPlayers = PlayerLookup.world(beam.world.as());
+		if (worldPlayers.isEmpty()) return;
+		int minX = Integer.MAX_VALUE;
+		int minY = Integer.MAX_VALUE;
+		int minZ = Integer.MAX_VALUE;
+		int maxX = Integer.MIN_VALUE;
+		int maxY = Integer.MIN_VALUE;
+		int maxZ = Integer.MIN_VALUE;
+		LongIterator iterator = beam.seen.keySet().longIterator();
+		while (iterator.hasNext()) {
+			long encodedSectionPos = iterator.nextLong();
+			int x = ChunkSectionPos.unpackX(encodedSectionPos) << 4;
+			int y = ChunkSectionPos.unpackY(encodedSectionPos) << 4;
+			int z = ChunkSectionPos.unpackZ(encodedSectionPos) << 4;
+			minX = Math.min(minX, x);
+			minY = Math.min(minY, y);
+			minZ = Math.min(minZ, z);
+			maxX = Math.max(maxX, x | 15);
+			maxY = Math.max(maxY, y | 15);
+			maxZ = Math.max(maxZ, z | 15);
+		}
+		minX -= 32;
+		minY -= 32;
+		minZ -= 32;
+		maxX += 32;
+		maxY += 32;
+		maxZ += 32;
+		Payload payload = new Payload(beam);
+		for (ServerPlayerEntity player : worldPlayers) {
+			BlockPos pos = player.getBlockPos();
+			if (
+				pos.getX() >= minX &&
+				pos.getY() >= minY &&
+				pos.getZ() >= minZ &&
+				pos.getX() <= maxX &&
+				pos.getY() <= maxY &&
+				pos.getZ() <= maxZ
+			) {
+				BigTechNetwork.sendToClient(player, payload);
+			}
+		}
 	}
 
+	@Override
 	@Environment(EnvType.CLIENT)
-	public static PulseBeamPacket parse0(PacketByteBuf buffer) {
+	public Payload decode(RegistryByteBuf buffer) {
 		ClientWorld world = MinecraftClient.getInstance().world;
 		if (world == null) {
 			throw new IllegalArgumentException("Received pulse beam while outside of world");
 		}
-		BeamType type = buffer.readRegistryValue(BeamType.REGISTRY);
+		BeamType type = buffer.readRegistryValue(BeamType.REGISTRY_KEY);
 		UUID uuid = buffer.readUuid();
 		Beam beam = type.factory.create(world, uuid);
 		if (!(beam instanceof PulseBeam pulseBeam)) {
@@ -51,74 +98,78 @@ public record PulseBeamPacket(PulseBeam beam) implements S2CPlayPacket {
 			Vector3f color = BeamSegment.unpackRgb(buffer.readUnsignedMedium());
 			pulseBeam.seen.addSegment(x, y, z, new BeamSegment(pulseBeam, direction, false, color), false);
 		}
-		return new PulseBeamPacket(pulseBeam);
+		return new Payload(pulseBeam);
 	}
 
-	@Override
-	public void write(PacketByteBuf buffer) {
-		buffer.writeRegistryValue(BeamType.REGISTRY, this.beam.type);
-		buffer.writeUuid(this.beam.uuid);
-		int sizePosition = buffer.writerIndex();
-		int size = 0;
-		buffer.writeInt(0); //allocate space to hold the size.
+	public static record Payload(PulseBeam beam) implements S2CPayload {
 
-		ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.beam.seen.long2ObjectEntrySet().fastIterator();
-		while (sectionIterator.hasNext()) {
-			Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-			int sectionStartX = ChunkSectionPos.unpackX(sectionEntry.longKey);
-			int sectionStartY = ChunkSectionPos.unpackY(sectionEntry.longKey);
-			int sectionStartZ = ChunkSectionPos.unpackZ(sectionEntry.longKey);
-			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.value.short2ObjectEntrySet().fastIterator();
-			while (blockIterator.hasNext()) {
-				Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-				int x = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.shortKey);
-				int y = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.shortKey);
-				int z = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.shortKey);
-				for (BeamSegment segment : blockEntry.value) {
-					buffer.writeInt(x).writeInt(y).writeInt(z);
-					buffer.writeByte(segment.direction.ordinal());
-					buffer.writeMedium(BeamSegment.packRgb(segment.effectiveColor));
-					size++;
+		@Override
+		public PacketHandler<?> getAssociatedPacket() {
+			return INSTANCE;
+		}
+
+		@Override
+		public void encode(RegistryByteBuf buffer) {
+			buffer.writeRegistryValue(BeamType.REGISTRY_KEY, this.beam.getType());
+			buffer.writeUuid(this.beam.uuid);
+			int sizePosition = buffer.writerIndex();
+			int size = 0;
+			buffer.writeInt(0); //allocate space to hold the size.
+
+			ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.beam.seen.long2ObjectEntrySet().fastIterator();
+			while (sectionIterator.hasNext()) {
+				Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
+				int sectionStartX = ChunkSectionPos.unpackX(sectionEntry.getLongKey());
+				int sectionStartY = ChunkSectionPos.unpackY(sectionEntry.getLongKey());
+				int sectionStartZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey());
+				ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
+				while (blockIterator.hasNext()) {
+					Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
+					int x = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.getShortKey());
+					int y = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.getShortKey());
+					int z = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.getShortKey());
+					for (BeamSegment segment : blockEntry.getValue()) {
+						buffer.writeInt(x).writeInt(y).writeInt(z);
+						buffer.writeByte(segment.direction().ordinal());
+						buffer.writeMedium(BeamSegment.packRgb(segment.getEffectiveColor()));
+						size++;
+					}
+				}
+			}
+
+			buffer.setInt(sizePosition, size);
+		}
+
+		@Override
+		@Environment(EnvType.CLIENT)
+		public void process(ClientPlayNetworking.Context context) {
+			//todo: migrate to actual geometry instead of spawning particles.
+			ClientPlayerEntity player = context.player();
+			Random random = player.getWorld().random;
+			ObjectIterator < Long2ObjectMap.Entry <BasicSectionBeamStorage>> sectionIterator = this.beam.seen.long2ObjectEntrySet().fastIterator();
+			while (sectionIterator.hasNext()) {
+				Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
+				double sectionStartX = (ChunkSectionPos.unpackX(sectionEntry.getLongKey()) << 4) + 0.5D;
+				double sectionStartY = (ChunkSectionPos.unpackY(sectionEntry.getLongKey()) << 4) + 0.5D;
+				double sectionStartZ = (ChunkSectionPos.unpackZ(sectionEntry.getLongKey()) << 4) + 0.5D;
+				ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
+				while (blockIterator.hasNext()) {
+					Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
+					double centerX = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.getShortKey());
+					double centerY = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.getShortKey());
+					double centerZ = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.getShortKey());
+					for (BeamSegment segment : blockEntry.getValue()) {
+						double fraction = random.nextDouble();
+						double dx       = segment.direction().x;
+						double dy       = segment.direction().y;
+						double dz       = segment.direction().z;
+						double x        = centerX + dx * fraction;
+						double y        = centerY + dy * fraction;
+						double z        = centerZ + dz * fraction;
+						player.getWorld().addParticle(new DustParticleEffect(new Vector3f(segment.getEffectiveColor()), 1.0F), x, y, z, dx, dy, dz);
+					}
 				}
 			}
 		}
-
-		buffer.setInt(sizePosition, size);
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void handle(ClientPlayerEntity player, PacketSender responseSender) {
-		//todo: migrate to actual geometry instead of spawning particles.
-		Random random = player.world.random;
-		ObjectIterator < Long2ObjectMap.Entry <BasicSectionBeamStorage>> sectionIterator = this.beam.seen.long2ObjectEntrySet().fastIterator();
-		while (sectionIterator.hasNext()) {
-			Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-			double sectionStartX = (ChunkSectionPos.unpackX(sectionEntry.longKey) << 4) + 0.5D;
-			double sectionStartY = (ChunkSectionPos.unpackY(sectionEntry.longKey) << 4) + 0.5D;
-			double sectionStartZ = (ChunkSectionPos.unpackZ(sectionEntry.longKey) << 4) + 0.5D;
-			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.value.short2ObjectEntrySet().fastIterator();
-			while (blockIterator.hasNext()) {
-				Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-				double centerX = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.shortKey);
-				double centerY = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.shortKey);
-				double centerZ = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.shortKey);
-				for (BeamSegment segment : blockEntry.value) {
-					double fraction = random.nextDouble();
-					double dx       = segment.direction.x;
-					double dy       = segment.direction.y;
-					double dz       = segment.direction.z;
-					double x        = centerX + dx * fraction;
-					double y        = centerY + dy * fraction;
-					double z        = centerZ + dz * fraction;
-					player.world.addParticle(new DustParticleEffect(new Vector3f(segment.effectiveColor), 1.0F), x, y, z, dx, dy, dz);
-				}
-			}
-		}
-	}
-
-	@Override
-	public PacketType<?> getType() {
-		return BigTechClientNetwork.PULSE_BEAM;
 	}
 }

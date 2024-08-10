@@ -32,7 +32,7 @@ public class SorterBeltScreenHandler extends BigTechScreenHandler {
 			Slot slot = this.slots.get(slotIndex);
 			if (slot instanceof TemplateSlot) {
 				switch (actionType) {
-					case PICKUP -> slot.setStack(this.cursorStack.copyWithCount(1));
+					case PICKUP -> slot.setStack(this.getCursorStack().copyWithCount(1));
 					case QUICK_MOVE, THROW, PICKUP_ALL -> slot.setStack(ItemStack.EMPTY);
 					case SWAP, QUICK_CRAFT -> {}
 					case CLONE -> { break vanilla; }

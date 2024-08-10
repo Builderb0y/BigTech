@@ -15,8 +15,8 @@ public class LightningRenderer {
 
 	public static RenderLayer LIGHTNING_LAYER;
 	static {
-		RenderLayer layer = RenderLayer.lightning;
-		if (FabricLoader.instance.isModLoaded("iris")) {
+		RenderLayer layer = RenderLayer.getLightning();
+		if (FabricLoader.getInstance().isModLoaded("iris")) {
 			BigTechMod.LOGGER.info("Iris is installed. Will use its lightning render layer.");
 			try {
 				layer = Class.forName("net.coderbot.iris.pipeline.LightningHandler").getDeclaredField("IRIS_LIGHTNING").get(null).as();
@@ -227,15 +227,16 @@ public class LightningRenderer {
 		crossY *= scalar;
 		crossZ *= scalar;
 
-		buffer.vertex(matrix, (float)(startX + crossX), (float)(startY + crossY), (float)(startZ + crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F).next();
-		buffer.vertex(matrix, (float)(  endX + crossX), (float)(  endY + crossY), (float)(  endZ + crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F).next();
-		buffer.vertex(matrix, (float)(  endX         ), (float)(  endY         ), (float)(  endZ         )).color(1.0F, 1.0F,  1.0F, 0.5F).next();
-		buffer.vertex(matrix, (float)(startX         ), (float)(startY         ), (float)(startZ         )).color(1.0F, 1.0F,  1.0F, 0.5F).next();
+		buffer
+		.vertex(matrix, (float)(startX + crossX), (float)(startY + crossY), (float)(startZ + crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F)
+		.vertex(matrix, (float)(  endX + crossX), (float)(  endY + crossY), (float)(  endZ + crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F)
+		.vertex(matrix, (float)(  endX         ), (float)(  endY         ), (float)(  endZ         )).color(1.0F, 1.0F,  1.0F, 0.5F)
+		.vertex(matrix, (float)(startX         ), (float)(startY         ), (float)(startZ         )).color(1.0F, 1.0F,  1.0F, 0.5F)
 
-		buffer.vertex(matrix, (float)(startX         ), (float)(startY         ), (float)(startZ         )).color(1.0F, 1.0F,  1.0F, 0.5F).next();
-		buffer.vertex(matrix, (float)(  endX         ), (float)(  endY         ), (float)(  endZ         )).color(1.0F, 1.0F,  1.0F, 0.5F).next();
-		buffer.vertex(matrix, (float)(  endX - crossX), (float)(  endY - crossY), (float)(  endZ - crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F).next();
-		buffer.vertex(matrix, (float)(startX - crossX), (float)(startY - crossY), (float)(startZ - crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F).next();
+		.vertex(matrix, (float)(startX         ), (float)(startY         ), (float)(startZ         )).color(1.0F, 1.0F,  1.0F, 0.5F)
+		.vertex(matrix, (float)(  endX         ), (float)(  endY         ), (float)(  endZ         )).color(1.0F, 1.0F,  1.0F, 0.5F)
+		.vertex(matrix, (float)(  endX - crossX), (float)(  endY - crossY), (float)(  endZ - crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F)
+		.vertex(matrix, (float)(startX - crossX), (float)(startY - crossY), (float)(startZ - crossZ)).color(0.0F, 0.25F, 0.5F, 0.0F);
 	}
 
 	public static interface LightningRenderConsumer {

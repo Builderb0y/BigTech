@@ -2,6 +2,7 @@ package builderb0y.bigtech.items;
 
 import java.util.stream.Stream;
 
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,17 +25,17 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 
 	@Override
 	public int getCharge(ItemStack stack) {
-		return stack.maxDamage - stack.damage;
+		return stack.getMaxDamage() - stack.getDamage();
 	}
 
 	@Override
 	public int getMaxCharge(ItemStack stack) {
-		return stack.maxDamage;
+		return stack.getMaxDamage();
 	}
 
 	@Override
 	public void setCharge(ItemStack stack, int charge) {
-		stack.setDamage(this.maxDamage - charge);
+		stack.setDamage(this.getComponents().get(DataComponentTypes.MAX_DAMAGE) - charge);
 	}
 
 	@Override
@@ -56,8 +57,8 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 				charge / 200.0F,
 				new DamageSource(
 					entity
-					.world
-					.registryManager
+					.getWorld()
+					.getRegistryManager()
 					.get(RegistryKeys.DAMAGE_TYPE)
 					.entryOf(BigTechDamageTypes.SHOCKING)
 				)
@@ -90,9 +91,9 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 
 	@Override
 	public Stream<ItemStack> getInventoryStacks() {
-		ItemStack empty = this.defaultStack;
-		empty.setDamage(empty.maxDamage);
-		ItemStack charged = this.defaultStack;
+		ItemStack empty = this.getDefaultStack();
+		empty.setDamage(empty.getMaxDamage());
+		ItemStack charged = this.getDefaultStack();
 		return Stream.of(empty, charged);
 	}
 }

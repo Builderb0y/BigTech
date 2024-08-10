@@ -41,7 +41,7 @@ public abstract class ChunkBlockLightProvider_AllowBeamsToEmitLight extends Chun
 					LinkedList<BeamSegment> segments = sectionStorage.checkSegments(x, y, z);
 					if (segments != null) {
 						for (BeamSegment segment : segments) {
-							oldValue = Math.max(oldValue, ((PersistentBeam)(segment.beam)).getLightLevel(segment));
+							oldValue = Math.max(oldValue, segment.beam().<PersistentBeam>as().getLightLevel(segment));
 							if (oldValue >= 15) return oldValue;
 						}
 					}

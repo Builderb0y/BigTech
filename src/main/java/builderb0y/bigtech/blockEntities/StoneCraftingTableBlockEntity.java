@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
@@ -28,29 +29,29 @@ public class StoneCraftingTableBlockEntity extends LootableContainerBlockEntity 
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.readNbt(nbt, registryLookup);
 		this.inventory.clear();
-		if (!this.deserializeLootTable(nbt)) {
-			Inventories.readNbt(nbt, this.inventory);
+		if (!this.readLootTable(nbt)) {
+			Inventories.readNbt(nbt, this.inventory, registryLookup);
 		}
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
-		if (!this.serializeLootTable(nbt)) {
-			Inventories.writeNbt(nbt, this.inventory);
+	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+		super.writeNbt(nbt, registryLookup);
+		if (!this.writeLootTable(nbt)) {
+			Inventories.writeNbt(nbt, this.inventory, registryLookup);
 		}
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getInvStackList() {
+	public DefaultedList<ItemStack> getHeldStacks() {
 		return this.inventory;
 	}
 
 	@Override
-	public void setInvStackList(DefaultedList<ItemStack> list) {
+	public void setHeldStacks(DefaultedList<ItemStack> list) {
 		this.inventory = list;
 	}
 

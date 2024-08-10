@@ -13,6 +13,6 @@ public class MinerDataGenerator extends InventoryDataGenerator {
 
 	@Override
 	public String getLangKey(DataGenContext context) {
-		return Util.createTranslationKey("entity", this.id);
+		return Util.createTranslationKey("entity", this.getId());
 	}
 }

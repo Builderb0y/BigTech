@@ -33,7 +33,7 @@ public interface BeamInteractor {
 	for {@link Blocks#GLASS} and {@link Blocks#GLASS_PANE}.
 	*/
 	public static final BeamInteractor TRANSPARENT_BLOCK = (SpreadingBeamSegment inputSegment, BlockState state) -> {
-		inputSegment.beam.addSegment(inputSegment.extend());
+		inputSegment.beam().addSegment(inputSegment.extend());
 		return true;
 	};
 
@@ -99,10 +99,10 @@ public interface BeamInteractor {
 					int extraDistance = beacon.bigtech_getLevel() << 5;
 					return (SpreadingBeamSegment inputSegment, BlockState state1) -> {
 						if (extraDistance == 0) {
-							inputSegment.beam.addSegment(inputSegment.terminate());
+							inputSegment.beam().addSegment(inputSegment.terminate());
 						}
 						else {
-							inputSegment.beam.addSegment(inputSegment.extend(inputSegment.distanceRemaining + extraDistance, BeamDirection.UP));
+							inputSegment.beam().addSegment(inputSegment.extend(inputSegment.distanceRemaining() + extraDistance, BeamDirection.UP));
 						}
 						return true;
 					};
@@ -112,20 +112,25 @@ public interface BeamInteractor {
 			Blocks.BEACON
 		);
 		LOOKUP.registerFallback((World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Beam beam) -> {
-			if (state.block instanceof BeamInteractor interactor) {
+			if (state.getBlock() instanceof BeamInteractor interactor) {
 				return interactor;
 			}
 			BeaconBeamColorProvider provider = BeaconBeamColorProvider.LOOKUP.find(world, pos, state, blockEntity, null);
 			if (provider != null) {
-				float[] color = provider.getBeaconColor(world, pos, state);
-				if (color != null) {
-					Vector3f actualColor = new Vector3f(color[0], color[1], color[2]);
+				int color = provider.getBeaconColor(world, pos, state);
+				if (color != 0) {
+					Vector3f actualColor = new Vector3f(
+						BeaconBeamColorProvider.getRed(color),
+						BeaconBeamColorProvider.getGreen(color),
+						BeaconBeamColorProvider.getBlue(color)
+					)
+					.div(255.0F);
 					return (SpreadingBeamSegment inputSegment, BlockState state1) -> {
-						if (inputSegment.segment.color == null || inputSegment.segment.color.equals(actualColor)) {
-							inputSegment.beam.addSegment(inputSegment.withColor(actualColor).extend());
+						if (inputSegment.segment().color() == null || inputSegment.segment().color().equals(actualColor)) {
+							inputSegment.beam().addSegment(inputSegment.withColor(actualColor).extend());
 						}
 						else {
-							inputSegment.beam.addSegment(inputSegment.terminate());
+							inputSegment.beam().addSegment(inputSegment.terminate());
 						}
 						return true;
 					};

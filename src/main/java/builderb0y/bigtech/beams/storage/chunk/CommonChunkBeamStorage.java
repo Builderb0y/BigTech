@@ -41,15 +41,15 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 	}
 
 	public void writeToNbt(NbtCompound tag) {
-		if (!this.isEmpty) {
+		if (!this.isEmpty()) {
 			NbtList sectionsNbt = tag.createSubList("sections");
 			try (AsyncRunner async = new AsyncRunner()) {
 				ObjectIterator<Int2ObjectMap.Entry<CommonSectionBeamStorage>> iterator = this.int2ObjectEntrySet().fastIterator();
 				while (iterator.hasNext()) {
 					Int2ObjectMap.Entry<CommonSectionBeamStorage> entry = iterator.next();
-					CommonSectionBeamStorage sectionStorage = entry.value;
-					if (!sectionStorage.isEmpty) {
-						NbtCompound compound = sectionsNbt.createCompound().withInt("coord", entry.intKey);
+					CommonSectionBeamStorage sectionStorage = entry.getValue();
+					if (!sectionStorage.isEmpty()) {
+						NbtCompound compound = sectionsNbt.createCompound().withInt("coord", entry.getIntKey());
 						async.submit(() -> sectionStorage.writeToNbt(compound, true));
 					}
 				}
@@ -60,7 +60,7 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 	public void readFromNbt(NbtCompound tag) {
 		this.clear();
 		NbtList sectionsNbt = tag.getList("sections", NbtElement.COMPOUND_TYPE);
-		if (!sectionsNbt.isEmpty) try (AsyncRunner async = new AsyncRunner()) {
+		if (!sectionsNbt.isEmpty()) try (AsyncRunner async = new AsyncRunner()) {
 			for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
 				NbtElement coord = sectionNbt.get("coord");
 				if (!(coord instanceof AbstractNbtNumber)) {
@@ -89,13 +89,13 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 	*/
 	public void copyFrom(CommonChunkBeamStorage other) {
 		this.clear();
-		if (!other.isEmpty) {
+		if (!other.isEmpty()) {
 			try (AsyncRunner async = new AsyncRunner()) {
 				ObjectIterator<Int2ObjectMap.Entry<CommonSectionBeamStorage>> iterator = other.int2ObjectEntrySet().fastIterator();
 				while (iterator.hasNext()) {
 					Int2ObjectMap.Entry<CommonSectionBeamStorage> entry = iterator.next();
-					CommonSectionBeamStorage thisSection = this.getSection(entry.intKey);
-					CommonSectionBeamStorage thatSection = entry.value;
+					CommonSectionBeamStorage thisSection = this.getSection(entry.getIntKey());
+					CommonSectionBeamStorage thatSection = entry.getValue();
 					async.submit(() -> thisSection.addAll(thatSection, false));
 				}
 			}
@@ -107,19 +107,19 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 		ObjectIterator<Int2ObjectMap.Entry<CommonSectionBeamStorage>> sectionIterator = this.int2ObjectEntrySet().fastIterator();
 		while (sectionIterator.hasNext()) {
 			Int2ObjectMap.Entry<CommonSectionBeamStorage> sectionEntry = sectionIterator.next();
-			buffer.writeInt(sectionEntry.intKey);
+			buffer.writeInt(sectionEntry.getIntKey());
 			int countPosition = buffer.writerIndex();
 			int count = 0;
 			buffer.writeInt(0); //allocate space to hold count.
-			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.value.short2ObjectEntrySet().fastIterator();
+			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
 			while (blockIterator.hasNext()) {
 				Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-				for (BeamSegment segment : blockEntry.value) {
-					if (segment.visible) {
-						buffer.writeShort(blockEntry.shortKey);
-						buffer.writeByte(segment.direction.ordinal());
-						buffer.writeUuid(segment.beam.uuid);
-						buffer.writeMedium(BeamSegment.packRgb(segment.effectiveColor));
+				for (BeamSegment segment : blockEntry.getValue()) {
+					if (segment.visible()) {
+						buffer.writeShort(blockEntry.getShortKey());
+						buffer.writeByte(segment.direction().ordinal());
+						buffer.writeUuid(segment.beam().uuid);
+						buffer.writeMedium(BeamSegment.packRgb(segment.getEffectiveColor()));
 						count++;
 					}
 				}
@@ -130,7 +130,7 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 
 	public void applySyncPacket(PacketByteBuf buffer) {
 		this.clear();
-		CommonWorldBeamStorage world = CommonWorldBeamStorage.KEY.get(this.chunk.world);
+		CommonWorldBeamStorage world = CommonWorldBeamStorage.KEY.get(this.chunk.getWorld());
 		int sectionCount = buffer.readVarInt();
 		for (int sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++) {
 			int sectionY = buffer.readInt();

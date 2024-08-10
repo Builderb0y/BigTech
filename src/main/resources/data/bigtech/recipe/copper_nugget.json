@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"pattern": [
+		"i"
+	],
+	"key": {
+		"i": { "tag": "c:ingots/copper" }
+	},
+	"result": {
+		"id": "bigtech:copper_nugget",
+		"count": 9
+	}
+}

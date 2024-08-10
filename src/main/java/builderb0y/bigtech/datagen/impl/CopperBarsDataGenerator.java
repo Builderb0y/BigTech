@@ -32,7 +32,7 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
-			context.blockstatePath(this.id),
+			context.blockstatePath(this.getId()),
 			context.replace(
 				//language=json
 				"""
@@ -60,9 +60,9 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 		if (!this.type.waxed) {
 			for (String suffix : new String[] { "_cap_alt", "_cap", "_post_ends", "_post", "_side_alt", "_side" }) {
 				context.writeToFile(
-					context.blockModelPath(context.suffixPath(this.id, suffix)),
+					context.blockModelPath(context.suffixPath(this.getId(), suffix)),
 					new RetexturedModelBuilder()
-					.blockParent(new Identifier("minecraft", "iron_bars${suffix}"))
+					.blockParent(Identifier.ofVanilla("iron_bars${suffix}"))
 					.blockTexture("bars",     BigTechMod.modID("${this.type.prefix}bars"))
 					.blockTexture("edge",     BigTechMod.modID("${this.type.prefix}bars"))
 					.blockTexture("particle", BigTechMod.modID("${this.type.prefix}bars"))
@@ -75,9 +75,9 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
-			context.itemModelPath(this.id),
+			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.itemParent(new Identifier("minecraft", "generated"))
+			.itemParent(Identifier.ofVanilla("generated"))
 			.blockTexture("layer0", BigTechMod.modID(this.type.notWaxed().prefix + "bars"))
 			.toString()
 		);
@@ -99,37 +99,37 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.COPPER_BARS).addElement(this.id);
+		context.getTags(BigTechBlockTags.COPPER_BARS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.COPPER_BARS).addElement(this.id);
+		context.getTags(BigTechItemTags.COPPER_BARS).addElement(this.getId());
 	}
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		if (this.type == CopperRegistrableCollection.Type.COPPER) {
 			context.writeToFile(
-				context.recipePath(this.id),
+				context.recipePath(this.getId()),
 				new ShapedRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.pattern("ccc", "ccc")
 				.where('c', ConventionalItemTags.COPPER_INGOTS)
-				.result(this.id)
+				.result(this.getId())
 				.count(16)
 				.toString()
 			);
 		}
 		else if (this.type.waxed) {
 			context.writeToFile(
-				context.recipePath(this.id),
+				context.recipePath(this.getId()),
 				new ShapelessRecipeBuilder()
 				.category(CraftingRecipeCategory.BUILDING)
 				.group(BigTechMod.modID("waxed_copper_bars"))
 				.ingredient(DecoItems.COPPER_BARS.get(this.type.notWaxed()))
 				.ingredient(Items.HONEYCOMB)
-				.result(this.id)
+				.result(this.getId())
 				.toString()
 			);
 		}

@@ -30,25 +30,29 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 
 	public AbstractBeltBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.WATERLOGGED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.WATERLOGGED, Boolean.FALSE)
+		);
 	}
 
 	public abstract void move(World world, BlockPos pos, BlockState state, Entity entity);
 
 	public boolean canMove(World world, BlockPos pos, BlockState state, Entity entity) {
 		return (
-			entity.isAlive &&
-			!entity.isSpectator &&
-			!entity.isSneaking &&
-			!(entity instanceof PlayerEntity player && player.abilities.flying)
+			entity.isAlive() &&
+			!entity.isSpectator() &&
+			!entity.isSneaking() &&
+			!(entity instanceof PlayerEntity player && player.getAbilities().flying)
 		);
 	}
 
 	public boolean isOnBelt(World world, BlockPos pos, BlockState state, Entity entity) {
 		return (
-			MathHelper.floor(entity.pos.x) == pos.x &&
-			MathHelper.floor(entity.pos.z) == pos.z &&
-			MathHelper.approximatelyEquals(entity.pos.y, pos.y + 0.0625D)
+			MathHelper.floor(entity.getPos().x) == pos.getX() &&
+			MathHelper.floor(entity.getPos().z) == pos.getZ() &&
+			MathHelper.approximatelyEquals(entity.getPos().y, pos.getY() + 0.0625D)
 		);
 	}
 
@@ -106,14 +110,14 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.world.getFluidState(context.blockPos).fluid == Fluids.WATER);
+		return super.getPlacementState(context).with(Properties.WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
-		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).defaultState;
+		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Override

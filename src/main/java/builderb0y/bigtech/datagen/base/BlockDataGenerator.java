@@ -1,12 +1,13 @@
 package builderb0y.bigtech.datagen.base;
 
-import net.fabricmc.fabric.api.mininglevel.v1.FabricMineableTags;
-
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+
+import builderb0y.bigtech.blocks.BigTechBlockTags;
 
 public interface BlockDataGenerator extends LocalizedDataGenerator {
 
@@ -14,7 +15,7 @@ public interface BlockDataGenerator extends LocalizedDataGenerator {
 
 	@Override
 	public default Identifier getId() {
-		return Registries.BLOCK.getId(this.block);
+		return Registries.BLOCK.getId(this.getBlock());
 	}
 
 	@Override
@@ -44,12 +45,12 @@ public interface BlockDataGenerator extends LocalizedDataGenerator {
 	public static class MiningToolTags {
 
 		public static final TagKey<Block>
-			PICKAXE =          BlockTags.PICKAXE_MINEABLE,
-			AXE     =          BlockTags.    AXE_MINEABLE,
-			SHOVEL  =          BlockTags. SHOVEL_MINEABLE,
-			HOE     =          BlockTags.    HOE_MINEABLE,
-			SWORD   = FabricMineableTags.  SWORD_MINEABLE,
-			SHEARS  = FabricMineableTags. SHEARS_MINEABLE;
+			PICKAXE =        BlockTags.PICKAXE_MINEABLE,
+			AXE     =        BlockTags.    AXE_MINEABLE,
+			SHOVEL  =        BlockTags. SHOVEL_MINEABLE,
+			HOE     =        BlockTags.    HOE_MINEABLE,
+			SWORD   =        BlockTags. SWORD_EFFICIENT,
+			SHEARS  = BigTechBlockTags. SHEARS_MINEABLE;
 	}
 
 	public static class MiningLevelTags {

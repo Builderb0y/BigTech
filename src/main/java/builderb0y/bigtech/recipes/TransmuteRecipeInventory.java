@@ -1,13 +1,12 @@
 package builderb0y.bigtech.recipes;
 
-import java.util.Objects;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.input.RecipeInput;
 import net.minecraft.util.math.random.Random;
 
-public class TransmuteRecipeInventory implements SingleStackInventory {
+public class TransmuteRecipeInventory implements SingleStackInventory, RecipeInput {
 
 	public ItemStack stack = ItemStack.EMPTY;
 	public int totalEnergy, slotEnergy;
@@ -23,21 +22,24 @@ public class TransmuteRecipeInventory implements SingleStackInventory {
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
-		Objects.checkIndex(slot, 1);
-		return this.stack;
-	}
-
-	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		Objects.checkIndex(slot, 1);
-		return this.stack.split(amount);
-	}
-
-	@Override
-	public void setStack(int slot, ItemStack stack) {
-		Objects.checkIndex(slot, 1);
+	public void setStack(ItemStack stack) {
 		this.stack = stack;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int slot) {
+		if (slot == 0) return this.stack;
+		else throw new IndexOutOfBoundsException("Slot: ${slot}, size: 1");
+	}
+
+	@Override
+	public int getSize() {
+		return 1;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.stack.isEmpty();
 	}
 
 	@Override

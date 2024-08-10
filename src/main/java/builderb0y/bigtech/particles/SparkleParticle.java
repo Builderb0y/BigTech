@@ -27,10 +27,10 @@ public class SparkleParticle extends BillboardParticle {
 		return (float)(1.0D - Math.cos((this.age + tickDelta) * MathHelper.TAU / this.maxAge) * 0.5D) * this.scale;
 	}
 
-	@Override public float getMinU() { return this.sprite.minU; }
-	@Override public float getMaxU() { return this.sprite.maxU; }
-	@Override public float getMinV() { return this.sprite.minV; }
-	@Override public float getMaxV() { return this.sprite.maxV; }
+	@Override public float getMinU() { return this.sprite.getMinU(); }
+	@Override public float getMaxU() { return this.sprite.getMaxU(); }
+	@Override public float getMinV() { return this.sprite.getMinV(); }
+	@Override public float getMaxV() { return this.sprite.getMaxV(); }
 
 	@Override
 	public ParticleTextureSheet getType() {

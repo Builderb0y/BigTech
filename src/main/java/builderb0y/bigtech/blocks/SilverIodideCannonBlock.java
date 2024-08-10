@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -22,6 +23,7 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.SilverIodideCannonBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class SilverIodideCannonBlock extends Block implements BlockEntityProvider {
@@ -33,6 +35,14 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 			VoxelShapes.cuboid(0.3125D, 0.0625D, 0.3125D, 0.6875D, 1.0D, 0.6875D),
 			BooleanBiFunction.ONLY_FIRST
 		);
+
+	public static final MapCodec<SilverIodideCannonBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public SilverIodideCannonBlock(Settings settings) {
 		super(settings);
@@ -59,9 +69,7 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
 			NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
 			if (factory != null) player.openHandledScreen(factory);

@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "bigtech:copper_slabs",
+	"ingredients": [
+		{ "item": "bigtech:oxidized_copper_slab" },
+		{ "item": "bigtech:oxidized_copper_slab" },
+		{ "item": "minecraft:honeycomb"          }
+	],
+	"result": {
+		"id": "bigtech:waxed_oxidized_copper_slab",
+		"count": 2
+	}
+}

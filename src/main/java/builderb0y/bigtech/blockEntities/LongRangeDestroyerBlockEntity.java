@@ -20,7 +20,7 @@ public class LongRangeDestroyerBlockEntity extends AbstractDestroyerBlockEntity 
 
 	@Override
 	public void doTick() {
-		if (CommonWorldBeamStorage.KEY.get(this.world).getBeam(this.pos) instanceof DestroyerBeam destroyerBeam) {
+		if (CommonWorldBeamStorage.KEY.get(this.getWorld()).getBeam(this.getPos()) instanceof DestroyerBeam destroyerBeam) {
 			if (destroyerBeam.serverTick(this.inventory.get(0))) {
 				this.markDirty();
 			}

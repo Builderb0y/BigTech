@@ -29,8 +29,8 @@ public class BigTechItemGroups {
 
 	@UseDataGen(ItemGroupDataGenerator.class)
 	public static final ItemGroup
-		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.BELT.defaultStack),
-		DECO = register("deco", DECO_ITEMS, () -> DecoItems.IRON_FRAME.defaultStack);
+		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.BELT.getDefaultStack()),
+		DECO = register("deco", DECO_ITEMS, () -> DecoItems.IRON_FRAME.getDefaultStack());
 
 	public static void init() {}
 
@@ -54,15 +54,15 @@ public class BigTechItemGroups {
 			.filter((Field field) -> (field.getModifiers() & (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL)) == (Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL))
 			.flatMap((Field field) -> {
 				try {
-					if (Item.class.isAssignableFrom(field.type)) {
+					if (Item.class.isAssignableFrom(field.getType())) {
 						Item item = field.get(null).as();
 						if (item instanceof InventoryVariants variants) {
 							return variants.getInventoryStacks();
 						}
-						return Stream.of(item.defaultStack);
+						return Stream.of(item.getDefaultStack());
 					}
-					else if (RegistrableCollection.class.isAssignableFrom(field.type)) {
-						return Arrays.stream(field.get(null).<RegistrableCollection<?>>as().getRegistrableVariants()).map(variant -> variant.object.<Item>as().defaultStack);
+					else if (RegistrableCollection.class.isAssignableFrom(field.getType())) {
+						return Arrays.stream(field.get(null).<RegistrableCollection<?>>as().getRegistrableVariants()).map(variant -> variant.object().<Item>as().getDefaultStack());
 					}
 					else {
 						return Stream.empty();

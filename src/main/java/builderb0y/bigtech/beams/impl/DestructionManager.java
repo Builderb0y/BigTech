@@ -1,17 +1,20 @@
 package builderb0y.bigtech.beams.impl;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.fabricmc.fabric.api.entity.FakePlayer;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ToolComponent;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -24,12 +27,23 @@ import builderb0y.bigtech.util.WorldHelper;
 public class DestructionManager {
 
 	public static final WeakHashMap<World, DestructionManager> WORLDS = new WeakHashMap<>(3);
+	public static final WeakReference<FakePlayer> EMPTY_FAKE_PLAYER = new WeakReference<>(null);
 
 	public final World world;
 	public final Map<BlockPos, Info> breakingPositions = new HashMap<>(16);
+	public WeakReference<FakePlayer> fakePlayer = EMPTY_FAKE_PLAYER;
 
 	public DestructionManager(World world) {
 		this.world = world;
+	}
+
+	public FakePlayer getFakePlayer() {
+		WeakReference<FakePlayer> holder = this.fakePlayer;
+		FakePlayer player = holder.get();
+		if (player == null) {
+			this.fakePlayer = new WeakReference<>(player = FakePlayer.get(this.world.as()));
+		}
+		return player;
 	}
 
 	public static DestructionManager forWorld(World world) {
@@ -47,37 +61,36 @@ public class DestructionManager {
 	}
 
 	public IncreaseDamageResult increaseDamage(BlockPos pos, BlockState actualState, float baseSpeed, ItemStack tool) {
-		if (!actualState.isToolRequired || tool.isSuitableFor(actualState)) {
-			float hardness = actualState.getHardness(this.world, pos);
-			if (hardness > 0.0F) {
-				float speed = tool.getMiningSpeedMultiplier(actualState);
-				if (speed > 1.0F) {
-					int efficiency = EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, tool);
-					if (efficiency > 0 && !tool.isEmpty) {
-						speed += efficiency * efficiency + 1;
-					}
-				}
-				speed /= hardness * 30.0F;
-				speed *= baseSpeed;
-
+		if (!actualState.isToolRequired() || tool.isSuitableFor(actualState)) {
+			FakePlayer player = this.getFakePlayer();
+			player.setOnGround(true);
+			ItemStack oldHeldItem = player.getStackInHand(Hand.MAIN_HAND);
+			player.setStackInHand(Hand.MAIN_HAND, tool);
+			float delta;
+			try {
+				delta = actualState.calcBlockBreakingDelta(player, this.world, pos) * baseSpeed;
+			}
+			finally {
+				player.setStackInHand(Hand.MAIN_HAND, oldHeldItem);
+			}
+			if (delta > 0.0F) {
 				DestructionManager.Info info = this.getInfo(pos);
-				info.progress += speed;
+				info.progress += delta;
 				this.world.setBlockBreakingInfo(info.breakerID, pos, (int)(info.progress * 10.0F));
 				if (info.progress >= 1.0F) {
 					this.breakingPositions.remove(pos);
-					WorldHelper.destroyBlockWithTool((ServerWorld)(this.world), pos, actualState, tool);
-					if (tool.damage(1, this.world.random, null)) {
-						tool.decrement(1);
-						tool.setDamage(0);
+					WorldHelper.destroyBlockWithTool(this.world.as(), pos, actualState, tool);
+					if (actualState.getHardness(this.world, pos) != 0.0F) {
+						ToolComponent toolComponent = tool.get(DataComponentTypes.TOOL);
+						if (toolComponent != null && toolComponent.damagePerBlock() > 0) {
+							tool.damage(toolComponent.damagePerBlock(), this.world.as(), null, (Item item) -> {});
+							return IncreaseDamageResult.DESTROYED_AND_DAMAGED_TOOL;
+						}
 					}
-					return IncreaseDamageResult.DESTROYED_AND_DAMAGED_TOOL;
+					return IncreaseDamageResult.DESTROYED;
 				}
 			}
-			else if (hardness == 0.0F) {
-				WorldHelper.destroyBlockWithTool((ServerWorld)(this.world), pos, actualState, tool);
-				return IncreaseDamageResult.DESTROYED;
-			}
-			else { //hardness is negative. or NaN for whatever reason. either way, treat as unbreakable.
+			else { //made no progress; treat the block as unbreakable.
 				this.resetProgress(pos);
 			}
 		}
@@ -102,7 +115,7 @@ public class DestructionManager {
 		}
 
 		public Info(BlockPos pos) {
-			this.breakerID = IntRng.permute(0, pos.x, pos.y, pos.z);
+			this.breakerID = IntRng.permute(0, pos.getX(), pos.getY(), pos.getZ());
 		}
 	}
 
@@ -152,7 +165,7 @@ public class DestructionManager {
 			StateHarvestable data = this.inactive.get(pos);
 			BlockState expectedState = data.state;
 			BlockState actualState = this.world.getBlockState(pos);
-			if (actualState.block == expectedState.block) {
+			if (actualState.getBlock() == expectedState.getBlock()) {
 				if (data.harvestable.canHarvest(this.world, pos, actualState)) {
 					IncreaseDamageResult result = manager.increaseDamage(pos, actualState, this.destroySpeed, tool);
 					if (result != IncreaseDamageResult.DIDNT_DESTROY) {
@@ -174,9 +187,9 @@ public class DestructionManager {
 		@Override
 		public void queueNeighbor(BlockPos pos, BlockState state, Harvestable logic) {
 			if (
-				MathHelper.square(pos.x - this.origin.x) +
-				MathHelper.square(pos.y - this.origin.y) +
-				MathHelper.square(pos.z - this.origin.z)
+				MathHelper.square(pos.getX() - this.origin.getX()) +
+				MathHelper.square(pos.getY() - this.origin.getY()) +
+				MathHelper.square(pos.getZ() - this.origin.getZ())
 				<= this.maxDistanceSquared
 			) {
 				pos = pos.toImmutable();

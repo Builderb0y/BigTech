@@ -21,7 +21,7 @@ public class DestroyerHandledScreen extends BigTechHandledScreen<DestroyerScreen
 	@Override
 	public void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		super.drawBackground(context, delta, mouseX, mouseY);
-		if (this.handler.inventory.getStack(0).isEmpty) {
+		if (this.handler.inventory.getStack(0).isEmpty()) {
 			context.drawTexture(
 				this.getBackgroundTexture(),
 				((this.width - this.backgroundWidth) >> 1) + 80,

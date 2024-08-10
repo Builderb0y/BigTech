@@ -16,23 +16,23 @@ public class IronLadderDataGenerator extends MetalLadderDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.METAL_LADDERS).addElement(this.id);
+		context.getTags(BigTechBlockTags.METAL_LADDERS).addElement(this.getId());
 	}
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.METAL_LADDERS).addElement(this.id);
+		context.getTags(BigTechItemTags.METAL_LADDERS).addElement(this.getId());
 	}
 
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.BUILDING)
 			.pattern("i i", "iii", "i i")
 			.where('i', BigTechItemTags.IRON_NUGGETS)
-			.result(this.id)
+			.result(this.getId())
 			.count(3)
 			.toString()
 		);

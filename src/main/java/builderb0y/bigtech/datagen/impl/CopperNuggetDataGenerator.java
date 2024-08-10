@@ -1,6 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -22,7 +22,7 @@ public class CopperNuggetDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.MISC)
 			.pattern("i")
@@ -45,6 +45,6 @@ public class CopperNuggetDataGenerator extends BasicItemDataGenerator {
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.COPPER_NUGGETS).addElement(this.id);
+		context.getTags(BigTechItemTags.COPPER_NUGGETS).addElement(this.getId());
 	}
 }

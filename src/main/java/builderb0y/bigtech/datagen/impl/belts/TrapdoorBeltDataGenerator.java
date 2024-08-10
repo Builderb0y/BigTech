@@ -17,13 +17,13 @@ public class TrapdoorBeltDataGenerator extends DirectionalBeltDataGenerator {
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
-		this.writeBeltBlockModel(context, context.suffixPath(this.id, "_closed"));
-		this.writeBeltBlockModel(context, context.suffixPath(this.id, "_open"));
+		this.writeBeltBlockModel(context, context.suffixPath(this.getId(), "_closed"));
+		this.writeBeltBlockModel(context, context.suffixPath(this.getId(), "_open"));
 	}
 
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
-		return context.suffixPath(this.id, "_closed");
+		return context.suffixPath(this.getId(), "_closed");
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class TrapdoorBeltDataGenerator extends DirectionalBeltDataGenerator {
 			state,
 			context.prefixSuffixPath(
 				"block/",
-				this.id,
+				this.getId(),
 				state.get(Properties.POWERED) == state.get(Properties.INVERTED) ? "_closed" : "_open"
 			)
 			.toString(),

@@ -21,11 +21,11 @@ public class QuadLightningElectrodeDataGenerator extends BasicItemDataGenerator 
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("ee", "ee")
 			.where('e', FunctionalItems.LIGHTNING_ELECTRODE)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

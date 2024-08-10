@@ -1,9 +1,11 @@
 package builderb0y.bigtech;
 
-import dev.onyxstudios.cca.api.v3.chunk.ChunkComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.chunk.ChunkComponentInitializer;
-import dev.onyxstudios.cca.api.v3.world.WorldComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.world.WorldComponentInitializer;
+import org.ladysnake.cca.api.v3.chunk.ChunkComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.chunk.ChunkComponentInitializer;
+import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
+
+import net.minecraft.world.World;
 
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.world.ClientWorldBeamStorage;
@@ -19,7 +21,7 @@ public class CardinalComponentsEntrypoint implements WorldComponentInitializer, 
 
 	@Override
 	public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry) {
-		registry.register(CommonWorldBeamStorage.KEY, world -> {
+		registry.register(CommonWorldBeamStorage.KEY, (World world) -> {
 			if (world.isClient) {
 				return new ClientWorldBeamStorage(world);
 			}

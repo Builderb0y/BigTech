@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"cc",
+		"cc"
+	],
+	"key": {
+		"c": { "tag": "minecraft:stone_crafting_materials" }
+	},
+	"result": {
+		"id": "bigtech:stone_crafting_table"
+	}
+}

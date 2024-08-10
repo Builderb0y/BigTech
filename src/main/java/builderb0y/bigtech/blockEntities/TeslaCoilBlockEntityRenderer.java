@@ -13,6 +13,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import builderb0y.bigtech.blockEntities.TeslaCoilBlockEntity.Target;
@@ -33,20 +34,21 @@ public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCo
 		int overlay
 	) {
 		VertexConsumer buffer = vertexConsumers.getBuffer(LightningRenderer.LIGHTNING_LAYER);
-		Matrix4f matrix = matrices.peek().positionMatrix;
-		Vec3d camera = MinecraftClient.instance.gameRenderer.camera.pos.subtract(blockEntity.pos.toCenterPos());
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
+		BlockPos blockEntityPos = blockEntity.getPos();
+		Vec3d camera = MinecraftClient.getInstance().gameRenderer.getCamera().getPos().subtract(blockEntityPos.toCenterPos());
 		for (int index = 0; index < 8; index++) {
 			Target target = blockEntity.targets[index];
 			if (target == null) continue;
 			float age = index + tickDelta;
 			LightningRenderer.generatePoints(
 				new SplittableRandom(target.seed),
-				target.startX - blockEntity.pos.x,
-				target.startY - blockEntity.pos.y,
-				target.startZ - blockEntity.pos.z,
-				target.endX   - blockEntity.pos.x,
-				target.endY   - blockEntity.pos.y,
-				target.endZ   - blockEntity.pos.z,
+				target.startX - blockEntityPos.getX(),
+				target.startY - blockEntityPos.getY(),
+				target.startZ - blockEntityPos.getZ(),
+				target.endX   - blockEntityPos.getX(),
+				target.endY   - blockEntityPos.getY(),
+				target.endZ   - blockEntityPos.getZ(),
 				6,
 				0.0625D,
 				(

@@ -16,6 +16,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockRenderView;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.BeamSegment;
@@ -61,8 +63,8 @@ public class BigTechBlocks {
 		DecoBlocks.init();
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.         BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.  SPEEDY_BELT, PathNodeType.RAIL, null);
-		LandPathNodeTypesRegistry.register(FunctionalBlocks.   BRAKE_BELT, (state, neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
-		LandPathNodeTypesRegistry.register(FunctionalBlocks.TRAPDOOR_BELT, (state, neighbor) -> state.get(Properties.POWERED) != state.get(Properties.INVERTED) && !neighbor ? PathNodeType.RAIL : null);
+		LandPathNodeTypesRegistry.register(FunctionalBlocks.   BRAKE_BELT, (BlockState state, boolean neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
+		LandPathNodeTypesRegistry.register(FunctionalBlocks.TRAPDOOR_BELT, (BlockState state, boolean neighbor) -> state.get(Properties.POWERED) != state.get(Properties.INVERTED) && !neighbor ? PathNodeType.RAIL : null);
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.DIRECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.DETECTOR_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.  SORTER_BELT, PathNodeType.RAIL, null);
@@ -74,7 +76,7 @@ public class BigTechBlocks {
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
 		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.cutout,
+			RenderLayer.getCutout(),
 			FunctionalBlocks.TRAPDOOR_BELT,
 			FunctionalBlocks.ASCENDER,
 			FunctionalBlocks.DESCENDER,
@@ -89,7 +91,7 @@ public class BigTechBlocks {
 			FunctionalBlocks.BEAM_INTERCEPTOR
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.cutout,
+			RenderLayer.getCutout(),
 			Stream.of(
 				DecoBlocks.COPPER_FRAMES,
 				DecoBlocks.WOOD_FRAMES,
@@ -104,7 +106,7 @@ public class BigTechBlocks {
 			.toArray(Block[]::new)
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.cutoutMipped,
+			RenderLayer.getCutoutMipped(),
 			FunctionalBlocks.SILVER_IODIDE_CANNON
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
@@ -120,7 +122,7 @@ public class BigTechBlocks {
 			.toArray(Block[]::new)
 		);
 		ColorProviderRegistry.BLOCK.register(
-			(state, world, pos, tintIndex) -> {
+			(BlockState state, BlockRenderView world, BlockPos pos, int tintIndex) -> {
 				BeamInterceptorBlockEntity blockEntity;
 				if (tintIndex == 1 && world != null && pos != null && (blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class)) != null && blockEntity.color != null) {
 					return BeamSegment.packRgb(blockEntity.color) | 0xFF000000;

@@ -36,7 +36,7 @@ public class CrystalBakedModel implements BakedModel {
 	public CrystalBakedModel(Sprite sprite, ModelTransformation transformation) {
 		this.sprite = sprite;
 		this.transformation = transformation;
-		this.spriteHash = sprite.contents.id.hashCode();
+		this.spriteHash = sprite.getContents().getId().hashCode();
 	}
 
 	@Override
@@ -103,9 +103,9 @@ public class CrystalBakedModel implements BakedModel {
 			maxY = (posY + sizeY) * 0.0625D,
 			maxZ = (posZ + sizeZ) * 0.0625D;
 		return new Vec3d(
-			pos.x + (random.nextBoolean() ? maxX : minX),
-			pos.y + (random.nextBoolean() ? maxY : minY),
-			pos.z + (random.nextBoolean() ? maxZ : minZ)
+			pos.getX() + (random.nextBoolean() ? maxX : minX),
+			pos.getY() + (random.nextBoolean() ? maxY : minY),
+			pos.getZ() + (random.nextBoolean() ? maxZ : minZ)
 		);
 	}
 
@@ -113,12 +113,12 @@ public class CrystalBakedModel implements BakedModel {
 		int cuboidCount = IntRng.nextRangedIntInclusive(seed, 3, 6);
 		for (int cuboidIndex = 0; cuboidIndex < cuboidCount; cuboidIndex++) {
 			int
-				sizeX = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
-				sizeY = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
-				sizeZ = IntRng.nextRangedIntInclusive(seed += IntRng.INT_PHI, 4, 8),
-				posX = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeX),
-				posY = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeY),
-				posZ = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeZ);
+				sizeX = IntRng.nextRangedIntInclusive (seed += IntRng.INT_PHI, 4, 8),
+				sizeY = IntRng.nextRangedIntInclusive (seed += IntRng.INT_PHI, 4, 8),
+				sizeZ = IntRng.nextRangedIntInclusive (seed += IntRng.INT_PHI, 4, 8),
+				posX  = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeX),
+				posY  = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeY),
+				posZ  = IntRng.nextBoundedIntInclusive(seed += IntRng.INT_PHI, 16 - sizeZ);
 			float
 				minX = posX * 0.0625F,
 				minY = posY * 0.0625F,
@@ -144,11 +144,14 @@ public class CrystalBakedModel implements BakedModel {
 		Sprite sprite,
 		Direction direction
 	) {
-		float lerpedU0 = MathHelper.lerp(u0, sprite.minU, sprite.maxU);
-		float lerpedU1 = MathHelper.lerp(u1, sprite.minU, sprite.maxU);
-		float lerpedV0 = MathHelper.lerp(v0, sprite.minV, sprite.maxV);
-		float lerpedV1 = MathHelper.lerp(v1, sprite.minV, sprite.maxV);
-		float normalX = direction.offsetX, normalY = direction.offsetY, normalZ = direction.offsetZ;
+		float
+			lerpedU0 = MathHelper.lerp(u0, sprite.getMinU(), sprite.getMaxU()),
+			lerpedU1 = MathHelper.lerp(u1, sprite.getMinU(), sprite.getMaxU()),
+			lerpedV0 = MathHelper.lerp(v0, sprite.getMinV(), sprite.getMaxV()),
+			lerpedV1 = MathHelper.lerp(v1, sprite.getMinV(), sprite.getMaxV()),
+			normalX = direction.getOffsetX(),
+			normalY = direction.getOffsetY(),
+			normalZ = direction.getOffsetZ();
 		quadEmitter
 		.pos(0, x0, y0, z0)
 		.pos(1, x1, y1, z1)
@@ -171,7 +174,7 @@ public class CrystalBakedModel implements BakedModel {
 	}
 
 	public int getSeedForPosition(BlockPos pos) {
-		return IntRng.permute(this.spriteHash, pos.x, pos.y, pos.z);
+		return IntRng.permute(this.spriteHash, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	@Override
@@ -180,7 +183,7 @@ public class CrystalBakedModel implements BakedModel {
 		for (Direction direction : Directions.ALL) {
 			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
 			if (!adjacentState.isOpaqueFullCube(blockView, mutablePos)) {
-				this.emitQuads(this.getSeedForPosition(pos), context.emitter);
+				this.emitQuads(this.getSeedForPosition(pos), context.getEmitter());
 				return;
 			}
 		}
@@ -188,6 +191,6 @@ public class CrystalBakedModel implements BakedModel {
 
 	@Override
 	public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-		this.emitQuads(this.spriteHash, context.emitter);
+		this.emitQuads(this.spriteHash, context.getEmitter());
 	}
 }

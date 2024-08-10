@@ -6,7 +6,9 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Stainable;
 import net.minecraft.block.entity.BeaconBlockEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.BigTechMod;
@@ -22,21 +24,37 @@ public interface BeaconBeamColorProvider {
 	public static final BlockApiLookup<BeaconBeamColorProvider, @Nullable BeaconBlockEntity> LOOKUP = BlockApiLookup.get(BigTechMod.modID("beacon_beam_color_provider"), BeaconBeamColorProvider.class, BeaconBlockEntity.class);
 
 	/**
-	returns the RGB values to use for tinting the beacon beam.
-	index 0 of the returned float[] should represent the red component of the tint,
-	index 1 of the returned float[] should represent the green component of the tint, and
-	index 2 of the returned float[] should represent the blue component of the tint.
-	all 3 indexes should be in the range 0 to 1.
+	returns the color to apply to beacon beams.
+	to preserve forward compatibility wherever possible,
+	it is recommended to use the packing method below,
+	as opposed to concerning yourself with
+	what order the channels should be in.
 	*/
-	public abstract float[] getBeaconColor(World world, BlockPos pos, BlockState state);
+	public abstract int getBeaconColor(World world, BlockPos pos, BlockState state);
+
+	public static int packRGB(int red, int green, int blue) {
+		return ColorHelper.Argb.getArgb(255, red, green, blue);
+	}
+
+	public static int getRed(int color) {
+		return ColorHelper.Argb.getRed(color);
+	}
+
+	public static int getGreen(int color) {
+		return ColorHelper.Argb.getGreen(color);
+	}
+
+	public static int getBlue(int color) {
+		return ColorHelper.Argb.getBlue(color);
+	}
 
 	public static final Object INITIALIZER = new Object() {{
-		LOOKUP.registerFallback((world, pos, state, blockEntity, beacon) -> {
-			if (state.block instanceof BeaconBeamColorProvider provider) {
+		LOOKUP.registerFallback((World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, @Nullable BeaconBlockEntity beacon) -> {
+			if (state.getBlock() instanceof BeaconBeamColorProvider provider) {
 				return provider;
 			}
-			if (state.block instanceof Stainable stainable) {
-				return (world1, pos1, state1) -> stainable.color.colorComponents;
+			if (state.getBlock() instanceof Stainable stainable) {
+				return (World world1, BlockPos pos1, BlockState state1) -> stainable.getColor().getEntityColor();
 			}
 			return null;
 		});

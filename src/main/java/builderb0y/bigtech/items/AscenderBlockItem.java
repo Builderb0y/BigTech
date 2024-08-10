@@ -22,8 +22,8 @@ public class AscenderBlockItem extends BlockItem {
 	@Override
 	public ItemPlacementContext getPlacementContext(ItemPlacementContext context) {
 		if (!context.shouldCancelInteraction()) {
-			World world = context.world;
-			BlockPos.Mutable pos = context.blockPos.mutableCopy();
+			World world = context.getWorld();
+			BlockPos.Mutable pos = context.getBlockPos().mutableCopy();
 			Block expected = this.getBlock();
 			BlockState actual = world.getBlockState(pos);
 			if (actual.isOf(expected)) {

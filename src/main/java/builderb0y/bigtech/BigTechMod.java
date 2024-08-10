@@ -15,8 +15,7 @@ import builderb0y.bigtech.commands.BigTechCommands;
 import builderb0y.bigtech.entities.BigTechEntityTypes;
 import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
-import builderb0y.bigtech.networking.BigTechClientNetwork;
-import builderb0y.bigtech.networking.BigTechServerNetwork;
+import builderb0y.bigtech.networking.BigTechNetwork;
 import builderb0y.bigtech.particles.BigTechParticles;
 import builderb0y.bigtech.recipes.BigTechRecipeSerializers;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
@@ -29,6 +28,7 @@ public class BigTechMod implements ModInitializer {
 		MODID = "bigtech";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODNAME);
+	public static final boolean audit = Boolean.getBoolean("bigtech.mixinAudit");
 
 	@Override
 	public void onInitialize() {
@@ -39,8 +39,7 @@ public class BigTechMod implements ModInitializer {
 		BigTechBlockEntityTypes.init();
 		BigTechEntityTypes.init();
 		BeamTypes.init();
-		BigTechClientNetwork.init();
-		BigTechServerNetwork.init();
+		BigTechNetwork.init();
 		BigTechScreenHandlerTypes.init();
 		BigTechParticles.init();
 		BigTechRecipeTypes.init();
@@ -51,6 +50,6 @@ public class BigTechMod implements ModInitializer {
 	}
 
 	public static Identifier modID(String path) {
-		return new Identifier(MODID, path);
+		return Identifier.of(MODID, path);
 	}
 }

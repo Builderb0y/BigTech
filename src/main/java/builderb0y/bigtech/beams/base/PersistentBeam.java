@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.ShortArrayList;
+import it.unimi.dsi.fastutil.shorts.ShortCollection;
 import it.unimi.dsi.fastutil.shorts.ShortList;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -32,7 +33,7 @@ import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.networking.AddBeamPacket;
-import builderb0y.bigtech.networking.BigTechClientNetwork;
+import builderb0y.bigtech.networking.BigTechNetwork;
 import builderb0y.bigtech.networking.RemoveBeamPacket;
 import builderb0y.bigtech.util.AsyncConsumer;
 import builderb0y.bigtech.util.AsyncRunner;
@@ -54,13 +55,13 @@ public abstract class PersistentBeam extends Beam {
 	}
 
 	public static void notifyBlockChanged(WorldChunk chunk, BlockPos pos, BlockState oldState, BlockState newState) {
-		if (!chunk.world.isClient) {
-			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().get(pos.y >> 4);
+		if (!chunk.getWorld().isClient) {
+			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().get(pos.getY() >> 4);
 			if (sectionStorage != null) {
 				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
 				if (segments != null) {
 					for (BeamSegment segment : segments) {
-						((PersistentBeam)(segment.beam)).onBlockChanged(pos, oldState, newState);
+						segment.beam().<PersistentBeam>as().onBlockChanged(pos, oldState, newState);
 					}
 				}
 			}
@@ -82,12 +83,14 @@ public abstract class PersistentBeam extends Beam {
 		}
 		CommonWorldBeamStorage.KEY.get(this.world).addBeam(this);
 		try (AsyncRunner async = new AsyncRunner()) {
-			ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> iterator = this.seen.long2ObjectEntrySet().fastIterator();
-			while (iterator.hasNext()) {
+			for (
+				ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> iterator = this.seen.long2ObjectEntrySet().fastIterator();
+				iterator.hasNext();
+			) {
 				Long2ObjectMap.Entry<BasicSectionBeamStorage> entry = iterator.next();
-				int sectionX = ChunkSectionPos.unpackX(entry.longKey);
-				int sectionY = ChunkSectionPos.unpackY(entry.longKey);
-				int sectionZ = ChunkSectionPos.unpackZ(entry.longKey);
+				int sectionX = ChunkSectionPos.unpackX(entry.getLongKey());
+				int sectionY = ChunkSectionPos.unpackY(entry.getLongKey());
+				int sectionZ = ChunkSectionPos.unpackZ(entry.getLongKey());
 				CommonSectionBeamStorage existing = (
 					ChunkBeamStorageHolder.KEY.get(
 						this.world.getChunk(sectionX, sectionZ)
@@ -95,31 +98,34 @@ public abstract class PersistentBeam extends Beam {
 					.require()
 					.getSection(sectionY)
 				);
-				BasicSectionBeamStorage newStorage = entry.value;
+				BasicSectionBeamStorage newStorage = entry.getValue();
 				async.submit(() -> existing.addAll(newStorage, false));
-				BigTechClientNetwork.send(
-					PlayerLookup.tracking(this.world.as(), new ChunkPos(sectionX, sectionZ)),
-					() -> AddBeamPacket.create(
-						sectionX,
-						sectionY,
-						sectionZ,
-						this.uuid,
-						newStorage
-					)
-				);
+				AddBeamPacket.INSTANCE.send(this.world.as(), sectionX, sectionY, sectionZ, this.uuid, newStorage);
 			}
 		}
 		this.onAdded();
 	}
 
 	public void removeFromWorld() {
-		record SyncResult(Collection<ServerPlayerEntity> players, RemoveBeamPacket packet) {
+		record SyncResult(
+			Collection<ServerPlayerEntity> players,
+			int sectionX,
+			int sectionY,
+			int sectionZ,
+			UUID uuid,
+			ShortCollection segmentPositions
+		) {
 
 			public static void send(SyncResult result) {
 				if (result != null) {
-					for (ServerPlayerEntity player : result.players) {
-						ServerPlayNetworking.send(player, result.packet);
-					}
+					RemoveBeamPacket.send(
+						result.players,
+						result.sectionX,
+						result.sectionY,
+						result.sectionZ,
+						result.uuid,
+						result.segmentPositions
+					);
 				}
 			}
 		}
@@ -127,9 +133,9 @@ public abstract class PersistentBeam extends Beam {
 			ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
 			while (sectionIterator.hasNext()) {
 				Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-				int sectionX = ChunkSectionPos.unpackX(sectionEntry.longKey);
-				int sectionY = ChunkSectionPos.unpackY(sectionEntry.longKey);
-				int sectionZ = ChunkSectionPos.unpackZ(sectionEntry.longKey);
+				int sectionX = ChunkSectionPos.unpackX(sectionEntry.getLongKey());
+				int sectionY = ChunkSectionPos.unpackY(sectionEntry.getLongKey());
+				int sectionZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey());
 				CommonSectionBeamStorage existing = (
 					ChunkBeamStorageHolder.KEY.get(
 						this.world.getChunk(sectionX, sectionZ)
@@ -137,23 +143,23 @@ public abstract class PersistentBeam extends Beam {
 					.require()
 					.getSection(sectionY)
 				);
-				BasicSectionBeamStorage newStorage = sectionEntry.value;
+				BasicSectionBeamStorage newStorage = sectionEntry.getValue();
 				syncer.submit(() -> {
 					existing.removeAll(newStorage);
 					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(this.world.as(), new ChunkPos(sectionX, sectionZ));
-					if (tracking.isEmpty) return null;
+					if (tracking.isEmpty()) return null;
 					ShortList positions = new ShortArrayList(newStorage.size());
 					ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = newStorage.short2ObjectEntrySet().fastIterator();
 					while (blockIterator.hasNext()) {
 						Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-						for (BeamSegment segment : blockEntry.value) {
-							if (segment.visible) {
-								positions.add(blockEntry.shortKey);
+						for (BeamSegment segment : blockEntry.getValue()) {
+							if (segment.visible()) {
+								positions.add(blockEntry.getShortKey());
 								break;
 							}
 						}
 					}
-					return new SyncResult(tracking, new RemoveBeamPacket(sectionX, sectionY, sectionZ, this.uuid, positions));
+					return new SyncResult(tracking, sectionX, sectionY, sectionZ, this.uuid, positions);
 				});
 			}
 		}
@@ -183,7 +189,7 @@ public abstract class PersistentBeam extends Beam {
 
 	public void writeToNbt(NbtCompound nbt) {
 		nbt
-		.withIdentifier("type", BeamType.REGISTRY.getId(this.type))
+		.withIdentifier("type", BeamType.REGISTRY.getId(this.getType()))
 		.withUuid("uuid", this.uuid)
 		.withBlockPos("origin", this.origin)
 		.withLongArray("callbacks", this.callbacks.stream().mapToLong(BlockPos::asLong).toArray())
@@ -192,8 +198,8 @@ public abstract class PersistentBeam extends Beam {
 				ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
 				while (sectionIterator.hasNext()) {
 					Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-					long sectionPos = sectionEntry.longKey;
-					BasicSectionBeamStorage section = sectionEntry.value;
+					long sectionPos = sectionEntry.getLongKey();
+					BasicSectionBeamStorage section = sectionEntry.getValue();
 					NbtCompound sectionNbt = list.createCompound().withLong("pos", sectionPos);
 					async.submit(() -> section.writeToNbt(sectionNbt, false));
 				}

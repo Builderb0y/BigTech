@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.util.UUID;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -20,12 +21,25 @@ import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.impl.SpotlightBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class SpotlightBlock extends Block {
 
+	public static final MapCodec<SpotlightBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
+
 	public SpotlightBlock(Settings settings) {
 		super(settings);
-		this.defaultState = this.defaultState.with(Properties.POWERED, Boolean.FALSE);
+		this.setDefaultState(
+			this
+			.getDefaultState()
+			.with(Properties.POWERED, Boolean.FALSE)
+		);
 	}
 
 	@Override
@@ -46,8 +60,8 @@ public class SpotlightBlock extends Block {
 		return (
 			super
 			.getPlacementState(context)
-			.with(Properties.FACING, context.playerLookDirection.opposite)
-			.with(Properties.POWERED, context.world.isReceivingRedstonePower(context.blockPos))
+			.with(Properties.FACING, context.getPlayerLookDirection().getOpposite())
+			.with(Properties.POWERED, context.getWorld().isReceivingRedstonePower(context.getBlockPos()))
 		);
 	}
 

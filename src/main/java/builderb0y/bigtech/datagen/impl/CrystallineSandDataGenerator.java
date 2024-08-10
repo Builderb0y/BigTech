@@ -19,10 +19,10 @@ public class CrystallineSandDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
-			context.blockModelPath(this.id),
+			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(new Identifier("minecraft", "cube_all"))
-			.blockTexture("all", this.id)
+			.blockParent(Identifier.ofVanilla("cube_all"))
+			.blockTexture("all", this.getId())
 			.toString()
 		);
 	}
@@ -50,11 +50,11 @@ public class CrystallineSandDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapelessRecipeBuilder()
 			.ingredient(ItemTags.SAND)
 			.ingredient(FunctionalItems.CRYSTAL_DEBRIS)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

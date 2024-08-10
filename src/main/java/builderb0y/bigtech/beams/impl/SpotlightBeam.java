@@ -31,7 +31,7 @@ public class SpotlightBeam extends PersistentBeam {
 
 	@Override
 	public int getLightLevel(BeamSegment segment) {
-		return segment.visible && segment.direction != BeamDirection.CENTER ? 15 : 0;
+		return segment.visible() && segment.direction() != BeamDirection.CENTER ? 15 : 0;
 	}
 
 	@Override
@@ -73,11 +73,11 @@ public class SpotlightBeam extends PersistentBeam {
 		ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
 		while (sectionIterator.hasNext()) {
 			Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-			int chunkY = ChunkSectionPos.unpackY(sectionEntry.key) << 4;
+			int chunkY = ChunkSectionPos.unpackY(sectionEntry.getKey()) << 4;
 			if (this.world.isOutOfHeightLimit(chunkY)) continue;
-			int chunkX = ChunkSectionPos.unpackX(sectionEntry.key) << 4;
-			int chunkZ = ChunkSectionPos.unpackZ(sectionEntry.key) << 4;
-			ShortIterator blockIterator = sectionEntry.value.keySet().iterator();
+			int chunkX = ChunkSectionPos.unpackX(sectionEntry.getKey()) << 4;
+			int chunkZ = ChunkSectionPos.unpackZ(sectionEntry.getKey()) << 4;
+			ShortIterator blockIterator = sectionEntry.getValue().keySet().iterator();
 			while (blockIterator.hasNext()) {
 				short localPos = blockIterator.nextShort();
 				int x = chunkX | BasicSectionBeamStorage.unpackX(localPos);

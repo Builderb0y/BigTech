@@ -16,6 +16,8 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -114,9 +116,9 @@ public class PrismBakedModel implements BakedModel {
 	@Override
 	public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
 		this.baseModel.emitItemQuads(stack, randomSupplier, context);
-		NbtCompound blockEntityTag = stack.getSubNbt(BlockItem.BLOCK_ENTITY_TAG_KEY);
+		NbtComponent blockEntityTag = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
 		if (blockEntityTag != null) {
-			int lenses = blockEntityTag.getInt("lenses") & PrismBlockEntity.FLAG_MASK;
+			int lenses = blockEntityTag.getNbt().getInt("lenses") & PrismBlockEntity.FLAG_MASK;
 			if (lenses != 0) {
 				Matrix4f matrix = new Matrix4f();
 				Vector4f position = new Vector4f();
@@ -173,7 +175,7 @@ public class PrismBakedModel implements BakedModel {
 
 	@Override
 	public Sprite getParticleSprite() {
-		return this.baseModel.particleSprite;
+		return this.baseModel.getParticleSprite();
 	}
 
 	@Override

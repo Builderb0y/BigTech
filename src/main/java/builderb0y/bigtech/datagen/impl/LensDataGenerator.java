@@ -18,12 +18,12 @@ public class LensDataGenerator extends BasicItemDataGenerator {
 	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
-			context.recipePath(this.id),
+			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern(" i ", "igi", " i ")
 			.where('i', BigTechItemTags.IRON_NUGGETS)
 			.where('g', ConventionalItemTags.GLASS_PANES)
-			.result(this.id)
+			.result(this.getId())
 			.toString()
 		);
 	}

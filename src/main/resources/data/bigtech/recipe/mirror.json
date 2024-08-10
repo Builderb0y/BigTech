@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"ggg",
+		"ggg",
+		" i "
+	],
+	"key": {
+		"g": { "tag": "c:glass_panes" },
+		"i": { "tag": "c:iron_ingots" }
+	},
+	"result": {
+		"id": "bigtech:mirror",
+		"count": 6
+	}
+}

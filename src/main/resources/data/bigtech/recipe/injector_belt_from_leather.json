@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"group": "bigtech:belts",
+	"pattern": [
+		"lll",
+		"ioi"
+	],
+	"key": {
+		"l": { "item": "minecraft:leather" },
+		"i": { "tag":  "c:iron_ingots"     },
+		"o": { "item": "minecraft:hopper"  }
+	},
+	"result": {
+		"id": "bigtech:injector_belt",
+		"count": 6
+	}
+}
