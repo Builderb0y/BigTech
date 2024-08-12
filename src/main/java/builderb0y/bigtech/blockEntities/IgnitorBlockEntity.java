@@ -188,11 +188,6 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	}
 
 	@Override
-	public boolean canPlayerUse(PlayerEntity player) {
-		return true;
-	}
-
-	@Override
 	public Text getContainerName() {
 		return Text.translatable("container.bigtech.ignitor");
 	}

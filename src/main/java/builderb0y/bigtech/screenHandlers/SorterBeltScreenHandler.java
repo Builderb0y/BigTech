@@ -13,12 +13,15 @@ public class SorterBeltScreenHandler extends BigTechScreenHandler {
 
 	public SorterBeltScreenHandler(ScreenHandlerType<?> type, int syncId, Inventory inventory, Inventory playerInventory) {
 		super(type, syncId, inventory);
-		this.slotGrid()
-		.pos(8, 142).size(9, 1).inventory(playerInventory).add()
-		.pos(8, 84).size(9, 3).add()
-		.pos(26, 17).size(3, 3).inventory(inventory).slotFactory(TemplateSlot::new).add()
-		.pos(98, 17).add()
-		;
+
+		SlotGrid grid = this.slotGrid();
+		SlotRange
+			playerHotbar  = grid.pos(8, 142).size(9, 1).inventory(playerInventory).add(),
+			playerStorage = grid.pos(8,  84).size(9, 3).add(),
+			leftFilter    = grid.pos(26, 17).size(3, 3).inventory(inventory).slotFactory(TemplateSlot::new).add(),
+			rightFilter   = grid.pos(98, 17).add();
+
+		this.shiftClickRules().viseVersa(any(), playerHotbar.forward(), playerStorage.forward());
 	}
 
 	public SorterBeltScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -41,26 +44,5 @@ public class SorterBeltScreenHandler extends BigTechScreenHandler {
 			}
 		}
 		super.onSlotClick(slotIndex, button, actionType, player);
-	}
-
-	@Override
-	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
-		Slot slot = this.slots.get(slotIndex);
-		if (slot.hasStack()) {
-			if (slotIndex < 9) {
-				this.insertItem(slot.getStack(), 9, 27 + 9, false);
-				slot.onTakeItem(player, slot.getStack());
-			}
-			else if (slotIndex < 27 + 9) {
-				this.insertItem(slot.getStack(), 0, 9, false);
-				slot.onTakeItem(player, slot.getStack());
-			}
-		}
-		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public boolean canUse(PlayerEntity player) {
-		return true;
 	}
 }

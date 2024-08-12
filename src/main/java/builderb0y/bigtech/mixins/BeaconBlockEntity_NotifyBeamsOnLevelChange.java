@@ -21,12 +21,12 @@ public class BeaconBlockEntity_NotifyBeamsOnLevelChange {
 
 	@Inject(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/block/entity/BeaconBlockEntity;level:I"))
 	private static void bigtech_beforeLevelChange(World world, BlockPos pos, BlockState state, BeaconBlockEntity blockEntity, CallbackInfo callback, @Share("bigtech_oldLevel") LocalIntRef level) {
-		level.set(((BeaconBlockEntity_LevelGetter)(blockEntity)).bigtech_getLevel());
+		level.set(blockEntity.<BeaconBlockEntity_LevelGetter>as().bigtech_getLevel());
 	}
 
 	@Inject(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/block/entity/BeaconBlockEntity;level:I", shift = Shift.AFTER))
 	private static void bigtech_afterLevelChange(World world, BlockPos pos, BlockState state, BeaconBlockEntity blockEntity, CallbackInfo callback, @Share("bigtech_oldLevel") LocalIntRef level) {
-		if (level.get() != ((BeaconBlockEntity_LevelGetter)(blockEntity)).bigtech_getLevel()) {
+		if (level.get() != blockEntity.<BeaconBlockEntity_LevelGetter>as().bigtech_getLevel()) {
 			PersistentBeam.notifyBlockChanged(world, pos, state, state);
 		}
 	}

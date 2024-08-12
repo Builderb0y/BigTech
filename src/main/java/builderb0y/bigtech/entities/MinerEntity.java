@@ -19,7 +19,6 @@ import net.minecraft.block.enums.ChestType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -238,7 +237,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 
 	@Environment(EnvType.CLIENT)
 	public void updateInput(PlayerEntity player) {
-		byte input = encodeInput((ClientPlayerEntity)(player));
+		byte input = encodeInput(player.as());
 		this.dataTracker.set(INPUT, input);
 		ControlMinerPacket.INSTANCE.send(input);
 	}
@@ -789,7 +788,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 
 	@Override
 	public boolean canPlayerUse(PlayerEntity player) {
-		return true;
+		return player.canInteractWithEntity(this, 4.0D);
 	}
 
 	@Nullable

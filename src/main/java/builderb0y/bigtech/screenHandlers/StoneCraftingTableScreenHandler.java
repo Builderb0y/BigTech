@@ -19,10 +19,6 @@ import builderb0y.bigtech.util.WorldHelper;
 
 public class StoneCraftingTableScreenHandler extends CraftingScreenHandler {
 
-	public StoneCraftingTableScreenHandler(int syncId, PlayerInventory playerInventory) {
-		super(syncId, playerInventory);
-	}
-
 	public StoneCraftingTableScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
 		super(syncId, playerInventory, context);
 		RecipeInputInventory oldInput = this.access().bigtech_getInput();
@@ -35,8 +31,12 @@ public class StoneCraftingTableScreenHandler extends CraftingScreenHandler {
 		}
 	}
 
+	public StoneCraftingTableScreenHandler(int syncId, PlayerInventory playerInventory) {
+		super(syncId, playerInventory);
+	}
+
 	public final CraftingScreenHandler_Accessors access() {
-		return (CraftingScreenHandler_Accessors)(this);
+		return this.as();
 	}
 
 	@Override

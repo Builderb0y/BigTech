@@ -137,6 +137,19 @@ public class FunctionalBlocks {
 		)
 	);
 
+	@UseDataGen(void.class)
+	public static final SpawnerInterceptorBlock SPAWNER_INTERCEPTOR = BigTechBlocks.register(
+		"spawner_interceptor",
+		new SpawnerInterceptorBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.BLACK)
+			.requiresTool()
+			.strength(10.0F, 250.0F)
+		)
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(void.class)

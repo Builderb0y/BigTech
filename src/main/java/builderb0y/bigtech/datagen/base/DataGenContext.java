@@ -84,7 +84,7 @@ public class DataGenContext {
 						continue;
 					}
 					try {
-						for (RegistrableVariant<?> variant : ((RegistrableCollection<?>)(field.get(null))).getRegistrableVariants()) {
+						for (RegistrableVariant<?> variant : field.get(null).<RegistrableCollection<?>>as().getRegistrableVariants()) {
 							this.addWithDependencies(
 								dataGenClass.asSubclass(DataGenerator.class),
 								constructors[0].newInstance(variant.object(), variant.variant()).as()

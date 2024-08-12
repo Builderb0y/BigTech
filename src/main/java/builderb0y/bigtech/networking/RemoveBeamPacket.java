@@ -107,7 +107,7 @@ public class RemoveBeamPacket implements S2CPlayPacket<RemoveBeamPacket.Payload>
 			MutableBoolean needLightUpdate = new MutableBoolean();
 			Predicate<BeamSegment> lambda = (BeamSegment segment) -> {
 				if (segment.beam().uuid.equals(this.uuid)) {
-					if (((PersistentBeam)(segment.beam())).getLightLevel(segment) > 0) {
+					if (segment.beam().<PersistentBeam>as().getLightLevel(segment) > 0) {
 						needLightUpdate.setTrue();
 					}
 					return true;

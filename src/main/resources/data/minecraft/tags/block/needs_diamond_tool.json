@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"bigtech:spawner_interceptor",
 		"bigtech:transmuter"
 	]
 }

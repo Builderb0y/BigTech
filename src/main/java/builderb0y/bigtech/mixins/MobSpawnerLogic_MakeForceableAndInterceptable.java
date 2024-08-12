@@ -1,11 +1,19 @@
 package builderb0y.bigtech.mixins;
 
 import java.util.Optional;
+import java.util.function.Function;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.spawner.MobSpawnerEntry;
 import net.minecraft.block.spawner.MobSpawnerLogic;
 import net.minecraft.entity.Entity;
@@ -18,13 +26,18 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.*;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 
+import builderb0y.bigtech.blockEntities.SpawnerInterceptorBlockEntity;
+import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.mixinterfaces.ForceableMobSpawnerLogic;
 
 /**
@@ -33,7 +46,7 @@ with no way to call only part of the method.
 so, I copy-pasted it here.
 */
 @Mixin(MobSpawnerLogic.class)
-public abstract class MobSpawnerLogic_MakeForceable implements ForceableMobSpawnerLogic {
+public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements ForceableMobSpawnerLogic {
 
 	@Shadow
 	private int spawnCount;
@@ -48,6 +61,10 @@ public abstract class MobSpawnerLogic_MakeForceable implements ForceableMobSpawn
 	@Shadow
 	protected abstract void updateSpawns(World world, BlockPos pos);
 
+	@Shadow private double lastRotation;
+
+	@Shadow private double rotation;
+
 	@Override
 	public void bigtech_spawnMobs(ServerWorld world, BlockPos pos) {
 		boolean bl = false;
@@ -58,6 +75,11 @@ public abstract class MobSpawnerLogic_MakeForceable implements ForceableMobSpawn
 			NbtCompound nbtCompound = mobSpawnerEntry.getNbt();
 			Optional<EntityType<?>> optional = EntityType.fromNbt(nbtCompound);
 			if (optional.isEmpty()) {
+				this.updateSpawns(world, pos);
+				return;
+			}
+
+			if (world.getBlockEntity(pos.up()) instanceof SpawnerInterceptorBlockEntity interceptor && interceptor.intercept(optional.get())) {
 				this.updateSpawns(world, pos);
 				return;
 			}
@@ -79,7 +101,7 @@ public abstract class MobSpawnerLogic_MakeForceable implements ForceableMobSpawn
 						continue;
 					}
 				}
-				else if (!SpawnRestriction.canSpawn((EntityType)optional.get(), world, SpawnReason.SPAWNER, blockPos, world.getRandom())) {
+				else if (!SpawnRestriction.canSpawn(optional.get(), world, SpawnReason.SPAWNER, blockPos, world.getRandom())) {
 					continue;
 				}
 
@@ -134,6 +156,31 @@ public abstract class MobSpawnerLogic_MakeForceable implements ForceableMobSpawn
 
 		if (bl) {
 			this.updateSpawns(world, pos);
+		}
+	}
+
+	@Inject(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtCompound;getList(Ljava/lang/String;I)Lnet/minecraft/nbt/NbtList;"), cancellable = true)
+	private void bigtech_intercept(ServerWorld world, BlockPos pos, CallbackInfo callback, @Local(index = 8) Optional<EntityType<?>> entityType) {
+		if (world.getBlockEntity(pos.up()) instanceof SpawnerInterceptorBlockEntity interceptor && interceptor.intercept(entityType.get())) {
+			this.updateSpawns(world, pos);
+			callback.cancel();
+		}
+	}
+
+	@Inject(method = "clientTick", at = @At("HEAD"), cancellable = true)
+	private void bigtech_stopSpinningWhenJammed(World world, BlockPos pos, CallbackInfo callback) {
+		BlockState upState = world.getBlockState(pos.up());
+		if (upState.isOf(FunctionalBlocks.SPAWNER_INTERCEPTOR) && upState.get(Properties.POWERED)) {
+			this.lastRotation = this.rotation;
+			callback.cancel();
+		}
+	}
+
+	@Inject(method = "serverTick", at = @At("HEAD"), cancellable = true)
+	private void bigtech_stopSpinningWhenJammed(ServerWorld world, BlockPos pos, CallbackInfo callback) {
+		BlockState upState = world.getBlockState(pos.up());
+		if (upState.isOf(FunctionalBlocks.SPAWNER_INTERCEPTOR) && upState.get(Properties.POWERED)) {
+			callback.cancel();
 		}
 	}
 }

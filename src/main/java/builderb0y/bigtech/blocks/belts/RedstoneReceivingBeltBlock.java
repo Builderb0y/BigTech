@@ -71,8 +71,8 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
+		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		boolean powered = this.isPowered(world, pos, state);
 		boolean shouldBePowered = this.shouldBePowered(world, pos, state);
 		if (powered != shouldBePowered) {

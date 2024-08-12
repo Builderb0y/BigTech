@@ -24,7 +24,7 @@
 		"LadderBlock_MakePlaceableOnFrames",
 		"LightningEntity_TweakLogic",
 		"LightningRod_EmitLightningPulse",
-		"MobSpawnerLogic_MakeForceable",
+		"MobSpawnerLogic_MakeForceableAndInterceptable",
 		"PistonHandler_AdvancedStickyBlocks",
 		"PistonHandlerAccessor",
 		"PlayerEntity_NoClimbingWhileFlying",

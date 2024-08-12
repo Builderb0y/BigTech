@@ -12,14 +12,15 @@ things to finish for existing features:
 		also doesn't show durability when fully charged.
 		may need to duplicate some of the logic for damage.
 	make tooltips of NBT-copied lightning jars display stored energy.
-	make miner destroyable.
-		waiting on update to 1.20.4, which adds a new class to help with this.
 
 compatibility:
 	LightningHandler.IRIS_LIGHTNING is moving to a different package.
 
+testing:
+
 features:
 	general:
+		smooth obsidian block.
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
@@ -64,7 +65,6 @@ features:
 		deployer: places blocks.
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
-		spawner jammer: disables spawners unless powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
 	redstone:
 		pulsar: emits regularly timed redstone pulses
 	tools:
@@ -137,6 +137,7 @@ done:
 			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.
 		ignitor: smelts items on top of it, sets entities on fire
 		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
+		spawner interceptor: disables spawners when powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
 
 canceled:
 	lightning rod: already in vanilla.

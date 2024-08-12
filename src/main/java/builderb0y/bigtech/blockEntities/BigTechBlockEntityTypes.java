@@ -80,6 +80,11 @@ public class BigTechBlockEntityTypes {
 		StoneCraftingTableBlockEntity::new,
 		FunctionalBlocks.STONE_CRAFTING_TABLE
 	);
+	public static final BlockEntityType<SpawnerInterceptorBlockEntity> SPAWNER_INTERCEPTOR = register(
+		"spawner_interceptor",
+		SpawnerInterceptorBlockEntity::new,
+		FunctionalBlocks.SPAWNER_INTERCEPTOR
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

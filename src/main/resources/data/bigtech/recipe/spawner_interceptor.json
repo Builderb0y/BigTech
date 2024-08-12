@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" r ",
+		"ooo",
+		"b b"
+	],
+	"key": {
+		"r": { "tag":  "c:dusts/redstone"   },
+		"o": { "item": "minecraft:obsidian" },
+		"b": { "tag":  "c:rods/blaze"       }
+	},
+	"result": {
+		"id": "bigtech:spawner_interceptor"
+	}
+}

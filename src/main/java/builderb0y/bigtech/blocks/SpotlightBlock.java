@@ -80,8 +80,8 @@ public class SpotlightBlock extends Block {
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
+		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = world.isReceivingRedstonePower(pos);
 		if (powered != shouldBePowered) {

@@ -94,6 +94,11 @@ public class FunctionalItems {
 		FunctionalBlocks.SILVER_IODIDE_CANNON
 	);
 
+	@UseDataGen(SpawnerInterceptorDataGenerator.class)
+	public static final BlockItem SPAWNER_INTERCEPTOR = BigTechItems.registerPlacer(
+		FunctionalBlocks.SPAWNER_INTERCEPTOR
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)

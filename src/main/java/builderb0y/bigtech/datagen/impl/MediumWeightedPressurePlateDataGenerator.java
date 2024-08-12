@@ -29,7 +29,9 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonVariant.FORMAT)
 			.addRows(
-				BlockStateJsonVariant.streamStatesSorted(this.getBlock()).map(state -> new BlockStateJsonVariant(
+				BlockStateJsonVariant
+				.streamStatesSorted(this.getBlock())
+				.map(state -> new BlockStateJsonVariant(
 					state,
 					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWER) != 0 ? "_down" : "_up").toString(),
 					null,

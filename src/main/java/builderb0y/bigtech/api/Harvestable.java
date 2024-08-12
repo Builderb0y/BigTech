@@ -52,7 +52,7 @@ public interface Harvestable {
 
 			@Override
 			public boolean canHarvest(World world, BlockPos pos, BlockState state) {
-				return ((CropBlock)(state.getBlock())).isMature(state);
+				return state.getBlock().<CropBlock>as().isMature(state);
 			}
 
 			@Override
@@ -159,7 +159,7 @@ public interface Harvestable {
 	method should drop items as if the block were broken with an empty hand.
 	*/
 	public default void harvest(World world, BlockPos pos, BlockState state, ItemStack tool) {
-		WorldHelper.destroyBlockWithTool((ServerWorld)(world), pos, state, tool);
+		WorldHelper.destroyBlockWithTool(world.as(), pos, state, tool);
 	}
 
 	/**

@@ -1,11 +1,9 @@
 package builderb0y.bigtech.screenHandlers;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType.ExtendedFactory;
 
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -55,6 +53,11 @@ public class BigTechScreenHandlerTypes {
 	public static final ScreenHandlerType<StoneCraftingTableScreenHandler> STONE_CRAFTING_TABLE = register(
 		"stone_crafting_table",
 		StoneCraftingTableScreenHandler::new
+	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final ScreenHandlerType<SpawnerInterceptorScreenHandler> SPAWNER_INTERCEPTOR = register(
+		"spawner_interceptor",
+		SpawnerInterceptorScreenHandler::new
 	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {

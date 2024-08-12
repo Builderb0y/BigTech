@@ -72,7 +72,7 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 			);
 			FireworksComponent fireworks = split.get(DataComponentTypes.FIREWORKS);
 			if (fireworks != null && !fireworks.explosions().isEmpty()) {
-				((SilverIodideProjectile)(entity)).bigtech_setProjectileType(moreRainy ? SilverIodideProjectile.Type.MORE_RAINY : SilverIodideProjectile.Type.LESS_RAINY);
+				entity.<SilverIodideProjectile>as().bigtech_setProjectileType(moreRainy ? SilverIodideProjectile.Type.MORE_RAINY : SilverIodideProjectile.Type.LESS_RAINY);
 			}
 			world.spawnEntity(entity);
 			world.<ServerWorld>as().spawnParticles(ParticleTypes.EXPLOSION, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);

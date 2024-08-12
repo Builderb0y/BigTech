@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"powered=false": { "model": "bigtech:block/spawner_interceptor_off" },
+		"powered=true":  { "model": "bigtech:block/spawner_interceptor_on"  }
+	}
+}

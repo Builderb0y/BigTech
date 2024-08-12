@@ -158,8 +158,8 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	@Override
 	@Deprecated
 	@SuppressWarnings("deprecation")
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
+		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		world.scheduleBlockTick(pos, this, 2);
 	}
 
