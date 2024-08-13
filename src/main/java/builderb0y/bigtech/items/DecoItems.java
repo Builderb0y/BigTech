@@ -7,6 +7,7 @@ import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.CopperBarsDataGenerator;
 import builderb0y.bigtech.datagen.impl.CopperSlabDataGenerator;
+import builderb0y.bigtech.datagen.impl.SmoothObsidianDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.CopperCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.WoodCatwalkPlatformDataGenerator;
@@ -19,6 +20,8 @@ import builderb0y.bigtech.datagen.impl.frames.IronFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.frames.WoodenFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.CopperLadderDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.IronLadderDataGenerator;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
 public class DecoItems {
 
@@ -35,7 +38,7 @@ public class DecoItems {
 	@UseDataGen(CopperFrameDataGenerator.class)
 	public static final CopperItemCollection COPPER_FRAMES = new CopperItemCollection(
 		"frame",
-		type -> new BlockItem(
+		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_FRAMES.get(type),
 			new Item.Settings()
 		)
@@ -43,7 +46,7 @@ public class DecoItems {
 	@UseDataGen(WoodenFrameDataGenerator.class)
 	public static final WoodItemCollection WOOD_FRAMES = new WoodItemCollection(
 		"frame",
-		type -> new BlockItem(
+		(WoodRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.WOOD_FRAMES.get(type),
 			new Item.Settings()
 		)
@@ -58,7 +61,7 @@ public class DecoItems {
 	@UseDataGen(CopperCatwalkPlatformDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_PLATFORMS = new CopperItemCollection(
 		"catwalk_platform",
-		type -> new BlockItem(
+		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_CATWALK_PLATFORMS.get(type),
 			new Item.Settings()
 		)
@@ -66,7 +69,7 @@ public class DecoItems {
 	@UseDataGen(WoodCatwalkPlatformDataGenerator.class)
 	public static final WoodItemCollection WOOD_CATWALK_PLATFORMS = new WoodItemCollection(
 		"catwalk_platform",
-		type -> new BlockItem(
+		(WoodRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.WOOD_CATWALK_PLATFORMS.get(type),
 			new Item.Settings()
 		)
@@ -81,7 +84,7 @@ public class DecoItems {
 	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_STAIRS = new CopperItemCollection(
 		"catwalk_stairs",
-		type -> new CatwalkStairsBlockItem(
+		(CopperRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.COPPER_CATWALK_STAIRS.get(type),
 			new Item.Settings()
 		)
@@ -89,7 +92,7 @@ public class DecoItems {
 	@UseDataGen(WoodCatwalkStairsDataGenerator.class)
 	public static final WoodItemCollection WOOD_CATWALK_STAIRS = new WoodItemCollection(
 		"catwalk_stairs",
-		type -> new CatwalkStairsBlockItem(
+		(WoodRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.WOOD_CATWALK_STAIRS.get(type),
 			new Item.Settings()
 		)
@@ -104,7 +107,7 @@ public class DecoItems {
 	@UseDataGen(CopperLadderDataGenerator.class)
 	public static final CopperItemCollection COPPER_LADDERS = new CopperItemCollection(
 		"ladder",
-		type -> new BlockItem(
+		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_LADDERS.get(type),
 			new Item.Settings()
 		)
@@ -112,7 +115,7 @@ public class DecoItems {
 	@UseDataGen(CopperBarsDataGenerator.class)
 	public static final CopperItemCollection COPPER_BARS = new CopperItemCollection(
 		"bars",
-		type -> new BlockItem(
+		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_BARS.get(type),
 			new Item.Settings()
 		)
@@ -120,10 +123,14 @@ public class DecoItems {
 	@UseDataGen(CopperSlabDataGenerator.class)
 	public static final CopperItemCollection COPPER_SLABS = new CopperItemCollection(
 		"slab",
-		type -> new BlockItem(
+		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_SLABS.get(type),
 			new Item.Settings()
 		)
+	);
+	@UseDataGen(SmoothObsidianDataGenerator.class)
+	public static final BlockItem SMOOTH_OBSIDIAN = BigTechItems.registerPlacer(
+		DecoBlocks.SMOOTH_OBSIDIAN
 	);
 
 	public static void init() {}

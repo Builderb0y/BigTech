@@ -20,7 +20,6 @@ testing:
 
 features:
 	general:
-		smooth obsidian block.
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.

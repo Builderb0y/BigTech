@@ -6,9 +6,9 @@
 		"b b"
 	],
 	"key": {
-		"r": { "tag":  "c:dusts/redstone"   },
-		"o": { "item": "minecraft:obsidian" },
-		"b": { "tag":  "c:rods/blaze"       }
+		"r": { "tag":  "c:dusts/redstone"        },
+		"o": { "item": "bigtech:smooth_obsidian" },
+		"b": { "tag":  "c:rods/blaze"            }
 	},
 	"result": {
 		"id": "bigtech:spawner_interceptor"

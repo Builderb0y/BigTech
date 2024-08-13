@@ -191,6 +191,20 @@ public class DecoBlocks {
 			);
 		}
 	);
+	@UseDataGen(void.class)
+	public static final Block SMOOTH_OBSIDIAN = BigTechBlocks.register(
+		"smooth_obsidian",
+		new Block(
+			AbstractBlock
+			.Settings
+			.copy(Blocks.OBSIDIAN)
+			.hardness(20.0F)
+			//did you know that pistons hard-code the check for
+			//obsidian instead of using the piston behavior on the block?
+			//in fact, obsidian doesn't even specify a piston behavior at all.
+			.pistonBehavior(PistonBehavior.BLOCK)
+		)
+	);
 
 	public static void init() {}
 }

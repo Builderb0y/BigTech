@@ -13,6 +13,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.tables.Table;
+import builderb0y.bigtech.items.DecoItems;
 
 public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 
@@ -236,7 +237,7 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 			new ShapedRecipeBuilder()
 			.pattern(" r ", "ooo", "b b")
 			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
-			.where('o', Items.OBSIDIAN)
+			.where('o', DecoItems.SMOOTH_OBSIDIAN)
 			.where('b', ConventionalItemTags.BLAZE_RODS)
 			.result(this.getId())
 			.toString()

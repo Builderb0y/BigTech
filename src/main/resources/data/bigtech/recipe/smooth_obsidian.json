@@ -1,0 +1,6 @@
+{
+	"type": "minecraft:smelting",
+	"cookingtime": 400,
+	"ingredient": { "item": "minecraft:obsidian" },
+	"result": { "id": "bigtech:smooth_obsidian" }
+}

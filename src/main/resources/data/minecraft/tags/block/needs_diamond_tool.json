@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"bigtech:smooth_obsidian",
 		"bigtech:spawner_interceptor",
 		"bigtech:transmuter"
 	]
