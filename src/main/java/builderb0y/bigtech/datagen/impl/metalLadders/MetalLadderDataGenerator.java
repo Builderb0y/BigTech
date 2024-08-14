@@ -4,6 +4,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
@@ -47,9 +48,8 @@ public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("ladder"))
-			.blockTexture("texture", this.getTexture(context))
-			.blockTexture("particle", this.getTexture(context))
+			.blockParent(BigTechMod.modID("template_ladder"))
+			.blockTexture("ladder", this.getTexture(context))
 			.toString()
 		);
 	}

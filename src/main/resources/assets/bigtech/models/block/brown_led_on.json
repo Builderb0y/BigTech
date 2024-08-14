@@ -1,0 +1,34 @@
+{
+	"jmxl": true,
+	"ambientocclusion": false,
+	"parent": "minecraft:block/thin_block",
+	"textures": {
+		"led": "bigtech:block/led",
+		"particle": "bigtech:block/led"
+	},
+	"elements": [
+		{
+			"from": [  4, 0,  4 ],
+			"to":   [ 12, 2, 12 ],
+			"faces": {
+				"up":    { "uv": [ 0, 12, 4, 16 ], "texture": "#led" },
+				"north": { "uv": [ 4, 15, 8, 16 ], "texture": "#led" },
+				"east":  { "uv": [ 4, 15, 8, 16 ], "texture": "#led" },
+				"south": { "uv": [ 4, 15, 8, 16 ], "texture": "#led" },
+				"west":  { "uv": [ 4, 15, 8, 16 ], "texture": "#led" }
+			}
+		},
+		{
+			"shade": false,
+			"jmxl_emissive": true,
+			"from": [  6, 2,  6 ],
+			"to":   [ 10, 4, 10 ],
+			"faces": {
+				"up":    { "uv": [ 2,  9, 4, 11 ], "texture": "#led" },
+				"north": { "uv": [ 2, 11, 4, 12 ], "texture": "#led" },
+				"east":  { "uv": [ 2, 11, 4, 12 ], "texture": "#led" },
+				"south": { "uv": [ 2, 11, 4, 12 ], "texture": "#led" },
+				"west":  { "uv": [ 2, 11, 4, 12 ], "texture": "#led" }			}
+		}
+	]
+}

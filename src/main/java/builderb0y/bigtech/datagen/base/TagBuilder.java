@@ -9,6 +9,12 @@ import net.minecraft.util.Identifier;
 
 public class TagBuilder extends TreeSet<TagOrItem> {
 
+	public void addAll(TagOrItem... tagsOrItems) {
+		for (TagOrItem tagOrItem : tagsOrItems) {
+			this.add(tagOrItem);
+		}
+	}
+
 	public void add(RegistryEntry<?> entry) {
 		this.add(new TagOrItem(entry));
 	}

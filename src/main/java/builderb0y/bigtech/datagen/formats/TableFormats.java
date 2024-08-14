@@ -97,6 +97,14 @@ public class TableFormats {
 			};
 		}
 
+		public static Integer xFromDown(Direction direction) {
+			return switch (direction) {
+				case UP -> 180;
+				case DOWN -> 0;
+				case NORTH, EAST, SOUTH, WEST -> 270;
+			};
+		}
+
 		public static Stream<BlockState> streamStatesSorted(Block block) {
 			ArrayList<Property<?>> properties = new ArrayList<>(block.getStateManager().getProperties());
 			properties.remove(Properties.WATERLOGGED);

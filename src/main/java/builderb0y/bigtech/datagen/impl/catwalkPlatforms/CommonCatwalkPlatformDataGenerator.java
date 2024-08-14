@@ -68,12 +68,55 @@ public class CommonCatwalkPlatformDataGenerator implements DataGenerator {
 				},
 				"elements": [
 					{
-						"from": [  0,  1, 0 ],
+						"from": [ 1,  1, 0 ],
+						"to":   [ 3, 10, 1 ],
+						"faces": {
+							"north": { "uv": [ 3, 6, 1, 15 ], "texture": "#rail" },
+							"east":  { "uv": [ 2, 6, 3, 15 ], "texture": "#rail" },
+							"south": { "uv": [ 1, 6, 3, 15 ], "texture": "#rail" },
+							"west":  { "uv": [ 1, 6, 2, 15 ], "texture": "#rail" }
+						}
+					},
+					{
+						"from": [ 5,  1, 0 ],
+						"to":   [ 7, 10, 1 ],
+						"faces": {
+							"north": { "uv": [ 7, 6, 5, 15 ], "texture": "#rail" },
+							"east":  { "uv": [ 6, 6, 7, 15 ], "texture": "#rail" },
+							"south": { "uv": [ 5, 6, 7, 15 ], "texture": "#rail" },
+							"west":  { "uv": [ 5, 6, 6, 15 ], "texture": "#rail" }
+						}
+					},
+					{
+						"from": [  9,  1, 0 ],
+						"to":   [ 11, 10, 1 ],
+						"faces": {
+							"north": { "uv": [ 11, 6, 9, 15 ], "texture": "#rail" },
+							"east":  { "uv": [ 10, 6, 11, 15 ], "texture": "#rail" },
+							"south": { "uv": [ 9, 6, 11, 15 ], "texture": "#rail" },
+							"west":  { "uv": [ 9, 6, 10, 15 ], "texture": "#rail" }
+						}
+					},
+					{
+						"from": [ 13,  1, 0 ],
+						"to":   [ 15, 10, 1 ],
+						"faces": {
+							"north": { "uv": [ 15, 6, 13, 15 ], "texture": "#rail" },
+							"east":  { "uv": [ 14, 6, 15, 15 ], "texture": "#rail" },
+							"south": { "uv": [ 13, 6, 15, 15 ], "texture": "#rail" },
+							"west":  { "uv": [ 13, 6, 14, 15 ], "texture": "#rail" }
+						}
+					},
+					{
+						"from": [  0, 10, 0 ],
 						"to":   [ 16, 12, 1 ],
 						"faces": {
-							"up":    { "uv": [ 0, 4, 16,  5 ], "texture": "#rail"                      },
-							"north": { "uv": [ 0, 4, 16, 15 ], "texture": "#rail", "cullface": "north" },
-							"south": { "uv": [ 0, 4, 16, 15 ], "texture": "#rail"                      }
+							"up":    { "uv": [  0, 4, 16, 5 ], "texture": "#rail" },
+							"down":  { "uv": [  0, 5, 16, 6 ], "texture": "#rail" },
+							"north": { "uv": [ 16, 4,  0, 6 ], "texture": "#rail" },
+							"east":  { "uv": [ 15, 4, 16, 6 ], "texture": "#rail", "cullface": "east" },
+							"south": { "uv": [  0, 4, 16, 6 ], "texture": "#rail" },
+							"west":  { "uv": [  0, 4,  1, 6 ], "texture": "#rail", "cullface": "west" }
 						}
 					}
 				]

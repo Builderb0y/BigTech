@@ -1,7 +1,6 @@
 {
-	"parent": "minecraft:block/ladder",
+	"parent": "bigtech:block/template_ladder",
 	"textures": {
-		"texture":  "bigtech:block/iron_ladder",
-		"particle": "bigtech:block/iron_ladder"
+		"ladder": "bigtech:block/iron_ladder"
 	}
 }

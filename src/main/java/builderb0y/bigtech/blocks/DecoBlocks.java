@@ -6,6 +6,7 @@ import net.minecraft.sound.BlockSoundGroup;
 
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.LedRegistrableCollection.LedColor;
 import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
 public class DecoBlocks {
@@ -203,6 +204,19 @@ public class DecoBlocks {
 			//obsidian instead of using the piston behavior on the block?
 			//in fact, obsidian doesn't even specify a piston behavior at all.
 			.pistonBehavior(PistonBehavior.BLOCK)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final LedBlockCollection LEDS = new LedBlockCollection(
+		true,
+		(LedColor color) -> new LedBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(color.dyeColor())
+			.pistonBehavior(PistonBehavior.DESTROY)
+			.strength(0.2F, 0.0F)
+			.noCollision()
 		)
 	);
 

@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:leds",
+	"ingredients": [
+		{ "tag": "bigtech:leds" },
+		{ "tag": "c:dyes/blue"  }
+	],
+	"result": {
+		"id": "bigtech:blue_led"
+	}
+}

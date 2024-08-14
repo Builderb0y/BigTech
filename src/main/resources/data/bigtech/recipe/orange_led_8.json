@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:leds",
+	"ingredients": [
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "c:dyes/orange" },
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "bigtech:leds"  },
+		{ "tag": "bigtech:leds"  }
+	],
+	"result": {
+		"id": "bigtech:orange_led"
+	}
+}

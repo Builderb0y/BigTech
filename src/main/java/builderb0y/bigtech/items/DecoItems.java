@@ -7,6 +7,7 @@ import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.CopperBarsDataGenerator;
 import builderb0y.bigtech.datagen.impl.CopperSlabDataGenerator;
+import builderb0y.bigtech.datagen.impl.LedDataGenerator;
 import builderb0y.bigtech.datagen.impl.SmoothObsidianDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.CopperCatwalkPlatformDataGenerator;
 import builderb0y.bigtech.datagen.impl.catwalkPlatforms.IronCatwalkPlatformDataGenerator;
@@ -21,6 +22,7 @@ import builderb0y.bigtech.datagen.impl.frames.WoodenFrameDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.CopperLadderDataGenerator;
 import builderb0y.bigtech.datagen.impl.metalLadders.IronLadderDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.LedRegistrableCollection.LedColor;
 import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
 public class DecoItems {
@@ -131,6 +133,11 @@ public class DecoItems {
 	@UseDataGen(SmoothObsidianDataGenerator.class)
 	public static final BlockItem SMOOTH_OBSIDIAN = BigTechItems.registerPlacer(
 		DecoBlocks.SMOOTH_OBSIDIAN
+	);
+	@UseDataGen(LedDataGenerator.class)
+	public static final LedItemCollection LEDS = new LedItemCollection(
+		true,
+		(LedColor color) -> new BlockItem(DecoBlocks.LEDS.get(color), new Item.Settings())
 	);
 
 	public static void init() {}

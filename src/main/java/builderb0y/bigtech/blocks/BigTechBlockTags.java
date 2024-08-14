@@ -11,30 +11,30 @@ import builderb0y.bigtech.api.LightningPulseInteractor;
 public class BigTechBlockTags {
 
 	public static final TagKey<Block>
-		BELTS                    = of("belts"),
-		BELT_SUPPORT             = of("belt_support"),
-		ASCENDERS                = of("ascenders"),
-		WOODEN_FRAMES            = of("wooden_frames"),
-		COPPER_FRAMES            = of("copper_frames"),
-		METAL_FRAMES             = of("metal_frames"),
-		FRAMES                   = of("frames"),
-		STICKS_TO_IRON_FRAME     = of("sticks_to_iron_frame"),
-		STICKS_TO_COPPER_FRAME   = of("sticks_to_copper_frame"),
-		STICKS_TO_GOLD_FRAME     = of("sticks_to_gold_frame"),
-		STICKS_TO_OAK_FRAME      = of("sticks_to_oak_frame"),
-		STICKS_TO_SPRUCE_FRAME   = of("sticks_to_spruce_frame"),
-		STICKS_TO_BIRCH_FRAME    = of("sticks_to_birch_frame"),
-		STICKS_TO_JUNGLE_FRAME   = of("sticks_to_jungle_frame"),
-		STICKS_TO_ACACIA_FRAME   = of("sticks_to_acacia_frame"),
-		STICKS_TO_DARK_OAK_FRAME = of("sticks_to_dark_oak_frame"),
-		STICKS_TO_CHERRY_FRAME   = of("sticks_to_cherry_frame"),
-		STICKS_TO_MANGROVE_FRAME = of("sticks_to_mangrove_frame"),
-		STICKS_TO_CRIMSON_FRAME  = of("sticks_to_crimson_frame"),
-		STICKS_TO_WARPED_FRAME   = of("sticks_to_warped_frame"),
-		COPPER_LADDERS           = of("copper_ladders"),
-		METAL_LADDERS            = of("metal_ladders"),
-		LADDERS                  = common("ladders"),
-		COPPER_SLABS             = of("copper_slabs"),
+		BELTS                     = of("belts"),
+		BELT_SUPPORT              = of("belt_support"),
+		ASCENDERS                 = of("ascenders"),
+		WOODEN_FRAMES             = of("wooden_frames"),
+		COPPER_FRAMES             = of("copper_frames"),
+		METAL_FRAMES              = of("metal_frames"),
+		FRAMES                    = of("frames"),
+		STICKS_TO_IRON_FRAME      = of("sticks_to_iron_frame"),
+		STICKS_TO_COPPER_FRAME    = of("sticks_to_copper_frame"),
+		STICKS_TO_GOLD_FRAME      = of("sticks_to_gold_frame"),
+		STICKS_TO_OAK_FRAME       = of("sticks_to_oak_frame"),
+		STICKS_TO_SPRUCE_FRAME    = of("sticks_to_spruce_frame"),
+		STICKS_TO_BIRCH_FRAME     = of("sticks_to_birch_frame"),
+		STICKS_TO_JUNGLE_FRAME    = of("sticks_to_jungle_frame"),
+		STICKS_TO_ACACIA_FRAME    = of("sticks_to_acacia_frame"),
+		STICKS_TO_DARK_OAK_FRAME  = of("sticks_to_dark_oak_frame"),
+		STICKS_TO_CHERRY_FRAME    = of("sticks_to_cherry_frame"),
+		STICKS_TO_MANGROVE_FRAME  = of("sticks_to_mangrove_frame"),
+		STICKS_TO_CRIMSON_FRAME   = of("sticks_to_crimson_frame"),
+		STICKS_TO_WARPED_FRAME    = of("sticks_to_warped_frame"),
+		COPPER_LADDERS            = of("copper_ladders"),
+		METAL_LADDERS             = of("metal_ladders"),
+		LADDERS                   = common("ladders"),
+		COPPER_SLABS              = of("copper_slabs"),
 		/**
 		contains vanilla blocks which can conduct a lightning pulse.
 		notably, this includes iron blocks, copper blocks, and gold blocks.
@@ -44,7 +44,7 @@ public class BigTechBlockTags {
 		because my own fallback provider will get called first, and it checks for this tag.
 		this tag is intended for normal metal blocks with no special behavior ONLY.
 		*/
-		CONDUCTS_LIGHTNING       = of("conducts_lightning"),
+		CONDUCTS_LIGHTNING        = of("conducts_lightning"),
 		/**
 		an extension of {@link #CONDUCTS_LIGHTNING} which indicates that the tagged
 		blocks should also shock nearby entities when receiving a lightning pulse,
@@ -87,7 +87,8 @@ public class BigTechBlockTags {
 		WAXED_COPPER_BARS         = of("waxed_copper_bars"),
 		UNWAXED_COPPER_SLABS      = of("unwaxed_copper_slabs"),
 		WAXED_COPPER_SLABS        = of("waxed_copper_slabs"),
-		SHEARS_MINEABLE           = common("mineable/shears");
+		SHEARS_MINEABLE           = common("mineable/shears"),
+		LEDS                      = of("leds");
 
 
 	public static TagKey<Block> common(String name) {

@@ -1,0 +1,21 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:black_led",
+		"bigtech:blue_led",
+		"bigtech:brown_led",
+		"bigtech:cyan_led",
+		"bigtech:gray_led",
+		"bigtech:green_led",
+		"bigtech:light_blue_led",
+		"bigtech:light_gray_led",
+		"bigtech:lime_led",
+		"bigtech:magenta_led",
+		"bigtech:orange_led",
+		"bigtech:pink_led",
+		"bigtech:purple_led",
+		"bigtech:red_led",
+		"bigtech:white_led",
+		"bigtech:yellow_led"
+	]
+}

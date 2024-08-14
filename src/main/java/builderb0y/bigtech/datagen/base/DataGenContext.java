@@ -131,34 +131,44 @@ public class DataGenContext {
 		return this.tags.computeIfAbsent(key, k -> new TagBuilder());
 	}
 
-	public String genericPath(String type, Identifier identifier, String subPath) {
+	public String genericPath(String type, Identifier identifier, String subPath, String extension) {
 		StringBuilder builder = new StringBuilder(type).append('/').append(identifier.getNamespace());
 		if (subPath.charAt(0) != '/') builder.append('/');
 		builder.append(subPath);
 		if (subPath.charAt(subPath.length() - 1) != '/') builder.append('/');
-		return builder.append(identifier.getPath()).append(".json").toString();
+		return builder.append(identifier.getPath()).append(extension).toString();
 	}
 
 	public String genericAssetsPath(Identifier identifier, String subPath) {
-		return this.genericPath("assets", identifier, subPath);
+		return this.genericPath("assets", identifier, subPath, ".json");
 	}
 
 	public String genericDataPath(Identifier identifier, String subPath) {
-		return this.genericPath("data", identifier, subPath);
+		return this.genericPath("data", identifier, subPath, ".json");
 	}
 
-	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath(identifier, "blockstates"      ); }
-	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/block"     ); }
-	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath(identifier, "models/item"      ); }
-	public String       particlePath(Identifier identifier) { return this.genericAssetsPath(identifier, "particles"        ); }
-	public String blockLootTablePath(Identifier identifier) { return this.genericDataPath  (identifier, "loot_table/blocks"); }
-	public String         recipePath(Identifier identifier) { return this.genericDataPath  (identifier, "recipe"           ); }
-	public String       blockTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/blocks"      ); }
-	public String        itemTagPath(Identifier identifier) { return this.genericDataPath  (identifier, "tags/items"       ); }
+	public String genericPngAssetsPath(Identifier identifier, String subPath) {
+		return this.genericPath("assets", identifier, subPath, ".png");
+	}
+
+	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath   (identifier, "blockstates"      ); }
+	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models/block"     ); }
+	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models/item"      ); }
+	public String       particlePath(Identifier identifier) { return this.genericAssetsPath   (identifier, "particles"        ); }
+	public String        texturePath(Identifier identifier) { return this.genericPngAssetsPath(identifier, "textures"         ); }
+	public String   blockTexturePath(Identifier identifier) { return this.genericPngAssetsPath(identifier, "textures/block"   ); }
+	public String    itemTexturePath(Identifier identifier) { return this.genericPngAssetsPath(identifier, "textures/item"    ); }
+	public String blockLootTablePath(Identifier identifier) { return this.genericDataPath     (identifier, "loot_table/blocks"); }
+	public String         recipePath(Identifier identifier) { return this.genericDataPath     (identifier, "recipe"           ); }
+	public String       blockTagPath(Identifier identifier) { return this.genericDataPath     (identifier, "tags/blocks"      ); }
+	public String        itemTagPath(Identifier identifier) { return this.genericDataPath     (identifier, "tags/items"       ); }
 	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath  (key.id(), RegistryKeys.getTagPath(key.registry())); }
 
 	public void writeToFile(String path, String text) {
-		byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
+		this.writeToFile(path, text.getBytes(StandardCharsets.UTF_8));
+	}
+
+	public void writeToFile(String path, byte[] bytes) {
 		for (File root : DataGen.ROOT_DIRECTORIES) {
 			File file = new File(root, path.replace('/', File.separatorChar));
 			if (file.exists()) {

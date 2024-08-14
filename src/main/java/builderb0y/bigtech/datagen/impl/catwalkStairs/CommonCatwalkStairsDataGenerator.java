@@ -92,24 +92,66 @@ public class CommonCatwalkStairsDataGenerator implements DataGenerator {
 				},
 				"elements": [
 					{
-						"from": [ 0,  8,  8 ],
-						"to":   [ 1, 20, 16 ],
+						"from": [ 0,  8, 14 ],
+						"to":   [ 1, 18, 16 ],
 						"faces": {
-							"east":  { "uv": [ 0, 4, 8, 16 ], "texture": "#stairs"                                       },
-							"south": { "uv": [ 0, 4, 1, 16 ], "texture": "#stairs", "cullface": "south"                  },
-							"west":  { "uv": [ 8, 4, 0, 16 ], "texture": "#stairs"                                       },
-							"up":    { "uv": [ 0, 4, 8,  5 ], "texture": "#stairs",                      "rotation": 270 }
+							"north": { "uv": [ 1, 6, 2, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [ 0, 6, 2, 16 ], "texture": "#stairs" },
+							"south": { "uv": [ 0, 6, 1, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 2, 6, 0, 16 ], "texture": "#stairs" }
 						}
 					},
 					{
-						"from": [ 0, 16, 0 ],
-						"to":   [ 1, 28, 8 ],
+						"from": [ 0,  8, 10 ],
+						"to":   [ 1, 18, 12 ],
 						"faces": {
-							"north": { "uv": [ 15, 4, 16, 16 ], "texture": "#stairs", "cullface": "north"                  },
-							"east":  { "uv": [  8, 4, 16, 16 ], "texture": "#stairs"                                       },
-							"south": { "uv": [  8, 4,  9, 16 ], "texture": "#stairs"                                       },
-							"west":  { "uv": [ 16, 4,  8, 16 ], "texture": "#stairs"                                       },
-							"up":    { "uv": [  8, 4, 16,  5 ], "texture": "#stairs",                      "rotation": 270 }
+							"north": { "uv": [ 5, 6, 6, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [ 4, 6, 6, 16 ], "texture": "#stairs" },
+							"south": { "uv": [ 4, 6, 5, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 6, 6, 4, 16 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 0, 16, 6 ],
+						"to":   [ 1, 26, 8 ],
+						"faces": {
+							"north": { "uv": [  9, 6, 10, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [  8, 6, 10, 16 ], "texture": "#stairs" },
+							"south": { "uv": [  8, 6,  9, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 10, 6,  8, 16 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 0, 16, 2 ],
+						"to":   [ 1, 26, 4 ],
+						"faces": {
+							"north": { "uv": [ 13, 6, 14, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [ 12, 6, 14, 16 ], "texture": "#stairs" },
+							"south": { "uv": [ 12, 6, 13, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 14, 6, 12, 16 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 0, 18,  8 ],
+						"to":   [ 1, 20, 16 ],
+						"faces": {
+							"up":    { "uv": [ 0, 4, 8, 5 ], "texture": "#stairs", "rotation": 270 },
+							"down":  { "uv": [ 0, 5, 8, 6 ], "texture": "#stairs", "rotation":  90 },
+							"east":  { "uv": [ 0, 4, 8, 6 ], "texture": "#stairs" },
+							"south": { "uv": [ 0, 4, 1, 6 ], "texture": "#stairs" },
+							"west":  { "uv": [ 8, 4, 0, 6 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 0, 26, 0 ],
+						"to": [ 1, 28, 8 ],
+						"faces": {
+							"up":    { "uv": [  8, 4, 16, 5 ], "texture": "#stairs", "rotation": 270 },
+							"down":  { "uv": [  8, 5, 16, 6 ], "texture": "#stairs", "rotation":  90 },
+							"north": { "uv": [ 15, 4, 16, 6 ], "texture": "#stairs" },
+							"east":  { "uv": [  8, 4, 16, 6 ], "texture": "#stairs" },
+							"south": { "uv": [  8, 4,  9, 6 ], "texture": "#stairs" },
+							"west":  { "uv": [ 16, 4,  8, 6 ], "texture": "#stairs" }
 						}
 					}
 				]
@@ -125,24 +167,66 @@ public class CommonCatwalkStairsDataGenerator implements DataGenerator {
 				},
 				"elements": [
 					{
-						"from": [ 15,  8,  8 ],
-						"to":   [ 16, 20, 16 ],
+						"from": [ 15,  8, 14 ],
+						"to":   [ 16, 18, 16 ],
 						"faces": {
-							"east":  { "uv": [ 0, 4, 8, 16 ], "texture": "#stairs"                                       },
-							"south": { "uv": [ 0, 4, 1, 16 ], "texture": "#stairs", "cullface": "south"                  },
-							"west":  { "uv": [ 8, 4, 0, 16 ], "texture": "#stairs"                                       },
-							"up":    { "uv": [ 0, 4, 8,  5 ], "texture": "#stairs",                      "rotation": 270 }
+							"north": { "uv": [ 1, 6, 2, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [ 0, 6, 2, 16 ], "texture": "#stairs" },
+							"south": { "uv": [ 0, 6, 1, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 2, 6, 0, 16 ], "texture": "#stairs" }
 						}
 					},
 					{
-						"from": [ 15, 16, 0 ],
+						"from": [ 15,  8, 10 ],
+						"to":   [ 16, 18, 12 ],
+						"faces": {
+							"north": { "uv": [ 5, 6, 6, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [ 4, 6, 6, 16 ], "texture": "#stairs" },
+							"south": { "uv": [ 4, 6, 5, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 6, 6, 4, 16 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 15, 16, 6 ],
+						"to":   [ 16, 26, 8 ],
+						"faces": {
+							"north": { "uv": [  9, 6, 10, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [  8, 6, 10, 16 ], "texture": "#stairs" },
+							"south": { "uv": [  8, 6,  9, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 10, 6,  8, 16 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 15, 16, 2 ],
+						"to":   [ 16, 26, 4 ],
+						"faces": {
+							"north": { "uv": [ 13, 6, 14, 16 ], "texture": "#stairs" },
+							"east":  { "uv": [ 12, 6, 14, 16 ], "texture": "#stairs" },
+							"south": { "uv": [ 12, 6, 13, 16 ], "texture": "#stairs" },
+							"west":  { "uv": [ 14, 6, 12, 16 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 15, 18,  8 ],
+						"to":   [ 16, 20, 16 ],
+						"faces": {
+							"up":    { "uv": [ 0, 4, 8, 5 ], "texture": "#stairs", "rotation": 270 },
+							"down":  { "uv": [ 0, 5, 8, 6 ], "texture": "#stairs", "rotation":  90 },
+							"east":  { "uv": [ 0, 4, 8, 6 ], "texture": "#stairs" },
+							"south": { "uv": [ 0, 4, 1, 6 ], "texture": "#stairs" },
+							"west":  { "uv": [ 8, 4, 0, 6 ], "texture": "#stairs" }
+						}
+					},
+					{
+						"from": [ 15, 26, 0 ],
 						"to":   [ 16, 28, 8 ],
 						"faces": {
-							"north": { "uv": [ 15, 4, 16, 16 ], "texture": "#stairs", "cullface": "north"                  },
-							"east":  { "uv": [  8, 4, 16, 16 ], "texture": "#stairs"                                       },
-							"south": { "uv": [  8, 4,  9, 16 ], "texture": "#stairs"                                       },
-							"west":  { "uv": [ 16, 4,  8, 16 ], "texture": "#stairs"                                       },
-							"up":    { "uv": [  8, 4, 16,  5 ], "texture": "#stairs",                      "rotation": 270 }
+							"up":    { "uv": [  8, 4, 16, 5 ], "texture": "#stairs", "rotation": 270 },
+							"down":  { "uv": [  8, 5, 16, 6 ], "texture": "#stairs", "rotation":  90 },
+							"north": { "uv": [ 15, 4, 16, 6 ], "texture": "#stairs" },
+							"east":  { "uv": [  8, 4, 16, 6 ], "texture": "#stairs" },
+							"south": { "uv": [  8, 4,  9, 6 ], "texture": "#stairs" },
+							"west":  { "uv": [ 16, 4,  8, 6 ], "texture": "#stairs" }
 						}
 					}
 				]
