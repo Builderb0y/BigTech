@@ -47,8 +47,6 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
 		if (oldBeam != null) oldBeam.removeFromWorld();
@@ -58,8 +56,6 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
 		PersistentBeam beam = new TripwireBeam(world, UUID.randomUUID());
@@ -70,8 +66,6 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 		PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
@@ -82,15 +76,11 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return direction.getHorizontal() >= 0 && state.get(Properties.POWERED) ? 15 : 0;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return direction == Direction.UP && state.get(Properties.POWERED) ? 15 : 0;
 	}

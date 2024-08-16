@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.util.EnumMap;
 
+import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.*;
@@ -10,6 +11,8 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
@@ -20,9 +23,18 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.Directions;
 
 public class LedBlock extends Block implements Waterloggable {
+
+	public static final MapCodec<LedBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	public static final EnumMap<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 	static {
@@ -111,13 +123,22 @@ public class LedBlock extends Block implements Waterloggable {
 	}
 
 	@Override
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(Properties.FACING, rotation.rotate(state.get(Properties.FACING)));
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.with(Properties.FACING, mirror.apply(state.get(Properties.FACING)));
+	}
+
+	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(Properties.FACING, Properties.LIT, Properties.WATERLOGGED);
 	}
 
 	@Override
-	@Deprecated
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}

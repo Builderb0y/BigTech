@@ -41,7 +41,6 @@ public class LargeLightningJarBlock extends AbstractLightningJarBlock {
 	}
 
 	@Override
-	@Deprecated
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
 	}

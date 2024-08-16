@@ -36,8 +36,6 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (direction == state.get(Properties.HORIZONTAL_FACING)) {
 			ShortRangeDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
@@ -52,8 +50,6 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (state.get(Properties.POWERED)) {
 			ShortRangeDestroyerBlockEntity destroyer = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);

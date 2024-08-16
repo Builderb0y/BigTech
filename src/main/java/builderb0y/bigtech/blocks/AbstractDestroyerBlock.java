@@ -41,15 +41,11 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof NamedScreenHandlerFactory factory ? factory : null;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		boolean powered = state.get(Properties.POWERED);
@@ -60,8 +56,6 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
 		boolean powered = state.get(Properties.POWERED);
@@ -72,8 +66,6 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!newState.isOf(this)) {
 			AbstractDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, AbstractDestroyerBlockEntity.class);
@@ -94,15 +86,11 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}

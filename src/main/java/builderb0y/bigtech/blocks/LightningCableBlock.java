@@ -66,8 +66,6 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
@@ -139,15 +137,11 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return switch (rotation) {
 			case NONE -> (
@@ -178,8 +172,6 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return switch (mirror) {
 			case NONE -> (

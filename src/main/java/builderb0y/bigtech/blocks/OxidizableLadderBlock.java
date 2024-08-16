@@ -29,8 +29,6 @@ public class OxidizableLadderBlock extends LadderBlock implements Oxidizable {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		this.tickDegradation(state, world, pos, random);
 	}

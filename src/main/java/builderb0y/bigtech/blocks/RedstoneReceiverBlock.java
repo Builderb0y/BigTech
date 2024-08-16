@@ -112,8 +112,6 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
 		boolean powered = state.get(Properties.POWERED);
@@ -124,8 +122,6 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		if (!state.get(Properties.POWERED)) {
 			world.setBlockState(pos, state.with(Properties.POWERED, Boolean.TRUE));
@@ -135,22 +131,16 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return direction.getHorizontal() >= 0 && state.get(Properties.POWERED) ? 15 : 0;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return direction == Direction.UP && state.get(Properties.POWERED) ? 15 : 0;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
 		if (state.get(Properties.POWERED)) {
@@ -160,8 +150,6 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 		if (state.get(Properties.POWERED)) {

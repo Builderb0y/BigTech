@@ -53,8 +53,6 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	public abstract int getPulseSteps();
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public abstract VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context);
 
 	@Override
@@ -156,16 +154,12 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		world.scheduleBlockTick(pos, this, 2);
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
 		boolean powered = state.get(Properties.POWERED);
@@ -187,22 +181,16 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean emitsRedstonePower(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean hasComparatorOutput(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
 		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 		if (jar != null) {

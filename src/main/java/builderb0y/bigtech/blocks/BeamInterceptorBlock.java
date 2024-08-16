@@ -92,8 +92,6 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPES.get(state.get(Properties.FACING));
 	}
@@ -122,22 +120,16 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean emitsRedstonePower(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return state.get(Properties.POWERED) ? 15 : 0;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return state.get(Properties.POWERED) && state.get(Properties.FACING) == direction.getOpposite() ? 15 : 0;
 	}
@@ -181,8 +173,6 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
 		this.setPowered(world, pos, state, null);
@@ -200,8 +190,6 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
 		Direction direction = state.get(Properties.FACING);
 		BlockPos offset = pos.offset(direction);
@@ -264,8 +252,6 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
@@ -277,8 +263,6 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
 		if (state.get(Properties.POWERED)) {
@@ -288,8 +272,6 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 		if (state.get(Properties.POWERED)) {
@@ -298,15 +280,11 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return state.with(Properties.FACING, rotation.rotate(state.get(Properties.FACING)));
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.with(Properties.FACING, mirror.apply(state.get(Properties.FACING)));
 	}

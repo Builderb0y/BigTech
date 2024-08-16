@@ -55,15 +55,11 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return HOLLOW_SHAPE;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getRaycastShape(BlockState state, BlockView world, BlockPos pos) {
 		return FULL_SHAPE;
 	}
@@ -78,8 +74,6 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!BigTechBlockEntityTypes.SILVER_IODIDE_CANNON.supports(newState)) {
 			SilverIodideCannonBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, SilverIodideCannonBlockEntity.class);
@@ -89,8 +83,6 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof SilverIodideCannonBlockEntity blockEntity ? blockEntity : null;
 	}

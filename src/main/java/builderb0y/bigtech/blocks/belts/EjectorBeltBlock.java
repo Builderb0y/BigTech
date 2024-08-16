@@ -33,7 +33,6 @@ public class EjectorBeltBlock extends RedstoneReceivingBeltBlock {
 	}
 
 	@Override
-	@SuppressWarnings("UnstableApiUsage")
 	public void setPowered(World world, BlockPos pos, BlockState state, boolean powered) {
 		super.setPowered(world, pos, state, powered);
 		if (powered) {

@@ -119,8 +119,6 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
@@ -215,8 +213,6 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		VoxelShape shape = this.shapes.get(state);
 		if (shape != null) return shape;
@@ -224,8 +220,6 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}

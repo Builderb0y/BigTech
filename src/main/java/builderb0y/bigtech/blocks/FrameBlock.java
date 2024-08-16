@@ -77,8 +77,6 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
@@ -87,8 +85,6 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		if (context instanceof HeldItemGetter heldItemGetter) {
 			ItemStack heldItem = heldItemGetter.bigtech_getHeldItem();
@@ -103,22 +99,16 @@ public class FrameBlock extends Block implements PistonInteractor, Waterloggable
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return COLLISION_SHAPE;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
 		return COLLISION_SHAPE;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}

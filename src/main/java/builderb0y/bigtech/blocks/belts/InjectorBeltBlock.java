@@ -66,7 +66,6 @@ public class InjectorBeltBlock extends DirectionalBeltBlock {
 		return item.getStack().isEmpty();
 	}
 
-	@SuppressWarnings("UnstableApiUsage")
 	public void tryStoreInBlocks(World world, BlockPos pos, ItemEntity item, Direction direction) {
 		BlockPos adjacentPos = pos.offset(direction);
 		Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, adjacentPos, direction.getOpposite());

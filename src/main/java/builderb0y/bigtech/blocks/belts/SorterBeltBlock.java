@@ -55,7 +55,6 @@ public class SorterBeltBlock extends DirectionalBeltBlock implements BlockEntity
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof SorterBeltBlockEntity factory ? factory : null;
 	}

@@ -46,15 +46,11 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return VoxelShapes.empty();
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
 		return VoxelShapes.empty();
 	}
@@ -107,16 +103,12 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 		SortingCache.invalidate(world, pos, state);
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		SortingCache.invalidate(world, pos, state);
 		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
@@ -162,8 +154,6 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
 		if (
@@ -175,8 +165,6 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return context.getStack().isOf(this.asItem()) && !context.shouldCancelInteraction();
 	}

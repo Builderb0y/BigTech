@@ -31,8 +31,6 @@ public class StoneCraftingTableBlock extends CraftingTableBlock implements Block
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (state.isOf(newState.getBlock())) {
 			return;

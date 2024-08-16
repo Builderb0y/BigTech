@@ -116,8 +116,6 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		int count = this.countEntities(world, pos, state);
 		if (state.get(Properties.POWER) != count) {
@@ -129,36 +127,26 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean emitsRedstonePower(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return direction != Direction.DOWN && state.get(Properties.POWER) != 0 ? 15 : 0;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return direction == Direction.UP && state.get(Properties.POWER) != 0 ? 15 : 0;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean hasComparatorOutput(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
 		return state.get(Properties.POWER);
 	}

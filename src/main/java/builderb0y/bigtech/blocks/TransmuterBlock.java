@@ -139,15 +139,11 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (state.isOf(newState.getBlock())) {
 			return;
@@ -167,15 +163,11 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean hasComparatorOutput(BlockState state) {
 		return true;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
 		TransmuterBlockEntity transmuter = WorldHelper.getBlockEntity(world, pos, TransmuterBlockEntity.class);
 		if (transmuter != null) {

@@ -114,8 +114,6 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(
 		BlockState state,
 		Direction direction,
@@ -208,15 +206,11 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPES[getShapeIndex(state)];
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return switch (rotation) {
 			case NONE -> (
@@ -247,8 +241,6 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return switch (mirror) {
 			case NONE -> (

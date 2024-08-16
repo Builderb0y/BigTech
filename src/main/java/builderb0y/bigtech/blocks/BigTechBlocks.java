@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
@@ -133,7 +134,16 @@ public class BigTechBlocks {
 		);
 	}
 
+	public static final boolean checkCodecs = FabricLoader.getInstance().isDevelopmentEnvironment();
+	public static final String getCodec = FabricLoader.getInstance().getMappingResolver().mapMethodName("intermediary", "net.minecraft.class_4970", "method_53969", "()Lcom/mojang/serialization/MapCodec;");
+
 	public static <B extends Block> B register(String name, B block) {
+		if (checkCodecs) try {
+			block.getClass().getDeclaredMethod(getCodec);
+		}
+		catch (NoSuchMethodException exception) {
+			throw new IllegalStateException(block.getClass() + " does not override getCodec()!", exception);
+		}
 		return Registry.register(Registries.BLOCK, BigTechMod.modID(name), block);
 	}
 }

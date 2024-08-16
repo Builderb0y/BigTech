@@ -57,8 +57,6 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
 		if (this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity)) {
@@ -72,15 +70,11 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		if (state.get(Properties.WATERLOGGED)) {
 			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
@@ -99,8 +93,6 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
 		BlockPos downPos = pos.down();
 		BlockState downState = world.getBlockState(downPos);
@@ -114,8 +106,6 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return (state.get(Properties.WATERLOGGED) ? Fluids.WATER : Fluids.EMPTY).getDefaultState();
 	}

@@ -131,8 +131,6 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return (
 			context instanceof HeldItemGetter getter && (
@@ -146,8 +144,6 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return HOVERED_SHAPES[getShapeIndex(state)];
 	}
@@ -189,8 +185,6 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState getStateForNeighborUpdate(
 		BlockState state,
 		Direction direction,
@@ -234,8 +228,6 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		BlockPos neighborPos = pos.offset(getOtherHalfDirection(state));
 		BlockState neighborState = world.getBlockState(neighborPos);
@@ -333,22 +325,16 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public FluidState getFluidState(BlockState state) {
 		return state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}

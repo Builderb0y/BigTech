@@ -35,8 +35,6 @@ public class PhaseManipulatorBlock extends Block implements BeamInteractor {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
 		return 1.0F;
 	}

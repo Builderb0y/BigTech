@@ -103,22 +103,16 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return context.getStack().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof AbstractBeltBlock && !context.shouldCancelInteraction();
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}

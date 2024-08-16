@@ -54,8 +54,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
 		if (oldBeam != null) oldBeam.removeFromWorld();
@@ -67,8 +65,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
 		boolean powered = state.get(Properties.POWERED);
@@ -79,8 +75,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		boolean powered = state.get(Properties.POWERED);
@@ -91,8 +85,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
 		if (state.get(Properties.POWERED)) {
@@ -102,8 +94,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 		if (state.get(Properties.POWERED)) {

@@ -39,8 +39,6 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	whether or not redstone dust will connect to this block.
 	*/
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean emitsRedstonePower(BlockState state) {
 		return true;
 	}
@@ -69,8 +67,6 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
 		boolean powered = this.isPowered(world, pos, state);

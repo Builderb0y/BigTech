@@ -37,8 +37,6 @@ public class LongRangeDestroyerBlock extends AbstractDestroyerBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
 		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
 		if (oldBeam != null) oldBeam.removeFromWorld();
@@ -50,8 +48,6 @@ public class LongRangeDestroyerBlock extends AbstractDestroyerBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
 		if (state.get(Properties.POWERED)) {
@@ -61,8 +57,6 @@ public class LongRangeDestroyerBlock extends AbstractDestroyerBlock {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 		if (state.get(Properties.POWERED)) {

@@ -55,15 +55,11 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return COLLISION_SHAPE;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
 		IgnitorBlockEntity ignitor = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
@@ -80,15 +76,11 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof IgnitorBlockEntity blockEntity ? blockEntity : null;
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!BigTechBlockEntityTypes.IGNITOR.supports(newState)) {
 			IgnitorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
@@ -113,15 +105,11 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState rotate(BlockState state, BlockRotation rotation) {
 		return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
 	}
 
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.with(Properties.HORIZONTAL_FACING, mirror.apply(state.get(Properties.HORIZONTAL_FACING)));
 	}
