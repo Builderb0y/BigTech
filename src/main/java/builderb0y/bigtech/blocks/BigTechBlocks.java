@@ -1,5 +1,8 @@
 package builderb0y.bigtech.blocks;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.stream.Stream;
 
 import net.fabricmc.api.EnvType;
@@ -138,11 +141,33 @@ public class BigTechBlocks {
 	public static final String getCodec = FabricLoader.getInstance().getMappingResolver().mapMethodName("intermediary", "net.minecraft.class_4970", "method_53969", "()Lcom/mojang/serialization/MapCodec;");
 
 	public static <B extends Block> B register(String name, B block) {
-		if (checkCodecs) try {
-			block.getClass().getDeclaredMethod(getCodec);
-		}
-		catch (NoSuchMethodException exception) {
-			throw new IllegalStateException(block.getClass() + " does not override getCodec()!", exception);
+		if (checkCodecs && block.getClass() != Block.class) {
+			Method method;
+			try {
+				method = block.getClass().getDeclaredMethod(getCodec);
+			}
+			catch (NoSuchMethodException exception) {
+				throw new IllegalStateException(block.getClass() + " does not override getCodec()!", exception);
+			}
+			if (!Modifier.isAbstract(method.getModifiers())) {
+				Field field;
+				try {
+					field = block.getClass().getDeclaredField("CODEC");
+				}
+				catch (NoSuchFieldException exception) {
+					throw new IllegalStateException(block.getClass() + " does not have a CODEC field?", exception);
+				}
+				try {
+					field.setAccessible(true);
+					method.setAccessible(true);
+					if (field.get(null) != method.invoke(block)) {
+						throw new IllegalStateException(block.getClass() + " does not return its own MapCodec!");
+					}
+				}
+				catch (ReflectiveOperationException exception) {
+					throw new IllegalStateException(block.getClass() + " refuses to tell me what its codec is.");
+				}
+			}
 		}
 		return Registry.register(Registries.BLOCK, BigTechMod.modID(name), block);
 	}

@@ -39,7 +39,6 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
-		resurrector: uses lightning power and mob drops to summon the mob that drops those items
 		lightning enchanter: uses lightning power to enchant items
 		magnetite:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
@@ -140,6 +139,7 @@ done:
 
 canceled:
 	lightning rod: already in vanilla.
+	resurrector: unsure how to balance properly, potential for duping.
 
 when updating to MC 1.20.4/5:
 	there is apparently an attribute for player reach distance now.

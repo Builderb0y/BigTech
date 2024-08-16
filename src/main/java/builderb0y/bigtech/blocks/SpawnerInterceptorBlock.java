@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -23,6 +24,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.blockEntities.SpawnerInterceptorBlockEntity;
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class SpawnerInterceptorBlock extends Block implements BlockEntityProvider {
@@ -34,6 +36,14 @@ public class SpawnerInterceptorBlock extends Block implements BlockEntityProvide
 		VoxelShapes.cuboidUnchecked(0.1875D, 0.1875D, 0.6875D, 0.3125D, 0.25D,   0.8125D),
 		VoxelShapes.cuboidUnchecked(0.6875D, 0.1875D, 0.6875D, 0.8125D, 0.25D,   0.8125D)
 	);
+
+	public static final MapCodec<SpawnerInterceptorBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public MapCodec getCodec() {
+		return CODEC;
+	}
 
 	static {
 		ItemStorage.SIDED.registerForBlocks(
