@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_bars_south",
+	"textures": {
+		"bars": "bigtech:block/weathered_copper_bars"
+	}
+}

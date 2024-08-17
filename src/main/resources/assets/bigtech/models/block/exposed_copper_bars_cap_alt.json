@@ -1,8 +1,0 @@
-{
-	"parent": "minecraft:block/iron_bars_cap_alt",
-	"textures": {
-		"bars":     "bigtech:block/exposed_copper_bars",
-		"edge":     "bigtech:block/exposed_copper_bars",
-		"particle": "bigtech:block/exposed_copper_bars"
-	}
-}

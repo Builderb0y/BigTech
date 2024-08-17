@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_bars_west",
+	"textures": {
+		"bars": "minecraft:block/iron_bars"
+	}
+}

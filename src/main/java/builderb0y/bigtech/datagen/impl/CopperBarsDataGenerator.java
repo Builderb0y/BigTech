@@ -13,6 +13,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
@@ -20,6 +21,7 @@ import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
+@Dependencies(CommonBarsDataGenerator.class)
 public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 
 	public final CopperRegistrableCollection.Type type;
@@ -38,16 +40,11 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 				"""
 				{
 					"multipart": [
-						{ "apply": { "model": "bigtech:block/%VARbars_post_ends"         }                                                                                   },
-						{ "apply": { "model": "bigtech:block/%VARbars_post"              }, "when": { "north": "false", "east": "false", "south": "false", "west": "false" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_cap"               }, "when": { "north": "true",  "east": "false", "south": "false", "west": "false" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_cap",      "y": 90 }, "when": { "north": "false", "east": "true",  "south": "false", "west": "false" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_cap_alt"           }, "when": { "north": "false", "east": "false", "south": "true",  "west": "false" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_cap_alt",  "y": 90 }, "when": { "north": "false", "east": "false", "south": "false", "west": "true"  } },
-						{ "apply": { "model": "bigtech:block/%VARbars_side"              }, "when": { "north": "true"                                                      } },
-						{ "apply": { "model": "bigtech:block/%VARbars_side",     "y": 90 }, "when": {                   "east": "true"                                     } },
-						{ "apply": { "model": "bigtech:block/%VARbars_side_alt"          }, "when": {                                    "south": "true"                   } },
-						{ "apply": { "model": "bigtech:block/%VARbars_side_alt", "y": 90 }, "when": {                                                      "west": "true"  } }
+						{ "apply": { "model": "bigtech:block/%VARbars_center" } },
+						{ "apply": { "model": "bigtech:block/%VARbars_north"  }, "when": { "north": "true" } },
+						{ "apply": { "model": "bigtech:block/%VARbars_east"   }, "when": { "east":  "true" } },
+						{ "apply": { "model": "bigtech:block/%VARbars_south"  }, "when": { "south": "true" } },
+						{ "apply": { "model": "bigtech:block/%VARbars_west"   }, "when": { "west":  "true" } }
 					]
 				}""",
 				Map.of("VAR", this.type.notWaxed().copperPrefix)
@@ -58,14 +55,11 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		if (!this.type.waxed) {
-			for (String suffix : new String[] { "_cap_alt", "_cap", "_post_ends", "_post", "_side_alt", "_side" }) {
-				context.writeToFile(
-					context.blockModelPath(context.suffixPath(this.getId(), suffix)),
+			for (String suffix : new String[] { "_center", "_north", "_east", "_south", "_west" }) {				context.writeToFile(
+				context.blockModelPath(context.suffixPath(this.getId(), suffix)),
 					new RetexturedModelBuilder()
-					.blockParent(Identifier.ofVanilla("iron_bars${suffix}"))
-					.blockTexture("bars",     BigTechMod.modID("${this.type.copperPrefix}bars"))
-					.blockTexture("edge",     BigTechMod.modID("${this.type.copperPrefix}bars"))
-					.blockTexture("particle", BigTechMod.modID("${this.type.copperPrefix}bars"))
+					.blockParent(BigTechMod.modID("template_bars${suffix}"))
+					.blockTexture("bars", BigTechMod.modID("${this.type.copperPrefix}bars"))
 					.toString()
 				);
 			}

@@ -1,0 +1,9 @@
+{
+	"multipart": [
+		{ "apply": { "model": "bigtech:block/vanilla_iron_bars_center" } },
+		{ "apply": { "model": "bigtech:block/vanilla_iron_bars_north"  }, "when": { "north": "true" } },
+		{ "apply": { "model": "bigtech:block/vanilla_iron_bars_east"   }, "when": { "east":  "true" } },
+		{ "apply": { "model": "bigtech:block/vanilla_iron_bars_south"  }, "when": { "south": "true" } },
+		{ "apply": { "model": "bigtech:block/vanilla_iron_bars_west"   }, "when": { "west":  "true" } }
+	]
+}

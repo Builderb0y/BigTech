@@ -1,0 +1,41 @@
+{
+	"textures": {
+		"bars":     "bigtech:block/copper_bars",
+		"particle": "bigtech:block/copper_bars"
+	},
+	"elements": [
+		{
+			"from": [ 12,  0, 7 ],
+			"to":   [ 14, 16, 9 ],
+			"faces": {
+				"up":    { "uv": [ 12,  0, 14,  2 ], "texture": "#bars" },
+				"down":  { "uv": [ 12, 14, 14, 16 ], "texture": "#bars" },
+				"north": { "uv": [ 14,  0, 12, 16 ], "texture": "#bars" },
+				"east":  { "uv": [ 12,  0, 14, 16 ], "texture": "#bars" },
+				"south": { "uv": [ 12,  0, 14, 16 ], "texture": "#bars" },
+				"west":  { "uv": [ 12,  0, 14, 16 ], "texture": "#bars" }
+			}
+		},
+		{
+			"from": [  9, 2, 7 ],
+			"to":   [ 12, 4, 9 ],
+			"faces": {
+				"up":    { "uv": [ 12, 12,  9, 14 ], "texture": "#bars", "rotation": 180 },
+				"down":  { "uv": [  9, 12, 12, 14 ], "texture": "#bars" },
+				"north": { "uv": [ 12, 12,  9, 14 ], "texture": "#bars" },
+				"south": { "uv": [  9, 12, 12, 14 ], "texture": "#bars" }
+			}
+		},
+		{
+			"from": [ 14, 7, 7 ],
+			"to":   [ 16, 9, 9 ],
+			"faces": {
+				"up":    { "uv": [ 16, 7, 14, 9 ], "texture": "#bars", "rotation": 180 },
+				"down":  { "uv": [ 14, 7, 16, 9 ], "texture": "#bars" },
+				"north": { "uv": [ 16, 7, 14, 9 ], "texture": "#bars" },
+				"east":  { "uv": [ 14, 7, 16, 9 ], "texture": "#bars", "cullface": "east" },
+				"south": { "uv": [ 14, 7, 16, 9 ], "texture": "#bars" }
+			}
+		}
+	]
+}

@@ -3,6 +3,7 @@ bugs:
 
 where I left off:
 	make destroyers play tool breaking sound when breaking a tool.
+	do the tops and bottoms of bars need their UVs rotated?
 
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
@@ -20,6 +21,7 @@ testing:
 
 features:
 	general:
+		fabric now has a data attachments system so I don't need cardinal components anymore.
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
