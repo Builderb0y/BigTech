@@ -1,0 +1,9 @@
+{
+	"parent": "bigtech:block/template_conductive_anvil",
+	"textures": {
+		"side":   "bigtech:block/conductive_anvil_side",
+		"front":  "bigtech:block/conductive_anvil_front",
+		"top":    "bigtech:block/conductive_anvil_top",
+		"bottom": "bigtech:block/conductive_anvil_bottom"
+	}
+}

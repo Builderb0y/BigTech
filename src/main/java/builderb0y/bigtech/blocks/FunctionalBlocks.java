@@ -8,6 +8,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
 
 public class FunctionalBlocks {
@@ -259,6 +260,24 @@ public class FunctionalBlocks {
 		new CopperCoilBlock(
 			AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)
 		)
+	);
+	@UseDataGen(void.class)
+	public static final CopperBlockCollection CONDUCTIVE_ANVILS = new CopperBlockCollection(
+		(CopperRegistrableCollection.Type type) -> type.noCopperPrefix + "conductive_anvil",
+		(CopperRegistrableCollection.Type type) -> {
+			AbstractBlock.Settings settings = (
+				AbstractBlock
+				.Settings
+				.copy(Blocks.ANVIL)
+				.mapColor(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type).getDefaultMapColor())
+				.sounds(BigTechBlocks.CONDUCTIVE_ANVIL_SOUND_GROUP)
+			);
+			return (
+				type.waxed
+				? new ConductiveAnvilBlock(settings)
+				: new OxidizableConductiveAnvilBlock(settings, type.level)
+			);
+		}
 	);
 
 	//////////////////////////////// crystals ////////////////////////////////

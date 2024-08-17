@@ -9,7 +9,7 @@
 	],
 	"key": {
 		"i": { "tag": "c:iron_ingots"  },
-		"n": { "tag": "c:iron_nuggets" }
+		"n": { "tag": "c:nuggets/iron" }
 	},
 	"result": {
 		"id": "bigtech:iron_frame",

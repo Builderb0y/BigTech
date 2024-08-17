@@ -50,7 +50,7 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 						{ "apply": { "model": "bigtech:block/%VARbars_side_alt", "y": 90 }, "when": {                                                      "west": "true"  } }
 					]
 				}""",
-				Map.of("VAR", this.type.notWaxed().prefix)
+				Map.of("VAR", this.type.notWaxed().copperPrefix)
 			)
 		);
 	}
@@ -63,9 +63,9 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 					context.blockModelPath(context.suffixPath(this.getId(), suffix)),
 					new RetexturedModelBuilder()
 					.blockParent(Identifier.ofVanilla("iron_bars${suffix}"))
-					.blockTexture("bars",     BigTechMod.modID("${this.type.prefix}bars"))
-					.blockTexture("edge",     BigTechMod.modID("${this.type.prefix}bars"))
-					.blockTexture("particle", BigTechMod.modID("${this.type.prefix}bars"))
+					.blockTexture("bars",     BigTechMod.modID("${this.type.copperPrefix}bars"))
+					.blockTexture("edge",     BigTechMod.modID("${this.type.copperPrefix}bars"))
+					.blockTexture("particle", BigTechMod.modID("${this.type.copperPrefix}bars"))
 					.toString()
 				);
 			}
@@ -78,7 +78,7 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
 			.itemParent(Identifier.ofVanilla("generated"))
-			.blockTexture("layer0", BigTechMod.modID(this.type.notWaxed().prefix + "bars"))
+			.blockTexture("layer0", BigTechMod.modID(this.type.notWaxed().copperPrefix + "bars"))
 			.toString()
 		);
 	}

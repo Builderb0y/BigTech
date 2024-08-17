@@ -34,16 +34,14 @@ public class BigTechItemTags {
 		CRYSTAL_CLUSTERS          = of("crystal_clusters"),
 		PHASE_MANIPULATORS        = of("phase_manipulators"),
 		PRESSURE_PLATES           = common("pressure_plates"),
-		IRON_NUGGETS              = common("iron_nuggets"),
-		COPPER_NUGGETS            = common("copper_nuggets"),
-		GOLD_NUGGETS              = common("gold_nuggets"),
-		STICKS                    = common("wood_sticks"),
-		REDSTONE_BLOCKS           = common("redstone_blocks"),
+		IRON_NUGGETS              = common("nuggets/iron"),
+		COPPER_NUGGETS            = common("nuggets/copper"),
+		GOLD_NUGGETS              = common("nuggets/gold"),
 		OBSIDIAN                  = common("obsidian"),
 		IRON_BLOCKS               = common("iron_blocks"),
-		MAGNETITE_NUGGETS         = common("magnetite_nuggets"),
-		MAGNETITE_INGOTS          = common("magnetite_ingots"),
-		MAGNETITE_BLOCKS          = common("magnetite_blocks"),
+		MAGNETITE_NUGGETS         = common("nuggets/magnetite"),
+		MAGNETITE_INGOTS          = common("ingots/magnetite"),
+		MAGNETITE_BLOCKS          = common("storage_blocks/magnetite"),
 		UNWAXED_COPPER_BLOCKS     = common("unwaxed_copper_blocks"),
 		WAXED_COPPER_BLOCKS       = common("waxed_copper_blocks"),
 		UNWAXED_CUT_COPPER_BLOCKS = common("unwaxed_cut_copper_blocks"),
@@ -56,7 +54,8 @@ public class BigTechItemTags {
 		WAXED_COPPER_BARS         = of("waxed_copper_bars"),
 		UNWAXED_COPPER_SLABS      = of("unwaxed_copper_slabs"),
 		WAXED_COPPER_SLABS        = of("waxed_copper_slabs"),
-		LEDS                      = of("leds");
+		LEDS                      = of("leds"),
+		CONDUCTIVE_ANVILS         = of("conductive_anvils");
 
 
 	public static TagKey<Item> of(String name) {

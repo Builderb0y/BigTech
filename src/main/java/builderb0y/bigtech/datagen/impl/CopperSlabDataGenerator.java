@@ -22,6 +22,7 @@ import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.tables.Table;
+import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 @Dependencies(CommonCopperSlabDataGenerator.class)
@@ -67,7 +68,7 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
 			.blockTexture("bottom", this.vanillaTexture())
 			.blockTexture("top", this.vanillaTexture())
-			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().prefix + "slab"))
+			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"))
 			.toString()
 		);
 		context.writeToFile(
@@ -76,7 +77,7 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 			.blockParent(Identifier.ofVanilla("slab"))
 			.blockTexture("bottom", this.vanillaTexture())
 			.blockTexture("top", this.vanillaTexture())
-			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().prefix + "slab"))
+			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"))
 			.toString()
 		);
 		context.writeToFile(
@@ -85,7 +86,7 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 			.blockParent(Identifier.ofVanilla("slab_top"))
 			.blockTexture("bottom", this.vanillaTexture())
 			.blockTexture("top", this.vanillaTexture())
-			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().prefix + "slab"))
+			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"))
 			.toString()
 		);
 	}
@@ -112,7 +113,7 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.COPPER_SLABS).addElement(this.getId());
+		context.getTags(BigTechItemTags.COPPER_SLABS).addElement(this.getId());
 	}
 
 	@Override

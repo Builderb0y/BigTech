@@ -22,11 +22,11 @@ public class OxidizableFrameBlock extends FrameBlock implements Oxidizable {
 		return CODEC;
 	}
 
-	public final OxidationLevel oxidationLevel;
+	public final OxidationLevel oxidation_level;
 
-	public OxidizableFrameBlock(Settings settings, TagKey<Block> sticksTo, OxidationLevel oxidationLevel) {
+	public OxidizableFrameBlock(Settings settings, TagKey<Block> sticksTo, OxidationLevel oxidation_level) {
 		super(settings, sticksTo);
-		this.oxidationLevel = oxidationLevel;
+		this.oxidation_level = oxidation_level;
 	}
 
 	@Override
@@ -41,6 +41,6 @@ public class OxidizableFrameBlock extends FrameBlock implements Oxidizable {
 
 	@Override
 	public OxidationLevel getDegradationLevel() {
-		return this.oxidationLevel;
+		return this.oxidation_level;
 	}
 }

@@ -20,11 +20,11 @@ public class OxidizableCatwalkPlatformBlock extends CatwalkPlatformBlock impleme
 		return CODEC;
 	}
 
-	public final OxidationLevel oxidationLevel;
+	public final OxidationLevel oxidation_level;
 
-	public OxidizableCatwalkPlatformBlock(Settings settings, OxidationLevel oxidationLevel) {
+	public OxidizableCatwalkPlatformBlock(Settings settings, OxidationLevel oxidation_level) {
 		super(settings);
-		this.oxidationLevel = oxidationLevel;
+		this.oxidation_level = oxidation_level;
 	}
 
 	@Override
@@ -39,6 +39,6 @@ public class OxidizableCatwalkPlatformBlock extends CatwalkPlatformBlock impleme
 
 	@Override
 	public OxidationLevel getDegradationLevel() {
-		return this.oxidationLevel;
+		return this.oxidation_level;
 	}
 }

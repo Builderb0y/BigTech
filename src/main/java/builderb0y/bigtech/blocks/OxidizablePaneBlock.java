@@ -21,11 +21,11 @@ public class OxidizablePaneBlock extends PaneBlock implements Oxidizable {
 		return CODEC;
 	}
 
-	public final OxidationLevel oxidationLevel;
+	public final OxidationLevel oxidation_level;
 
-	public OxidizablePaneBlock(Settings settings, OxidationLevel oxidationLevel) {
+	public OxidizablePaneBlock(Settings settings, OxidationLevel oxidation_level) {
 		super(settings);
-		this.oxidationLevel = oxidationLevel;
+		this.oxidation_level = oxidation_level;
 	}
 
 	@Override
@@ -40,6 +40,6 @@ public class OxidizablePaneBlock extends PaneBlock implements Oxidizable {
 
 	@Override
 	public OxidationLevel getDegradationLevel() {
-		return this.oxidationLevel;
+		return this.oxidation_level;
 	}
 }

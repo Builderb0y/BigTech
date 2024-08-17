@@ -2,6 +2,7 @@ package builderb0y.bigtech.registrableCollections;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import net.minecraft.block.Oxidizable.OxidationLevel;
 
@@ -18,7 +19,7 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		waxed_oxidized_copper;
 
 	public CopperRegistrableCollection(
-		String suffix,
+		Function<Type, String> namer,
 		T copper,
 		T exposed_copper,
 		T weathered_copper,
@@ -37,12 +38,12 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		this.waxed_weathered_copper = waxed_weathered_copper;
 		this. waxed_oxidized_copper =  waxed_oxidized_copper;
 
-		if (suffix != null) this.register(suffix);
+		if (namer != null) this.register(namer);
 	}
 
-	public CopperRegistrableCollection(String suffix, SeparateCopperRegistrableFactory<T> unwaxedFactory, SeparateCopperRegistrableFactory<T> waxedFactory) {
+	public CopperRegistrableCollection(Function<Type, String> namer, SeparateCopperRegistrableFactory<T> unwaxedFactory, SeparateCopperRegistrableFactory<T> waxedFactory) {
 		this(
-			suffix,
+			namer,
 			unwaxedFactory.create(OxidationLevel.UNAFFECTED),
 			unwaxedFactory.create(OxidationLevel.EXPOSED),
 			unwaxedFactory.create(OxidationLevel.WEATHERED),
@@ -54,9 +55,9 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		);
 	}
 
-	public CopperRegistrableCollection(String suffix, MergedCopperRegistrableFactory<T> factory) {
+	public CopperRegistrableCollection(Function<Type, String> namer, MergedCopperRegistrableFactory<T> factory) {
 		this(
-			suffix,
+			namer,
 			factory.create(Type.                COPPER),
 			factory.create(Type.        EXPOSED_COPPER),
 			factory.create(Type.      WEATHERED_COPPER),
@@ -68,7 +69,7 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		);
 	}
 
-	public abstract void register(String suffix);
+	public abstract void register(Function<Type, String> namer);
 
 	@FunctionalInterface
 	public static interface MergedCopperRegistrableFactory<T> {
@@ -181,14 +182,14 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 
 		public final OxidationLevel level;
 		public final boolean waxed;
-		public final String lowerCaseName;
-		public final String prefix;
+		public final String lowerCaseName, copperPrefix, noCopperPrefix;
 
 		Type(OxidationLevel level, boolean waxed) {
 			this.level = level;
 			this.waxed = waxed;
 			this.lowerCaseName = this.name().toLowerCase(Locale.ROOT);
-			this.prefix = this.lowerCaseName + '_';
+			this.copperPrefix = this.lowerCaseName + '_';
+			this.noCopperPrefix = this.copperPrefix.substring(0, this.copperPrefix.length() - "copper_".length());
 		}
 
 		public static Type get(OxidationLevel level, boolean waxed) {

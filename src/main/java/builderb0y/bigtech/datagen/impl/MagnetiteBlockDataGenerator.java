@@ -1,5 +1,8 @@
 package builderb0y.bigtech.datagen.impl;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
@@ -44,7 +47,6 @@ public class MagnetiteBlockDataGenerator extends BasicBlockDataGenerator {
 
 	@Override
 	public void setupOtherBlockTags(DataGenContext context) {
-		context.getTags(BigTechBlockTags.IRON_BLOCKS).add(Blocks.IRON_BLOCK);
 		context.getTags(BigTechBlockTags.MAGNETITE_BLOCKS).addElement(this.getId());
 		context.getTags(BlockTags.BEACON_BASE_BLOCKS).addElement(this.getId());
 	}
@@ -71,7 +73,7 @@ public class MagnetiteBlockDataGenerator extends BasicBlockDataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "tag":  "c:iron_blocks"           },
+				"input":  { "tag":  "c:storage_blocks/iron"   },
 				"output": { "item": "bigtech:magnetite_block" },
 				"energy": 810
 			}"""

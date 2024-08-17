@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blocks;
 
+import java.util.function.Function;
+
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 
 import net.minecraft.block.Block;
@@ -9,7 +11,7 @@ import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 
 	public CopperBlockCollection(
-		String suffix,
+		Function<Type, String> namer,
 		Block copper,
 		Block exposed_copper,
 		Block weathered_copper,
@@ -20,7 +22,7 @@ public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 		Block waxed_oxidized_copper
 	) {
 		super(
-			suffix,
+			namer,
 			copper,
 			exposed_copper,
 			weathered_copper,
@@ -32,24 +34,24 @@ public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 		);
 	}
 
-	public CopperBlockCollection(String suffix, SeparateCopperRegistrableFactory<Block> unwaxedFactory, SeparateCopperRegistrableFactory<Block> waxedFactory) {
-		super(suffix, unwaxedFactory, waxedFactory);
+	public CopperBlockCollection(Function<Type, String> namer, SeparateCopperRegistrableFactory<Block> unwaxedFactory, SeparateCopperRegistrableFactory<Block> waxedFactory) {
+		super(namer, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperBlockCollection(String suffix, MergedCopperRegistrableFactory<Block> factory) {
-		super(suffix, factory);
+	public CopperBlockCollection(Function<Type, String> namer, MergedCopperRegistrableFactory<Block> factory) {
+		super(namer, factory);
 	}
 
 	@Override
-	public void register(String suffix) {
-		BigTechBlocks.register(                "copper_" + suffix, this.                copper);
-		BigTechBlocks.register(        "exposed_copper_" + suffix, this.        exposed_copper);
-		BigTechBlocks.register(      "weathered_copper_" + suffix, this.      weathered_copper);
-		BigTechBlocks.register(       "oxidized_copper_" + suffix, this.       oxidized_copper);
-		BigTechBlocks.register(          "waxed_copper_" + suffix, this.          waxed_copper);
-		BigTechBlocks.register(  "waxed_exposed_copper_" + suffix, this.  waxed_exposed_copper);
-		BigTechBlocks.register("waxed_weathered_copper_" + suffix, this.waxed_weathered_copper);
-		BigTechBlocks.register( "waxed_oxidized_copper_" + suffix, this. waxed_oxidized_copper);
+	public void register(Function<Type, String> namer) {
+		BigTechBlocks.register(namer.apply(Type.COPPER),                 this.                copper);
+		BigTechBlocks.register(namer.apply(Type.EXPOSED_COPPER),         this.        exposed_copper);
+		BigTechBlocks.register(namer.apply(Type.WEATHERED_COPPER),       this.      weathered_copper);
+		BigTechBlocks.register(namer.apply(Type.OXIDIZED_COPPER),        this.       oxidized_copper);
+		BigTechBlocks.register(namer.apply(Type.WAXED_COPPER),           this.          waxed_copper);
+		BigTechBlocks.register(namer.apply(Type.WAXED_EXPOSED_COPPER),   this.  waxed_exposed_copper);
+		BigTechBlocks.register(namer.apply(Type.WAXED_WEATHERED_COPPER), this.waxed_weathered_copper);
+		BigTechBlocks.register(namer.apply(Type.WAXED_OXIDIZED_COPPER),  this. waxed_oxidized_copper);
 
 		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.          copper, this.  exposed_copper);
 		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.  exposed_copper, this.weathered_copper);

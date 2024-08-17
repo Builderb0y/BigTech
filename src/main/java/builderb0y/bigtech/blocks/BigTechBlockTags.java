@@ -73,8 +73,7 @@ public class BigTechBlockTags {
 		CRYSTAL_CLUSTERS          = of("crystal_clusters"),
 		PHASE_MANIPULATORS        = of("phase_manipulators"),
 		MINER_BREAKABLE           = of("miner_breakable"),
-		IRON_BLOCKS               = common("iron_blocks"),
-		MAGNETITE_BLOCKS          = common("magnetite_blocks"),
+		MAGNETITE_BLOCKS          = common("storage_blocks/magnetite"),
 		UNWAXED_COPPER_BLOCKS     = common("unwaxed_copper_blocks"),
 		WAXED_COPPER_BLOCKS       = common("waxed_copper_blocks"),
 		UNWAXED_CUT_COPPER_BLOCKS = common("unwaxed_cut_copper_blocks"),
@@ -88,7 +87,8 @@ public class BigTechBlockTags {
 		UNWAXED_COPPER_SLABS      = of("unwaxed_copper_slabs"),
 		WAXED_COPPER_SLABS        = of("waxed_copper_slabs"),
 		SHEARS_MINEABLE           = common("mineable/shears"),
-		LEDS                      = of("leds");
+		LEDS                      = of("leds"),
+		CONDUCTIVE_ANVILS         = of("conductive_anvils");
 
 
 	public static TagKey<Block> common(String name) {

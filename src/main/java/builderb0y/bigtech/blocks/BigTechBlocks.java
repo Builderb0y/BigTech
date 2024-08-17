@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
@@ -36,6 +37,15 @@ public class BigTechBlocks {
 		.copyOf(BlockSetType.IRON)
 		.soundGroup(BlockSoundGroup.COPPER)
 		.build(BigTechMod.modID("copper"))
+	);
+	public static final BlockSoundGroup CONDUCTIVE_ANVIL_SOUND_GROUP = new BlockSoundGroup(
+		1.0F,
+		1.0F,
+		SoundEvents.BLOCK_COPPER_BREAK,
+		SoundEvents.BLOCK_COPPER_STEP,
+		SoundEvents.BLOCK_ANVIL_PLACE,
+		SoundEvents.BLOCK_COPPER_HIT,
+		SoundEvents.BLOCK_ANVIL_FALL
 	);
 	public static final CopperBlockCollection VANILLA_COPPER_BLOCKS = new CopperBlockCollection(
 		null,

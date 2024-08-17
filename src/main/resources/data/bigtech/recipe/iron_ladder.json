@@ -7,7 +7,7 @@
 		"i i"
 	],
 	"key": {
-		"i": { "tag": "c:iron_nuggets" }
+		"i": { "tag": "c:nuggets/iron" }
 	},
 	"result": {
 		"id": "bigtech:iron_ladder",

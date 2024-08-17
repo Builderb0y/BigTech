@@ -27,8 +27,8 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 	public void writeBlockModels(DataGenContext context) {
 		this.writeCatwalkStairsBlockModels(
 			context,
-			BigTechMod.modID(this.type.notWaxed().prefix + "slab"),
-			BigTechMod.modID(this.type.notWaxed().prefix + "catwalk_stairs")
+			BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"),
+			BigTechMod.modID(this.type.notWaxed().copperPrefix + "catwalk_stairs")
 		);
 	}
 
@@ -36,8 +36,8 @@ public class CopperCatwalkStairsDataGenerator extends MetalCatwalkStairsDataGene
 	public void writeItemModels(DataGenContext context) {
 		this.writeCatwalkStairsItemModels(
 			context,
-			BigTechMod.modID(this.type.notWaxed().prefix + "slab"),
-			BigTechMod.modID(this.type.notWaxed().prefix + "catwalk_stairs")
+			BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"),
+			BigTechMod.modID(this.type.notWaxed().copperPrefix + "catwalk_stairs")
 		);
 	}
 

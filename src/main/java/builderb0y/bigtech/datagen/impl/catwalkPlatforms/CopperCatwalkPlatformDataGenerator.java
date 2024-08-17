@@ -28,7 +28,7 @@ public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformData
 
 	@Override
 	public Identifier getBlockModelIdentifier() {
-		return BigTechMod.modID(this.type.notWaxed().prefix + "catwalk_platform");
+		return BigTechMod.modID(this.type.notWaxed().copperPrefix + "catwalk_platform");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformData
 			this.writeCatwalkPlatformBlockModels(
 				context,
 				Registries.BLOCK.getId(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(this.type.notWaxed())),
-				BigTechMod.modID(this.type.notWaxed().prefix + "catwalk_platform_rail")
+				BigTechMod.modID(this.type.notWaxed().copperPrefix + "catwalk_platform_rail")
 			);
 		}
 	}
@@ -47,7 +47,7 @@ public class CopperCatwalkPlatformDataGenerator extends MetalCatwalkPlatformData
 		this.writeCatwalkPlatformItemModels(
 			context,
 			Registries.BLOCK.getId(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(this.type.notWaxed())),
-			BigTechMod.modID(this.type.notWaxed().prefix + "catwalk_platform_rail")
+			BigTechMod.modID(this.type.notWaxed().copperPrefix + "catwalk_platform_rail")
 		);
 	}
 

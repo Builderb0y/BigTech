@@ -2,6 +2,8 @@ package builderb0y.bigtech.datagen.impl.frames;
 
 import java.util.List;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;
 
@@ -35,7 +37,6 @@ public class CommonFrameDataGenerator implements DataGenerator {
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
 		));
 
-		context.getTags(BigTechItemTags.STICKS).add(Items.STICK);
 		context.getTags(BigTechItemTags.GOLD_NUGGETS).add(Items.GOLD_NUGGET);
 		context.getTags(BigTechBlockTags.STICKS_TO_COPPER_FRAME).add(BigTechBlockTags.COPPER_FRAMES);
 

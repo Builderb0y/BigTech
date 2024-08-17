@@ -59,6 +59,11 @@ public class BigTechScreenHandlerTypes {
 		"spawner_interceptor",
 		SpawnerInterceptorScreenHandler::new
 	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final ScreenHandlerType<ConductiveAnvilScreenHandler> CONDUCTIVE_ANVIL = register(
+		"conductive_anvil",
+		ConductiveAnvilScreenHandler::new
+	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {
 		return Registry.register(Registries.SCREEN_HANDLER, BigTechMod.modID(name), new ScreenHandlerType<>(factory, FeatureSet.empty()));

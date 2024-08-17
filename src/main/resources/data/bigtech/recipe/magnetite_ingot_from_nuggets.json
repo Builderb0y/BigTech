@@ -6,7 +6,7 @@
 		"nnn"
 	],
 	"key": {
-		"n": { "tag": "c:magnetite_nuggets" }
+		"n": { "tag": "c:nuggets/magnetite" }
 	},
 	"result": {
 		"id": "bigtech:magnetite_ingot"

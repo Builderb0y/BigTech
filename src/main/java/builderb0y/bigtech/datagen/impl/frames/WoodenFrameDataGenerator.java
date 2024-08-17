@@ -1,5 +1,7 @@
 package builderb0y.bigtech.datagen.impl.frames;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
@@ -24,7 +26,7 @@ public class WoodenFrameDataGenerator extends FrameDataGenerator {
 		this.writeFrameRecipe(
 			context,
 			new TagOrItem(this.planks),
-			new TagOrItem(BigTechItemTags.STICKS)
+			new TagOrItem(ConventionalItemTags.WOODEN_RODS)
 		);
 	}
 

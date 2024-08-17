@@ -8,7 +8,7 @@
 	],
 	"key": {
 		"c": { "tag": "minecraft:stone_crafting_materials" },
-		"r": { "tag": "c:redstone_blocks"                  }
+		"r": { "tag": "c:storage_blocks/redstone"          }
 	},
 	"result": {
 		"id": "bigtech:encased_redstone_block"

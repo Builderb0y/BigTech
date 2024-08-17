@@ -39,7 +39,7 @@ public class DecoItems {
 	);
 	@UseDataGen(CopperFrameDataGenerator.class)
 	public static final CopperItemCollection COPPER_FRAMES = new CopperItemCollection(
-		"frame",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "frame",
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_FRAMES.get(type),
 			new Item.Settings()
@@ -62,7 +62,7 @@ public class DecoItems {
 	);
 	@UseDataGen(CopperCatwalkPlatformDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_PLATFORMS = new CopperItemCollection(
-		"catwalk_platform",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_platform",
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_CATWALK_PLATFORMS.get(type),
 			new Item.Settings()
@@ -85,7 +85,7 @@ public class DecoItems {
 	);
 	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_STAIRS = new CopperItemCollection(
-		"catwalk_stairs",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_stairs",
 		(CopperRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.COPPER_CATWALK_STAIRS.get(type),
 			new Item.Settings()
@@ -108,7 +108,7 @@ public class DecoItems {
 	);
 	@UseDataGen(CopperLadderDataGenerator.class)
 	public static final CopperItemCollection COPPER_LADDERS = new CopperItemCollection(
-		"ladder",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "ladder",
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_LADDERS.get(type),
 			new Item.Settings()
@@ -116,7 +116,7 @@ public class DecoItems {
 	);
 	@UseDataGen(CopperBarsDataGenerator.class)
 	public static final CopperItemCollection COPPER_BARS = new CopperItemCollection(
-		"bars",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "bars",
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_BARS.get(type),
 			new Item.Settings()
@@ -124,7 +124,7 @@ public class DecoItems {
 	);
 	@UseDataGen(CopperSlabDataGenerator.class)
 	public static final CopperItemCollection COPPER_SLABS = new CopperItemCollection(
-		"slab",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "slab",
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_SLABS.get(type),
 			new Item.Settings()

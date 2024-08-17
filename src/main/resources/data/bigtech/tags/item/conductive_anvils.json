@@ -1,0 +1,13 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:conductive_anvil",
+		"bigtech:exposed_conductive_anvil",
+		"bigtech:oxidized_conductive_anvil",
+		"bigtech:waxed_conductive_anvil",
+		"bigtech:waxed_exposed_conductive_anvil",
+		"bigtech:waxed_oxidized_conductive_anvil",
+		"bigtech:waxed_weathered_conductive_anvil",
+		"bigtech:weathered_conductive_anvil"
+	]
+}

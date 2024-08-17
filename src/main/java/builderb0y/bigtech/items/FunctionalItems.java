@@ -17,6 +17,7 @@ import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDestroyerDataGenerato
 import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
+import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 public class FunctionalItems {
 
@@ -158,6 +159,11 @@ public class FunctionalItems {
 	@UseDataGen(CopperCoilDataGenerator.class)
 	public static final BlockItem COPPER_COIL = BigTechItems.registerPlacer(
 		FunctionalBlocks.COPPER_COIL
+	);
+	@UseDataGen(ConductiveAnvilDataGenerator.class)
+	public static final CopperItemCollection CONDUCTIVE_ANVILS = new CopperItemCollection(
+		(CopperRegistrableCollection.Type type) -> type.noCopperPrefix + "conductive_anvil",
+		(CopperRegistrableCollection.Type type) -> new BlockItem(FunctionalBlocks.CONDUCTIVE_ANVILS.get(type), new Item.Settings())
 	);
 
 	//////////////////////////////// crystals ////////////////////////////////

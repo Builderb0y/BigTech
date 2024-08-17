@@ -1,5 +1,7 @@
 package builderb0y.bigtech.datagen.impl;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
@@ -66,6 +68,11 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
+	public void setupOtherItemTags(DataGenContext context) {
+
+	}
+
+	@Override
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
 			context.recipePath(this.getId()),
@@ -73,14 +80,9 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("crc", "c c", "ccc")
 			.where('c', ItemTags.STONE_CRAFTING_MATERIALS)
-			.where('r', BigTechItemTags.REDSTONE_BLOCKS)
+			.where('r', ConventionalItemTags.STORAGE_BLOCKS_REDSTONE)
 			.result(this.getId())
 			.toString()
 		);
-	}
-
-	@Override
-	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.REDSTONE_BLOCKS).add(Items.REDSTONE_BLOCK);
 	}
 }

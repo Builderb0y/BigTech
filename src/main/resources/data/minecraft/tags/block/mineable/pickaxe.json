@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"#bigtech:conductive_anvils",
 		"#bigtech:copper_bars",
 		"#bigtech:copper_slabs",
 		"#bigtech:lightning_jars",
@@ -8,16 +9,19 @@
 		"#bigtech:metal_catwalk_stairs",
 		"#bigtech:metal_frames",
 		"#bigtech:metal_ladders",
+		"bigtech:conductive_anvil",
 		"bigtech:copper_coil",
 		"bigtech:encased_honey_block",
 		"bigtech:encased_redstone_block",
 		"bigtech:encased_slime_block",
+		"bigtech:exposed_conductive_anvil",
 		"bigtech:ignitor",
 		"bigtech:ignitor_beam",
 		"bigtech:long_range_destroyer",
 		"bigtech:magnetite_block",
 		"bigtech:medium_weighted_pressure_plate",
 		"bigtech:mirror",
+		"bigtech:oxidized_conductive_anvil",
 		"bigtech:redstone_receiver",
 		"bigtech:redstone_transmitter",
 		"bigtech:short_range_destroyer",
@@ -27,6 +31,11 @@
 		"bigtech:spotlight",
 		"bigtech:stone_crafting_table",
 		"bigtech:transmuter",
-		"bigtech:tripwire"
+		"bigtech:tripwire",
+		"bigtech:waxed_conductive_anvil",
+		"bigtech:waxed_exposed_conductive_anvil",
+		"bigtech:waxed_oxidized_conductive_anvil",
+		"bigtech:waxed_weathered_conductive_anvil",
+		"bigtech:weathered_conductive_anvil"
 	]
 }

@@ -1,5 +1,7 @@
 package builderb0y.bigtech.items;
 
+import java.util.function.Function;
+
 import net.minecraft.item.Item;
 
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
@@ -7,7 +9,7 @@ import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 
 	public CopperItemCollection(
-		String suffix,
+		Function<Type, String> namer,
 		Item copper,
 		Item exposed_copper,
 		Item weathered_copper,
@@ -18,7 +20,7 @@ public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 		Item waxed_oxidized_copper
 	) {
 		super(
-			suffix,
+			namer,
 			copper,
 			exposed_copper,
 			weathered_copper,
@@ -30,23 +32,23 @@ public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 		);
 	}
 
-	public CopperItemCollection(String suffix, SeparateCopperRegistrableFactory<Item> unwaxedFactory, SeparateCopperRegistrableFactory<Item> waxedFactory) {
-		super(suffix, unwaxedFactory, waxedFactory);
+	public CopperItemCollection(Function<Type, String> namer, SeparateCopperRegistrableFactory<Item> unwaxedFactory, SeparateCopperRegistrableFactory<Item> waxedFactory) {
+		super(namer, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperItemCollection(String suffix, MergedCopperRegistrableFactory<Item> factory) {
-		super(suffix, factory);
+	public CopperItemCollection(Function<Type, String> namer, MergedCopperRegistrableFactory<Item> factory) {
+		super(namer, factory);
 	}
 
 	@Override
-	public void register(String suffix) {
-		BigTechItems.register(                "copper_" + suffix, this.                copper);
-		BigTechItems.register(        "exposed_copper_" + suffix, this.        exposed_copper);
-		BigTechItems.register(      "weathered_copper_" + suffix, this.      weathered_copper);
-		BigTechItems.register(       "oxidized_copper_" + suffix, this.       oxidized_copper);
-		BigTechItems.register(          "waxed_copper_" + suffix, this.          waxed_copper);
-		BigTechItems.register(  "waxed_exposed_copper_" + suffix, this.  waxed_exposed_copper);
-		BigTechItems.register("waxed_weathered_copper_" + suffix, this.waxed_weathered_copper);
-		BigTechItems.register( "waxed_oxidized_copper_" + suffix, this. waxed_oxidized_copper);
+	public void register(Function<Type, String> namer) {
+		BigTechItems.register(namer.apply(Type.COPPER),                 this.                copper);
+		BigTechItems.register(namer.apply(Type.EXPOSED_COPPER),         this.        exposed_copper);
+		BigTechItems.register(namer.apply(Type.WEATHERED_COPPER),       this.      weathered_copper);
+		BigTechItems.register(namer.apply(Type.OXIDIZED_COPPER),        this.       oxidized_copper);
+		BigTechItems.register(namer.apply(Type.WAXED_COPPER),           this.          waxed_copper);
+		BigTechItems.register(namer.apply(Type.WAXED_EXPOSED_COPPER),   this.  waxed_exposed_copper);
+		BigTechItems.register(namer.apply(Type.WAXED_WEATHERED_COPPER), this.waxed_weathered_copper);
+		BigTechItems.register(namer.apply(Type.WAXED_OXIDIZED_COPPER),  this. waxed_oxidized_copper);
 	}
 }

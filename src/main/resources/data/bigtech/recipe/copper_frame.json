@@ -9,7 +9,7 @@
 	],
 	"key": {
 		"i": { "tag": "c:ingots/copper"  },
-		"n": { "tag": "c:copper_nuggets" }
+		"n": { "tag": "c:nuggets/copper" }
 	},
 	"result": {
 		"id": "bigtech:copper_frame",

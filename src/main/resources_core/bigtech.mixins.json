@@ -20,6 +20,7 @@
 		"EntityShapeContext_ImplementHeldItemGetter",
 		"ExplosionAccessor",
 		"FireworkRocket_ImplementSilverIodideProjectile",
+		"ItemEnchantmentsComponentBuilder_BackingMapAccess",
 		"ItemEntity_DontMergeDuringTransport",
 		"LadderBlock_MakePlaceableOnFrames",
 		"LightningEntity_TweakLogic",

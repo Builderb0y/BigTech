@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"#bigtech:conductive_anvils",
 		"#bigtech:copper_bars",
 		"#bigtech:copper_slabs",
 		"#bigtech:lightning_jars",
@@ -8,9 +9,17 @@
 		"#bigtech:metal_catwalk_stairs",
 		"#bigtech:metal_frames",
 		"#bigtech:metal_ladders",
+		"bigtech:conductive_anvil",
 		"bigtech:copper_coil",
+		"bigtech:exposed_conductive_anvil",
 		"bigtech:magnetite_block",
 		"bigtech:medium_weighted_pressure_plate",
-		"bigtech:silver_iodide_cannon"
+		"bigtech:oxidized_conductive_anvil",
+		"bigtech:silver_iodide_cannon",
+		"bigtech:waxed_conductive_anvil",
+		"bigtech:waxed_exposed_conductive_anvil",
+		"bigtech:waxed_oxidized_conductive_anvil",
+		"bigtech:waxed_weathered_conductive_anvil",
+		"bigtech:weathered_conductive_anvil"
 	]
 }

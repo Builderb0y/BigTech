@@ -6,7 +6,7 @@
 		"mbm"
 	],
 	"key": {
-		"m": { "tag":  "c:magnetite_ingots" },
+		"m": { "tag":  "c:ingots/magnetite" },
 		"b": { "item": "minecraft:bow"      }
 	},
 	"result": {

@@ -20,5 +20,6 @@ public class BigTechHandledScreens {
 		HandledScreens.register(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, SilverIodideCannonHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.STONE_CRAFTING_TABLE,                  CraftingScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.SPAWNER_INTERCEPTOR,  SpawnerInterceptorHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.CONDUCTIVE_ANVIL,        ConductiveAnvilHandledScreen::new);
 	}
 }

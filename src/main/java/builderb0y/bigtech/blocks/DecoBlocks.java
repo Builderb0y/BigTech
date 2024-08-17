@@ -31,7 +31,7 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_FRAMES = new CopperBlockCollection(
-		"frame",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "frame",
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
@@ -72,7 +72,7 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_CATWALK_PLATFORMS = new CopperBlockCollection(
-		"catwalk_platform",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_platform",
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
@@ -101,7 +101,7 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_CATWALK_STAIRS = new CopperBlockCollection(
-		"catwalk_stairs",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_stairs",
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (
@@ -136,7 +136,7 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_LADDERS = new CopperBlockCollection(
-		"ladder",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "ladder",
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
 				AbstractBlock
@@ -156,7 +156,7 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_BARS = new CopperBlockCollection(
-		"bars",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "bars",
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
 				AbstractBlock
@@ -182,7 +182,7 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_SLABS = new CopperBlockCollection(
-		"slab",
+		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "slab",
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
 			return (

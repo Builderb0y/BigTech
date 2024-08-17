@@ -9,7 +9,7 @@
 	],
 	"key": {
 		"i": { "tag": "c:gold_ingots"  },
-		"n": { "tag": "c:gold_nuggets" }
+		"n": { "tag": "c:nuggets/gold" }
 	},
 	"result": {
 		"id": "bigtech:gold_frame",

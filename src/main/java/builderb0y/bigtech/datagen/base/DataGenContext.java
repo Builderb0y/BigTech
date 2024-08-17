@@ -235,6 +235,7 @@ public class DataGenContext {
 		}
 		return builder.toString();
 	}
+
 	public String underscoresToCapitals(String baseName) {
 		StringBuilder formattedName = new StringBuilder(baseName.length());
 		boolean uppercase = true;

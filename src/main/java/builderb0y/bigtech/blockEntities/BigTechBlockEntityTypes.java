@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blockEntities;
 
+import java.util.Collection;
 import java.util.Set;
 
 import net.fabricmc.api.EnvType;
@@ -85,9 +86,18 @@ public class BigTechBlockEntityTypes {
 		SpawnerInterceptorBlockEntity::new,
 		FunctionalBlocks.SPAWNER_INTERCEPTOR
 	);
+	public static final BlockEntityType<ConductiveAnvilBlockEntity> CONDUCTIVE_ANVIL = register(
+		"conductive_anvil",
+		ConductiveAnvilBlockEntity::new,
+		FunctionalBlocks.CONDUCTIVE_ANVILS.asList()
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));
+	}
+
+	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Collection<Block> blocks) {
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.copyOf(blocks), null));
 	}
 
 	public static void init() {}
