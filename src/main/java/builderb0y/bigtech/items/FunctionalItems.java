@@ -85,6 +85,11 @@ public class FunctionalItems {
 
 	//////////////////////////////// automation ////////////////////////////////
 
+	@UseDataGen(WoodenHopperDataGenerator.class)
+	public static final BlockItem WOODEN_HOPPER = BigTechItems.registerPlacer(
+		FunctionalBlocks.WOODEN_HOPPER
+	);
+
 	@UseDataGen(IgnitorDataGenerator.class)
 	public static final BlockItem IGNITOR = BigTechItems.registerPlacer(
 		FunctionalBlocks.IGNITOR

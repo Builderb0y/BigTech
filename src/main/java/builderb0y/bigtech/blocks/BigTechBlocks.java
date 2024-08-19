@@ -121,7 +121,8 @@ public class BigTechBlocks {
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getCutoutMipped(),
-			FunctionalBlocks.SILVER_IODIDE_CANNON
+			FunctionalBlocks.SILVER_IODIDE_CANNON,
+			FunctionalBlocks.WOODEN_HOPPER
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),

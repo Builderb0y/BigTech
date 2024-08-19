@@ -1,0 +1,9 @@
+{
+	"variants": {
+		"facing=down":  { "model": "bigtech:block/wooden_hopper_down"            },
+		"facing=north": { "model": "bigtech:block/wooden_hopper_north", "y":   0 },
+		"facing=east":  { "model": "bigtech:block/wooden_hopper_north", "y":  90 },
+		"facing=south": { "model": "bigtech:block/wooden_hopper_north", "y": 180 },
+		"facing=west":  { "model": "bigtech:block/wooden_hopper_north", "y": 270 }
+	}
+}

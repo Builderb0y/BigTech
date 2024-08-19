@@ -10,6 +10,7 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.math.BlockPos;
@@ -167,6 +168,11 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	@Override
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
 		return context.getStack().isOf(this.asItem()) && !context.shouldCancelInteraction();
+	}
+
+	@Override
+	public boolean canPathfindThrough(BlockState state, NavigationType type) {
+		return false;
 	}
 
 	public static class SortingCache {

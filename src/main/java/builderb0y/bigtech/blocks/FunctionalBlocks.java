@@ -1,6 +1,7 @@
 package builderb0y.bigtech.blocks;
 
 import net.minecraft.block.*;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
@@ -116,6 +117,20 @@ public class FunctionalBlocks {
 	);
 
 	//////////////////////////////// automation ////////////////////////////////
+
+	@UseDataGen(void.class)
+	public static final WoodenHopperBlock WOODEN_HOPPER = BigTechBlocks.register(
+		"wooden_hopper",
+		new WoodenHopperBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.OAK_TAN)
+			.strength(2.5F)
+			.sounds(BlockSoundGroup.WOOD)
+			.burnable()
+		)
+	);
 
 	@UseDataGen(void.class)
 	public static final IgnitorBlock IGNITOR = BigTechBlocks.register(

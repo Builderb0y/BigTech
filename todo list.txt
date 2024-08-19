@@ -21,20 +21,17 @@ testing:
 
 features:
 	general:
-		fabric now has a data attachments system so I don't need cardinal components anymore.
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
 		fancier 3D models for things.
-			copper bars.
-			vanilla stuff?
+			more vanilla stuff?
 		need an icon for the mod.
 	decoration:
 	transport:
 		belts:
 		hoppers:
-			wooden hopper: spits out items into the world. significantly less random velocity than droppers. can't insert into inventories.
-			stone hopper: this is the vanilla hopper, just with a cheaper recipe
+			copper hopper: ??? maybe filterable somehow?
 			iron hopper: extracts from whichever slot has the fewest items. ties are broken by slot index.
 			golden hopper: extracts from whichever slot has the most items in it. ties are broken by slot index.
 			quartz hopper: extracts from a random slot
@@ -91,6 +88,8 @@ done:
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start thundering.
 		conductive anvil: uses lightning power to transfer enchantments from one item to another item.
 	transport:
+		wooden hopper: spits out items into the world. velocity of ejected items is not randomized. can't insert into inventories.
+		stone hopper: this is the vanilla hopper, just with a cheaper recipe.
 		belts:
 			belt: transports entities horizontally
 			speedy belt: transports entities faster
