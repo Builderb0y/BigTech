@@ -6,7 +6,6 @@ import net.minecraft.registry.tag.ItemTags;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.datagen.impl.RedstoneTransceiverDataGenerator;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.FunctionalItems;
 

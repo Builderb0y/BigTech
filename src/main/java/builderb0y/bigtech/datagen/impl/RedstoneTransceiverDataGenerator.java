@@ -8,7 +8,6 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 
 public abstract class RedstoneTransceiverDataGenerator extends BasicBlockDataGenerator {
 
@@ -17,22 +16,12 @@ public abstract class RedstoneTransceiverDataGenerator extends BasicBlockDataGen
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map((BlockState state) -> new BlockStateJsonVariant(
-					state,
-					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
-					null,
-					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
+			null,
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);
 	}
 

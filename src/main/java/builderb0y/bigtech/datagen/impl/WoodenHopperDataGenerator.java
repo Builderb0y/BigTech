@@ -12,7 +12,6 @@ import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 
 public class WoodenHopperDataGenerator extends BasicBlockDataGenerator {
 
@@ -21,28 +20,18 @@ public class WoodenHopperDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map((BlockState state) -> new BlockStateJsonVariant(
-					state,
-					context
-					.prefixSuffixPath(
-						"block/",
-						this.getId(),
-						state.get(Properties.HOPPER_FACING) == Direction.DOWN ? "_down" : "_north"
-					)
-					.toString(),
-					null,
-					BlockStateJsonVariant.yFromNorth(state.get(Properties.HOPPER_FACING))
-				))
-				::iterator
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context
+			.prefixSuffixPath(
+				"block/",
+				this.getId(),
+				state.get(Properties.HOPPER_FACING) == Direction.DOWN ? "_down" : "_north"
 			)
-			.toString()
+			.toString(),
+			null,
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.HOPPER_FACING))
 		);
 	}
 
@@ -68,12 +57,12 @@ public class WoodenHopperDataGenerator extends BasicBlockDataGenerator {
 						"from": [  0, 10,  0 ],
 						"to":   [ 16, 16, 16 ],
 						"faces": {
-							"up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#base_top", "cullface": "up" },
-							"down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#base_bottom" },
-							"north": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   },
-							"east":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   },
-							"south": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   },
-							"west":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   }
+							"up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#base_top",  "cullface": "up"    },
+							"down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#base_bottom"                    },
+							"north": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "north" },
+							"east":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "east"  },
+							"south": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "south" },
+							"west":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "west"  }
 						}
 					},
 					{
@@ -132,12 +121,12 @@ public class WoodenHopperDataGenerator extends BasicBlockDataGenerator {
 						"from": [  0, 10,  0 ],
 						"to":   [ 16, 16, 16 ],
 						"faces": {
-							"up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#base_top", "cullface": "up" },
-							"down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#base_bottom" },
-							"north": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   },
-							"east":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   },
-							"south": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   },
-							"west":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side"   }
+							"up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#base_top",  "cullface": "up"    },
+							"down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#base_bottom"                    },
+							"north": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "north" },
+							"east":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "east"  },
+							"south": { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "south" },
+							"west":  { "uv": [ 0, 0, 16,  6 ], "texture": "#base_side", "cullface": "west"  }
 						}
 					},
 					{

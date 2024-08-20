@@ -29,7 +29,6 @@ features:
 		need an icon for the mod.
 	decoration:
 	transport:
-		belts:
 		hoppers:
 			copper hopper: ??? maybe filterable somehow?
 			iron hopper: extracts from whichever slot has the fewest items. ties are broken by slot index.
@@ -54,19 +53,15 @@ features:
 			make spawn in caves and in rocks.
 	automation:
 		upgraded crafting tables:
-			wood: unchanged
-			stone: keeps its inventory when you close the GUI
 			iron: basically a placeable version of the techno crafter
 		deployer: places blocks.
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
-	redstone:
-		pulsar: emits regularly timed redstone pulses
 	tools:
 		portable techno crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
-		power tools: pickaxe works like block excavator, axe works like block harvester. shovel will work on dirt/gravel veins. not sure about the other tools.
+		power tools: can mine multiple blocks? kind of similar to the destroyer?
 		portable scanner: shows what blocks are hidden in front of you, at the cost of some lightning energy.
 
 done:
@@ -113,6 +108,7 @@ done:
 		encased redstone block: emits a redstone signal in only one direction
 		encased slime block: only sticks to other blocks on one side. doesn't stick to honey blocks.
 			encased honey block: same. but doesn't stick to slime blocks.
+		pulsar: emits regularly timed redstone pulses.
 	lasers:
 		redstone transmitter: transmits a redstone signal across a large distance
 		redstone receiver: receives a signal from a redstone transmitter
@@ -137,6 +133,9 @@ done:
 		ignitor: smelts items on top of it, sets entities on fire
 		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
 		spawner interceptor: disables spawners when powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
+		upgraded crafting tables:
+			wood: unchanged
+			stone: keeps its inventory when you close the GUI
 
 canceled:
 	lightning rod: already in vanilla.

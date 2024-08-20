@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"powered=false": { "model": "bigtech:block/pulsar_off" },
+		"powered=true":  { "model": "bigtech:block/pulsar_on"  }
+	}
+}

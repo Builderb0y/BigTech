@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.state.property.Properties;
@@ -14,7 +15,6 @@ import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 
 public class MirrorDataGenerator extends BasicBlockDataGenerator {
 
@@ -23,26 +23,12 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map(state -> new BlockStateJsonVariant(
-					state,
-					"bigtech:block/mirror_${state.get(Properties.ATTACHED) ? \"attached\" : \"unattached\"}_${state.get(builderb0y.bigtech.blocks.BigTechProperties.ROTATION_0_7)}",
-					switch (state.get(Properties.FACING)) {
-						case UP -> 180;
-						case DOWN -> 0;
-						case NORTH, SOUTH, EAST, WEST -> 270;
-					},
-					Objects.requireNonNullElse(BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING)), 0)
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			"bigtech:block/mirror_${state.get(Properties.ATTACHED) ? \"attached\" : \"unattached\"}_${state.get(builderb0y.bigtech.blocks.BigTechProperties.ROTATION_0_7)}",
+			BlockStateJsonVariant.xFromDown(state.get(Properties.FACING)),
+			Objects.requireNonNullElse(BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING)), 0)
 		);
 	}
 

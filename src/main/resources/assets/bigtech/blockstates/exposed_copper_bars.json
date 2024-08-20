@@ -1,6 +1,6 @@
 {
 	"multipart": [
-		{ "apply": { "model": "bigtech:block/exposed_copper_bars_center" } },
+		{ "apply": { "model": "bigtech:block/exposed_copper_bars_center" }                              },
 		{ "apply": { "model": "bigtech:block/exposed_copper_bars_north"  }, "when": { "north": "true" } },
 		{ "apply": { "model": "bigtech:block/exposed_copper_bars_east"   }, "when": { "east":  "true" } },
 		{ "apply": { "model": "bigtech:block/exposed_copper_bars_south"  }, "when": { "south": "true" } },

@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
+import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
+import builderb0y.bigtech.datagen.tables.Table;
 
 public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator {
 
@@ -68,25 +71,42 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		if (this.hasMorePropertiesThan(Properties.WATERLOGGED)) {
-			context.error(new IllegalStateException("Should override writeBlockstateJson() to handle multiple states: " + this));
+			this.writeVariantBlockStateJson(context);
 		}
-		this.writeDefaultBlockstateJson(context, this.getId());
+		else {
+			this.writeDefaultBlockstateJson(context, this.getId());
+		}
 	}
 
 	public void writeDefaultBlockstateJson(DataGenContext context, Identifier blockModel) {
 		context.writeToFile(
 			context.blockstatePath(this.getId()),
-			context.replace(
-				"""
-				{
-					"variants": {
-						"": { "model": "%MODEL" }
-					}
+			"""
+			{
+				"variants": {
+					"": { "model": "${context.prefixPath("block/", blockModel)}" }
 				}
-				""",
-				Map.of("MODEL", context.prefixPath("block/", blockModel).toString())
-			)
+			}"""
 		);
+	}
+
+	public void writeVariantBlockStateJson(DataGenContext context) {
+		context.writeToFile(
+			context.blockstatePath(this.getId()),
+			new Table<>(BlockStateJsonVariant.FORMAT)
+			.addRows(
+				BlockStateJsonVariant
+				.streamStatesSorted(this.getBlock())
+				.map((BlockState state) -> this.createVariant(context, state))
+				::iterator
+			)
+			.toString()
+		);
+	}
+
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		context.error(new UnsupportedOperationException("${this.getId()} (${this.getClass()}) has more properties than just waterlogged, and therefore should override createVariant(), but it does not."));
+		return new BlockStateJsonVariant(state, context.prefixPath("block/", this.getId()).toString(), null, null);
 	}
 
 	@Override

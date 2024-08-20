@@ -11,7 +11,6 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
@@ -26,22 +25,12 @@ public class ConductiveAnvilDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map((BlockState state) -> new BlockStateJsonVariant(
-					state,
-					context.prefixPath("block/", this.getId()).toString(),
-					null,
-					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixPath("block/", this.getId()).toString(),
+			null,
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);
 	}
 

@@ -61,13 +61,17 @@ public class BigTechNetwork implements
 		this.register( RemoveBeamPacket.INSTANCE);
 		/** registers or unregisters a beam's UUID. */
 		this.register( ToggleBeamPacket.INSTANCE);
+		/** opens a screen to configure a pulsar when a player right clicks on one. */
+		this.register( OpenPulsarPacket.INSTANCE);
 
 		//client-to-server packets
 
 		/** sent every tick while the player is controlling a miner. */
-		this.register(ControlMinerPacket          .INSTANCE);
+		this.register(          ControlMinerPacket.INSTANCE);
 		/** sent when a player attempts to fire a silver iodide cannon. */
 		this.register(SilverIodideCannonFirePacket.INSTANCE);
+		/** sent when a player clicks "done" in a pulsar config screen. */
+		this.register(          UpdatePulsarPacket.INSTANCE);
 	}
 
 	public static void init() {

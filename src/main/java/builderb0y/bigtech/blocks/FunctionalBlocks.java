@@ -166,6 +166,18 @@ public class FunctionalBlocks {
 		)
 	);
 
+	@UseDataGen(void.class)
+	public static final PulsarBlock PULSAR = BigTechBlocks.register(
+		"pulsar",
+		new PulsarBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor((BlockState state) -> state.get(Properties.POWERED) ? MapColor.RED : MapColor.DARK_RED)
+			.strength(1.5F)
+		)
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(void.class)

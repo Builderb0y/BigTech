@@ -1,5 +1,6 @@
 package builderb0y.bigtech.datagen.impl.metalLadders;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -10,7 +11,6 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 
 @Dependencies(CommonMetalLadderDataGenerator.class)
 public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
@@ -20,22 +20,12 @@ public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map(state -> new BlockStateJsonVariant(
-					state,
-					context.prefixPath("block/", this.getId()).toString(),
-					null,
-					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixPath("block/", this.getId()).toString(),
+			null,
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);
 	}
 

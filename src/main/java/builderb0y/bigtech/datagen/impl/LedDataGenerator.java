@@ -31,22 +31,12 @@ public class LedDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map((BlockState state) -> new BlockStateJsonVariant(
-					BlockStateJsonVariant.decodeState(state),
-					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.LIT) ? "_on" : "_off").toString(),
-					BlockStateJsonVariant.xFromDown(state.get(Properties.FACING)),
-					BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixSuffixPath("block/", this.getId(), state.get(Properties.LIT) ? "_on" : "_off").toString(),
+			BlockStateJsonVariant.xFromDown(state.get(Properties.FACING)),
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
 		);
 	}
 

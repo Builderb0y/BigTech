@@ -1,6 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
-import java.util.Map;
+import java.util.Arrays;
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 
@@ -8,6 +8,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
@@ -17,6 +18,9 @@ import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
+import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonMultipart;
+import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
+import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
@@ -35,28 +39,32 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
 			context.blockstatePath(this.getId()),
-			context.replace(
-				//language=json
-				"""
-				{
-					"multipart": [
-						{ "apply": { "model": "bigtech:block/%VARbars_center" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_north"  }, "when": { "north": "true" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_east"   }, "when": { "east":  "true" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_south"  }, "when": { "south": "true" } },
-						{ "apply": { "model": "bigtech:block/%VARbars_west"   }, "when": { "west":  "true" } }
-					]
-				}""",
-				Map.of("VAR", this.type.notWaxed().copperPrefix)
+			new Table<>(BlockStateJsonMultipart.FORMAT)
+			.addRow(new BlockStateJsonMultipart(
+				null, null, "bigtech:block/${this.type.notWaxed().copperPrefix}bars_center", null, null
+			))
+			.addRows(
+				Arrays
+				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
+				.map((Direction direction) -> new BlockStateJsonMultipart(
+					direction.getName(),
+					"true",
+					"bigtech:block/${this.type.notWaxed().copperPrefix}bars_${direction.getName()}",
+					null,
+					null
+				))
+				::iterator
 			)
+			.toString()
 		);
 	}
 
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		if (!this.type.waxed) {
-			for (String suffix : new String[] { "_center", "_north", "_east", "_south", "_west" }) {				context.writeToFile(
-				context.blockModelPath(context.suffixPath(this.getId(), suffix)),
+			for (String suffix : new String[] { "_center", "_north", "_east", "_south", "_west" }) {
+				context.writeToFile(
+					context.blockModelPath(context.suffixPath(this.getId(), suffix)),
 					new RetexturedModelBuilder()
 					.blockParent(BigTechMod.modID("template_bars${suffix}"))
 					.blockTexture("bars", BigTechMod.modID("${this.type.copperPrefix}bars"))

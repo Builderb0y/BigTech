@@ -6,11 +6,9 @@ import java.util.Objects;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
-import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 
-import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;

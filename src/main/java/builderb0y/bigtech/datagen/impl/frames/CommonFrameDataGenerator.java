@@ -2,10 +2,7 @@ package builderb0y.bigtech.datagen.impl.frames;
 
 import java.util.List;
 
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-
 import net.minecraft.item.Items;
-import net.minecraft.registry.tag.BlockTags;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;

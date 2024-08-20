@@ -105,6 +105,11 @@ public class FunctionalItems {
 		FunctionalBlocks.SPAWNER_INTERCEPTOR
 	);
 
+	@UseDataGen(PulsarDataGenerator.class)
+	public static final BlockItem PULSAR = BigTechItems.registerPlacer(
+		FunctionalBlocks.PULSAR
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)

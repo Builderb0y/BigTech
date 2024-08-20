@@ -9,6 +9,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
@@ -39,7 +40,7 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 			.addRows(
 				Arrays
 				.stream(BlockStateJsonVariant.FACING_ORDER)
-				.map(direction -> new BlockStateJsonMultipart(
+				.map((Direction direction) -> new BlockStateJsonMultipart(
 					direction.asString(),
 					"true",
 					context.prefixSuffixPath("block/", this.getId(), "_connection").toString(),
@@ -51,7 +52,7 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 			.addRows(
 				Arrays
 				.stream(BlockStateJsonVariant.FACING_ORDER)
-				.map(direction -> new BlockStateJsonMultipart(
+				.map((Direction direction) -> new BlockStateJsonMultipart(
 					direction.asString(),
 					"false",
 					context.prefixSuffixPath("block/", this.getId(), "_center").toString(),

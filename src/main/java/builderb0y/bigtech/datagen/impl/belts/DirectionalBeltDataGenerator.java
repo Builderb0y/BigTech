@@ -6,7 +6,6 @@ import net.minecraft.state.property.Properties;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 
 public abstract class DirectionalBeltDataGenerator extends BeltDataGenerator {
 
@@ -14,24 +13,13 @@ public abstract class DirectionalBeltDataGenerator extends BeltDataGenerator {
 		super(blockItem);
 	}
 
+	@Override
 	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
 		return new BlockStateJsonVariant(
 			state,
 			context.prefixPath("block/", this.getId()).toString(),
 			null,
 			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
-		);
-	}
-
-	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			BlockStateJsonVariant
-			.streamStatesSorted(this.getBlock())
-			.map((BlockState state) -> this.createVariant(context, state))
-			.collect(Table.collector(BlockStateJsonVariant.FORMAT))
-			.toString()
 		);
 	}
 }

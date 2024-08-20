@@ -2,8 +2,8 @@ package builderb0y.bigtech.datagen.impl;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
@@ -13,8 +13,6 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
-import builderb0y.bigtech.items.BigTechItemTags;
 
 public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 
@@ -23,19 +21,12 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			BlockStateJsonVariant
-			.streamStatesSorted(this.getBlock())
-			.map(state -> new BlockStateJsonVariant(
-				state,
-				context.prefixPath("block/", this.getId()).toString(),
-				BlockStateJsonVariant.xFromUp(state.get(Properties.FACING)),
-				BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
-			))
-			.collect(Table.collector(BlockStateJsonVariant.FORMAT))
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixPath("block/", this.getId()).toString(),
+			BlockStateJsonVariant.xFromUp(state.get(Properties.FACING)),
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.FACING))
 		);
 	}
 

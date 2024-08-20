@@ -2,6 +2,7 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.Map;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable.OxidationLevel;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
@@ -21,7 +22,6 @@ import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
@@ -36,22 +36,12 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map(state -> new BlockStateJsonVariant(
-					state,
-					context.prefixSuffixPath("block/", this.getId(), '_' + state.get(Properties.SLAB_TYPE).asString()).toString(),
-					null,
-					null
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixSuffixPath("block/", this.getId(), '_' + state.get(Properties.SLAB_TYPE).asString()).toString(),
+			null,
+			null
 		);
 	}
 

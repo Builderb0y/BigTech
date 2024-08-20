@@ -154,17 +154,17 @@ public class TableFormats {
 					"multipart": [
 				"""
 			)
-			.addLiteral("\t\t{ ")
-			.addLiteral("\"when\": { ", (BlockStateJsonMultipart multipart) -> multipart.predicateName != null)
-			.addJsonString(BlockStateJsonMultipart::predicateName, Justification.left(), BlockStateJsonMultipart::predicateValue, Justification.left())
-			.addLiteral(" }, ", (BlockStateJsonMultipart multipart) -> multipart.predicateName != null)
-			.addLiteral("\"apply\": { ")
+			.addLiteral("\t\t{ \"apply\": { ")
 			.addJoined(", ", (TableFormat<BlockStateJsonMultipart> format) -> format
 				.addJsonString("model", Justification.left(), BlockStateJsonMultipart::model)
 				.addJsonNumber("x", BlockStateJsonMultipart::x)
 				.addJsonNumber("y", BlockStateJsonMultipart::y)
 			)
-			.addLiteral(" } }")
+			.addLiteral(" }")
+			.addLiteral(", \"when\": { ", (BlockStateJsonMultipart multipart) -> multipart.predicateName != null)
+			.addJsonString(BlockStateJsonMultipart::predicateName, Justification.left(), BlockStateJsonMultipart::predicateValue, Justification.left())
+			.addLiteral(" }", (BlockStateJsonMultipart multipart) -> multipart.predicateName != null)
+			.addLiteral(" }")
 			.addLineDeliminator(",")
 			.suffix("\n\t]\n}")
 		);
@@ -188,20 +188,20 @@ public class TableFormats {
 					"multipart": [
 				"""
 			)
-			.addLiteral("\t\t{ ")
-			.addLiteral("\"when\": { ", (BlockStateJsonMultipart2 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null)
-			.addJoined(", ", (TableFormat<BlockStateJsonMultipart2> format) -> format
-				.addJsonString(BlockStateJsonMultipart2::predicateName1, Justification.left(), BlockStateJsonMultipart2::predicateValue1, Justification.left())
-				.addJsonString(BlockStateJsonMultipart2::predicateName2, Justification.left(), BlockStateJsonMultipart2::predicateValue2, Justification.left())
-			)
-			.addLiteral(" }, ", (BlockStateJsonMultipart2 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null)
-			.addLiteral("\"apply\": { ")
+			.addLiteral("\t\t{ \"apply\": { ")
 			.addJoined(", ", (TableFormat<BlockStateJsonMultipart2> format) -> format
 				.addJsonString("model", Justification.left(), BlockStateJsonMultipart2::model)
 				.addJsonNumber("x", BlockStateJsonMultipart2::x)
 				.addJsonNumber("y", BlockStateJsonMultipart2::y)
 			)
-			.addLiteral(" } }")
+			.addLiteral(" }")
+			.addLiteral(", \"when\": { ", (BlockStateJsonMultipart2 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null)
+			.addJoined(", ", (TableFormat<BlockStateJsonMultipart2> format) -> format
+				.addJsonString(BlockStateJsonMultipart2::predicateName1, Justification.left(), BlockStateJsonMultipart2::predicateValue1, Justification.left())
+				.addJsonString(BlockStateJsonMultipart2::predicateName2, Justification.left(), BlockStateJsonMultipart2::predicateValue2, Justification.left())
+			)
+			.addLiteral(" }", (BlockStateJsonMultipart2 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null)
+			.addLiteral(" }")
 			.addLineDeliminator(",")
 			.suffix("\n\t]\n}")
 		);
@@ -227,21 +227,21 @@ public class TableFormats {
 					"multipart": [
 				"""
 			)
-			.addLiteral("\t\t{ ")
-			.addLiteral("\"when\": { ", (BlockStateJsonMultipart3 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null || multipart.predicateName3 != null)
-			.addJoined(", ", (TableFormat<BlockStateJsonMultipart3> format) -> format
-				.addJsonString(BlockStateJsonMultipart3::predicateName1, Justification.left(), BlockStateJsonMultipart3::predicateValue1, Justification.left())
-				.addJsonString(BlockStateJsonMultipart3::predicateName2, Justification.left(), BlockStateJsonMultipart3::predicateValue2, Justification.left())
-				.addJsonString(BlockStateJsonMultipart3::predicateName3, Justification.left(), BlockStateJsonMultipart3::predicateValue3, Justification.left())
-			)
-			.addLiteral(" }, ", (BlockStateJsonMultipart3 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null || multipart.predicateName3 != null)
-			.addLiteral("\"apply\": { ")
+			.addLiteral("\t\t{ \"apply\": { ")
 			.addJoined(", ", (TableFormat<BlockStateJsonMultipart3> format) -> format
 				.addJsonString("model", Justification.left(), BlockStateJsonMultipart3::model)
 				.addJsonNumber("x", BlockStateJsonMultipart3::x)
 				.addJsonNumber("y", BlockStateJsonMultipart3::y)
 			)
-			.addLiteral(" } }")
+			.addLiteral(" }")
+			.addLiteral(", \"when\": { ", (BlockStateJsonMultipart3 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null || multipart.predicateName3 != null)
+			.addJoined(", ", (TableFormat<BlockStateJsonMultipart3> format) -> format
+				.addJsonString(BlockStateJsonMultipart3::predicateName1, Justification.left(), BlockStateJsonMultipart3::predicateValue1, Justification.left())
+				.addJsonString(BlockStateJsonMultipart3::predicateName2, Justification.left(), BlockStateJsonMultipart3::predicateValue2, Justification.left())
+				.addJsonString(BlockStateJsonMultipart3::predicateName3, Justification.left(), BlockStateJsonMultipart3::predicateValue3, Justification.left())
+			)
+			.addLiteral(" }", (BlockStateJsonMultipart3 multipart) -> multipart.predicateName1 != null || multipart.predicateName2 != null || multipart.predicateName3 != null)
+			.addLiteral(" }")
 			.addLineDeliminator(",")
 			.suffix("\n\t]\n}")
 		);

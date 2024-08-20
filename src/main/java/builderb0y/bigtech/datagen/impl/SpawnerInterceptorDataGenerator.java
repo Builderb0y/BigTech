@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Items;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
@@ -12,7 +11,6 @@ import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.DecoItems;
 
 public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
@@ -187,21 +185,12 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT).addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map((BlockState state) -> new BlockStateJsonVariant(
-					state,
-					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
-					null,
-					null
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixSuffixPath("block/", this.getId(), state.get(Properties.POWERED) ? "_on" : "_off").toString(),
+			null,
+			null
 		);
 	}
 

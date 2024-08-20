@@ -5,6 +5,7 @@ import java.util.Arrays;
 import net.minecraft.item.BlockItem;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
@@ -30,7 +31,7 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 			context.blockstatePath(this.getId()),
 			new Table<>(BlockStateJsonMultipart3.FORMAT)
 			.addRows(
-				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map(direction -> new BlockStateJsonMultipart3(
+				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map((Direction direction) -> new BlockStateJsonMultipart3(
 					"half",
 					"lower",
 					"facing",
@@ -44,7 +45,7 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 				::iterator
 			)
 			.addRows(
-				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map(direction -> new BlockStateJsonMultipart3(
+				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map((Direction direction) -> new BlockStateJsonMultipart3(
 					"half",
 					"lower",
 					"facing",
@@ -58,7 +59,7 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 				::iterator
 			)
 			.addRows(
-				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map(direction -> new BlockStateJsonMultipart3(
+				Arrays.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER).map((Direction direction) -> new BlockStateJsonMultipart3(
 					"half",
 					"lower",
 					"facing",

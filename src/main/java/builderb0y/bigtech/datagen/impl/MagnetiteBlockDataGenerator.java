@@ -1,9 +1,5 @@
 package builderb0y.bigtech.datagen.impl;
 
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-
-import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;

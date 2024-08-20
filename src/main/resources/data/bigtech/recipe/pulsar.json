@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"rsr",
+		"sqs",
+		"rsr"
+	],
+	"key": {
+		"r": { "tag":  "c:dusts/redstone" },
+		"s": { "item": "minecraft:stone"  },
+		"q": { "item": "minecraft:quartz" }
+	},
+	"result": {
+		"id": "bigtech:pulsar"
+	}
+}

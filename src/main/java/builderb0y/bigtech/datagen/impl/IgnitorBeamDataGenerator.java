@@ -9,7 +9,6 @@ import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.FunctionalItems;
 
@@ -25,22 +24,12 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
-	public void writeBlockstateJson(DataGenContext context) {
-		context.writeToFile(
-			context.blockstatePath(this.getId()),
-			new Table<>(BlockStateJsonVariant.FORMAT)
-			.addRows(
-				BlockStateJsonVariant
-				.streamStatesSorted(this.getBlock())
-				.map((BlockState state) -> new BlockStateJsonVariant(
-					state,
-					context.prefixSuffixPath("block/", this.getId(), state.get(Properties.LIT) ? "_lit" : "").toString(),
-					null,
-					BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
-				))
-				::iterator
-			)
-			.toString()
+	public BlockStateJsonVariant createVariant(DataGenContext context, BlockState state) {
+		return new BlockStateJsonVariant(
+			state,
+			context.prefixSuffixPath("block/", this.getId(), state.get(Properties.LIT) ? "_lit" : "").toString(),
+			null,
+			BlockStateJsonVariant.yFromNorth(state.get(Properties.HORIZONTAL_FACING))
 		);
 	}
 
