@@ -9,7 +9,7 @@ import net.minecraft.util.DyeColor;
 
 import builderb0y.bigtech.api.BeaconBeamColorProvider;
 
-public abstract class CrystalClusterRegistrableCollection<T> implements RegistrableCollection<T> {
+public abstract class CrystalRegistrableCollection<T> implements RegistrableCollection<T> {
 
 	public final T
 		red,
@@ -21,8 +21,8 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 		black,
 		white;
 
-	public CrystalClusterRegistrableCollection(
-		boolean register,
+	public CrystalRegistrableCollection(
+		String suffix,
 		T red,
 		T yellow,
 		T green,
@@ -41,31 +41,31 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 		this.black   = black;
 		this.white   = white;
 
-		if (register) this.register();
+		if (suffix != null) this.register(suffix);
 	}
 
-	public CrystalClusterRegistrableCollection(boolean register, CrystalClusterFactory<T> factory) {
+	public CrystalRegistrableCollection(String suffix, CrystalClusterFactory<T> factory) {
 		this(
-			register,
-			factory.create(CrystalClusterColor.RED),
-			factory.create(CrystalClusterColor.YELLOW),
-			factory.create(CrystalClusterColor.GREEN),
-			factory.create(CrystalClusterColor.CYAN),
-			factory.create(CrystalClusterColor.BLUE),
-			factory.create(CrystalClusterColor.MAGENTA),
-			factory.create(CrystalClusterColor.BLACK),
-			factory.create(CrystalClusterColor.WHITE)
+			suffix,
+			factory.create(CrystalColor.RED),
+			factory.create(CrystalColor.YELLOW),
+			factory.create(CrystalColor.GREEN),
+			factory.create(CrystalColor.CYAN),
+			factory.create(CrystalColor.BLUE),
+			factory.create(CrystalColor.MAGENTA),
+			factory.create(CrystalColor.BLACK),
+			factory.create(CrystalColor.WHITE)
 		);
 	}
 
-	public abstract void register();
+	public abstract void register(String suffix);
 
 	public static interface CrystalClusterFactory<T> {
 
-		public abstract T create(CrystalClusterColor color);
+		public abstract T create(CrystalColor color);
 	}
 
-	public T get(CrystalClusterColor color) {
+	public T get(CrystalColor color) {
 		return switch (color) {
 			case RED     -> this.red;
 			case YELLOW  -> this.yellow;
@@ -139,18 +139,18 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 	@SuppressWarnings("unchecked") //generic array creation.
 	public RegistrableVariant<T>[] getRegistrableVariants() {
 		return new RegistrableVariant[] {
-			new RegistrableVariant<>(this.red,     CrystalClusterColor.RED),
-			new RegistrableVariant<>(this.yellow,  CrystalClusterColor.YELLOW),
-			new RegistrableVariant<>(this.green,   CrystalClusterColor.GREEN),
-			new RegistrableVariant<>(this.cyan,    CrystalClusterColor.CYAN),
-			new RegistrableVariant<>(this.blue,    CrystalClusterColor.BLUE),
-			new RegistrableVariant<>(this.magenta, CrystalClusterColor.MAGENTA),
-			new RegistrableVariant<>(this.black,   CrystalClusterColor.BLACK),
-			new RegistrableVariant<>(this.white,   CrystalClusterColor.WHITE),
+			new RegistrableVariant<>(this.red,     CrystalColor.RED),
+			new RegistrableVariant<>(this.yellow,  CrystalColor.YELLOW),
+			new RegistrableVariant<>(this.green,   CrystalColor.GREEN),
+			new RegistrableVariant<>(this.cyan,    CrystalColor.CYAN),
+			new RegistrableVariant<>(this.blue,    CrystalColor.BLUE),
+			new RegistrableVariant<>(this.magenta, CrystalColor.MAGENTA),
+			new RegistrableVariant<>(this.black,   CrystalColor.BLACK),
+			new RegistrableVariant<>(this.white,   CrystalColor.WHITE),
 		};
 	}
 
-	public static enum CrystalClusterColor {
+	public static enum CrystalColor {
 		RED    (DyeColor.RED,     255,  63,  63),
 		YELLOW (DyeColor.YELLOW,  255, 255,  63),
 		GREEN  (DyeColor.LIME,     63, 255,  63),
@@ -160,7 +160,7 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 		BLACK  (DyeColor.BLACK,    63,  63,  63),
 		WHITE  (DyeColor.WHITE,   255, 255, 255);
 
-		public static final CrystalClusterColor[] VALUES = values();
+		public static final CrystalColor[] VALUES = values();
 
 		public final DyeColor closestDyeColor;
 		public final String prefix;
@@ -168,7 +168,7 @@ public abstract class CrystalClusterRegistrableCollection<T> implements Registra
 		public final int color;
 		public final Vector3f colorVector;
 
-		CrystalClusterColor(DyeColor dyeColor, int red, int green, int blue) {
+		CrystalColor(DyeColor dyeColor, int red, int green, int blue) {
 			this.closestDyeColor = dyeColor;
 			this.red = red;
 			this.green = green;

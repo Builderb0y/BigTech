@@ -11,14 +11,14 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
+import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 @Environment(EnvType.CLIENT)
 public class BigTechModels {
 
 	public static final Map<Identifier, UnbakedModel> LOOKUP = new HashMap<>(16);
 	static {
-		for (CrystalClusterColor color : CrystalClusterColor.VALUES) {
+		for (CrystalColor color : CrystalColor.VALUES) {
 			LOOKUP.put(
 				BigTechMod.modID("block/" + color.prefix + "crystal_cluster"),
 				new CrystalUnbakedModel(BigTechMod.modID("block/" + color.prefix + "crystal_cluster"))

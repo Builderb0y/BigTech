@@ -1,0 +1,13 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:black_crystal_lamp",
+		"bigtech:blue_crystal_lamp",
+		"bigtech:cyan_crystal_lamp",
+		"bigtech:green_crystal_lamp",
+		"bigtech:magenta_crystal_lamp",
+		"bigtech:red_crystal_lamp",
+		"bigtech:white_crystal_lamp",
+		"bigtech:yellow_crystal_lamp"
+	]
+}

@@ -3,9 +3,11 @@ package builderb0y.bigtech.blocks;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.property.Properties;
 
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 import builderb0y.bigtech.registrableCollections.LedRegistrableCollection.LedColor;
 import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
@@ -202,7 +204,8 @@ public class DecoBlocks {
 			.hardness(20.0F)
 			//did you know that pistons hard-code the check for
 			//obsidian instead of using the piston behavior on the block?
-			//in fact, obsidian doesn't even specify a piston behavior at all.
+			//in fact, obsidian doesn't even specify a piston behavior at all,
+			//so copying its properties won't automatically make it unpushable.
 			.pistonBehavior(PistonBehavior.BLOCK)
 		)
 	);
@@ -218,6 +221,21 @@ public class DecoBlocks {
 			.strength(0.2F, 0.0F)
 			.noCollision()
 		)
+	);
+	@UseDataGen(void.class)
+	public static final CrystalBlockCollection CRYSTAL_LAMPS = new CrystalBlockCollection(
+		"crystal_lamp",
+		(CrystalColor color) -> {
+			return new CrystalLampBlock(
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(color.closestDyeColor)
+				.strength(0.5F)
+				.sounds(BlockSoundGroup.GLASS)
+				.luminance((BlockState state) -> state.get(Properties.LIT) ? 15 : 0)
+			);
+		}
 	);
 
 	public static void init() {}

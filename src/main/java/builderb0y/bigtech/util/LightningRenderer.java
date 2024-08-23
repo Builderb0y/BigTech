@@ -16,14 +16,20 @@ public class LightningRenderer {
 	public static RenderLayer LIGHTNING_LAYER;
 	static {
 		RenderLayer layer = RenderLayer.getLightning();
+		got:
 		if (FabricLoader.getInstance().isModLoaded("iris")) {
-			BigTechMod.LOGGER.info("Iris is installed. Will use its lightning render layer.");
+			try {
+				layer = Class.forName("net.irisshaders.iris.pathways.LightningHandler").getDeclaredField("IRIS_LIGHTNING").get(null).as();
+				BigTechMod.LOGGER.info("Using new iris lightning renderer.");
+				break got;
+			}
+			catch (Exception ignored) {}
 			try {
 				layer = Class.forName("net.coderbot.iris.pipeline.LightningHandler").getDeclaredField("IRIS_LIGHTNING").get(null).as();
+				BigTechMod.LOGGER.info("Using old iris lightning renderer.");
+				break got;
 			}
-			catch (Exception exception) {
-				BigTechMod.LOGGER.error("Failed to get iris's lightning render layer. Please report this to Big Tech for improved compatibility.", exception);
-			}
+			catch (Exception ignored) {}
 		}
 		LIGHTNING_LAYER = layer;
 	}

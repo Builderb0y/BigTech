@@ -55,7 +55,8 @@ public class BigTechItemTags {
 		UNWAXED_COPPER_SLABS      = of("unwaxed_copper_slabs"),
 		WAXED_COPPER_SLABS        = of("waxed_copper_slabs"),
 		LEDS                      = of("leds"),
-		CONDUCTIVE_ANVILS         = of("conductive_anvils");
+		CONDUCTIVE_ANVILS         = of("conductive_anvils"),
+		CRYSTAL_LAMPS             = of("crystal_lamps");
 
 
 	public static TagKey<Item> of(String name) {

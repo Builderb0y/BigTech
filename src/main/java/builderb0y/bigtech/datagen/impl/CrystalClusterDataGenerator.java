@@ -6,13 +6,13 @@ import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
+import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 public class CrystalClusterDataGenerator extends BasicBlockDataGenerator {
 
-	public final CrystalClusterColor color;
+	public final CrystalColor color;
 
-	public CrystalClusterDataGenerator(BlockItem blockItem, CrystalClusterColor color) {
+	public CrystalClusterDataGenerator(BlockItem blockItem, CrystalColor color) {
 		super(blockItem);
 		this.color = color;
 	}

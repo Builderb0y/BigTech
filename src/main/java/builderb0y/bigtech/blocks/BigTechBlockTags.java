@@ -88,7 +88,8 @@ public class BigTechBlockTags {
 		WAXED_COPPER_SLABS        = of("waxed_copper_slabs"),
 		SHEARS_MINEABLE           = common("mineable/shears"),
 		LEDS                      = of("leds"),
-		CONDUCTIVE_ANVILS         = of("conductive_anvils");
+		CONDUCTIVE_ANVILS         = of("conductive_anvils"),
+		CRYSTAL_LAMPS             = of("crystal_lamps");
 
 
 	public static TagKey<Block> common(String name) {

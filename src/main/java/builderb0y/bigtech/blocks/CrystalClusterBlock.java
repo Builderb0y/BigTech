@@ -40,7 +40,7 @@ import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.mixins.ExplosionAccessor;
 import builderb0y.bigtech.models.CrystalBakedModel;
 import builderb0y.bigtech.particles.SparkleParticleEffect;
-import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
+import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 public class CrystalClusterBlock extends Block implements Waterloggable, BeaconBeamColorProvider, BeamInteractor {
 
@@ -54,9 +54,9 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 		return CODEC;
 	}
 
-	public final CrystalClusterColor color;
+	public final CrystalColor color;
 
-	public CrystalClusterBlock(Settings settings, CrystalClusterColor color) {
+	public CrystalClusterBlock(Settings settings, CrystalColor color) {
 		super(settings);
 		this.color = color;
 		this.setDefaultState(

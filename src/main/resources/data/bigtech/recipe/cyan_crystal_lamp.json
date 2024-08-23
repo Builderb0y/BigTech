@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:crystal_lamps",
+	"pattern": [
+		"ngn",
+		"gcg",
+		"ngn"
+	],
+	"key": {
+		"n": { "tag": "c:nuggets/iron" },
+		"g": [
+			{ "tag": "c:glass_blocks/colorless" },
+			{ "tag": "c:glass_panes/colorless"  }
+		],
+		"c": { "item": "bigtech:cyan_crystal_cluster" }
+	},
+	"result": {
+		"id": "bigtech:cyan_crystal_lamp"
+	}
+}

@@ -18,6 +18,7 @@ import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerat
 import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
+import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 public class FunctionalItems {
 
@@ -179,10 +180,10 @@ public class FunctionalItems {
 	//////////////////////////////// crystals ////////////////////////////////
 
 	@UseDataGen(CrystalClusterDataGenerator.class)
-	public static final CrystalClusterItemCollection CRYSTAL_CLUSTERS = new CrystalClusterItemCollection(
-		true,
-		type -> new BlockItem(
-			FunctionalBlocks.CRYSTAl_ClUSTERS.get(type),
+	public static final CrystalItemCollection CRYSTAL_CLUSTERS = new CrystalItemCollection(
+		"crystal_cluster",
+		(CrystalColor color) -> new BlockItem(
+			FunctionalBlocks.CRYSTAl_ClUSTERS.get(color),
 			new Item.Settings()
 		)
 	);

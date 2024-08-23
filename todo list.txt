@@ -3,7 +3,6 @@ bugs:
 
 where I left off:
 	make destroyers play tool breaking sound when breaking a tool.
-	do the tops and bottoms of bars need their UVs rotated?
 
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
@@ -24,10 +23,10 @@ features:
 		config file for disabling non-essential mixins.
 		config option to disable fancy lightning renderer and associated mixin.
 			another config option to control the quality of the lightning.
-		fancier 3D models for things.
-			more vanilla stuff?
 		need an icon for the mod.
 	decoration:
+		fancier 3D models for things.
+			more vanilla stuff?
 	transport:
 		hoppers:
 			copper hopper: ??? maybe filterable somehow?

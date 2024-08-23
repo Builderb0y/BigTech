@@ -175,6 +175,16 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 		return false;
 	}
 
+	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
+	@Override
+	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+		return 1.0F;
+	}
+
 	public static class SortingCache {
 
 		public static final Map<World, Map<BlockPos, SortingCache>> WORLDS = new WeakHashMap<>(4);

@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"lit=false": { "model": "bigtech:block/magenta_crystal_lamp_off" },
+		"lit=true":  { "model": "bigtech:block/magenta_crystal_lamp_on"  }
+	}
+}

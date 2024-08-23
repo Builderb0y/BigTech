@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "bigtech:block/magenta_crystal_lamp_on"
+	}
+}

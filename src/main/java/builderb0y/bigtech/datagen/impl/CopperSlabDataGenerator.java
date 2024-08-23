@@ -17,6 +17,7 @@ import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
@@ -25,7 +26,7 @@ import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
-@Dependencies(CommonCopperSlabDataGenerator.class)
+@Dependencies(CopperSlabDataGenerator.CommonCopperSlabDataGenerator.class)
 public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 
 	public final CopperRegistrableCollection.Type type;
@@ -151,5 +152,14 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 				)
 			)
 		);
+	}
+
+	public static class CommonCopperSlabDataGenerator implements DataGenerator {
+
+		@Override
+		public void run(DataGenContext context) {
+			context.getTags(MiningToolTags.PICKAXE).add(BigTechBlockTags.COPPER_SLABS);
+			context.getTags(MiningLevelTags.STONE).add(BigTechBlockTags.COPPER_SLABS);
+		}
 	}
 }

@@ -1,7 +1,6 @@
 package builderb0y.bigtech.blocks;
 
 import net.minecraft.block.*;
-import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
@@ -10,7 +9,7 @@ import net.minecraft.util.math.Direction;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
-import builderb0y.bigtech.registrableCollections.CrystalClusterRegistrableCollection.CrystalClusterColor;
+import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 public class FunctionalBlocks {
 
@@ -103,7 +102,11 @@ public class FunctionalBlocks {
 			.create()
 			.mapColor(MapColor.STONE_GRAY)
 			.nonOpaque()
-			.strength(0.2F),
+			.strength(0.2F)
+			.allowsSpawning(Blocks::never)
+			.solidBlock(Blocks::never)
+			.suffocates(Blocks::never)
+			.blockVision(Blocks::never),
 			Direction.UP
 		)
 	);
@@ -310,9 +313,9 @@ public class FunctionalBlocks {
 	//////////////////////////////// crystals ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final CrystalClusterBlockCollection CRYSTAl_ClUSTERS = new CrystalClusterBlockCollection(
-		true,
-		(CrystalClusterColor color) -> {
+	public static final CrystalBlockCollection CRYSTAl_ClUSTERS = new CrystalBlockCollection(
+		"crystal_cluster",
+		(CrystalColor color) -> {
 			return new CrystalClusterBlock(
 				AbstractBlock
 				.Settings
