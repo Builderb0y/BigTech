@@ -9,7 +9,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 public interface TechnoCrafterAccess extends Inventory {
 
-	public static TechnoCrafterAccess create() {
+	public static TechnoCrafterAccess create(int selectedSlot) {
 		return new TechnoCrafterAccess() {
 
 			public boolean interactionSide;
@@ -44,6 +44,11 @@ public interface TechnoCrafterAccess extends Inventory {
 			public boolean canPlayerUse(PlayerEntity player) {
 				return true;
 			}
+
+			@Override
+			public boolean isSlotBlocked(int index) {
+				return index == selectedSlot;
+			}
 		};
 	}
 
@@ -58,6 +63,10 @@ public interface TechnoCrafterAccess extends Inventory {
 	public DefaultedList<ItemStack> getHeldStacks();
 
 	public DefaultedList<ItemStack> getStacks(boolean interactionSide);
+
+	public default boolean isSlotBlocked(int index) {
+		return false;
+	}
 
 	@Override
 	public default int size() {

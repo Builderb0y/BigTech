@@ -299,6 +299,11 @@ public class FunctionalItems {
 	public static final BlockItem TECHNO_CRAFTER = BigTechItems.registerPlacer(
 		FunctionalBlocks.TECHNO_CRAFTER
 	);
+	@UseDataGen(PortableTechnoCrafterDataGenerator.class)
+	public static final PortableTechnoCrafterItem PORTABLE_TECHNO_CRAFTER = BigTechItems.register(
+		"portable_techno_crafter",
+		new PortableTechnoCrafterItem(new Item.Settings().maxCount(1))
+	);
 
 	public static void init() {
 		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);

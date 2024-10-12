@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blockEntities;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
@@ -9,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -17,7 +20,7 @@ import builderb0y.bigtech.gui.TechnoCrafterAccess;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
 
-public class TechnoCrafterBlockEntity extends LootableContainerBlockEntity implements TechnoCrafterAccess {
+public class TechnoCrafterBlockEntity extends LootableContainerBlockEntity implements TechnoCrafterAccess, ExtendedScreenHandlerFactory<Byte> {
 
 	public boolean interactedRight;
 	public SplitStackList stacks;
@@ -64,6 +67,11 @@ public class TechnoCrafterBlockEntity extends LootableContainerBlockEntity imple
 	@Override
 	public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
 		return new TechnoCrafterScreenHandler(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncId, this, playerInventory);
+	}
+
+	@Override
+	public Byte getScreenOpeningData(ServerPlayerEntity player) {
+		return -1;
 	}
 
 	@Override

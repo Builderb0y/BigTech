@@ -29,10 +29,10 @@ public class MinerScreenHandler extends BigTechScreenHandler {
 
 		this.shiftClickRules()
 		.collect(stack(AbstractFurnaceBlockEntity::canUseAsFuel), fuel.forward(), playerHotbar, playerStorage)
-		.distribute(any(), playerHotbar, mainInventory.forward(), playerStorage.forward())
+		.distribute(any(), playerHotbar,  mainInventory.forward(), playerStorage.forward())
 		.distribute(any(), playerStorage, mainInventory.forward(), playerHotbar.forward())
 		.distribute(any(), mainInventory, playerStorage.forward(), playerHotbar.forward())
-		.distribute(any(), fuel, playerStorage.forward(), playerHotbar.forward(), mainInventory.forward())
+		.distribute(any(), fuel,          playerStorage.forward(), playerHotbar.forward(), mainInventory.forward())
 		.distribute(any(), smeltingInput, playerStorage.forward(), playerHotbar.forward(), mainInventory.forward())
 		;
 

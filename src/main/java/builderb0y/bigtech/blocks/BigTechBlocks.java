@@ -30,6 +30,10 @@ import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
 import builderb0y.bigtech.util.WorldHelper;
 
+/**
+welcome! the actual block declarations are in {@link FunctionalBlocks} and {@link DecoBlocks}.
+if I ever add a 3rd creative tab, that'll get its own class too.
+*/
 public class BigTechBlocks {
 
 	public static final BlockSetType COPPER_BLOCK_SET_TYPE = (

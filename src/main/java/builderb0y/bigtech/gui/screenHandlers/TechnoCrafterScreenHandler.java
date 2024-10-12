@@ -63,15 +63,12 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 		.shiftClickRules
 		.collect(when(() -> !crafter.getInteractionSide()),  leftGrid.forward(), playerHotbar, playerStorage)
 		.collect(when(() ->  crafter.getInteractionSide()), rightGrid.forward(), playerHotbar, playerStorage)
-		.distribute(any(), leftGrid,          playerHotbar.forward(), playerStorage.forward())
-		.distribute(any(), rightGrid,         playerHotbar.forward(), playerStorage.forward())
-		.distribute(any(), leftTopOutput,     playerHotbar.forward(), playerStorage.forward())
-		.distribute(any(), rightBottomOutput, playerHotbar.forward(), playerStorage.forward())
+		.builder().from(leftGrid, rightGrid, leftTopOutput, rightBottomOutput).to(playerHotbar.forward(), playerStorage.forward()).add()
 		;
 	}
 
-	public TechnoCrafterScreenHandler(int syncID, PlayerInventory playerInventory) {
-		this(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncID, TechnoCrafterAccess.create(), playerInventory);
+	public TechnoCrafterScreenHandler(int syncID, PlayerInventory playerInventory, byte selectedSlot) {
+		this(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncID, TechnoCrafterAccess.create(selectedSlot), playerInventory);
 	}
 
 	public SlotFactory resultSlotFactory(boolean right) {
@@ -83,17 +80,7 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 				index,
 				x,
 				y
-			) {
-
-				@Override
-				public void onTakeItem(PlayerEntity player, ItemStack stack) {
-					super.onTakeItem(player, stack);
-					TechnoCrafterScreenHandler.this.updateResult(right);
-					if (!stack.isEmpty()) {
-						player.dropItem(stack, true);
-					}
-				}
-			};
+			);
 		};
 	}
 
@@ -107,6 +94,29 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	public CraftingResultInventory getResult(boolean side) {
 		return side ? this.rightBottomResult : this.leftTopResult;
+	}
+
+	@Override
+	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+		if (slotIndex == 36 + 18 || slotIndex == 36 + 19) {
+			Slot slot = this.getSlot(slotIndex);
+			boolean loop = true;
+			while (loop) {
+				super.quickMove(player, slotIndex);
+				if (!slot.getStack().isEmpty()) {
+					player.dropItem(slot.getStack().copy(), true);
+					loop = false;
+				}
+				this.updateResult(slotIndex == 36 + 19);
+				if (slot.getStack().isEmpty()) {
+					loop = false;
+				}
+			}
+			return ItemStack.EMPTY;
+		}
+		else {
+			return super.quickMove(player, slotIndex);
+		}
 	}
 
 	@Override
@@ -162,23 +172,23 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 	}
 
 	@Override
-	public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
-		return !(slot.inventory instanceof CraftingResultInventory) && super.canInsertIntoSlot(stack, slot);
-	}
-
-	@Override
-	public boolean canInsertIntoSlot(Slot slot) {
-		return !(slot.inventory instanceof CraftingResultInventory) && super.canInsertIntoSlot(slot);
-	}
-
-	@Override
 	public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+		if (
+			this.access().isSlotBlocked(slotIndex) || (
+				actionType == SlotActionType.SWAP &&
+				this.access().isSlotBlocked(button)
+			)
+		) {
+			return;
+		}
+
 		if ((slotIndex >= 36 && slotIndex < 36 + 9) || slotIndex == 36 + 18) {
 			this.access().setInteractionSide(false);
 		}
 		else if ((slotIndex >= 36 + 9 && slotIndex < 36 + 18) || slotIndex == 36 + 19) {
 			this.access().setInteractionSide(true);
 		}
+
 		super.onSlotClick(slotIndex, button, actionType, player);
 
 		//the CORRECT way to do this would be to listen to changes

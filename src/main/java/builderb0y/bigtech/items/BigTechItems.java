@@ -28,6 +28,10 @@ import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.BigTechMod;
 
+/**
+welcome! the actual item declarations are in {@link FunctionalItems} and {@link DecoItems}.
+if I ever add a 3rd creative tab, it'll get a new class too.
+*/
 public class BigTechItems {
 
 	public static void init() {

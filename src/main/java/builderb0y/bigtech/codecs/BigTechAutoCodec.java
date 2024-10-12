@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.loader.api.FabricLoader;
+import org.jetbrains.annotations.ApiStatus.OverrideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.block.AbstractBlock;
@@ -16,21 +17,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryFixedCodec;
 import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.autocodec.AutoCodec;
 import builderb0y.autocodec.coders.AutoCoder;
-import builderb0y.autocodec.decoders.AutoDecoder;
-import builderb0y.autocodec.decoders.DecoderFactoryList;
-import builderb0y.autocodec.decoders.LookupDecoderFactory;
-import builderb0y.autocodec.encoders.AutoEncoder;
-import builderb0y.autocodec.encoders.EncoderFactoryList;
-import builderb0y.autocodec.encoders.LookupEncoderFactory;
+import builderb0y.autocodec.coders.CoderFactoryList;
+import builderb0y.autocodec.coders.LookupCoderFactory;
 import builderb0y.autocodec.reflection.PseudoField;
 import builderb0y.autocodec.reflection.ReflectionManager;
 import builderb0y.autocodec.reflection.memberViews.FieldLikeMemberView;
@@ -45,55 +40,28 @@ public class BigTechAutoCodec {
 	public static final AutoCodec AUTO_CODEC = new AutoCodec() {
 
 		@Override
-		public @NotNull DecoderFactoryList createDecoders() {
-			return new DecoderFactoryList(this) {
+		@OverrideOnly
+		public @NotNull CoderFactoryList createCoders() {
+			return new CoderFactoryList(this) {
 
 				@Override
-				public @NotNull AutoDecoder.DecoderFactory createLookupFactory() {
-					return new LookupDecoderFactory() {
+				public @NotNull AutoCoder.CoderFactory createLookupFactory() {
+					return new LookupCoderFactory() {
 
 						@Override
 						public void setup() {
 							super.setup();
-							this.addRaw(AbstractBlock.Settings.class, autoCodec.wrapDFUCodec(AbstractBlock.Settings.CODEC, false, false));
-							this.addRaw(Block.class, autoCodec.wrapDFUCodec(Registries.BLOCK.getCodec(), false, false));
-							this.addRaw(Item.class, autoCodec.wrapDFUCodec(Registries.ITEM.getCodec(), false, false));
-							this.addRaw(ItemStack.class, autoCodec.wrapDFUCodec(ItemStack.CODEC, false, false));
-							this.addRaw(Ingredient.class, autoCodec.wrapDFUCodec(Ingredient.DISALLOW_EMPTY_CODEC, false, false));
+							this.addRaw(AbstractBlock.Settings.class, autoCodec.wrapDFUCodec(AbstractBlock.Settings.CODEC));
+							this.addRaw(Block.class, autoCodec.wrapDFUCodec(Registries.BLOCK.getCodec()));
+							this.addRaw(Item.class, autoCodec.wrapDFUCodec(Registries.ITEM.getCodec()));
+							this.addRaw(ItemStack.class, autoCodec.wrapDFUCodec(ItemStack.CODEC));
+							this.addRaw(Ingredient.class, autoCodec.wrapDFUCodec(Ingredient.DISALLOW_EMPTY_CODEC));
 							this.addRaw(NbtCompound.class, NbtAutoCoder.INSTANCE);
-							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.BLOCK), false, false));
-							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.ITEM), false, false));
-							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.BLOCK), false, false));
-							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.ITEM), false, false));
-							this.addRaw(ComponentChanges.class, autoCodec.wrapDFUCodec(ComponentChanges.CODEC, false, false));
-						}
-					};
-				}
-			};
-		}
-
-		@Override
-		public @NotNull EncoderFactoryList createEncoders() {
-			return new EncoderFactoryList(this) {
-
-				@Override
-				public @NotNull AutoEncoder.EncoderFactory createLookupFactory() {
-					return new LookupEncoderFactory() {
-
-						@Override
-						public void setup() {
-							super.setup();
-							this.addRaw(AbstractBlock.Settings.class, autoCodec.wrapDFUCodec(AbstractBlock.Settings.CODEC, false, false));
-							this.addRaw(Block.class, autoCodec.wrapDFUCodec(Registries.BLOCK.getCodec(), false, false));
-							this.addRaw(Item.class, autoCodec.wrapDFUCodec(Registries.ITEM.getCodec(), false, false));
-							this.addRaw(ItemStack.class, autoCodec.wrapDFUCodec(ItemStack.CODEC, false, false));
-							this.addRaw(Ingredient.class, autoCodec.wrapDFUCodec(Ingredient.DISALLOW_EMPTY_CODEC, false, false));
-							this.addRaw(NbtCompound.class, NbtAutoCoder.INSTANCE);
-							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.BLOCK), false, false));
-							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.ITEM), false, false));
-							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.BLOCK), false, false));
-							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.ITEM), false, false));
-							this.addRaw(ComponentChanges.class, autoCodec.wrapDFUCodec(ComponentChanges.CODEC, false, false));
+							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.BLOCK)));
+							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.ITEM)));
+							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.BLOCK)));
+							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.ITEM)));
+							this.addRaw(ComponentChanges.class, autoCodec.wrapDFUCodec(ComponentChanges.CODEC));
 						}
 					};
 				}

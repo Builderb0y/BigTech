@@ -38,7 +38,7 @@ dependencies() {
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
 	//AutoCodec.
-	include(implementation('builderb0y:autocodec:4.12.1') {
+	include(implementation('builderb0y:autocodec:5.0.0') {
 		transitive = false
 	})
 

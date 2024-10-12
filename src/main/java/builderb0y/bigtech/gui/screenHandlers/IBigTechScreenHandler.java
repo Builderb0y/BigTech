@@ -1,6 +1,7 @@
 package builderb0y.bigtech.gui.screenHandlers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
 
@@ -44,7 +45,7 @@ public interface IBigTechScreenHandler {
 	public default ItemStack quickMove(PlayerEntity player, int slotIndex) {
 		Slot slot = this.getSlots().get(slotIndex);
 		ItemStack stack = slot.getStack();
-		if (!stack.isEmpty()) while (true) {
+		if (!stack.isEmpty()) {
 			outer:
 			for (int onlyWithExisting = 1; onlyWithExisting >= 0; onlyWithExisting--) {
 				for (ShiftClickRule rule : this.shiftClickRules()) {
@@ -57,17 +58,7 @@ public interface IBigTechScreenHandler {
 					}
 				}
 			}
-			boolean empty = stack.isEmpty();
 			slot.onTakeItem(player, stack);
-			stack = slot.getStack();
-			if (empty && !stack.isEmpty()) {
-				//stack re-filled itself when we took items out of it.
-				//try to move the new items too.
-				continue;
-			}
-			else {
-				break;
-			}
 		}
 		return ItemStack.EMPTY;
 	}
@@ -217,6 +208,56 @@ public interface IBigTechScreenHandler {
 				this.add(new ShiftClickRule(input, output, predicate));
 			}
 			return this;
+		}
+
+		public ShiftClickRuleBuilder builder() {
+			return new ShiftClickRuleBuilder(this);
+		}
+	}
+
+	public static class ShiftClickRuleBuilder {
+
+		public final ShiftClickRules rules;
+		public BiPredicate<PlayerEntity, Slot> when = BigTechScreenHandler.any();
+		public List<SlotRange> from = new ArrayList<>(4);
+		public List<Destination> to = new ArrayList<>(4);
+
+		public ShiftClickRuleBuilder(ShiftClickRules rules) {
+			this.rules = rules;
+		}
+
+		public ShiftClickRuleBuilder when(BiPredicate<PlayerEntity, Slot> when) {
+			this.when = when;
+			return this;
+		}
+
+		public ShiftClickRuleBuilder from(SlotRange from) {
+			this.from.add(from);
+			return this;
+		}
+
+		public ShiftClickRuleBuilder from(SlotRange... from) {
+			Collections.addAll(this.from, from);
+			return this;
+		}
+
+		public ShiftClickRuleBuilder to(Destination to) {
+			this.to.add(to);
+			return this;
+		}
+
+		public ShiftClickRuleBuilder to(Destination... to) {
+			Collections.addAll(this.to, to);
+			return this;
+		}
+
+		public ShiftClickRules add() {
+			for (SlotRange from : this.from) {
+				for (Destination to : this.to) {
+					this.rules.add(new ShiftClickRule(from, to, this.when));
+				}
+			}
+			return this.rules;
 		}
 	}
 }

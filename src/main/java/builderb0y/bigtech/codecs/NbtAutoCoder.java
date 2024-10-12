@@ -32,7 +32,7 @@ public class NbtAutoCoder extends NamedCoder<NbtCompound> {
 
 	@Override
 	public <T_Encoded> @NotNull T_Encoded encode(@NotNull EncodeContext<T_Encoded, NbtCompound> context) throws EncodeException {
-		if (context.input == null) return context.empty();
-		return NbtOps.INSTANCE.convertTo(context.ops, context.input);
+		if (context.object == null) return context.empty();
+		return NbtOps.INSTANCE.convertTo(context.ops, context.object);
 	}
 }

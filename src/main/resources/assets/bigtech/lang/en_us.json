@@ -209,6 +209,7 @@
 	"item.bigtech.magnetite_ingot":                           "Magnetite Ingot",
 	"item.bigtech.magnetite_nugget":                          "Magnetite Nugget",
 	"item.bigtech.miner_tool":                                "Miner Tool",
+	"item.bigtech.portable_techno_crafter":                   "Portable Techno Crafter",
 	"item.bigtech.quad_lightning_electrode":                  "Quad Lightning Electrode",
 	"itemGroup.bigtech.deco":                                 "Big Tech (Deco)",
 	"itemGroup.bigtech.functional":                           "Big Tech (Functional)"

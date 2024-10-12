@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"rcr",
+		"rir",
+		"rcr"
+	],
+	"key": {
+		"r": { "tag":  "c:dusts/redstone"                        },
+		"c": { "item": "bigtech:stone_crafting_table"            },
+		"i": { "item": "minecraft:heavy_weighted_pressure_plate" }
+	},
+	"result": {
+		"id": "bigtech:portable_techno_crafter"
+	}
+}
