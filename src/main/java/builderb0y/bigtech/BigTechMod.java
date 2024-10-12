@@ -19,7 +19,7 @@ import builderb0y.bigtech.networking.BigTechNetwork;
 import builderb0y.bigtech.particles.BigTechParticles;
 import builderb0y.bigtech.recipes.BigTechRecipeSerializers;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 
 public class BigTechMod implements ModInitializer {
 

@@ -96,6 +96,11 @@ public class BigTechBlockEntityTypes {
 		PulsarBlockEntity::new,
 		FunctionalBlocks.PULSAR
 	);
+	public static final BlockEntityType<TechnoCrafterBlockEntity> TECHNO_CRAFTER = register(
+		"techno_crafter",
+		TechnoCrafterBlockEntity::new,
+		FunctionalBlocks.TECHNO_CRAFTER
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));

@@ -23,8 +23,8 @@ import net.minecraft.util.math.Direction;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.recipes.TransmuteRecipe;
 import builderb0y.bigtech.recipes.TransmuteRecipe.Output;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.TransmuterScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.TransmuterScreenHandler;
 
 public class TransmuterBlockEntity extends LootableContainerBlockEntity implements SidedInventory {
 

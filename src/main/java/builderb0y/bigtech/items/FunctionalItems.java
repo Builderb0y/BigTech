@@ -295,6 +295,10 @@ public class FunctionalItems {
 	public static final BlockItem STONE_CRAFTING_TABLE = BigTechItems.registerPlacer(
 		FunctionalBlocks.STONE_CRAFTING_TABLE
 	);
+	@UseDataGen(TechnoCrafterDataGenerator.class)
+	public static final BlockItem TECHNO_CRAFTER = BigTechItems.registerPlacer(
+		FunctionalBlocks.TECHNO_CRAFTER
+	);
 
 	public static void init() {
 		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);

@@ -1,7 +1,5 @@
 package builderb0y.bigtech.blockEntities;
 
-import java.util.Objects;
-
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 
 import net.minecraft.block.BlockState;
@@ -14,12 +12,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.inventory.SingleStackInventory;
-import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
@@ -33,8 +28,8 @@ import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
 
 import builderb0y.bigtech.mixinterfaces.SilverIodideProjectile;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.SilverIodideCannonScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.SilverIodideCannonScreenHandler;
 
 public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity implements SingleStackInventory, ExtendedScreenHandlerFactory<BlockPos> {
 

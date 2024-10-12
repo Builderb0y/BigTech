@@ -7,7 +7,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blockEntities.SilverIodideCannonBlockEntity;
-import builderb0y.bigtech.screenHandlers.SilverIodideCannonScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.SilverIodideCannonScreenHandler;
 
 public class SilverIodideCannonFirePacket implements C2SPlayPacket<SilverIodideCannonFirePacket.Payload> {
 

@@ -1,18 +1,14 @@
 package builderb0y.bigtech.blockEntities;
 
-import java.util.Objects;
-
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
@@ -33,8 +29,8 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.IgnitorScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.IgnitorScreenHandler;
 
 public class IgnitorBlockEntity extends LockableContainerBlockEntity implements SingleStackInventory {
 

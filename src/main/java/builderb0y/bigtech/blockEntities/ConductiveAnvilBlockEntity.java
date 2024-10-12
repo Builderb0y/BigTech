@@ -25,8 +25,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.mixins.ItemEnchantmentsComponentBuilder_BackingMapAccess;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.ConductiveAnvilScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.ConductiveAnvilScreenHandler;
 
 public class ConductiveAnvilBlockEntity extends LockableContainerBlockEntity {
 

@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -14,7 +13,6 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.property.Properties;
@@ -25,8 +23,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.EntityAddedToWorldEvent;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.DestroyerScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.DestroyerScreenHandler;
 
 public abstract class AbstractDestroyerBlockEntity extends LootableContainerBlockEntity {
 

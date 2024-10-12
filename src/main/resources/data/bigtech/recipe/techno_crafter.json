@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"rcr",
+		"rir",
+		"rcr"
+	],
+	"key": {
+		"r": { "tag":  "c:dusts/redstone"             },
+		"c": { "item": "bigtech:stone_crafting_table" },
+		"i": { "tag":  "c:storage_blocks/iron"        }
+	},
+	"result": {
+		"id": "bigtech:techno_crafter"
+	}
+}

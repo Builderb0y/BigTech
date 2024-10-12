@@ -26,8 +26,8 @@ import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.SpawnerInterceptorScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.SpawnerInterceptorScreenHandler;
 import builderb0y.bigtech.util.Inventories2;
 
 public class SpawnerInterceptorBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, Nameable {

@@ -15,7 +15,7 @@ import builderb0y.bigtech.datagen.base.DataGen;
 import builderb0y.bigtech.entities.BetterLightningEntityRenderer;
 import builderb0y.bigtech.entities.BigTechEntityTypes;
 import builderb0y.bigtech.entities.MinerEntityRenderer;
-import builderb0y.bigtech.handledScreens.BigTechHandledScreens;
+import builderb0y.bigtech.gui.handledScreens.BigTechHandledScreens;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.models.BigTechModels;
 import builderb0y.bigtech.networking.BigTechNetwork;

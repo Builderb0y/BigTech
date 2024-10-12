@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.blockEntities.PulsarBlockEntity;
 import builderb0y.bigtech.blockEntities.PulsarBlockEntity.TimeGetter;
-import builderb0y.bigtech.slotlessScreens.PulsarEditScreen;
+import builderb0y.bigtech.gui.PulsarEditScreen;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class OpenPulsarPacket implements S2CPlayPacket<OpenPulsarPacket.Payload> {

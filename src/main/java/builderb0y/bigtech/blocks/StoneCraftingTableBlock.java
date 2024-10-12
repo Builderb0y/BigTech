@@ -3,12 +3,15 @@ package builderb0y.bigtech.blocks;
 import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -16,7 +19,7 @@ import builderb0y.bigtech.blockEntities.StoneCraftingTableBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
-public class StoneCraftingTableBlock extends CraftingTableBlock implements BlockEntityProvider {
+public class StoneCraftingTableBlock extends Block implements BlockEntityProvider {
 
 	public static final MapCodec<StoneCraftingTableBlock> CODEC = BigTechAutoCodec.callerMapCodec();
 
@@ -28,6 +31,14 @@ public class StoneCraftingTableBlock extends CraftingTableBlock implements Block
 
 	public StoneCraftingTableBlock(Settings settings) {
 		super(settings);
+	}
+
+	@Override
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+		if (!world.isClient) {
+			player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+		}
+		return ActionResult.SUCCESS;
 	}
 
 	@Override

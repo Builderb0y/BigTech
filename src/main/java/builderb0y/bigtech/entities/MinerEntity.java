@@ -63,8 +63,8 @@ import builderb0y.bigtech.api.EntityAddedToWorldEvent;
 import builderb0y.bigtech.beams.impl.DestructionManager;
 import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.networking.ControlMinerPacket;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.screenHandlers.MinerScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.MinerScreenHandler;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class MinerEntity extends VehicleEntity implements VehicleInventory, SidedInventory, RideableInventory {

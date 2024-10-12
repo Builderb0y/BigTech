@@ -13,3 +13,7 @@ accessible field net/minecraft/client/world/ClientChunkManager$ClientChunkMap ch
 
 #why is this package-private?
 extendable method net/minecraft/entity/vehicle/VehicleEntity asItem ()Lnet/minecraft/item/Item;
+
+#used by techno-crafters.
+accessible field net/minecraft/util/collection/DefaultedList delegate Ljava/util/List;
+accessible method net/minecraft/util/collection/DefaultedList <init> (Ljava/util/List;Ljava/lang/Object;)V

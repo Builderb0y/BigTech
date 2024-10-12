@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 
-import builderb0y.bigtech.screenHandlers.StoneCraftingTableScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.StoneCraftingTableScreenHandler;
 
 public class StoneCraftingTableBlockEntity extends LootableContainerBlockEntity {
 

@@ -1,0 +1,9 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"top": "bigtech:block/techno_crafter_top",
+		"side": "bigtech:block/techno_crafter_side",
+		"bottom": "minecraft:block/iron_block",
+		"particle": "bigtech:block/techno_crafter_side"
+	}
+}

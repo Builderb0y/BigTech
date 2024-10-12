@@ -26,7 +26,7 @@ import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.particles.BigTechParticles;
-import builderb0y.bigtech.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 
 public class DataGen {
 

@@ -502,7 +502,6 @@ public class FunctionalBlocks {
 			.Settings
 			.create()
 			.mapColor(MapColor.ORANGE)
-			.solid()
 			.requiresTool()
 			.noCollision()
 			.strength(0.5F)
@@ -514,6 +513,18 @@ public class FunctionalBlocks {
 		"stone_crafting_table",
 		new StoneCraftingTableBlock(
 			AbstractBlock.Settings.copy(Blocks.COBBLESTONE)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final TechnoCrafterBlock TECHNO_CRAFTER = BigTechBlocks.register(
+		"techno_crafter",
+		new TechnoCrafterBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.WHITE_GRAY)
+			.requiresTool()
+			.strength(2.0F, 6.0F)
 		)
 	);
 
