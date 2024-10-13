@@ -304,6 +304,11 @@ public class FunctionalItems {
 		"portable_techno_crafter",
 		new PortableTechnoCrafterItem(new Item.Settings().maxCount(1))
 	);
+	@UseDataGen(MagneticArrowDataGenerator.class)
+	public static final MagneticArrowItem MAGNETIC_ARROW = BigTechItems.register(
+		"magnetic_arrow",
+		new MagneticArrowItem(new Item.Settings())
+	);
 
 	public static void init() {
 		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);

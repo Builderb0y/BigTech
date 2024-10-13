@@ -14,7 +14,6 @@ things to finish for existing features:
 	make tooltips of NBT-copied lightning jars display stored energy.
 
 compatibility:
-	LightningHandler.IRIS_LIGHTNING is moving to a different package.
 
 testing:
 
@@ -40,7 +39,6 @@ features:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
 				should this just be an item that works in your inventory instead?
 					nah, that's been done by other mods plenty of times already.
-			arrow: is attracted to mobs
 		socks:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
@@ -51,13 +49,10 @@ features:
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:
-		upgraded crafting tables:
-			iron: basically a placeable version of the techno crafter
 		deployer: places blocks.
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
 	tools:
-		portable techno crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
 		power tools: can mine multiple blocks? kind of similar to the destroyer?
@@ -76,6 +71,7 @@ done:
 			nugget: crafting ingredient for magnetite arrows
 			ingot: crafting ingredient. made by transmuting iron
 			block: also attracts items, xp, and projectiles
+			arrow: is attracted to mobs
 		tesla coil: shocks nearby entities, can summon lightning
 		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
 		lightning battery: stores lightning power in portable, item format. releases power on right click.
@@ -135,6 +131,9 @@ done:
 		upgraded crafting tables:
 			wood: unchanged
 			stone: keeps its inventory when you close the GUI
+			iron: basically a placeable version of the techno crafter
+	tools:
+		portable techno crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
 
 canceled:
 	lightning rod: already in vanilla.

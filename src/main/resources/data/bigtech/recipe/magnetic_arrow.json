@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"n",
+		"s",
+		"f"
+	],
+	"key": {
+		"n": { "tag":  "c:nuggets/magnetite" },
+		"s": { "tag":  "c:rods/wooden"       },
+		"f": { "item": "minecraft:feather"   }
+	},
+	"result": {
+		"id": "bigtech:magnetic_arrow"
+	}
+}

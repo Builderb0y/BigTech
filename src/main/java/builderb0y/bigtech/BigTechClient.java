@@ -3,18 +3,14 @@ package builderb0y.bigtech;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EntityType;
 
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGen;
-import builderb0y.bigtech.entities.BetterLightningEntityRenderer;
-import builderb0y.bigtech.entities.BigTechEntityTypes;
-import builderb0y.bigtech.entities.MinerEntityRenderer;
+import builderb0y.bigtech.entities.BigTechEntityRenderers;
 import builderb0y.bigtech.gui.handledScreens.BigTechHandledScreens;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.models.BigTechModels;
@@ -33,8 +29,7 @@ public class BigTechClient implements ClientModInitializer {
 		BigTechHandledScreens.initClient();
 		BigTechNetwork.initClient();
 		BigTechModels.init();
-		EntityRendererRegistry.register(EntityType.LIGHTNING_BOLT, BetterLightningEntityRenderer::new);
-		EntityRendererRegistry.register(BigTechEntityTypes.MINER, MinerEntityRenderer::new);
+		BigTechEntityRenderers.init();
 		BigTechParticles.initClient();
 		if (DataGen.isEnabled()) DataGen.run();
 		BigTechMod.LOGGER.info("Done initializing on client.");

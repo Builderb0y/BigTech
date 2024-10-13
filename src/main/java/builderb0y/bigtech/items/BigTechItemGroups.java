@@ -29,7 +29,7 @@ public class BigTechItemGroups {
 
 	@UseDataGen(ItemGroupDataGenerator.class)
 	public static final ItemGroup
-		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.BELT.getDefaultStack()),
+		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.PORTABLE_TECHNO_CRAFTER.getDefaultStack()),
 		DECO = register("deco", DECO_ITEMS, () -> DecoItems.IRON_FRAME.getDefaultStack());
 
 	public static void init() {}

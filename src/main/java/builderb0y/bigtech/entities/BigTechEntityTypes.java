@@ -31,6 +31,23 @@ public class BigTechEntityTypes {
 			FeatureSet.empty()
 		)
 	);
+	public static final EntityType<MagneticArrowEntity> MAGNETIC_ARROW = register(
+		"magnetic_arrow",
+		new EntityType<>(
+			MagneticArrowEntity::new,
+			SpawnGroup.MISC,
+			true,
+			true,
+			false,
+			true,
+			ImmutableSet.of(),
+			EntityDimensions.fixed(0.5F, 0.5F),
+			1.0F,
+			4,
+			20,
+			FeatureSet.empty()
+		)
+	);
 
 	public static <E extends Entity> EntityType<E> register(String name, EntityType<E> entityType) {
 		return Registry.register(Registries.ENTITY_TYPE, BigTechMod.modID(name), entityType);
