@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.minecraft.client.MinecraftClient;
 
+import builderb0y.bigtech.beams.base.BeamRendering;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.datagen.base.DataGen;
@@ -31,6 +32,7 @@ public class BigTechClient implements ClientModInitializer {
 		BigTechModels.init();
 		BigTechEntityRenderers.init();
 		BigTechParticles.initClient();
+		BeamRendering.initClient();
 		if (DataGen.isEnabled()) DataGen.run();
 		BigTechMod.LOGGER.info("Done initializing on client.");
 		if (BigTechMod.audit) MinecraftClient.getInstance().execute(() -> MixinEnvironment.getCurrentEnvironment().audit());

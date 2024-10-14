@@ -2,13 +2,8 @@ package builderb0y.bigtech.beams.base;
 
 import java.util.UUID;
 
-import it.unimi.dsi.fastutil.longs.LongIterator;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.BeamInteractor;

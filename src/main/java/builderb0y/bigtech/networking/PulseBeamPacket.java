@@ -32,7 +32,6 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 	public static final PulseBeamPacket INSTANCE = new PulseBeamPacket();
 
 	public void send(PulseBeam beam) {
-		//todo: when migrating to actual world geometry, send to larger area.
 		Collection<ServerPlayerEntity> worldPlayers = PlayerLookup.world(beam.world.as());
 		if (worldPlayers.isEmpty()) return;
 		int minX = Integer.MAX_VALUE;
@@ -54,22 +53,18 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 			maxY = Math.max(maxY, y | 15);
 			maxZ = Math.max(maxZ, z | 15);
 		}
-		minX -= 32;
-		minY -= 32;
-		minZ -= 32;
-		maxX += 32;
-		maxY += 32;
-		maxZ += 32;
+		int serverViewDistance = beam.world.getServer().getPlayerManager().getViewDistance() << 4;
 		Payload payload = new Payload(beam);
 		for (ServerPlayerEntity player : worldPlayers) {
+			int playerViewDistance = Math.min(player.getViewDistance() << 4, serverViewDistance);
 			BlockPos pos = player.getBlockPos();
 			if (
-				pos.getX() >= minX &&
-				pos.getY() >= minY &&
-				pos.getZ() >= minZ &&
-				pos.getX() <= maxX &&
-				pos.getY() <= maxY &&
-				pos.getZ() <= maxZ
+				pos.getX() >= minX - playerViewDistance &&
+				pos.getY() >= minY - playerViewDistance &&
+				pos.getZ() >= minZ - playerViewDistance &&
+				pos.getX() <= maxX + playerViewDistance &&
+				pos.getY() <= maxY + playerViewDistance &&
+				pos.getZ() <= maxZ + playerViewDistance
 			) {
 				BigTechNetwork.sendToClient(player, payload);
 			}
@@ -119,9 +114,9 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 			ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.beam.seen.long2ObjectEntrySet().fastIterator();
 			while (sectionIterator.hasNext()) {
 				Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-				int sectionStartX = ChunkSectionPos.unpackX(sectionEntry.getLongKey());
-				int sectionStartY = ChunkSectionPos.unpackY(sectionEntry.getLongKey());
-				int sectionStartZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey());
+				int sectionStartX = ChunkSectionPos.unpackX(sectionEntry.getLongKey()) << 4;
+				int sectionStartY = ChunkSectionPos.unpackY(sectionEntry.getLongKey()) << 4;
+				int sectionStartZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey()) << 4;
 				ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
 				while (blockIterator.hasNext()) {
 					Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
@@ -143,33 +138,7 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 		@Override
 		@Environment(EnvType.CLIENT)
 		public void process(ClientPlayNetworking.Context context) {
-			//todo: migrate to actual geometry instead of spawning particles.
-			ClientPlayerEntity player = context.player();
-			Random random = player.getWorld().random;
-			ObjectIterator < Long2ObjectMap.Entry <BasicSectionBeamStorage>> sectionIterator = this.beam.seen.long2ObjectEntrySet().fastIterator();
-			while (sectionIterator.hasNext()) {
-				Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-				double sectionStartX = (ChunkSectionPos.unpackX(sectionEntry.getLongKey()) << 4) + 0.5D;
-				double sectionStartY = (ChunkSectionPos.unpackY(sectionEntry.getLongKey()) << 4) + 0.5D;
-				double sectionStartZ = (ChunkSectionPos.unpackZ(sectionEntry.getLongKey()) << 4) + 0.5D;
-				ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
-				while (blockIterator.hasNext()) {
-					Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-					double centerX = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.getShortKey());
-					double centerY = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.getShortKey());
-					double centerZ = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.getShortKey());
-					for (BeamSegment segment : blockEntry.getValue()) {
-						double fraction = random.nextDouble();
-						double dx       = segment.direction().x;
-						double dy       = segment.direction().y;
-						double dz       = segment.direction().z;
-						double x        = centerX + dx * fraction;
-						double y        = centerY + dy * fraction;
-						double z        = centerZ + dz * fraction;
-						player.getWorld().addParticle(new DustParticleEffect(new Vector3f(segment.getEffectiveColor()), 1.0F), x, y, z, dx, dy, dz);
-					}
-				}
-			}
+			BeamRendering.addPulse(this.beam);
 		}
 	}
 }

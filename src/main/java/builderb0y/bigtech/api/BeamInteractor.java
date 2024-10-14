@@ -42,7 +42,7 @@ public interface BeamInteractor {
 	this method may be used to modify a beam segment passing through it.
 	for example, to change its color or direction or distance remaining.
 
-	the {@link Beam} instance can be obtained via {@link BeamSegment#beam}.
+	the {@link Beam} instance can be obtained via {@link SpreadingBeamSegment#beam}.
 	this can be used to add new segments to the beam's queue
 	via {@link Beam#addSegment(SpreadingBeamSegment)}.
 
@@ -55,13 +55,16 @@ public interface BeamInteractor {
 	if this block wishes to do something to the world when a beam passes
 	through it, consider registering a {@link BeamCallback} to {@link #LOOKUP},
 	instead of just a BeamInteractor.
+
+	return true if this interceptor did its job and added all the segments it wishes to add.
+	return false to fallback on the beam's default logic that it would use for non-interceptor blocks.
 	*/
 	public abstract boolean spreadOut(SpreadingBeamSegment segment, BlockState state);
 
 	/**
 	an extension of BeamInteractor with additional callback
-	methods for what to do when a beam which passes through this block
-	is added to the world or removed from the world.
+	methods for what to do when a beam which passes through
+	this block is added to the world or removed from the world.
 
 	registration works the same way as with BeamInteractor.
 	since this interface extends BeamInteractor,

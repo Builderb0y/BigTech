@@ -406,6 +406,18 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final LongRangeDeployerBlock LONG_RANGE_DEPLOYER = BigTechBlocks.register(
+		"long_range_deployer",
+		new LongRangeDeployerBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.STONE_GRAY)
+			.requiresTool()
+			.strength(2.0F, 6.0F)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final ShortRangeDestroyerBlock SHORT_RANGE_DESTROYER = BigTechBlocks.register(
 		"short_range_destroyer",
 		new ShortRangeDestroyerBlock(

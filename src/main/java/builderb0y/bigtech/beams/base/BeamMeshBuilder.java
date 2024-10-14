@@ -91,7 +91,7 @@ public class BeamMeshBuilder {
 	//todo: consider using a dedicated class that isn't Mesh,
 	//	so that normals and UVs can be encoded more efficiently
 	//	(meaning on a per-quad basis, not a per-vertex basis).
-	public static Mesh build(CommonSectionBeamStorage storage) {
+	public static <T_Storage extends BasicSectionBeamStorage> Mesh build(T_Storage storage, AdjacentSegmentLoader<T_Storage> loader) {
 		if (!storage.isEmpty()) {
 			MeshBuilder builder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
 			QuadEmitter emitter = builder.getEmitter();
@@ -117,7 +117,7 @@ public class BeamMeshBuilder {
 						int adjacentX = x + segment.direction().x;
 						int adjacentY = y + segment.direction().y;
 						int adjacentZ = z + segment.direction().z;
-						LinkedList<BeamSegment> adjacentSegments = getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
+						LinkedList<BeamSegment> adjacentSegments = loader.getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
 						if (adjacentSegments != null) {
 							for (BeamSegment adjacentSegment : adjacentSegments) {
 								if (adjacentSegment.direction() == segment.direction().getOpposite()) {
@@ -165,7 +165,7 @@ public class BeamMeshBuilder {
 						}
 					}
 					if ((faceFlags & FACE_FLAGS[direction.ordinal()]) != 0) {
-						LinkedList<BeamSegment> adjacentSegments = getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
+						LinkedList<BeamSegment> adjacentSegments = loader.getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
 						if (adjacentSegments != null) {
 							for (BeamSegment segment : adjacentSegments) {
 								if (segment.direction() == direction.getOpposite()) {
@@ -250,29 +250,50 @@ public class BeamMeshBuilder {
 		}
 	}
 
-	public static @Nullable LinkedList<BeamSegment> getAdjacentSegments(CommonSectionBeamStorage storage, int adjacentX, int adjacentY, int adjacentZ) {
-		CommonSectionBeamStorage adjacentStorage = getAdjacentStorage(storage, adjacentX, adjacentY, adjacentZ);
-		return adjacentStorage != null ? adjacentStorage.checkSegments(adjacentX, adjacentY, adjacentZ) : null;
-	}
+	@FunctionalInterface
+	public static interface AdjacentSegmentLoader<T_Storage extends BasicSectionBeamStorage> {
 
-	public static @Nullable CommonSectionBeamStorage getAdjacentStorage(CommonSectionBeamStorage storage, int adjacentX, int adjacentY, int adjacentZ) {
-		if (adjacentX >> 4 == 0 && adjacentZ >> 4 == 0) {
-			if (adjacentY >> 4 == 0) {
-				return storage;
+		public static final AdjacentSegmentLoader<CommonSectionBeamStorage> PERSISTENT = (CommonSectionBeamStorage storage, int adjacentX, int adjacentY, int adjacentZ) -> {
+			if (adjacentX >> 4 == 0 && adjacentZ >> 4 == 0) {
+				if (adjacentY >> 4 == 0) {
+					return storage;
+				}
+				else {
+					return ChunkBeamStorageHolder.KEY.get(storage.chunk).require().get(storage.sectionY + (adjacentY >> 4));
+				}
 			}
 			else {
-				return ChunkBeamStorageHolder.KEY.get(storage.chunk).require().get(storage.sectionCoordY + (adjacentY >> 4));
+				Chunk chunk = storage.chunk.getWorld().getChunk(storage.chunk.getPos().x + (adjacentX >> 4), storage.chunk.getPos().z + (adjacentZ >> 4), ChunkStatus.FULL, false);
+				if (chunk != null) {
+					return ChunkBeamStorageHolder.KEY.get(chunk).require().get(storage.sectionY + (adjacentY >> 4));
+				}
+				else {
+					return null;
+				}
 			}
+		};
+
+		public static AdjacentSegmentLoader<BasicSectionBeamStorage> pulse(PulseBeam beam) {
+			return (BasicSectionBeamStorage storage, int adjacentX, int adjacentY, int adjacentZ) -> {
+				if (adjacentX >> 4 == 0 && adjacentY >> 4 == 0 && adjacentZ >> 4 == 0) {
+					return storage;
+				}
+				else {
+					return beam.seen.checkSegments(
+						storage.sectionX + (adjacentX >> 4),
+						storage.sectionY + (adjacentY >> 4),
+						storage.sectionZ + (adjacentZ >> 4)
+					);
+				}
+			};
 		}
-		else {
-			Chunk chunk = storage.chunk.getWorld().getChunk(storage.chunk.getPos().x + (adjacentX >> 4), storage.chunk.getPos().z + (adjacentZ >> 4), ChunkStatus.FULL, false);
-			if (chunk != null) {
-				return ChunkBeamStorageHolder.KEY.get(chunk).require().get(storage.sectionCoordY + (adjacentY >> 4));
-			}
-			else {
-				return null;
-			}
+
+		public default @Nullable LinkedList<BeamSegment> getAdjacentSegments(T_Storage storage, int adjacentX, int adjacentY, int adjacentZ) {
+			T_Storage adjacentStorage = this.getAdjacentStorage(storage, adjacentX, adjacentY, adjacentZ);
+			return adjacentStorage != null ? adjacentStorage.checkSegments(adjacentX, adjacentY, adjacentZ) : null;
 		}
+
+		public abstract @Nullable T_Storage getAdjacentStorage(T_Storage storage, int adjacentX, int adjacentY, int adjacentZ);
 	}
 
 	public static void quad(

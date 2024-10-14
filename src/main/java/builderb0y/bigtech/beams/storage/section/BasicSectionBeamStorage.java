@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkSectionPos;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.Beam;
@@ -20,8 +21,21 @@ import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 
 public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<BeamSegment>> {
 
-	public BasicSectionBeamStorage() {
+	public final int sectionX, sectionY, sectionZ;
+
+	public BasicSectionBeamStorage(int sectionX, int sectionY, int sectionZ) {
 		super(32);
+		this.sectionX = sectionX;
+		this.sectionY = sectionY;
+		this.sectionZ = sectionZ;
+	}
+
+	public BasicSectionBeamStorage(long packedPosition) {
+		this(
+			ChunkSectionPos.unpackX(packedPosition),
+			ChunkSectionPos.unpackY(packedPosition),
+			ChunkSectionPos.unpackZ(packedPosition)
+		);
 	}
 
 	public boolean addSegment(SpreadingBeamSegment segment, boolean unique) {

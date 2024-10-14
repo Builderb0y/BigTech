@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blocks;
 
+import java.util.UUID;
+
 import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,19 +10,18 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.blockEntities.AbstractDeployerBlockEntity;
-import builderb0y.bigtech.blockEntities.ShortRangeDeployerBlockEntity;
+import builderb0y.bigtech.beams.base.BeamDirection;
+import builderb0y.bigtech.beams.impl.DeployerBeam;
+import builderb0y.bigtech.blockEntities.LongRangeDeployerBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
-import builderb0y.bigtech.util.WorldHelper;
 
-public class ShortRangeDeployerBlock extends AbstractDeployerBlock {
+public class LongRangeDeployerBlock extends AbstractDeployerBlock {
 
-	public static final MapCodec<ShortRangeDeployerBlock> CODEC = BigTechAutoCodec.callerMapCodec();
+	public static final MapCodec<LongRangeDeployerBlock> CODEC = BigTechAutoCodec.callerMapCodec();
 
-	public ShortRangeDeployerBlock(Settings settings) {
+	public LongRangeDeployerBlock(Settings settings) {
 		super(settings);
 	}
 
@@ -31,15 +32,14 @@ public class ShortRangeDeployerBlock extends AbstractDeployerBlock {
 
 	@Override
 	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new ShortRangeDeployerBlockEntity(pos, state);
+		return new LongRangeDeployerBlockEntity(pos, state);
 	}
 
 	@Override
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		AbstractDeployerBlockEntity deployer = WorldHelper.getBlockEntity(world, pos, AbstractDeployerBlockEntity.class);
-		if (deployer != null) {
-			Direction facing = state.get(Properties.HORIZONTAL_FACING);
-			deployer.deploy(pos.offset(facing), facing);
+		if (state.get(Properties.POWERED)) {
+			DeployerBeam beam = new DeployerBeam(world, UUID.randomUUID());
+			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		}
 		return false;
 	}

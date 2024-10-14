@@ -44,10 +44,15 @@ public class BigTechBlockEntityTypes {
 		PrismBlockEntity::new,
 		FunctionalBlocks.PRISM
 	);
-	public static final BlockEntityType<DeployerBlockEntity> SHORT_RANGE_DEPLOYER = register(
+	public static final BlockEntityType<ShortRangeDeployerBlockEntity> SHORT_RANGE_DEPLOYER = register(
 		"short_range_deployer",
-		DeployerBlockEntity::new,
+		ShortRangeDeployerBlockEntity::new,
 		FunctionalBlocks.SHORT_RANGE_DEPLOYER
+	);
+	public static final BlockEntityType<LongRangeDeployerBlockEntity> LONG_RANGE_DEPLOYER = register(
+		"long_range_deployer",
+		LongRangeDeployerBlockEntity::new,
+		FunctionalBlocks.LONG_RANGE_DEPLOYER
 	);
 	public static final BlockEntityType<ShortRangeDestroyerBlockEntity> SHORT_RANGE_DESTROYER = register(
 		"short_range_destroyer",

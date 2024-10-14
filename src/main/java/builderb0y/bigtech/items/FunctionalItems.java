@@ -13,6 +13,7 @@ import builderb0y.bigtech.datagen.impl.*;
 import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
+import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDeployerDataGenerator;
 import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDestroyerDataGenerator;
 import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDeployerDataGenerator;
 import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
@@ -227,6 +228,10 @@ public class FunctionalItems {
 	@UseDataGen(ShortRangeDeployerDataGenerator.class)
 	public static final BlockItem SHORT_RANGE_DEPLOYER = BigTechItems.registerPlacer(
 		FunctionalBlocks.SHORT_RANGE_DEPLOYER
+	);
+	@UseDataGen(LongRangeDeployerDataGenerator.class)
+	public static final BlockItem LONG_RANGE_DEPLOYER = BigTechItems.registerPlacer(
+		FunctionalBlocks.LONG_RANGE_DEPLOYER
 	);
 	@UseDataGen(ShortRangeDestroyerDataGenerator.class)
 	public static final BlockItem SHORT_RANGE_DESTROYER = BigTechItems.registerPlacer(

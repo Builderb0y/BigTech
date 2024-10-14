@@ -11,11 +11,10 @@ import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {
 
 	public final WorldChunk chunk;
-	public final int sectionCoordY;
 
 	public CommonSectionBeamStorage(WorldChunk chunk, int sectionCoordY) {
+		super(chunk.getPos().x, sectionCoordY, chunk.getPos().z);
 		this.chunk = chunk;
-		this.sectionCoordY = sectionCoordY;
 	}
 
 	public void readFromNbt(NbtCompound tag) {

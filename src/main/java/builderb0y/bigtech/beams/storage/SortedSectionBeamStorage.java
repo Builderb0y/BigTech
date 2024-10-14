@@ -42,7 +42,15 @@ public class SortedSectionBeamStorage extends Long2ObjectOpenHashMap<BasicSectio
 	public BasicSectionBeamStorage getSegments(long packedPosition) {
 		return this.computeIfAbsent(
 			packedPosition,
-			(long position) -> new BasicSectionBeamStorage()
+			BasicSectionBeamStorage::new
 		);
+	}
+
+	public BasicSectionBeamStorage checkSegments(int sectionX, int sectionY, int sectionZ) {
+		return this.checkSegments(ChunkSectionPos.asLong(sectionX, sectionY, sectionZ));
+	}
+
+	public BasicSectionBeamStorage checkSegments(long packedPosition) {
+		return this.get(packedPosition);
 	}
 }
