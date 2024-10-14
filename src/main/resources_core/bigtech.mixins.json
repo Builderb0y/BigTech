@@ -32,6 +32,7 @@
 		"PlayerEntity_OverrideIsClimbing",
 		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",
 		"ServerEntityManager_EntityAddedToWorldEventHook",
+		"ServerWorld_SilentBlocks",
 		"ShearsItem_FastBreakingTag",
 		"Slot_MutableInventory",
 		"WorldChunk_NotifyBeamsOfBlockChange"

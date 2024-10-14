@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import net.minecraft.item.BlockItem;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
@@ -17,6 +19,12 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 	}
 
 	@Override
+	public void setupLang(DataGenContext context) {
+		super.setupLang(context);
+		context.lang.put(Util.createTranslationKey("container", this.getId()), context.underscoresToCapitals(this.getId().getPath()));
+	}
+
+	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(
 			context.blockstatePath(this.getId()),
@@ -24,7 +32,7 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 			.addRows(
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
-				.map(direction -> new BlockStateJsonVariant(
+				.map((Direction direction) -> new BlockStateJsonVariant(
 					"facing=${direction.getName()}",
 					context.prefixPath("block/", this.getId()).toString(),
 					null,
@@ -34,6 +42,10 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 			)
 			.toString()
 		);
+	}
+
+	public boolean hasBack() {
+		return true;
 	}
 
 	@Override
@@ -58,12 +70,15 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 						"down":     "bigtech:block/destroyer_top",
 						"north":    "%FRONT",
 						"east":     "bigtech:block/destroyer_side",
-						"south":    "bigtech:block/destroyer_back",
+						"south":    "%BACK",
 						"west":     "bigtech:block/destroyer_side",
 						"particle": "%FRONT"
 					}
 				}""",
-				Map.of("FRONT", context.prefixSuffixPath("block/", this.getId(), "_front").toString())
+				Map.of(
+					"FRONT", context.prefixSuffixPath("block/", this.getId(), "_front").toString(),
+					"BACK", "bigtech:block/destroyer_${this.hasBack() ? \"back\" : \"side\"}"
+				)
 			)
 		);
 	}

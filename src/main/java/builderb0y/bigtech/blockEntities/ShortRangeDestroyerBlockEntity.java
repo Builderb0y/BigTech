@@ -27,7 +27,7 @@ public class ShortRangeDestroyerBlockEntity extends AbstractDestroyerBlockEntity
 		}
 		this.queue.populate();
 		if (this.queue.inactive.isEmpty()) return;
-		if (this.queue.tick(this.inventory.get(0))) {
+		if (this.queue.tick(this.getStack(0))) {
 			this.markDirty();
 		}
 	}

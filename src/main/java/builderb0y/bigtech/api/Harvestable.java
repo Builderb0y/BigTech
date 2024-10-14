@@ -197,7 +197,9 @@ public interface Harvestable {
 			Blocks.PUMPKIN_STEM,
 			Blocks.ATTACHED_PUMPKIN_STEM,
 			Blocks.MELON_STEM,
-			Blocks.ATTACHED_MELON_STEM
+			Blocks.ATTACHED_MELON_STEM,
+			Blocks.RED_MUSHROOM,
+			Blocks.BROWN_MUSHROOM
 		);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(OAK_AZALEA_TREE), Blocks.OAK_LOG, Blocks.OAK_WOOD);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(SPRUCE_TREE), Blocks.SPRUCE_LOG, Blocks.SPRUCE_WOOD);

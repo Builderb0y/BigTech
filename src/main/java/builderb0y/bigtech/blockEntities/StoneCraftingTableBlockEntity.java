@@ -16,43 +16,14 @@ import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.gui.screenHandlers.StoneCraftingTableScreenHandler;
 
-public class StoneCraftingTableBlockEntity extends LootableContainerBlockEntity {
-
-	public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
+public class StoneCraftingTableBlockEntity extends LootableBlockEntityThatActuallyHasAnInventory {
 
 	public StoneCraftingTableBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
-		super(blockEntityType, blockPos, blockState);
+		super(blockEntityType, blockPos, blockState, 9);
 	}
 
 	public StoneCraftingTableBlockEntity(BlockPos pos, BlockState state) {
 		this(BigTechBlockEntityTypes.STONE_CRAFTING_TABLE, pos, state);
-	}
-
-	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.inventory.clear();
-		if (!this.readLootTable(nbt)) {
-			Inventories.readNbt(nbt, this.inventory, registryLookup);
-		}
-	}
-
-	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		if (!this.writeLootTable(nbt)) {
-			Inventories.writeNbt(nbt, this.inventory, registryLookup);
-		}
-	}
-
-	@Override
-	public DefaultedList<ItemStack> getHeldStacks() {
-		return this.inventory;
-	}
-
-	@Override
-	public void setHeldStacks(DefaultedList<ItemStack> list) {
-		this.inventory = list;
 	}
 
 	@Override
@@ -63,10 +34,5 @@ public class StoneCraftingTableBlockEntity extends LootableContainerBlockEntity 
 	@Override
 	public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
 		return new StoneCraftingTableScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(this.world, this.pos));
-	}
-
-	@Override
-	public int size() {
-		return 9;
 	}
 }

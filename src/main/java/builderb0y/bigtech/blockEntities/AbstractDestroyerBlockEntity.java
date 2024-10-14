@@ -13,7 +13,10 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.collection.DefaultedList;
@@ -26,7 +29,7 @@ import builderb0y.bigtech.api.EntityAddedToWorldEvent;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.DestroyerScreenHandler;
 
-public abstract class AbstractDestroyerBlockEntity extends LootableContainerBlockEntity {
+public abstract class AbstractDestroyerBlockEntity extends LootableBlockEntityThatActuallyHasAnInventory {
 
 	public static final ThreadLocal<AbstractDestroyerBlockEntity> ACTIVE_DESTROYER = new ThreadLocal<>();
 	static {
@@ -66,10 +69,8 @@ public abstract class AbstractDestroyerBlockEntity extends LootableContainerBloc
 	}
 	public static final BlockEntityTicker<AbstractDestroyerBlockEntity> SERVER_TICKER = (World world, BlockPos pos, BlockState state, AbstractDestroyerBlockEntity blockEntity) -> blockEntity.tick();
 
-	public DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-
 	public AbstractDestroyerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
-		super(blockEntityType, blockPos, blockState);
+		super(blockEntityType, blockPos, blockState, 1);
 	}
 
 	public void tick() {
@@ -88,23 +89,8 @@ public abstract class AbstractDestroyerBlockEntity extends LootableContainerBloc
 	public abstract void doTick();
 
 	@Override
-	public DefaultedList<ItemStack> getHeldStacks() {
-		return this.inventory;
-	}
-
-	@Override
-	public void setHeldStacks(DefaultedList<ItemStack> list) {
-		this.inventory = list;
-	}
-
-	@Override
 	public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
 		return new DestroyerScreenHandler(BigTechScreenHandlerTypes.DESTROYER, syncId, this, playerInventory);
-	}
-
-	@Override
-	public int size() {
-		return 1;
 	}
 
 	@Override

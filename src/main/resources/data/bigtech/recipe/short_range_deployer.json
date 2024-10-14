@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ccc",
+		"cpc",
+		"crc"
+	],
+	"key": {
+		"c": { "tag":  "minecraft:stone_crafting_materials" },
+		"p": { "item": "minecraft:piston"                   },
+		"r": { "tag":  "c:dusts/redstone"                   }
+	},
+	"result": {
+		"id": "bigtech:short_range_deployer"
+	}
+}

@@ -123,7 +123,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 				TransmuteRecipeInventory inventory = new TransmuteRecipeInventory(world.random);
 				inventory.totalEnergy = pulse.getDistributedEnergy();
 				inventory.slotEnergy = inventory.totalEnergy / recipeSlots.size();
-				//second iteration..
+				//second iteration.
 				for (RecipeSlot recipeSlot : recipeSlots) {
 					inventory.stack = transmuter.getStack(recipeSlot.slot);
 					ItemStack result = recipeSlot.recipe.craft(inventory, world.getRegistryManager());

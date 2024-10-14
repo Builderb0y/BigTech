@@ -14,6 +14,7 @@ import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
 import builderb0y.bigtech.datagen.impl.belts.*;
 import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDestroyerDataGenerator;
+import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDeployerDataGenerator;
 import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
@@ -222,6 +223,10 @@ public class FunctionalItems {
 	@UseDataGen(SpotlightDataGenerator.class)
 	public static final BlockItem SPOTLIGHT = BigTechItems.registerPlacer(
 		FunctionalBlocks.SPOTLIGHT
+	);
+	@UseDataGen(ShortRangeDeployerDataGenerator.class)
+	public static final BlockItem SHORT_RANGE_DEPLOYER = BigTechItems.registerPlacer(
+		FunctionalBlocks.SHORT_RANGE_DEPLOYER
 	);
 	@UseDataGen(ShortRangeDestroyerDataGenerator.class)
 	public static final BlockItem SHORT_RANGE_DESTROYER = BigTechItems.registerPlacer(

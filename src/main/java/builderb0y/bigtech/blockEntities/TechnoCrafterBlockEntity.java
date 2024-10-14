@@ -4,12 +4,8 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -20,7 +16,7 @@ import builderb0y.bigtech.gui.TechnoCrafterAccess;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
 
-public class TechnoCrafterBlockEntity extends LootableContainerBlockEntity implements TechnoCrafterAccess, ExtendedScreenHandlerFactory<Byte> {
+public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWritesToNbtProperly implements TechnoCrafterAccess, ExtendedScreenHandlerFactory<Byte> {
 
 	public boolean interactedRight;
 	public SplitStackList stacks;
@@ -72,22 +68,5 @@ public class TechnoCrafterBlockEntity extends LootableContainerBlockEntity imple
 	@Override
 	public Byte getScreenOpeningData(ServerPlayerEntity player) {
 		return -1;
-	}
-
-	@Override
-	public int size() {
-		return 18;
-	}
-
-	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		Inventories.writeNbt(nbt, this.stacks.heldStacks(), registryLookup);
-	}
-
-	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		Inventories.readNbt(nbt, this.stacks.heldStacks(), registryLookup);
 	}
 }

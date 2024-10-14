@@ -6,12 +6,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -99,5 +105,20 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(Properties.HORIZONTAL_FACING, Properties.POWERED);
+	}
+
+	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Override
+	@SuppressWarnings("UseOfDivisionOperator")
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		Inventory inventory = WorldHelper.getBlockEntity(world, pos, Inventory.class);
+		if (inventory == null) return 0;
+		ItemStack stack = inventory.getStack(0);
+		if (stack.isEmpty()) return 0;
+		return stack.getCount() * 15 / stack.getMaxCount();
 	}
 }

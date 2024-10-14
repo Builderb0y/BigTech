@@ -22,7 +22,7 @@ public class StoneCraftingTableScreenHandler extends CraftingScreenHandler {
 	public StoneCraftingTableScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
 		super(syncId, playerInventory, context);
 		RecipeInputInventory oldInput = this.access().bigtech_getInput();
-		CraftingInventory newInput = new CraftingInventory(this, 3, 3, context.get((World world, BlockPos pos) -> WorldHelper.getBlockEntity(world, pos, StoneCraftingTableBlockEntity.class)).orElseThrow().inventory);
+		CraftingInventory newInput = new CraftingInventory(this, 3, 3, context.get((World world, BlockPos pos) -> WorldHelper.getBlockEntity(world, pos, StoneCraftingTableBlockEntity.class)).orElseThrow().heldStacks);
 		this.access().bigtech_setInput(newInput);
 		for (Slot slot : this.slots) {
 			if (slot.inventory == oldInput) {

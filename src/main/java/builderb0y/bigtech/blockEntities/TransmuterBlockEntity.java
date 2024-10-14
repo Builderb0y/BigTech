@@ -26,15 +26,13 @@ import builderb0y.bigtech.recipes.TransmuteRecipe.Output;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.TransmuterScreenHandler;
 
-public class TransmuterBlockEntity extends LootableContainerBlockEntity implements SidedInventory {
+public class TransmuterBlockEntity extends LootableBlockEntityThatActuallyHasAnInventory implements SidedInventory {
 
 	public static final int[] SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
 
-	public DefaultedList<ItemStack> items;
 
 	public TransmuterBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
-		super(blockEntityType, blockPos, blockState);
-		this.items = DefaultedList.ofSize(15, ItemStack.EMPTY);
+		super(blockEntityType, blockPos, blockState, 15);
 	}
 
 	public TransmuterBlockEntity(BlockPos pos, BlockState state) {
@@ -97,16 +95,6 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getHeldStacks() {
-		return this.items;
-	}
-
-	@Override
-	public void setHeldStacks(DefaultedList<ItemStack> list) {
-		this.items = list;
-	}
-
-	@Override
 	public Text getContainerName() {
 		return Text.translatable("container.bigtech.transmuter");
 	}
@@ -114,27 +102,5 @@ public class TransmuterBlockEntity extends LootableContainerBlockEntity implemen
 	@Override
 	public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
 		return new TransmuterScreenHandler(BigTechScreenHandlerTypes.TRANSMUTER, syncId, this, playerInventory);
-	}
-
-	@Override
-	public int size() {
-		return 15;
-	}
-
-	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		if (!this.writeLootTable(nbt)) {
-			Inventories.writeNbt(nbt, this.items, registryLookup);
-		}
-	}
-
-	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.items.clear();
-		if (!this.readLootTable(nbt)) {
-			Inventories.readNbt(nbt, this.items, registryLookup);
-		}
 	}
 }
