@@ -8,7 +8,7 @@
 		"ini"
 	],
 	"key": {
-		"i": { "tag": "c:iron_ingots"  },
+		"i": { "tag": "c:ingots/iron"  },
 		"n": { "tag": "c:nuggets/iron" }
 	},
 	"result": {

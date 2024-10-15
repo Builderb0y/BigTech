@@ -8,7 +8,7 @@
 	"key": {
 		"g": { "tag":  "c:glass_panes"               },
 		"e": { "item": "bigtech:lightning_electrode" },
-		"c": { "tag":  "c:copper_ingots"             }
+		"c": { "tag":  "c:ingots/copper"             }
 	},
 	"result": {
 		"id": "bigtech:lightning_battery"

@@ -98,7 +98,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	}
 
 	@Override
-	public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+	public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
 		return side == Direction.DOWN && !state.get(Properties.POWERED);
 	}
 

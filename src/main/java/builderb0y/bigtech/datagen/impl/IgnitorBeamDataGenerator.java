@@ -116,6 +116,7 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 			//language=json
 			"""
 			{
+				"jmxl": true,
 				"parent": "bigtech:block/beam_emitter_base_transforms",
 				"textures": {
 					"base_bottom": "minecraft:block/smooth_stone",
@@ -174,9 +175,10 @@ public class IgnitorBeamDataGenerator extends BasicBlockDataGenerator {
 						}
 					},
 					{
-						"from": [ 6, 6, 0 ],
-						"to": [ 10, 10, 1 ],
 						"shade": false,
+						"jmxl_emissive": true,
+						"from": [  6,  6, 0 ],
+						"to":   [ 10, 10, 1 ],
 						"faces": {
 							"up":    { "uv": [ 14, 2, 10, 3 ], "texture": "#body_front" },
 							"down":  { "uv": [ 14, 5, 10, 6 ], "texture": "#body_front" },

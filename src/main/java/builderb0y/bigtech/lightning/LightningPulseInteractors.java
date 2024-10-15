@@ -1,8 +1,9 @@
 package builderb0y.bigtech.lightning;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.*;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -72,7 +73,7 @@ public class LightningPulseInteractors {
 		INSULATOR = new LightningPulseInteractor() {
 
 			@Override
-			public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+			public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
 				return false;
 			}
 
@@ -94,7 +95,7 @@ public class LightningPulseInteractors {
 
 			@Override
 			public String toString() {
-				return "LightningPulseInteractors.SHOCKING_CONDUCTOR";
+				return "LightningPulseInteractors.INSULATOR";
 			}
 		},
 		LIGHTNING_ROD = new LightningPulseInteractor() {

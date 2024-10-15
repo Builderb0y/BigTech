@@ -40,7 +40,6 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 			this
 			.getDefaultState()
 			.with(Properties.POWERED, Boolean.FALSE)
-			.with(Properties.WATERLOGGED, Boolean.FALSE)
 		);
 	}
 

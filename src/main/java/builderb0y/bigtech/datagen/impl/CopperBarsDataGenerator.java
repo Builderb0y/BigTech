@@ -2,7 +2,7 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.Arrays;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;

@@ -8,8 +8,8 @@
 	],
 	"key": {
 		"p": { "item": "minecraft:paper"  },
-		"i": { "tag":  "c:iron_ingots"    },
-		"o": { "tag":  "c:redstone_dusts" }
+		"i": { "tag":  "c:ingots/iron"    },
+		"o": { "tag":  "c:dusts/redstone" }
 	},
 	"result": {
 		"id": "bigtech:director_belt",

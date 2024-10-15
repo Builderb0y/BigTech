@@ -6,7 +6,7 @@
 		"cpc"
 	],
 	"key": {
-		"c": { "tag": "c:copper_ingots"  },
+		"c": { "tag": "c:ingots/copper"  },
 		"p": { "tag": "minecraft:planks" }
 	},
 	"result": {

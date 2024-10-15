@@ -8,7 +8,7 @@
 	],
 	"key": {
 		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:iron_ingots"     },
+		"i": { "tag":  "c:ingots/iron"     },
 		"o": { "item": "minecraft:hopper"  }
 	},
 	"result": {

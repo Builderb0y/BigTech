@@ -98,6 +98,7 @@ public class TripwireDataGenerator extends RedstoneTransceiverDataGenerator {
 			//language=json
 			"""
 			{
+				"jmxl": true,
 				"parent": "bigtech:block/beam_emitter_base_transforms",
 				"textures": {
 					"base_bottom": "minecraft:block/smooth_stone",
@@ -156,9 +157,10 @@ public class TripwireDataGenerator extends RedstoneTransceiverDataGenerator {
 						}
 					},
 					{
+						"shade": false,
+						"jmxl_emissive": true,
 						"from": [ 7, 7, 0 ],
 						"to":   [ 9, 9, 1 ],
-						"shade": false,
 						"faces": {
 							"up":    { "uv": [ 13, 3, 11, 4 ], "texture": "#body_front" },
 							"down":  { "uv": [ 13, 4, 11, 5 ], "texture": "#body_front" },

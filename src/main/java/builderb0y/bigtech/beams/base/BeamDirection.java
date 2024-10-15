@@ -57,6 +57,19 @@ public enum BeamDirection {
 		};
 	}
 
+	@SuppressWarnings("EnumSwitchStatementWhichMissesCases")
+	public @Nullable Direction toVanilla() {
+		return switch (this) {
+			case UP    -> Direction.UP;
+			case DOWN  -> Direction.DOWN;
+			case NORTH -> Direction.NORTH;
+			case EAST  -> Direction.EAST;
+			case SOUTH -> Direction.SOUTH;
+			case WEST  -> Direction.WEST;
+			default    -> null;
+		};
+	}
+
 	public static BeamDirection get(int x, int y, int z) {
 		return getUnchecked(
 			Math.max(Math.min(x, 1), -1),

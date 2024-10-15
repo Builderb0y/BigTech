@@ -8,8 +8,8 @@
 	],
 	"key": {
 		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:iron_ingots"     },
-		"o": { "tag":  "c:diamonds"        }
+		"i": { "tag":  "c:ingots/iron"     },
+		"o": { "tag":  "c:gems/diamond"    }
 	},
 	"result": {
 		"id": "bigtech:sorter_belt",

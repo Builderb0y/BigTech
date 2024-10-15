@@ -6,9 +6,9 @@
 		"bbb"
 	],
 	"key": {
-		"q": { "tag":  "c:quartz"                    },
+		"q": { "tag":  "c:gems/quartz"               },
 		"l": { "item": "bigtech:lens"                },
-		"r": { "tag":  "c:redstone_dusts"            },
+		"r": { "tag":  "c:dusts/redstone"            },
 		"b": { "item": "minecraft:smooth_stone_slab" }
 	},
 	"result": {

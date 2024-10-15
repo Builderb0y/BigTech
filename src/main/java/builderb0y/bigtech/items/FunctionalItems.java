@@ -179,28 +179,12 @@ public class FunctionalItems {
 		(CopperRegistrableCollection.Type type) -> new BlockItem(FunctionalBlocks.CONDUCTIVE_ANVILS.get(type), new Item.Settings())
 	);
 
-	//////////////////////////////// crystals ////////////////////////////////
-
-	@UseDataGen(CrystalClusterDataGenerator.class)
-	public static final CrystalItemCollection CRYSTAL_CLUSTERS = new CrystalItemCollection(
-		"crystal_cluster",
-		(CrystalColor color) -> new BlockItem(
-			FunctionalBlocks.CRYSTAl_ClUSTERS.get(color),
-			new Item.Settings()
-		)
-	);
-	@UseDataGen(CrystalDebrisDataGenerator.class)
-	public static final Item CRYSTAL_DEBRIS = BigTechItems.register(
-		"crystal_debris",
-		new Item(new Item.Settings())
-	);
-	@UseDataGen(CrystallineSandDataGenerator.class)
-	public static final BlockItem CRYSTALLINE_SAND = BigTechItems.registerPlacer(
-		FunctionalBlocks.CRYSTALLINE_SAND
-	);
-
 	//////////////////////////////// lasers ////////////////////////////////
 
+	@UseDataGen(LightningTransmitterDataGenerator.class)
+	public static final BlockItem LIGHTNING_TRANSMITTER = BigTechItems.registerPlacer(
+		FunctionalBlocks.LIGHTNING_TRANSMITTER
+	);
 	@UseDataGen(RedstoneTransmitterDataGenerator.class)
 	public static final BlockItem REDSTONE_TRANSMITTER = BigTechItems.registerPlacer(
 		FunctionalBlocks.REDSTONE_TRANSMITTER
@@ -269,6 +253,26 @@ public class FunctionalItems {
 	@UseDataGen(PhaseAlignerDataGenerator.class)
 	public static final BlockItem PHASE_ALIGNER = BigTechItems.registerPlacer(
 		FunctionalBlocks.PHASE_ALIGNER
+	);
+
+	//////////////////////////////// crystals ////////////////////////////////
+
+	@UseDataGen(CrystalClusterDataGenerator.class)
+	public static final CrystalItemCollection CRYSTAL_CLUSTERS = new CrystalItemCollection(
+		"crystal_cluster",
+		(CrystalColor color) -> new BlockItem(
+			FunctionalBlocks.CRYSTAl_ClUSTERS.get(color),
+			new Item.Settings()
+		)
+	);
+	@UseDataGen(CrystalDebrisDataGenerator.class)
+	public static final Item CRYSTAL_DEBRIS = BigTechItems.register(
+		"crystal_debris",
+		new Item(new Item.Settings())
+	);
+	@UseDataGen(CrystallineSandDataGenerator.class)
+	public static final BlockItem CRYSTALLINE_SAND = BigTechItems.registerPlacer(
+		FunctionalBlocks.CRYSTALLINE_SAND
 	);
 
 	//////////////////////////////// misc ////////////////////////////////

@@ -65,7 +65,7 @@ public interface LightningPulseInteractor {
 	returns true if all 3 of the following conditions are met:
 		1: fromInteractor {@link #canConductOut(WorldAccess, BlockPos, BlockState, Direction)} of the provided direction,
 		2: toInteractor {@link #canConductIn(WorldAccess, BlockPos, BlockState, Direction)} from the opposite of the provided direction, and
-		3: fromState's {@link BlockState#getCullingFace(BlockView, BlockPos, Direction)} touches toSTate's culling face.
+		3: fromState's {@link #getConductionShape(BlockView, BlockPos, BlockState, Direction)} touches toState's conduction state.
 	which is a fancy of saying the two blocks can conduct with each other, and touch each other.
 	*/
 	public static boolean canConductThrough(
@@ -97,12 +97,15 @@ public interface LightningPulseInteractor {
 	}
 
 	/**
-	returns true if an adjacent block can spread to this block, false otherwise.
+	returns true if a lightning pulse can spread to this block, false otherwise.
+
+	the provided side may be null if the pulse is not coming from an adjacent block.
+	for example, lightning beams use a null direction when hitting something at a diagonal angle.
 
 	this method should not modify the provided world.
 	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+	public default boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
 		return true;
 	}
 

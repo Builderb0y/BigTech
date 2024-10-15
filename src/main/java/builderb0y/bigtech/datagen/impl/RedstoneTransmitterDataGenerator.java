@@ -1,6 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
@@ -101,6 +101,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 			//language=json
 			"""
 			{
+				"jmxl": true,
 				"parent": "bigtech:block/beam_emitter_base_transforms",
 				"textures": {
 					"base_bottom": "minecraft:block/smooth_stone",
@@ -159,9 +160,10 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 						}
 					},
 					{
+						"shade": false,
+						"jmxl_emissive": true,
 						"from": [ 7, 7, 0 ],
 						"to":   [ 9, 9, 1 ],
-						"shade": false,
 						"faces": {
 							"up":    { "uv": [ 13, 3, 11, 4 ], "texture": "#body_front" },
 							"down":  { "uv": [ 13, 4, 11, 5 ], "texture": "#body_front" },
@@ -181,7 +183,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("qqq", "lcr", "bbb")
-			.where('q', ConventionalItemTags.QUARTZ)
+			.where('q', ConventionalItemTags.QUARTZ_GEMS)
 			.where('l', FunctionalItems.LENS)
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('r', Items.REDSTONE_TORCH)

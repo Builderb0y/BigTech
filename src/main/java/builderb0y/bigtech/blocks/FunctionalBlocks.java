@@ -1,6 +1,7 @@
 package builderb0y.bigtech.blocks;
 
 import net.minecraft.block.*;
+import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
@@ -310,51 +311,42 @@ public class FunctionalBlocks {
 		}
 	);
 
-	//////////////////////////////// crystals ////////////////////////////////
-
-	@UseDataGen(void.class)
-	public static final CrystalBlockCollection CRYSTAl_ClUSTERS = new CrystalBlockCollection(
-		"crystal_cluster",
-		(CrystalColor color) -> {
-			return new CrystalClusterBlock(
-				AbstractBlock
-				.Settings
-				.create()
-				.mapColor(color.closestDyeColor)
-				.strength(0.3F)
-				.sounds(BlockSoundGroup.AMETHYST_CLUSTER)
-				.nonOpaque()
-				.allowsSpawning(Blocks::never)
-				.solidBlock(Blocks::never)
-				.suffocates(Blocks::never)
-				.blockVision(Blocks::never)
-				.luminance((BlockState state) -> 7),
-				color
-			);
-		}
-	);
-	@UseDataGen(void.class)
-	public static final CrystallineSandBlock CRYSTALLINE_SAND = BigTechBlocks.register(
-		"crystalline_sand",
-		new CrystallineSandBlock(
-			AbstractBlock.Settings.copy(Blocks.SAND)
-		)
-	);
-
 	//////////////////////////////// lasers ////////////////////////////////
 
+	@UseDataGen(void.class)
+	public static final LightningTransmitterBlock LIGHTNING_TRANSMITTER = BigTechBlocks.register(
+		"lightning_transmitter",
+		new LightningTransmitterBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.ORANGE)
+			.requiresTool()
+			.strength(1.0F)
+		)
+	);
 	@UseDataGen(void.class)
 	public static final RedstoneTransmitterBlock REDSTONE_TRANSMITTER = BigTechBlocks.register(
 		"redstone_transmitter",
 		new RedstoneTransmitterBlock(
-			AbstractBlock.Settings.copy(Blocks.QUARTZ_BLOCK)
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.OFF_WHITE)
+			.requiresTool()
+			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
 	public static final RedstoneReceiverBlock REDSTONE_RECEIVER = BigTechBlocks.register(
 		"redstone_receiver",
 		new RedstoneReceiverBlock(
-			AbstractBlock.Settings.copy(Blocks.QUARTZ_BLOCK)
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.OFF_WHITE)
+			.requiresTool()
+			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
@@ -375,8 +367,10 @@ public class FunctionalBlocks {
 		new TripwireBeamBlock(
 			AbstractBlock
 			.Settings
-			.copy(Blocks.QUARTZ_BLOCK)
+			.create()
 			.mapColor(MapColor.OAK_TAN)
+			.requiresTool()
+			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
@@ -501,6 +495,37 @@ public class FunctionalBlocks {
 			.blockVision(Blocks::never)
 			.sounds(BlockSoundGroup.STONE),
 			true
+		)
+	);
+
+	//////////////////////////////// crystals ////////////////////////////////
+
+	@UseDataGen(void.class)
+	public static final CrystalBlockCollection CRYSTAl_ClUSTERS = new CrystalBlockCollection(
+		"crystal_cluster",
+		(CrystalColor color) -> {
+			return new CrystalClusterBlock(
+				AbstractBlock
+				.Settings
+				.create()
+				.mapColor(color.closestDyeColor)
+				.strength(0.3F)
+				.sounds(BlockSoundGroup.AMETHYST_CLUSTER)
+				.nonOpaque()
+				.allowsSpawning(Blocks::never)
+				.solidBlock(Blocks::never)
+				.suffocates(Blocks::never)
+				.blockVision(Blocks::never)
+				.luminance((BlockState state) -> 7),
+				color
+			);
+		}
+	);
+	@UseDataGen(void.class)
+	public static final CrystallineSandBlock CRYSTALLINE_SAND = BigTechBlocks.register(
+		"crystalline_sand",
+		new CrystallineSandBlock(
+			AbstractBlock.Settings.copy(Blocks.SAND)
 		)
 	);
 

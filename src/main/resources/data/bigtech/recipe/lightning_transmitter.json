@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"iii",
+		"lct",
+		"bbb"
+	],
+	"key": {
+		"i": { "tag":  "c:ingots/copper"             },
+		"l": { "item": "bigtech:lens"                },
+		"c": { "tag":  "bigtech:crystal_clusters"    },
+		"t": { "item": "bigtech:copper_coil"         },
+		"b": { "item": "minecraft:smooth_stone_slab" }
+	},
+	"result": {
+		"id": "bigtech:lightning_transmitter"
+	}
+}

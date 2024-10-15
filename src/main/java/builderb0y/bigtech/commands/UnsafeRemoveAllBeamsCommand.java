@@ -13,7 +13,8 @@ public class UnsafeRemoveAllBeamsCommand {
 
 	public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
 		dispatcher.register(
-			CommandManager.literal("${builderb0y.bigtech.BigTechMod.MODID}:unsafeRemoveAllBeams")
+			CommandManager
+			.literal("${builderb0y.bigtech.BigTechMod.MODID}:unsafeRemoveAllBeams")
 			.requires((ServerCommandSource source) -> source.hasPermissionLevel(4))
 			.executes((CommandContext<ServerCommandSource> context) -> {
 				CommonWorldBeamStorage.KEY.get(context.getSource().getWorld()).clear();

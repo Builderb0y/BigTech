@@ -27,6 +27,7 @@ features:
 	decoration:
 		fancier 3D models for things.
 			more vanilla stuff?
+				beacons?
 	transport:
 		hoppers:
 			copper hopper: ??? maybe filterable somehow?
@@ -45,12 +46,9 @@ features:
 			charges lightning electrodes in your inventory.
 			slowly though. like 1 unit per 10 ticks or something.
 	lasers:
-		lightning transmitter: on lightning pulse, emits a beam
-		lightning receiver: when hit by a lightning beam, spreads the lightning pulse to the position of the receiver
 		crystal clusters:
 			make spawn in caves and in rocks.
 	automation:
-		deployer: places blocks.
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
 	tools:
@@ -78,6 +76,7 @@ done:
 		lightning battery: stores lightning power in portable, item format. releases power on right click.
 		silver iodide cannon: used to make it rain. if it's already raining, it'll start thundering.
 		conductive anvil: uses lightning power to transfer enchantments from one item to another item.
+		lightning transmitter: on lightning pulse, emits a beam that spreads the pulse to any blocks it hits.
 	transport:
 		wooden hopper: spits out items into the world. velocity of ejected items is not randomized. can't insert into inventories.
 		stone hopper: this is the vanilla hopper, just with a cheaper recipe.
@@ -124,6 +123,7 @@ done:
 			stained glass: beams change color when passing through, but do not get boosted.
 			beacons: beams get boosted by 32 blocks per level when passing through.
 	automation:
+		deployer: places blocks.
 		destroyer: breaks blocks and ejects them out the back. can destroy entire trees at once.
 			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.
 		ignitor: smelts items on top of it, sets entities on fire
@@ -139,6 +139,7 @@ done:
 canceled:
 	lightning rod: already in vanilla.
 	resurrector: unsure how to balance properly, potential for duping.
+	lightning receiver: you can just shoot any other conductive block with a lightning beam instead.
 
 when updating to MC 1.20.4/5:
 	there is apparently an attribute for player reach distance now.

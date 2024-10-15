@@ -1,8 +1,10 @@
 package builderb0y.bigtech.lightning;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
@@ -12,7 +14,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -21,6 +22,7 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.armorMaterials.ArmorMaterialTags;
+import builderb0y.bigtech.beams.impl.LightningBeam;
 import builderb0y.bigtech.mixins.CreeperEntity_ChargedAccessor;
 
 public class LightningPulse {
@@ -33,6 +35,8 @@ public class LightningPulse {
 	public final Set<LinkedBlockPos> explored;
 	public final List<LinkedBlockPos> spreadQueue;
 	public final Set<LinkedBlockPos> sinks;
+
+	public final Map<LinkedBlockPos, LightningBeam> lightningBeams;
 
 	public LightningPulse(
 		World world,
@@ -48,6 +52,7 @@ public class LightningPulse {
 		this.explored              = new ObjectOpenHashSet<>(remainingSpreadEvents);
 		this.spreadQueue           = new ObjectArrayList<>(remainingSpreadEvents << 1);
 		this.sinks                 = new ObjectOpenHashSet<>(4);
+		this.lightningBeams        = new Object2ObjectOpenHashMap<>(2);
 		this.addNode(this.originPos);
 	}
 
@@ -67,6 +72,7 @@ public class LightningPulse {
 		this.explored              = new ObjectOpenHashSet<>(remainingSpreadEvents);
 		this.spreadQueue           = new ObjectArrayList<>(remainingSpreadEvents << 1);
 		this.sinks                 = new ObjectOpenHashSet<>(4);
+		this.lightningBeams        = new Object2ObjectOpenHashMap<>(2);
 		interactor.spreadIn(world, this.originPos, state, this);
 	}
 

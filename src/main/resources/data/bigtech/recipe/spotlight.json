@@ -7,7 +7,7 @@
 		"iii"
 	],
 	"key": {
-		"i": { "tag":  "c:iron_ingots"            },
+		"i": { "tag":  "c:ingots/iron"            },
 		"l": { "item": "bigtech:lens"             },
 		"c": { "tag":  "bigtech:crystal_clusters" },
 		"g": { "item": "minecraft:glowstone"      }
