@@ -12,7 +12,11 @@ public interface TechnoCrafterAccess extends Inventory {
 	public static class Impl implements TechnoCrafterAccess {
 
 		public boolean interactionSide;
-		public final SplitStackList stacks = SplitStackList.create();
+		public final SplitStackList stacks;
+
+		public Impl(SplitStackList stacks) {
+			this.stacks = stacks;
+		}
 
 		@Override
 		public boolean getInteractionSide() {
@@ -49,7 +53,8 @@ public interface TechnoCrafterAccess extends Inventory {
 
 		public int heldSlot;
 
-		public HeldImpl(int heldSlot) {
+		public HeldImpl(SplitStackList stacks, int heldSlot) {
+			super(stacks);
 			this.heldSlot = heldSlot;
 		}
 
@@ -57,6 +62,10 @@ public interface TechnoCrafterAccess extends Inventory {
 		public int getHeldSlot() {
 			return this.heldSlot;
 		}
+	}
+
+	public default boolean isPortable() {
+		return this instanceof HeldItemInventory;
 	}
 
 	/**
@@ -118,20 +127,37 @@ public interface TechnoCrafterAccess extends Inventory {
 		DefaultedList<ItemStack> rightStacks
 	) {
 
-		public static SplitStackList create() {
+		public static SplitStackList createPortable() {
 			List<ItemStack> stacks = new ArrayView(18);
 			return new SplitStackList(
 				new DefaultedList<>(stacks, ItemStack.EMPTY),
-				new DefaultedList<>(stacks.subList(0, 9), ItemStack.EMPTY),
+				new DefaultedList<>(stacks.subList(0,  9), ItemStack.EMPTY),
 				new DefaultedList<>(stacks.subList(9, 18), ItemStack.EMPTY)
 			);
 		}
 
-		public static SplitStackList create(DefaultedList<ItemStack> stacks) {
+		public static SplitStackList createPlaced() {
+			List<ItemStack> stacks = new ArrayView(45);
+			return new SplitStackList(
+				new DefaultedList<>(stacks, ItemStack.EMPTY),
+				new DefaultedList<>(stacks.subList(27, 36), ItemStack.EMPTY),
+				new DefaultedList<>(stacks.subList(36, 45), ItemStack.EMPTY)
+			);
+		}
+
+		public static SplitStackList createPortable(DefaultedList<ItemStack> stacks) {
 			return new SplitStackList(
 				stacks,
-				new DefaultedList<>(stacks.delegate.subList(0, 9), ItemStack.EMPTY),
+				new DefaultedList<>(stacks.delegate.subList(0,  9), ItemStack.EMPTY),
 				new DefaultedList<>(stacks.delegate.subList(9, 18), ItemStack.EMPTY)
+			);
+		}
+
+		public static SplitStackList createPlaced(DefaultedList<ItemStack> stacks) {
+			return new SplitStackList(
+				stacks,
+				new DefaultedList<>(stacks.delegate.subList(27, 36), ItemStack.EMPTY),
+				new DefaultedList<>(stacks.delegate.subList(36, 45), ItemStack.EMPTY)
 			);
 		}
 

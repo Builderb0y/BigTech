@@ -1,4 +1,4 @@
-package builderb0y.bigtech.datagen.impl;
+package builderb0y.bigtech.datagen.impl.technoCrafters;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 

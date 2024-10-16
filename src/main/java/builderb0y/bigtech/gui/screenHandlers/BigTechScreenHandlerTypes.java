@@ -13,9 +13,9 @@ import net.minecraft.screen.ScreenHandlerType;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.UseDataGen;
-import builderb0y.bigtech.datagen.impl.DepthScreenDataGenerator;
-import builderb0y.bigtech.datagen.impl.InventoryDataGenerator;
-import builderb0y.bigtech.datagen.impl.MinerDataGenerator;
+import builderb0y.bigtech.datagen.impl.*;
+import builderb0y.bigtech.datagen.impl.technoCrafters.PlacedTechnoCrafterContainerDataGenerator;
+import builderb0y.bigtech.datagen.impl.technoCrafters.PortableTechnoCrafterContainerDataGenerator;
 import builderb0y.bigtech.networking.PacketCodecs2;
 
 public class BigTechScreenHandlerTypes {
@@ -66,11 +66,16 @@ public class BigTechScreenHandlerTypes {
 		"conductive_anvil",
 		ConductiveAnvilScreenHandler::new
 	);
-	@UseDataGen(InventoryDataGenerator.class)
-	public static final ScreenHandlerType<TechnoCrafterScreenHandler> TECHNO_CRAFTER = registerExtended(
-		"techno_crafter",
+	@UseDataGen(PlacedTechnoCrafterContainerDataGenerator.class)
+	public static final ScreenHandlerType<PlacedTechnoCrafterScreenHandler> PLACED_TECHNO_CRAFTER = register(
+		"placed_techno_crafter",
+		PlacedTechnoCrafterScreenHandler::new
+	);
+	@UseDataGen(PortableTechnoCrafterContainerDataGenerator.class)
+	public static final ScreenHandlerType<PortableTechnoCrafterScreenHandler> PORTABLE_TECHNO_CRAFTER = registerExtended(
+		"portable_techno_crafter",
 		PacketCodecs.BYTE,
-		TechnoCrafterScreenHandler::new
+		PortableTechnoCrafterScreenHandler::new
 	);
 	@UseDataGen(DepthScreenDataGenerator.class)
 	public static final ScreenHandlerType<DislocatorScreenHandler> DISLOCATOR = registerExtended(

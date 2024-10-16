@@ -4,15 +4,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
 
-public class TechnoCrafterHandledScreen extends BigTechHandledScreen<TechnoCrafterScreenHandler> {
+public abstract class TechnoCrafterHandledScreen<T_Handler extends TechnoCrafterScreenHandler> extends BigTechHandledScreen<T_Handler> {
 
-	public static final Identifier BACKGROUND = BigTechMod.modID("textures/gui/container/techno_crafter.png");
-
-	public TechnoCrafterHandledScreen(TechnoCrafterScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title, BACKGROUND);
+	public TechnoCrafterHandledScreen(T_Handler handler, PlayerInventory inventory, Text title, Identifier background) {
+		super(handler, inventory, title, background);
 		this.backgroundWidth = 202;
 	}
 

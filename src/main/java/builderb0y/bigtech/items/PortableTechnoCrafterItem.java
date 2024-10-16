@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import builderb0y.bigtech.gui.HeldItemInventory;
 import builderb0y.bigtech.gui.TechnoCrafterAccess;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.PortableTechnoCrafterScreenHandler;
 
 public class PortableTechnoCrafterItem extends Item {
 
@@ -44,12 +44,13 @@ public class PortableTechnoCrafterItem extends Item {
 
 				@Override
 				public Text getDisplayName() {
-					return heldStack.getName();
+					Text customName = heldStack.get(DataComponentTypes.CUSTOM_NAME);
+					return customName != null ? customName : Text.translatable("container.bigtech.portable_techno_crafter");
 				}
 
 				@Override
 				public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-					return new TechnoCrafterScreenHandler(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncId, new PortableTechnoCrafterAccess(heldStack, heldSlot), playerInventory);
+					return new PortableTechnoCrafterScreenHandler(BigTechScreenHandlerTypes.PORTABLE_TECHNO_CRAFTER, syncId, new PortableTechnoCrafterAccess(heldStack, heldSlot), playerInventory);
 				}
 
 				@Override
@@ -75,7 +76,7 @@ public class PortableTechnoCrafterItem extends Item {
 			ArrayView array = new ArrayView(18);
 			DefaultedList<ItemStack> stacks = new DefaultedList<>(array, ItemStack.EMPTY);
 			if (component != null) component.copyTo(stacks);
-			this.inventory = SplitStackList.create(stacks);
+			this.inventory = SplitStackList.createPortable(stacks);
 		}
 
 		@Override

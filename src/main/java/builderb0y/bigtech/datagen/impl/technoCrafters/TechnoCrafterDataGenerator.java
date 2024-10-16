@@ -1,4 +1,4 @@
-package builderb0y.bigtech.datagen.impl;
+package builderb0y.bigtech.datagen.impl.technoCrafters;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
@@ -13,6 +13,11 @@ public class TechnoCrafterDataGenerator extends BasicBlockDataGenerator {
 
 	public TechnoCrafterDataGenerator(BlockItem blockItem) {
 		super(blockItem);
+	}
+
+	@Override
+	public String getLangValue(DataGenContext context) {
+		return "Techno Crafter";
 	}
 
 	@Override
@@ -59,10 +64,11 @@ public class TechnoCrafterDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
-			.pattern("rcr", "rir", "rcr")
+			.pattern("trt", "rir", "rcr")
+			.where('t', FunctionalItems.STONE_CRAFTING_TABLE)
 			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
-			.where('c', FunctionalItems.STONE_CRAFTING_TABLE)
 			.where('i', ConventionalItemTags.STORAGE_BLOCKS_IRON)
+			.where('c', ConventionalItemTags.CHESTS)
 			.result(this.getId())
 			.toString()
 		);

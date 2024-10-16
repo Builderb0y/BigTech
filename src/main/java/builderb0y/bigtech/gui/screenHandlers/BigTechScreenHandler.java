@@ -48,6 +48,10 @@ public abstract class BigTechScreenHandler extends ScreenHandler implements IBig
 		return this.slots;
 	}
 
+	public @Nullable Slot getSlotSafely(int index) {
+		return index >= 0 && index < this.slots.size() ? this.slots.get(index) : null;
+	}
+
 	@Override
 	public Slot addSlot(Slot slot) {
 		return super.addSlot(slot);

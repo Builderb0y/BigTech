@@ -19,6 +19,8 @@ import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDeployerDataGenerato
 import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
+import builderb0y.bigtech.datagen.impl.technoCrafters.PortableTechnoCrafterDataGenerator;
+import builderb0y.bigtech.datagen.impl.technoCrafters.TechnoCrafterDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 

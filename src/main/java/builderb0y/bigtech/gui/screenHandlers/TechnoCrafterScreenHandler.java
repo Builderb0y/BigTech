@@ -26,49 +26,30 @@ import net.minecraft.world.World;
 
 import builderb0y.bigtech.gui.TechnoCrafterAccess;
 
-public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
+public abstract class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	public final CraftingInventory leftGrid, rightGrid;
 	public final CraftingResultInventory leftTopResult, rightBottomResult;
 
 	public TechnoCrafterScreenHandler(ScreenHandlerType<?> screenHandlerType, int syncID, TechnoCrafterAccess crafter, PlayerInventory playerInventory) {
 		super(screenHandlerType, syncID, crafter, playerInventory);
-		class CraftingInventoryThatMarksOurCrafterDirtyProperly extends CraftingInventory {
-
-			public CraftingInventoryThatMarksOurCrafterDirtyProperly(ScreenHandler handler, int width, int height, DefaultedList<ItemStack> stacks) {
-				super(handler, width, height, stacks);
-			}
-
-			@Override
-			public void markDirty() {
-				super.markDirty();
-				TechnoCrafterScreenHandler.this.access().markDirty();
-			}
-		}
 		this.leftGrid          = new CraftingInventoryThatMarksOurCrafterDirtyProperly(this, 3, 3, crafter.getStacks(false));
 		this.rightGrid         = new CraftingInventoryThatMarksOurCrafterDirtyProperly(this, 3, 3, crafter.getStacks(true));
 		this.leftTopResult     = new CraftingResultInventory();
 		this.rightBottomResult = new CraftingResultInventory();
-
-		SlotGrid grid = this.slotGrid();
-		SlotRange
-			playerHotbar      = grid.pos(  8, 142).size(9, 1).inventory(playerInventory).add(),
-			playerStorage     = grid.pos(  8,  84).size(9, 3)                           .add(),
-			leftGrid          = grid.pos(  8,  17).size(3, 3).inventory(this.leftGrid)  .add(),
-			rightGrid         = grid.pos(116,  17)           .inventory(this.rightGrid) .add(),
-			leftTopOutput     = grid.pos( 80,  17).size(1, 1).inventory(this.leftTopResult    ).slotFactory(this.resultSlotFactory(false)).add(),
-			rightBottomOutput = grid.pos( 80,  53)           .inventory(this.rightBottomResult).slotFactory(this.resultSlotFactory(true )).add(),
-			trash             = grid.pos(176, 142)           .inventory(TrashInventory.INSTANCE).slotFactory(Slot::new).add();
-		this
-		.shiftClickRules
-		.collect(when(() -> !crafter.getInteractionSide()),  leftGrid.forward(), playerHotbar, playerStorage)
-		.collect(when(() ->  crafter.getInteractionSide()), rightGrid.forward(), playerHotbar, playerStorage)
-		.builder().from(leftGrid, rightGrid, leftTopOutput, rightBottomOutput).to(playerHotbar.forward(), playerStorage.forward()).add()
-		;
 	}
 
-	public TechnoCrafterScreenHandler(int syncID, PlayerInventory playerInventory, byte selectedSlot) {
-		this(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncID, new TechnoCrafterAccess.HeldImpl(selectedSlot), playerInventory);
+	public class CraftingInventoryThatMarksOurCrafterDirtyProperly extends CraftingInventory {
+
+		public CraftingInventoryThatMarksOurCrafterDirtyProperly(ScreenHandler handler, int width, int height, DefaultedList<ItemStack> stacks) {
+			super(handler, width, height, stacks);
+		}
+
+		@Override
+		public void markDirty() {
+			super.markDirty();
+			TechnoCrafterScreenHandler.this.access().markDirty();
+		}
 	}
 
 	public SlotFactory resultSlotFactory(boolean right) {
@@ -98,7 +79,7 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	@Override
 	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
-		if (slotIndex == 36 + 18 || slotIndex == 36 + 19) {
+		if (slotIndex >= this.slots.size() - 2) {
 			Slot slot = this.getSlot(slotIndex);
 			boolean loop = true;
 			while (loop) {
@@ -161,7 +142,6 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 					}
 				}
 			}
-
 			resultInventory.setStack(0, itemStack);
 		}
 	}
@@ -173,10 +153,11 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	@Override
 	public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
-		if ((slotIndex >= 36 && slotIndex < 36 + 9) || slotIndex == 36 + 18) {
+		int start = this.access().isPortable() ? 36 : 36 + 27;
+		if ((slotIndex >= start && slotIndex < start + 9) || slotIndex == start + 18) {
 			this.access().setInteractionSide(false);
 		}
-		else if ((slotIndex >= 36 + 9 && slotIndex < 36 + 18) || slotIndex == 36 + 19) {
+		else if ((slotIndex >= start + 9 && slotIndex < start + 18) || slotIndex == start + 19) {
 			this.access().setInteractionSide(true);
 		}
 

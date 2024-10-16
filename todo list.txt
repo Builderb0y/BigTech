@@ -3,7 +3,6 @@ bugs:
 
 where I left off:
 	make destroyers play tool breaking sound when breaking a tool.
-	extra chest-sized inventory for placed techno-crafter.
 
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).

@@ -1,29 +1,37 @@
 package builderb0y.bigtech.blockEntities;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.gui.TechnoCrafterAccess;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
-import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
+import builderb0y.bigtech.gui.screenHandlers.PlacedTechnoCrafterScreenHandler;
 
-public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWritesToNbtProperly implements TechnoCrafterAccess, ExtendedScreenHandlerFactory<Byte> {
+public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWritesToNbtProperly implements TechnoCrafterAccess, SidedInventory {
+
+	public static final int[] ACCESSIBLE_SLOTS = new int[27];
+	static {
+		for (int index = 0; index < 27; index++) {
+			ACCESSIBLE_SLOTS[index] = index;
+		}
+	}
 
 	public boolean interactedRight;
 	public SplitStackList stacks;
 
 	public TechnoCrafterBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
-		this.stacks = SplitStackList.create();
+		this.stacks = SplitStackList.createPlaced();
 	}
 
 	public TechnoCrafterBlockEntity(BlockPos pos, BlockState state) {
@@ -42,7 +50,7 @@ public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWri
 
 	@Override
 	public Text getContainerName() {
-		return Text.translatable("container.bigtech.techno_crafter");
+		return Text.translatable("container.bigtech.placed_techno_crafter");
 	}
 
 	@Override
@@ -52,7 +60,7 @@ public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWri
 
 	@Override
 	public void setHeldStacks(DefaultedList<ItemStack> inventory) {
-		this.stacks = SplitStackList.create(inventory);
+		this.stacks = SplitStackList.createPlaced(inventory);
 	}
 
 	@Override
@@ -62,11 +70,21 @@ public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWri
 
 	@Override
 	public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-		return new TechnoCrafterScreenHandler(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncId, this, playerInventory);
+		return new PlacedTechnoCrafterScreenHandler(BigTechScreenHandlerTypes.PLACED_TECHNO_CRAFTER, syncId, this, playerInventory);
 	}
 
 	@Override
-	public Byte getScreenOpeningData(ServerPlayerEntity player) {
-		return -1;
+	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+		return true;
+	}
+
+	@Override
+	public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+		return true;
+	}
+
+	@Override
+	public int[] getAvailableSlots(Direction side) {
+		return ACCESSIBLE_SLOTS;
 	}
 }
