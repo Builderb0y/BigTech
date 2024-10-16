@@ -9,47 +9,54 @@ import net.minecraft.util.collection.DefaultedList;
 
 public interface TechnoCrafterAccess extends Inventory {
 
-	public static TechnoCrafterAccess create(int selectedSlot) {
-		return new TechnoCrafterAccess() {
+	public static class Impl implements TechnoCrafterAccess {
 
-			public boolean interactionSide;
-			public final SplitStackList stacks = SplitStackList.create();
+		public boolean interactionSide;
+		public final SplitStackList stacks = SplitStackList.create();
 
-			@Override
-			public boolean getInteractionSide() {
-				return this.interactionSide;
-			}
+		@Override
+		public boolean getInteractionSide() {
+			return this.interactionSide;
+		}
 
-			@Override
-			public void setInteractionSide(boolean interactionSide) {
-				this.interactionSide = interactionSide;
-			}
+		@Override
+		public void setInteractionSide(boolean interactionSide) {
+			this.interactionSide = interactionSide;
+		}
 
-			@Override
-			public DefaultedList<ItemStack> getHeldStacks() {
-				return this.stacks.heldStacks();
-			}
+		@Override
+		public DefaultedList<ItemStack> getHeldStacks() {
+			return this.stacks.heldStacks();
+		}
 
-			@Override
-			public DefaultedList<ItemStack> getStacks(boolean interactionSide) {
-				return this.stacks.getStacks(interactionSide);
-			}
+		@Override
+		public DefaultedList<ItemStack> getStacks(boolean interactionSide) {
+			return this.stacks.getStacks(interactionSide);
+		}
 
-			@Override
-			public void markDirty() {
+		@Override
+		public void markDirty() {
 
-			}
+		}
 
-			@Override
-			public boolean canPlayerUse(PlayerEntity player) {
-				return true;
-			}
+		@Override
+		public boolean canPlayerUse(PlayerEntity player) {
+			return true;
+		}
+	}
 
-			@Override
-			public boolean isSlotBlocked(int index) {
-				return index == selectedSlot;
-			}
-		};
+	public static class HeldImpl extends Impl implements HeldItemInventory {
+
+		public int heldSlot;
+
+		public HeldImpl(int heldSlot) {
+			this.heldSlot = heldSlot;
+		}
+
+		@Override
+		public int getHeldSlot() {
+			return this.heldSlot;
+		}
 	}
 
 	/**
@@ -63,10 +70,6 @@ public interface TechnoCrafterAccess extends Inventory {
 	public DefaultedList<ItemStack> getHeldStacks();
 
 	public DefaultedList<ItemStack> getStacks(boolean interactionSide);
-
-	public default boolean isSlotBlocked(int index) {
-		return false;
-	}
 
 	@Override
 	public default int size() {

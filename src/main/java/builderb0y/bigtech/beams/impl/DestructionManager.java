@@ -79,7 +79,7 @@ public class DestructionManager {
 				this.world.setBlockBreakingInfo(info.breakerID, pos, (int)(info.progress * 10.0F));
 				if (info.progress >= 1.0F) {
 					this.breakingPositions.remove(pos);
-					WorldHelper.destroyBlockWithTool(this.world.as(), pos, actualState, tool);
+					WorldHelper.breakBlockWithTool(this.world.as(), pos, actualState, null, tool);
 					if (actualState.getHardness(this.world, pos) != 0.0F) {
 						ToolComponent toolComponent = tool.get(DataComponentTypes.TOOL);
 						if (toolComponent != null && toolComponent.damagePerBlock() > 0) {

@@ -226,7 +226,7 @@ public class LightningTransmitterDataGenerator extends RedstoneTransceiverDataGe
 			.where('l', FunctionalItems.LENS)
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('t', FunctionalItems.COPPER_COIL)
-			.where('b', Items.SMOOTH_STONE_SLAB)
+			.where('b', ConventionalItemTags.IRON_INGOTS)
 			.result(this.getId())
 			.toString()
 		);

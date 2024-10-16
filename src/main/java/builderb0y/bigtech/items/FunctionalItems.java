@@ -323,6 +323,13 @@ public class FunctionalItems {
 		"magnetic_arrow",
 		new MagneticArrowItem(new Item.Settings())
 	);
+	@UseDataGen(DislocatorDataGenerator.class)
+	public static final DislocatorItem DISLOCATOR = BigTechItems.register(
+		"dislocator",
+		new DislocatorItem(
+			new Item.Settings().maxDamage(64)
+		)
+	);
 
 	public static void init() {
 		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);

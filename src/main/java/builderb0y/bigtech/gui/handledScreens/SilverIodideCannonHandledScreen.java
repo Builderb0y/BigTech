@@ -35,7 +35,7 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 		MAKE_THUNDERY_HOVERED = BigTechMod.modID("make_thundery_hovered");
 
 	public SilverIodideCannonHandledScreen(SilverIodideCannonScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+		super(handler, inventory, title, BACKGROUND);
 		this.backgroundHeight = 148;
 		this.playerInventoryTitleY = 54;
 	}
@@ -73,11 +73,6 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 		int x = (this.backgroundWidth - this.textRenderer.getWidth(text)) >> 1;
 		int y = 40;
 		context.drawText(this.textRenderer, text, x, y, -1, false);
-	}
-
-	@Override
-	public Identifier getBackgroundTexture() {
-		return BACKGROUND;
 	}
 
 	@Environment(EnvType.CLIENT)

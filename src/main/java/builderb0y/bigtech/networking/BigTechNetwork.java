@@ -72,6 +72,8 @@ public class BigTechNetwork implements
 		this.register(SilverIodideCannonFirePacket.INSTANCE);
 		/** sent when a player clicks "done" in a pulsar config screen. */
 		this.register(          UpdatePulsarPacket.INSTANCE);
+		/** sent when a player clicks one of the widgets in the dislocator screen. */
+		this.register(    DislocatorSetDepthPacket.INSTANCE);
 	}
 
 	public static void init() {

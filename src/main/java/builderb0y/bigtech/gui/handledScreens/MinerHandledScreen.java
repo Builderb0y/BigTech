@@ -11,10 +11,10 @@ import builderb0y.bigtech.gui.screenHandlers.MinerScreenHandler;
 
 public class MinerHandledScreen extends BigTechHandledScreen<MinerScreenHandler> {
 
-	public static final Identifier TEXTURE = BigTechMod.modID("textures/gui/container/miner.png");
+	public static final Identifier BACKGROUND = BigTechMod.modID("textures/gui/container/miner.png");
 
 	public MinerHandledScreen(MinerScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+		super(handler, inventory, title, BACKGROUND);
 		this.backgroundWidth = 202;
 		this.backgroundHeight = 222;
 		this.playerInventoryTitleY = 222 - 94;
@@ -26,12 +26,7 @@ public class MinerHandledScreen extends BigTechHandledScreen<MinerScreenHandler>
 		int burn = this.handler.fuelTicks.get();
 		if (burn > 0) {
 			burn = (burn * 13 + (MinerEntity.SLOWDOWN_THRESHOLD - 1)) / MinerEntity.SLOWDOWN_THRESHOLD;
-			context.drawTexture(TEXTURE, this.x + 177, this.y + 173 - burn, 202, 13 - burn, 13, burn);
+			context.drawTexture(BACKGROUND, this.x + 177, this.y + 173 - burn, 202, 13 - burn, 13, burn);
 		}
-	}
-
-	@Override
-	public Identifier getBackgroundTexture() {
-		return TEXTURE;
 	}
 }

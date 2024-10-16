@@ -9,16 +9,11 @@ import builderb0y.bigtech.gui.screenHandlers.SpawnerInterceptorScreenHandler;
 
 public class SpawnerInterceptorHandledScreen extends BigTechHandledScreen<SpawnerInterceptorScreenHandler> {
 
-	public static final Identifier TEXTURE = BigTechMod.modID("textures/gui/container/spawner_interceptor.png");
+	public static final Identifier BACKGROUND = BigTechMod.modID("textures/gui/container/spawner_interceptor.png");
 
 	public SpawnerInterceptorHandledScreen(SpawnerInterceptorScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+		super(handler, inventory, title, BACKGROUND);
 		this.backgroundHeight = 136;
 		this.playerInventoryTitleY = 42;
-	}
-
-	@Override
-	public Identifier getBackgroundTexture() {
-		return TEXTURE;
 	}
 }

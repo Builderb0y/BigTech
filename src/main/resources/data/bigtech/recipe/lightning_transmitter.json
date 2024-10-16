@@ -6,11 +6,11 @@
 		"bbb"
 	],
 	"key": {
-		"i": { "tag":  "c:ingots/copper"             },
-		"l": { "item": "bigtech:lens"                },
-		"c": { "tag":  "bigtech:crystal_clusters"    },
-		"t": { "item": "bigtech:copper_coil"         },
-		"b": { "item": "minecraft:smooth_stone_slab" }
+		"i": { "tag":  "c:ingots/copper"          },
+		"l": { "item": "bigtech:lens"             },
+		"c": { "tag":  "bigtech:crystal_clusters" },
+		"t": { "item": "bigtech:copper_coil"      },
+		"b": { "tag":  "c:ingots/iron"            }
 	},
 	"result": {
 		"id": "bigtech:lightning_transmitter"

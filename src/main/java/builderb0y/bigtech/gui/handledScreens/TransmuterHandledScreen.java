@@ -13,14 +13,9 @@ import builderb0y.bigtech.gui.screenHandlers.TransmuterScreenHandler;
 @Environment(EnvType.CLIENT)
 public class TransmuterHandledScreen extends BigTechHandledScreen<TransmuterScreenHandler> {
 
-	public static final Identifier TEXTURE = BigTechMod.modID("textures/gui/container/transmuter.png");
+	public static final Identifier BACKGROUND = BigTechMod.modID("textures/gui/container/transmuter.png");
 
 	public TransmuterHandledScreen(TransmuterScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
-	}
-
-	@Override
-	public Identifier getBackgroundTexture() {
-		return TEXTURE;
+		super(handler, inventory, title, BACKGROUND);
 	}
 }

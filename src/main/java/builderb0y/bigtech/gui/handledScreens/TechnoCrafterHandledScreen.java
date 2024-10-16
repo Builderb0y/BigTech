@@ -9,10 +9,10 @@ import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
 
 public class TechnoCrafterHandledScreen extends BigTechHandledScreen<TechnoCrafterScreenHandler> {
 
-	public static final Identifier TEXTURE = BigTechMod.modID("textures/gui/container/techno_crafter.png");
+	public static final Identifier BACKGROUND = BigTechMod.modID("textures/gui/container/techno_crafter.png");
 
 	public TechnoCrafterHandledScreen(TechnoCrafterScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+		super(handler, inventory, title, BACKGROUND);
 		this.backgroundWidth = 202;
 	}
 
@@ -20,10 +20,5 @@ public class TechnoCrafterHandledScreen extends BigTechHandledScreen<TechnoCraft
 	public void init() {
 		super.init();
 		this.titleX = (176 - this.textRenderer.getWidth(this.title)) >> 1;
-	}
-
-	@Override
-	public Identifier getBackgroundTexture() {
-		return TEXTURE;
 	}
 }

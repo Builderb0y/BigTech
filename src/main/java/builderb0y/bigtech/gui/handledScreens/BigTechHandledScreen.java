@@ -7,13 +7,14 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public abstract class BigTechHandledScreen<T_Handler extends ScreenHandler> extends HandledScreen<T_Handler> {
+public class BigTechHandledScreen<T_Handler extends ScreenHandler> extends HandledScreen<T_Handler> {
 
-	public BigTechHandledScreen(T_Handler handler, PlayerInventory inventory, Text title) {
+	public final Identifier backgroundTexture;
+
+	public BigTechHandledScreen(T_Handler handler, PlayerInventory inventory, Text title, Identifier texture) {
 		super(handler, inventory, title);
+		this.backgroundTexture = texture;
 	}
-
-	public abstract Identifier getBackgroundTexture();
 
 	@Override
 	public void init() {
@@ -24,7 +25,7 @@ public abstract class BigTechHandledScreen<T_Handler extends ScreenHandler> exte
 	@Override
 	public void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		context.drawTexture(
-			this.getBackgroundTexture(),
+			this.backgroundTexture,
 			(this.width - this.backgroundWidth) >> 1,
 			(this.height - this.backgroundHeight) >> 1,
 			0,

@@ -159,7 +159,7 @@ public interface Harvestable {
 	method should drop items as if the block were broken with an empty hand.
 	*/
 	public default void harvest(World world, BlockPos pos, BlockState state, ItemStack tool) {
-		WorldHelper.destroyBlockWithTool(world.as(), pos, state, tool);
+		WorldHelper.breakBlockWithTool(world.as(), pos, state, null, tool);
 	}
 
 	/**

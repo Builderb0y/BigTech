@@ -68,7 +68,7 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 	}
 
 	public TechnoCrafterScreenHandler(int syncID, PlayerInventory playerInventory, byte selectedSlot) {
-		this(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncID, TechnoCrafterAccess.create(selectedSlot), playerInventory);
+		this(BigTechScreenHandlerTypes.TECHNO_CRAFTER, syncID, new TechnoCrafterAccess.HeldImpl(selectedSlot), playerInventory);
 	}
 
 	public SlotFactory resultSlotFactory(boolean right) {
@@ -173,15 +173,6 @@ public class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	@Override
 	public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
-		if (
-			this.access().isSlotBlocked(slotIndex) || (
-				actionType == SlotActionType.SWAP &&
-				this.access().isSlotBlocked(button)
-			)
-		) {
-			return;
-		}
-
 		if ((slotIndex >= 36 && slotIndex < 36 + 9) || slotIndex == 36 + 18) {
 			this.access().setInteractionSide(false);
 		}

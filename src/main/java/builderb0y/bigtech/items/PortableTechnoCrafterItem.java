@@ -16,6 +16,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.gui.HeldItemInventory;
 import builderb0y.bigtech.gui.TechnoCrafterAccess;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.TechnoCrafterScreenHandler;
@@ -27,12 +28,17 @@ public class PortableTechnoCrafterItem extends Item {
 	}
 
 	@Override
+	public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+		return !oldStack.isOf(this) || !newStack.isOf(this);
+	}
+
+	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		ItemStack heldStack = player.getStackInHand(hand);
 		if (!world.isClient) {
 			int heldSlot = switch (hand) {
 				case MAIN_HAND -> player.getInventory().selectedSlot;
-				case OFF_HAND -> -1;
+				case OFF_HAND -> 40;
 			};
 			player.openHandledScreen(new ExtendedScreenHandlerFactory<Byte>() {
 
@@ -55,7 +61,7 @@ public class PortableTechnoCrafterItem extends Item {
 		return TypedActionResult.success(heldStack, false);
 	}
 
-	public static class PortableTechnoCrafterAccess implements TechnoCrafterAccess {
+	public static class PortableTechnoCrafterAccess implements TechnoCrafterAccess, HeldItemInventory {
 
 		public final ItemStack stack;
 		public final int heldSlot;
@@ -102,20 +108,12 @@ public class PortableTechnoCrafterItem extends Item {
 
 		@Override
 		public boolean canPlayerUse(PlayerEntity player) {
-			if (!this.stack.isOf(FunctionalItems.PORTABLE_TECHNO_CRAFTER)) {
-				return false;
-			}
-			if (this.heldSlot >= 0) {
-				return player.getInventory().selectedSlot == this.heldSlot && player.getInventory().getMainHandStack() == this.stack;
-			}
-			else {
-				return player.getInventory().offHand.get(0) == this.stack;
-			}
+			return player.getInventory().getStack(this.heldSlot).getItem() == FunctionalItems.PORTABLE_TECHNO_CRAFTER;
 		}
 
 		@Override
-		public boolean isSlotBlocked(int index) {
-			return index == this.heldSlot;
+		public int getHeldSlot() {
+			return this.heldSlot;
 		}
 	}
 }

@@ -22,5 +22,6 @@ public class BigTechHandledScreens {
 		HandledScreens.register(BigTechScreenHandlerTypes.SPAWNER_INTERCEPTOR,  SpawnerInterceptorHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.CONDUCTIVE_ANVIL,        ConductiveAnvilHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.TECHNO_CRAFTER,            TechnoCrafterHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.DISLOCATOR,                   DislocatorHandledScreen::new);
 	}
 }

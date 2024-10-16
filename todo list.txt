@@ -37,6 +37,8 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
+		lightning diode:
+			only lets power travel through it in one direction.
 		magnetite:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
 				should this just be an item that works in your inventory instead?

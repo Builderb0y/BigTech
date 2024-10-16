@@ -10,10 +10,10 @@ import builderb0y.bigtech.gui.screenHandlers.DestroyerScreenHandler;
 
 public class DestroyerHandledScreen extends BigTechHandledScreen<DestroyerScreenHandler> {
 
-	public static final Identifier TEXTURE = BigTechMod.modID("textures/gui/container/destroyer.png");
+	public static final Identifier BACKGROUND = BigTechMod.modID("textures/gui/container/destroyer.png");
 
 	public DestroyerHandledScreen(DestroyerScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+		super(handler, inventory, title, BACKGROUND);
 		this.backgroundHeight = 130;
 		this.playerInventoryTitleY = 36;
 	}
@@ -23,7 +23,7 @@ public class DestroyerHandledScreen extends BigTechHandledScreen<DestroyerScreen
 		super.drawBackground(context, delta, mouseX, mouseY);
 		if (this.handler.inventory.getStack(0).isEmpty()) {
 			context.drawTexture(
-				this.getBackgroundTexture(),
+				BACKGROUND,
 				((this.width - this.backgroundWidth) >> 1) + 80,
 				((this.height - this.backgroundHeight) >> 1) + 17,
 				176,
@@ -32,10 +32,5 @@ public class DestroyerHandledScreen extends BigTechHandledScreen<DestroyerScreen
 				16
 			);
 		}
-	}
-
-	@Override
-	public Identifier getBackgroundTexture() {
-		return TEXTURE;
 	}
 }

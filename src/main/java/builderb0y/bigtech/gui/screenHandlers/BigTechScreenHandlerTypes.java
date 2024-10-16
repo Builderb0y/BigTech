@@ -13,6 +13,7 @@ import net.minecraft.screen.ScreenHandlerType;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.datagen.impl.DepthScreenDataGenerator;
 import builderb0y.bigtech.datagen.impl.InventoryDataGenerator;
 import builderb0y.bigtech.datagen.impl.MinerDataGenerator;
 import builderb0y.bigtech.networking.PacketCodecs2;
@@ -70,6 +71,12 @@ public class BigTechScreenHandlerTypes {
 		"techno_crafter",
 		PacketCodecs.BYTE,
 		TechnoCrafterScreenHandler::new
+	);
+	@UseDataGen(DepthScreenDataGenerator.class)
+	public static final ScreenHandlerType<DislocatorScreenHandler> DISLOCATOR = registerExtended(
+		"dislocator",
+		PacketCodecs.BYTE,
+		DislocatorScreenHandler::new
 	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {

@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "equipment",
+	"pattern": [
+		" gp",
+		" gg",
+		"d  "
+	],
+	"key": {
+		"g": { "tag": "c:ingots/gold"  },
+		"p": { "tag": "c:ender_pearls" },
+		"d": { "tag": "c:gems/diamond" }
+	},
+	"result": {
+		"id": "bigtech:dislocator"
+	}
+}

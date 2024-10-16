@@ -16,6 +16,9 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
+
+import builderb0y.bigtech.gui.HeldItemInventory;
 
 public abstract class BigTechScreenHandler extends ScreenHandler implements IBigTechScreenHandler {
 
@@ -48,6 +51,30 @@ public abstract class BigTechScreenHandler extends ScreenHandler implements IBig
 	@Override
 	public Slot addSlot(Slot slot) {
 		return super.addSlot(slot);
+	}
+
+	@Override
+	public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+		if (this.inventory instanceof HeldItemInventory held) {
+			switch (actionType) {
+				case PICKUP, QUICK_MOVE, THROW -> {
+					if (this.isSlotProtected(held, slotIndex)) return;
+				}
+				case SWAP -> {
+					if (this.isSlotProtected(held, slotIndex) || button == held.getHeldSlot()) return;
+				}
+				case CLONE, QUICK_CRAFT, PICKUP_ALL -> {}
+			}
+		}
+		super.onSlotClick(slotIndex, button, actionType, player);
+	}
+
+	public boolean isSlotProtected(HeldItemInventory inventory, int slotIndex) {
+		if (slotIndex >= 0 && slotIndex < this.slots.size()) {
+			Slot slot = this.slots.get(slotIndex);
+			return slot.inventory == this.playerInventory && slot.getIndex() == inventory.getHeldSlot();
+		}
+		return false;
 	}
 
 	@Override
