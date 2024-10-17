@@ -2,6 +2,7 @@ package builderb0y.bigtech.blocks;
 
 import java.text.NumberFormat;
 import java.util.EnumMap;
+import java.util.LinkedList;
 
 import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +34,7 @@ import net.minecraft.world.WorldView;
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
+import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
@@ -132,6 +134,29 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	@Override
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return state.get(Properties.POWERED) && state.get(Properties.FACING) == direction.getOpposite() ? 15 : 0;
+	}
+
+	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		if (state.get(Properties.POWERED)) {
+			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(pos)).require().get(pos.getY() >> 4);
+			if (sectionStorage != null) {
+				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
+				if (segments != null) {
+					int sum = 0;
+					for (BeamSegment segment : segments) {
+						if (segment.visible()) sum++;
+					}
+					return sum;
+				}
+			}
+		}
+		return 0;
 	}
 
 	public boolean checkPowered(World world, BlockPos pos, BlockState state, @Nullable Beam pulse) {

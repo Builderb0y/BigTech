@@ -12,7 +12,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.RedstoneView;
 import net.minecraft.world.World;
@@ -22,7 +21,6 @@ import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.impl.RedstoneBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
-import builderb0y.bigtech.util.Directions;
 
 public class RedstoneTransmitterBlock extends BeamBlock {
 
@@ -44,12 +42,7 @@ public class RedstoneTransmitterBlock extends BeamBlock {
 	}
 
 	public boolean shouldBePowered(RedstoneView world, BlockPos pos) {
-		BlockPos.Mutable mutable = new BlockPos.Mutable();
-		if (world.getEmittedRedstonePower(mutable.set(pos, Direction.DOWN), Direction.DOWN) > 0) return true;
-		for (Direction direction : Directions.HORIZONTAL) {
-			if (world.getEmittedRedstonePower(mutable.set(pos, direction), direction) > 0) return true;
-		}
-		return false;
+		return world.isReceivingRedstonePower(pos);
 	}
 
 	@Override

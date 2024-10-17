@@ -77,7 +77,7 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 
 	@Override
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return direction.getHorizontal() >= 0 && state.get(Properties.POWERED) ? 15 : 0;
+		return state.get(Properties.POWERED) ? 15 : 0;
 	}
 
 	@Override

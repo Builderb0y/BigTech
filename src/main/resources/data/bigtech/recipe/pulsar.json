@@ -2,13 +2,13 @@
 	"type": "minecraft:crafting_shaped",
 	"category": "redstone",
 	"pattern": [
-		"rsr",
-		"sqs",
-		"rsr"
+		"wrw",
+		"rqr",
+		"wrw"
 	],
 	"key": {
 		"r": { "tag":  "c:dusts/redstone" },
-		"s": { "item": "minecraft:stone"  },
+		"w": { "tag":  "minecraft:planks" },
 		"q": { "item": "minecraft:quartz" }
 	},
 	"result": {
