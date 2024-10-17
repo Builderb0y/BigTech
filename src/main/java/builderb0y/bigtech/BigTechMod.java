@@ -20,6 +20,8 @@ import builderb0y.bigtech.particles.BigTechParticles;
 import builderb0y.bigtech.recipes.BigTechRecipeSerializers;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
+import builderb0y.bigtech.worldgen.BigTechFeatures;
+import builderb0y.bigtech.worldgen.BigTechWorldgen;
 
 public class BigTechMod implements ModInitializer {
 
@@ -45,6 +47,8 @@ public class BigTechMod implements ModInitializer {
 		BigTechRecipeTypes.init();
 		BigTechRecipeSerializers.init();
 		BigTechCommands.init();
+		BigTechFeatures.init();
+		BigTechWorldgen.init();
 		LOGGER.info("Done initializing.");
 		FabricLoader.getInstance().getEntrypoints(MODID, BigTechInitializer.class).forEach(BigTechInitializer::init);
 	}

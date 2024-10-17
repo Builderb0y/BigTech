@@ -18,8 +18,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryFixedCodec;
+import net.minecraft.registry.entry.*;
 import net.minecraft.registry.tag.TagKey;
 
 import builderb0y.autocodec.AutoCodec;
@@ -62,6 +61,23 @@ public class BigTechAutoCodec {
 							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.BLOCK)));
 							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.ITEM)));
 							this.addRaw(ComponentChanges.class, autoCodec.wrapDFUCodec(ComponentChanges.CODEC));
+							this.addGeneric(
+								ReifiedType.parameterize(
+									RegistryEntryList.class,
+									ReifiedType.from(Block.class)
+								),
+								autoCodec.wrapDFUCodec(
+									RegistryEntryListCodec.create(
+										RegistryKeys.BLOCK,
+										RegistryElementCodec.of(
+											RegistryKeys.BLOCK,
+											Block.CODEC.codec(),
+											false
+										),
+										false
+									)
+								)
+							);
 						}
 					};
 				}

@@ -46,9 +46,6 @@ features:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
 			slowly though. like 1 unit per 10 ticks or something.
-	lasers:
-		crystal clusters:
-			make spawn in caves and in rocks.
 	automation:
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
@@ -114,6 +111,7 @@ done:
 		thermal discouragement beam: ignites entities that touch the beam
 		crystal clusters:
 			boosts the distance of lasers passing through it
+			spawns on the ceilings of caves
 		lens: placed on prisms to control their outputs. also used for crafting lasers.
 		mirror: reflects beams so that they go somewhere else
 		prism: can split up a beam into several others, or merge several beams into one.

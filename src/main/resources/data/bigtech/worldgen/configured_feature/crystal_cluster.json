@@ -1,0 +1,8 @@
+{
+	"type": "bigtech:crystal_cluster",
+	"config": {
+		"place": "#bigtech:crystal_clusters",
+		"under": "#minecraft:base_stone_overworld",
+		"per_section": 8.0
+	}
+}

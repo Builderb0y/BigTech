@@ -1,0 +1,6 @@
+{
+	"feature": "bigtech:crystal_cluster",
+	"placement": [
+		{ "type": "biome" }
+	]
+}

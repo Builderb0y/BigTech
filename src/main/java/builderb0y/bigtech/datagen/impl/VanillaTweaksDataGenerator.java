@@ -3,6 +3,7 @@ package builderb0y.bigtech.datagen.impl;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Identifier;
 
@@ -13,6 +14,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
+import builderb0y.bigtech.worldgen.BigTechBiomeTags;
 
 public class VanillaTweaksDataGenerator implements DataGenerator {
 
@@ -101,5 +103,6 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 				}
 			}"""
 		);
+		context.getTags(BigTechBiomeTags.CRYSTAL_CLUSTER_SPAWNABLE).add(BiomeTags.IS_OVERWORLD);
 	}
 }
