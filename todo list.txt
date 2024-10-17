@@ -19,10 +19,6 @@ testing:
 
 features:
 	general:
-		config file for disabling non-essential mixins.
-		config option to disable fancy lightning renderer and associated mixin.
-			another config option to control the quality of the lightning.
-		need an icon for the mod.
 	decoration:
 		fancier 3D models for things.
 			more vanilla stuff?
@@ -46,6 +42,8 @@ features:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
 			slowly though. like 1 unit per 10 ticks or something.
+	lasers:
+		make it so that comparator-ing a beam interceptor tells you how many beams are passing through it.
 	automation:
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.

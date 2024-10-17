@@ -37,18 +37,15 @@ dependencies() {
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
-	//AutoCodec.
 	include(implementation('builderb0y:autocodec:5.0.0') {
 		transitive = false
 	})
 
-	//JMXL.
 	include(modImplementation('maven.modrinth:jmxl:1.5+mc1.21'))
-
-	//lambdynamiclights.
 	modCompileOnly('maven.modrinth:lambdynamiclights:2.3.4+1.20.4')
+	modImplementation('maven.modrinth:cloth-config:15.0.140+fabric')
+	modImplementation('maven.modrinth:modmenu:11.0.3')
 
-	//sodium, indium.
 	//modImplementation('maven.modrinth:sodium:mc1.21-0.5.11')
 	//modRuntimeOnly('maven.modrinth:indium:1.0.34+mc1.21')
 

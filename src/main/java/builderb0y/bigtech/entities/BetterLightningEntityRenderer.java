@@ -19,6 +19,7 @@ import net.minecraft.entity.LightningEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
+import builderb0y.bigtech.config.BigTechConfig;
 import builderb0y.bigtech.util.LightningRenderer;
 
 @Environment(EnvType.CLIENT)
@@ -52,7 +53,7 @@ public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntit
 			0.0D,
 			0.0D,
 			0.0D,
-			8,
+			BigTechConfig.INSTANCE.get().client.lightningRendererQuality,
 			0.5D,
 			(
 				double startX,

@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
@@ -75,9 +76,9 @@ public class PulsarDataGenerator extends BasicBlockDataGenerator {
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.REDSTONE)
-			.pattern("rsr", "sqs", "rsr")
+			.pattern("wrw", "rqr", "wrw")
 			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
-			.where('s', Items.STONE)
+			.where('w', ItemTags.PLANKS)
 			.where('q', Items.QUARTZ)
 			.result(this.getId())
 			.toString()

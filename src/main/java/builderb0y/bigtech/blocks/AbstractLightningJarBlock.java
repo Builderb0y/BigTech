@@ -194,7 +194,8 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
 		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 		if (jar != null) {
-			return Math.min(Math.max(MathHelper.ceilDiv(jar.storedEnergy * 15, this.getCapacity()), 0), 15);
+			int result = Math.floorDiv((jar.storedEnergy - 1) * 14, (this.getCapacity() - 1)) + 1;
+			return Math.min(Math.max(result, 0), 15);
 		}
 		else {
 			return 0;

@@ -10,6 +10,7 @@ import net.minecraft.block.LightningRodBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.config.BigTechConfig;
 import builderb0y.bigtech.lightning.LightningPulse;
 
 @Mixin(LightningRodBlock.class)
@@ -17,14 +18,19 @@ public class LightningRod_EmitLightningPulse {
 
 	@Inject(method = "setPowered", at = @At("RETURN"))
 	private void bigtech_emitLightningPulse(BlockState state, World world, BlockPos pos, CallbackInfo ci) {
-		//gaussian approximation between 5000 and 15000, averaging 10000.
+		int minEnergy = BigTechConfig.INSTANCE.get().server.minLightningEnergy;
+		int maxEnergy = BigTechConfig.INSTANCE.get().server.maxLightningEnergy;
+		int quarterDifference = (maxEnergy - minEnergy) >> 2;
 		int energy = (
-			5000 +
-			world.random.nextInt(2000) +
-			world.random.nextInt(2000) +
-			world.random.nextInt(2000) +
-			world.random.nextInt(2000) +
-			world.random.nextInt(2000)
+			minEnergy == maxEnergy
+			? minEnergy
+			: (
+				world.random.nextInt(quarterDifference) +
+				world.random.nextInt(quarterDifference) +
+				world.random.nextInt(quarterDifference) +
+				world.random.nextInt(quarterDifference) +
+				minEnergy
+			)
 		);
 		new LightningPulse(world, pos, energy, 64).run();
 	}

@@ -65,6 +65,8 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 
 	@Shadow private double rotation;
 
+	//copy-paste of the portion of vanilla logic I actually care about.
+	//java does not allow you to only call part of a method.
 	@Override
 	public void bigtech_spawnMobs(ServerWorld world, BlockPos pos) {
 		boolean bl = false;

@@ -3,6 +3,7 @@ package builderb0y.bigtech.blockEntities;
 import java.util.function.ToLongFunction;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -10,10 +11,12 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.datagen.impl.PulsarDataGenerator.PulsarTexts;
 import builderb0y.bigtech.util.BigTechMath;
+import builderb0y.bigtech.util.Directions;
 
 public class PulsarBlockEntity extends BlockEntity {
 
@@ -32,10 +35,21 @@ public class PulsarBlockEntity extends BlockEntity {
 
 	public void tick() {
 		boolean powered = this.getCachedState().get(Properties.POWERED);
-		boolean shouldBePowered = BigTechMath.modulus_BP(this.relativeTo.getTime(this.world) - this.offset, this.onTime + this.offTime) < this.onTime;
+		boolean shouldBePowered = BigTechMath.modulus_BP(this.relativeTo.getTime(this.world) - this.offset, this.onTime + this.offTime) < this.onTime && !this.isStrongPowered();
 		if (powered != shouldBePowered) {
 			this.world.setBlockState(this.pos, this.getCachedState().with(Properties.POWERED, shouldBePowered));
 		}
+	}
+
+	public boolean isStrongPowered() {
+		BlockPos.Mutable pos = new BlockPos.Mutable();
+		for (Direction direction : Directions.ALL) {
+			BlockState state = this.world.getBlockState(pos.set(this.pos, direction));
+			if (!(state.getBlock() instanceof RedstoneWireBlock) && state.getStrongRedstonePower(this.world, pos, direction) != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

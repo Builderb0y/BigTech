@@ -178,7 +178,9 @@ public class FunctionalBlocks {
 			.Settings
 			.create()
 			.mapColor((BlockState state) -> state.get(Properties.POWERED) ? MapColor.RED : MapColor.DARK_RED)
+			.solidBlock(Blocks::never) //ensures pulsars can't conduct a redstone signal through them.
 			.strength(1.5F)
+			.sounds(BlockSoundGroup.WOOD)
 		)
 	);
 

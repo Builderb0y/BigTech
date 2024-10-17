@@ -14,7 +14,7 @@ import builderb0y.bigtech.codecs.BigTechAutoCodec;
 public class LargeLightningJarBlock extends AbstractLightningJarBlock {
 
 	public static final VoxelShape SHAPE = VoxelShapes.union(
-		VoxelShapes.cuboid(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D),
+		VoxelShapes.cuboid(0.0D,    0.0D,    0.0D,    1.0D,    0.1875D, 1.0D   ),
 		VoxelShapes.cuboid(0.0625D, 0.1875D, 0.0625D, 0.9375D, 0.9375D, 0.9375D)
 	);
 

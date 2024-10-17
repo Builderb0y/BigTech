@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 import org.joml.Matrix4f;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -17,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import builderb0y.bigtech.blockEntities.TeslaCoilBlockEntity.Target;
+import builderb0y.bigtech.config.BigTechConfig;
 import builderb0y.bigtech.util.LightningRenderer;
 
 @Environment(EnvType.CLIENT)
@@ -49,7 +49,7 @@ public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCo
 				target.endX   - blockEntityPos.getX(),
 				target.endY   - blockEntityPos.getY(),
 				target.endZ   - blockEntityPos.getZ(),
-				6,
+				BigTechConfig.INSTANCE.get().client.teslaCoilRendererQuality,
 				0.0625D,
 				(
 					double startX,
