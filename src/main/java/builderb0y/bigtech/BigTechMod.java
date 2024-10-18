@@ -13,6 +13,7 @@ import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.commands.BigTechCommands;
 import builderb0y.bigtech.config.BigTechConfig;
+import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.entities.BigTechEntityTypes;
 import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
@@ -37,6 +38,7 @@ public class BigTechMod implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Initializing...");
 		BigTechConfig.init();
+		BigTechDataComponents.init();
 		BigTechBlocks.init();
 		BigTechItems.init();
 		BigTechItemGroups.init();

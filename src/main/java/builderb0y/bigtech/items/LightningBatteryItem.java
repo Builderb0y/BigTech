@@ -1,20 +1,24 @@
 package builderb0y.bigtech.items;
 
+import java.util.List;
 import java.util.stream.Stream;
 
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.api.LightningStorageItem;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
+import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.lightning.LightningPulse;
 
 public class LightningBatteryItem extends Item implements InventoryVariants, LightningStorageItem {
@@ -24,18 +28,13 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 	}
 
 	@Override
-	public int getCharge(ItemStack stack) {
-		return stack.getMaxDamage() - stack.getDamage();
-	}
-
-	@Override
-	public int getMaxCharge(ItemStack stack) {
-		return stack.getMaxDamage();
-	}
-
-	@Override
-	public void setCharge(ItemStack stack, int charge) {
-		stack.setDamage(this.getComponents().get(DataComponentTypes.MAX_DAMAGE) - charge);
+	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+		super.appendTooltip(stack, context, tooltip, type);
+		Integer stored = stack.get(BigTechDataComponents.LIGHTNING_ENERGY);
+		if (stored != null) {
+			int maxEnergy = this.getMaxCharge(stack);
+			tooltip.add(Text.translatable("bigtech.lightning_battery.stored", stored, maxEnergy, stored * 100 / maxEnergy));
+		}
 	}
 
 	@Override
@@ -86,14 +85,14 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 
 	@Override
 	public int getItemBarStep(ItemStack stack) {
-		return super.getItemBarStep(stack);
+		return MathHelper.clamp(Math.round(this.getCharge(stack) * 13.0F / this.getMaxCharge(stack)), 0, 13);
 	}
 
 	@Override
 	public Stream<ItemStack> getInventoryStacks() {
 		ItemStack empty = this.getDefaultStack();
-		empty.setDamage(empty.getMaxDamage());
 		ItemStack charged = this.getDefaultStack();
+		charged.set(BigTechDataComponents.LIGHTNING_ENERGY, this.getMaxCharge(charged));
 		return Stream.of(empty, charged);
 	}
 }

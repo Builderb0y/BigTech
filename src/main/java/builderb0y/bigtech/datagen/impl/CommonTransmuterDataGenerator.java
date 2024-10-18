@@ -58,7 +58,18 @@ public class CommonTransmuterDataGenerator implements DataGenerator {
 					{ "item": "bigtech:black_crystal_cluster"   },
 					{ "item": "bigtech:white_crystal_cluster"   }
 				],
-				"energy": 1000
+				"energy": 500
+			}"""
+		);
+		context.writeToFile(
+			context.recipePath(BigTechMod.modID("glowstone_dust_from_transmuter")),
+			//language=json
+			"""
+			{
+				"type": "bigtech:transmute",
+				"input": { "tag": "c:dusts/redstone" },
+				"output": { "item": "minecraft:glowstone_dust" },
+				"energy": 100
 			}"""
 		);
 	}

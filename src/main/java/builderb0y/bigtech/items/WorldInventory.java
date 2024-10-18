@@ -76,11 +76,10 @@ public class WorldInventory implements HeldItemInventory {
 	}
 
 	public void doBreakBlock(BlockPos pos) {
-		EquipmentSlot slot = this.heldSlot >= 0 ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
-		ItemStack stack = this.player.getEquippedStack(slot);
+		ItemStack stack = this.player.getInventory().getStack(this.heldSlot);
 		if (stack.getItem() == FunctionalItems.DISLOCATOR) {
 			WorldHelper.breakBlockWithTool(this.player.getWorld().as(), pos, this.player.getWorld().getBlockState(pos), this.player, stack);
-			stack.damage(1, this.player, this.heldSlot >= 0 ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+			stack.damage(1, this.player, this.heldSlot == 40 ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND);
 		}
 	}
 

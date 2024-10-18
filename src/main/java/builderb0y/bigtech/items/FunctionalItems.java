@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
+import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.datagen.impl.TripwireDataGenerator;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.*;
@@ -144,6 +145,10 @@ public class FunctionalItems {
 	public static final BlockItem COPPER_LIGHTNING_CABLE = BigTechItems.registerPlacer(
 		FunctionalBlocks.COPPER_LIGHTNING_CABLE
 	);
+	@UseDataGen(LightningDiodeDataGenerator.class)
+	public static final BlockItem LIGHTNING_DIODE = BigTechItems.registerPlacer(
+		FunctionalBlocks.LIGHTNING_DIODE
+	);
 	@UseDataGen(LightningElectrodeDataGenerator.class)
 	public static final Item LIGHTNING_ELECTRODE = BigTechItems.register(
 		"lightning_electrode",
@@ -157,7 +162,11 @@ public class FunctionalItems {
 	@UseDataGen(LightningBatteryDataGenerator.class)
 	public static final LightningBatteryItem LIGHTNING_BATTERY = BigTechItems.register(
 		"lightning_battery",
-		new LightningBatteryItem(new Item.Settings().maxDamage(1000))
+		new LightningBatteryItem(
+			new Item.Settings()
+			.component(BigTechDataComponents.LIGHTNING_CAPACITY, 1000)
+			.component(BigTechDataComponents.LIGHTNING_ENERGY, 0)
+		)
 	);
 	@UseDataGen(SmallLightningJarDataGenerator.class)
 	public static final BlockItem SMALL_LIGHTNING_JAR = BigTechItems.registerPlacer(

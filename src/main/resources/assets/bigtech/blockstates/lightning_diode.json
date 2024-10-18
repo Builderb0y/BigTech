@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"facing=up,powered=false":    { "model": "bigtech:block/lightning_diode", "x":   0           },
+		"facing=up,powered=true":     { "model": "bigtech:block/lightning_diode", "x": 180           },
+		"facing=down,powered=false":  { "model": "bigtech:block/lightning_diode", "x": 180           },
+		"facing=down,powered=true":   { "model": "bigtech:block/lightning_diode", "x":   0           },
+		"facing=north,powered=false": { "model": "bigtech:block/lightning_diode", "x":  90, "y":   0 },
+		"facing=north,powered=true":  { "model": "bigtech:block/lightning_diode", "x":  90, "y": 180 },
+		"facing=east,powered=false":  { "model": "bigtech:block/lightning_diode", "x":  90, "y":  90 },
+		"facing=east,powered=true":   { "model": "bigtech:block/lightning_diode", "x":  90, "y": 270 },
+		"facing=south,powered=false": { "model": "bigtech:block/lightning_diode", "x":  90, "y": 180 },
+		"facing=south,powered=true":  { "model": "bigtech:block/lightning_diode", "x":  90, "y":   0 },
+		"facing=west,powered=false":  { "model": "bigtech:block/lightning_diode", "x":  90, "y": 270 },
+		"facing=west,powered=true":   { "model": "bigtech:block/lightning_diode", "x":  90, "y":  90 }
+	}
+}

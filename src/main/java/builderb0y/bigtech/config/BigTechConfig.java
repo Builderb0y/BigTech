@@ -85,16 +85,16 @@ public class BigTechConfig {
 	public static class Server {
 
 		@DefaultIgnore
-		@Tooltip(count = 2)
+		@Tooltip(count = 1)
 		@UseName("Minimum Lightning Energy")
 		@Tooltips({ "Minimum amount of energy you can capture from a bolt of lightning." })
-		public int minLightningEnergy = 20000;
+		public int minLightningEnergy = 25000;
 
 		@DefaultIgnore
-		@Tooltip(count = 2)
+		@Tooltip(count = 1)
 		@UseName("Maximum Lightning Energy")
 		@Tooltips({ "Maximum amount of energy you can capture from a bolt of lightning." })
-		public int maxLightningEnergy = 40000;
+		public int maxLightningEnergy = 75000;
 
 		public void validatePostLoad() {
 			if (this.minLightningEnergy < 0) {

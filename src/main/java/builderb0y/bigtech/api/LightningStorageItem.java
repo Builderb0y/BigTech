@@ -11,6 +11,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import builderb0y.bigtech.dataComponents.BigTechDataComponents;
+
 /**
 an {@link Item} which can store lightning energy.
 unlike most of my API interfaces, this one
@@ -23,16 +25,22 @@ and that requires a custom Item class anyway.
 */
 public interface LightningStorageItem {
 
-	public abstract int getCharge(ItemStack stack);
+	public default int getCharge(ItemStack stack) {
+		return stack.getOrDefault(BigTechDataComponents.LIGHTNING_ENERGY, 0);
+	}
 
-	public abstract int getMaxCharge(ItemStack stack);
+	public default int getMaxCharge(ItemStack stack) {
+		return stack.getOrDefault(BigTechDataComponents.LIGHTNING_CAPACITY, 1);
+	}
 
 	/**
 	sets the charge on the given stack.
 	this method *mutates* the stack,
 	usually by modifying its NBT data.
 	*/
-	public abstract void setCharge(ItemStack stack, int charge);
+	public default void setCharge(ItemStack stack, int charge) {
+		stack.set(BigTechDataComponents.LIGHTNING_ENERGY, charge);
+	}
 
 	/**
 	this method should be called from {@link Item#useOnBlock(ItemUsageContext)}.

@@ -1,0 +1,6 @@
+{
+	"type": "bigtech:transmute",
+	"input": { "tag": "c:dusts/redstone" },
+	"output": { "item": "minecraft:glowstone_dust" },
+	"energy": 100
+}

@@ -254,6 +254,13 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final LightningDiodeBlock LIGHTNING_DIODE = BigTechBlocks.register(
+		"lightning_diode",
+		new LightningDiodeBlock(
+			AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final SmallLightningJarBlock SMALL_LIGHTNING_JAR = BigTechBlocks.register(
 		"small_lightning_jar",
 		new SmallLightningJarBlock(

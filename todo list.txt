@@ -7,11 +7,6 @@ where I left off:
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
 	JEI support for transmuter (recipe lookup).
-	fix tooltips of lightning batteries.
-		currently displays durability, which is undesirable.
-		also doesn't show durability when fully charged.
-		may need to duplicate some of the logic for damage.
-	make tooltips of NBT-copied lightning jars display stored energy.
 
 compatibility:
 
@@ -32,8 +27,6 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
-		lightning diode:
-			only lets power travel through it in one direction.
 		magnetite:
 			armor: attracts items, xp, and projectiles. so ya know. pros and cons
 				should this just be an item that works in your inventory instead?
@@ -42,8 +35,6 @@ features:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
 			slowly though. like 1 unit per 10 ticks or something.
-	lasers:
-		make it so that comparator-ing a beam interceptor tells you how many beams are passing through it.
 	automation:
 		XP storage device: not sure about the details yet.
 		radio: computercraft integration which allows you to control miners remotely, without a driver.
@@ -51,12 +42,12 @@ features:
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
 		power tools: can mine multiple blocks? kind of similar to the destroyer?
-		portable scanner: shows what blocks are hidden in front of you, at the cost of some lightning energy.
 
 done:
 	lightning power:
 		cooler looking lightning
 		lightning cable: transfers lightning power without shocking entities
+		lightning diode: only lets lightning energy travel through it in one direction.
 		transmuter: uses lightning power to turn items into other items
 		vanilla integration:
 			TNT: explode
@@ -132,6 +123,7 @@ done:
 			iron: basically a placeable version of the techno crafter
 	tools:
 		portable techno crafter: portable crafting tool, includes 2 crafting grids, a trash can, and keeps its inventory when closed.
+		dislocator: allows you to see and collect blocks in front of you, even when they're behind a wall.
 
 canceled:
 	lightning rod: already in vanilla.

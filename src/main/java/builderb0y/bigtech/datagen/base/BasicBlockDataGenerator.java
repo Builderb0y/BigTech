@@ -1,11 +1,15 @@
 package builderb0y.bigtech.datagen.base;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.component.ComponentType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
@@ -81,12 +85,16 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	public void writeDefaultBlockstateJson(DataGenContext context, Identifier blockModel) {
 		context.writeToFile(
 			context.blockstatePath(this.getId()),
-			"""
-			{
-				"variants": {
-					"": { "model": "${context.prefixPath("block/", blockModel)}" }
-				}
-			}"""
+			context.replace(
+				//language=json
+				"""
+				{
+					"variants": {
+						"": { "model": "%MODEL" }
+					}
+				}""",
+				Map.of("MODEL", context.prefixPath("block/", blockModel).toString())
+			)
 		);
 	}
 
@@ -114,6 +122,7 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 		context.writeToFile(
 			context.blockLootTablePath(this.getId()),
 			context.replace(
+				//language=json
 				"""
 				{
 					"type": "minecraft:block",
@@ -127,9 +136,50 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 							"condition": "minecraft:survives_explosion"
 						}]
 					}]
-				}
-				""",
+				}""",
 				Map.of("BLOCK", this.getId().toString())
+			)
+		);
+	}
+
+	public void writeBlockEntityComponentCopyingLootTableJson(DataGenContext context, ComponentType<?>... types) {
+		context.writeToFile(
+			context.blockLootTablePath(this.getId()),
+			context.replace(
+				//language=json
+				"""
+				{
+					"type": "minecraft:block",
+					"pools": [{
+						"rolls": 1,
+						"entries": [{
+							"type": "minecraft:item",
+							"name": "%BLOCK"
+						}],
+						"conditions": [{
+							"condition": "minecraft:survives_explosion"
+						}],
+						"functions": [{
+							"function": "minecraft:copy_components",
+							"source": "block_entity",
+							"include": [
+								%COMPONENTS
+							]
+						}]
+					}]
+				}""",
+				Map.of(
+					"BLOCK",
+					this.getId().toString(),
+
+					"COMPONENTS",
+					Arrays
+					.stream(types)
+					.map(Registries.DATA_COMPONENT_TYPE::getId)
+					.map(Identifier::toString)
+					.map((String s) -> '"' + s + '"')
+					.collect(Collectors.joining(",\n\t\t\t\t"))
+				)
 			)
 		);
 	}

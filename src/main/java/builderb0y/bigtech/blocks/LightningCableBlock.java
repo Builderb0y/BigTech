@@ -40,9 +40,9 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	public static final VoxelShape[] CONDUCTION_SHAPES = {
-		VoxelShapes.cuboid(0.0D,  0.25D, 0.25D, 1.0D,  0.75D, 0.75D),
-		VoxelShapes.cuboid(0.25D, 0.0D,  0.25D, 0.75D, 1.0D,  0.75D),
-		VoxelShapes.cuboid(0.25D, 0.25D, 0.0D,  0.75D, 0.75D, 1.0D ),
+		VoxelShapes.cuboidUnchecked(0.0D,  0.25D, 0.25D, 1.0D,  0.75D, 0.75D),
+		VoxelShapes.cuboidUnchecked(0.25D, 0.0D,  0.25D, 0.75D, 1.0D,  0.75D),
+		VoxelShapes.cuboidUnchecked(0.25D, 0.25D, 0.0D,  0.75D, 0.75D, 1.0D ),
 	};
 
 	public LightningCableBlock(Settings settings) {
@@ -192,8 +192,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 
 	@Override
 	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
-		//copy-paste logic from Block. do not let ConnectingBlock override this.
-		return !Block.isShapeFullCube(state.getOutlineShape(world, pos)) && state.getFluidState().isEmpty();
+		return state.getFluidState().isEmpty();
 	}
 
 	@Override

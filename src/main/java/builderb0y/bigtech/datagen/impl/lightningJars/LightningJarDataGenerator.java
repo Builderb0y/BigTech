@@ -3,6 +3,7 @@ package builderb0y.bigtech.datagen.impl.lightningJars;
 import net.minecraft.item.BlockItem;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
+import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
@@ -13,6 +14,11 @@ public abstract class LightningJarDataGenerator extends BasicBlockDataGenerator 
 
 	public LightningJarDataGenerator(BlockItem blockItem) {
 		super(blockItem);
+	}
+
+	@Override
+	public void writeLootTableJson(DataGenContext context) {
+		this.writeBlockEntityComponentCopyingLootTableJson(context, BigTechDataComponents.LIGHTNING_ENERGY);
 	}
 
 	@Override

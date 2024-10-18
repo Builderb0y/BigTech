@@ -4,6 +4,7 @@
 	"bigtech.beam_interceptor.locked":                                                   "Now detecting %s",
 	"bigtech.beam_interceptor.no_color":                                                 "none",
 	"bigtech.beam_interceptor.unlocked":                                                 "Now detecting all colors",
+	"bigtech.lightning_battery.stored":                                                  "Contained energy: %s / %s (%s%%)",
 	"bigtech.lightning_jar.stored":                                                      "Contained energy: %s / %s (%s%%)",
 	"bigtech.silver_iodide_cannon.cant_see_the_sky":                                     "\u00A7cCannon is not outside.",
 	"bigtech.silver_iodide_cannon.no_ammunition":                                        "\u00A7cNo ammunition.",
@@ -84,6 +85,7 @@
 	"block.bigtech.launcher_belt":                                                       "Launcher Belt",
 	"block.bigtech.light_blue_led":                                                      "Light Blue Led",
 	"block.bigtech.light_gray_led":                                                      "Light Gray Led",
+	"block.bigtech.lightning_diode":                                                     "Lightning Diode",
 	"block.bigtech.lightning_transmitter":                                               "Lightning Transmitter",
 	"block.bigtech.lime_led":                                                            "Lime Led",
 	"block.bigtech.long_range_deployer":                                                 "Long Range Deployer",
@@ -226,7 +228,7 @@
 	"itemGroup.bigtech.deco":                                                            "Big Tech (Deco)",
 	"itemGroup.bigtech.functional":                                                      "Big Tech (Functional)",
 	"text.autoconfig.bigtech.option.client":                                             "Client",
-	"text.autoconfig.bigtech.option.client.@Tooltip[0]":                                 "Config options that control client-sided behavior.",
+	"text.autoconfig.bigtech.option.client.@Tooltip":                                    "Config options that control client-sided behavior.",
 	"text.autoconfig.bigtech.option.client.lightningRendererQuality":                    "Lightning Renderer Quality",
 	"text.autoconfig.bigtech.option.client.lightningRendererQuality.@Tooltip[0]":        "Higher quality will result in more subdivisions of lightning geometry.",
 	"text.autoconfig.bigtech.option.client.lightningRendererQuality.@Tooltip[1]":        "Lower quality will result in more straight edges in lightning geometry.",
@@ -240,9 +242,9 @@
 	"text.autoconfig.bigtech.option.client.teslaCoilRendererQuality.@Tooltip[1]":        "Lower quality will result in more straight edges in tesla coil geometry.",
 	"text.autoconfig.bigtech.option.client.teslaCoilRendererQuality.@Tooltip[2]":        "WARNING: Every time you increase this number by 1, it TRIPLES the amount of tesla coil geometry.",
 	"text.autoconfig.bigtech.option.server":                                             "Server",
-	"text.autoconfig.bigtech.option.server.@Tooltip[0]":                                 "Config options that control server-sided behavior.",
+	"text.autoconfig.bigtech.option.server.@Tooltip":                                    "Config options that control server-sided behavior.",
 	"text.autoconfig.bigtech.option.server.maxLightningEnergy":                          "Maximum Lightning Energy",
-	"text.autoconfig.bigtech.option.server.maxLightningEnergy.@Tooltip[0]":              "Maximum amount of energy you can capture from a bolt of lightning.",
+	"text.autoconfig.bigtech.option.server.maxLightningEnergy.@Tooltip":                 "Maximum amount of energy you can capture from a bolt of lightning.",
 	"text.autoconfig.bigtech.option.server.minLightningEnergy":                          "Minimum Lightning Energy",
-	"text.autoconfig.bigtech.option.server.minLightningEnergy.@Tooltip[0]":              "Minimum amount of energy you can capture from a bolt of lightning."
+	"text.autoconfig.bigtech.option.server.minLightningEnergy.@Tooltip":                 "Minimum amount of energy you can capture from a bolt of lightning."
 }

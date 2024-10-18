@@ -8,6 +8,13 @@
 		}],
 		"conditions": [{
 			"condition": "minecraft:survives_explosion"
+		}],
+		"functions": [{
+			"function": "minecraft:copy_components",
+			"source": "block_entity",
+			"include": [
+				"bigtech:lightning_energy"
+			]
 		}]
 	}]
 }

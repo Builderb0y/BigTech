@@ -26,7 +26,9 @@ public class ConfigDataGenerator implements DataGenerator {
 					context.lang.put(prefix + '.' + field.getName(), useName.value());
 					String[] lines = tooltips.value();
 					for (int index = 0, length = lines.length; index < length; index++) {
-						context.lang.put(prefix + '.' + field.getName() + ".@Tooltip[" + index + ']', lines[index]);
+						StringBuilder key = new StringBuilder(prefix).append('.').append(field.getName()).append(".@Tooltip");
+						if (length != 1) key.append('[').append(index).append(']');
+						context.lang.put(key.toString(), lines[index]);
 					}
 					if (!field.getType().isPrimitive()) {
 						runRecursive(context, field.getType(), prefix + '.' + field.getName());

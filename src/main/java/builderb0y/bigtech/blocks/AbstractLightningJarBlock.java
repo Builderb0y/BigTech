@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blocks;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -8,7 +10,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.ParticleUtil;
 import net.minecraft.server.world.ServerWorld;
@@ -32,6 +36,7 @@ import net.minecraft.world.WorldAccess;
 import builderb0y.bigtech.api.LightningStorageItem;
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.blockEntities.LightningJarBlockEntity;
+import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.util.Directions;
@@ -51,6 +56,15 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	public abstract int getCapacity();
 
 	public abstract int getPulseSteps();
+
+	@Override
+	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType options) {
+		super.appendTooltip(stack, context, tooltip, options);
+		Integer stored = stack.get(BigTechDataComponents.LIGHTNING_ENERGY);
+		if (stored != null) {
+			tooltip.add(Text.translatable("bigtech.lightning_jar.stored", stored, this.getCapacity(), stored * 100 / this.getCapacity()));
+		}
+	}
 
 	@Override
 	public abstract VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context);
@@ -109,10 +123,12 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 
 	@Override
 	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-		LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
-		if (jar != null) {
-			jar.setStoredEnergyAndSync(Math.min(jar.storedEnergy + pulse.getDistributedEnergy(), this.getCapacity()));
-			this.spawnLightningParticles(world, pos, state, pulse);
+		if (!state.get(Properties.POWERED)) {
+			LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+			if (jar != null) {
+				jar.setStoredEnergyAndSync(Math.min(jar.storedEnergy + pulse.getDistributedEnergy(), this.getCapacity()));
+				this.spawnLightningParticles(world, pos, state, pulse);
+			}
 		}
 	}
 

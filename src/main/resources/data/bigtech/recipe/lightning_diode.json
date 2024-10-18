@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"pattern": [
+		"crc"
+	],
+	"key": {
+		"c": { "tag": "bigtech:lightning_cables" },
+		"r": { "tag": "c:dusts/redstone"         }
+	},
+	"result": {
+		"id": "bigtech:lightning_diode"
+	}
+}
