@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"i i",
+		"iii",
+		"iii"
+	],
+	"key": {
+		"i": { "tag": "c:ingots/magnetite" }
+	},
+	"result": {
+		"id": "bigtech:magnetite_chestplate"
+	}
+}

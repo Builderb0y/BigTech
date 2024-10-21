@@ -14,8 +14,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.Palette;
 import net.minecraft.world.chunk.PalettedContainer;
 
+import builderb0y.bigtech.api.MagnetiteAttractableEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
-import builderb0y.bigtech.mixins.AttractableEntities_AttractTowardsMagnetiteBlocks;
 
 public class MagnetiteBlock extends Block {
 
@@ -31,7 +31,15 @@ public class MagnetiteBlock extends Block {
 		super(settings);
 	}
 
-	public static void attract(Entity entity, double x, double y, double z, double force, double range) {
+	public static void attract(
+		Entity entity,
+		double x,
+		double y,
+		double z,
+		double force,
+		double range,
+		boolean markVelocityChanged
+	) {
 		double
 			dx = x - entity.getX(),
 			dy = y - entity.getY(),
@@ -40,15 +48,20 @@ public class MagnetiteBlock extends Block {
 		if (squareDistance < range * range) {
 			double scalar = force / Math.sqrt(squareDistance);
 			entity.addVelocity(dx * scalar, dy * scalar, dz * scalar);
+			if (markVelocityChanged) {
+				//I have no idea which one of these does what, so set them both.
+				entity.velocityDirty = true;
+				entity.velocityModified = true;
+			}
 		}
 	}
 
 	/**
-	called from mixin {@link AttractableEntities_AttractTowardsMagnetiteBlocks}.
+	called from mixin {@link MagnetiteAttractableEntity}, via mixin for vanilla entities.
 	since this method is called every tick, I want it to run as fast as possible.
 	that's why I do all these hacks to get block states in such an unsafe way.
 	*/
-	public static void attract(Entity entity, double force, double range) {
+	public static void attract(Entity entity, double force, double range, boolean markVelocityChanged) {
 		World    world  = entity.getWorld();
 		BlockPos center = entity.getBlockPos();
 		int blockRange  = (int)(range);
@@ -91,7 +104,7 @@ public class MagnetiteBlock extends Block {
 									for (int x = intersectionMinX; x <= intersectionMaxX; x++) {
 										int xIndex = zIndex | (x & 15);
 										if (storage.get(xIndex) == searchIndex) {
-											attract(entity, x + 0.5D, y + 0.5D, z + 0.5D, force, range);
+											attract(entity, x + 0.5D, y + 0.5D, z + 0.5D, force, range, markVelocityChanged);
 										}
 									}
 								}

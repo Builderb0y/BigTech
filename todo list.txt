@@ -27,10 +27,6 @@ features:
 		teleport sender: teleports entities to any available teleport receivers when it receives a lightning pulse.
 		teleport receiver: does not require power, works as a block, as a dropped item, and in a player's inventory.
 	lightning power:
-		magnetite:
-			armor: attracts items, xp, and projectiles. so ya know. pros and cons
-				should this just be an item that works in your inventory instead?
-					nah, that's been done by other mods plenty of times already.
 		socks:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
@@ -57,6 +53,7 @@ done:
 			ingot: crafting ingredient. made by transmuting iron
 			block: also attracts items, xp, and projectiles
 			arrow: is attracted to mobs
+			armor: attracts items, xp, and projectiles. so ya know, pros and cons. don't wear this armor while fighting skeletons.
 		tesla coil: shocks nearby entities, can summon lightning
 		lightning jar: stores lightning power as a block. releases power when it receives a redstone signal.
 		lightning battery: stores lightning power in portable, item format. releases power on right click.

@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"bigtech:magnetite",
 		"minecraft:chainmail",
 		"minecraft:gold",
 		"minecraft:iron"

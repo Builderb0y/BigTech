@@ -2,6 +2,7 @@ package builderb0y.bigtech.items;
 
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
@@ -306,6 +307,46 @@ public class FunctionalItems {
 	@UseDataGen(MagnetiteBlockDataGenerator.class)
 	public static final BlockItem MAGNETITE_BLOCK = BigTechItems.registerPlacer(
 		FunctionalBlocks.MAGNETITE_BLOCK
+	);
+	@UseDataGen(MagnetiteArmorDataGenerator.Helmet.class)
+	public static final ArmorItem MAGNETITE_HELMET = BigTechItems.register(
+		"magnetite_helmet",
+		new ArmorItem(
+			MagnetiteArmorMaterial.INSTANCE,
+			ArmorItem.Type.HELMET,
+			new Item.Settings()
+			.maxDamage(ArmorItem.Type.HELMET.getMaxDamage(15))
+		)
+	);
+	@UseDataGen(MagnetiteArmorDataGenerator.Chestplate.class)
+	public static final ArmorItem MAGNETITE_CHESTPLATE = BigTechItems.register(
+		"magnetite_chestplate",
+		new ArmorItem(
+			MagnetiteArmorMaterial.INSTANCE,
+			ArmorItem.Type.CHESTPLATE,
+			new Item.Settings()
+			.maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(15))
+		)
+	);
+	@UseDataGen(MagnetiteArmorDataGenerator.Leggings.class)
+	public static final ArmorItem MAGNETITE_LEGGINGS = BigTechItems.register(
+		"magnetite_leggings",
+		new ArmorItem(
+			MagnetiteArmorMaterial.INSTANCE,
+			ArmorItem.Type.LEGGINGS,
+			new Item.Settings()
+			.maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(15))
+		)
+	);
+	@UseDataGen(MagnetiteArmorDataGenerator.Boots.class)
+	public static final ArmorItem MAGNETITE_BOOTS = BigTechItems.register(
+		"magnetite_boots",
+		new ArmorItem(
+			MagnetiteArmorMaterial.INSTANCE,
+			ArmorItem.Type.BOOTS,
+			new Item.Settings()
+			.maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(15))
+		)
 	);
 	@UseDataGen(CopperNuggetDataGenerator.class)
 	public static final Item COPPER_NUGGET = BigTechItems.register(
