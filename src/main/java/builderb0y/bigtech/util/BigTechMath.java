@@ -2,6 +2,54 @@ package builderb0y.bigtech.util;
 
 public class BigTechMath {
 
+	public static int square(int x) {
+		return x * x;
+	}
+
+	public static int square(int x, int y) {
+		return x * x + y * y;
+	}
+
+	public static int square(int x, int y, int z) {
+		return x * x + y * y + z * z;
+	}
+
+	public static long square(long x) {
+		return x * x;
+	}
+
+	public static long square(long x, long y) {
+		return x * x + y * y;
+	}
+
+	public static long square(long x, long y, long z) {
+		return x * x + y * y + z * z;
+	}
+
+	public static float square(float x) {
+		return x * x;
+	}
+
+	public static float square(float x, float y) {
+		return x * x + y * y;
+	}
+
+	public static float square(float x, float y, float z) {
+		return x * x + y * y + z * z;
+	}
+
+	public static double square(double x) {
+		return x * x;
+	}
+
+	public static double square(double x, double y) {
+		return x * x + y * y;
+	}
+
+	public static double square(double x, double y, double z) {
+		return x * x + y * y + z * z;
+	}
+
 	//////////////////////////////// modulus ////////////////////////////////
 
 	//in java, the default % operator is fucking useless when a < 0 || b <= 0.
@@ -77,11 +125,7 @@ public class BigTechMath {
 	*/
 	@SuppressWarnings("UseOfRemainderOperator")
 	public static float modulus_BP(float a, float b) {
-		float mod = a % b;
-		if (mod < 0.0F) mod += b;
-		//convert -0.0F to +0.0F.
-		mod = Float.intBitsToFloat(Float.floatToRawIntBits(mod) & 0x7FFF_FFFF);
-		return mod;
+		return (a %= b) + (a < 0.0F ? b : 0.0F); //adding 0.0 will convert -0.0 to +0.0.
 	}
 
 	/**
@@ -111,11 +155,7 @@ public class BigTechMath {
 	*/
 	@SuppressWarnings("UseOfRemainderOperator")
 	public static double modulus_BP(double a, double b) {
-		double mod = a % b;
-		if (mod < 0.0D) mod += b;
-		//convert -0.0D to +0.0D.
-		mod = Double.longBitsToDouble(Double.doubleToRawLongBits(mod) & 0x7FFF_FFFF_FFFF_FFFFL);
-		return mod;
+		return (a %= b) + (a < 0.0D ? b : 0.0D); //adding 0.0 will convert -0.0 to +0.0.
 	}
 
 	/**

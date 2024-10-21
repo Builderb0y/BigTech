@@ -116,6 +116,7 @@
 	"block.bigtech.prism":                                                               "Prism",
 	"block.bigtech.pulsar":                                                              "Pulsar",
 	"block.bigtech.purple_led":                                                          "Purple Led",
+	"block.bigtech.radio":                                                               "Radio",
 	"block.bigtech.red_crystal_cluster":                                                 "\u03B4 Crystal Cluster",
 	"block.bigtech.red_crystal_lamp":                                                    "Red Crystal Lamp",
 	"block.bigtech.red_led":                                                             "Red Led",
@@ -246,5 +247,7 @@
 	"text.autoconfig.bigtech.option.server.maxLightningEnergy":                          "Maximum Lightning Energy",
 	"text.autoconfig.bigtech.option.server.maxLightningEnergy.@Tooltip":                 "Maximum amount of energy you can capture from a bolt of lightning.",
 	"text.autoconfig.bigtech.option.server.minLightningEnergy":                          "Minimum Lightning Energy",
-	"text.autoconfig.bigtech.option.server.minLightningEnergy.@Tooltip":                 "Minimum amount of energy you can capture from a bolt of lightning."
+	"text.autoconfig.bigtech.option.server.minLightningEnergy.@Tooltip":                 "Minimum amount of energy you can capture from a bolt of lightning.",
+	"tooltip.bigtech.radio.computercraft_not_installed":                                 "\u00A7cThis block is useless without ComputerCraft installed!",
+	"tooltip.bigtech.radio.usage":                                                       "Attach to a ComputerCraft computer as a peripheral to control miners"
 }

@@ -1,8 +1,7 @@
 package builderb0y.bigtech.entities;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -55,16 +54,20 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.util.shape.VoxelShapes.BoxConsumer;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.api.EntityAddedToWorldEvent;
 import builderb0y.bigtech.beams.impl.DestructionManager;
-import builderb0y.bigtech.items.FunctionalItems;
-import builderb0y.bigtech.networking.ControlMinerPacket;
+import builderb0y.bigtech.blocks.FunctionalBlocks;
+import builderb0y.bigtech.compat.computercraft.MinerWrapper;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.MinerScreenHandler;
+import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.mixins.Entity_AdjustMovementForCollisionsAccess;
+import builderb0y.bigtech.networking.ControlMinerPacket;
+import builderb0y.bigtech.util.BigTechMath;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class MinerEntity extends VehicleEntity implements VehicleInventory, SidedInventory, RideableInventory {
@@ -88,40 +91,19 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		TOTAL_SIZE     = SMELTING_END;
 	public static final int
 		SLOWDOWN_THRESHOLD = 200;
+	public static final int
+		RADIO_RANGE = 64;
+	public static final float
+		MAX_FORWARD_SPEED  = 0.5F,
+		MAX_SIDEWAYS_SPEED = 8.0F;
 
-	public static final ThreadLocal<MinerEntity> MINING_MINER = new ThreadLocal<>();
-	static {
-		EntityAddedToWorldEvent.EVENT.register((Entity entity) -> {
-			if (entity instanceof ItemEntity itemEntity) {
-				MinerEntity miner = MINING_MINER.get();
-				if (miner != null) {
-					ItemStack stack = itemEntity.getStack();
-					for (int slot = STORAGE_START; slot < STORAGE_END; slot++) {
-						ItemStack existing = miner.getStack(slot);
-						if (existing.isEmpty()) {
-							miner.setStack(slot, stack);
-							itemEntity.setStack(ItemStack.EMPTY);
-							return false;
-						}
-						else if (ItemStack.areItemsAndComponentsEqual(existing, stack)) {
-							int transferred = Math.min(stack.getCount(), existing.getMaxCount() - existing.getCount());
-							existing.increment(transferred);
-							stack.decrement(transferred);
-							if (stack.isEmpty()) {
-								itemEntity.setStack(ItemStack.EMPTY);
-								return false;
-							}
-						}
-					}
-					itemEntity.setStack(stack.copy());
-				}
-			}
-			return true;
-		});
-	}
+	public static final TrackedData<Byte>
+		TARGET_FORWARD_SPEED  = DataTracker.registerData(MinerEntity.class, TrackedDataHandlerRegistry.BYTE),
+		TARGET_SIDEWAYS_SPEED = DataTracker.registerData(MinerEntity.class, TrackedDataHandlerRegistry.BYTE);
+	public static final TrackedData<Float>
+		FUEL_FRACTION = DataTracker.registerData(MinerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
-	public static final TrackedData<Byte> INPUT = DataTracker.registerData(MinerEntity.class, TrackedDataHandlerRegistry.BYTE);
-	public static final TrackedData<Float> FUEL_FRACTION = DataTracker.registerData(MinerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+	public final AtomicReference<MinerWrapper> radioInput = new AtomicReference<>();
 
 	public short number;
 	public float angularMomentum;
@@ -143,13 +125,16 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 
 	@Override
 	public float getStepHeight() {
-		return 0.6F;
+		return this.getPitch() > 0.66666666F ? 1.2F : 0.6F;
 	}
 
 	@Override
 	public void initDataTracker(DataTracker.Builder builder) {
 		super.initDataTracker(builder);
-		builder.add(INPUT, (byte)(0)).add(FUEL_FRACTION, 0.0F);
+		builder
+		.add(TARGET_FORWARD_SPEED,  (byte)(0))
+		.add(TARGET_SIDEWAYS_SPEED, (byte)(0))
+		.add(FUEL_FRACTION, 0.0F);
 	}
 
 	public static void trySpawnAt(World world, BlockPos pos, BlockState chestState) {
@@ -212,15 +197,15 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 
 	public float getTargetForwardMomentum(byte input) {
 		float targetForwardMomentum = 0.0F;
-		if (this.isPressingForward (input)) targetForwardMomentum += this.isPressingSprint(input) ? 0.375F : 0.25F;
-		if (this.isPressingBackward(input)) targetForwardMomentum -= this.isPressingSprint(input) ? 0.25F  : 0.1875F;
+		if (this.isPressingForward (input)) targetForwardMomentum += this.isPressingSprint(input) ? 0.75F : 0.5F;
+		if (this.isPressingBackward(input)) targetForwardMomentum -= this.isPressingSprint(input) ? 0.5F  : 0.375F;
 		return targetForwardMomentum * this.dataTracker.get(FUEL_FRACTION);
 	}
 
 	public float getTargetAngularMomentum(byte input) {
 		float targetAngularMomentum = 0.0F;
-		if (this.isPressingLeft (input)) targetAngularMomentum -= 4.0F;
-		if (this.isPressingRight(input)) targetAngularMomentum += 4.0F;
+		if (this.isPressingLeft (input)) targetAngularMomentum -= 0.5F;
+		if (this.isPressingRight(input)) targetAngularMomentum += 0.5F;
 		return targetAngularMomentum * this.dataTracker.get(FUEL_FRACTION);
 	}
 
@@ -238,8 +223,36 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	@Environment(EnvType.CLIENT)
 	public void updateInput(PlayerEntity player) {
 		byte input = encodeInput(player.as());
-		this.dataTracker.set(INPUT, input);
+		this.applyInputFromPlayer(input);
 		ControlMinerPacket.INSTANCE.send(input);
+	}
+
+	public void applyInputFromPlayer(byte input) {
+		this.applyInput(
+			this.getTargetForwardMomentum(input),
+			this.getTargetAngularMomentum(input)
+		);
+	}
+
+	public void applyInput(float targetForwardSpeed, float targetSidewaysSpeed) {
+		this.setTargetForwardSpeed(targetForwardSpeed);
+		this.setTargetSidewaysSpeed(targetSidewaysSpeed);
+	}
+
+	public float getTargetForwardSpeed() {
+		return this.dataTracker.get(TARGET_FORWARD_SPEED) * (1.0F / 127.0F);
+	}
+
+	public void setTargetForwardSpeed(float targetForwardSpeed) {
+		this.dataTracker.set(TARGET_FORWARD_SPEED, (byte)(targetForwardSpeed * 127.0F));
+	}
+
+	public float getTargetSidewaysSpeed() {
+		return this.dataTracker.get(TARGET_SIDEWAYS_SPEED) * (1.0F / 127.0F);
+	}
+
+	public void setTargetSidewaysSpeed(float targetSidewaysSpeed) {
+		this.dataTracker.set(TARGET_SIDEWAYS_SPEED, (byte)(targetSidewaysSpeed * 127.0F));
 	}
 
 	@Override
@@ -247,13 +260,11 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		return true;
 	}
 
-	public void updateFuel(PlayerEntity controller) {
-		if (controller == null) {
-			this.smeltingTicks = 0;
-			return;
+	public void updateFuel(boolean consumeFuel) {
+		if (this.fuelTicks.get() > 0) {
+			this.fuelTicks.set(Math.max(this.fuelTicks.get() - 1, 0));
 		}
-		if (this.fuelTicks.get() > 0) this.fuelTicks.set(this.fuelTicks.get() - (controller.isSprinting() ? 2 : 1));
-		if (this.fuelTicks.get() < SLOWDOWN_THRESHOLD) {
+		if (consumeFuel && this.fuelTicks.get() < SLOWDOWN_THRESHOLD) {
 			ItemStack stack = this.getStack(FUEL_START);
 			int fuel;
 			if (!stack.isEmpty() && (fuel = FuelRegistry.INSTANCE.get(stack.getItem())) > 0) {
@@ -320,31 +331,65 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		}
 
 		PlayerEntity controller = this.getControllingPassenger();
-
-		this.updateFuel(controller);
-		if (!this.getWorld().isClient) {
-			this.dataTracker.set(FUEL_FRACTION, ((float)(Math.min(this.fuelTicks.get(), SLOWDOWN_THRESHOLD))) / ((float)(SLOWDOWN_THRESHOLD)));
+		MinerWrapper radio;
+		while (true) {
+			radio = this.radioInput.get();
+			if (
+				radio != null && (
+					!radio.isInRange()
+					||
+					!this.getWorld().isChunkLoaded(radio.radioPos)
+					||
+					!this.getWorld().getBlockState(radio.radioPos).isOf(FunctionalBlocks.RADIO)
+				)
+			) {
+				if (!this.radioInput.compareAndSet(radio, null)) {
+					continue;
+				}
+				radio = null;
+			}
+			break;
 		}
-
+		boolean consumeFuel = controller != null || (radio != null && radio.running);
+		float targetPitch;
 		if (controller != null) {
 			if (this.getWorld().isClient) {
 				this.updateInput(controller);
 			}
+			targetPitch = controller.getPitch() / -45.0F;
+			if      (targetPitch < -1.0F) targetPitch = -1.0F;
+			else if (targetPitch >  1.0F) targetPitch =  1.0F;
+		}
+		else if (radio != null) {
+			this.applyInput(radio.targetForwardSpeed, radio.targetSidewaysSpeed);
+			targetPitch = radio.targetPitch;
 		}
 		else {
-			this.dataTracker.set(INPUT, (byte)(0));
+			this.dataTracker.set(TARGET_FORWARD_SPEED, (byte)(0));
+			this.dataTracker.set(TARGET_SIDEWAYS_SPEED, (byte)(0));
+			targetPitch = this.getPitch();
 		}
 
-		byte input = this.dataTracker.get(INPUT);
+		this.updateFuel(consumeFuel);
+		if (!this.getWorld().isClient) {
+			this.dataTracker.set(FUEL_FRACTION, ((float)(Math.min(this.fuelTicks.get(), SLOWDOWN_THRESHOLD))) / ((float)(SLOWDOWN_THRESHOLD)));
+		}
+
 		float slipperiness = this.computeSlipperiness();
-		this.angularMomentum = MathHelper.lerp(slipperiness, this.getTargetAngularMomentum(input), this.angularMomentum);
+		this.angularMomentum = MathHelper.lerp(slipperiness, this.getTargetSidewaysSpeed() * MAX_SIDEWAYS_SPEED * this.dataTracker.get(FUEL_FRACTION), this.angularMomentum);
 		if (Math.abs(this.angularMomentum) < 1.0E-3F) {
 			this.angularMomentum = 0.0F;
 		}
 		else {
-			this.setYaw(this.getYaw() + this.angularMomentum);
+			this.setYaw(BigTechMath.modulus_BP(this.getYaw() + this.angularMomentum, 360.0F));
 		}
-		double newForwardSpeed = this.getTargetForwardMomentum(input);
+		if (targetPitch > this.getPitch()) {
+			this.setPitch(Math.min(this.getPitch() + 0.1F, targetPitch));
+		}
+		else if (targetPitch < this.getPitch()) {
+			this.setPitch(Math.max(this.getPitch() - 0.1F, targetPitch));
+		}
+		double newForwardSpeed = this.getTargetForwardSpeed() * MAX_FORWARD_SPEED * this.dataTracker.get(FUEL_FRACTION);
 		double velocityX = -Math.sin(Math.toRadians(this.getYaw())) * newForwardSpeed;
 		double velocityZ =  Math.cos(Math.toRadians(this.getYaw())) * newForwardSpeed;
 		this.setVelocity(
@@ -369,17 +414,38 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 					manager.resetProgress(pos);
 				}
 			});
-			MinerEntity old = MINING_MINER.get();
-			try {
-				MINING_MINER.set(this);
-				float breakSpeed = this.isPressingSprint(input) ? 1.5F : 1.0F;
-				currBreakingPositions.forEach((BlockPos pos, BlockState state) -> {
-					manager.increaseDamage(pos, state, breakSpeed, FunctionalItems.MINER_TOOL.getDefaultStack());
-				});
-			}
-			finally {
-				MINING_MINER.set(old);
-			}
+			WorldHelper.runEntitySpawnAction(
+				() -> {
+					float breakSpeed = this.getTargetForwardSpeed() * (1.0F / MAX_FORWARD_SPEED) + 1.0F;
+					currBreakingPositions.forEach((BlockPos pos, BlockState state) -> {
+						manager.increaseDamage(pos, state, breakSpeed, FunctionalItems.MINER_TOOL.getDefaultStack());
+					});
+				},
+				(Entity entity) -> {
+					if (entity instanceof ItemEntity itemEntity) {
+						ItemStack stack = itemEntity.getStack();
+						for (int slot = STORAGE_START; slot < STORAGE_END; slot++) {
+							ItemStack existing = this.getStack(slot);
+							if (existing.isEmpty()) {
+								this.setStack(slot, stack);
+								itemEntity.setStack(ItemStack.EMPTY);
+								return false;
+							}
+							else if (ItemStack.areItemsAndComponentsEqual(existing, stack)) {
+								int transferred = Math.min(stack.getCount(), existing.getMaxCount() - existing.getCount());
+								existing.increment(transferred);
+								stack.decrement(transferred);
+								if (stack.isEmpty()) {
+									itemEntity.setStack(ItemStack.EMPTY);
+									return false;
+								}
+							}
+						}
+						itemEntity.setStack(stack.copy());
+					}
+					return true;
+				}
+			);
 			this.lastTickBreakingBlocks = currBreakingPositions;
 		}
 		else {
@@ -392,6 +458,69 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		else if (this.lerpTicks > 0) {
 			this.lerpPosAndRotation(this.lerpTicks, this.lerpX, this.lerpY, this.lerpZ, this.lerpYaw, this.getPitch());
 			this.lerpTicks--;
+		}
+	}
+
+	//on today's episode of hacky code: collisions with blocks outside our bounding box.
+	public Vec3d modifyMovement(Vec3d old, Box box) {
+		if (this.getTargetForwardSpeed() > 0.0F && old.horizontalLengthSquared() > 1.0e-7D){
+			int y;
+			if (this.getPitch() > 0.5F) {
+				box = box.withMaxY(box.maxY + 1.0D);
+				y = MathHelper.floor(this.getY() + 2.5D);
+			}
+			else if (this.getPitch() < -0.5F) {
+				box = box.withMinY(box.minY - 1.0D);
+				y = MathHelper.floor(this.getY() - 0.5D);
+			}
+			else {
+				return old;
+			}
+			Box box2 = box.offset(old.x, 0.0D, old.z);
+			Box union = box.union(box2).expand(1.0E-7D);
+			Box contract = box.contract(1.0E-7D);
+			int minX = MathHelper.floor(union.minX - 1.0E-7) - 1;
+			int minZ = MathHelper.floor(union.minZ - 1.0E-7) - 1;
+			int maxX = MathHelper.floor(union.maxX + 1.0E-7) + 1;
+			int maxZ = MathHelper.floor(union.maxZ + 1.0E-7) + 1;
+			BlockPos.Mutable pos = new BlockPos.Mutable().setY(y);
+			ShapeContext context = ShapeContext.of(this);
+			List<VoxelShape> boxes = new ArrayList<>();
+			for (int z = minZ; z <= maxZ; z++) {
+				pos.setZ(z);
+				for (int x = minX; x <= maxX; x++) {
+					if (x > contract.minX && x + 1 < contract.maxX && z > contract.minZ && z + 1 < contract.maxZ) {
+						continue;
+					}
+					BlockState state = this.getWorld().getBlockState(pos.setX(x));
+					VoxelShape shape = state.getCollisionShape(this.getWorld(), pos, context);
+					if (!shape.isEmpty()) {
+						double x1 = shape.getMin(Axis.X) + x;
+						double y1 = shape.getMin(Axis.Y) + y;
+						double z1 = shape.getMin(Axis.Z) + z;
+						double x2 = shape.getMax(Axis.X) + x;
+						double y2 = shape.getMax(Axis.Y) + y;
+						double z2 = shape.getMax(Axis.Z) + z;
+						if (
+							union.intersects(x1, y1, z1, x2, y2, z2) &&
+							!contract.intersects(x1, y1, z1, x2, y2, z2)
+						) {
+							boxes.add(VoxelShapes.cuboidUnchecked(x1, y1, z1, x2, y2, z2));
+						}
+					}
+				}
+			}
+			return Entity_AdjustMovementForCollisionsAccess.bigtech_adjustMovementForCollisions(old, box, boxes);
+		}
+		return old;
+	}
+
+	@Override
+	public void setRotation(float yaw, float pitch) {
+		super.setRotation(yaw, pitch);
+		//it took hours to find this vanilla (?) bug.
+		if (this.getYaw() != yaw) {
+			this.prevYaw += this.getYaw() - yaw;
 		}
 	}
 
@@ -452,10 +581,22 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		double baseZ = this.getZ() + cos * 1.125D;
 		sin *= 0.5D;
 		cos *= 0.5D;
-		this.addPosition(positions, baseX - cos, baseY + 0.5D, baseZ - sin);
-		this.addPosition(positions, baseX + cos, baseY + 0.5D, baseZ + sin);
-		this.addPosition(positions, baseX - cos, baseY + 1.5D, baseZ - sin);
-		this.addPosition(positions, baseX + cos, baseY + 1.5D, baseZ + sin);
+		if (this.getPitch() < -0.33333333F) {
+			this.addPosition(positions, baseX - cos, baseY - 0.5D, baseZ - sin);
+			this.addPosition(positions, baseX + cos, baseY - 0.5D, baseZ + sin);
+		}
+		if (this.getPitch() <= 0.66666666F) {
+			this.addPosition(positions, baseX - cos, baseY + 0.5D, baseZ - sin);
+			this.addPosition(positions, baseX + cos, baseY + 0.5D, baseZ + sin);
+		}
+		if (this.getPitch() >= -0.66666666F) {
+			this.addPosition(positions, baseX - cos, baseY + 1.5D, baseZ - sin);
+			this.addPosition(positions, baseX + cos, baseY + 1.5D, baseZ + sin);
+		}
+		if (this.getPitch() > 0.33333333F) {
+			this.addPosition(positions, baseX - cos, baseY + 2.5D, baseZ - sin);
+			this.addPosition(positions, baseX + cos, baseY + 2.5D, baseZ + sin);
+		}
 		return positions;
 	}
 
@@ -469,10 +610,10 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		if (
 			this.getBoundingBox().intersects(
 				box.minX + pos.getX() - 0.0001D,
-				box.minY + pos.getY(),
+				box.minY + pos.getY() - 0.1251D,
 				box.minZ + pos.getZ() - 0.0001D,
 				box.maxX + pos.getX() + 0.0001D,
-				box.maxY + pos.getY(),
+				box.maxY + pos.getY() + 0.0001D,
 				box.maxZ + pos.getZ() + 0.0001D
 			)
 		) {

@@ -1,7 +1,6 @@
 package builderb0y.bigtech.blocks;
 
 import net.minecraft.block.*;
-import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
@@ -181,6 +180,18 @@ public class FunctionalBlocks {
 			.solidBlock(Blocks::never) //ensures pulsars can't conduct a redstone signal through them.
 			.strength(1.5F)
 			.sounds(BlockSoundGroup.WOOD)
+		)
+	);
+
+	@UseDataGen(void.class)
+	public static final RadioBlock RADIO = BigTechBlocks.register(
+		"radio",
+		new RadioBlock(
+			AbstractBlock
+			.Settings
+			.create()
+			.mapColor(MapColor.BLACK)
+			.breakInstantly()
 		)
 	);
 

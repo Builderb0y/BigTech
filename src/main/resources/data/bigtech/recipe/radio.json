@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" t",
+		"ii"
+	],
+	"key": {
+		"t": { "item": "minecraft:redstone_torch" },
+		"i": { "tag":  "c:ingots/iron"            }
+	},
+	"result": {
+		"id": "bigtech:radio"
+	}
+}

@@ -12,6 +12,7 @@ import builderb0y.bigtech.beams.impl.BeamTypes;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.commands.BigTechCommands;
+import builderb0y.bigtech.compat.computercraft.ComputercraftCompat;
 import builderb0y.bigtech.config.BigTechConfig;
 import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.entities.BigTechEntityTypes;
@@ -53,6 +54,7 @@ public class BigTechMod implements ModInitializer {
 		BigTechCommands.init();
 		BigTechFeatures.init();
 		BigTechWorldgen.init();
+		ComputercraftCompat.init();
 		LOGGER.info("Done initializing.");
 		FabricLoader.getInstance().getEntrypoints(MODID, BigTechInitializer.class).forEach(BigTechInitializer::init);
 	}

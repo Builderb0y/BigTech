@@ -36,7 +36,7 @@ public class ControlMinerPacket implements C2SPlayPacket<ControlMinerPacket.Payl
 		public void process(ServerPlayNetworking.Context context) {
 			ServerPlayerEntity player = context.player();
 			if (player.getVehicle() instanceof MinerEntity miner && miner.getControllingPassenger() == player) {
-				miner.getDataTracker().set(MinerEntity.INPUT, this.input);
+				miner.applyInputFromPlayer(this.input);
 			}
 		}
 	}

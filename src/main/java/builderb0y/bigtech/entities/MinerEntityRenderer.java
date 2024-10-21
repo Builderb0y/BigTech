@@ -67,22 +67,29 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 			this.renderMainInner(helper);
 			if (!miner.isThePlayerRiding0() || MinecraftClient.getInstance().options.getPerspective() != Perspective.FIRST_PERSON) {
 				this.renderMainOuter(helper);
-				this.renderScoop(helper);
 				this.renderNumbers(helper, miner.number);
-				if (miner.getControllingPassenger() != null) {
-					float brightness = miner.getDataTracker().get(MinerEntity.FUEL_FRACTION);
-					if (brightness > 0.0F) {
-						this.renderLights(
-							helper.vertexConsumer(
-								vertexConsumers.getBuffer(
-									RenderLayer.getEntityTranslucentEmissive(
-										this.getTexture(miner)
-									)
+				matrices.push();
+				try {
+					matrices.translate(0.0F, miner.getPitch(tickDelta) * (0.5F / MODEL_SCALE), 0.0F);
+					helper.transform(matrices.peek());
+					this.renderScoop(helper);
+				}
+				finally {
+					matrices.pop();
+					helper.transform(matrices.peek());
+				}
+				float brightness = miner.getDataTracker().get(MinerEntity.FUEL_FRACTION);
+				if (brightness > 0.0F) {
+					this.renderLights(
+						helper.vertexConsumer(
+							vertexConsumers.getBuffer(
+								RenderLayer.getEntityTranslucentEmissive(
+									this.getTexture(miner)
 								)
-							),
-							brightness
-						);
-					}
+							)
+						),
+						brightness
+					);
 				}
 			}
 		}

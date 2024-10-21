@@ -116,6 +116,11 @@ public class FunctionalItems {
 		FunctionalBlocks.PULSAR
 	);
 
+	@UseDataGen(RadioDataGenerator.class)
+	public static final BlockItem RADIO = BigTechItems.registerPlacer(
+		FunctionalBlocks.RADIO
+	);
+
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)

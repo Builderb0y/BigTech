@@ -37,7 +37,6 @@ features:
 			slowly though. like 1 unit per 10 ticks or something.
 	automation:
 		XP storage device: not sure about the details yet.
-		radio: computercraft integration which allows you to control miners remotely, without a driver.
 	tools:
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
@@ -116,6 +115,7 @@ done:
 			comes in 2 variants: long range and short range. long range uses a laser beam to destroy blocks at a distance.
 		ignitor: smelts items on top of it, sets entities on fire
 		miner: vehicle entity which can be ridden. consumes fuel, and breaks blocks on contact.
+		radio: computercraft integration which allows you to control miners remotely, without a driver.
 		spawner interceptor: disables spawners when powered by redstone. can also consume mobs and regular chicken eggs and produce spawn eggs in the process.
 		upgraded crafting tables:
 			wood: unchanged
