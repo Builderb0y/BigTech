@@ -1,6 +1,6 @@
 plugins() {
-	id('fabric-loom') version('1.7-SNAPSHOT')
-	id('maven-publish')
+	id('fabric-loom') version('1.8-SNAPSHOT')
+	//id('maven-publish')
 }
 
 version = project.mod_version
@@ -115,7 +115,6 @@ processResources() {
 			'loader_version': project.loader_version
 		)
 	}
-	exclude('src/main/resources/assets/***', 'src/main/resources/data/***')
 }
 
 def targetJavaVersion = 21
@@ -148,6 +147,22 @@ jar() {
 	}
 }
 
+task copyToReleases(type: Copy) {
+	dependsOn(remapJar)
+	from("$projectDir/build/libs") {
+		include("$archivesBaseName-${project.version}.jar")
+		rename() {
+			"$archivesBaseName-$project.version-MC${minecraft_version}.jar"
+		}
+	}
+	into(file("releases/${project.version.toString().replace('.' as char, '/' as char)}"))
+}
+
+build() {
+	dependsOn(copyToReleases)
+}
+
+/*
 //configure the maven publication
 publishing() {
 	publications() {
@@ -164,3 +179,4 @@ publishing() {
 		//retrieving dependencies.
 	}
 }
+*/

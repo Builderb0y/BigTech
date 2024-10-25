@@ -46,7 +46,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 
 	@Override
 	public boolean matches(TransmuteRecipeInventory inventory, World world) {
-		return this.input.test(inventory.getStack());
+		return this.input.test(inventory.stack);
 	}
 
 	@Override
