@@ -1,6 +1,5 @@
 package builderb0y.bigtech.datagen.impl;
 
-import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.tag.BiomeTags;
@@ -8,12 +7,12 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
-import builderb0y.bigtech.armorMaterials.ArmorMaterialTags;
 import builderb0y.bigtech.datagen.base.BlockDataGenerator.MiningToolTags;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
+import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.worldgen.BigTechBiomeTags;
 
 public class VanillaTweaksDataGenerator implements DataGenerator {
@@ -21,7 +20,22 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 	@Override
 	public void run(DataGenContext context) {
 		context.getTags(MiningToolTags.AXE).add(BlockTags.LEAVES);
-		context.getTags(ArmorMaterialTags.SHOCK_PROTECTION).addAll(ArmorMaterials.IRON, ArmorMaterials.GOLD, ArmorMaterials.CHAIN);
+		context.getTags(BigTechItemTags.SHOCK_PROTECTIVE_ARMOR).addAll(
+			Items.IRON_HELMET,
+			Items.IRON_CHESTPLATE,
+			Items.IRON_LEGGINGS,
+			Items.IRON_BOOTS,
+
+			Items.GOLDEN_HELMET,
+			Items.GOLDEN_CHESTPLATE,
+			Items.GOLDEN_LEGGINGS,
+			Items.GOLDEN_BOOTS,
+
+			Items.CHAINMAIL_HELMET,
+			Items.CHAINMAIL_CHESTPLATE,
+			Items.CHAINMAIL_LEGGINGS,
+			Items.CHAINMAIL_BOOTS
+		);
 		context.writeToFile(
 			context.blockModelPath(Identifier.ofVanilla("ladder")),
 			new RetexturedModelBuilder()
@@ -29,9 +43,11 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 			.blockTexture("ladder", Identifier.ofVanilla("ladder"))
 			.toString()
 		);
-		for (String suffix : new String[] { "_center", "_north", "_east", "_south", "_west" }) {				context.writeToFile(
-			context.blockModelPath(
-				context.suffixPath(BigTechMod.modID("vanilla_iron_bars"), suffix)),
+		for (String suffix : new String[] { "_center", "_north", "_east", "_south", "_west" }) {
+			context.writeToFile(
+				context.blockModelPath(
+					context.suffixPath(BigTechMod.modID("vanilla_iron_bars"), suffix)
+				),
 				new RetexturedModelBuilder()
 				.blockParent(BigTechMod.modID("template_bars${suffix}"))
 				.blockTexture("bars", Identifier.ofVanilla("iron_bars"))

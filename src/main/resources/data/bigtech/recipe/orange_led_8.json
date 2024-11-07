@@ -3,15 +3,15 @@
 	"category": "redstone",
 	"group": "bigtech:leds",
 	"ingredients": [
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "c:dyes/orange" },
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "bigtech:leds"  }
+		"#bigtech:leds" ,
+		"#bigtech:leds" ,
+		"#bigtech:leds" ,
+		"#bigtech:leds" ,
+		"#c:dyes/orange",
+		"#bigtech:leds" ,
+		"#bigtech:leds" ,
+		"#bigtech:leds" ,
+		"#bigtech:leds" 
 	],
 	"result": {
 		"id": "bigtech:orange_led"

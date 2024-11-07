@@ -2,9 +2,9 @@
 	"type": "minecraft:crafting_shapeless",
 	"group": "bigtech:copper_slabs",
 	"ingredients": [
-		{ "item": "bigtech:weathered_copper_slab" },
-		{ "item": "bigtech:weathered_copper_slab" },
-		{ "item": "minecraft:honeycomb"           }
+		"bigtech:weathered_copper_slab",
+		"bigtech:weathered_copper_slab",
+		"minecraft:honeycomb"          
 	],
 	"result": {
 		"id": "bigtech:waxed_weathered_copper_slab",

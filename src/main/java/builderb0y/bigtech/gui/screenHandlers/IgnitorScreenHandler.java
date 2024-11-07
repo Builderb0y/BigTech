@@ -3,11 +3,16 @@ package builderb0y.bigtech.gui.screenHandlers;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.FuelRegistry;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
 
 public class IgnitorScreenHandler extends BigTechScreenHandler {
 
@@ -32,7 +37,7 @@ public class IgnitorScreenHandler extends BigTechScreenHandler {
 			ignitorInv    = grid.pos(80,  35).size(1, 1).inventory(      inventory).add();
 
 		this.shiftClickRules()
-		.collect(stack(AbstractFurnaceBlockEntity::canUseAsFuel), ignitorInv.forward(), playerHotbar, playerStorage)
+		.collect(playerStack((PlayerEntity player, ItemStack stack) -> player.getWorld() instanceof ServerWorld serverWorld && serverWorld.getFuelRegistry().isFuel(stack)), ignitorInv.forward(), playerHotbar, playerStorage)
 		.distribute(any(), ignitorInv, playerHotbar.forward(), playerStorage.forward())
 		.viseVersa(any(), playerHotbar.forward(), playerStorage.forward());
 	}

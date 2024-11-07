@@ -21,17 +21,17 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.api.LightningStorageItem;
 import builderb0y.bigtech.api.LightningPulseInteractor;
@@ -107,27 +107,27 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	}
 
 	@Override
-	public boolean isSink(World world, BlockPos pos, BlockState state) {
+	public boolean isSink(WorldView world, BlockPos pos, BlockState state) {
 		return !state.get(Properties.POWERED);
 	}
 
 	@Override
-	public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
+	public boolean canConductIn(WorldView world, BlockPos pos, BlockState state, @Nullable Direction side) {
 		return side == Direction.DOWN && !state.get(Properties.POWERED);
 	}
 
 	@Override
-	public boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+	public boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
 		return side == Direction.DOWN;
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		if (!state.get(Properties.POWERED)) {
 			LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
 			if (jar != null) {
 				jar.setStoredEnergyAndSync(Math.min(jar.storedEnergy + pulse.getDistributedEnergy(), this.getCapacity()));
-				this.spawnLightningParticles(world, pos, state, pulse);
+				LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 			}
 		}
 	}
@@ -156,9 +156,9 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	}
 
 	@Override
-	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (!player.getStackInHand(hand).isEmpty()) {
-			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 		}
 		if (!world.isClient) {
 			LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
@@ -166,12 +166,12 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 				player.sendMessage(Text.translatable("bigtech.lightning_jar.stored", jar.storedEnergy, this.getCapacity(), jar.storedEnergy * 100 / this.getCapacity()), true);
 			}
 		}
-		return ItemActionResult.SUCCESS;
+		return ActionResult.SUCCESS;
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		world.scheduleBlockTick(pos, this, 2);
 	}
 
@@ -189,7 +189,7 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 					int subtracted = Math.min(this.getCapacity() * power / 15, jar.storedEnergy);
 					LightningPulse pulse = new LightningPulse(world, pos.down(), subtracted, this.getPulseSteps());
 					pulse.run();
-					this.spawnLightningParticles(world, pos, state, pulse);
+					LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 					jar.setStoredEnergyAndSync(jar.storedEnergy - subtracted);
 				}
 			}

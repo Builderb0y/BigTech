@@ -56,8 +56,11 @@ public class BigTechItemTags {
 		WAXED_COPPER_SLABS        = of("waxed_copper_slabs"),
 		LEDS                      = of("leds"),
 		CONDUCTIVE_ANVILS         = of("conductive_anvils"),
-		CRYSTAL_LAMPS             = of("crystal_lamps");
-
+		CRYSTAL_LAMPS             = of("crystal_lamps"),
+		REPAIRS_MAGNETITE_ARMOR   = of("repairs_magnetite_armor"),
+		MAGNETIC_ARMOR            = of("magnetic_armor"),
+		SHOCK_PROTECTIVE_ARMOR    = of("shock_protective_armor"),
+		COLORLESS_GLASS_MATERIALS = of("colorless_glass_materials");
 
 	public static TagKey<Item> of(String name) {
 		return TagKey.of(RegistryKeys.ITEM, BigTechMod.modID(name));

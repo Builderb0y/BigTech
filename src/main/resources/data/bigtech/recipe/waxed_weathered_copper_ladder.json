@@ -2,10 +2,10 @@
 	"type": "minecraft:crafting_shapeless",
 	"group": "bigtech:copper_ladders",
 	"ingredients": [
-		{ "item": "bigtech:weathered_copper_ladder" },
-		{ "item": "bigtech:weathered_copper_ladder" },
-		{ "item": "bigtech:weathered_copper_ladder" },
-		{ "item": "minecraft:honeycomb"             }
+		"bigtech:weathered_copper_ladder",
+		"bigtech:weathered_copper_ladder",
+		"bigtech:weathered_copper_ladder",
+		"minecraft:honeycomb"            
 	],
 	"result": {
 		"id": "bigtech:waxed_weathered_copper_ladder",

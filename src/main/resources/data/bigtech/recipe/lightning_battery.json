@@ -6,9 +6,9 @@
 		"gcg"
 	],
 	"key": {
-		"g": { "tag":  "c:glass_panes"               },
-		"e": { "item": "bigtech:lightning_electrode" },
-		"c": { "tag":  "c:ingots/copper"             }
+		"g": "#c:glass_panes"             ,
+		"e": "bigtech:lightning_electrode",
+		"c": "#c:ingots/copper"           
 	},
 	"result": {
 		"id": "bigtech:lightning_battery"

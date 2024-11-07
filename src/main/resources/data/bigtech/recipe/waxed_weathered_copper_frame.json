@@ -3,8 +3,8 @@
 	"category": "building",
 	"group": "bigtech:frames",
 	"ingredients": [
-		{ "item": "bigtech:weathered_copper_frame" },
-		{ "item": "minecraft:honeycomb"            }
+		"bigtech:weathered_copper_frame",
+		"minecraft:honeycomb"           
 	],
 	"result": {
 		"id": "bigtech:waxed_weathered_copper_frame"

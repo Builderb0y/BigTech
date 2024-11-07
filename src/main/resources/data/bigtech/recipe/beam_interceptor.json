@@ -7,9 +7,9 @@
 		"b"
 	],
 	"key": {
-		"l": { "item": "bigtech:lens"                },
-		"t": { "item": "minecraft:redstone_torch"    },
-		"b": { "item": "minecraft:smooth_stone_slab" }
+		"l": "bigtech:lens"               ,
+		"t": "minecraft:redstone_torch"   ,
+		"b": "minecraft:smooth_stone_slab"
 	},
 	"result": {
 		"id": "bigtech:beam_interceptor"

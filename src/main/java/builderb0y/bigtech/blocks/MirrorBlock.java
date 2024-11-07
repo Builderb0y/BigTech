@@ -15,18 +15,21 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
@@ -88,7 +91,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 	}
 
 	@Override
-	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+	public boolean spreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) {
 		BeamDirection entryDirection = inputSegment.direction();
 		double normalX, normalY, normalZ;
 		int rotation = state.get(BigTechProperties.ROTATION_0_7);
@@ -105,23 +108,32 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 		}
 		BeamDirection exitDirection = entryDirection.reflectUnchecked(normalX, normalY, normalZ);
 		if (entryDirection == exitDirection) return false;
-		inputSegment.beam().addSegment(inputSegment.extend(inputSegment.distanceRemaining() - exitDirection.type.magnitude, exitDirection));
+		inputSegment.beam().addSegment(world, inputSegment.extend(inputSegment.distanceRemaining() - exitDirection.type.magnitude, exitDirection));
 		return true;
 	}
 
 	@Override
-	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!stack.isEmpty()) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+	public ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!stack.isEmpty()) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 		if (!world.isClient) {
 			world.setBlockState(pos, state.with(BigTechProperties.ROTATION_0_7, (state.get(BigTechProperties.ROTATION_0_7) + (player.isSneaking() ? 1 : -1)) & 7));
 		}
-		return ItemActionResult.SUCCESS;
+		return ActionResult.SUCCESS;
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		Direction currentFacing = state.get(Properties.FACING);
 		if (state.get(Properties.ATTACHED)) {
@@ -151,7 +163,7 @@ public class MirrorBlock extends Block implements Waterloggable, BeamInteractor 
 		return state;
 	}
 
-	public BlockState tryAttachOpposite(WorldAccess world, BlockPos pos, BlockState state, Direction direction) {
+	public BlockState tryAttachOpposite(WorldView world, BlockPos pos, BlockState state, Direction direction) {
 		Direction opposite = direction.getOpposite();
 		BlockPos oppositePos = pos.offset(opposite);
 		BlockState oppositeState = world.getBlockState(oppositePos);

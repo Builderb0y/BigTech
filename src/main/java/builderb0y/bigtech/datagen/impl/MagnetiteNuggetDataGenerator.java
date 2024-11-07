@@ -30,7 +30,7 @@ public class MagnetiteNuggetDataGenerator extends BasicItemDataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "tag":  "c:iron_nuggets"           },
+				"input": "#c:nuggets/iron",
 				"output": { "item": "bigtech:magnetite_nugget" },
 				"energy": 10
 			}"""

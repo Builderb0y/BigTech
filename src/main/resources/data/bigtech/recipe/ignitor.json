@@ -6,8 +6,8 @@
 		"ddd"
 	],
 	"key": {
-		"d": { "item": "minecraft:cobbled_deepslate" },
-		"i": { "item": "minecraft:iron_bars"         }
+		"d": "minecraft:cobbled_deepslate",
+		"i": "minecraft:iron_bars"        
 	},
 	"result": {
 		"id": "bigtech:ignitor"

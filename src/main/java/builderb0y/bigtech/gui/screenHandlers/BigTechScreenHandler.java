@@ -100,6 +100,10 @@ public abstract class BigTechScreenHandler extends ScreenHandler implements IBig
 		return (PlayerEntity player, Slot slot) -> true;
 	}
 
+	public static BiPredicate<PlayerEntity, Slot> never() {
+		return (PlayerEntity player, Slot slot) -> false;
+	}
+
 	public static BiPredicate<PlayerEntity, Slot> when(BooleanSupplier supplier) {
 		return (PlayerEntity player, Slot slot) -> supplier.getAsBoolean();
 	}

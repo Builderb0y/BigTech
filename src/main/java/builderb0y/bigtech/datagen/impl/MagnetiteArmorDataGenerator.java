@@ -3,20 +3,40 @@ package builderb0y.bigtech.datagen.impl;
 import net.minecraft.item.Item;
 import net.minecraft.registry.tag.ItemTags;
 
-import builderb0y.bigtech.armorMaterials.ArmorMaterialTags;
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.BasicItemDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
-import builderb0y.bigtech.items.MagnetiteArmorMaterial;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class MagnetiteArmorDataGenerator implements DataGenerator {
 
 	@Override
 	public void run(DataGenContext context) {
-		context.getTags(ArmorMaterialTags.SHOCK_PROTECTION).add(MagnetiteArmorMaterial.INSTANCE);
+		context.getTags(BigTechItemTags.SHOCK_PROTECTIVE_ARMOR).addAll(
+			FunctionalItems.MAGNETITE_HELMET,
+			FunctionalItems.MAGNETITE_CHESTPLATE,
+			FunctionalItems.MAGNETITE_LEGGINGS,
+			FunctionalItems.MAGNETITE_BOOTS
+		);
+		context.writeToFile(
+			context.modelPath(BigTechMod.modID("equipment/magnetite")),
+			//language=json
+			"""
+			{
+				"layers": {
+					"humanoid": [
+						{ "texture": "bigtech:magnetite" }
+					],
+					"humanoid_leggings": [
+						{ "texture": "bigtech:magnetite" }
+					]
+				}
+			}"""
+		);
 	}
 
 	@Dependencies(MagnetiteArmorDataGenerator.class)
@@ -29,6 +49,7 @@ public class MagnetiteArmorDataGenerator implements DataGenerator {
 		@Override
 		public void setupOtherItemTags(DataGenContext context) {
 			context.getTags(ItemTags.HEAD_ARMOR).addElement(this.getId());
+			context.getTags(BigTechItemTags.MAGNETIC_ARMOR).addElement(this.getId());
 		}
 
 		@Override
@@ -54,6 +75,7 @@ public class MagnetiteArmorDataGenerator implements DataGenerator {
 		@Override
 		public void setupOtherItemTags(DataGenContext context) {
 			context.getTags(ItemTags.CHEST_ARMOR).addElement(this.getId());
+			context.getTags(BigTechItemTags.MAGNETIC_ARMOR).addElement(this.getId());
 		}
 
 		@Override
@@ -79,6 +101,7 @@ public class MagnetiteArmorDataGenerator implements DataGenerator {
 		@Override
 		public void setupOtherItemTags(DataGenContext context) {
 			context.getTags(ItemTags.LEG_ARMOR).addElement(this.getId());
+			context.getTags(BigTechItemTags.MAGNETIC_ARMOR).addElement(this.getId());
 		}
 
 		@Override
@@ -104,6 +127,7 @@ public class MagnetiteArmorDataGenerator implements DataGenerator {
 		@Override
 		public void setupOtherItemTags(DataGenContext context) {
 			context.getTags(ItemTags.FOOT_ARMOR).addElement(this.getId());
+			context.getTags(BigTechItemTags.MAGNETIC_ARMOR).addElement(this.getId());
 		}
 
 		@Override

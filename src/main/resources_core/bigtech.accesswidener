@@ -17,3 +17,4 @@ extendable method net/minecraft/entity/vehicle/VehicleEntity asItem ()Lnet/minec
 #used by techno-crafters.
 accessible field net/minecraft/util/collection/DefaultedList delegate Ljava/util/List;
 accessible method net/minecraft/util/collection/DefaultedList <init> (Ljava/util/List;Ljava/lang/Object;)V
+accessible method net/minecraft/inventory/CraftingInventory <init> (Lnet/minecraft/screen/ScreenHandler;IILnet/minecraft/util/collection/DefaultedList;)V

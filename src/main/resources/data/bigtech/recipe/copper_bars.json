@@ -6,7 +6,7 @@
 		"ccc"
 	],
 	"key": {
-		"c": { "tag": "c:ingots/copper" }
+		"c": "#c:ingots/copper"
 	},
 	"result": {
 		"id": "bigtech:copper_bars",

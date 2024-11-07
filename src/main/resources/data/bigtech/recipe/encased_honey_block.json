@@ -8,8 +8,8 @@
 		"ccc"
 	],
 	"key": {
-		"c": { "tag":  "minecraft:stone_crafting_materials" },
-		"s": { "item": "minecraft:honey_block"              }
+		"c": "#minecraft:stone_crafting_materials",
+		"s": "minecraft:honey_block"              
 	},
 	"result": {
 		"id": "bigtech:encased_honey_block"

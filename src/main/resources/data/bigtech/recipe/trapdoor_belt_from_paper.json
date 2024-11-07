@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"p": { "item": "minecraft:paper"     },
-		"i": { "tag":  "c:ingots/iron"       },
-		"o": { "tag":  "minecraft:trapdoors" }
+		"p": "minecraft:paper"     ,
+		"i": "#c:ingots/iron"      ,
+		"o": "#minecraft:trapdoors"
 	},
 	"result": {
 		"id": "bigtech:trapdoor_belt",

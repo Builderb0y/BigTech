@@ -4,11 +4,11 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
@@ -21,10 +21,10 @@ public class LightningPulseInteractors {
 		TNT = new LightningPulseInteractor() {
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				TntBlock.primeTnt(world, pos);
 				world.removeBlock(pos, false);
-				this.spawnLightningParticles(world, pos, state, pulse);
+				LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 			}
 
 			@Override
@@ -35,11 +35,11 @@ public class LightningPulseInteractors {
 		OXIDIZABLE = new LightningPulseInteractor() {
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				BlockState newState = Oxidizable.getDecreasedOxidationState(state).orElse(null);
 				if (newState != null) world.setBlockState(pos, newState);
-				this.shockEntitiesAround(world, pos, state, pulse);
-				this.spawnLightningParticles(world, pos, state, pulse);
+				LightningPulseInteractor.shockEntitiesAround(world, pos, state, pulse);
+				LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 			}
 
 			@Override
@@ -50,7 +50,7 @@ public class LightningPulseInteractors {
 		INSULATED_CONDUCTOR = new LightningPulseInteractor() {
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
 
 			@Override
 			public String toString() {
@@ -60,9 +60,9 @@ public class LightningPulseInteractors {
 		SHOCKING_CONDUCTOR = new LightningPulseInteractor() {
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-				this.shockEntitiesAround(world, pos, state, pulse);
-				this.spawnLightningParticles(world, pos, state, pulse);
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+				LightningPulseInteractor.shockEntitiesAround(world, pos, state, pulse);
+				LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 			}
 
 			@Override
@@ -73,23 +73,23 @@ public class LightningPulseInteractors {
 		INSULATOR = new LightningPulseInteractor() {
 
 			@Override
-			public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
+			public boolean canConductIn(WorldView world, BlockPos pos, BlockState state, @Nullable Direction side) {
 				return false;
 			}
 
 			@Override
-			public boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+			public boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
 				return false;
 			}
 
 			@Override
-			public void spreadIn(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
+			public void spreadIn(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
 
 			@Override
-			public void spreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
+			public void spreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {}
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				//no-op.
 			}
 
@@ -101,15 +101,15 @@ public class LightningPulseInteractors {
 		LIGHTNING_ROD = new LightningPulseInteractor() {
 
 			@Override
-			public boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+			public boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
 				return side == state.get(Properties.FACING).getOpposite();
 			}
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-				this.shockEntitiesAround(world, pos, state, pulse);
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+				LightningPulseInteractor.shockEntitiesAround(world, pos, state, pulse);
 				if (!pos.equals(pulse.originPos)) {
-					this.spawnLightningParticles(world, pos, state, pulse);
+					LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 				}
 			}
 
@@ -121,16 +121,16 @@ public class LightningPulseInteractors {
 		MOB_SPAWNER = new LightningPulseInteractor() {
 
 			@Override
-			public boolean isSink(World world, BlockPos pos, BlockState state) {
+			public boolean isSink(WorldView world, BlockPos pos, BlockState state) {
 				return true;
 			}
 
 			@Override
-			public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+			public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 				MobSpawnerBlockEntity spawner = WorldHelper.getBlockEntity(world, pos, MobSpawnerBlockEntity.class);
 				if (spawner != null) {
 					spawner.getLogic().<ForceableMobSpawnerLogic>as().bigtech_spawnMobs(world.as(), pos);
-					this.spawnLightningParticles(world, pos, state, pulse);
+					LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 				}
 			}
 		};

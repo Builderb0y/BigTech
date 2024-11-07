@@ -7,8 +7,8 @@
 		"ggg"
 	],
 	"key": {
-		"g": { "item": "minecraft:black_stained_glass_pane" },
-		"c": { "item": "bigtech:black_crystal_cluster"      }
+		"g": "minecraft:black_stained_glass_pane",
+		"c": "bigtech:black_crystal_cluster"     
 	},
 	"result": {
 		"id": "bigtech:phase_scrambler"

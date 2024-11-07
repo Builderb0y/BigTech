@@ -164,7 +164,6 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 			//language=json
 			"""
 			{
-				"jmxl": true,
 				"textures": {
 					"edge":   "bigtech:block/prism_lens_edge",
 					"center": "bigtech:block/prism_lens_center"

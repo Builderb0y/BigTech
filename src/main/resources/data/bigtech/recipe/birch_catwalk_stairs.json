@@ -8,8 +8,8 @@
 		" b"
 	],
 	"key": {
-		"b": { "item": "minecraft:birch_planks" },
-		"r": { "item": "minecraft:stick"        }
+		"b": "minecraft:birch_planks",
+		"r": "minecraft:stick"       
 	},
 	"result": {
 		"id": "bigtech:birch_catwalk_stairs",

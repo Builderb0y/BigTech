@@ -7,10 +7,10 @@
 		"iii"
 	],
 	"key": {
-		"i": { "tag":  "c:ingots/iron"            },
-		"l": { "item": "bigtech:lens"             },
-		"c": { "tag":  "bigtech:crystal_clusters" },
-		"g": { "item": "minecraft:glowstone"      }
+		"i": "#c:ingots/iron"           ,
+		"l": "bigtech:lens"             ,
+		"c": "#bigtech:crystal_clusters",
+		"g": "minecraft:glowstone"      
 	},
 	"result": {
 		"id": "bigtech:spotlight"

@@ -22,6 +22,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.blockEntities.AbstractDestroyerBlockEntity;
 import builderb0y.bigtech.util.WorldHelper;
@@ -52,8 +53,8 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = world.isReceivingRedstonePower(pos);
 		if (powered != shouldBePowered) {

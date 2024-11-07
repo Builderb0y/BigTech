@@ -11,7 +11,7 @@ import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 
 	public CopperBlockCollection(
-		Function<Type, String> namer,
+		boolean register,
 		Block copper,
 		Block exposed_copper,
 		Block weathered_copper,
@@ -22,7 +22,7 @@ public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 		Block waxed_oxidized_copper
 	) {
 		super(
-			namer,
+			register,
 			copper,
 			exposed_copper,
 			weathered_copper,
@@ -34,24 +34,24 @@ public class CopperBlockCollection extends CopperRegistrableCollection<Block> {
 		);
 	}
 
-	public CopperBlockCollection(Function<Type, String> namer, SeparateCopperRegistrableFactory<Block> unwaxedFactory, SeparateCopperRegistrableFactory<Block> waxedFactory) {
-		super(namer, unwaxedFactory, waxedFactory);
+	public CopperBlockCollection(boolean register, SeparateCopperRegistrableFactory<Block> unwaxedFactory, SeparateCopperRegistrableFactory<Block> waxedFactory) {
+		super(register, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperBlockCollection(Function<Type, String> namer, MergedCopperRegistrableFactory<Block> factory) {
-		super(namer, factory);
+	public CopperBlockCollection(boolean register, MergedCopperRegistrableFactory<Block> factory) {
+		super(register, factory);
 	}
 
 	@Override
-	public void register(Function<Type, String> namer) {
-		BigTechBlocks.register(namer.apply(Type.COPPER),                 this.                copper);
-		BigTechBlocks.register(namer.apply(Type.EXPOSED_COPPER),         this.        exposed_copper);
-		BigTechBlocks.register(namer.apply(Type.WEATHERED_COPPER),       this.      weathered_copper);
-		BigTechBlocks.register(namer.apply(Type.OXIDIZED_COPPER),        this.       oxidized_copper);
-		BigTechBlocks.register(namer.apply(Type.WAXED_COPPER),           this.          waxed_copper);
-		BigTechBlocks.register(namer.apply(Type.WAXED_EXPOSED_COPPER),   this.  waxed_exposed_copper);
-		BigTechBlocks.register(namer.apply(Type.WAXED_WEATHERED_COPPER), this.waxed_weathered_copper);
-		BigTechBlocks.register(namer.apply(Type.WAXED_OXIDIZED_COPPER),  this. waxed_oxidized_copper);
+	public void register() {
+		BigTechBlocks.register(this.                copper);
+		BigTechBlocks.register(this.        exposed_copper);
+		BigTechBlocks.register(this.      weathered_copper);
+		BigTechBlocks.register(this.       oxidized_copper);
+		BigTechBlocks.register(this.          waxed_copper);
+		BigTechBlocks.register(this.  waxed_exposed_copper);
+		BigTechBlocks.register(this.waxed_weathered_copper);
+		BigTechBlocks.register(this. waxed_oxidized_copper);
 
 		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.          copper, this.  exposed_copper);
 		OxidizableBlocksRegistry.registerOxidizableBlockPair(this.  exposed_copper, this.weathered_copper);

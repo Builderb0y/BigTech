@@ -53,7 +53,7 @@ public class SmoothObsidianDataGenerator extends BasicBlockDataGenerator {
 			{
 				"type": "minecraft:smelting",
 				"cookingtime": 400,
-				"ingredient": { "item": "minecraft:obsidian" },
+				"ingredient": "minecraft:obsidian",
 				"result": { "id": "bigtech:smooth_obsidian" }
 			}"""
 		);

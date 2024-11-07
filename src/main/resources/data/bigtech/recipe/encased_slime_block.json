@@ -8,8 +8,8 @@
 		"ccc"
 	],
 	"key": {
-		"c": { "tag":  "minecraft:stone_crafting_materials" },
-		"s": { "item": "minecraft:slime_block"              }
+		"c": "#minecraft:stone_crafting_materials",
+		"s": "minecraft:slime_block"              
 	},
 	"result": {
 		"id": "bigtech:encased_slime_block"

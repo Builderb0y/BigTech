@@ -54,7 +54,7 @@ public class BigTechAutoCodec {
 							this.addRaw(Block.class, autoCodec.wrapDFUCodec(Registries.BLOCK.getCodec()));
 							this.addRaw(Item.class, autoCodec.wrapDFUCodec(Registries.ITEM.getCodec()));
 							this.addRaw(ItemStack.class, autoCodec.wrapDFUCodec(ItemStack.CODEC));
-							this.addRaw(Ingredient.class, autoCodec.wrapDFUCodec(Ingredient.DISALLOW_EMPTY_CODEC));
+							this.addRaw(Ingredient.class, autoCodec.wrapDFUCodec(Ingredient.CODEC));
 							this.addRaw(NbtCompound.class, NbtAutoCoder.INSTANCE);
 							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.BLOCK)));
 							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.ITEM)));

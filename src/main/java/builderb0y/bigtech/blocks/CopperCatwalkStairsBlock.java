@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
@@ -24,7 +25,7 @@ public class CopperCatwalkStairsBlock extends CatwalkStairsBlock {
 	}
 
 	@Override
-	public BlockState handleMismatchedNeighbor(WorldAccess world, BlockPos pos, BlockState state, BlockPos neighborPos, BlockState neighborState, Direction direction) {
+	public BlockState handleMismatchedNeighbor(WorldView world, BlockPos pos, BlockState state, BlockPos neighborPos, BlockState neighborState, Direction direction) {
 		if (DecoBlocks.COPPER_CATWALK_STAIRS.contains(neighborState.getBlock())) {
 			return this.transferState(neighborState.getBlock().getStateWithProperties(state), neighborState);
 		}

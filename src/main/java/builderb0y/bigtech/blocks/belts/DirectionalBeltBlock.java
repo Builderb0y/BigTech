@@ -45,7 +45,7 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 	}
 
 	public double getSpeed(World world, BlockPos pos, BlockState state, Entity entity) {
-		return 0.75D;
+		return 0.5D;
 	}
 
 	public Direction getDirection(World world, BlockPos pos, BlockState state, Entity entity) {
@@ -71,7 +71,7 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 		//backwards on belts without being pushed around too much.
 		//the amount of force applied should decrease gradually near these two extremes,
 		//and a parabolic curve is a very simple way to achieve this.
-		final double controlFactor = 0.2D;
+		final double controlFactor = 0.1D;
 		double force = switch (direction) {
 			case NORTH -> (controlFactor - newZ) * (speed + newZ);
 			case SOUTH -> (controlFactor + newZ) * (speed - newZ);
@@ -90,8 +90,8 @@ public class DirectionalBeltBlock extends AbstractBeltBlock {
 		}
 		//move towards center of the belt.
 		switch (direction.getAxis()) {
-			case X -> newZ += (pos.getZ() + 0.5D - entity.getZ()) * 0.25D;
-			case Z -> newX += (pos.getX() + 0.5D - entity.getX()) * 0.25D;
+			case X -> newZ += (pos.getZ() + 0.5D - entity.getZ()) * 0.125D;
+			case Z -> newX += (pos.getX() + 0.5D - entity.getX()) * 0.125D;
 			case Y -> throw new AssertionError(direction);
 		}
 		entity.setVelocity(newX, oldMotion.y, newZ);

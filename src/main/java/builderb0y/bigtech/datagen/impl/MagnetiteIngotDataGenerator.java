@@ -38,7 +38,7 @@ public class MagnetiteIngotDataGenerator extends BasicItemDataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "tag":  "c:iron_ingots"           },
+				"input": "#c:ingots/iron",
 				"output": { "item": "bigtech:magnetite_ingot" },
 				"energy": 90
 			}"""
@@ -47,7 +47,7 @@ public class MagnetiteIngotDataGenerator extends BasicItemDataGenerator {
 
 	@Override
 	public void setupOtherItemTags(DataGenContext context) {
-		context.getTags(BigTechItemTags.MAGNETITE_NUGGETS).addElement(this.getId());
+		context.getTags(BigTechItemTags.MAGNETITE_INGOTS).addElement(this.getId());
 		context.getTags(ItemTags.BEACON_PAYMENT_ITEMS).addElement(this.getId());
 	}
 }

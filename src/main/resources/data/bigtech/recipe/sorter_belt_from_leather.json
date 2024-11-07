@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:ingots/iron"     },
-		"o": { "tag":  "c:gems/diamond"    }
+		"l": "minecraft:leather",
+		"i": "#c:ingots/iron"   ,
+		"o": "#c:gems/diamond"  
 	},
 	"result": {
 		"id": "bigtech:sorter_belt",

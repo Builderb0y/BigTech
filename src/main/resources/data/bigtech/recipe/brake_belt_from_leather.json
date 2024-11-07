@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather"    },
-		"i": { "tag":  "c:ingots/iron"        },
-		"o": { "item": "minecraft:slime_ball" }
+		"l": "minecraft:leather"   ,
+		"i": "#c:ingots/iron"      ,
+		"o": "minecraft:slime_ball"
 	},
 	"result": {
 		"id": "bigtech:brake_belt",

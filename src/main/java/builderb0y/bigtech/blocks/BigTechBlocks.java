@@ -18,15 +18,19 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
+import builderb0y.bigtech.mixins.AbstractBlockSettings_RegistryKeyAccessor;
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
 import builderb0y.bigtech.util.WorldHelper;
 
@@ -52,7 +56,7 @@ public class BigTechBlocks {
 		SoundEvents.BLOCK_ANVIL_FALL
 	);
 	public static final CopperBlockCollection VANILLA_COPPER_BLOCKS = new CopperBlockCollection(
-		null,
+		false,
 		Blocks.COPPER_BLOCK,
 		Blocks.EXPOSED_COPPER,
 		Blocks.WEATHERED_COPPER,
@@ -63,7 +67,7 @@ public class BigTechBlocks {
 		Blocks.WAXED_OXIDIZED_COPPER
 	);
 	public static final WoodBlockCollection VANILLA_PLANKS = new WoodBlockCollection(
-		null,
+		false,
 		Blocks.OAK_PLANKS,
 		Blocks.SPRUCE_PLANKS,
 		Blocks.BIRCH_PLANKS,
@@ -96,8 +100,6 @@ public class BigTechBlocks {
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getCutout(),
 			FunctionalBlocks.TRAPDOOR_BELT,
-			FunctionalBlocks.ASCENDER,
-			FunctionalBlocks.DESCENDER,
 			DecoBlocks.IRON_FRAME,
 			DecoBlocks.GOLD_FRAME,
 			DecoBlocks.IRON_LADDER,
@@ -130,6 +132,8 @@ public class BigTechBlocks {
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),
+			FunctionalBlocks.ASCENDER,
+			FunctionalBlocks.DESCENDER,
 			FunctionalBlocks.PHASE_SCRAMBLER,
 			FunctionalBlocks.PHASE_ALIGNER,
 			FunctionalBlocks.PRISM
@@ -152,10 +156,22 @@ public class BigTechBlocks {
 		);
 	}
 
+	public static RegistryKey<Block> key(String name) {
+		return RegistryKey.of(RegistryKeys.BLOCK, BigTechMod.modID(name));
+	}
+
+	public static AbstractBlock.Settings settings(String name) {
+		return AbstractBlock.Settings.create().registryKey(key(name));
+	}
+
+	public static AbstractBlock.Settings copySettings(Block block, String name) {
+		return AbstractBlock.Settings.copy(block).registryKey(key(name));
+	}
+
 	public static final boolean checkCodecs = FabricLoader.getInstance().isDevelopmentEnvironment();
 	public static final String getCodec = FabricLoader.getInstance().getMappingResolver().mapMethodName("intermediary", "net.minecraft.class_4970", "method_53969", "()Lcom/mojang/serialization/MapCodec;");
 
-	public static <B extends Block> B register(String name, B block) {
+	public static <B extends Block> B register(B block) {
 		if (checkCodecs && block.getClass() != Block.class) {
 			Method method;
 			try {
@@ -184,6 +200,6 @@ public class BigTechBlocks {
 				}
 			}
 		}
-		return Registry.register(Registries.BLOCK, BigTechMod.modID(name), block);
+		return Registry.register(Registries.BLOCK, block.getSettings().<AbstractBlockSettings_RegistryKeyAccessor>as().bigtech_getRegistryKey().getValue(), block);
 	}
 }

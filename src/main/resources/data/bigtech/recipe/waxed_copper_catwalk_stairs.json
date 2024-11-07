@@ -3,8 +3,8 @@
 	"category": "building",
 	"group": "bigtech:waxed_copper_catwalk_stairs",
 	"ingredients": [
-		{ "item": "bigtech:copper_catwalk_stairs" },
-		{ "item": "minecraft:honeycomb"           }
+		"bigtech:copper_catwalk_stairs",
+		"minecraft:honeycomb"          
 	],
 	"result": {
 		"id": "bigtech:waxed_copper_catwalk_stairs"

@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:ingots/iron"     },
-		"o": { "tag":  "c:dusts/redstone"  }
+		"l": "minecraft:leather",
+		"i": "#c:ingots/iron"   ,
+		"o": "#c:dusts/redstone"
 	},
 	"result": {
 		"id": "bigtech:director_belt",

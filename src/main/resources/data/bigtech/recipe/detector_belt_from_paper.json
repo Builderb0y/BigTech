@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"p": { "item": "minecraft:paper"   },
-		"i": { "tag":  "c:ingots/iron"     },
-		"o": { "tag":  "c:pressure_plates" }
+		"p": "minecraft:paper"   ,
+		"i": "#c:ingots/iron"    ,
+		"o": "#c:pressure_plates"
 	},
 	"result": {
 		"id": "bigtech:detector_belt",

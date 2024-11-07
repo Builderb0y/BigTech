@@ -11,95 +11,84 @@ import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
+import static builderb0y.bigtech.blocks.BigTechBlocks.register;
+import static builderb0y.bigtech.blocks.BigTechBlocks.settings;
+import static builderb0y.bigtech.blocks.BigTechBlocks.copySettings;
+
 public class FunctionalBlocks {
 
 	//////////////////////////////// belts ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final DirectionalBeltBlock BELT = BigTechBlocks.register(
-		"belt",
+	public static final DirectionalBeltBlock BELT = register(
 		new DirectionalBeltBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("belt")
 			.mapColor(MapColor.STONE_GRAY)
 			.strength(0.2F)
 			.pistonBehavior(PistonBehavior.DESTROY)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LauncherBeltBlock LAUNCHER_BELT = BigTechBlocks.register(
-		"launcher_belt",
+	public static final LauncherBeltBlock LAUNCHER_BELT = register(
 		new LauncherBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "launcher_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final InjectorBeltBlock INJECTOR_BELT = BigTechBlocks.register(
-		"injector_belt",
+	public static final InjectorBeltBlock INJECTOR_BELT = register(
 		new InjectorBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "injector_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final EjectorBeltBlock EJECTOR_BELT = BigTechBlocks.register(
-		"ejector_belt",
+	public static final EjectorBeltBlock EJECTOR_BELT = register(
 		new EjectorBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "ejector_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final SorterBeltBlock SORTER_BELT = BigTechBlocks.register(
-		"sorter_belt",
+	public static final SorterBeltBlock SORTER_BELT = register(
 		new SorterBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "sorter_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final DetectorBeltBlock DETECTOR_BELT = BigTechBlocks.register(
-		"detector_belt",
+	public static final DetectorBeltBlock DETECTOR_BELT = register(
 		new DetectorBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "detector_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final DirectorBeltBlock DIRECTOR_BELT = BigTechBlocks.register(
-		"director_belt",
+	public static final DirectorBeltBlock DIRECTOR_BELT = register(
 		new DirectorBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "director_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final TrapdoorBeltBlock TRAPDOOR_BELT = BigTechBlocks.register(
-		"trapdoor_belt",
+	public static final TrapdoorBeltBlock TRAPDOOR_BELT = register(
 		new TrapdoorBeltBlock(
-			AbstractBlock.Settings.copy(BELT).nonOpaque()
+			copySettings(BELT, "trapdoor_belt").nonOpaque()
 		)
 	);
 	@UseDataGen(void.class)
-	public static final BrakeBeltBlock BRAKE_BELT = BigTechBlocks.register(
-		"brake_belt",
+	public static final BrakeBeltBlock BRAKE_BELT = register(
 		new BrakeBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "brake_belt")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final SpeedyBeltBlock SPEEDY_BELT = BigTechBlocks.register(
-		"speedy_belt",
+	public static final SpeedyBeltBlock SPEEDY_BELT = register(
 		new SpeedyBeltBlock(
-			AbstractBlock.Settings.copy(BELT)
+			copySettings(BELT, "speedy_belt")
 		)
 	);
 
 	//////////////////////////////// ascenders ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final AscenderBlock ASCENDER = BigTechBlocks.register(
-		"ascender",
+	public static final AscenderBlock ASCENDER = register(
 		new AscenderBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("ascender")
 			.mapColor(MapColor.STONE_GRAY)
 			.nonOpaque()
 			.strength(0.2F)
@@ -111,10 +100,9 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final AscenderBlock DESCENDER = BigTechBlocks.register(
-		"descender",
+	public static final AscenderBlock DESCENDER = register(
 		new AscenderBlock(
-			AbstractBlock.Settings.copy(ASCENDER),
+			copySettings(ASCENDER, "descender"),
 			Direction.DOWN
 		)
 	);
@@ -122,12 +110,9 @@ public class FunctionalBlocks {
 	//////////////////////////////// automation ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final WoodenHopperBlock WOODEN_HOPPER = BigTechBlocks.register(
-		"wooden_hopper",
+	public static final WoodenHopperBlock WOODEN_HOPPER = register(
 		new WoodenHopperBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("wooden_hopper")
 			.mapColor(MapColor.OAK_TAN)
 			.strength(2.5F)
 			.sounds(BlockSoundGroup.WOOD)
@@ -136,20 +121,16 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
-	public static final IgnitorBlock IGNITOR = BigTechBlocks.register(
-		"ignitor",
+	public static final IgnitorBlock IGNITOR = register(
 		new IgnitorBlock(
-			AbstractBlock.Settings.copy(Blocks.FURNACE)
+			copySettings(Blocks.FURNACE, "ignitor")
 		)
 	);
 
 	@UseDataGen(void.class)
-	public static final SilverIodideCannonBlock SILVER_IODIDE_CANNON = BigTechBlocks.register(
-		"silver_iodide_cannon",
+	public static final SilverIodideCannonBlock SILVER_IODIDE_CANNON = register(
 		new SilverIodideCannonBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("silver_iodide_cannon")
 			.mapColor(MapColor.BLACK)
 			.requiresTool()
 			.strength(5.0F, 50.0F)
@@ -157,12 +138,9 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
-	public static final SpawnerInterceptorBlock SPAWNER_INTERCEPTOR = BigTechBlocks.register(
-		"spawner_interceptor",
+	public static final SpawnerInterceptorBlock SPAWNER_INTERCEPTOR = register(
 		new SpawnerInterceptorBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("spawner_interceptor")
 			.mapColor(MapColor.BLACK)
 			.requiresTool()
 			.strength(10.0F, 250.0F)
@@ -170,12 +148,9 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
-	public static final PulsarBlock PULSAR = BigTechBlocks.register(
-		"pulsar",
+	public static final PulsarBlock PULSAR = register(
 		new PulsarBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("pulsar")
 			.mapColor((BlockState state) -> state.get(Properties.POWERED) ? MapColor.RED : MapColor.DARK_RED)
 			.solidBlock(Blocks::never) //ensures pulsars can't conduct a redstone signal through them.
 			.strength(1.5F)
@@ -184,12 +159,9 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
-	public static final RadioBlock RADIO = BigTechBlocks.register(
-		"radio",
+	public static final RadioBlock RADIO = register(
 		new RadioBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("radio")
 			.mapColor(MapColor.BLACK)
 			.breakInstantly()
 		)
@@ -198,24 +170,18 @@ public class FunctionalBlocks {
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final EncasedRedstoneBlock ENCASED_REDSTONE_BLOCK = BigTechBlocks.register(
-		"encased_redstone_block",
+	public static final EncasedRedstoneBlock ENCASED_REDSTONE_BLOCK = register(
 		new EncasedRedstoneBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("encased_redstone_block")
 			.mapColor((BlockState state) -> state.get(Properties.FACING) == Direction.UP ? MapColor.BRIGHT_RED : MapColor.STONE_GRAY)
 			.strength(3.0F, 6.0F)
 			.requiresTool()
 		)
 	);
 	@UseDataGen(void.class)
-	public static final EncasedSlimeBlock ENCASED_SLIME_BLOCK = BigTechBlocks.register(
-		"encased_slime_block",
+	public static final EncasedSlimeBlock ENCASED_SLIME_BLOCK = register(
 		new EncasedSlimeBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("encased_slime_block")
 			.mapColor((BlockState state) -> state.get(Properties.FACING) == Direction.UP ? MapColor.PALE_GREEN : MapColor.STONE_GRAY)
 			.strength(3.0F, 6.0F)
 			.requiresTool(),
@@ -223,12 +189,9 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final EncasedSlimeBlock ENCASED_HONEY_BLOCK = BigTechBlocks.register(
-		"encased_honey_block",
+	public static final EncasedSlimeBlock ENCASED_HONEY_BLOCK = register(
 		new EncasedSlimeBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("encased_honey_block")
 			.mapColor((BlockState state) -> state.get(Properties.FACING) == Direction.UP ? MapColor.ORANGE : MapColor.STONE_GRAY)
 			.strength(3.0F, 6.0F)
 			.requiresTool(),
@@ -239,45 +202,36 @@ public class FunctionalBlocks {
 	//////////////////////////////// lightning stuff ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final LightningCableBlock IRON_LIGHTNING_CABLE = BigTechBlocks.register(
-		"iron_lightning_cable",
+	public static final LightningCableBlock IRON_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("iron_lightning_cable")
 			.mapColor(MapColor.GRAY)
 			.strength(0.8F)
 			.sounds(BlockSoundGroup.WOOL)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LightningCableBlock COPPER_LIGHTNING_CABLE = BigTechBlocks.register(
-		"copper_lightning_cable",
+	public static final LightningCableBlock COPPER_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
-			AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
+			copySettings(IRON_LIGHTNING_CABLE, "copper_lightning_cable")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LightningCableBlock GOLD_LIGHTNING_CABLE = BigTechBlocks.register(
-		"gold_lightning_cable",
+	public static final LightningCableBlock GOLD_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
-			AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
+			copySettings(IRON_LIGHTNING_CABLE, "gold_lightning_cable")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LightningDiodeBlock LIGHTNING_DIODE = BigTechBlocks.register(
-		"lightning_diode",
+	public static final LightningDiodeBlock LIGHTNING_DIODE = register(
 		new LightningDiodeBlock(
-			AbstractBlock.Settings.copy(IRON_LIGHTNING_CABLE)
+			copySettings(IRON_LIGHTNING_CABLE, "lightning_diode")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final SmallLightningJarBlock SMALL_LIGHTNING_JAR = BigTechBlocks.register(
-		"small_lightning_jar",
+	public static final SmallLightningJarBlock SMALL_LIGHTNING_JAR = register(
 		new SmallLightningJarBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("small_lightning_jar")
 			.mapColor(MapColor.ORANGE)
 			.strength(2.0F, 1.0F)
 			.nonOpaque()
@@ -286,19 +240,15 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LargeLightningJarBlock LARGE_LIGHTNING_JAR = BigTechBlocks.register(
-		"large_lightning_jar",
+	public static final LargeLightningJarBlock LARGE_LIGHTNING_JAR = register(
 		new LargeLightningJarBlock(
-			AbstractBlock.Settings.copy(SMALL_LIGHTNING_JAR)
+			copySettings(SMALL_LIGHTNING_JAR, "large_lightning_jar")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final TransmuterBlock TRANSMUTER = BigTechBlocks.register(
-		"transmuter",
+	public static final TransmuterBlock TRANSMUTER = register(
 		new TransmuterBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("transmuter")
 			.mapColor(MapColor.BLACK)
 			.requiresTool()
 			.nonOpaque()
@@ -306,20 +256,17 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final CopperCoilBlock COPPER_COIL = BigTechBlocks.register(
-		"copper_coil",
+	public static final CopperCoilBlock COPPER_COIL = register(
 		new CopperCoilBlock(
-			AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)
+			copySettings(Blocks.COPPER_BLOCK, "copper_coil")
 		)
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection CONDUCTIVE_ANVILS = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.noCopperPrefix + "conductive_anvil",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
-				AbstractBlock
-				.Settings
-				.copy(Blocks.ANVIL)
+				copySettings(Blocks.ANVIL, type.noCopperPrefix + "conductive_anvil")
 				.mapColor(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type).getDefaultMapColor())
 				.sounds(BigTechBlocks.CONDUCTIVE_ANVIL_SOUND_GROUP)
 			);
@@ -334,72 +281,54 @@ public class FunctionalBlocks {
 	//////////////////////////////// lasers ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final LightningTransmitterBlock LIGHTNING_TRANSMITTER = BigTechBlocks.register(
-		"lightning_transmitter",
+	public static final LightningTransmitterBlock LIGHTNING_TRANSMITTER = register(
 		new LightningTransmitterBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("lightning_transmitter")
 			.mapColor(MapColor.ORANGE)
 			.requiresTool()
 			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final RedstoneTransmitterBlock REDSTONE_TRANSMITTER = BigTechBlocks.register(
-		"redstone_transmitter",
+	public static final RedstoneTransmitterBlock REDSTONE_TRANSMITTER = register(
 		new RedstoneTransmitterBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("redstone_transmitter")
 			.mapColor(MapColor.OFF_WHITE)
 			.requiresTool()
 			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final RedstoneReceiverBlock REDSTONE_RECEIVER = BigTechBlocks.register(
-		"redstone_receiver",
+	public static final RedstoneReceiverBlock REDSTONE_RECEIVER = register(
 		new RedstoneReceiverBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("redstone_receiver")
 			.mapColor(MapColor.OFF_WHITE)
 			.requiresTool()
 			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final BeamInterceptorBlock BEAM_INTERCEPTOR = BigTechBlocks.register(
-		"beam_interceptor",
+	public static final BeamInterceptorBlock BEAM_INTERCEPTOR = register(
 		new BeamInterceptorBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("beam_interceptor")
 			.pistonBehavior(PistonBehavior.DESTROY)
 			.nonOpaque()
 			.strength(0.2F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final TripwireBeamBlock TRIPWIRE = BigTechBlocks.register(
-		"tripwire",
+	public static final TripwireBeamBlock TRIPWIRE = register(
 		new TripwireBeamBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("tripwire")
 			.mapColor(MapColor.OAK_TAN)
 			.requiresTool()
 			.strength(1.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final SpotlightBlock SPOTLIGHT = BigTechBlocks.register(
-		"spotlight",
+	public static final SpotlightBlock SPOTLIGHT = register(
 		new SpotlightBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("spotlight")
 			.mapColor((BlockState state) -> {
 				return state.get(Properties.FACING) == Direction.UP ? MapColor.PALE_YELLOW : MapColor.BLACK;
 			})
@@ -408,72 +337,54 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final ShortRangeDeployerBlock SHORT_RANGE_DEPLOYER = BigTechBlocks.register(
-		"short_range_deployer",
+	public static final ShortRangeDeployerBlock SHORT_RANGE_DEPLOYER = register(
 		new ShortRangeDeployerBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("short_range_deployer")
 			.mapColor(MapColor.STONE_GRAY)
 			.requiresTool()
 			.strength(2.0F, 6.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LongRangeDeployerBlock LONG_RANGE_DEPLOYER = BigTechBlocks.register(
-		"long_range_deployer",
+	public static final LongRangeDeployerBlock LONG_RANGE_DEPLOYER = register(
 		new LongRangeDeployerBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("long_range_deployer")
 			.mapColor(MapColor.STONE_GRAY)
 			.requiresTool()
 			.strength(2.0F, 6.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final ShortRangeDestroyerBlock SHORT_RANGE_DESTROYER = BigTechBlocks.register(
-		"short_range_destroyer",
+	public static final ShortRangeDestroyerBlock SHORT_RANGE_DESTROYER = register(
 		new ShortRangeDestroyerBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("short_range_destroyer")
 			.mapColor(MapColor.STONE_GRAY)
 			.requiresTool()
 			.strength(2.0F, 6.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final LongRangeDestroyerBlock LONG_RANGE_DESTROYER = BigTechBlocks.register(
-		"long_range_destroyer",
+	public static final LongRangeDestroyerBlock LONG_RANGE_DESTROYER = register(
 		new LongRangeDestroyerBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("long_range_destroyer")
 			.mapColor(MapColor.STONE_GRAY)
 			.requiresTool()
 			.strength(2.0F, 6.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final IgnitorBeamBlock IGNITOR_BEAM = BigTechBlocks.register(
-		"ignitor_beam",
+	public static final IgnitorBeamBlock IGNITOR_BEAM = register(
 		new IgnitorBeamBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("ignitor_beam")
 			.mapColor(MapColor.STONE_GRAY)
 			.requiresTool()
 			.strength(3.0F)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final MirrorBlock MIRROR = BigTechBlocks.register(
-		"mirror",
+	public static final MirrorBlock MIRROR = register(
 		new MirrorBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("mirror")
 			.mapColor(MapColor.IRON_GRAY)
 			.nonOpaque()
 			.strength(0.6F)
@@ -481,19 +392,15 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final PrismBlock PRISM = BigTechBlocks.register(
-		"prism",
+	public static final PrismBlock PRISM = register(
 		new PrismBlock(
-			AbstractBlock.Settings.copy(Blocks.GLASS)
+			copySettings(Blocks.GLASS, "prism")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final PhaseManipulatorBlock PHASE_SCRAMBLER = BigTechBlocks.register(
-		"phase_scrambler",
+	public static final PhaseManipulatorBlock PHASE_SCRAMBLER = register(
 		new PhaseManipulatorBlock(
-			AbstractBlock
-			.Settings
-			.copy(Blocks.BLACK_STAINED_GLASS)
+			copySettings(Blocks.BLACK_STAINED_GLASS, "phase_scrambler")
 			.allowsSpawning(Blocks::never)
 			.solidBlock(Blocks::never)
 			.suffocates(Blocks::never)
@@ -503,12 +410,9 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final PhaseManipulatorBlock PHASE_ALIGNER = BigTechBlocks.register(
-		"phase_aligner",
+	public static final PhaseManipulatorBlock PHASE_ALIGNER = register(
 		new PhaseManipulatorBlock(
-			AbstractBlock
-			.Settings
-			.copy(Blocks.WHITE_STAINED_GLASS)
+			copySettings(Blocks.WHITE_STAINED_GLASS, "phase_aligner")
 			.allowsSpawning(Blocks::never)
 			.solidBlock(Blocks::never)
 			.suffocates(Blocks::never)
@@ -522,12 +426,10 @@ public class FunctionalBlocks {
 
 	@UseDataGen(void.class)
 	public static final CrystalBlockCollection CRYSTAl_ClUSTERS = new CrystalBlockCollection(
-		"crystal_cluster",
+		true,
 		(CrystalColor color) -> {
 			return new CrystalClusterBlock(
-				AbstractBlock
-				.Settings
-				.create()
+				settings(color.prefix + "crystal_cluster")
 				.mapColor(color.closestDyeColor)
 				.strength(0.3F)
 				.sounds(BlockSoundGroup.AMETHYST_CLUSTER)
@@ -542,34 +444,27 @@ public class FunctionalBlocks {
 		}
 	);
 	@UseDataGen(void.class)
-	public static final CrystallineSandBlock CRYSTALLINE_SAND = BigTechBlocks.register(
-		"crystalline_sand",
+	public static final CrystallineSandBlock CRYSTALLINE_SAND = register(
 		new CrystallineSandBlock(
-			AbstractBlock.Settings.copy(Blocks.SAND)
+			copySettings(Blocks.SAND, "crystalline_sand")
 		)
 	);
 
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final MagnetiteBlock MAGNETITE_BLOCK = BigTechBlocks.register(
-		"magnetite_block",
+	public static final MagnetiteBlock MAGNETITE_BLOCK = register(
 		new MagnetiteBlock(
-			AbstractBlock
-			.Settings
-			.copy(Blocks.IRON_BLOCK)
+			copySettings(Blocks.IRON_BLOCK, "magnetite_block")
 			.mapColor(MapColor.BRIGHT_RED)
 		)
 	);
 	@UseDataGen(void.class)
-	public static final WeightedPressurePlateBlock MEDIUM_WEIGHTED_PRESSURE_PLATE = BigTechBlocks.register(
-		"medium_weighted_pressure_plate",
+	public static final WeightedPressurePlateBlock MEDIUM_WEIGHTED_PRESSURE_PLATE = register(
 		new WeightedPressurePlateBlock(
 			60,
 			BigTechBlocks.COPPER_BLOCK_SET_TYPE,
-			AbstractBlock
-			.Settings
-			.create()
+			settings("medium_weighted_pressure_plate")
 			.mapColor(MapColor.ORANGE)
 			.requiresTool()
 			.noCollision()
@@ -578,19 +473,15 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final StoneCraftingTableBlock STONE_CRAFTING_TABLE = BigTechBlocks.register(
-		"stone_crafting_table",
+	public static final StoneCraftingTableBlock STONE_CRAFTING_TABLE = register(
 		new StoneCraftingTableBlock(
-			AbstractBlock.Settings.copy(Blocks.COBBLESTONE)
+			copySettings(Blocks.COBBLESTONE, "stone_crafting_table")
 		)
 	);
 	@UseDataGen(void.class)
-	public static final TechnoCrafterBlock TECHNO_CRAFTER = BigTechBlocks.register(
-		"techno_crafter",
+	public static final TechnoCrafterBlock TECHNO_CRAFTER = register(
 		new TechnoCrafterBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings("techno_crafter")
 			.mapColor(MapColor.WHITE_GRAY)
 			.requiresTool()
 			.strength(2.0F, 6.0F)

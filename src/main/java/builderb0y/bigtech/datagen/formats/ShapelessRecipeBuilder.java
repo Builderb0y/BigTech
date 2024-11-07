@@ -92,7 +92,7 @@ public class ShapelessRecipeBuilder {
 		if (this.group != null) builder.append("\t\"group\": \"").append(this.group).append("\",\n");
 		builder.append("\t\"ingredients\": [\n");
 		Table<UnkeyedRecipeIngredient> table = new Table<>(UnkeyedRecipeIngredient.FORMAT);
-		this.ingredients.stream().map(UnkeyedRecipeIngredient::create).forEachOrdered(table.rows::add);
+		this.ingredients.stream().map(UnkeyedRecipeIngredient::new).forEachOrdered(table.rows::add);
 		builder.append(table);
 		builder.append("\n\t],\n");
 		builder.append("\t\"result\": {\n");

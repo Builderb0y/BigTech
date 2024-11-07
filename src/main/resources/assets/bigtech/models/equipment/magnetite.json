@@ -1,0 +1,10 @@
+{
+	"layers": {
+		"humanoid": [
+			{ "texture": "bigtech:magnetite" }
+		],
+		"humanoid_leggings": [
+			{ "texture": "bigtech:magnetite" }
+		]
+	}
+}

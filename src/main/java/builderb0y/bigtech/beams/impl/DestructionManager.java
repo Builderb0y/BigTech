@@ -14,6 +14,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -26,14 +27,14 @@ import builderb0y.bigtech.util.WorldHelper;
 
 public class DestructionManager {
 
-	public static final WeakHashMap<World, DestructionManager> WORLDS = new WeakHashMap<>(3);
+	public static final WeakHashMap<ServerWorld, DestructionManager> WORLDS = new WeakHashMap<>(3);
 	public static final WeakReference<FakePlayer> EMPTY_FAKE_PLAYER = new WeakReference<>(null);
 
-	public final World world;
+	public final ServerWorld world;
 	public final Map<BlockPos, Info> breakingPositions = new HashMap<>(16);
 	public WeakReference<FakePlayer> fakePlayer = EMPTY_FAKE_PLAYER;
 
-	public DestructionManager(World world) {
+	public DestructionManager(ServerWorld world) {
 		this.world = world;
 	}
 
@@ -46,7 +47,7 @@ public class DestructionManager {
 		return player;
 	}
 
-	public static DestructionManager forWorld(World world) {
+	public static DestructionManager forWorld(ServerWorld world) {
 		return WORLDS.computeIfAbsent(world, DestructionManager::new);
 	}
 
@@ -121,7 +122,7 @@ public class DestructionManager {
 
 	public static class DestroyQueue implements MultiHarvestContext {
 
-		public final World world;
+		public final ServerWorld world;
 		public final BlockPos origin;
 		public int maxDistanceSquared;
 		public float destroySpeed;
@@ -131,14 +132,14 @@ public class DestructionManager {
 		public ArrayDeque<PosStateHarvestable> active;
 		public Object2ObjectLinkedOpenHashMap<BlockPos, StateHarvestable> inactive;
 
-		public DestroyQueue(World world, BlockPos origin, double distanceRemaining) {
+		public DestroyQueue(ServerWorld world, BlockPos origin, double distanceRemaining) {
 			this.world = world;
 			this.origin = origin.toImmutable();
 			this.destroySpeed = ((float)(distanceRemaining)) * 0.0625F;
 			this.maxDistanceSquared = (int)(distanceRemaining * distanceRemaining);
 		}
 
-		public DestroyQueue(World world, BlockPos origin, int maxDistanceSquared, float destroySpeed) {
+		public DestroyQueue(ServerWorld world, BlockPos origin, int maxDistanceSquared, float destroySpeed) {
 			this.world = world;
 			this.origin = origin;
 			this.maxDistanceSquared = maxDistanceSquared;

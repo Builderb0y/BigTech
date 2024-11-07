@@ -1,7 +1,5 @@
 package builderb0y.bigtech.models;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 
 import net.fabricmc.api.EnvType;
@@ -15,7 +13,6 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 
@@ -25,17 +22,9 @@ public class PrismUnbakedModel implements UnbakedModel {
 	public UnbakedModel base;
 
 	@Override
-	public Collection<Identifier> getModelDependencies() {
-		return List.of(
-			BigTechMod.modID("block/prism_base"),
-			BigTechMod.modID("block/prism_lens")
-		);
-	}
-
-	@Override
-	public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
-		this.base = modelLoader.apply(BigTechMod.modID("block/prism_base"));
-		this.base.setParents(modelLoader); //why is this necessary?
+	public void resolve(Resolver resolver) {
+		this.base = resolver.resolve(BigTechMod.modID("block/prism_base"));
+		resolver.resolve(BigTechMod.modID("block/prism_lens"));
 	}
 
 	@Nullable

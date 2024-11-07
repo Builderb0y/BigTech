@@ -7,9 +7,9 @@
 		"d  "
 	],
 	"key": {
-		"g": { "tag": "c:ingots/gold"  },
-		"p": { "tag": "c:ender_pearls" },
-		"d": { "tag": "c:gems/diamond" }
+		"g": "#c:ingots/gold" ,
+		"p": "#c:ender_pearls",
+		"d": "#c:gems/diamond"
 	},
 	"result": {
 		"id": "bigtech:dislocator"

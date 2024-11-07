@@ -3,8 +3,8 @@
 	"category": "redstone",
 	"group": "bigtech:leds",
 	"ingredients": [
-		{ "tag": "bigtech:leds"  },
-		{ "tag": "c:dyes/purple" }
+		"#bigtech:leds" ,
+		"#c:dyes/purple"
 	],
 	"result": {
 		"id": "bigtech:purple_led"

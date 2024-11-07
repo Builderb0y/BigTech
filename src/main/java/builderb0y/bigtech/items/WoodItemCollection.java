@@ -7,7 +7,7 @@ import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 public class WoodItemCollection extends WoodRegistrableCollection<Item> {
 
 	public WoodItemCollection(
-		String suffix,
+		boolean register,
 		Item oak,
 		Item spruce,
 		Item birch,
@@ -20,7 +20,7 @@ public class WoodItemCollection extends WoodRegistrableCollection<Item> {
 		Item warped
 	) {
 		super(
-			suffix,
+			register,
 			oak,
 			spruce,
 			birch,
@@ -34,21 +34,21 @@ public class WoodItemCollection extends WoodRegistrableCollection<Item> {
 		);
 	}
 
-	public WoodItemCollection(String suffix, WoodRegistrableFactory<Item> factory) {
-		super(suffix, factory);
+	public WoodItemCollection(boolean register, WoodRegistrableFactory<Item> factory) {
+		super(register, factory);
 	}
 
 	@Override
-	public void register(String suffix) {
-		BigTechItems.register(     "oak_" + suffix, this.oak);
-		BigTechItems.register(  "spruce_" + suffix, this.spruce);
-		BigTechItems.register(   "birch_" + suffix, this.birch);
-		BigTechItems.register(  "jungle_" + suffix, this.jungle);
-		BigTechItems.register(  "acacia_" + suffix, this.acacia);
-		BigTechItems.register("dark_oak_" + suffix, this.dark_oak);
-		BigTechItems.register("mangrove_" + suffix, this.mangrove);
-		BigTechItems.register(  "cherry_" + suffix, this.cherry);
-		BigTechItems.register( "crimson_" + suffix, this.crimson);
-		BigTechItems.register(  "warped_" + suffix, this.warped);
+	public void register() {
+		BigTechItems.register(this.oak);
+		BigTechItems.register(this.spruce);
+		BigTechItems.register(this.birch);
+		BigTechItems.register(this.jungle);
+		BigTechItems.register(this.acacia);
+		BigTechItems.register(this.dark_oak);
+		BigTechItems.register(this.mangrove);
+		BigTechItems.register(this.cherry);
+		BigTechItems.register(this.crimson);
+		BigTechItems.register(this.warped);
 	}
 }

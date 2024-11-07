@@ -13,20 +13,6 @@ import net.minecraft.screen.ScreenHandlerContext;
 @Mixin(CraftingScreenHandler.class)
 public interface CraftingScreenHandler_Accessors {
 
-	@Accessor("input")
-	public abstract RecipeInputInventory bigtech_getInput();
-
-	@Mutable
-	@Accessor("input")
-	public abstract void bigtech_setInput(RecipeInputInventory input);
-
-	@Accessor("result")
-	public abstract CraftingResultInventory bigtech_getResult();
-
-	@Mutable
-	@Accessor("result")
-	public abstract void bigtech_setResult(CraftingResultInventory result);
-
 	@Accessor("context")
 	public abstract ScreenHandlerContext bigtech_getContext();
 

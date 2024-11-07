@@ -7,6 +7,7 @@ import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -25,10 +26,10 @@ public class IgnitorBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onEntityCollision(BlockPos pos, Entity entity) {
-		super.onEntityCollision(pos, entity);
-		IgnitorBlockEntity ignitor = WorldHelper.getBlockEntity(this.world, this.origin, IgnitorBlockEntity.class);
-		if (ignitor != null) ignitor.onEntityCollision(entity);
+	public void onEntityCollision(ServerWorld world, BlockPos pos, Entity entity) {
+		super.onEntityCollision(world, pos, entity);
+		IgnitorBlockEntity ignitor = WorldHelper.getBlockEntity(world, this.origin, IgnitorBlockEntity.class);
+		if (ignitor != null) ignitor.onEntityCollision(world, entity);
 	}
 
 	@Override
@@ -42,13 +43,13 @@ public class IgnitorBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState) {
-		BlockState originState = this.world.getBlockState(this.origin);
+	public void onBlockChanged(ServerWorld world, BlockPos pos, BlockState oldState, BlockState newState) {
+		BlockState originState = world.getBlockState(this.origin);
 		if (originState.isOf(FunctionalBlocks.IGNITOR_BEAM)) {
-			this.world.addSyncedBlockEvent(this.origin, FunctionalBlocks.IGNITOR_BEAM, 0, 0);
+			world.addSyncedBlockEvent(this.origin, FunctionalBlocks.IGNITOR_BEAM, 0, 0);
 		}
 		else {
-			this.removeFromWorld();
+			this.removeFromWorld(world);
 		}
 	}
 }

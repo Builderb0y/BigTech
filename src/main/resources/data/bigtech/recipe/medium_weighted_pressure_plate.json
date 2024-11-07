@@ -5,7 +5,7 @@
 		"cc"
 	],
 	"key": {
-		"c": { "tag": "c:ingots/copper" }
+		"c": "#c:ingots/copper"
 	},
 	"result": {
 		"id": "bigtech:medium_weighted_pressure_plate"

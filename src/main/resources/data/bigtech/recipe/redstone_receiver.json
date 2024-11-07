@@ -6,10 +6,10 @@
 		"bbb"
 	],
 	"key": {
-		"q": { "tag":  "c:gems/quartz"               },
-		"l": { "item": "bigtech:lens"                },
-		"r": { "tag":  "c:dusts/redstone"            },
-		"b": { "item": "minecraft:smooth_stone_slab" }
+		"q": "#c:gems/quartz"             ,
+		"l": "bigtech:lens"               ,
+		"r": "#c:dusts/redstone"          ,
+		"b": "minecraft:smooth_stone_slab"
 	},
 	"result": {
 		"id": "bigtech:redstone_receiver"

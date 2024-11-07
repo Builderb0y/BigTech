@@ -1,6 +1,6 @@
 {
 	"type": "bigtech:transmute",
-	"input":  { "tag":  "minecraft:logs" },
+	"input": "#minecraft:logs",
 	"output": { "item": "minecraft:charcoal" },
 	"energy": 40
 }

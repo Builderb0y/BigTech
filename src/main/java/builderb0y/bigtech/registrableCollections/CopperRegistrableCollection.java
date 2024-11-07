@@ -19,7 +19,7 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		waxed_oxidized_copper;
 
 	public CopperRegistrableCollection(
-		Function<Type, String> namer,
+		boolean register,
 		T copper,
 		T exposed_copper,
 		T weathered_copper,
@@ -38,12 +38,12 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		this.waxed_weathered_copper = waxed_weathered_copper;
 		this. waxed_oxidized_copper =  waxed_oxidized_copper;
 
-		if (namer != null) this.register(namer);
+		if (register) this.register();
 	}
 
-	public CopperRegistrableCollection(Function<Type, String> namer, SeparateCopperRegistrableFactory<T> unwaxedFactory, SeparateCopperRegistrableFactory<T> waxedFactory) {
+	public CopperRegistrableCollection(boolean register, SeparateCopperRegistrableFactory<T> unwaxedFactory, SeparateCopperRegistrableFactory<T> waxedFactory) {
 		this(
-			namer,
+			register,
 			unwaxedFactory.create(OxidationLevel.UNAFFECTED),
 			unwaxedFactory.create(OxidationLevel.EXPOSED),
 			unwaxedFactory.create(OxidationLevel.WEATHERED),
@@ -55,9 +55,9 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		);
 	}
 
-	public CopperRegistrableCollection(Function<Type, String> namer, MergedCopperRegistrableFactory<T> factory) {
+	public CopperRegistrableCollection(boolean register, MergedCopperRegistrableFactory<T> factory) {
 		this(
-			namer,
+			register,
 			factory.create(Type.                COPPER),
 			factory.create(Type.        EXPOSED_COPPER),
 			factory.create(Type.      WEATHERED_COPPER),
@@ -69,7 +69,7 @@ public abstract class CopperRegistrableCollection<T> implements RegistrableColle
 		);
 	}
 
-	public abstract void register(Function<Type, String> namer);
+	public abstract void register();
 
 	@FunctionalInterface
 	public static interface MergedCopperRegistrableFactory<T> {

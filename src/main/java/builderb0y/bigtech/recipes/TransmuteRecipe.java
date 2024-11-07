@@ -11,6 +11,7 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.*;
+import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -19,7 +20,6 @@ import net.minecraft.world.World;
 
 import builderb0y.autocodec.annotations.*;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
-import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.networking.PacketCodecs2;
 
 public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
@@ -36,6 +36,8 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 	public final @SingletonArray @VerifySizeRange(min = 1) List<Output> output;
 	public final transient int outputWeight;
 	public final @VerifyIntRange(min = 0) int energy;
+
+	public IngredientPlacement ingredientPlacement;
 
 	public TransmuteRecipe(Ingredient input, List<Output> output, int energy) {
 		this.input  = input;
@@ -59,38 +61,23 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
-		return true;
+	public IngredientPlacement getIngredientPlacement() {
+		return this.ingredientPlacement == null ? this.ingredientPlacement = IngredientPlacement.forSingleSlot(this.input) : this.ingredientPlacement;
 	}
 
 	@Override
-	public ItemStack getResult(WrapperLookup registriesLookup) {
-		return this.output.get(0).toStack();
+	public RecipeBookCategory getRecipeBookCategory() {
+		return BigTechRecipeBookCategories.TRANSMUTING;
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<? extends Recipe<TransmuteRecipeInventory>> getSerializer() {
 		return BigTechRecipeSerializers.TRANSMUTE;
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<? extends Recipe<TransmuteRecipeInventory>> getType() {
 		return BigTechRecipeTypes.TRANSMUTE;
-	}
-
-	@Override
-	public DefaultedList<Ingredient> getIngredients() {
-		return DefaultedList.ofSize(1, this.input);
-	}
-
-	@Override
-	public ItemStack createIcon() {
-		return new ItemStack(FunctionalItems.TRANSMUTER);
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return this.input.isEmpty();
 	}
 
 	public static class Output implements Weighted {

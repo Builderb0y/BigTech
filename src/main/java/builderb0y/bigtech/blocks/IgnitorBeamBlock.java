@@ -26,6 +26,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.RedstoneView;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
@@ -93,11 +94,13 @@ public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
 
 	@Override
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-		if (oldBeam != null) oldBeam.removeFromWorld();
-		if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
-			PersistentBeam newBeam = new IgnitorBeam(world, UUID.randomUUID());
-			newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		if (world instanceof ServerWorld serverWorld) {
+			PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(serverWorld).getBeam(pos);
+			if (oldBeam != null) oldBeam.removeFromWorld(serverWorld);
+			if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
+				PersistentBeam newBeam = new IgnitorBeam(serverWorld, UUID.randomUUID());
+				newBeam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+			}
 		}
 		return false;
 	}
@@ -113,8 +116,8 @@ public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = this.shouldBePowered(world, pos);
 		if (powered != shouldBePowered) {
@@ -125,9 +128,11 @@ public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
-		if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
-			PersistentBeam beam = new IgnitorBeam(world, UUID.randomUUID());
-			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		if (world instanceof ServerWorld serverWorld) {
+			if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
+				PersistentBeam beam = new IgnitorBeam(serverWorld, UUID.randomUUID());
+				beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+			}
 		}
 	}
 
@@ -138,9 +143,9 @@ public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
 			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
 		}
 		super.onStateReplaced(state, world, pos, newState, moved);
-		if (state.get(Properties.POWERED)) {
+		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
 			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-			if (beam != null) beam.removeFromWorld();
+			if (beam != null) beam.removeFromWorld(serverWorld);
 		}
 	}
 

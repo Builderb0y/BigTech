@@ -15,60 +15,66 @@ public class CommonAscenderDataGenerator implements DataGenerator {
 			//language=json
 			"""
 			{
-				"jmxl": true,
-				"parent": "minecraft:block/block",
 				"ambientocclusion": false,
+				"parent": "minecraft:block/block",
 				"textures": {
-					"outer":       "bigtech:block/ascender_outer",
-					"inner":       "bigtech:block/ascender_inner",
-					"top_bottom":  "bigtech:block/ascender_top_bottom",
-					"particle":    "bigtech:block/ascender_outer"
+					"outer":      "bigtech:block/ascender_outer",
+					"inner":      "bigtech:block/ascender_inner",
+					"top_bottom": "bigtech:block/ascender_top_bottom",
+					"particle":   "bigtech:block/ascender_outer"
 				},
 				"elements": [
 					{
-						"from": [ 0,  0,  0 ],
-						"to":   [ 2, 16, 16 ],
+						"from": [ 0,  0, 0 ],
+						"to":   [ 2, 16, 2 ],
 						"faces": {
-							"east": { "uv": [ 0, 0, 16, 16 ], "texture": "#inner"                     },
-							"west": { "uv": [ 0, 0, 16, 16 ], "texture": "#outer", "cullface": "west" }
+							"up":    { "uv": [  0,  0,  2,  2 ], "texture": "#top_bottom", "cullface": "up"    },
+							"down":  { "uv": [  0, 14,  2, 16 ], "texture": "#top_bottom", "cullface": "down"  },
+							"north": { "uv": [ 14,  0, 16, 16 ], "texture": "#outer",      "cullface": "north" },
+							"east":  { "uv": [ 14,  0, 16, 16 ], "texture": "#inner"                           },
+							"south": { "uv": [  0,  0,  2, 16 ], "texture": "#inner"                           },
+							"west":  { "uv": [  0,  0,  2, 16 ], "texture": "#outer",      "cullface": "west"  }
 						}
 					},
 					{
-						"from": [  0,  0, 0 ],
+						"from": [ 14,  0, 0 ],
 						"to":   [ 16, 16, 2 ],
 						"faces": {
-							"north": { "uv": [ 0, 0, 16, 16 ], "texture": "#outer", "cullface": "north" },
-							"south": { "uv": [ 0, 0, 16, 16 ], "texture": "#inner"                      }
+							"up":    { "uv": [ 14,  0, 16,  2 ], "texture": "#top_bottom", "cullface": "up"    },
+							"down":  { "uv": [ 14, 14, 16, 16 ], "texture": "#top_bottom", "cullface": "down"  },
+							"north": { "uv": [  0,  0,  2, 16 ], "texture": "#outer",      "cullface": "north" },
+							"east":  { "uv": [ 14,  0, 16, 16 ], "texture": "#outer",      "cullface": "east"  },
+							"south": { "uv": [ 14,  0, 16, 16 ], "texture": "#inner"                           },
+							"west":  { "uv": [  0,  0,  2, 16 ], "texture": "#inner"                           }
 						}
 					},
 					{
-						"from": [ 14,  0,  0 ],
+						"from": [ 14,  0, 14 ],
 						"to":   [ 16, 16, 16 ],
 						"faces": {
-							"east": { "uv": [ 0, 0, 16, 16 ], "texture": "#outer", "cullface": "east" },
-							"west": { "uv": [ 0, 0, 16, 16 ], "texture": "#inner"                     }
+							"up":    { "uv": [ 14, 14, 16, 16 ], "texture": "#top_bottom", "cullface": "up"    },
+							"down":  { "uv": [ 14,  0, 16,  2 ], "texture": "#top_bottom", "cullface": "down"  },
+							"north": { "uv": [  0,  0,  2, 16 ], "texture": "#inner"                           },
+							"east":  { "uv": [  0,  0,  2, 16 ], "texture": "#outer",      "cullface": "east"  },
+							"south": { "uv": [ 14,  0, 16, 16 ], "texture": "#outer",      "cullface": "south" },
+							"west":  { "uv": [ 14,  0, 16, 16 ], "texture": "#inner"                           }
 						}
 					},
 					{
-						"from": [  0,  0, 14 ],
-						"to":   [ 16, 16, 16 ],
+						"from": [ 0,  0, 14 ],
+						"to":   [ 2, 16, 16 ],
 						"faces": {
-							"north": { "uv": [ 0, 0, 16, 16 ], "texture": "#inner"                      },
-							"south": { "uv": [ 0, 0, 16, 16 ], "texture": "#outer", "cullface": "south" }
-						}
-					},
-					{
-						"from": [  0,  0,  0 ],
-						"to":   [ 16, 16, 16 ],
-						"faces": {
-							"up":   { "uv": [ 0, 0, 16, 16 ], "texture": "#top_bottom", "cullface": "up"   },
-							"down": { "uv": [ 0, 0, 16, 16 ], "texture": "#top_bottom", "cullface": "down" }
+							"up":    { "uv": [  0, 14,  2, 16 ], "texture": "#top_bottom", "cullface": "up"    },
+							"down":  { "uv": [  0,  0,  2,  2 ], "texture": "#top_bottom", "cullface": "down"  },
+							"north": { "uv": [ 14,  0, 16, 16 ], "texture": "#inner"                           },
+							"east":  { "uv": [  0,  0,  2, 16 ], "texture": "#inner"                           },
+							"south": { "uv": [  0,  0,  2, 16 ], "texture": "#outer",      "cullface": "south" },
+							"west":  { "uv": [ 14,  0, 16, 16 ], "texture": "#outer",      "cullface": "west"  }
 						}
 					},
 					{
 						"from": [  1,  0,  1 ],
 						"to":   [ 15, 16, 15 ],
-						"jmxl_layer": "TRANSLUCENT",
 						"faces": {
 							"north": { "uv": [ 1, 0, 15, 16 ], "texture": "#translucent" },
 							"east":  { "uv": [ 1, 0, 15, 16 ], "texture": "#translucent" },

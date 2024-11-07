@@ -45,7 +45,7 @@ public class EntityRoutePacket implements S2CPlayPacket<EntityRoutePacket.Payloa
 		boolean present = buffer.readBoolean();
 		if (present) try {
 			BlockPos pos = buffer.readBlockPos();
-			BlockState state = BlockArgumentParser.block(Registries.BLOCK.getReadOnlyWrapper(), buffer.readString(), false).blockState();
+			BlockState state = BlockArgumentParser.block(Registries.BLOCK, buffer.readString(), false).blockState();
 			Direction direction = Directions.ALL[buffer.readByte()];
 			return new Payload(entityID, true, pos, state, direction);
 		}

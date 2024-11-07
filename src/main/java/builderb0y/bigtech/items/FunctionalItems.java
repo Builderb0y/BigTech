@@ -1,12 +1,16 @@
 package builderb0y.bigtech.items;
 
-import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.FuelRegistry;
 import net.minecraft.item.Item;
+import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 
-import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.datagen.impl.TripwireDataGenerator;
@@ -26,249 +30,248 @@ import builderb0y.bigtech.datagen.impl.technoCrafters.TechnoCrafterDataGenerator
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
+import static builderb0y.bigtech.items.BigTechItems.register;
+import static builderb0y.bigtech.items.BigTechItems.registerPlacer;
+import static builderb0y.bigtech.items.BigTechItems.settings;
+
 public class FunctionalItems {
 
 	//////////////////////////////// belts ////////////////////////////////
 
 	@UseDataGen(NormalBeltDataGenerator.class)
-	public static final BeltBlockItem BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem BELT = registerBelt(
 		FunctionalBlocks.BELT
 	);
 	@UseDataGen(SpeedyBeltDataGenerator.class)
-	public static final BeltBlockItem SPEEDY_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem SPEEDY_BELT = registerBelt(
 		FunctionalBlocks.SPEEDY_BELT
 	);
 	@UseDataGen(BrakeBeltDataGenerator.class)
-	public static final BeltBlockItem BRAKE_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem BRAKE_BELT = registerBelt(
 		FunctionalBlocks.BRAKE_BELT
 	);
 	@UseDataGen(TrapdoorBeltDataGenerator.class)
-	public static final BeltBlockItem TRAPDOOR_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem TRAPDOOR_BELT = registerBelt(
 		FunctionalBlocks.TRAPDOOR_BELT
 	);
 	@UseDataGen(DirectorBeltDataGenerator.class)
-	public static final BlockItem DIRECTOR_BELT = BigTechItems.registerPlacer(
+	public static final BlockItem DIRECTOR_BELT = registerPlacer(
 		FunctionalBlocks.DIRECTOR_BELT
 	);
 	@UseDataGen(DetectorBeltDataGenerator.class)
-	public static final BeltBlockItem DETECTOR_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem DETECTOR_BELT = registerBelt(
 		FunctionalBlocks.DETECTOR_BELT
 	);
 	@UseDataGen(SorterBeltDataGenerator.class)
-	public static final BeltBlockItem SORTER_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem SORTER_BELT = registerBelt(
 		FunctionalBlocks.SORTER_BELT
 	);
 	@UseDataGen(EjectorBeltDataGenerator.class)
-	public static final BeltBlockItem EJECTOR_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem EJECTOR_BELT = registerBelt(
 		FunctionalBlocks.EJECTOR_BELT
 	);
 	@UseDataGen(InjectorBeltDataGenerator.class)
-	public static final BeltBlockItem INJECTOR_BELT = BigTechItems.registerBelt(
+	public static final BeltBlockItem INJECTOR_BELT = registerBelt(
 		FunctionalBlocks.INJECTOR_BELT
 	);
 	@UseDataGen(LauncherBeltDataGenerator.class)
-	public static final BlockItem LAUNCHER_BELT = BigTechItems.registerBelt(
+	public static final BlockItem LAUNCHER_BELT = registerBelt(
 		FunctionalBlocks.LAUNCHER_BELT
 	);
 
 	//////////////////////////////// ascenders ////////////////////////////////
 
 	@UseDataGen(AscenderDataGenerator.class)
-	public static final AscenderBlockItem ASCENDER = BigTechItems.register(
-		"ascender",
+	public static final AscenderBlockItem ASCENDER = register(
 		new AscenderBlockItem(
 			FunctionalBlocks.ASCENDER,
-			new Item.Settings()
+			settings("ascender")
 		)
 	);
 	@UseDataGen(DescenderDataGenerator.class)
-	public static final AscenderBlockItem DESCENDER = BigTechItems.register(
-		"descender",
+	public static final AscenderBlockItem DESCENDER = register(
 		new AscenderBlockItem(
 			FunctionalBlocks.DESCENDER,
-			new Item.Settings()
+			settings("descender")
 		)
 	);
 
 	//////////////////////////////// automation ////////////////////////////////
 
 	@UseDataGen(WoodenHopperDataGenerator.class)
-	public static final BlockItem WOODEN_HOPPER = BigTechItems.registerPlacer(
+	public static final BlockItem WOODEN_HOPPER = registerPlacer(
 		FunctionalBlocks.WOODEN_HOPPER
 	);
 
 	@UseDataGen(IgnitorDataGenerator.class)
-	public static final BlockItem IGNITOR = BigTechItems.registerPlacer(
+	public static final BlockItem IGNITOR = registerPlacer(
 		FunctionalBlocks.IGNITOR
 	);
 
 	@UseDataGen(SilverIodideCannonDataGenerator.class)
-	public static final BlockItem SILVER_IODIDE_CANNON = BigTechItems.registerPlacer(
+	public static final BlockItem SILVER_IODIDE_CANNON = registerPlacer(
 		FunctionalBlocks.SILVER_IODIDE_CANNON
 	);
 
 	@UseDataGen(SpawnerInterceptorDataGenerator.class)
-	public static final BlockItem SPAWNER_INTERCEPTOR = BigTechItems.registerPlacer(
+	public static final BlockItem SPAWNER_INTERCEPTOR = registerPlacer(
 		FunctionalBlocks.SPAWNER_INTERCEPTOR
 	);
 
 	@UseDataGen(PulsarDataGenerator.class)
-	public static final BlockItem PULSAR = BigTechItems.registerPlacer(
+	public static final BlockItem PULSAR = registerPlacer(
 		FunctionalBlocks.PULSAR
 	);
 
 	@UseDataGen(RadioDataGenerator.class)
-	public static final BlockItem RADIO = BigTechItems.registerPlacer(
+	public static final BlockItem RADIO = registerPlacer(
 		FunctionalBlocks.RADIO
 	);
 
 	//////////////////////////////// encased blocks ////////////////////////////////
 
 	@UseDataGen(EncasedRedstoneBlockDataGenerator.class)
-	public static final BlockItem ENCASED_REDSTONE_BLOCK = BigTechItems.registerPlacer(
+	public static final BlockItem ENCASED_REDSTONE_BLOCK = registerPlacer(
 		FunctionalBlocks.ENCASED_REDSTONE_BLOCK
 	);
 	@UseDataGen(EncasedSlimeBlockDataGenerator.class)
-	public static final BlockItem ENCASED_SLIME_BLOCK = BigTechItems.registerPlacer(
+	public static final BlockItem ENCASED_SLIME_BLOCK = registerPlacer(
 		FunctionalBlocks.ENCASED_SLIME_BLOCK
 	);
 	@UseDataGen(EncasedSlimeBlockDataGenerator.class)
-	public static final BlockItem ENCASED_HONEY_BLOCK = BigTechItems.registerPlacer(
+	public static final BlockItem ENCASED_HONEY_BLOCK = registerPlacer(
 		FunctionalBlocks.ENCASED_HONEY_BLOCK
 	);
 
 	//////////////////////////////// lightning stuff ////////////////////////////////
 
 	@UseDataGen(LightningCableDataGenerator.class)
-	public static final BlockItem IRON_LIGHTNING_CAbLE = BigTechItems.registerPlacer(
+	public static final BlockItem IRON_LIGHTNING_CAbLE = registerPlacer(
 		FunctionalBlocks.IRON_LIGHTNING_CABLE
 	);
 	@UseDataGen(LightningCableDataGenerator.class)
-	public static final BlockItem GOLD_LIGHTNING_CABLE = BigTechItems.registerPlacer(
+	public static final BlockItem GOLD_LIGHTNING_CABLE = registerPlacer(
 		FunctionalBlocks.GOLD_LIGHTNING_CABLE
 	);
 	@UseDataGen(LightningCableDataGenerator.class)
-	public static final BlockItem COPPER_LIGHTNING_CABLE = BigTechItems.registerPlacer(
+	public static final BlockItem COPPER_LIGHTNING_CABLE = registerPlacer(
 		FunctionalBlocks.COPPER_LIGHTNING_CABLE
 	);
 	@UseDataGen(LightningDiodeDataGenerator.class)
-	public static final BlockItem LIGHTNING_DIODE = BigTechItems.registerPlacer(
+	public static final BlockItem LIGHTNING_DIODE = registerPlacer(
 		FunctionalBlocks.LIGHTNING_DIODE
 	);
 	@UseDataGen(LightningElectrodeDataGenerator.class)
-	public static final Item LIGHTNING_ELECTRODE = BigTechItems.register(
-		"lightning_electrode",
-		new Item(new Item.Settings())
+	public static final Item LIGHTNING_ELECTRODE = register(
+		new Item(settings("lightning_electrode"))
 	);
 	@UseDataGen(QuadLightningElectrodeDataGenerator.class)
-	public static final Item QUAD_LIGHTNING_ELECTRODE = BigTechItems.register(
-		"quad_lightning_electrode",
-		new Item(new Item.Settings())
+	public static final Item QUAD_LIGHTNING_ELECTRODE = register(
+		new Item(settings("quad_lightning_electrode"))
 	);
 	@UseDataGen(LightningBatteryDataGenerator.class)
-	public static final LightningBatteryItem LIGHTNING_BATTERY = BigTechItems.register(
-		"lightning_battery",
+	public static final LightningBatteryItem LIGHTNING_BATTERY = register(
 		new LightningBatteryItem(
-			new Item.Settings()
+			settings("lightning_battery")
 			.component(BigTechDataComponents.LIGHTNING_CAPACITY, 1000)
 			.component(BigTechDataComponents.LIGHTNING_ENERGY, 0)
 		)
 	);
 	@UseDataGen(SmallLightningJarDataGenerator.class)
-	public static final BlockItem SMALL_LIGHTNING_JAR = BigTechItems.registerPlacer(
+	public static final BlockItem SMALL_LIGHTNING_JAR = registerPlacer(
 		FunctionalBlocks.SMALL_LIGHTNING_JAR
 	);
 	@UseDataGen(LargeLightningJarDataGenerator.class)
-	public static final BlockItem LARGE_LIGHTNING_JAR = BigTechItems.registerPlacer(
+	public static final BlockItem LARGE_LIGHTNING_JAR = registerPlacer(
 		FunctionalBlocks.LARGE_LIGHTNING_JAR
 	);
 	@UseDataGen(TransmuterDataGenerator.class)
-	public static final BlockItem TRANSMUTER = BigTechItems.registerPlacer(
+	public static final BlockItem TRANSMUTER = registerPlacer(
 		FunctionalBlocks.TRANSMUTER
 	);
 	@UseDataGen(CopperCoilDataGenerator.class)
-	public static final BlockItem COPPER_COIL = BigTechItems.registerPlacer(
+	public static final BlockItem COPPER_COIL = registerPlacer(
 		FunctionalBlocks.COPPER_COIL
 	);
 	@UseDataGen(ConductiveAnvilDataGenerator.class)
 	public static final CopperItemCollection CONDUCTIVE_ANVILS = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.noCopperPrefix + "conductive_anvil",
-		(CopperRegistrableCollection.Type type) -> new BlockItem(FunctionalBlocks.CONDUCTIVE_ANVILS.get(type), new Item.Settings())
+		true,
+		(CopperRegistrableCollection.Type type) -> new BlockItem(
+			FunctionalBlocks.CONDUCTIVE_ANVILS.get(type),
+			settings(type.noCopperPrefix + "conductive_anvil")
+		)
 	);
 
 	//////////////////////////////// lasers ////////////////////////////////
 
 	@UseDataGen(LightningTransmitterDataGenerator.class)
-	public static final BlockItem LIGHTNING_TRANSMITTER = BigTechItems.registerPlacer(
+	public static final BlockItem LIGHTNING_TRANSMITTER = registerPlacer(
 		FunctionalBlocks.LIGHTNING_TRANSMITTER
 	);
 	@UseDataGen(RedstoneTransmitterDataGenerator.class)
-	public static final BlockItem REDSTONE_TRANSMITTER = BigTechItems.registerPlacer(
+	public static final BlockItem REDSTONE_TRANSMITTER = registerPlacer(
 		FunctionalBlocks.REDSTONE_TRANSMITTER
 	);
 	@UseDataGen(RedstoneReceiverDataGenerator.class)
-	public static final BlockItem REDSTONE_RECEIVER = BigTechItems.registerPlacer(
+	public static final BlockItem REDSTONE_RECEIVER = registerPlacer(
 		FunctionalBlocks.REDSTONE_RECEIVER
 	);
 	@UseDataGen(BeamInterceptorDataGenerator.class)
-	public static final BlockItem BEAM_INTERCEPTOR = BigTechItems.register(
-		"beam_interceptor",
+	public static final BlockItem BEAM_INTERCEPTOR = register(
 		new ClientNbtCopyingBlockItem(
 			FunctionalBlocks.BEAM_INTERCEPTOR,
-			new Item.Settings()
+			settings("beam_interceptor")
 		)
 	);
 	@UseDataGen(TripwireDataGenerator.class)
-	public static final BlockItem TRIPWIRE = BigTechItems.registerPlacer(
+	public static final BlockItem TRIPWIRE = registerPlacer(
 		FunctionalBlocks.TRIPWIRE
 	);
 	@UseDataGen(SpotlightDataGenerator.class)
-	public static final BlockItem SPOTLIGHT = BigTechItems.registerPlacer(
+	public static final BlockItem SPOTLIGHT = registerPlacer(
 		FunctionalBlocks.SPOTLIGHT
 	);
 	@UseDataGen(ShortRangeDeployerDataGenerator.class)
-	public static final BlockItem SHORT_RANGE_DEPLOYER = BigTechItems.registerPlacer(
+	public static final BlockItem SHORT_RANGE_DEPLOYER = registerPlacer(
 		FunctionalBlocks.SHORT_RANGE_DEPLOYER
 	);
 	@UseDataGen(LongRangeDeployerDataGenerator.class)
-	public static final BlockItem LONG_RANGE_DEPLOYER = BigTechItems.registerPlacer(
+	public static final BlockItem LONG_RANGE_DEPLOYER = registerPlacer(
 		FunctionalBlocks.LONG_RANGE_DEPLOYER
 	);
 	@UseDataGen(ShortRangeDestroyerDataGenerator.class)
-	public static final BlockItem SHORT_RANGE_DESTROYER = BigTechItems.registerPlacer(
+	public static final BlockItem SHORT_RANGE_DESTROYER = registerPlacer(
 		FunctionalBlocks.SHORT_RANGE_DESTROYER
 	);
 	@UseDataGen(LongRangeDestroyerDataGenerator.class)
-	public static final BlockItem LONG_RANGE_DESTROYER = BigTechItems.registerPlacer(
+	public static final BlockItem LONG_RANGE_DESTROYER = registerPlacer(
 		FunctionalBlocks.LONG_RANGE_DESTROYER
 	);
 	@UseDataGen(IgnitorBeamDataGenerator.class)
-	public static final BlockItem IGNITOR_BEAM = BigTechItems.registerPlacer(
+	public static final BlockItem IGNITOR_BEAM = registerPlacer(
 		FunctionalBlocks.IGNITOR_BEAM
 	);
 	@UseDataGen(MirrorDataGenerator.class)
-	public static final BlockItem MIRROR = BigTechItems.registerPlacer(
+	public static final BlockItem MIRROR = registerPlacer(
 		FunctionalBlocks.MIRROR
 	);
 	@UseDataGen(PrismDataGenerator.class)
-	public static final BlockItem PRISM = BigTechItems.register(
-		"prism",
+	public static final BlockItem PRISM = register(
 		new ClientNbtCopyingBlockItem(
 			FunctionalBlocks.PRISM,
-			new Item.Settings()
+			settings("prism")
 		)
 	);
 	@UseDataGen(LensDataGenerator.class)
-	public static final Item LENS = BigTechItems.register(
-		"lens",
-		new Item(new Item.Settings())
+	public static final Item LENS = register(
+		new Item(settings("lens"))
 	);
 	@UseDataGen(PhaseScramblerDataGenerator.class)
-	public static final BlockItem PHASE_SCRAMBLER = BigTechItems.registerPlacer(
+	public static final BlockItem PHASE_SCRAMBLER = registerPlacer(
 		FunctionalBlocks.PHASE_SCRAMBLER
 	);
 	@UseDataGen(PhaseAlignerDataGenerator.class)
-	public static final BlockItem PHASE_ALIGNER = BigTechItems.registerPlacer(
+	public static final BlockItem PHASE_ALIGNER = registerPlacer(
 		FunctionalBlocks.PHASE_ALIGNER
 	);
 
@@ -276,122 +279,114 @@ public class FunctionalItems {
 
 	@UseDataGen(CrystalClusterDataGenerator.class)
 	public static final CrystalItemCollection CRYSTAL_CLUSTERS = new CrystalItemCollection(
-		"crystal_cluster",
+		true,
 		(CrystalColor color) -> new BlockItem(
 			FunctionalBlocks.CRYSTAl_ClUSTERS.get(color),
-			new Item.Settings()
+			settings(color.prefix + "crystal_cluster")
 		)
 	);
 	@UseDataGen(CrystalDebrisDataGenerator.class)
-	public static final Item CRYSTAL_DEBRIS = BigTechItems.register(
-		"crystal_debris",
-		new Item(new Item.Settings())
+	public static final Item CRYSTAL_DEBRIS = register(
+		new Item(settings("crystal_debris"))
 	);
 	@UseDataGen(CrystallineSandDataGenerator.class)
-	public static final BlockItem CRYSTALLINE_SAND = BigTechItems.registerPlacer(
+	public static final BlockItem CRYSTALLINE_SAND = registerPlacer(
 		FunctionalBlocks.CRYSTALLINE_SAND
 	);
 
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(MagnetiteNuggetDataGenerator.class)
-	public static final Item MAGNETITE_NUGGET = BigTechItems.register(
-		"magnetite_nugget",
-		new Item(new Item.Settings())
+	public static final Item MAGNETITE_NUGGET = register(
+		new Item(settings("magnetite_nugget"))
 	);
 	@UseDataGen(MagnetiteIngotDataGenerator.class)
-	public static final Item MAGNETITE_INGOT = BigTechItems.register(
-		"magnetite_ingot",
-		new Item(new Item.Settings())
+	public static final Item MAGNETITE_INGOT = register(
+		new Item(settings("magnetite_ingot"))
 	);
 	@UseDataGen(MagnetiteBlockDataGenerator.class)
-	public static final BlockItem MAGNETITE_BLOCK = BigTechItems.registerPlacer(
+	public static final BlockItem MAGNETITE_BLOCK = registerPlacer(
 		FunctionalBlocks.MAGNETITE_BLOCK
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Helmet.class)
-	public static final ArmorItem MAGNETITE_HELMET = BigTechItems.register(
-		"magnetite_helmet",
+	public static final ArmorItem MAGNETITE_HELMET = register(
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
-			ArmorItem.Type.HELMET,
-			new Item.Settings()
-			.maxDamage(ArmorItem.Type.HELMET.getMaxDamage(15))
+			EquipmentType.HELMET,
+			settings("magnetite_helmet")
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Chestplate.class)
-	public static final ArmorItem MAGNETITE_CHESTPLATE = BigTechItems.register(
-		"magnetite_chestplate",
+	public static final ArmorItem MAGNETITE_CHESTPLATE = register(
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
-			ArmorItem.Type.CHESTPLATE,
-			new Item.Settings()
-			.maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(15))
+			EquipmentType.CHESTPLATE,
+			settings("magnetite_chestplate")
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Leggings.class)
-	public static final ArmorItem MAGNETITE_LEGGINGS = BigTechItems.register(
-		"magnetite_leggings",
+	public static final ArmorItem MAGNETITE_LEGGINGS = register(
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
-			ArmorItem.Type.LEGGINGS,
-			new Item.Settings()
-			.maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(15))
+			EquipmentType.LEGGINGS,
+			settings("magnetite_leggings")
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Boots.class)
-	public static final ArmorItem MAGNETITE_BOOTS = BigTechItems.register(
-		"magnetite_boots",
+	public static final ArmorItem MAGNETITE_BOOTS = register(
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
-			ArmorItem.Type.BOOTS,
-			new Item.Settings()
-			.maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(15))
+			EquipmentType.BOOTS,
+			settings("magnetite_boots")
 		)
 	);
 	@UseDataGen(CopperNuggetDataGenerator.class)
-	public static final Item COPPER_NUGGET = BigTechItems.register(
-		BigTechMod.modID("copper_nugget"),
-		new Item(new Item.Settings())
+	public static final Item COPPER_NUGGET = register(
+		new Item(settings("copper_nugget"))
 	);
 	@UseDataGen(MediumWeightedPressurePlateDataGenerator.class)
-	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = BigTechItems.registerPlacer(
+	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = registerPlacer(
 		FunctionalBlocks.MEDIUM_WEIGHTED_PRESSURE_PLATE
 	);
 	@UseDataGen(MinerToolDataGenerator.class)
-	public static final Item MINER_TOOL = BigTechItems.register(
-		"miner_tool",
-		new MinerToolItem(new Item.Settings())
+	public static final Item MINER_TOOL = register(
+		new MinerToolItem(settings("miner_tool"))
 	);
 	@UseDataGen(StoneCraftingTableDataGenerator.class)
-	public static final BlockItem STONE_CRAFTING_TABLE = BigTechItems.registerPlacer(
+	public static final BlockItem STONE_CRAFTING_TABLE = registerPlacer(
 		FunctionalBlocks.STONE_CRAFTING_TABLE
 	);
 	@UseDataGen(TechnoCrafterDataGenerator.class)
-	public static final BlockItem TECHNO_CRAFTER = BigTechItems.registerPlacer(
+	public static final BlockItem TECHNO_CRAFTER = registerPlacer(
 		FunctionalBlocks.TECHNO_CRAFTER
 	);
 	@UseDataGen(PortableTechnoCrafterDataGenerator.class)
-	public static final PortableTechnoCrafterItem PORTABLE_TECHNO_CRAFTER = BigTechItems.register(
-		"portable_techno_crafter",
-		new PortableTechnoCrafterItem(new Item.Settings().maxCount(1))
+	public static final PortableTechnoCrafterItem PORTABLE_TECHNO_CRAFTER = register(
+		new PortableTechnoCrafterItem(settings("portable_techno_crafter").maxCount(1))
 	);
 	@UseDataGen(MagneticArrowDataGenerator.class)
-	public static final MagneticArrowItem MAGNETIC_ARROW = BigTechItems.register(
-		"magnetic_arrow",
-		new MagneticArrowItem(new Item.Settings())
+	public static final MagneticArrowItem MAGNETIC_ARROW = register(
+		new MagneticArrowItem(settings("magnetic_arrow"))
 	);
 	@UseDataGen(DislocatorDataGenerator.class)
-	public static final DislocatorItem DISLOCATOR = BigTechItems.register(
-		"dislocator",
+	public static final DislocatorItem DISLOCATOR = register(
 		new DislocatorItem(
-			new Item.Settings().maxDamage(64)
+			settings("dislocator").maxDamage(64).enchantable(15)
 		)
 	);
 
 	public static void init() {
-		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_FRAMES, 300);
-		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_CATWALK_PLATFORMS, 300);
-		FuelRegistry.INSTANCE.add(BigTechItemTags.WOODEN_CATWALK_STAIRS, 300);
-		FuelRegistry.INSTANCE.add(CRYSTAL_DEBRIS, 1200);
+		FuelRegistryEvents.BUILD.register((FuelRegistry.Builder builder, FuelRegistryEvents.Context context) -> {
+			int total = context.baseSmeltTime();
+			builder.add(BigTechItemTags.WOODEN_FRAMES, total * 3 / 2);
+			builder.add(BigTechItemTags.WOODEN_CATWALK_PLATFORMS, total * 3 / 2);
+			builder.add(BigTechItemTags.WOODEN_CATWALK_STAIRS, total * 3 / 2);
+			builder.add(CRYSTAL_DEBRIS, total * 6);
+		});
+	}
+
+	public static BeltBlockItem registerBelt(Block block) {
+		Identifier id = Registries.BLOCK.getId(block);
+		return register(id, new BeltBlockItem(block, settings(id)));
 	}
 }

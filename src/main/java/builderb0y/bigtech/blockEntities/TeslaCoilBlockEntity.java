@@ -15,6 +15,7 @@ import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
@@ -59,11 +60,13 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 
 	public void tickServer() {
 		if (this.getCachedState().get(Properties.POWERED) && this.checkStructure()) {
+			ServerWorld serverWorld = this.world.as();
 			Direction facing = this.getCachedState().get(Properties.FACING);
 			Orientation orientation = Orientation.from(facing);
-			List<LivingEntity> entities = this.world.getNonSpectatingEntities(LivingEntity.class, orientation.box.offset(this.pos).expand(this.random.nextDouble(2.0D, 3.0D)));
+			List<LivingEntity> entities = serverWorld.getNonSpectatingEntities(LivingEntity.class, orientation.box.offset(this.pos).expand(this.random.nextDouble(2.0D, 3.0D)));
 			if (!entities.isEmpty()) {
 				LightningPulse.shockEntity(
+					serverWorld,
 					entities.get(
 						this.random.nextInt(entities.size())
 					),
@@ -144,8 +147,8 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 			this.damageSource = new DamageSource(
 				world
 				.getRegistryManager()
-				.get(RegistryKeys.DAMAGE_TYPE)
-				.entryOf(BigTechDamageTypes.TESLA_COIL),
+				.getOrThrow(RegistryKeys.DAMAGE_TYPE)
+				.getOrThrow(BigTechDamageTypes.TESLA_COIL),
 				this.pos.toCenterPos()
 			);
 		}

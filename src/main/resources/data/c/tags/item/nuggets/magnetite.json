@@ -1,7 +1,6 @@
 {
 	"replace": false,
 	"values": [
-		"bigtech:magnetite_ingot",
 		"bigtech:magnetite_nugget"
 	]
 }

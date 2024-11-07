@@ -46,32 +46,32 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 	}
 
 	@Override
-	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
+	public boolean spreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) {
 		if (inputSegment.segment().direction() == BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)).getOpposite()) {
-			inputSegment.beam().addSegment(inputSegment.terminate());
+			inputSegment.beam().addSegment(world, inputSegment.terminate());
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void onBeamAdded(BlockPos pos, BlockState state, PersistentBeam beam) {
+	public void onBeamAdded(ServerWorld world, BlockPos pos, BlockState state, PersistentBeam beam) {
 		if (this.shouldBePoweredBy(beam, pos, state)) {
-			beam.world.scheduleBlockTick(pos, this, 2);
+			world.scheduleBlockTick(pos, this, 2);
 		}
 	}
 
 	@Override
-	public void onBeamRemoved(BlockPos pos, BlockState state, PersistentBeam beam) {
+	public void onBeamRemoved(ServerWorld world, BlockPos pos, BlockState state, PersistentBeam beam) {
 		if (state.get(Properties.POWERED)) {
-			beam.world.scheduleBlockTick(pos, this, 2);
+			world.scheduleBlockTick(pos, this, 2);
 		}
 	}
 
 	@Override
-	public void onBeamPulse(BlockPos pos, BlockState state, PulseBeam beam) {
+	public void onBeamPulse(ServerWorld world, BlockPos pos, BlockState state, PulseBeam beam) {
 		if (this.shouldBePoweredBy(beam, pos, state)) {
-			beam.world.addSyncedBlockEvent(pos, this, 0, 0);
+			world.addSyncedBlockEvent(pos, this, 0, 0);
 		}
 	}
 

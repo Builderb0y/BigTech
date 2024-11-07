@@ -13,21 +13,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
-import builderb0y.bigtech.armorMaterials.ArmorMaterialTags;
 import builderb0y.bigtech.beams.impl.LightningBeam;
+import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.mixins.CreeperEntity_ChargedAccessor;
 
 public class LightningPulse {
 
-	public final World world;
+	public final ServerWorld world;
 	public final LinkedBlockPos originPos;
 	public final int totalEnergy;
 	public int remainingSpreadEvents;
@@ -39,12 +38,11 @@ public class LightningPulse {
 	public final Map<LinkedBlockPos, LightningBeam> lightningBeams;
 
 	public LightningPulse(
-		World world,
+		ServerWorld world,
 		BlockPos originPos,
 		int totalEnergy,
 		int remainingSpreadEvents
 	) {
-		if (world.isClient) throw new IllegalStateException("Attempt to spawn a LightningPulse on the client");
 		this.world                 = world;
 		this.originPos             = new LinkedBlockPos(originPos, null);
 		this.totalEnergy           = totalEnergy;
@@ -57,14 +55,13 @@ public class LightningPulse {
 	}
 
 	public LightningPulse(
-		World world,
+		ServerWorld world,
 		BlockPos blockPos,
 		BlockState state,
 		LightningPulseInteractor interactor,
 		int totalEnergy,
 		int remainingSpreadEvents
 	) {
-		if (world.isClient) throw new IllegalStateException("Attempt to spawn a LightningPulse on the client");
 		this.world                 = world;
 		this.originPos             = new LinkedBlockPos(blockPos, null);
 		this.totalEnergy           = totalEnergy;
@@ -76,11 +73,11 @@ public class LightningPulse {
 		interactor.spreadIn(world, this.originPos, state, this);
 	}
 
-	public static void shockEntity(Entity entity, float amount, DamageSource source) {
+	public static void shockEntity(ServerWorld serverWorld, Entity entity, float amount, DamageSource source) {
 		float multiplier = 1.0F;
 		if (entity instanceof LivingEntity living) {
 			for (ItemStack stack : living.getAllArmorItems()) {
-				if (stack.getItem() instanceof ArmorItem armor && armor.getMaterial().isIn(ArmorMaterialTags.SHOCK_PROTECTION)) {
+				if (stack.isIn(BigTechItemTags.SHOCK_PROTECTIVE_ARMOR)) {
 					multiplier -= 0.25F;
 				}
 			}
@@ -88,7 +85,7 @@ public class LightningPulse {
 		amount *= multiplier;
 		if (
 			amount > 0.0F &&
-			entity.damage(source, amount) &&
+			entity.damage(serverWorld, source, amount) &&
 			entity instanceof CreeperEntity creeper
 		) {
 			creeper.getDataTracker().set(CreeperEntity_ChargedAccessor.getCharged(), Boolean.TRUE);

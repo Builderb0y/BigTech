@@ -21,9 +21,9 @@ public class ShortRangeDestroyerBlockEntity extends AbstractDestroyerBlockEntity
 	}
 
 	@Override
-	public void doTick() {
+	public void doTickServer() {
 		if (this.queue == null) {
-			this.queue = new DestroyQueue(this.getWorld(), this.getPos().offset(this.getCachedState().get(Properties.HORIZONTAL_FACING)), 16.0D);
+			this.queue = new DestroyQueue(this.getWorld().as(), this.getPos().offset(this.getCachedState().get(Properties.HORIZONTAL_FACING)), 16.0D);
 		}
 		this.queue.populate();
 		if (this.queue.inactive.isEmpty()) return;

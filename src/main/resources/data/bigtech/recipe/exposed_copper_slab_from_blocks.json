@@ -6,7 +6,7 @@
 		"bbb"
 	],
 	"key": {
-		"b": { "item": "minecraft:exposed_copper" }
+		"b": "minecraft:exposed_copper"
 	},
 	"result": {
 		"id": "bigtech:exposed_copper_slab",

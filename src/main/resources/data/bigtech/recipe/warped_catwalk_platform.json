@@ -7,8 +7,8 @@
 		"bbb"
 	],
 	"key": {
-		"b": { "item": "minecraft:warped_planks" },
-		"r": { "item": "minecraft:stick"         }
+		"b": "minecraft:warped_planks",
+		"r": "minecraft:stick"        
 	},
 	"result": {
 		"id": "bigtech:warped_catwalk_platform",

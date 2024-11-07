@@ -20,6 +20,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.random.Random;
@@ -31,8 +32,8 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 
 	public static final PulseBeamPacket INSTANCE = new PulseBeamPacket();
 
-	public void send(PulseBeam beam) {
-		Collection<ServerPlayerEntity> worldPlayers = PlayerLookup.world(beam.world.as());
+	public void send(ServerWorld world, PulseBeam beam) {
+		Collection<ServerPlayerEntity> worldPlayers = PlayerLookup.world(world);
 		if (worldPlayers.isEmpty()) return;
 		int minX = Integer.MAX_VALUE;
 		int minY = Integer.MAX_VALUE;
@@ -53,7 +54,7 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 			maxY = Math.max(maxY, y | 15);
 			maxZ = Math.max(maxZ, z | 15);
 		}
-		int serverViewDistance = beam.world.getServer().getPlayerManager().getViewDistance() << 4;
+		int serverViewDistance = world.getServer().getPlayerManager().getViewDistance() << 4;
 		Payload payload = new Payload(beam);
 		for (ServerPlayerEntity player : worldPlayers) {
 			int playerViewDistance = Math.min(player.getViewDistance() << 4, serverViewDistance);

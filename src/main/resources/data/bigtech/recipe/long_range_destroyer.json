@@ -7,10 +7,10 @@
 		"sss"
 	],
 	"key": {
-		"s": { "item": "minecraft:smooth_stone"        },
-		"l": { "item": "bigtech:lens"                  },
-		"c": { "tag":  "bigtech:crystal_clusters"      },
-		"d": { "item": "bigtech:short_range_destroyer" }
+		"s": "minecraft:smooth_stone"       ,
+		"l": "bigtech:lens"                 ,
+		"c": "#bigtech:crystal_clusters"    ,
+		"d": "bigtech:short_range_destroyer"
 	},
 	"result": {
 		"id": "bigtech:long_range_destroyer"

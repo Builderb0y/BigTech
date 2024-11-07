@@ -3,8 +3,8 @@
 	"category": "building",
 	"group": "bigtech:waxed_copper_bars",
 	"ingredients": [
-		{ "item": "bigtech:copper_bars" },
-		{ "item": "minecraft:honeycomb" }
+		"bigtech:copper_bars",
+		"minecraft:honeycomb"
 	],
 	"result": {
 		"id": "bigtech:waxed_copper_bars"

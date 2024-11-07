@@ -23,7 +23,7 @@ public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {
 
 	@Override
 	public LinkedList<BeamSegment> getSegments(int index) {
-		this.chunk.setNeedsSaving(true);
+		this.chunk.markNeedsSaving();
 		return super.getSegments(index);
 	}
 }

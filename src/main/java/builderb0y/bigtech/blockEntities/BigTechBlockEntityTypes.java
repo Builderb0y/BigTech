@@ -16,6 +16,7 @@ import net.minecraft.registry.Registry;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
+import builderb0y.bigtech.mixins.BlockEntityType_ConstructorAccess;
 
 public class BigTechBlockEntityTypes {
 
@@ -113,11 +114,11 @@ public class BigTechBlockEntityTypes {
 	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
-		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks), null));
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), BlockEntityType_ConstructorAccess.bigtech_create(factory, Set.of(blocks)));
 	}
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Collection<Block> blocks) {
-		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.copyOf(blocks), null));
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), BlockEntityType_ConstructorAccess.bigtech_create(factory, Set.copyOf(blocks)));
 	}
 
 	public static void init() {}

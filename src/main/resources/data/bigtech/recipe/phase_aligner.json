@@ -7,8 +7,8 @@
 		"ggg"
 	],
 	"key": {
-		"g": { "item": "minecraft:white_stained_glass_pane" },
-		"c": { "item": "bigtech:white_crystal_cluster"      }
+		"g": "minecraft:white_stained_glass_pane",
+		"c": "bigtech:white_crystal_cluster"     
 	},
 	"result": {
 		"id": "bigtech:phase_aligner"

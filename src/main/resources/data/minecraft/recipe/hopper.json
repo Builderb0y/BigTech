@@ -7,8 +7,8 @@
 		" s "
 	],
 	"key": {
-		"s": { "item": "minecraft:stone" },
-		"c": { "item": "minecraft:chest" }
+		"s": "minecraft:stone",
+		"c": "minecraft:chest"
 	},
 	"result": {
 		"id": "minecraft:hopper"

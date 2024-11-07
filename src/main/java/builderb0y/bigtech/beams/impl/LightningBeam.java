@@ -6,7 +6,9 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
@@ -27,13 +29,13 @@ public class LightningBeam extends PulseBeam {
 	}
 
 	@Override
-	public void handleIntersection(SpreadingBeamSegment segment, BlockState state, BlockHitResult hitResult) {
-		super.handleIntersection(segment, state, hitResult);
-		LinkedBlockPos pos = new LinkedBlockPos(segment.endPos(), (LinkedBlockPos)(this.origin));
-		if (!this.pulse.hasNode(pos)) {
-			LightningPulseInteractor interactor = LightningPulseInteractor.get(this.world, pos, state);
-			if (interactor.canConductIn(this.world, pos, state, segment.direction().toVanilla())) {
-				interactor.spreadIn(this.world, pos, state, this.pulse);
+	public void handleIntersection(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment, BlockHitResult hitResult) {
+		super.handleIntersection(world, pos, state, segment, hitResult);
+		LinkedBlockPos linked = new LinkedBlockPos(pos, (LinkedBlockPos)(this.origin));
+		if (!this.pulse.hasNode(linked)) {
+			LightningPulseInteractor interactor = LightningPulseInteractor.get(world, linked, state);
+			if (interactor.canConductIn(world, linked, state, segment.direction().toVanilla())) {
+				interactor.spreadIn(world, linked, state, this.pulse);
 			}
 		}
 	}

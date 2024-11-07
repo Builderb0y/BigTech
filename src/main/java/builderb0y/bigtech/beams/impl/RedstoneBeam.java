@@ -6,6 +6,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,13 +33,13 @@ public class RedstoneBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState) {
-		BlockState originState = this.world.getBlockState(this.origin);
+	public void onBlockChanged(ServerWorld world, BlockPos pos, BlockState oldState, BlockState newState) {
+		BlockState originState = world.getBlockState(this.origin);
 		if (originState.isOf(FunctionalBlocks.REDSTONE_TRANSMITTER)) {
-			this.world.addSyncedBlockEvent(this.origin, FunctionalBlocks.REDSTONE_TRANSMITTER, 0, 0);
+			world.addSyncedBlockEvent(this.origin, FunctionalBlocks.REDSTONE_TRANSMITTER, 0, 0);
 		}
 		else {
-			this.removeFromWorld();
+			this.removeFromWorld(world);
 		}
 	}
 }

@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -52,10 +53,10 @@ public class DestroyerBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onRemoved() {
-		super.onRemoved();
+	public void onRemoved(ServerWorld world) {
+		super.onRemoved(world);
 		if (!this.toDestroy.isEmpty()) {
-			DestructionManager manager = DestructionManager.forWorld(this.world);
+			DestructionManager manager = DestructionManager.forWorld(world);
 			for (DestroyQueue queue : this.toDestroy.values()) {
 				if (queue.populated && !queue.inactive.isEmpty()) {
 					manager.resetProgress(queue.inactive.lastKey());
@@ -65,12 +66,12 @@ public class DestroyerBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void defaultSpreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		super.defaultSpreadOut(inputSegment, state);
+	public void defaultSpreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) {
+		super.defaultSpreadOut(world, pos, state, inputSegment);
 		if (!state.isAir() && state.getFluidState().getBlockState() != state) {
 			this.toDestroy.merge(
-				inputSegment.endPos().toImmutable(),
-				new DestroyQueue(this.world, inputSegment.endPos(), inputSegment.distanceRemaining()),
+				pos.toImmutable(),
+				new DestroyQueue(world, pos, inputSegment.distanceRemaining()),
 				(DestroyQueue oldQueue, DestroyQueue newQueue) -> {
 					oldQueue.maxDistanceSquared = Math.max(oldQueue.maxDistanceSquared, newQueue.maxDistanceSquared);
 					oldQueue.destroySpeed += newQueue.destroySpeed;
@@ -91,13 +92,13 @@ public class DestroyerBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState) {
-		BlockState originState = this.world.getBlockState(this.origin);
+	public void onBlockChanged(ServerWorld world, BlockPos pos, BlockState oldState, BlockState newState) {
+		BlockState originState = world.getBlockState(this.origin);
 		if (originState.isOf(FunctionalBlocks.LONG_RANGE_DESTROYER)) {
-			this.world.addSyncedBlockEvent(this.origin, FunctionalBlocks.LONG_RANGE_DESTROYER, 0, 0);
+			world.addSyncedBlockEvent(this.origin, FunctionalBlocks.LONG_RANGE_DESTROYER, 0, 0);
 		}
 		else {
-			this.removeFromWorld();
+			this.removeFromWorld(world);
 		}
 	}
 
@@ -118,24 +119,25 @@ public class DestroyerBeam extends PersistentBeam {
 	@Override
 	public void readFromNbt(NbtCompound nbt) {
 		super.readFromNbt(nbt);
-		this.toDestroy =
-		nbt
-		.getList("destroy_queues", NbtElement.COMPOUND_TYPE)
-		.stream()
-		.map(NbtCompound.class::cast)
-		.map((NbtCompound queueNbt) -> new DestroyQueue(
-			this.world,
-			queueNbt.getBlockPos("origin"),
-			queueNbt.getInt("dist"),
-			queueNbt.getFloat("speed")
-		))
-		.collect(Collectors.toMap(
-			queue -> queue.origin,
-			Function.identity(),
-			(queue1, queue2) -> {
-				throw new IllegalStateException("Multiple queues at ${queue1.origin}");
-			},
-			HashMap::new //ensure mutable.
-		));
+		this.toDestroy = (
+			nbt
+			.getList("destroy_queues", NbtElement.COMPOUND_TYPE)
+			.stream()
+			.map(NbtCompound.class::cast)
+			.map((NbtCompound queueNbt) -> new DestroyQueue(
+				this.world.as(),
+				queueNbt.getBlockPos("origin"),
+				queueNbt.getInt("dist"),
+				queueNbt.getFloat("speed")
+			))
+			.collect(Collectors.toMap(
+				(DestroyQueue queue) -> queue.origin,
+				Function.identity(),
+				(DestroyQueue queue1, DestroyQueue queue2) -> {
+					throw new IllegalStateException("Multiple queues at ${queue1.origin}");
+				},
+				HashMap::new //ensure mutable.
+			))
+		);
 	}
 }

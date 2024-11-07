@@ -7,8 +7,8 @@
 		"i i"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:ingots/gold"     }
+		"l": "minecraft:leather",
+		"i": "#c:ingots/gold"   
 	},
 	"result": {
 		"id": "bigtech:speedy_belt",

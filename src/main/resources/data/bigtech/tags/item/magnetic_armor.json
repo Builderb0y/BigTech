@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:magnetite_boots",
+		"bigtech:magnetite_chestplate",
+		"bigtech:magnetite_helmet",
+		"bigtech:magnetite_leggings"
+	]
+}

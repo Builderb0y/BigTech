@@ -33,23 +33,10 @@ public abstract class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	public TechnoCrafterScreenHandler(ScreenHandlerType<?> screenHandlerType, int syncID, TechnoCrafterAccess crafter, PlayerInventory playerInventory) {
 		super(screenHandlerType, syncID, crafter, playerInventory);
-		this.leftGrid          = new CraftingInventoryThatMarksOurCrafterDirtyProperly(this, 3, 3, crafter.getStacks(false));
-		this.rightGrid         = new CraftingInventoryThatMarksOurCrafterDirtyProperly(this, 3, 3, crafter.getStacks(true));
+		this.leftGrid          = new CraftingInventory(this, 3, 3, crafter.getStacks(false));
+		this.rightGrid         = new CraftingInventory(this, 3, 3, crafter.getStacks(true));
 		this.leftTopResult     = new CraftingResultInventory();
 		this.rightBottomResult = new CraftingResultInventory();
-	}
-
-	public class CraftingInventoryThatMarksOurCrafterDirtyProperly extends CraftingInventory {
-
-		public CraftingInventoryThatMarksOurCrafterDirtyProperly(ScreenHandler handler, int width, int height, DefaultedList<ItemStack> stacks) {
-			super(handler, width, height, stacks);
-		}
-
-		@Override
-		public void markDirty() {
-			super.markDirty();
-			TechnoCrafterScreenHandler.this.access().markDirty();
-		}
 	}
 
 	public SlotFactory resultSlotFactory(boolean right) {
@@ -79,7 +66,7 @@ public abstract class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 
 	@Override
 	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
-		if (slotIndex >= this.slots.size() - 2) {
+		if (slotIndex >= this.slots.size() - 3 && slotIndex < this.slots.size() - 1) {
 			Slot slot = this.getSlot(slotIndex);
 			boolean loop = true;
 			while (loop) {
@@ -88,7 +75,7 @@ public abstract class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 					player.dropItem(slot.getStack().copy(), true);
 					loop = false;
 				}
-				this.updateResult(slotIndex == 36 + 19);
+				this.updateResult(slotIndex == this.slots.size() - 2);
 				if (slot.getStack().isEmpty()) {
 					loop = false;
 				}
@@ -135,7 +122,7 @@ public abstract class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 			if (optional.isPresent()) {
 				RecipeEntry<CraftingRecipe> recipeEntry = optional.get();
 				CraftingRecipe craftingRecipe = recipeEntry.value();
-				if (resultInventory.shouldCraftRecipe(world, serverPlayerEntity, recipeEntry)) {
+				if (resultInventory.shouldCraftRecipe(serverPlayerEntity, recipeEntry)) {
 					ItemStack itemStack2 = craftingRecipe.craft(craftingRecipeInput, world.getRegistryManager());
 					if (itemStack2.isItemEnabled(world.getEnabledFeatures())) {
 						itemStack = itemStack2;
@@ -168,5 +155,6 @@ public abstract class TechnoCrafterScreenHandler extends BigTechScreenHandler {
 		//but there are apparently some action types that don't call that.
 		this.updateResult(false);
 		this.updateResult(true);
+		this.access().markDirty();
 	}
 }

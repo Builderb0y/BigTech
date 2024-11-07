@@ -10,11 +10,15 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
@@ -45,17 +49,17 @@ public class CopperCoilBlock extends Block implements BlockEntityProvider, Light
 	}
 
 	@Override
-	public boolean isSink(World world, BlockPos pos, BlockState state) {
+	public boolean isSink(WorldView world, BlockPos pos, BlockState state) {
 		return true;
 	}
 
 	@Override
-	public void spreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void spreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		this.forceSpreadOut(world, pos, state, pulse);
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		TeslaCoilBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, TeslaCoilBlockEntity.class);
 		if (blockEntity != null) blockEntity.onLightningPulse();
 	}
@@ -71,8 +75,8 @@ public class CopperCoilBlock extends Block implements BlockEntityProvider, Light
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = world.isReceivingRedstonePower(pos);
 		if (powered != shouldBePowered) {

@@ -49,22 +49,22 @@ dependencies() {
 		transitive = false
 	})
 
-	include(modImplementation('maven.modrinth:jmxl:1.5+mc1.21'))
-	modCompileOnly('maven.modrinth:lambdynamiclights:2.3.4+1.20.4')
-	modImplementation('maven.modrinth:cloth-config:15.0.140+fabric')
-	modImplementation('maven.modrinth:modmenu:11.0.3')
+	//include(modImplementation('maven.modrinth:jmxl:1.5+mc1.21'))
+	modCompileOnly('maven.modrinth:lambdynamiclights:3.2.1+1.21.3')
+	modImplementation('maven.modrinth:cloth-config:16.0.141+fabric')
+	modImplementation('maven.modrinth:modmenu:12.0.0-beta.1')
 	modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric-api:1.113.1")
 
 	//modImplementation('maven.modrinth:sodium:mc1.21-0.5.11')
 	//modRuntimeOnly('maven.modrinth:indium:1.0.34+mc1.21')
 
 	//cardinal components.
-	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-base:6.1.1'))
-	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-world:6.1.1'))
-	include(modImplementation('dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:6.1.1'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:6.2.0'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-world:6.2.0'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.2.0'))
 
 	//manifold.
-	String manifoldVersion = '2024.1.35'
+	String manifoldVersion = '2024.1.37'
 	annotationProcessor("systems.manifold:manifold-strings:$manifoldVersion")
 	for (String name : [ 'ext' /*, 'props', 'tuple' */ ]) {
 		annotationProcessor("systems.manifold:manifold-$name:$manifoldVersion")

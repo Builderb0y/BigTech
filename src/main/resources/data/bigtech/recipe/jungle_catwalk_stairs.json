@@ -8,8 +8,8 @@
 		" b"
 	],
 	"key": {
-		"b": { "item": "minecraft:jungle_planks" },
-		"r": { "item": "minecraft:stick"         }
+		"b": "minecraft:jungle_planks",
+		"r": "minecraft:stick"        
 	},
 	"result": {
 		"id": "bigtech:jungle_catwalk_stairs",

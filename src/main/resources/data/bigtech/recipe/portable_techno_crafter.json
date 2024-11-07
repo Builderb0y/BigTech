@@ -6,9 +6,9 @@
 		"rcr"
 	],
 	"key": {
-		"r": { "tag":  "c:dusts/redstone"                        },
-		"c": { "item": "bigtech:stone_crafting_table"            },
-		"i": { "item": "minecraft:heavy_weighted_pressure_plate" }
+		"r": "#c:dusts/redstone"                      ,
+		"c": "bigtech:stone_crafting_table"           ,
+		"i": "minecraft:heavy_weighted_pressure_plate"
 	},
 	"result": {
 		"id": "bigtech:portable_techno_crafter"

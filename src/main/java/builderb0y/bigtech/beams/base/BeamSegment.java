@@ -7,10 +7,10 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
+import builderb0y.bigtech.util.ColorF;
 
 public record BeamSegment(
 	Beam beam,
@@ -76,15 +76,11 @@ public record BeamSegment(
 	}
 
 	public static Vector3f unpackRgb(int color) {
-		return new Vector3f(
-			((color >>> 16) & 255) / 255.0F,
-			((color >>>  8) & 255) / 255.0F,
-			((color       ) & 255) / 255.0F
-		);
+		return ColorF.toVector(color);
 	}
 
 	public static int packRgb(Vector3fc rgb) {
-		return MathHelper.packRgb(rgb.x(), rgb.y(), rgb.z());
+		return ColorF.toInt(rgb);
 	}
 
 	@Override

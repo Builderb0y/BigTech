@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -252,13 +253,16 @@ public class PulsarEditScreen extends Screen {
 	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.renderBackground(context, mouseX, mouseY, delta);
 		context.drawTexture(
+			RenderLayer::getGuiTextured,
 			BACKGROUND_TEXTURE,
 			(this.width - BACKGROUND_WIDTH) >> 1,
 			(this.height - BACKGROUND_HEIGHT) >> 1,
 			0,
 			0,
 			BACKGROUND_WIDTH,
-			BACKGROUND_HEIGHT
+			BACKGROUND_HEIGHT,
+			256,
+			256
 		);
 	}
 

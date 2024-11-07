@@ -5,8 +5,8 @@
 		"ii"
 	],
 	"key": {
-		"t": { "item": "minecraft:redstone_torch" },
-		"i": { "tag":  "c:ingots/iron"            }
+		"t": "minecraft:redstone_torch",
+		"i": "#c:ingots/iron"          
 	},
 	"result": {
 		"id": "bigtech:radio"

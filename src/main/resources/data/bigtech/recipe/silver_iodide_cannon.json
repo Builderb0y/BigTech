@@ -6,8 +6,8 @@
 		"mbm"
 	],
 	"key": {
-		"m": { "tag":  "c:ingots/magnetite" },
-		"b": { "item": "minecraft:bow"      }
+		"m": "#c:ingots/magnetite",
+		"b": "minecraft:bow"      
 	},
 	"result": {
 		"id": "bigtech:silver_iodide_cannon"

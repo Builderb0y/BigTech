@@ -22,7 +22,7 @@ public abstract class CrystalRegistrableCollection<T> implements RegistrableColl
 		white;
 
 	public CrystalRegistrableCollection(
-		String suffix,
+		boolean register,
 		T red,
 		T yellow,
 		T green,
@@ -41,12 +41,12 @@ public abstract class CrystalRegistrableCollection<T> implements RegistrableColl
 		this.black   = black;
 		this.white   = white;
 
-		if (suffix != null) this.register(suffix);
+		if (register) this.register();
 	}
 
-	public CrystalRegistrableCollection(String suffix, CrystalClusterFactory<T> factory) {
+	public CrystalRegistrableCollection(boolean register, CrystalClusterFactory<T> factory) {
 		this(
-			suffix,
+			register,
 			factory.create(CrystalColor.RED),
 			factory.create(CrystalColor.YELLOW),
 			factory.create(CrystalColor.GREEN),
@@ -58,7 +58,7 @@ public abstract class CrystalRegistrableCollection<T> implements RegistrableColl
 		);
 	}
 
-	public abstract void register(String suffix);
+	public abstract void register();
 
 	public static interface CrystalClusterFactory<T> {
 

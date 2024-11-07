@@ -8,8 +8,8 @@
 		"ini"
 	],
 	"key": {
-		"i": { "item": "minecraft:spruce_planks" },
-		"n": { "tag":  "c:rods/wooden"           }
+		"i": "minecraft:spruce_planks",
+		"n": "#c:rods/wooden"         
 	},
 	"result": {
 		"id": "bigtech:spruce_frame",

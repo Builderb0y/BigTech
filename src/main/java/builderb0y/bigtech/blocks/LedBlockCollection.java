@@ -52,21 +52,21 @@ public class LedBlockCollection extends LedRegistrableCollection<Block> {
 
 	@Override
 	public void register() {
-		BigTechBlocks.register("white_led",      this.white    );
-		BigTechBlocks.register("orange_led",     this.orange   );
-		BigTechBlocks.register("magenta_led",    this.magenta  );
-		BigTechBlocks.register("light_blue_led", this.lightBlue);
-		BigTechBlocks.register("yellow_led",     this.yellow   );
-		BigTechBlocks.register("lime_led",       this.lime     );
-		BigTechBlocks.register("pink_led",       this.pink     );
-		BigTechBlocks.register("gray_led",       this.gray     );
-		BigTechBlocks.register("light_gray_led", this.lightGray);
-		BigTechBlocks.register("cyan_led",       this.cyan     );
-		BigTechBlocks.register("purple_led",     this.purple   );
-		BigTechBlocks.register("blue_led",       this.blue     );
-		BigTechBlocks.register("brown_led",      this.brown    );
-		BigTechBlocks.register("green_led",      this.green    );
-		BigTechBlocks.register("red_led",        this.red      );
-		BigTechBlocks.register("black_led",      this.black    );
+		BigTechBlocks.register(this.white    );
+		BigTechBlocks.register(this.orange   );
+		BigTechBlocks.register(this.magenta  );
+		BigTechBlocks.register(this.lightBlue);
+		BigTechBlocks.register(this.yellow   );
+		BigTechBlocks.register(this.lime     );
+		BigTechBlocks.register(this.pink     );
+		BigTechBlocks.register(this.gray     );
+		BigTechBlocks.register(this.lightGray);
+		BigTechBlocks.register(this.cyan     );
+		BigTechBlocks.register(this.purple   );
+		BigTechBlocks.register(this.blue     );
+		BigTechBlocks.register(this.brown    );
+		BigTechBlocks.register(this.green    );
+		BigTechBlocks.register(this.red      );
+		BigTechBlocks.register(this.black    );
 	}
 }

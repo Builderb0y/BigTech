@@ -3,6 +3,9 @@ bugs:
 
 where I left off:
 	make destroyers play tool breaking sound when breaking a tool.
+	check for empty tags when creating json files in data gen.
+	make miner display on inside which blocks it is about to break.
+		4 lights for "below the miner", "at the base of the miner", "at the top of the miner", and "above the miner".
 
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).

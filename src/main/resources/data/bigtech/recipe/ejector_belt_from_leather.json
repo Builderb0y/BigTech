@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:ingots/iron"     },
-		"o": { "item": "minecraft:bow"     }
+		"l": "minecraft:leather",
+		"i": "#c:ingots/iron"   ,
+		"o": "minecraft:bow"    
 	},
 	"result": {
 		"id": "bigtech:ejector_belt",

@@ -1,5 +1,7 @@
 package builderb0y.bigtech.entities;
 
+import java.util.Optional;
+
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.entity.Entity;
@@ -8,12 +10,18 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.util.Util;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.datagen.impl.EntityLocalizationDataGenerator;
 
 public class BigTechEntityTypes {
 
+	@UseDataGen(EntityLocalizationDataGenerator.class)
 	public static final EntityType<MinerEntity> MINER = register(
 		"miner",
 		new EntityType<>(
@@ -28,9 +36,12 @@ public class BigTechEntityTypes {
 			1.0F,
 			10,
 			3,
+			Util.createTranslationKey("entity", BigTechMod.modID("miner")),
+			Optional.empty(),
 			FeatureSet.empty()
 		)
 	);
+	@UseDataGen(EntityLocalizationDataGenerator.class)
 	public static final EntityType<MagneticArrowEntity> MAGNETIC_ARROW = register(
 		"magnetic_arrow",
 		new EntityType<>(
@@ -45,9 +56,15 @@ public class BigTechEntityTypes {
 			1.0F,
 			4,
 			20,
+			Util.createTranslationKey("entity", BigTechMod.modID("magnetic_arrow")),
+			Optional.empty(),
 			FeatureSet.empty()
 		)
 	);
+
+	public static RegistryKey<EntityType<?>> key(String name) {
+		return RegistryKey.of(RegistryKeys.ENTITY_TYPE, BigTechMod.modID(name));
+	}
 
 	public static <E extends Entity> EntityType<E> register(String name, EntityType<E> entityType) {
 		return Registry.register(Registries.ENTITY_TYPE, BigTechMod.modID(name), entityType);

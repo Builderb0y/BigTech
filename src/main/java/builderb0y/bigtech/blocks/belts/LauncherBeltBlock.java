@@ -40,7 +40,7 @@ public class LauncherBeltBlock extends AbstractBeltBlock {
 		//move towards the center of the block.
 		newX += (pos.getX() + 0.5D - entity.getX()) * 0.25D;
 		newZ += (pos.getZ() + 0.5D - entity.getZ()) * 0.25D;
-		entity.setVelocity(new Vec3d(newX, 0.8D, newZ));
+		entity.setVelocity(new Vec3d(newX, 0.7D, newZ));
 		entity.setOnGround(false); //hack for XP orbs.
 	}
 }

@@ -23,113 +23,120 @@ import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.Cr
 import builderb0y.bigtech.registrableCollections.LedRegistrableCollection.LedColor;
 import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
+import static builderb0y.bigtech.items.BigTechItems.register;
+import static builderb0y.bigtech.items.BigTechItems.registerPlacer;
+import static builderb0y.bigtech.items.BigTechItems.settings;
+
 public class DecoItems {
 
 	//////////////////////////////// frames ////////////////////////////////
 
 	@UseDataGen(IronFrameDataGenerator.class)
-	public static final BlockItem IRON_FRAME = BigTechItems.registerPlacer(
+	public static final BlockItem IRON_FRAME = registerPlacer(
 		DecoBlocks.IRON_FRAME
 	);
 	@UseDataGen(GoldFrameDataGenerator.class)
-	public static final BlockItem GOLD_FRAME = BigTechItems.registerPlacer(
+	public static final BlockItem GOLD_FRAME = registerPlacer(
 		DecoBlocks.GOLD_FRAME
 	);
 	@UseDataGen(CopperFrameDataGenerator.class)
 	public static final CopperItemCollection COPPER_FRAMES = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "frame",
+		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_FRAMES.get(type),
-			new Item.Settings()
+			settings(type.copperPrefix + "frame")
 		)
 	);
 	@UseDataGen(WoodenFrameDataGenerator.class)
 	public static final WoodItemCollection WOOD_FRAMES = new WoodItemCollection(
-		"frame",
+		true,
 		(WoodRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.WOOD_FRAMES.get(type),
-			new Item.Settings()
+			settings(type.prefix + "frame")
 		)
 	);
 
 	//////////////////////////////// catwalk platforms ////////////////////////////////
 
 	@UseDataGen(IronCatwalkPlatformDataGenerator.class)
-	public static final BlockItem IRON_CATWALK_PLATFORM = BigTechItems.registerPlacer(
+	public static final BlockItem IRON_CATWALK_PLATFORM = registerPlacer(
 		DecoBlocks.IRON_CATWALK_PLATFORM
 	);
 	@UseDataGen(CopperCatwalkPlatformDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_PLATFORMS = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_platform",
+		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_CATWALK_PLATFORMS.get(type),
-			new Item.Settings()
+			settings(type.copperPrefix + "catwalk_platform")
 		)
 	);
 	@UseDataGen(WoodCatwalkPlatformDataGenerator.class)
 	public static final WoodItemCollection WOOD_CATWALK_PLATFORMS = new WoodItemCollection(
-		"catwalk_platform",
+		true,
 		(WoodRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.WOOD_CATWALK_PLATFORMS.get(type),
-			new Item.Settings()
+			settings(type.prefix + "catwalk_platform")
 		)
 	);
 
 	//////////////////////////////// catwalk stairs ////////////////////////////////
 
 	@UseDataGen(IronCatwalkStairsDataGenerator.class)
-	public static final CatwalkStairsBlockItem IRON_CATWALK_STAIRS = BigTechItems.registerCatwalkStairs(
-		DecoBlocks.IRON_CATWALK_STAIRS
+	public static final CatwalkStairsBlockItem IRON_CATWALK_STAIRS = register(
+		new CatwalkStairsBlockItem(
+			DecoBlocks.IRON_CATWALK_STAIRS,
+			settings("iron_catwalk_stairs")
+		)
 	);
 	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_STAIRS = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_stairs",
+		true,
 		(CopperRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.COPPER_CATWALK_STAIRS.get(type),
-			new Item.Settings()
+			settings(type.copperPrefix + "catwalk_stairs")
 		)
 	);
 	@UseDataGen(WoodCatwalkStairsDataGenerator.class)
 	public static final WoodItemCollection WOOD_CATWALK_STAIRS = new WoodItemCollection(
-		"catwalk_stairs",
+		true,
 		(WoodRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.WOOD_CATWALK_STAIRS.get(type),
-			new Item.Settings()
+			settings(type.prefix + "catwalk_stairs")
 		)
 	);
 
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(IronLadderDataGenerator.class)
-	public static final BlockItem IRON_LADDER = BigTechItems.registerPlacer(
+	public static final BlockItem IRON_LADDER = registerPlacer(
 		DecoBlocks.IRON_LADDER
 	);
 	@UseDataGen(CopperLadderDataGenerator.class)
 	public static final CopperItemCollection COPPER_LADDERS = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "ladder",
+		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_LADDERS.get(type),
-			new Item.Settings()
+			settings(type.copperPrefix + "ladder")
 		)
 	);
 	@UseDataGen(CopperBarsDataGenerator.class)
 	public static final CopperItemCollection COPPER_BARS = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "bars",
+		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_BARS.get(type),
-			new Item.Settings()
+			settings(type.copperPrefix + "bars")
 		)
 	);
 	@UseDataGen(CopperSlabDataGenerator.class)
 	public static final CopperItemCollection COPPER_SLABS = new CopperItemCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "slab",
+		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_SLABS.get(type),
-			new Item.Settings()
+			settings(type.copperPrefix + "slab")
 		)
 	);
 	@UseDataGen(SmoothObsidianDataGenerator.class)
-	public static final BlockItem SMOOTH_OBSIDIAN = BigTechItems.registerPlacer(
+	public static final BlockItem SMOOTH_OBSIDIAN = registerPlacer(
 		DecoBlocks.SMOOTH_OBSIDIAN
 	);
 	@UseDataGen(LedDataGenerator.class)
@@ -137,15 +144,15 @@ public class DecoItems {
 		true,
 		(LedColor color) -> new BlockItem(
 			DecoBlocks.LEDS.get(color),
-			new Item.Settings()
+			settings(color.prefix + "led")
 		)
 	);
 	@UseDataGen(CrystalLampDataGenerator.class)
 	public static final CrystalItemCollection CRYSTAL_LAMPS = new CrystalItemCollection(
-		"crystal_lamp",
+		true,
 		(CrystalColor color) -> new BlockItem(
 			DecoBlocks.CRYSTAL_LAMPS.get(color),
-			new Item.Settings()
+			settings(color.prefix + "crystal_lamp")
 		)
 	);
 

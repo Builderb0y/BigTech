@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.block.Block;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.ShearsItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntryList;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
@@ -25,7 +26,7 @@ public class ShearsItem_FastBreakingTag {
 			}
 		}
 		list = new ArrayList<>(list);
-		list.add(ToolComponent.Rule.of(BigTechBlockTags.SHEARS_MINEABLE, 5.0F));
+		list.add(ToolComponent.Rule.of(Registries.createEntryLookup(Registries.BLOCK).getOrThrow(BigTechBlockTags.SHEARS_MINEABLE), 5.0F));
 		return list;
 	}
 }

@@ -1,30 +1,25 @@
 package builderb0y.bigtech.blocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import com.mojang.serialization.MapCodec;
-import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
@@ -34,12 +29,15 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 import builderb0y.bigtech.blockEntities.TransmuterBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
 import builderb0y.bigtech.api.LightningPulseInteractor;
+import builderb0y.bigtech.mixins.ServerRecipeManager_PreparedRecipesAccess;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.recipes.TransmuteRecipe;
 import builderb0y.bigtech.recipes.TransmuteRecipeInventory;
@@ -73,17 +71,17 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	}
 
 	@Override
-	public VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
+	public VoxelShape getConductionShape(WorldView world, BlockPos pos, BlockState state, Direction face) {
 		return VoxelShapes.fullCube();
 	}
 
 	@Override
-	public boolean isSink(World world, BlockPos pos, BlockState state) {
+	public boolean isSink(WorldView world, BlockPos pos, BlockState state) {
 		return true;
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		TransmuterBlockEntity transmuter = WorldHelper.getBlockEntity(world, pos, TransmuterBlockEntity.class);
 		if (transmuter != null) {
 			//part of transmute recipe logic requires knowing how much energy the current slot received.
@@ -99,7 +97,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 			//so, that's an opportunity for optimization as well.
 			record RecipeSlot(TransmuteRecipe recipe, int slot) {}
 			List<RecipeSlot> recipeSlots = new ArrayList<>(15);
-			List<RecipeEntry<TransmuteRecipe>> allRecipes = world.getRecipeManager().listAllOfType(BigTechRecipeTypes.TRANSMUTE);
+			Collection<RecipeEntry<TransmuteRecipe>> allRecipes = world.getRecipeManager().<ServerRecipeManager_PreparedRecipesAccess>as().bigtech_getPreparedRecipes().getAll(BigTechRecipeTypes.TRANSMUTE);
 			{
 				//first iteration.
 				TransmuteRecipe activeRecipe = null;
@@ -133,7 +131,7 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 				}
 				world.<ServerWorld>as().spawnParticles(ParticleTypes.EXPLOSION, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, 1, 0.0D, 0.0D, 0.0D, 0.0D);
 				world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 1.0F, 2.0F - world.random.nextFloat() * 0.25F);
-				this.spawnLightningParticles(world, pos, state, pulse);
+				LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 			}
 		}
 	}

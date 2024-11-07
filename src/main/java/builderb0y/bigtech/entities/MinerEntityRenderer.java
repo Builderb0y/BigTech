@@ -9,15 +9,17 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.entities.MinerEntityRenderer.MinerRenderState;
 
 @Environment(EnvType.CLIENT)
-public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
+public class MinerEntityRenderer extends EntityRenderer<MinerEntity, MinerRenderState> {
 
 	public static final Identifier TEXTURE = BigTechMod.modID("textures/entity/miner.png");
 	public static final float
@@ -30,24 +32,23 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 	}
 
 	@Override
-	public void render(MinerEntity miner, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		super.render(miner, yaw, tickDelta, matrices, vertexConsumers, light);
+	public void render(MinerRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+		super.render(state, matrices, vertexConsumers, light);
 		matrices.push();
 		try {
 			matrices.scale(MODEL_SCALE, MODEL_SCALE, MODEL_SCALE);
-			matrices.peek().getPositionMatrix().rotateY(yaw * ((float)(Math.PI / -180.0F)));
-			matrices.peek().  getNormalMatrix().rotateY(yaw * ((float)(Math.PI / -180.0F)));
+			matrices.peek().getPositionMatrix().rotateY(state.yaw * ((float)(Math.PI / -180.0F)));
+			matrices.peek().  getNormalMatrix().rotateY(state.yaw * ((float)(Math.PI / -180.0F)));
 
-			//copy-pasted from MinecartEntityRenderer.
-			float ticks    = miner.getDamageWobbleTicks() - tickDelta;
-			float strength = miner.getDamageWobbleStrength() - tickDelta;
+			float ticks    = state.damageWobbleTicks;
+			float strength = state.damageWobbleStrength;
 			if (strength < 0.0F) {
 				strength = 0.0F;
 			}
 
 			if (ticks > 0.0F) {
 				//change X axis to Z axis.
-				matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.sin(ticks) * ticks * strength / 10.0F * miner.getDamageWobbleSide()));
+				matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.sin(ticks) * ticks * strength / 10.0F * state.damageWobbleSide));
 			}
 			//end of copy-pasted region.
 
@@ -56,7 +57,7 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 				.vertexConsumer(
 					vertexConsumers.getBuffer(
 						RenderLayer.getEntityCutout(
-							this.getTexture(miner)
+							TEXTURE
 						)
 					)
 				)
@@ -65,12 +66,12 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 				.lightmap(light)
 			);
 			this.renderMainInner(helper);
-			if (!miner.isThePlayerRiding0() || MinecraftClient.getInstance().options.getPerspective() != Perspective.FIRST_PERSON) {
+			if (state.renderOutside) {
 				this.renderMainOuter(helper);
-				this.renderNumbers(helper, miner.number);
+				this.renderNumbers(helper, state.number);
 				matrices.push();
 				try {
-					matrices.translate(0.0F, miner.getPitch(tickDelta) * (0.5F / MODEL_SCALE), 0.0F);
+					matrices.translate(0.0F, state.pitch * (0.5F / MODEL_SCALE), 0.0F);
 					helper.transform(matrices.peek());
 					this.renderScoop(helper);
 				}
@@ -78,13 +79,13 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 					matrices.pop();
 					helper.transform(matrices.peek());
 				}
-				float brightness = miner.getDataTracker().get(MinerEntity.FUEL_FRACTION);
+				float brightness = state.lightBrightness;
 				if (brightness > 0.0F) {
 					this.renderLights(
 						helper.vertexConsumer(
 							vertexConsumers.getBuffer(
 								RenderLayer.getEntityTranslucentEmissive(
-									this.getTexture(miner)
+									TEXTURE
 								)
 							)
 						),
@@ -273,7 +274,27 @@ public class MinerEntityRenderer extends EntityRenderer<MinerEntity> {
 	}
 
 	@Override
-	public Identifier getTexture(MinerEntity entity) {
-		return TEXTURE;
+	public MinerRenderState createRenderState() {
+		return new MinerRenderState();
+	}
+
+	@Override
+	public void updateRenderState(MinerEntity entity, MinerRenderState state, float tickDelta) {
+		super.updateRenderState(entity, state, tickDelta);
+		state.yaw = entity.getYaw(tickDelta);
+		state.pitch = entity.getPitch(tickDelta);
+		state.damageWobbleTicks = entity.getDamageWobbleTicks() - tickDelta;
+		state.damageWobbleStrength = entity.getDamageWobbleStrength() - tickDelta;
+		state.damageWobbleSide = entity.getDamageWobbleSide();
+		state.number = entity.number;
+		state.renderOutside = !entity.isThePlayerRiding0() || MinecraftClient.getInstance().options.getPerspective() != Perspective.FIRST_PERSON;
+		state.lightBrightness = entity.getDataTracker().get(MinerEntity.FUEL_FRACTION);
+	}
+
+	public static class MinerRenderState extends EntityRenderState {
+
+		public float yaw, pitch, damageWobbleTicks, damageWobbleStrength, lightBrightness;
+		public int damageWobbleSide, number;
+		public boolean renderOutside;
 	}
 }

@@ -7,8 +7,8 @@
 		"bbb"
 	],
 	"key": {
-		"b": { "item": "bigtech:medium_weighted_pressure_plate" },
-		"r": { "item": "bigtech:copper_bars"                    }
+		"b": "bigtech:medium_weighted_pressure_plate",
+		"r": "bigtech:copper_bars"                   
 	},
 	"result": {
 		"id": "bigtech:copper_catwalk_platform",

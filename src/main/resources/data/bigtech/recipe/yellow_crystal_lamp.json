@@ -8,12 +8,9 @@
 		"ngn"
 	],
 	"key": {
-		"n": { "tag": "c:nuggets/iron" },
-		"g": [
-			{ "tag": "c:glass_blocks/colorless" },
-			{ "tag": "c:glass_panes/colorless"  }
-		],
-		"c": { "item": "bigtech:yellow_crystal_cluster" }
+		"n": "#c:nuggets/iron"                   ,
+		"g": "#bigtech:colorless_glass_materials",
+		"c": "bigtech:yellow_crystal_cluster"    
 	},
 	"result": {
 		"id": "bigtech:yellow_crystal_lamp"

@@ -9,7 +9,7 @@ import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 
 	public WoodBlockCollection(
-		String suffix,
+		boolean register,
 		Block oak,
 		Block spruce,
 		Block birch,
@@ -22,7 +22,7 @@ public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 		Block warped
 	) {
 		super(
-			suffix,
+			register,
 			oak,
 			spruce,
 			birch,
@@ -36,22 +36,22 @@ public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 		);
 	}
 
-	public WoodBlockCollection(String suffix, WoodRegistrableFactory<Block> factory) {
-		super(suffix, factory);
+	public WoodBlockCollection(boolean register, WoodRegistrableFactory<Block> factory) {
+		super(register, factory);
 	}
 
 	@Override
-	public void register(String suffix) {
-		BigTechBlocks.register(     "oak_" + suffix, this.oak);
-		BigTechBlocks.register(  "spruce_" + suffix, this.spruce);
-		BigTechBlocks.register(   "birch_" + suffix, this.birch);
-		BigTechBlocks.register(  "jungle_" + suffix, this.jungle);
-		BigTechBlocks.register(  "acacia_" + suffix, this.acacia);
-		BigTechBlocks.register("dark_oak_" + suffix, this.dark_oak);
-		BigTechBlocks.register("mangrove_" + suffix, this.mangrove);
-		BigTechBlocks.register(  "cherry_" + suffix, this.cherry);
-		BigTechBlocks.register( "crimson_" + suffix, this.crimson);
-		BigTechBlocks.register(  "warped_" + suffix, this.warped);
+	public void register() {
+		BigTechBlocks.register(this.oak);
+		BigTechBlocks.register(this.spruce);
+		BigTechBlocks.register(this.birch);
+		BigTechBlocks.register(this.jungle);
+		BigTechBlocks.register(this.acacia);
+		BigTechBlocks.register(this.dark_oak);
+		BigTechBlocks.register(this.mangrove);
+		BigTechBlocks.register(this.cherry);
+		BigTechBlocks.register(this.crimson);
+		BigTechBlocks.register(this.warped);
 
 		FlammableBlockRegistry.getDefaultInstance().add(this.oak,      5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(this.spruce,   5, 20);

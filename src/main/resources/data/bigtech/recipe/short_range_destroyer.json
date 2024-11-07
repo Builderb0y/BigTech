@@ -7,9 +7,9 @@
 		"crc"
 	],
 	"key": {
-		"c": { "tag": "minecraft:stone_crafting_materials" },
-		"p": { "tag": "c:tools"                            },
-		"r": { "tag": "c:dusts/redstone"                   }
+		"c": "#minecraft:stone_crafting_materials",
+		"p": "#c:tools"                           ,
+		"r": "#c:dusts/redstone"                  
 	},
 	"result": {
 		"id": "bigtech:short_range_destroyer"

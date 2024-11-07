@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
@@ -46,6 +45,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -212,10 +212,10 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	@Environment(EnvType.CLIENT)
 	public static byte encodeInput(ClientPlayerEntity client) {
 		int input = 0;
-		if (client.input.pressingForward) input |= FORWARD;
-		if (client.input.pressingBack   ) input |= BACKWARD;
-		if (client.input.pressingLeft   ) input |= LEFT;
-		if (client.input.pressingRight  ) input |= RIGHT;
+		if (client.input.playerInput.forward ()) input |= FORWARD;
+		if (client.input.playerInput.backward()) input |= BACKWARD;
+		if (client.input.playerInput.left    ()) input |= LEFT;
+		if (client.input.playerInput.right   ()) input |= RIGHT;
 		if (client.isSprinting()        ) input |= SPRINTING;
 		return (byte)(input);
 	}
@@ -260,14 +260,14 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		return true;
 	}
 
-	public void updateFuel(boolean consumeFuel) {
+	public void updateFuel(ServerWorld world, boolean consumeFuel) {
 		if (this.fuelTicks.get() > 0) {
 			this.fuelTicks.set(Math.max(this.fuelTicks.get() - 1, 0));
 		}
 		if (consumeFuel && this.fuelTicks.get() < SLOWDOWN_THRESHOLD) {
 			ItemStack stack = this.getStack(FUEL_START);
 			int fuel;
-			if (!stack.isEmpty() && (fuel = FuelRegistry.INSTANCE.get(stack.getItem())) > 0) {
+			if (!stack.isEmpty() && (fuel = world.getFuelRegistry().getFuelTicks(stack)) > 0) {
 				stack.decrement(1);
 				this.fuelTicks.set(this.fuelTicks.get() + fuel);
 			}
@@ -277,13 +277,13 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 			if (!toSmelt.isEmpty()) {
 				SingleStackRecipeInput inventory = new SingleStackRecipeInput(toSmelt);
 				if (this.activeSmeltingRecipe == null || !this.activeSmeltingRecipe.matches(inventory, this.getWorld())) {
-					this.activeSmeltingRecipe = this.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, inventory, this.getWorld()).map(RecipeEntry::value).orElse(null);
+					this.activeSmeltingRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, inventory, this.getWorld()).map(RecipeEntry::value).orElse(null);
 				}
 				if (this.activeSmeltingRecipe != null && ++this.smeltingTicks >= this.activeSmeltingRecipe.getCookingTime()) {
 					ItemStack smelted = this.activeSmeltingRecipe.craft(inventory, this.getWorld().getRegistryManager());
 					if (!smelted.isEmpty()) {
 						int available = 0;
-						for (int slot = STORAGE_END; --slot >= STORAGE_START; ) {
+						for (int slot = STORAGE_END; --slot >= STORAGE_START;) {
 							ItemStack existing = this.getStack(slot);
 							if (existing.isEmpty()) {
 								available = smelted.getCount();
@@ -294,7 +294,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 							}
 						}
 						if (available >= smelted.getCount()) {
-							for (int slot = STORAGE_END; --slot >= STORAGE_START; ) {
+							for (int slot = STORAGE_END; --slot >= STORAGE_START;) {
 								ItemStack existing = this.getStack(slot);
 								if (existing.isEmpty()) {
 									this.setStack(slot, smelted);
@@ -370,8 +370,8 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 			targetPitch = this.getPitch();
 		}
 
-		this.updateFuel(consumeFuel);
-		if (!this.getWorld().isClient) {
+		if (this.getWorld() instanceof ServerWorld serverWorld) {
+			this.updateFuel(serverWorld, consumeFuel);
 			this.dataTracker.set(FUEL_FRACTION, ((float)(Math.min(this.fuelTicks.get(), SLOWDOWN_THRESHOLD))) / ((float)(SLOWDOWN_THRESHOLD)));
 		}
 
@@ -405,9 +405,9 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		}
 
 		Map<BlockPos, BlockState> currBreakingPositions = newForwardSpeed > 0.0D ? this.computeBreakingPositions() : Collections.emptyMap();
-		if (!this.getWorld().isClient) {
+		if (this.getWorld() instanceof ServerWorld serverWorld) {
 			Map<BlockPos, BlockState> prevBreakingPositions = this.lastTickBreakingBlocks;
-			DestructionManager manager = DestructionManager.forWorld(this.getWorld());
+			DestructionManager manager = DestructionManager.forWorld(serverWorld);
 			//remove positions which we are no longer breaking.
 			prevBreakingPositions.forEach((BlockPos pos, BlockState state) -> {
 				if (currBreakingPositions.get(pos) != state) {
@@ -841,10 +841,10 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 			return true;
 		}
 		if (slot >= FUEL_START && slot < FUEL_END) {
-			return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
+			return this.getWorld().getFuelRegistry().isFuel(stack);
 		}
 		if (slot >= SMELTING_START && slot < SMELTING_END) {
-			return this.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(stack), this.getWorld()).isPresent();
+			return this.getWorld() instanceof ServerWorld serverWorld && serverWorld.getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(stack), this.getWorld()).isPresent();
 		}
 		return false;
 	}
@@ -860,10 +860,10 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 			return true;
 		}
 		if (slot >= FUEL_START && slot < FUEL_END) {
-			return AbstractFurnaceBlockEntity.canUseAsFuel(stack);
+			return this.getWorld().getFuelRegistry().isFuel(stack);
 		}
 		if (slot >= SMELTING_START && slot < SMELTING_END) {
-			return this.getWorld().getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(stack), this.getWorld()).isPresent();
+			return this.getWorld() instanceof ServerWorld serverWorld && serverWorld.getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(stack), this.getWorld()).isPresent();
 		}
 		return false;
 	}
@@ -955,17 +955,17 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	}
 
 	@Override
-	public void killAndDropSelf(DamageSource source) {
-		this.kill();
-		if (this.getWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
-			this.dropStack(new ItemStack(Items.CHEST));
-			this.dropStack(new ItemStack(Items.CHEST));
-			this.dropStack(new ItemStack(Items.YELLOW_TERRACOTTA));
-			this.dropStack(new ItemStack(Items.YELLOW_TERRACOTTA));
-			this.dropStack(new ItemStack(Items.IRON_BLOCK));
-			this.dropStack(new ItemStack(Items.IRON_BLOCK));
-			this.dropStack(new ItemStack(Items.IRON_BLOCK));
-			this.dropStack(new ItemStack(Items.IRON_BLOCK));
+	public void killAndDropSelf(ServerWorld world, DamageSource source) {
+		this.kill(world);
+		if (world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+			this.dropStack(world, new ItemStack(Items.CHEST));
+			this.dropStack(world, new ItemStack(Items.CHEST));
+			this.dropStack(world, new ItemStack(Items.YELLOW_TERRACOTTA));
+			this.dropStack(world, new ItemStack(Items.YELLOW_TERRACOTTA));
+			this.dropStack(world, new ItemStack(Items.IRON_BLOCK));
+			this.dropStack(world, new ItemStack(Items.IRON_BLOCK));
+			this.dropStack(world, new ItemStack(Items.IRON_BLOCK));
+			this.dropStack(world, new ItemStack(Items.IRON_BLOCK));
 			ItemScatterer.spawn(this.getWorld(), this, this);
 		}
 	}

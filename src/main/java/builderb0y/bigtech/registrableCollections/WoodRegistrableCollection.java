@@ -18,7 +18,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		warped;
 
 	public WoodRegistrableCollection(
-		String suffix,
+		boolean register,
 		T oak,
 		T spruce,
 		T birch,
@@ -41,12 +41,12 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		this.crimson  = crimson;
 		this.warped   = warped;
 
-		if (suffix != null) this.register(suffix);
+		if (register) this.register();
 	}
 
-	public WoodRegistrableCollection(String suffix, WoodRegistrableFactory<T> factory) {
+	public WoodRegistrableCollection(boolean register, WoodRegistrableFactory<T> factory) {
 		this(
-			suffix,
+			register,
 			factory.create(Type.OAK),
 			factory.create(Type.SPRUCE),
 			factory.create(Type.BIRCH),
@@ -60,7 +60,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		);
 	}
 
-	public abstract void register(String suffix);
+	public abstract void register();
 
 	@FunctionalInterface
 	public static interface WoodRegistrableFactory<T> {

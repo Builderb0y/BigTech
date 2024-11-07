@@ -5,7 +5,7 @@
 		"i i"
 	],
 	"key": {
-		"i": { "tag": "c:ingots/magnetite" }
+		"i": "#c:ingots/magnetite"
 	},
 	"result": {
 		"id": "bigtech:magnetite_boots"

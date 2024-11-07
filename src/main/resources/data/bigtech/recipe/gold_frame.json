@@ -8,8 +8,8 @@
 		"ini"
 	],
 	"key": {
-		"i": { "tag": "c:ingots/gold"  },
-		"n": { "tag": "c:nuggets/gold" }
+		"i": "#c:ingots/gold" ,
+		"n": "#c:nuggets/gold"
 	},
 	"result": {
 		"id": "bigtech:gold_frame",

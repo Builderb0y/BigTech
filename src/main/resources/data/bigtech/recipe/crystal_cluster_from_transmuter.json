@@ -1,6 +1,6 @@
 {
 	"type": "bigtech:transmute",
-	"input": { "item": "bigtech:crystalline_sand" },
+	"input": "bigtech:crystalline_sand",
 	"output": [
 		{ "item": "bigtech:red_crystal_cluster"     },
 		{ "item": "bigtech:yellow_crystal_cluster"  },

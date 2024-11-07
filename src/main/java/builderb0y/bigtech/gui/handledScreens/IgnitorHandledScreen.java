@@ -1,6 +1,7 @@
 package builderb0y.bigtech.gui.handledScreens;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -25,7 +26,18 @@ public class IgnitorHandledScreen extends BigTechHandledScreen<IgnitorScreenHand
 		int remainingTicks = this.handler.remainingBurnTime.get();
 		if (totalTicks > 0 && remainingTicks > 0) {
 			int pixels = (remainingTicks * 14 + (totalTicks - 1)) / totalTicks;
-			context.drawTexture(BACKGROUND, this.x + 81, this.y + 32 - pixels, 176, 14 - pixels, 14, pixels);
+			context.drawTexture(
+				RenderLayer::getGuiTextured,
+				BACKGROUND,
+				this.x + 81,
+				this.y + 32 - pixels,
+				176,
+				14 - pixels,
+				14,
+				pixels,
+				256,
+				256
+			);
 		}
 	}
 }

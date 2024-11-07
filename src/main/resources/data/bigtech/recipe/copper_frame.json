@@ -8,8 +8,8 @@
 		"ini"
 	],
 	"key": {
-		"i": { "tag": "c:ingots/copper"  },
-		"n": { "tag": "c:nuggets/copper" }
+		"i": "#c:ingots/copper" ,
+		"n": "#c:nuggets/copper"
 	},
 	"result": {
 		"id": "bigtech:copper_frame",

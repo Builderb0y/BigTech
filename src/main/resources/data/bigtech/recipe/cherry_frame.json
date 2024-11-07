@@ -8,8 +8,8 @@
 		"ini"
 	],
 	"key": {
-		"i": { "item": "minecraft:cherry_planks" },
-		"n": { "tag":  "c:rods/wooden"           }
+		"i": "minecraft:cherry_planks",
+		"n": "#c:rods/wooden"         
 	},
 	"result": {
 		"id": "bigtech:cherry_frame",

@@ -6,10 +6,10 @@
 		"rcr"
 	],
 	"key": {
-		"t": { "item": "bigtech:stone_crafting_table" },
-		"r": { "tag":  "c:dusts/redstone"             },
-		"i": { "tag":  "c:storage_blocks/iron"        },
-		"c": { "tag":  "c:chests"                     }
+		"t": "bigtech:stone_crafting_table",
+		"r": "#c:dusts/redstone"           ,
+		"i": "#c:storage_blocks/iron"      ,
+		"c": "#c:chests"                   
 	},
 	"result": {
 		"id": "bigtech:techno_crafter"

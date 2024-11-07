@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FireworksComponent;
 import net.minecraft.entity.player.PlayerInventory;
@@ -88,7 +89,6 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 
 		@Override
 		public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-			context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			Identifier texture;
 			if (this.moreRainy) {
 				if (MinecraftClient.getInstance().world.isRaining()) {
@@ -106,7 +106,7 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 					texture = this.hovered ? MAKE_SUNNY_HOVERED : MAKE_SUNNY;
 				}
 			}
-			context.drawGuiTexture(texture, this.getX(), this.getY(), this.width, this.height);
+			context.drawGuiTexture(RenderLayer::getGuiTextured, texture, this.getX(), this.getY(), this.width, this.height);
 		}
 
 		@Override

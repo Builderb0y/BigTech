@@ -13,15 +13,19 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.api.AscenderInteractor;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
@@ -52,7 +56,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
+	public VoxelShape getCullingShape(BlockState state) {
 		return VoxelShapes.empty();
 	}
 
@@ -100,7 +104,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	public Direction computeMovementDirection(World world, BlockPos pos, BlockState state, Entity entity) {
-		return world.isClient ? this.direction : SortingCache.get(world, pos, state, this::getApplicableDirections).nextDirection();
+		return world instanceof ServerWorld serverWorld ? SortingCache.get(serverWorld, pos, state, this::getApplicableDirections).nextDirection() : this.direction;
 	}
 
 	@Override
@@ -110,9 +114,18 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		SortingCache.invalidate(world, pos, state);
-		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+		return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
 	}
 
 	public Direction getMovementDirection(World world, BlockPos pos, BlockState state, Entity entity) {
@@ -129,8 +142,8 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 		double friction;
 		double acceleration;
 		if (direction == Direction.DOWN && entity.isOnGround()) {
-			friction = 0.625D;
-			acceleration = 0.25D;
+			friction = 0.75D;
+			acceleration = 0.125D;
 		}
 		else {
 			friction = entity instanceof ItemEntity || entity instanceof ExperienceOrbEntity ? 0.625D : 0.875D;
@@ -176,8 +189,13 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+	public boolean isTransparent(BlockState state) {
 		return true;
+	}
+
+	@Override
+	protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+		return stateFrom.getBlock() instanceof AscenderBlock;
 	}
 
 	@Override
@@ -187,7 +205,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 
 	public static class SortingCache {
 
-		public static final Map<World, Map<BlockPos, SortingCache>> WORLDS = new WeakHashMap<>(4);
+		public static final Map<ServerWorld, Map<BlockPos, SortingCache>> WORLDS = new WeakHashMap<>(4);
 
 		public final Direction[] directions;
 		public int index;
@@ -197,7 +215,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 			this.index = index;
 		}
 
-		public static SortingCache get(World world, BlockPos pos, BlockState state, SortingCachePopulator populator) {
+		public static SortingCache get(ServerWorld world, BlockPos pos, BlockState state, SortingCachePopulator populator) {
 			Map<BlockPos, SortingCache> map;
 			synchronized (WORLDS) {
 				map = WORLDS.computeIfAbsent(world, k -> new HashMap<>(64));
@@ -215,8 +233,8 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 			return cache;
 		}
 
-		public static void invalidate(WorldAccess world, BlockPos pos, BlockState state) {
-			if (!(world instanceof World)) return;
+		public static void invalidate(WorldView world, BlockPos pos, BlockState state) {
+			if (!(world instanceof ServerWorld)) return;
 			Map<BlockPos, SortingCache> map;
 			synchronized (WORLDS) {
 				map = WORLDS.get(world);

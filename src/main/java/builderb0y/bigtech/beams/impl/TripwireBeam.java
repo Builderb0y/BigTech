@@ -7,6 +7,7 @@ import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -36,8 +37,8 @@ public class TripwireBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onEntityCollision(BlockPos pos, Entity entity) {
-		TripwireBlockEntity tripwire = WorldHelper.getBlockEntity(this.world, this.origin, TripwireBlockEntity.class);
+	public void onEntityCollision(ServerWorld world, BlockPos pos, Entity entity) {
+		TripwireBlockEntity tripwire = WorldHelper.getBlockEntity(world, this.origin, TripwireBlockEntity.class);
 		if (tripwire != null && tripwire.delay != 20) {
 			tripwire.setDelay(10);
 			tripwire.markDirty();
@@ -45,7 +46,7 @@ public class TripwireBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState) {
+	public void onBlockChanged(ServerWorld world, BlockPos pos, BlockState oldState, BlockState newState) {
 		if (
 			pos.equals(this.origin) &&
 			oldState.isOf(FunctionalBlocks.TRIPWIRE) &&
@@ -54,6 +55,6 @@ public class TripwireBeam extends PersistentBeam {
 		) {
 			return;
 		}
-		this.world.addSyncedBlockEvent(pos, FunctionalBlocks.TRIPWIRE, 0, 0);
+		world.addSyncedBlockEvent(pos, FunctionalBlocks.TRIPWIRE, 0, 0);
 	}
 }

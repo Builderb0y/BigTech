@@ -13,13 +13,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeManager;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
+import builderb0y.bigtech.mixins.ServerRecipeManager_PreparedRecipesAccess;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.recipes.TransmuteRecipe;
 import builderb0y.bigtech.recipes.TransmuteRecipe.Output;
@@ -39,10 +42,12 @@ public class TransmuterBlockEntity extends LootableBlockEntityThatActuallyHasAnI
 		this(BigTechBlockEntityTypes.TRANSMUTER, pos, state);
 	}
 
-	public static boolean isValidInput(RecipeManager recipeManager, ItemStack stack) {
+	public static boolean isValidInput(ServerRecipeManager recipeManager, ItemStack stack) {
 		return (
 			recipeManager
-			.listAllOfType(BigTechRecipeTypes.TRANSMUTE)
+			.<ServerRecipeManager_PreparedRecipesAccess>as()
+			.bigtech_getPreparedRecipes()
+			.getAll(BigTechRecipeTypes.TRANSMUTE)
 			.stream()
 			.anyMatch((RecipeEntry<TransmuteRecipe> entry) ->
 				entry.value().input.test(stack)
@@ -50,10 +55,12 @@ public class TransmuterBlockEntity extends LootableBlockEntityThatActuallyHasAnI
 		);
 	}
 
-	public static boolean isValidOutput(RecipeManager recipeManager, ItemStack stack) {
+	public static boolean isValidOutput(ServerRecipeManager recipeManager, ItemStack stack) {
 		return (
 			recipeManager
-			.listAllOfType(BigTechRecipeTypes.TRANSMUTE)
+			.<ServerRecipeManager_PreparedRecipesAccess>as()
+			.bigtech_getPreparedRecipes()
+			.getAll(BigTechRecipeTypes.TRANSMUTE)
 			.stream()
 			.flatMap((RecipeEntry<TransmuteRecipe> entry) ->
 				entry.value().output.stream()
@@ -71,12 +78,12 @@ public class TransmuterBlockEntity extends LootableBlockEntityThatActuallyHasAnI
 
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
-		return this.getStack(slot).isEmpty() && isValidInput(this.world.getRecipeManager(), stack);
+		return this.world instanceof ServerWorld serverWorld && this.getStack(slot).isEmpty() && isValidInput(serverWorld.getRecipeManager(), stack);
 	}
 
 	@Override
 	public boolean canTransferTo(Inventory hopperInventory, int slot, ItemStack stack) {
-		return isValidOutput(this.world.getRecipeManager(), stack);
+		return this.world instanceof ServerWorld serverWorld && isValidOutput(serverWorld.getRecipeManager(), stack);
 	}
 
 	@Override
@@ -86,12 +93,12 @@ public class TransmuterBlockEntity extends LootableBlockEntityThatActuallyHasAnI
 
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-		return this.getStack(slot).isEmpty() && isValidInput(this.world.getRecipeManager(), stack);
+		return this.world instanceof ServerWorld serverWorld && this.getStack(slot).isEmpty() && isValidInput(serverWorld.getRecipeManager(), stack);
 	}
 
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		return isValidOutput(this.world.getRecipeManager(), stack);
+		return this.world instanceof ServerWorld serverWorld && isValidOutput(serverWorld.getRecipeManager(), stack);
 	}
 
 	@Override

@@ -101,7 +101,6 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 			//language=json
 			"""
 			{
-				"jmxl": true,
 				"parent": "bigtech:block/beam_emitter_base_transforms",
 				"textures": {
 					"base_bottom": "minecraft:block/smooth_stone",
@@ -161,7 +160,7 @@ public class RedstoneTransmitterDataGenerator extends RedstoneTransceiverDataGen
 					},
 					{
 						"shade": false,
-						"jmxl_emissive": true,
+						"light_emission": 15,
 						"from": [ 7, 7, 0 ],
 						"to":   [ 9, 9, 1 ],
 						"faces": {

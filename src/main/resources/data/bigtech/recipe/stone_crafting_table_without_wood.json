@@ -5,7 +5,7 @@
 		"cc"
 	],
 	"key": {
-		"c": { "tag": "minecraft:stone_crafting_materials" }
+		"c": "#minecraft:stone_crafting_materials"
 	},
 	"result": {
 		"id": "bigtech:stone_crafting_table"

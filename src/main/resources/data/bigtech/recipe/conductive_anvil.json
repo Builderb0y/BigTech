@@ -6,8 +6,8 @@
 		"iii"
 	],
 	"key": {
-		"b": { "tag": "c:storage_blocks/copper" },
-		"i": { "tag": "c:ingots/copper"         }
+		"b": "#c:storage_blocks/copper",
+		"i": "#c:ingots/copper"        
 	},
 	"result": {
 		"id": "bigtech:conductive_anvil"

@@ -7,7 +7,7 @@ import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection;
 public class CrystalItemCollection extends CrystalRegistrableCollection<Item> {
 
 	public CrystalItemCollection(
-		String suffix,
+		boolean register,
 		Item red,
 		Item yellow,
 		Item green,
@@ -18,7 +18,7 @@ public class CrystalItemCollection extends CrystalRegistrableCollection<Item> {
 		Item white
 	) {
 		super(
-			suffix,
+			register,
 			red,
 			yellow,
 			green,
@@ -30,19 +30,19 @@ public class CrystalItemCollection extends CrystalRegistrableCollection<Item> {
 		);
 	}
 
-	public CrystalItemCollection(String suffix, CrystalClusterFactory<Item> factory) {
-		super(suffix, factory);
+	public CrystalItemCollection(boolean register, CrystalClusterFactory<Item> factory) {
+		super(register, factory);
 	}
 
 	@Override
-	public void register(String suffix) {
-		BigTechItems.register(    "red_" + suffix, this.red    );
-		BigTechItems.register( "yellow_" + suffix, this.yellow );
-		BigTechItems.register(  "green_" + suffix, this.green  );
-		BigTechItems.register(   "cyan_" + suffix, this.cyan   );
-		BigTechItems.register(   "blue_" + suffix, this.blue   );
-		BigTechItems.register("magenta_" + suffix, this.magenta);
-		BigTechItems.register(  "black_" + suffix, this.black  );
-		BigTechItems.register(  "white_" + suffix, this.white  );
+	public void register() {
+		BigTechItems.register(this.red    );
+		BigTechItems.register(this.yellow );
+		BigTechItems.register(this.green  );
+		BigTechItems.register(this.cyan   );
+		BigTechItems.register(this.blue   );
+		BigTechItems.register(this.magenta);
+		BigTechItems.register(this.black  );
+		BigTechItems.register(this.white  );
 	}
 }

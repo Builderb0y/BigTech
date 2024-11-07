@@ -6,8 +6,8 @@
 		"pbp"
 	],
 	"key": {
-		"p": { "item": "minecraft:glass_pane" },
-		"b": { "item": "minecraft:glass"      }
+		"p": "minecraft:glass_pane",
+		"b": "minecraft:glass"     
 	},
 	"result": {
 		"id": "bigtech:prism"

@@ -13,6 +13,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.state.LightningEntityRenderState;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LightningEntity;
@@ -23,17 +24,20 @@ import builderb0y.bigtech.config.BigTechConfig;
 import builderb0y.bigtech.util.LightningRenderer;
 
 @Environment(EnvType.CLIENT)
-public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntity> {
+public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntity, LightningEntityRenderState> {
 
 	public BetterLightningEntityRenderer(EntityRendererFactory.Context context) {
 		super(context);
 	}
 
 	@Override
+	public LightningEntityRenderState createRenderState() {
+		return new LightningEntityRenderState();
+	}
+
+	@Override
 	public void render(
-		LightningEntity entity,
-		float yaw,
-		float tickDelta,
+		LightningEntityRenderState state,
 		MatrixStack matrices,
 		VertexConsumerProvider vertexConsumers,
 		int light
@@ -42,9 +46,9 @@ public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntit
 		Matrix4f matrix = matrices.peek().getPositionMatrix();
 		//use java.util.SplittableRandom over java.util.Random
 		//because it's faster due to the non-atomic seed.
-		RandomGenerator random = new SplittableRandom(entity.seed);
-		Vec3d camera = MinecraftClient.getInstance().gameRenderer.getCamera().getPos().subtract(entity.getPos());
-		float age = entity.age + tickDelta;
+		RandomGenerator random = new SplittableRandom(state.seed);
+		Vec3d camera = this.dispatcher.camera.getPos().subtract(state.x, state.y, state.z);
+		float age = state.age;
 		LightningRenderer.generatePoints(
 			random,
 			random.nextDouble(-64.0D,  64.0D),
@@ -89,8 +93,13 @@ public class BetterLightningEntityRenderer extends EntityRenderer<LightningEntit
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	public Identifier getTexture(LightningEntity entity) {
-		return SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE; //same thing LightningEntityRenderer returns.
+	public void updateRenderState(LightningEntity entity, LightningEntityRenderState state, float tickDelta) {
+		super.updateRenderState(entity, state, tickDelta);
+		state.seed = entity.seed;
+	}
+
+	@Override
+	public boolean canBeCulled(LightningEntity entity) {
+		return false;
 	}
 }

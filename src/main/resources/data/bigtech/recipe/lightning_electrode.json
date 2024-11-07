@@ -5,7 +5,7 @@
 		"i"
 	],
 	"key": {
-		"i": { "item": "bigtech:magnetite_ingot" }
+		"i": "bigtech:magnetite_ingot"
 	},
 	"result": {
 		"id": "bigtech:lightning_electrode"

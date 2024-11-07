@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
@@ -29,8 +30,8 @@ public class PhaseManipulatorBlock extends Block implements BeamInteractor {
 	}
 
 	@Override
-	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		inputSegment.beam().addSegment(inputSegment.withVisibility(this.visible).extend());
+	public boolean spreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) {
+		inputSegment.beam().addSegment(world, inputSegment.withVisibility(this.visible).extend());
 		return true;
 	}
 
@@ -40,7 +41,7 @@ public class PhaseManipulatorBlock extends Block implements BeamInteractor {
 	}
 
 	@Override
-	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+	public boolean isTransparent(BlockState state) {
 		return true;
 	}
 }

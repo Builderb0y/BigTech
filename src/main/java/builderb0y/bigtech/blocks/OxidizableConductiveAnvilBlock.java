@@ -7,7 +7,6 @@ import net.minecraft.block.Oxidizable;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
@@ -31,7 +30,7 @@ public class OxidizableConductiveAnvilBlock extends ConductiveAnvilBlock impleme
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		BlockState newState = Oxidizable.getDecreasedOxidationState(state).orElse(null);
 		if (newState != null) world.setBlockState(pos, state = newState);
 		super.onPulse(world, pos, state, pulse);

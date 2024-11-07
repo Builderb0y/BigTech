@@ -9,11 +9,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
@@ -38,15 +41,15 @@ public class ConductiveAnvilBlock extends AnvilBlock implements LightningPulseIn
 	}
 
 	@Override
-	public boolean isSink(World world, BlockPos pos, BlockState state) {
+	public boolean isSink(WorldView world, BlockPos pos, BlockState state) {
 		ConductiveAnvilBlockEntity anvil = WorldHelper.getBlockEntity(world, pos, ConductiveAnvilBlockEntity.class);
 		return anvil != null && !anvil.isEmpty();
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-		this.shockEntitiesAround(world, pos, state, pulse);
-		this.spawnLightningParticles(world, pos, state, pulse);
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+		LightningPulseInteractor.shockEntitiesAround(world, pos, state, pulse);
+		LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
 		ConductiveAnvilBlockEntity anvil = WorldHelper.getBlockEntity(world, pos, ConductiveAnvilBlockEntity.class);
 		if (anvil != null) anvil.onLightningPulse(pulse.getDistributedEnergy());
 	}

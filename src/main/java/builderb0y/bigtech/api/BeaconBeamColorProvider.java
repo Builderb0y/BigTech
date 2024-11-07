@@ -33,19 +33,19 @@ public interface BeaconBeamColorProvider {
 	public abstract int getBeaconColor(World world, BlockPos pos, BlockState state);
 
 	public static int packRGB(int red, int green, int blue) {
-		return ColorHelper.Argb.getArgb(255, red, green, blue);
+		return ColorHelper.getArgb(255, red, green, blue);
 	}
 
 	public static int getRed(int color) {
-		return ColorHelper.Argb.getRed(color);
+		return ColorHelper.getRed(color);
 	}
 
 	public static int getGreen(int color) {
-		return ColorHelper.Argb.getGreen(color);
+		return ColorHelper.getGreen(color);
 	}
 
 	public static int getBlue(int color) {
-		return ColorHelper.Argb.getBlue(color);
+		return ColorHelper.getBlue(color);
 	}
 
 	public static final Object INITIALIZER = new Object() {{

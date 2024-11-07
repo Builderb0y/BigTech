@@ -13,10 +13,10 @@ public class ClientChunkBeamStorage extends CommonChunkBeamStorage {
 		super(chunk);
 		this.box = new Box(
 			chunk.getPos().getStartX() - 0.5D,
-			chunk.getBottomY() - 0.5D,
+			chunk.minY() - 0.5D,
 			chunk.getPos().getStartZ() - 0.5D,
 			chunk.getPos().getStartX() + 16.5D,
-			chunk.getTopY() + 0.5D,
+			chunk.maxY() + 0.5D,
 			chunk.getPos().getStartZ() + 0.5D
 		);
 	}

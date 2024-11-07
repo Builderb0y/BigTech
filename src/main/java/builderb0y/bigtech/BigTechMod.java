@@ -20,6 +20,7 @@ import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.BigTechItems;
 import builderb0y.bigtech.networking.BigTechNetwork;
 import builderb0y.bigtech.particles.BigTechParticles;
+import builderb0y.bigtech.recipes.BigTechRecipeBookCategories;
 import builderb0y.bigtech.recipes.BigTechRecipeSerializers;
 import builderb0y.bigtech.recipes.BigTechRecipeTypes;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
@@ -51,6 +52,7 @@ public class BigTechMod implements ModInitializer {
 		BigTechParticles.init();
 		BigTechRecipeTypes.init();
 		BigTechRecipeSerializers.init();
+		BigTechRecipeBookCategories.init();
 		BigTechCommands.init();
 		BigTechFeatures.init();
 		BigTechWorldgen.init();

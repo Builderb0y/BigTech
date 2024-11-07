@@ -14,6 +14,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
@@ -21,10 +22,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldEvents;
+import net.minecraft.world.*;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
@@ -37,7 +35,7 @@ import builderb0y.bigtech.util.Directions;
 
 /**
 a block which does something special when hit by a lightning pulse.
-the primary method in this class is {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)},
+the primary method in this class is {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)},
 but other secondary methods are also available to fine-tune
 how the pulse spreads into and out of this block.
 register blocks with {@link #LOOKUP}.
@@ -63,13 +61,13 @@ public interface LightningPulseInteractor {
 
 	/**
 	returns true if all 3 of the following conditions are met:
-		1: fromInteractor {@link #canConductOut(WorldAccess, BlockPos, BlockState, Direction)} of the provided direction,
-		2: toInteractor {@link #canConductIn(WorldAccess, BlockPos, BlockState, Direction)} from the opposite of the provided direction, and
-		3: fromState's {@link #getConductionShape(BlockView, BlockPos, BlockState, Direction)} touches toState's conduction state.
+		1: fromInteractor {@link #canConductOut(WorldView, BlockPos, BlockState, Direction)} of the provided direction,
+		2: toInteractor {@link #canConductIn(WorldView, BlockPos, BlockState, Direction)} from the opposite of the provided direction, and
+		3: fromState's {@link #getConductionShape(WorldView, BlockPos, BlockState, Direction)} touches toState's conduction state.
 	which is a fancy of saying the two blocks can conduct with each other, and touch each other.
 	*/
 	public static boolean canConductThrough(
-		WorldAccess world,
+		WorldView world,
 		LightningPulseInteractor fromInteractor,
 		BlockPos fromPos,
 		BlockState fromState,
@@ -92,8 +90,8 @@ public interface LightningPulseInteractor {
 	/**
 	returns the shape used for checking whether or not this block touches an adjacent one.
 	*/
-	public default VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
-		return state.getCullingFace(world, pos, face);
+	public default VoxelShape getConductionShape(WorldView world, BlockPos pos, BlockState state, Direction face) {
+		return state.getOutlineShape(world, pos).getFace(face);
 	}
 
 	/**
@@ -102,20 +100,18 @@ public interface LightningPulseInteractor {
 	the provided side may be null if the pulse is not coming from an adjacent block.
 	for example, lightning beams use a null direction when hitting something at a diagonal angle.
 
-	this method should not modify the provided world.
-	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
+	use {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
+	public default boolean canConductIn(WorldView world, BlockPos pos, BlockState state, @Nullable Direction side) {
 		return true;
 	}
 
 	/**
 	returns true if this block can spread to an adjacent block, false otherwise.
 
-	this method should not modify the provided world.
-	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
+	use {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+	public default boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
 		return true;
 	}
 
@@ -123,14 +119,13 @@ public interface LightningPulseInteractor {
 	returns true if this block is intended to actively consume lightning energy.
 	this implies 2 things:
 		1: only the lightning paths that lead to sinks will receive the pulse
-			see {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)}.
+			see {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)}.
 		2: this block will not attempt to spread to other adjacent blocks by default.
-			see {@link #spreadOut(World, LinkedBlockPos, BlockState, LightningPulse)}.
+			see {@link #spreadOut(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)}.
 
-	this method should not modify the provided world.
-	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
+	use {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default boolean isSink(World world, BlockPos pos, BlockState state) {
+	public default boolean isSink(WorldView world, BlockPos pos, BlockState state) {
 		return false;
 	}
 
@@ -138,9 +133,9 @@ public interface LightningPulseInteractor {
 	called when an adjacent block is actively attempting to spread into this block.
 
 	this method should not modify the provided world.
-	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
+	use {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default void spreadIn(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public default void spreadIn(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		pulse.addNode(pos);
 		if (this.isSink(world, pos, state)) {
 			pulse.addSink(pos);
@@ -150,29 +145,30 @@ public interface LightningPulseInteractor {
 	/**
 	called when this block is scheduled to spread to adjacent blocks.
 	this method can be overridden to delegate to
-	{@link #forceSpreadOut(World, LinkedBlockPos, BlockState, LightningPulse)}
+	{@link #forceSpreadOut(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)}
 	if this block is a sink that wishes to continue spreading instead of being an "end point".
 
 	this method should not modify the provided world.
-	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
+	use {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default void spreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public default void spreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		if (!this.isSink(world, pos, state)) {
 			this.forceSpreadOut(world, pos, state, pulse);
 		}
 	}
 
 	/**
-	called by {@link #spreadOut(World, LinkedBlockPos, BlockState, LightningPulse)}
+	called by {@link #spreadOut(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)}
 	if this block should spread to adjacent blocks.
 	this method performs the spreading logic for all directions which
-	{@link #canConductOut(WorldAccess, BlockPos, BlockState, Direction)}.
+	{@link #canConductOut(WorldView, BlockPos, BlockState, Direction)}.
 
 	this method should not modify the provided world.
-	use {@link #onPulse(World, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
+	use {@link #onPulse(ServerWorld, LinkedBlockPos, BlockState, LightningPulse)} for that instead.
 	*/
-	public default void forceSpreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public default void forceSpreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		for (Direction direction : Directions.ALL) {
+			if (!this.canConductOut(world, pos, state, direction)) continue;
 			LinkedBlockPos adjacentPos = pos.offset(direction);
 			if (pulse.hasNode(adjacentPos)) continue;
 			BlockState adjacentState = world.getBlockState(adjacentPos);
@@ -185,13 +181,13 @@ public interface LightningPulseInteractor {
 
 	/**
 	called after spreading logic has finished for all blocks that are along a path from
-	{@link LightningPulse#originPos source} to {@link #isSink(World, BlockPos, BlockState) sink},
+	{@link LightningPulse#originPos source} to {@link #isSink(WorldView, BlockPos, BlockState) sink},
 	including on the source and sink themselves.
 	alternatively, if, after spreading, no sinks have been found,
 	all explored blocks will have a pulse spread through them.
 	this method may modify the provided world however it wants to.
 	*/
-	public abstract void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse);
+	public abstract void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse);
 
 	public default ActionResult interactWithBattery(
 		World world,
@@ -203,8 +199,8 @@ public interface LightningPulseInteractor {
 	) {
 		int charge = battery.getCharge(stack);
 		if (charge > 0) {
-			if (!world.isClient) {
-				new LightningPulse(world, pos, state, this, charge, battery.getDefaultSpreadEvents(stack)).run();
+			if (world instanceof ServerWorld serverWorld) {
+				new LightningPulse(serverWorld, pos, state, this, charge, battery.getDefaultSpreadEvents(stack)).run();
 				if (player == null || !player.isCreative()) {
 					battery.setCharge(stack, 0);
 				}
@@ -220,7 +216,7 @@ public interface LightningPulseInteractor {
 	damages all entities within 1 block of the provided position with lightning damage.
 	the damage dealt to each entity is the pulse's {@link LightningPulse#totalEnergy} divided by 1000.
 	*/
-	public default void shockEntitiesAround(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
+	public static void shockEntitiesAround(ServerWorld world, BlockPos pos, BlockState state, LightningPulse pulse) {
 		for (
 			Entity entity : world.getNonSpectatingEntities(
 				Entity.class,
@@ -235,19 +231,20 @@ public interface LightningPulseInteractor {
 			)
 		) {
 			LightningPulse.shockEntity(
+				world,
 				entity,
 				pulse.totalEnergy / 1000.0F,
 				new DamageSource(
 					world
 					.getRegistryManager()
-					.get(RegistryKeys.DAMAGE_TYPE)
-					.entryOf(BigTechDamageTypes.SHOCKING)
+					.getOrThrow(RegistryKeys.DAMAGE_TYPE)
+					.getOrThrow(BigTechDamageTypes.SHOCKING)
 				)
 			);
 		}
 	}
 
-	public default void spawnLightningParticles(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
+	public static void spawnLightningParticles(World world, BlockPos pos, BlockState state, LightningPulse pulse) {
 		world.syncWorldEvent(WorldEvents.ELECTRICITY_SPARKS, pos, -1);
 	}
 

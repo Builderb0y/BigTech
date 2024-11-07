@@ -3,8 +3,8 @@
 	"category": "redstone",
 	"group": "bigtech:leds",
 	"ingredients": [
-		{ "tag": "bigtech:leds" },
-		{ "tag": "c:dyes/cyan"  }
+		"#bigtech:leds",
+		"#c:dyes/cyan" 
 	],
 	"result": {
 		"id": "bigtech:cyan_led"

@@ -69,7 +69,7 @@ public class MagnetiteBlockDataGenerator extends BasicBlockDataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "tag":  "c:storage_blocks/iron"   },
+				"input": "#c:storage_blocks/iron",
 				"output": { "item": "bigtech:magnetite_block" },
 				"energy": 810
 			}"""

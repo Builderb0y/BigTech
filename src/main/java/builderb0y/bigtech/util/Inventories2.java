@@ -40,7 +40,7 @@ public class Inventories2 {
 			.map((SlotStack slotStack) ->
 				slotStack
 				.stack
-				.encodeAllowEmpty(registryLookup)
+				.toNbtAllowEmpty(registryLookup)
 				.<NbtCompound>as()
 				.withInt("Slot", slotStack.slot)
 			)

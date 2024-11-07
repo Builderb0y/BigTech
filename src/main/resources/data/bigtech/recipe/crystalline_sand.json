@@ -1,8 +1,8 @@
 {
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
-		{ "tag":  "minecraft:sand"         },
-		{ "item": "bigtech:crystal_debris" }
+		"#minecraft:sand"       ,
+		"bigtech:crystal_debris"
 	],
 	"result": {
 		"id": "bigtech:crystalline_sand"

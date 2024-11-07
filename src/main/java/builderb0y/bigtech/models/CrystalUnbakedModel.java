@@ -29,13 +29,8 @@ public class CrystalUnbakedModel implements UnbakedModel {
 	}
 
 	@Override
-	public Collection<Identifier> getModelDependencies() {
-		return Collections.singletonList(Identifier.ofVanilla("block/block"));
-	}
-
-	@Override
-	public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
-		this.block = modelLoader.apply(Identifier.ofVanilla("block/block"));
+	public void resolve(Resolver resolver) {
+		this.block = resolver.resolve(Identifier.ofVanilla("block/block"));
 	}
 
 	@Nullable

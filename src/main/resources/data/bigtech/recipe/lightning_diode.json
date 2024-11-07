@@ -5,8 +5,8 @@
 		"crc"
 	],
 	"key": {
-		"c": { "tag": "bigtech:lightning_cables" },
-		"r": { "tag": "c:dusts/redstone"         }
+		"c": "#bigtech:lightning_cables",
+		"r": "#c:dusts/redstone"        
 	},
 	"result": {
 		"id": "bigtech:lightning_diode"

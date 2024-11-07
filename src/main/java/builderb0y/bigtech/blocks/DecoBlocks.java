@@ -11,31 +11,36 @@ import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.Cr
 import builderb0y.bigtech.registrableCollections.LedRegistrableCollection.LedColor;
 import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
+import static builderb0y.bigtech.blocks.BigTechBlocks.register;
+import static builderb0y.bigtech.blocks.BigTechBlocks.settings;
+import static builderb0y.bigtech.blocks.BigTechBlocks.copySettings;
+
 public class DecoBlocks {
 
 	//////////////////////////////// frames ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final FrameBlock IRON_FRAME = BigTechBlocks.register(
-		"iron_frame",
+	public static final FrameBlock IRON_FRAME = register(
 		new FrameBlock(
-			AbstractBlock.Settings.copy(Blocks.IRON_BLOCK),
+			copySettings(Blocks.IRON_BLOCK, "iron_frame"),
 			BigTechBlockTags.STICKS_TO_IRON_FRAME
 		)
 	);
 	@UseDataGen(void.class)
-	public static final FrameBlock GOLD_FRAME = BigTechBlocks.register(
-		"gold_frame",
+	public static final FrameBlock GOLD_FRAME = register(
 		new FrameBlock(
-			AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK),
+			copySettings(Blocks.GOLD_BLOCK, "gold_frame"),
 			BigTechBlockTags.STICKS_TO_GOLD_FRAME
 		)
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_FRAMES = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "frame",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
-			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
+			AbstractBlock.Settings settings = copySettings(
+				BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type),
+				type.copperPrefix + "frame"
+			);
 			return (
 				type.waxed
 				? new FrameBlock(settings, BigTechBlockTags.STICKS_TO_COPPER_FRAME)
@@ -45,9 +50,12 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_FRAMES = new WoodBlockCollection(
-		"frame",
+		true,
 		(WoodRegistrableCollection.Type type) -> new FrameBlock(
-			AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_PLANKS.get(type)),
+			copySettings(
+				BigTechBlocks.VANILLA_PLANKS.get(type),
+				type.prefix + "frame"
+			),
 			switch (type) {
 				case OAK      -> BigTechBlockTags.STICKS_TO_OAK_FRAME;
 				case SPRUCE   -> BigTechBlockTags.STICKS_TO_SPRUCE_FRAME;
@@ -66,17 +74,19 @@ public class DecoBlocks {
 	//////////////////////////////// catwalk platforms ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final CatwalkPlatformBlock IRON_CATWALK_PLATFORM = BigTechBlocks.register(
-		"iron_catwalk_platform",
+	public static final CatwalkPlatformBlock IRON_CATWALK_PLATFORM = register(
 		new CatwalkPlatformBlock(
-			AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
+			copySettings(Blocks.IRON_BLOCK, "iron_catwalk_platform")
 		)
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_CATWALK_PLATFORMS = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_platform",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
-			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
+			AbstractBlock.Settings settings = copySettings(
+				BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type),
+				type.copperPrefix + "catwalk_platform"
+			);
 			return (
 				type.waxed
 				? new CatwalkPlatformBlock(settings)
@@ -86,26 +96,31 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_CATWALK_PLATFORMS = new WoodBlockCollection(
-		"catwalk_platform",
+		true,
 		(WoodRegistrableCollection.Type type) -> new CatwalkPlatformBlock(
-			AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_PLANKS.get(type))
+			copySettings(
+				BigTechBlocks.VANILLA_PLANKS.get(type),
+				type.prefix + "catwalk_platform"
+			)
 		)
 	);
 
 	//////////////////////////////// catwalk stairs ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final CatwalkStairsBlock IRON_CATWALK_STAIRS = BigTechBlocks.register(
-		"iron_catwalk_stairs",
+	public static final CatwalkStairsBlock IRON_CATWALK_STAIRS = register(
 		new CatwalkStairsBlock(
-			AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)
+			copySettings(Blocks.IRON_BLOCK, "iron_catwalk_stairs")
 		)
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_CATWALK_STAIRS = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "catwalk_stairs",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
-			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
+			AbstractBlock.Settings settings = copySettings(
+				BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type),
+				type.copperPrefix + "catwalk_stairs"
+			);
 			return (
 				type.waxed
 				? new CopperCatwalkStairsBlock(settings)
@@ -115,21 +130,21 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_CATWALK_STAIRS = new WoodBlockCollection(
-		"catwalk_stairs",
+		true,
 		(WoodRegistrableCollection.Type type) -> new CatwalkStairsBlock(
-			AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_PLANKS.get(type))
+			copySettings(
+				BigTechBlocks.VANILLA_PLANKS.get(type),
+				type.prefix + "catwalk_stairs"
+			)
 		)
 	);
 
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(void.class)
-	public static final LadderBlock IRON_LADDER = BigTechBlocks.register(
-		"iron_ladder",
+	public static final LadderBlock IRON_LADDER = register(
 		new LadderBlock(
-			AbstractBlock
-			.Settings
-			.copy(Blocks.IRON_BLOCK)
+			copySettings(Blocks.IRON_BLOCK, "iron_ladder")
 			.strength(1.0F)
 			.notSolid()
 			.nonOpaque()
@@ -138,12 +153,13 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_LADDERS = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "ladder",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
-				AbstractBlock
-				.Settings
-				.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type))
+				copySettings(
+					BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type),
+					type.copperPrefix + "ladder"
+				)
 				.strength(0.6F, 1.2F)
 				.notSolid()
 				.nonOpaque()
@@ -158,12 +174,10 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_BARS = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "bars",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
 			AbstractBlock.Settings settings = (
-				AbstractBlock
-				.Settings
-				.create()
+				settings(type.copperPrefix + "bars")
 				.mapColor(switch (type.level) {
 					case UNAFFECTED -> MapColor.ORANGE;
 					case EXPOSED -> MapColor.TERRACOTTA_LIGHT_GRAY;
@@ -184,9 +198,12 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_SLABS = new CopperBlockCollection(
-		(CopperRegistrableCollection.Type type) -> type.copperPrefix + "slab",
+		true,
 		(CopperRegistrableCollection.Type type) -> {
-			AbstractBlock.Settings settings = AbstractBlock.Settings.copy(BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type));
+			AbstractBlock.Settings settings = copySettings(
+				BigTechBlocks.VANILLA_COPPER_BLOCKS.get(type),
+				type.copperPrefix + "slab"
+			);
 			return (
 				type.waxed
 				? new SlabBlock(settings)
@@ -195,12 +212,9 @@ public class DecoBlocks {
 		}
 	);
 	@UseDataGen(void.class)
-	public static final Block SMOOTH_OBSIDIAN = BigTechBlocks.register(
-		"smooth_obsidian",
+	public static final Block SMOOTH_OBSIDIAN = register(
 		new Block(
-			AbstractBlock
-			.Settings
-			.copy(Blocks.OBSIDIAN)
+			copySettings(Blocks.OBSIDIAN, "smooth_obsidian")
 			.hardness(20.0F)
 			//did you know that pistons hard-code the check for
 			//obsidian instead of using the piston behavior on the block?
@@ -213,9 +227,7 @@ public class DecoBlocks {
 	public static final LedBlockCollection LEDS = new LedBlockCollection(
 		true,
 		(LedColor color) -> new LedBlock(
-			AbstractBlock
-			.Settings
-			.create()
+			settings(color.prefix + "led")
 			.mapColor(color.dyeColor())
 			.pistonBehavior(PistonBehavior.DESTROY)
 			.strength(0.2F, 0.0F)
@@ -224,12 +236,10 @@ public class DecoBlocks {
 	);
 	@UseDataGen(void.class)
 	public static final CrystalBlockCollection CRYSTAL_LAMPS = new CrystalBlockCollection(
-		"crystal_lamp",
+		true,
 		(CrystalColor color) -> {
 			return new CrystalLampBlock(
-				AbstractBlock
-				.Settings
-				.create()
+				settings(color.prefix + "crystal_lamp")
 				.mapColor(color.closestDyeColor)
 				.strength(0.5F)
 				.sounds(BlockSoundGroup.GLASS)

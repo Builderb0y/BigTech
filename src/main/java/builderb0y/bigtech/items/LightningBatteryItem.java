@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -51,17 +52,20 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
 		int charge = this.getCharge(stack);
 		if (charge > 0) {
-			LightningPulse.shockEntity(
-				entity,
-				charge / 200.0F,
-				new DamageSource(
-					entity
-					.getWorld()
-					.getRegistryManager()
-					.get(RegistryKeys.DAMAGE_TYPE)
-					.entryOf(BigTechDamageTypes.SHOCKING)
-				)
-			);
+			if (entity.getWorld() instanceof ServerWorld serverWorld) {
+				LightningPulse.shockEntity(
+					serverWorld,
+					entity,
+					charge / 200.0F,
+					new DamageSource(
+						entity
+						.getWorld()
+						.getRegistryManager()
+						.getOrThrow(RegistryKeys.DAMAGE_TYPE)
+						.getOrThrow(BigTechDamageTypes.SHOCKING)
+					)
+				);
+			}
 			return ActionResult.SUCCESS;
 		}
 		else {

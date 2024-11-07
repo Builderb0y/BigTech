@@ -178,7 +178,7 @@ public class NbtCompoundExtensions {
 	public static BlockState getBlockState(@This NbtCompound thiz, String key) {
 		String value = thiz.getString(key);
 		if (!value.isEmpty()) try {
-			return BlockArgumentParser.block(Registries.BLOCK.getReadOnlyWrapper(), value, false).blockState();
+			return BlockArgumentParser.block(Registries.BLOCK, value, false).blockState();
 		}
 		catch (CommandSyntaxException ignored) {}
 		return Blocks.AIR.getDefaultState();

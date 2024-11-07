@@ -118,7 +118,6 @@ public class LedDataGenerator extends BasicBlockDataGenerator {
 			//language=json
 			"""
 			{
-				"jmxl": true,
 				"ambientocclusion": false,
 				"parent": "minecraft:block/thin_block",
 				"textures": {
@@ -139,7 +138,7 @@ public class LedDataGenerator extends BasicBlockDataGenerator {
 					},
 					{
 						"shade": false,
-						"jmxl_emissive": true,
+						"light_emission": 15,
 						"from": [  6, 2,  6 ],
 						"to":   [ 10, 4, 10 ],
 						"faces": {

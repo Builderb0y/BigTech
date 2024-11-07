@@ -12,7 +12,7 @@ public class BigTechDataComponents {
 
 	public static final ComponentType<Integer> LIGHTNING_ENERGY = register(
 		"lightning_energy",
-		ComponentType.<Integer>builder().codec(Codecs.NONNEGATIVE_INT).packetCodec(PacketCodecs.VAR_INT).build()
+		ComponentType.<Integer>builder().codec(Codecs.NON_NEGATIVE_INT).packetCodec(PacketCodecs.VAR_INT).build()
 	);
 	public static final ComponentType<Integer> LIGHTNING_CAPACITY = register(
 		"lightning_capacity",

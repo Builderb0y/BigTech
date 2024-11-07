@@ -8,8 +8,8 @@
 		"ini"
 	],
 	"key": {
-		"i": { "tag": "c:ingots/iron"  },
-		"n": { "tag": "c:nuggets/iron" }
+		"i": "#c:ingots/iron" ,
+		"n": "#c:nuggets/iron"
 	},
 	"result": {
 		"id": "bigtech:iron_frame",

@@ -9,6 +9,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
@@ -45,38 +46,38 @@ public class SpotlightBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState) {
-		BlockState originState = this.world.getBlockState(this.origin);
+	public void onBlockChanged(ServerWorld world, BlockPos pos, BlockState oldState, BlockState newState) {
+		BlockState originState = world.getBlockState(this.origin);
 		if (originState.isOf(FunctionalBlocks.SPOTLIGHT)) {
-			this.world.addSyncedBlockEvent(this.origin, FunctionalBlocks.SPOTLIGHT, 0, 0);
+			world.addSyncedBlockEvent(this.origin, FunctionalBlocks.SPOTLIGHT, 0, 0);
 		}
 		else {
-			this.removeFromWorld();
+			this.removeFromWorld(world);
 		}
 	}
 
 	@Override
-	public void onAdded() {
-		super.onAdded();
-		this.updateLightLevels();
+	public void onAdded(ServerWorld world) {
+		super.onAdded(world);
+		this.updateLightLevels(world);
 	}
 
 	@Override
-	public void onRemoved() {
-		super.onRemoved();
-		this.updateLightLevels();
+	public void onRemoved(ServerWorld world) {
+		super.onRemoved(world);
+		this.updateLightLevels(world);
 	}
 
-	public void updateLightLevels() {
-		LightingProvider lightingProvider = this.world.getChunkManager().getLightingProvider();
+	public void updateLightLevels(ServerWorld world) {
+		LightingProvider lightingProvider = world.getChunkManager().getLightingProvider();
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
 		while (sectionIterator.hasNext()) {
 			Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-			int chunkY = ChunkSectionPos.unpackY(sectionEntry.getKey()) << 4;
-			if (this.world.isOutOfHeightLimit(chunkY)) continue;
-			int chunkX = ChunkSectionPos.unpackX(sectionEntry.getKey()) << 4;
-			int chunkZ = ChunkSectionPos.unpackZ(sectionEntry.getKey()) << 4;
+			int chunkY = ChunkSectionPos.unpackY(sectionEntry.getLongKey()) << 4;
+			if (world.isOutOfHeightLimit(chunkY)) continue;
+			int chunkX = ChunkSectionPos.unpackX(sectionEntry.getLongKey()) << 4;
+			int chunkZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey()) << 4;
 			ShortIterator blockIterator = sectionEntry.getValue().keySet().iterator();
 			while (blockIterator.hasNext()) {
 				short localPos = blockIterator.nextShort();

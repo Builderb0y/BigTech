@@ -11,8 +11,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.beams.impl.DestructionManager;
 import builderb0y.bigtech.blockEntities.AbstractDestroyerBlockEntity;
@@ -36,7 +39,16 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		if (direction == state.get(Properties.HORIZONTAL_FACING)) {
 			ShortRangeDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
 			if (blockEntity != null && blockEntity.queue != null) {
@@ -46,16 +58,16 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 				blockEntity.queue = null;
 			}
 		}
-		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+		return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.get(Properties.POWERED)) {
+		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
 			ShortRangeDestroyerBlockEntity destroyer = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
 			if (destroyer != null) {
 				if (destroyer.queue != null && destroyer.queue.populated && !destroyer.queue.inactive.isEmpty()) {
-					DestructionManager.forWorld(world).resetProgress(destroyer.queue.inactive.lastKey());
+					DestructionManager.forWorld(serverWorld).resetProgress(destroyer.queue.inactive.lastKey());
 				}
 				if (!newState.isOf(this)) destroyer.queue = null;
 			}

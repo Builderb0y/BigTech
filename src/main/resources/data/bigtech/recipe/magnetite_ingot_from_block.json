@@ -4,7 +4,7 @@
 		"b"
 	],
 	"key": {
-		"b": { "tag": "c:storage_blocks/magnetite" }
+		"b": "#c:storage_blocks/magnetite"
 	},
 	"result": {
 		"id": "bigtech:magnetite_ingot"

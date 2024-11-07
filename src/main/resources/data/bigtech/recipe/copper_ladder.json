@@ -8,7 +8,7 @@
 		"c c"
 	],
 	"key": {
-		"c": { "tag": "c:nuggets/copper" }
+		"c": "#c:nuggets/copper"
 	},
 	"result": {
 		"id": "bigtech:copper_ladder",

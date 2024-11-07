@@ -3,8 +3,8 @@
 	"category": "redstone",
 	"group": "bigtech:leds",
 	"ingredients": [
-		{ "tag": "bigtech:leds" },
-		{ "tag": "c:dyes/gray"  }
+		"#bigtech:leds",
+		"#c:dyes/gray" 
 	],
 	"result": {
 		"id": "bigtech:gray_led"

@@ -6,9 +6,9 @@
 		"f"
 	],
 	"key": {
-		"n": { "tag":  "c:nuggets/magnetite" },
-		"s": { "tag":  "c:rods/wooden"       },
-		"f": { "item": "minecraft:feather"   }
+		"n": "#c:nuggets/magnetite",
+		"s": "#c:rods/wooden"      ,
+		"f": "minecraft:feather"   
 	},
 	"result": {
 		"id": "bigtech:magnetic_arrow"

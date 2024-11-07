@@ -30,6 +30,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
 import builderb0y.bigtech.beams.base.*;
@@ -99,25 +100,25 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		inputSegment.beam().addSegment(inputSegment.extend());
+	public boolean spreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) {
+		inputSegment.beam().addSegment(world, inputSegment.extend());
 		return true;
 	}
 
 	@Override
-	public void onBeamAdded(BlockPos pos, BlockState state, PersistentBeam beam) {
-		beam.world.scheduleBlockTick(pos, this, 2);
+	public void onBeamAdded(ServerWorld world, BlockPos pos, BlockState state, PersistentBeam beam) {
+		world.scheduleBlockTick(pos, this, 2);
 	}
 
 	@Override
-	public void onBeamRemoved(BlockPos pos, BlockState state, PersistentBeam beam) {
-		beam.world.scheduleBlockTick(pos, this, 2);
+	public void onBeamRemoved(ServerWorld world, BlockPos pos, BlockState state, PersistentBeam beam) {
+		world.scheduleBlockTick(pos, this, 2);
 	}
 
 	@Override
-	public void onBeamPulse(BlockPos pos, BlockState state, PulseBeam beam) {
-		if (this.setPowered(beam.world, pos, state, beam)) {
-			beam.world.scheduleBlockTick(pos, this, 2);
+	public void onBeamPulse(ServerWorld world, BlockPos pos, BlockState state, PulseBeam beam) {
+		if (this.setPowered(world, pos, state, beam)) {
+			world.scheduleBlockTick(pos, this, 2);
 		}
 	}
 
@@ -222,9 +223,9 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (!player.getStackInHand(hand).isEmpty()) {
-			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 		}
 		if (!world.isClient) {
 			BeamInterceptorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class);
@@ -251,7 +252,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 				}
 			}
 		}
-		return ItemActionResult.SUCCESS;
+		return ActionResult.SUCCESS;
 	}
 
 	public static Text getColorCode(String prefix, Vector3f color) {
@@ -277,9 +278,18 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (direction == state.get(Properties.FACING) && !neighborState.isSideSolid(world, pos, direction.getOpposite(), SideShapeType.CENTER)) {
 			return (state.get(Properties.WATERLOGGED) ? Blocks.WATER : Blocks.AIR).getDefaultState();

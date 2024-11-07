@@ -5,6 +5,7 @@ import org.ladysnake.cca.api.v3.chunk.ChunkComponentInitializer;
 import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
 
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
@@ -22,11 +23,11 @@ public class CardinalComponentsEntrypoint implements WorldComponentInitializer, 
 	@Override
 	public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry) {
 		registry.register(CommonWorldBeamStorage.KEY, (World world) -> {
-			if (world.isClient) {
-				return new ClientWorldBeamStorage(world);
+			if (world instanceof ServerWorld serverWorld) {
+				return new ServerWorldBeamStorage(serverWorld);
 			}
 			else {
-				return new ServerWorldBeamStorage(world);
+				return new ClientWorldBeamStorage(world);
 			}
 		});
 	}

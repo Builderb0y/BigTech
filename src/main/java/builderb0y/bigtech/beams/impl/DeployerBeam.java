@@ -8,6 +8,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -39,15 +40,15 @@ public class DeployerBeam extends PulseBeam {
 	}
 
 	@Override
-	public void handleIntersection(SpreadingBeamSegment segment, BlockState state, BlockHitResult hitResult) {
-		super.handleIntersection(segment, state, hitResult);
+	public void handleIntersection(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment, BlockHitResult hitResult) {
+		super.handleIntersection(world, pos, state, segment, hitResult);
 		this.placementPositions.add(segment.startPos());
 	}
 
 	@Override
-	public void onAdded() {
-		super.onAdded();
-		AbstractDeployerBlockEntity deployer = WorldHelper.getBlockEntity(this.world, this.origin, AbstractDeployerBlockEntity.class);
+	public void onAdded(ServerWorld world) {
+		super.onAdded(world);
+		AbstractDeployerBlockEntity deployer = WorldHelper.getBlockEntity(world, this.origin, AbstractDeployerBlockEntity.class);
 		if (deployer != null) {
 			Direction facing = deployer.getCachedState().get(Properties.HORIZONTAL_FACING);
 			for (BlockPos pos : this.placementPositions) {

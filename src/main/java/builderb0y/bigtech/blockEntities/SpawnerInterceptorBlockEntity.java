@@ -72,7 +72,7 @@ public class SpawnerInterceptorBlockEntity extends BlockEntity implements NamedS
 	@Override
 	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		this.lock = ContainerLock.fromNbt(nbt);
+		this.lock = ContainerLock.fromNbt(nbt, registryLookup);
 		if (nbt.get("CustomName") instanceof NbtString string) {
 			this.customName = tryParseCustomName(string.asString(), registryLookup);
 		}
@@ -83,7 +83,7 @@ public class SpawnerInterceptorBlockEntity extends BlockEntity implements NamedS
 	@Override
 	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
 		super.writeNbt(nbt, registryLookup);
-		this.lock.writeNbt(nbt);
+		this.lock.writeNbt(nbt, registryLookup);
 		if (this.customName != null) {
 			nbt.putString("CustomName", Text.Serialization.toJsonString(this.customName, registryLookup));
 		}

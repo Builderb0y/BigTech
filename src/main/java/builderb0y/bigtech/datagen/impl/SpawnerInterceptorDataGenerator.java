@@ -26,7 +26,6 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 			//language=json
 			"""
 			{
-				"jmxl": true,
 				"ambientocclusion": false,
 				"parent": "minecraft:block/thin_block",
 				"textures": {
@@ -49,7 +48,7 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 					},
 					{
 						"shade": false,
-						"jmxl_emissive": true,
+						"light_emission": 15,
 						"from": [ 3, -4, 3 ],
 						"to":   [ 5,  4, 5 ],
 						"faces": {
@@ -63,7 +62,7 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 					},
 					{
 						"shade": false,
-						"jmxl_emissive": true,
+						"light_emission": 15,
 						"from": [ 3, -4, 11 ],
 						"to":   [ 5,  4, 13 ],
 						"faces": {
@@ -77,7 +76,7 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 					},
 					{
 						"shade": false,
-						"jmxl_emissive": true,
+						"light_emission": 15,
 						"from": [ 11, -4, 11 ],
 						"to":   [ 13,  4, 13 ],
 						"faces": {
@@ -91,7 +90,7 @@ public class SpawnerInterceptorDataGenerator extends BasicBlockDataGenerator {
 					},
 					{
 						"shade": false,
-						"jmxl_emissive": true,
+						"light_emission": 15,
 						"from": [ 11, -4, 3 ],
 						"to":   [ 13,  4, 5 ],
 						"faces": {

@@ -24,11 +24,14 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.items.CatwalkStairsBlockItem;
@@ -116,15 +119,17 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	@Override
 	public BlockState getStateForNeighborUpdate(
 		BlockState state,
-		Direction direction,
-		BlockState neighborState,
-		WorldAccess world,
+		WorldView world,
+		ScheduledTickView tickView,
 		BlockPos pos,
-		BlockPos neighborPos
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
 	) {
 		if (world.isClient()) return state;
 		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (direction == Direction.DOWN) {
 			return (
@@ -184,7 +189,7 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	}
 
 	@Override
-	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (stack.getItem() instanceof BlockItem blockItem && !(blockItem instanceof CatwalkStairsBlockItem)) {
 			ItemPlacementContext context = new ItemPlacementContext(player, hand, stack, hit);
 			Direction direction = this.getPlacementDirection(pos, state, context);
@@ -192,14 +197,8 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 			ActionResult result = blockItem.place(context);
 			return (
 				result.isAccepted()
-				? switch (result) {
-					case SUCCESS -> ItemActionResult.SUCCESS;
-					case CONSUME -> ItemActionResult.CONSUME;
-					case CONSUME_PARTIAL -> ItemActionResult.CONSUME_PARTIAL;
-					case SUCCESS_NO_ITEM_USED -> ItemActionResult.SUCCESS;
-					default -> throw new AssertionError(result);
-				}
-				: ItemActionResult.CONSUME_PARTIAL
+				? result
+				: ActionResult.CONSUME
 			);
 		}
 		return super.onUseWithItem(stack, state, world, pos, player, hand, hit);

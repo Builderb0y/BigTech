@@ -5,7 +5,7 @@
 		"ee"
 	],
 	"key": {
-		"e": { "item": "bigtech:lightning_electrode" }
+		"e": "bigtech:lightning_electrode"
 	},
 	"result": {
 		"id": "bigtech:quad_lightning_electrode"

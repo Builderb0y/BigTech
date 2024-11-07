@@ -12,7 +12,6 @@ import it.unimi.dsi.fastutil.shorts.ShortArrayList;
 import it.unimi.dsi.fastutil.shorts.ShortCollection;
 import it.unimi.dsi.fastutil.shorts.ShortList;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -20,6 +19,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ChunkSectionPos;
@@ -33,7 +33,6 @@ import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.networking.AddBeamPacket;
-import builderb0y.bigtech.networking.BigTechNetwork;
 import builderb0y.bigtech.networking.RemoveBeamPacket;
 import builderb0y.bigtech.util.AsyncConsumer;
 import builderb0y.bigtech.util.AsyncRunner;
@@ -55,33 +54,33 @@ public abstract class PersistentBeam extends Beam {
 	}
 
 	public static void notifyBlockChanged(WorldChunk chunk, BlockPos pos, BlockState oldState, BlockState newState) {
-		if (!chunk.getWorld().isClient) {
+		if (chunk.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().get(pos.getY() >> 4);
 			if (sectionStorage != null) {
 				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
 				if (segments != null) {
 					for (BeamSegment segment : segments) {
-						segment.beam().<PersistentBeam>as().onBlockChanged(pos, oldState, newState);
+						segment.beam().<PersistentBeam>as().onBlockChanged(serverWorld, pos, oldState, newState);
 					}
 				}
 			}
 		}
 	}
 
-	public abstract void onBlockChanged(BlockPos pos, BlockState oldState, BlockState newState);
+	public abstract void onBlockChanged(ServerWorld world, BlockPos pos, BlockState oldState, BlockState newState);
 
-	public void onEntityCollision(BlockPos pos, Entity entity) {}
+	public void onEntityCollision(ServerWorld world, BlockPos pos, Entity entity) {}
 
 	public int getLightLevel(BeamSegment segment) {
 		return 0;
 	}
 
 	@Override
-	public void addToWorld() {
+	public void addToWorld(ServerWorld world) {
 		if (this.origin == null) {
 			throw new IllegalStateException("Beam has not been fired yet: ${this}");
 		}
-		CommonWorldBeamStorage.KEY.get(this.world).addBeam(this);
+		CommonWorldBeamStorage.KEY.get(world).addBeam(this);
 		try (AsyncRunner async = new AsyncRunner()) {
 			for (
 				ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> iterator = this.seen.long2ObjectEntrySet().fastIterator();
@@ -93,20 +92,20 @@ public abstract class PersistentBeam extends Beam {
 				int sectionZ = ChunkSectionPos.unpackZ(entry.getLongKey());
 				CommonSectionBeamStorage existing = (
 					ChunkBeamStorageHolder.KEY.get(
-						this.world.getChunk(sectionX, sectionZ)
+						world.getChunk(sectionX, sectionZ)
 					)
 					.require()
 					.getSection(sectionY)
 				);
 				BasicSectionBeamStorage newStorage = entry.getValue();
 				async.submit(() -> existing.addAll(newStorage, false));
-				AddBeamPacket.INSTANCE.send(this.world.as(), sectionX, sectionY, sectionZ, this.uuid, newStorage);
+				AddBeamPacket.INSTANCE.send(world, sectionX, sectionY, sectionZ, this.uuid, newStorage);
 			}
 		}
-		this.onAdded();
+		this.onAdded(world);
 	}
 
-	public void removeFromWorld() {
+	public void removeFromWorld(ServerWorld world) {
 		record SyncResult(
 			Collection<ServerPlayerEntity> players,
 			int sectionX,
@@ -138,7 +137,7 @@ public abstract class PersistentBeam extends Beam {
 				int sectionZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey());
 				CommonSectionBeamStorage existing = (
 					ChunkBeamStorageHolder.KEY.get(
-						this.world.getChunk(sectionX, sectionZ)
+						world.getChunk(sectionX, sectionZ)
 					)
 					.require()
 					.getSection(sectionY)
@@ -146,7 +145,7 @@ public abstract class PersistentBeam extends Beam {
 				BasicSectionBeamStorage newStorage = sectionEntry.getValue();
 				syncer.submit(() -> {
 					existing.removeAll(newStorage);
-					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(this.world.as(), new ChunkPos(sectionX, sectionZ));
+					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(world, new ChunkPos(sectionX, sectionZ));
 					if (tracking.isEmpty()) return null;
 					ShortList positions = new ShortArrayList(newStorage.size());
 					ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = newStorage.short2ObjectEntrySet().fastIterator();
@@ -163,26 +162,26 @@ public abstract class PersistentBeam extends Beam {
 				});
 			}
 		}
-		CommonWorldBeamStorage.KEY.get(this.world).removeBeam(this.uuid);
-		this.onRemoved();
+		CommonWorldBeamStorage.KEY.get(world).removeBeam(this.uuid);
+		this.onRemoved(world);
 	}
 
-	public void onAdded() {
+	public void onAdded(ServerWorld world) {
 		for (BlockPos pos : this.callbacks) {
-			BlockState state = this.world.getBlockState(pos);
-			BeamInteractor interactor = BeamInteractor.LOOKUP.find(this.world, pos, state, null, this);
+			BlockState state = world.getBlockState(pos);
+			BeamInteractor interactor = BeamInteractor.LOOKUP.find(world, pos, state, null, this);
 			if (interactor instanceof BeamCallback callback) {
-				callback.onBeamAdded(pos, state, this);
+				callback.onBeamAdded(world, pos, state, this);
 			}
 		}
 	}
 
-	public void onRemoved() {
+	public void onRemoved(ServerWorld world) {
 		for (BlockPos pos : this.callbacks) {
-			BlockState state = this.world.getBlockState(pos);
-			BeamInteractor interactor = BeamInteractor.LOOKUP.find(this.world, pos, state, null, this);
+			BlockState state = world.getBlockState(pos);
+			BeamInteractor interactor = BeamInteractor.LOOKUP.find(world, pos, state, null, this);
 			if (interactor instanceof BeamCallback callback) {
-				callback.onBeamRemoved(pos, state, this);
+				callback.onBeamRemoved(world, pos, state, this);
 			}
 		}
 	}

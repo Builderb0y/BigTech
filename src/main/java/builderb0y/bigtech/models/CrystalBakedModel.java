@@ -6,6 +6,10 @@ import java.util.function.Supplier;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.renderer.v1.Renderer;
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
+import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +32,12 @@ import builderb0y.bigtech.util.Directions;
 
 @Environment(EnvType.CLIENT)
 public class CrystalBakedModel implements BakedModel {
+
+	public static final RenderMaterial TRANSLUCENT_MATERIAL;
+	static {
+		Renderer renderer = RendererAccess.INSTANCE.getRenderer();
+		TRANSLUCENT_MATERIAL = renderer != null ? renderer.materialFinder().blendMode(BlendMode.TRANSLUCENT).find() : null;
+	}
 
 	public final Sprite sprite;
 	public final ModelTransformation transformation;
@@ -152,6 +162,9 @@ public class CrystalBakedModel implements BakedModel {
 			normalX = direction.getOffsetX(),
 			normalY = direction.getOffsetY(),
 			normalZ = direction.getOffsetZ();
+		if (TRANSLUCENT_MATERIAL != null) {
+			quadEmitter.material(TRANSLUCENT_MATERIAL);
+		}
 		quadEmitter
 		.pos(0, x0, y0, z0)
 		.pos(1, x1, y1, z1)
@@ -182,7 +195,7 @@ public class CrystalBakedModel implements BakedModel {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		for (Direction direction : Directions.ALL) {
 			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
-			if (!adjacentState.isOpaqueFullCube(blockView, mutablePos)) {
+			if (!adjacentState.isOpaqueFullCube()) {
 				this.emitQuads(this.getSeedForPosition(pos), context.getEmitter());
 				return;
 			}

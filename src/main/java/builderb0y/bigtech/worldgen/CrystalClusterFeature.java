@@ -33,7 +33,7 @@ public class CrystalClusterFeature extends Feature<CrystalClusterFeature.Config>
 		if (context.getConfig().place().size() == 0) return false;
 		Chunk chunk = context.getWorld().getChunk(context.getOrigin());
 		BlockPos.Mutable pos = new BlockPos.Mutable();
-		for (int baseY = chunk.getBottomY(); baseY < chunk.getTopY(); baseY += 16) {
+		for (int baseY = chunk.minY(), maxY = chunk.maxY(); baseY < maxY; baseY += 16) {
 			for (int attempt = context.getConfig().perSection(context.getRandom()); --attempt >= 0;) {
 				int rng = context.getRandom().nextInt();
 				int x = chunk.getPos().getStartX() | (rng & 15);

@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -38,11 +39,13 @@ public class LongRangeDestroyerBlock extends AbstractDestroyerBlock {
 
 	@Override
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-		if (oldBeam != null) oldBeam.removeFromWorld();
-		if (state.get(Properties.POWERED)) {
-			PersistentBeam newBeam = new DestroyerBeam(world, UUID.randomUUID());
-			newBeam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		if (world instanceof ServerWorld serverWorld) {
+			PersistentBeam oldBeam = CommonWorldBeamStorage.KEY.get(serverWorld).getBeam(pos);
+			if (oldBeam != null) oldBeam.removeFromWorld(serverWorld);
+			if (state.get(Properties.POWERED)) {
+				PersistentBeam newBeam = new DestroyerBeam(serverWorld, UUID.randomUUID());
+				newBeam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+			}
 		}
 		return false;
 	}
@@ -50,18 +53,18 @@ public class LongRangeDestroyerBlock extends AbstractDestroyerBlock {
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
-		if (state.get(Properties.POWERED)) {
-			PersistentBeam beam = new DestroyerBeam(world, UUID.randomUUID());
-			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
+			PersistentBeam beam = new DestroyerBeam(serverWorld, UUID.randomUUID());
+			beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		}
 	}
 
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
-		if (state.get(Properties.POWERED)) {
-			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-			if (beam != null) beam.removeFromWorld();
+		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
+			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(serverWorld).getBeam(pos);
+			if (beam != null) beam.removeFromWorld(serverWorld);
 		}
 	}
 

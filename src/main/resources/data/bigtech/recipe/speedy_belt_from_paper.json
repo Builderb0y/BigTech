@@ -7,8 +7,8 @@
 		"i i"
 	],
 	"key": {
-		"p": { "item": "minecraft:paper" },
-		"i": { "tag":  "c:ingots/gold"   }
+		"p": "minecraft:paper",
+		"i": "#c:ingots/gold" 
 	},
 	"result": {
 		"id": "bigtech:speedy_belt",

@@ -8,8 +8,8 @@
 		"ini"
 	],
 	"key": {
-		"i": { "item": "minecraft:jungle_planks" },
-		"n": { "tag":  "c:rods/wooden"           }
+		"i": "minecraft:jungle_planks",
+		"n": "#c:rods/wooden"         
 	},
 	"result": {
 		"id": "bigtech:jungle_frame",

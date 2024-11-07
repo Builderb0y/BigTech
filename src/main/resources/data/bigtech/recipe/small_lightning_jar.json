@@ -6,9 +6,9 @@
 		"ppp"
 	],
 	"key": {
-		"g": { "tag":  "c:glass_panes"                          },
-		"e": { "item": "bigtech:lightning_electrode"            },
-		"p": { "item": "bigtech:medium_weighted_pressure_plate" }
+		"g": "#c:glass_panes"                        ,
+		"e": "bigtech:lightning_electrode"           ,
+		"p": "bigtech:medium_weighted_pressure_plate"
 	},
 	"result": {
 		"id": "bigtech:small_lightning_jar"

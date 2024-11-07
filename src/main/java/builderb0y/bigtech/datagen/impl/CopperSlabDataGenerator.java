@@ -140,7 +140,7 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 				"""
 				{
 					"type": "minecraft:stonecutting",
-					"ingredient": { "item": "%INPUT" },
+					"ingredient": "%INPUT",
 					"result": {
 						"id": "%OUTPUT",
 						"count": 2

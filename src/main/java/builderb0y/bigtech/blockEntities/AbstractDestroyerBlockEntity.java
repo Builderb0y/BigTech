@@ -27,19 +27,19 @@ import builderb0y.bigtech.util.WorldHelper.SpawnHandler;
 
 public abstract class AbstractDestroyerBlockEntity extends LootableBlockEntityThatActuallyHasAnInventory implements SpawnHandler {
 
-	public static final BlockEntityTicker<AbstractDestroyerBlockEntity> SERVER_TICKER = (World world, BlockPos pos, BlockState state, AbstractDestroyerBlockEntity blockEntity) -> blockEntity.tick();
+	public static final BlockEntityTicker<AbstractDestroyerBlockEntity> SERVER_TICKER = (World world, BlockPos pos, BlockState state, AbstractDestroyerBlockEntity blockEntity) -> blockEntity.tickServer();
 
 	public AbstractDestroyerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState, 1);
 	}
 
-	public void tick() {
+	public void tickServer() {
 		if (this.getCachedState().get(Properties.POWERED)) {
-			WorldHelper.runEntitySpawnAction(this::doTick, this);
+			WorldHelper.runEntitySpawnAction(this::doTickServer, this);
 		}
 	}
 
-	public abstract void doTick();
+	public abstract void doTickServer();
 
 	@Override
 	public boolean handleSpawn(Entity entity) {

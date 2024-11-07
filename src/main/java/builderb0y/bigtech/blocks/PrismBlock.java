@@ -12,22 +12,25 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
@@ -62,14 +65,14 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	}
 
 	@Override
-	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (stack.isEmpty() || stack.isOf(FunctionalItems.LENS)) {
 			//workaround for bug in vanilla code:
 			//returning FAIL from the main hand doesn't prevent the offhand from being used.
 			if (hand == Hand.OFF_HAND) {
 				ItemStack mainHand = player.getStackInHand(Hand.MAIN_HAND);
 				if (mainHand.isEmpty() || mainHand.isOf(FunctionalItems.LENS)) {
-					return ItemActionResult.FAIL;
+					return ActionResult.FAIL;
 				}
 			}
 			PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
@@ -130,10 +133,10 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 					if (stack.isEmpty()) {
 						if (world.isClient) {
 							if (prism.hasLens(direction)) {
-								return ItemActionResult.SUCCESS;
+								return ActionResult.SUCCESS;
 							}
 							else {
-								return ItemActionResult.FAIL;
+								return ActionResult.FAIL;
 							}
 						}
 						else {
@@ -147,20 +150,20 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 								else {
 									player.getInventory().offerOrDrop(toInsert);
 								}
-								return ItemActionResult.SUCCESS;
+								return ActionResult.SUCCESS;
 							}
 							else {
-								return ItemActionResult.FAIL;
+								return ActionResult.FAIL;
 							}
 						}
 					}
 					else {
 						if (world.isClient) {
 							if (prism.hasLens(direction)) {
-								return ItemActionResult.FAIL;
+								return ActionResult.FAIL;
 							}
 							else {
-								return ItemActionResult.SUCCESS;
+								return ActionResult.SUCCESS;
 							}
 						}
 						else {
@@ -168,44 +171,44 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 								if (!player.getAbilities().creativeMode) {
 									stack.decrement(1);
 								}
-								return ItemActionResult.SUCCESS;
+								return ActionResult.SUCCESS;
 							}
 							else {
-								return ItemActionResult.FAIL;
+								return ActionResult.FAIL;
 							}
 						}
 					}
 				}
 				else {
 					//ray does not intersect with prism. no action is performed in this case.
-					return ItemActionResult.FAIL;
+					return ActionResult.FAIL;
 				}
 			}
 			else {
 				//BlockEntity missing. can't perform any actions in this case.
-				return ItemActionResult.FAIL;
+				return ActionResult.FAIL;
 			}
 		}
 		else {
 			//holding an item that we don't care about.
 			//in other words, not an empty hand or a lens.
-			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 		}
 	}
 
 	@Override
-	public boolean spreadOut(SpreadingBeamSegment inputSegment, BlockState state) {
-		PrismBlockEntity prism = WorldHelper.getBlockEntity(inputSegment.beam().world, inputSegment.endPos(), PrismBlockEntity.class);
+	public boolean spreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) {
+		PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
 		if (prism != null && prism.hasAnyLenses()) {
 			double baseDistance = inputSegment.distanceRemaining() / prism.countLenses();
 			for (BeamDirection direction : BeamDirection.VALUES) {
 				if (prism.hasLens(direction)) {
-					inputSegment.beam().addSegment(inputSegment.extend(baseDistance - direction.type.magnitude, direction));
+					inputSegment.beam().addSegment(world, inputSegment.extend(baseDistance - direction.type.magnitude, direction));
 				}
 			}
 		}
 		else {
-			inputSegment.beam().addSegment(inputSegment.terminate());
+			inputSegment.beam().addSegment(world, inputSegment.terminate());
 		}
 		return true;
 	}
@@ -231,11 +234,20 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
-		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+		return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
 	}
 
 	@Nullable

@@ -107,7 +107,7 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 					continue;
 				}
 
-				Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, entityx -> {
+				Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, SpawnReason.SPAWNER, (Entity entityx) -> {
 					entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
 					return entityx;
 				});

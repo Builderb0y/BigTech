@@ -3,7 +3,7 @@
 	"category": "redstone",
 	"group": "bigtech:ascenders",
 	"ingredients": [
-		{ "item": "bigtech:ascender" }
+		"bigtech:ascender"
 	],
 	"result": {
 		"id": "bigtech:descender"

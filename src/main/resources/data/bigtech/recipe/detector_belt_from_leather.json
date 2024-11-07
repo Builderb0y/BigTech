@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather" },
-		"i": { "tag":  "c:ingots/iron"     },
-		"o": { "tag":  "c:pressure_plates" }
+		"l": "minecraft:leather" ,
+		"i": "#c:ingots/iron"    ,
+		"o": "#c:pressure_plates"
 	},
 	"result": {
 		"id": "bigtech:detector_belt",

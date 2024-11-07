@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
@@ -33,7 +33,7 @@ public class PortableTechnoCrafterItem extends Item {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+	public ActionResult use(World world, PlayerEntity player, Hand hand) {
 		ItemStack heldStack = player.getStackInHand(hand);
 		if (!world.isClient) {
 			int heldSlot = switch (hand) {
@@ -59,7 +59,7 @@ public class PortableTechnoCrafterItem extends Item {
 				}
 			});
 		}
-		return TypedActionResult.success(heldStack, false);
+		return ActionResult.CONSUME;
 	}
 
 	public static class PortableTechnoCrafterAccess implements TechnoCrafterAccess, HeldItemInventory {

@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -122,7 +123,7 @@ public class PrismBakedModel implements BakedModel {
 			if (lenses != 0) {
 				Matrix4f matrix = new Matrix4f();
 				Vector4f position = new Vector4f();
-				context.pushTransform(quad -> {
+				context.pushTransform((MutableQuadView quad) -> {
 					for (int index = 0; index < 4; index++) {
 						position.x = quad.x(index);
 						position.y = quad.y(index);

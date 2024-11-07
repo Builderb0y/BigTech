@@ -5,7 +5,7 @@
 		"i"
 	],
 	"key": {
-		"i": { "tag": "c:ingots/copper" }
+		"i": "#c:ingots/copper"
 	},
 	"result": {
 		"id": "bigtech:copper_nugget",

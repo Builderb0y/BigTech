@@ -6,8 +6,8 @@
 		"fof"
 	],
 	"key": {
-		"f": { "item": "bigtech:iron_frame" },
-		"o": { "tag":  "c:obsidian"         }
+		"f": "bigtech:iron_frame",
+		"o": "#c:obsidian"       
 	},
 	"result": {
 		"id": "bigtech:transmuter"

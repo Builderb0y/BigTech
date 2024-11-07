@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
@@ -62,8 +63,10 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		super.onEntityCollision(state, world, pos, entity);
-		IgnitorBlockEntity ignitor = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
-		if (ignitor != null) ignitor.onEntityCollision(entity);
+		if (world instanceof ServerWorld serverWorld) {
+			IgnitorBlockEntity ignitor = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
+			if (ignitor != null) ignitor.onEntityCollision(serverWorld, entity);
+		}
 	}
 
 	@Override

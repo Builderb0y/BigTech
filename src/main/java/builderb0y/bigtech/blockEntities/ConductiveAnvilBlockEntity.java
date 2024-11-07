@@ -77,7 +77,7 @@ public class ConductiveAnvilBlockEntity extends LockableContainerBlockEntity {
 	}
 
 	public static boolean isEnchantable(ItemStack stack) {
-		return stack.isOf(Items.ENCHANTED_BOOK) || stack.getItem().isEnchantable(stack);
+		return stack.get(DataComponentTypes.ENCHANTABLE) != null;
 	}
 
 	public void setEnchantments(int slot, ItemStack stack, ItemEnchantmentsComponent.Builder enchantments) {

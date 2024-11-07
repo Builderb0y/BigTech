@@ -7,6 +7,7 @@ import org.joml.Vector3f;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,8 +33,8 @@ public interface BeamInteractor {
 	even if they normally wouldn't. this interactor is used
 	for {@link Blocks#GLASS} and {@link Blocks#GLASS_PANE}.
 	*/
-	public static final BeamInteractor TRANSPARENT_BLOCK = (SpreadingBeamSegment inputSegment, BlockState state) -> {
-		inputSegment.beam().addSegment(inputSegment.extend());
+	public static final BeamInteractor TRANSPARENT_BLOCK = (ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment inputSegment) -> {
+		inputSegment.beam().addSegment(world, inputSegment.extend());
 		return true;
 	};
 
@@ -44,11 +45,10 @@ public interface BeamInteractor {
 
 	the {@link Beam} instance can be obtained via {@link SpreadingBeamSegment#beam}.
 	this can be used to add new segments to the beam's queue
-	via {@link Beam#addSegment(SpreadingBeamSegment)}.
+	via {@link Beam#addSegment(ServerWorld, SpreadingBeamSegment)}.
 
-	the world may be obtained via {@link SpreadingBeamSegment#beam} and {@link Beam#world},
-	but obtaining the world this way should be reserved for querying other
-	blocks or block entities only. this method should NOT modify the world.
+	the world should be used for querying other blocks or block entities only.
+	this method should NOT modify the world.
 	the reason for this is that the beam may not be added to the world after spreading finishes,
 	and it is not desirable to have the world be modified by "phantom" beams.
 
@@ -59,7 +59,7 @@ public interface BeamInteractor {
 	return true if this interceptor did its job and added all the segments it wishes to add.
 	return false to fallback on the beam's default logic that it would use for non-interceptor blocks.
 	*/
-	public abstract boolean spreadOut(SpreadingBeamSegment segment, BlockState state);
+	public abstract boolean spreadOut(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment);
 
 	/**
 	an extension of BeamInteractor with additional callback
@@ -74,24 +74,21 @@ public interface BeamInteractor {
 
 		/**
 		called after a persistent beam is added to the world.
-		the world reference may be obtained via {@link Beam#world},
-		and the world can be modified in any way the callback wants.
+		the world can be modified in any way the callback wants.
 		*/
-		public abstract void onBeamAdded(BlockPos pos, BlockState state, PersistentBeam beam);
+		public abstract void onBeamAdded(ServerWorld world, BlockPos pos, BlockState state, PersistentBeam beam);
 
 		/**
 		called after a persistent beam is removed from the world.
-		the world reference may be obtained via {@link Beam#world}.
-		and the world can be modified in any way the callback wants.
+		the world can be modified in any way the callback wants.
 		*/
-		public abstract void onBeamRemoved(BlockPos pos, BlockState state, PersistentBeam beam);
+		public abstract void onBeamRemoved(ServerWorld world, BlockPos pos, BlockState state, PersistentBeam beam);
 
 		/**
 		called after a pulse beam has finished calculating its spread.
-		the world reference may be obtained via {@link Beam#world}.
-		and the world can be modified in any way the callback wants.
+		the world can be modified in any way the callback wants.
 		*/
-		public abstract void onBeamPulse(BlockPos pos, BlockState state, PulseBeam beam);
+		public abstract void onBeamPulse(ServerWorld world, BlockPos pos, BlockState state, PulseBeam beam);
 	}
 
 	public static final Object INITIALIZER = new Object() {{
@@ -100,12 +97,12 @@ public interface BeamInteractor {
 			(World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Beam context) -> {
 				if (blockEntity instanceof BeaconBlockEntity_LevelGetter beacon) {
 					int extraDistance = beacon.bigtech_getLevel() << 5;
-					return (SpreadingBeamSegment inputSegment, BlockState state1) -> {
+					return (ServerWorld serverWorld, BlockPos pos1, BlockState state1, SpreadingBeamSegment inputSegment) -> {
 						if (extraDistance == 0) {
-							inputSegment.beam().addSegment(inputSegment.terminate());
+							inputSegment.beam().addSegment(serverWorld, inputSegment.terminate());
 						}
 						else {
-							inputSegment.beam().addSegment(inputSegment.extend(inputSegment.distanceRemaining() + extraDistance, BeamDirection.UP));
+							inputSegment.beam().addSegment(serverWorld, inputSegment.extend(inputSegment.distanceRemaining() + extraDistance, BeamDirection.UP));
 						}
 						return true;
 					};
@@ -128,12 +125,12 @@ public interface BeamInteractor {
 						BeaconBeamColorProvider.getBlue(color)
 					)
 					.div(255.0F);
-					return (SpreadingBeamSegment inputSegment, BlockState state1) -> {
+					return (ServerWorld serverWorld, BlockPos pos1, BlockState state1, SpreadingBeamSegment inputSegment) -> {
 						if (inputSegment.segment().color() == null || inputSegment.segment().color().equals(actualColor)) {
-							inputSegment.beam().addSegment(inputSegment.withColor(actualColor).extend());
+							inputSegment.beam().addSegment(serverWorld, inputSegment.withColor(actualColor).extend());
 						}
 						else {
-							inputSegment.beam().addSegment(inputSegment.terminate());
+							inputSegment.beam().addSegment(serverWorld, inputSegment.terminate());
 						}
 						return true;
 					};

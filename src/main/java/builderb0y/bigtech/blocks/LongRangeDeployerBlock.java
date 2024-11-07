@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -37,9 +38,9 @@ public class LongRangeDeployerBlock extends AbstractDeployerBlock {
 
 	@Override
 	public boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		if (state.get(Properties.POWERED)) {
-			DeployerBeam beam = new DeployerBeam(world, UUID.randomUUID());
-			beam.fire(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
+			DeployerBeam beam = new DeployerBeam(serverWorld, UUID.randomUUID());
+			beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
 		}
 		return false;
 	}

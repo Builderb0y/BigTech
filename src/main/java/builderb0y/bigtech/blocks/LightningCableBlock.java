@@ -10,6 +10,7 @@ import net.minecraft.block.Waterloggable;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
@@ -17,11 +18,13 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
@@ -61,14 +64,23 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	public VoxelShape getConductionShape(BlockView world, BlockPos pos, BlockState state, Direction face) {
+	public VoxelShape getConductionShape(WorldView world, BlockPos pos, BlockState state, Direction face) {
 		return CONDUCTION_SHAPES[face.getAxis().ordinal()];
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (world instanceof World liveWorld) {
 			return state.with(FACING_PROPERTIES.get(direction), this.canConnect(liveWorld, pos, state, neighborPos, neighborState, direction));
@@ -120,7 +132,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	public void forceSpreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void forceSpreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		for (Direction direction : Directions.ALL) {
 			if (!state.get(FACING_PROPERTIES.get(direction))) continue;
 			LinkedBlockPos adjacentPos = pos.offset(direction);
@@ -132,7 +144,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		//no-op.
 	}
 
@@ -191,7 +203,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+	public boolean isTransparent(BlockState state) {
 		return state.getFluidState().isEmpty();
 	}
 

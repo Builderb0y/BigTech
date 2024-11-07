@@ -20,9 +20,9 @@
 		"bigtech.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.14.23",
+		"fabricloader": ">=0.16.5",
 		"fabric": "*",
-		"minecraft": [ "1.21", "1.21.1" ]
+		"minecraft": [ "1.21.2", "1.21.3" ]
 	},
 	"custom": {
 		"cardinal-components": [

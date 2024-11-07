@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,15 +25,21 @@ public abstract class Entity_CollideWithBeams {
 
 	@Shadow public abstract World getWorld();
 
-	@Inject(method = "checkBlockCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;onBlockCollision(Lnet/minecraft/block/BlockState;)V", shift = Shift.AFTER))
-	private void bigtech_collideWithBeams(CallbackInfo callback, @Local(ordinal = 0) BlockPos.Mutable mutablePos) {
-		if (!this.getWorld().isClient) {
+	@Inject(
+		method = "checkBlockCollision",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/block/BlockState;isAir()Z"
+		)
+	)
+	private void bigtech_collideWithBeams(CallbackInfo callback, @Local(index = 10) BlockPos mutablePos) {
+		if (this.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(this.getWorld().getChunk(mutablePos)).require().get(mutablePos.getY() >> 4);
 			if (sectionStorage != null) {
 				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(mutablePos);
 				if (segments != null) {
 					for (BeamSegment segment : segments) {
-						segment.beam().<PersistentBeam>as().onEntityCollision(mutablePos, this.as());
+						segment.beam().<PersistentBeam>as().onEntityCollision(serverWorld, mutablePos, this.as());
 					}
 				}
 			}

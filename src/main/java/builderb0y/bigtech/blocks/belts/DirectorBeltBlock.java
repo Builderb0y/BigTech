@@ -13,7 +13,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -61,7 +60,7 @@ public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 	}
 
 	@Override
-	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (!world.isClient) {
 			if (player.isSneaking()) {
 				world.setBlockState(pos, state.cycle(BigTechProperties.DIRECTOR_BELT_MODE));
@@ -71,7 +70,7 @@ public class DirectorBeltBlock extends RedstoneReceivingBeltBlock {
 			}
 			world.playSound(null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.3F, 0.5F);
 		}
-		return ItemActionResult.SUCCESS;
+		return ActionResult.SUCCESS;
 	}
 
 	@Override

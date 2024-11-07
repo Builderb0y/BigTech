@@ -7,8 +7,8 @@
 		"bbb"
 	],
 	"key": {
-		"b": { "item": "minecraft:spruce_planks" },
-		"r": { "item": "minecraft:stick"         }
+		"b": "minecraft:spruce_planks",
+		"r": "minecraft:stick"        
 	},
 	"result": {
 		"id": "bigtech:spruce_catwalk_platform",

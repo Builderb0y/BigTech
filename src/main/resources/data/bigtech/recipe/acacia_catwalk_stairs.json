@@ -8,8 +8,8 @@
 		" b"
 	],
 	"key": {
-		"b": { "item": "minecraft:acacia_planks" },
-		"r": { "item": "minecraft:stick"         }
+		"b": "minecraft:acacia_planks",
+		"r": "minecraft:stick"        
 	},
 	"result": {
 		"id": "bigtech:acacia_catwalk_stairs",

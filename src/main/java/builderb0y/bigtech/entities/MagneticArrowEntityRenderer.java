@@ -2,11 +2,12 @@ package builderb0y.bigtech.entities;
 
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.ProjectileEntityRenderer;
+import net.minecraft.client.render.entity.state.ProjectileEntityRenderState;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 
-public class MagneticArrowEntityRenderer extends ProjectileEntityRenderer<MagneticArrowEntity> {
+public class MagneticArrowEntityRenderer extends ProjectileEntityRenderer<MagneticArrowEntity, ProjectileEntityRenderState> {
 
 	public static final Identifier TEXTURE = BigTechMod.modID("textures/entity/magnetic_arrow.png");
 
@@ -15,7 +16,12 @@ public class MagneticArrowEntityRenderer extends ProjectileEntityRenderer<Magnet
 	}
 
 	@Override
-	public Identifier getTexture(MagneticArrowEntity entity) {
+	public ProjectileEntityRenderState createRenderState() {
+		return new ProjectileEntityRenderState();
+	}
+
+	@Override
+	public Identifier getTexture(ProjectileEntityRenderState state) {
 		return TEXTURE;
 	}
 }

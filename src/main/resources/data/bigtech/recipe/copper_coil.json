@@ -6,8 +6,8 @@
 		"cpc"
 	],
 	"key": {
-		"c": { "tag": "c:ingots/copper"  },
-		"p": { "tag": "minecraft:planks" }
+		"c": "#c:ingots/copper" ,
+		"p": "#minecraft:planks"
 	},
 	"result": {
 		"id": "bigtech:copper_coil"

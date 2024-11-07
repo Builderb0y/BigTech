@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -20,7 +21,7 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 
 	public final Map<BlockPos, PersistentBeam> beamsByOrigin = new Object2ObjectOpenHashMap<>(32);
 
-	public ServerWorldBeamStorage(World world) {
+	public ServerWorldBeamStorage(ServerWorld world) {
 		super(world);
 	}
 
@@ -40,7 +41,7 @@ public class ServerWorldBeamStorage extends CommonWorldBeamStorage {
 		PersistentBeam removed = this.beamsByOrigin.get(beam.origin);
 		if (removed != null) {
 			BigTechMod.LOGGER.warn("Replacing beam at ${beam.origin}: ${removed} -> ${beam}");
-			removed.removeFromWorld();
+			removed.removeFromWorld(this.world.as());
 		}
 		super.addBeamNoSync(beam);
 		this.beamsByOrigin.put(beam.origin, beam);

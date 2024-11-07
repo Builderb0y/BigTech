@@ -12,6 +12,7 @@ import net.minecraft.block.Waterloggable;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
@@ -19,11 +20,15 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.block.WireOrientation;
+import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
@@ -64,16 +69,25 @@ public class LightningDiodeBlock extends Block implements LightningPulseInteract
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(
+		BlockState state,
+		WorldView world,
+		ScheduledTickView tickView,
+		BlockPos pos,
+		Direction direction,
+		BlockPos neighborPos,
+		BlockState neighborState,
+		Random random
+	) {
 		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return state;
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = world.isReceivingRedstonePower(pos);
 		if (powered != shouldBePowered) {
@@ -104,7 +118,7 @@ public class LightningDiodeBlock extends Block implements LightningPulseInteract
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 
 	}
 
@@ -125,12 +139,12 @@ public class LightningDiodeBlock extends Block implements LightningPulseInteract
 	}
 
 	@Override
-	public boolean canConductIn(WorldAccess world, BlockPos pos, BlockState state, @Nullable Direction side) {
+	public boolean canConductIn(WorldView world, BlockPos pos, BlockState state, @Nullable Direction side) {
 		return side == null || side == this.getInputSide(state);
 	}
 
 	@Override
-	public boolean canConductOut(WorldAccess world, BlockPos pos, BlockState state, Direction side) {
+	public boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
 		return side == this.getOutputSide(state);
 	}
 
@@ -150,7 +164,7 @@ public class LightningDiodeBlock extends Block implements LightningPulseInteract
 	}
 
 	@Override
-	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+	public boolean isTransparent(BlockState state) {
 		return state.getFluidState().isEmpty();
 	}
 

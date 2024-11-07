@@ -11,6 +11,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.Directions;
@@ -67,8 +68,8 @@ public class RedstoneReceivingBeltBlock extends DirectionalBeltBlock {
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		boolean powered = this.isPowered(world, pos, state);
 		boolean shouldBePowered = this.shouldBePowered(world, pos, state);
 		if (powered != shouldBePowered) {

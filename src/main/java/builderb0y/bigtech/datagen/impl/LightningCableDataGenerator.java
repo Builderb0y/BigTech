@@ -29,7 +29,7 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 
 	public LightningCableDataGenerator(BlockItem blockItem) {
 		super(blockItem);
-		this.ingot = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", this.getId().getPath().substring(0, this.getId().getPath().length() - "_lightning_cable".length()) + "_ingots"));
+		this.ingot = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ingots/" + this.getId().getPath().substring(0, this.getId().getPath().length() - "_lightning_cable".length())));
 	}
 
 	@Override

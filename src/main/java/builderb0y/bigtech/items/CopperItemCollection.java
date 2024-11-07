@@ -9,7 +9,7 @@ import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 
 	public CopperItemCollection(
-		Function<Type, String> namer,
+		boolean register,
 		Item copper,
 		Item exposed_copper,
 		Item weathered_copper,
@@ -20,7 +20,7 @@ public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 		Item waxed_oxidized_copper
 	) {
 		super(
-			namer,
+			register,
 			copper,
 			exposed_copper,
 			weathered_copper,
@@ -32,23 +32,23 @@ public class CopperItemCollection extends CopperRegistrableCollection<Item> {
 		);
 	}
 
-	public CopperItemCollection(Function<Type, String> namer, SeparateCopperRegistrableFactory<Item> unwaxedFactory, SeparateCopperRegistrableFactory<Item> waxedFactory) {
-		super(namer, unwaxedFactory, waxedFactory);
+	public CopperItemCollection(boolean register, SeparateCopperRegistrableFactory<Item> unwaxedFactory, SeparateCopperRegistrableFactory<Item> waxedFactory) {
+		super(register, unwaxedFactory, waxedFactory);
 	}
 
-	public CopperItemCollection(Function<Type, String> namer, MergedCopperRegistrableFactory<Item> factory) {
-		super(namer, factory);
+	public CopperItemCollection(boolean register, MergedCopperRegistrableFactory<Item> factory) {
+		super(register, factory);
 	}
 
 	@Override
-	public void register(Function<Type, String> namer) {
-		BigTechItems.register(namer.apply(Type.COPPER),                 this.                copper);
-		BigTechItems.register(namer.apply(Type.EXPOSED_COPPER),         this.        exposed_copper);
-		BigTechItems.register(namer.apply(Type.WEATHERED_COPPER),       this.      weathered_copper);
-		BigTechItems.register(namer.apply(Type.OXIDIZED_COPPER),        this.       oxidized_copper);
-		BigTechItems.register(namer.apply(Type.WAXED_COPPER),           this.          waxed_copper);
-		BigTechItems.register(namer.apply(Type.WAXED_EXPOSED_COPPER),   this.  waxed_exposed_copper);
-		BigTechItems.register(namer.apply(Type.WAXED_WEATHERED_COPPER), this.waxed_weathered_copper);
-		BigTechItems.register(namer.apply(Type.WAXED_OXIDIZED_COPPER),  this. waxed_oxidized_copper);
+	public void register() {
+		BigTechItems.register(this.                copper);
+		BigTechItems.register(this.        exposed_copper);
+		BigTechItems.register(this.      weathered_copper);
+		BigTechItems.register(this.       oxidized_copper);
+		BigTechItems.register(this.          waxed_copper);
+		BigTechItems.register(this.  waxed_exposed_copper);
+		BigTechItems.register(this.waxed_weathered_copper);
+		BigTechItems.register(this. waxed_oxidized_copper);
 	}
 }

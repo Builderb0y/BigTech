@@ -7,8 +7,8 @@
 		"bbb"
 	],
 	"key": {
-		"b": { "item": "minecraft:crimson_planks" },
-		"r": { "item": "minecraft:stick"          }
+		"b": "minecraft:crimson_planks",
+		"r": "minecraft:stick"         
 	},
 	"result": {
 		"id": "bigtech:crimson_catwalk_platform",

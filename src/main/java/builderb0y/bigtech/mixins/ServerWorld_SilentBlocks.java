@@ -16,7 +16,7 @@ import net.minecraft.world.WorldEvents;
 public abstract class ServerWorld_SilentBlocks extends World {
 
 	public ServerWorld_SilentBlocks() {
-		super(null, null, null, null, null, false, false, 0L, 0);
+		super(null, null, null, null, false, false, 0L, 0);
 	}
 
 	@Inject(method = "syncWorldEvent", at = @At("HEAD"), cancellable = true)

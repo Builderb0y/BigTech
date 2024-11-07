@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"l": { "item": "minecraft:leather"   },
-		"i": { "tag":  "c:ingots/iron"       },
-		"o": { "tag":  "minecraft:trapdoors" }
+		"l": "minecraft:leather"   ,
+		"i": "#c:ingots/iron"      ,
+		"o": "#minecraft:trapdoors"
 	},
 	"result": {
 		"id": "bigtech:trapdoor_belt",

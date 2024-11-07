@@ -8,6 +8,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.world.ServerWorld;
 
 import builderb0y.bigtech.blockEntities.TransmuterBlockEntity;
 
@@ -23,7 +24,7 @@ public class TransmuterScreenHandler extends BigTechScreenHandler {
 			transmuter = grid.pos(44, 17).size(5, 3).inventory(inventory).add();
 
 		this.shiftClickRules()
-		.collect(playerStack((PlayerEntity player, ItemStack stack) -> TransmuterBlockEntity.isValidInput(player.getWorld().getRecipeManager(), stack)), transmuter.forward(), playerHotbar, playerStorage)
+		.collect(playerStack((PlayerEntity player, ItemStack stack) -> player.getWorld() instanceof ServerWorld serverWorld && TransmuterBlockEntity.isValidInput(serverWorld.getRecipeManager(), stack)), transmuter.forward(), playerHotbar, playerStorage)
 		.distribute(any(), transmuter, playerHotbar.forward(), playerStorage.forward())
 		.viseVersa(any(), playerHotbar.forward(), playerStorage.forward())
 		;

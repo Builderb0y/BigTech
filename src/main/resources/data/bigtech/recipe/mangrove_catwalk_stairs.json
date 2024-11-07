@@ -8,8 +8,8 @@
 		" b"
 	],
 	"key": {
-		"b": { "item": "minecraft:mangrove_planks" },
-		"r": { "item": "minecraft:stick"           }
+		"b": "minecraft:mangrove_planks",
+		"r": "minecraft:stick"          
 	},
 	"result": {
 		"id": "bigtech:mangrove_catwalk_stairs",

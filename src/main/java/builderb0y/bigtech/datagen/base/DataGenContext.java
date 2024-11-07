@@ -152,6 +152,7 @@ public class DataGenContext {
 	}
 
 	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath   (identifier, "blockstates"      ); }
+	public String          modelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models"           ); }
 	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models/block"     ); }
 	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models/item"      ); }
 	public String       particlePath(Identifier identifier) { return this.genericAssetsPath   (identifier, "particles"        ); }
@@ -162,7 +163,7 @@ public class DataGenContext {
 	public String         recipePath(Identifier identifier) { return this.genericDataPath     (identifier, "recipe"           ); }
 	public String       blockTagPath(Identifier identifier) { return this.genericDataPath     (identifier, "tags/blocks"      ); }
 	public String        itemTagPath(Identifier identifier) { return this.genericDataPath     (identifier, "tags/items"       ); }
-	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath  (key.id(), RegistryKeys.getTagPath(key.registry())); }
+	public String            tagPath(TagKey<?>  key       ) { return this.genericDataPath     (key.id(), RegistryKeys.getTagPath(key.registryRef())); }
 
 	public void writeToFile(String path, String text) {
 		this.writeToFile(path, text.getBytes(StandardCharsets.UTF_8));

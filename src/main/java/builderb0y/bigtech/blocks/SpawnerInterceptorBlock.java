@@ -22,6 +22,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.blockEntities.SpawnerInterceptorBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
@@ -89,8 +90,8 @@ public class SpawnerInterceptorBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean moved) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, moved);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = (

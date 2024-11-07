@@ -8,9 +8,9 @@
 		"s"
 	],
 	"key": {
-		"g": { "tag":  "c:dusts/glowstone"           },
-		"r": { "tag":  "c:dusts/redstone"            },
-		"s": { "item": "minecraft:smooth_stone_slab" }
+		"g": "#c:dusts/glowstone"         ,
+		"r": "#c:dusts/redstone"          ,
+		"s": "minecraft:smooth_stone_slab"
 	},
 	"result": {
 		"id": "bigtech:white_led",

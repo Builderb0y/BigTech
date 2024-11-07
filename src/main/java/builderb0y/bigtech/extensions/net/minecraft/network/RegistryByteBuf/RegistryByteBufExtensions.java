@@ -13,11 +13,11 @@ import net.minecraft.registry.RegistryKey;
 public class RegistryByteBufExtensions {
 
 	public static <T> @Self RegistryByteBuf writeRegistryValue(@This RegistryByteBuf thiz, RegistryKey<? extends Registry<T>> key, T value) {
-		VarInts.write(thiz, thiz.getRegistryManager().get(key).getRawIdOrThrow(value));
+		VarInts.write(thiz, thiz.getRegistryManager().getOrThrow(key).getRawIdOrThrow(value));
 		return thiz;
 	}
 
 	public static <T> T readRegistryValue(@This RegistryByteBuf thiz, RegistryKey<? extends Registry<T>> key) {
-		return thiz.getRegistryManager().get(key).getOrThrow(VarInts.read(thiz));
+		return thiz.getRegistryManager().getOrThrow(key).getOrThrow(VarInts.read(thiz));
 	}
 }

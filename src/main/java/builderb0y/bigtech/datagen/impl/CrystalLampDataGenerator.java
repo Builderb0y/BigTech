@@ -7,8 +7,11 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -20,6 +23,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
+import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.impl.CrystalLampDataGenerator.CommonCrystalLampDataGenerator;
 import builderb0y.bigtech.items.BigTechItemTags;
@@ -192,35 +196,15 @@ public class CrystalLampDataGenerator extends BasicBlockDataGenerator {
 	public void writeRecipes(DataGenContext context) {
 		context.writeToFile(
 			context.recipePath(this.getId()),
-			context.replace(
-				//language=json
-				"""
-				{
-					"type": "minecraft:crafting_shaped",
-					"category": "building",
-					"group": "bigtech:crystal_lamps",
-					"pattern": [
-						"ngn",
-						"gcg",
-						"ngn"
-					],
-					"key": {
-						"n": { "tag": "c:nuggets/iron" },
-						"g": [
-							{ "tag": "c:glass_blocks/colorless" },
-							{ "tag": "c:glass_panes/colorless"  }
-						],
-						"c": { "item": "%CRYSTAL" }
-					},
-					"result": {
-						"id": "%RESULT"
-					}
-				}""",
-				Map.of(
-					"CRYSTAL", Registries.ITEM.getId(FunctionalItems.CRYSTAL_CLUSTERS.get(this.color)).toString(),
-					"RESULT", this.getId().toString()
-				)
-			)
+			new ShapedRecipeBuilder()
+			.category(CraftingRecipeCategory.BUILDING)
+			.group("bigtech:crystal_lamps")
+			.pattern("ngn", "gcg", "ngn")
+			.where('n', ConventionalItemTags.IRON_NUGGETS)
+			.where('g', BigTechItemTags.COLORLESS_GLASS_MATERIALS)
+			.where('c', FunctionalItems.CRYSTAL_CLUSTERS.get(this.color))
+			.result(this.getId())
+			.toString()
 		);
 	}
 
@@ -229,6 +213,7 @@ public class CrystalLampDataGenerator extends BasicBlockDataGenerator {
 		@Override
 		public void run(DataGenContext context) {
 			context.getTags(MiningToolTags.PICKAXE).add(BigTechBlockTags.CRYSTAL_LAMPS);
+			context.getTags(BigTechItemTags.COLORLESS_GLASS_MATERIALS).addAll(ConventionalItemTags.GLASS_BLOCKS_COLORLESS, ConventionalItemTags.GLASS_PANES_COLORLESS);
 		}
 	}
 }

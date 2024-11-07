@@ -1,9 +1,6 @@
 package builderb0y.bigtech.registrableCollections;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.Consumer;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -256,10 +253,12 @@ public abstract class LedRegistrableCollection<T> implements RegistrableCollecti
 		public static final LedColor[] VALUES = values();
 
 		public final Vector3fc centerColor, edgeColor;
+		public final String prefix;
 
 		LedColor(float centerRed, float centerGreen, float centerBlue, float edgeRed, float edgeGreen, float edgeBlue) {
 			this.centerColor = new Vector3f(centerRed, centerGreen, centerBlue);
 			this.edgeColor   = new Vector3f(  edgeRed,   edgeGreen,   edgeBlue);
+			this.prefix = this.name().toLowerCase(Locale.ROOT) + '_';
 		}
 
 		public int startX(int on) {

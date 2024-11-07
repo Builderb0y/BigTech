@@ -7,9 +7,9 @@
 		"wrw"
 	],
 	"key": {
-		"r": { "tag":  "c:dusts/redstone" },
-		"w": { "tag":  "minecraft:planks" },
-		"q": { "item": "minecraft:quartz" }
+		"r": "#c:dusts/redstone",
+		"w": "#minecraft:planks",
+		"q": "minecraft:quartz" 
 	},
 	"result": {
 		"id": "bigtech:pulsar"

@@ -305,54 +305,30 @@ public class TableFormats {
 		}
 	}
 
-	public static record KeyedRecipeIngredient(String key, boolean isTag, String id) {
+	public static record KeyedRecipeIngredient(String key, String value) {
 
 		public static final TableFormat<KeyedRecipeIngredient> FORMAT = (
 			new TableFormat<KeyedRecipeIngredient>()
 			.addLiteral("\t\t")
 			.addField(Justification.none(), (KeyedRecipeIngredient ingredient) -> ColumnFormatter.quoteAndEscape(ingredient.key))
-			.addLiteral(": { ")
-			.addJoined(": ", (TableFormat<KeyedRecipeIngredient> format) -> format
-				.addField(Justification.left(), (KeyedRecipeIngredient ingredient) -> ingredient.isTag ? "\"tag\"" : "\"item\"")
-				.addField(Justification.left(), (KeyedRecipeIngredient ingredient) -> ColumnFormatter.quoteAndEscape(ingredient.id))
-			)
-			.addLiteral(" }")
+			.addLiteral(": ")
+			.addField(Justification.left(), (KeyedRecipeIngredient ingredient) -> ColumnFormatter.quoteAndEscape(ingredient.value))
 			.addLineDeliminator(",")
 		);
 
-		public static KeyedRecipeIngredient create(char key, String string) {
-			return (
-				!string.isEmpty() && string.charAt(0) == '#'
-				? new KeyedRecipeIngredient(String.valueOf(key), true, string.substring(1))
-				: new KeyedRecipeIngredient(String.valueOf(key), false, string)
-			);
-		}
-
 		public static KeyedRecipeIngredient create(Char2ObjectMap.Entry<String> entry) {
-			return create(entry.getCharKey(), entry.getValue());
+			return new KeyedRecipeIngredient(String.valueOf(entry.getCharKey()), entry.getValue());
 		}
 	}
 
-	public static record UnkeyedRecipeIngredient(boolean isTag, String id) {
+	public static record UnkeyedRecipeIngredient(String value) {
 
 		public static final TableFormat<UnkeyedRecipeIngredient> FORMAT = (
 			new TableFormat<UnkeyedRecipeIngredient>()
-			.addLiteral("\t\t{ ")
-			.addJoined(": ", (TableFormat<UnkeyedRecipeIngredient> format) -> format
-				.addField(Justification.left(), (UnkeyedRecipeIngredient ingredient) -> ingredient.isTag ? "\"tag\"" : "\"item\"")
-				.addField(Justification.left(), (UnkeyedRecipeIngredient ingredient) -> ColumnFormatter.quoteAndEscape(ingredient.id))
-			)
-			.addLiteral(" }")
+			.addLiteral("\t\t")
+			.addField(Justification.left(), (UnkeyedRecipeIngredient ingredient) -> ColumnFormatter.quoteAndEscape(ingredient.value))
 			.addLineDeliminator(",")
 		);
-
-		public static UnkeyedRecipeIngredient create(String string) {
-			return (
-				!string.isEmpty() && string.charAt(0) == '#'
-				? new UnkeyedRecipeIngredient(true, string.substring(1))
-				: new UnkeyedRecipeIngredient(false, string)
-			);
-		}
 	}
 
 	public static record ModelFace(String name, int minX, int minY, int maxX, int maxY, String texture, String cullface, Integer rotation) {

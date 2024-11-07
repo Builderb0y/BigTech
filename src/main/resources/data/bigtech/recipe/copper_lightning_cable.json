@@ -8,8 +8,8 @@
 		"www"
 	],
 	"key": {
-		"w": { "tag": "minecraft:wool"  },
-		"i": { "tag": "c:copper_ingots" }
+		"w": "#minecraft:wool" ,
+		"i": "#c:ingots/copper"
 	},
 	"result": {
 		"id": "bigtech:copper_lightning_cable",

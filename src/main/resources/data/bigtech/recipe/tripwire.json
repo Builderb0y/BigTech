@@ -6,11 +6,11 @@
 		"bbb"
 	],
 	"key": {
-		"p": { "tag":  "minecraft:planks"            },
-		"l": { "item": "bigtech:lens"                },
-		"c": { "tag":  "bigtech:crystal_clusters"    },
-		"r": { "item": "minecraft:tripwire_hook"     },
-		"b": { "item": "minecraft:smooth_stone_slab" }
+		"p": "#minecraft:planks"          ,
+		"l": "bigtech:lens"               ,
+		"c": "#bigtech:crystal_clusters"  ,
+		"r": "minecraft:tripwire_hook"    ,
+		"b": "minecraft:smooth_stone_slab"
 	},
 	"result": {
 		"id": "bigtech:tripwire"

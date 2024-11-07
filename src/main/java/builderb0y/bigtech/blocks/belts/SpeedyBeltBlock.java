@@ -25,6 +25,6 @@ public class SpeedyBeltBlock extends DirectionalBeltBlock {
 
 	@Override
 	public double getSpeed(World world, BlockPos pos, BlockState state, Entity entity) {
-		return 2.0D;
+		return 1.5D;
 	}
 }

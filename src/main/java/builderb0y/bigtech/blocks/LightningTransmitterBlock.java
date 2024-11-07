@@ -11,7 +11,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.beams.base.BeamDirection;
@@ -45,18 +44,18 @@ public class LightningTransmitterBlock extends BeamBlock implements LightningPul
 	}
 
 	@Override
-	public void spreadOut(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void spreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		LightningBeam beam = new LightningBeam(world, UUID.randomUUID());
 		beam.pulse = pulse;
-		beam.prepare(pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 31.0D);
-		beam.fire();
+		beam.prepare(world, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 31.0D);
+		beam.fire(world);
 		pulse.lightningBeams.put(pos, beam);
 	}
 
 	@Override
-	public void onPulse(World world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+	public void onPulse(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		LightningBeam beam = pulse.lightningBeams.get(pos);
-		if (beam != null) beam.addToWorld();
+		if (beam != null) beam.addToWorld(world);
 		if (!state.get(Properties.POWERED)) {
 			world.setBlockState(pos, state.with(Properties.POWERED, Boolean.TRUE));
 		}

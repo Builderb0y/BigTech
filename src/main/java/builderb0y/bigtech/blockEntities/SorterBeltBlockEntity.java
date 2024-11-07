@@ -157,7 +157,7 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 		super.readNbt(nbt, registryLookup);
 		this.distributionIndex = nbt.getInt("index");
 		this.inventory.readNbtList(nbt.getList("items", NbtElement.COMPOUND_TYPE), registryLookup);
-		this.lock = ContainerLock.fromNbt(nbt);
+		this.lock = ContainerLock.fromNbt(nbt, registryLookup);
 		if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
 			this.customName = Text.Serialization.fromJson(nbt.getString("CustomName"), registryLookup);
 		}
@@ -169,7 +169,7 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 		nbt
 		.withInt("index", this.distributionIndex)
 		.with("items", this.inventory.toNbtList(registryLookup));
-		this.lock.writeNbt(nbt);
+		this.lock.writeNbt(nbt, registryLookup);
 		if (this.customName != null) {
 			nbt.putString("CustomName", Text.Serialization.toJsonString(this.customName, registryLookup));
 		}

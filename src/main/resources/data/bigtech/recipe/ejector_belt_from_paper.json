@@ -7,9 +7,9 @@
 		"ioi"
 	],
 	"key": {
-		"p": { "item": "minecraft:paper" },
-		"i": { "tag":  "c:ingots/iron"   },
-		"o": { "item": "minecraft:bow"   }
+		"p": "minecraft:paper",
+		"i": "#c:ingots/iron" ,
+		"o": "minecraft:bow"  
 	},
 	"result": {
 		"id": "bigtech:ejector_belt",

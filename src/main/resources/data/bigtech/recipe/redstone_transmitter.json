@@ -6,11 +6,11 @@
 		"bbb"
 	],
 	"key": {
-		"q": { "tag":  "c:gems/quartz"               },
-		"l": { "item": "bigtech:lens"                },
-		"c": { "tag":  "bigtech:crystal_clusters"    },
-		"r": { "item": "minecraft:redstone_torch"    },
-		"b": { "item": "minecraft:smooth_stone_slab" }
+		"q": "#c:gems/quartz"             ,
+		"l": "bigtech:lens"               ,
+		"c": "#bigtech:crystal_clusters"  ,
+		"r": "minecraft:redstone_torch"   ,
+		"b": "minecraft:smooth_stone_slab"
 	},
 	"result": {
 		"id": "bigtech:redstone_transmitter"

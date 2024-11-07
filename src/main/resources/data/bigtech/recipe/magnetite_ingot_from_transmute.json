@@ -1,6 +1,6 @@
 {
 	"type": "bigtech:transmute",
-	"input":  { "tag":  "c:iron_ingots"           },
+	"input": "#c:ingots/iron",
 	"output": { "item": "bigtech:magnetite_ingot" },
 	"energy": 90
 }

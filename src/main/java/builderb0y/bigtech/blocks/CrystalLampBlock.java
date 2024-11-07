@@ -12,6 +12,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
 
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
@@ -37,8 +38,8 @@ public class CrystalLampBlock extends Block {
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		if (!world.isClient) {
 			boolean powered = state.get(Properties.LIT);
 			boolean shouldBePowered = world.isReceivingRedstonePower(pos);

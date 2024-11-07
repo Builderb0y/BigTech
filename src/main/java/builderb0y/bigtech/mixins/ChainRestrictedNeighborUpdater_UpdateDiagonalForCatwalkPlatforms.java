@@ -15,7 +15,7 @@ import net.minecraft.world.block.NeighborUpdater;
 
 import builderb0y.bigtech.blocks.CatwalkPlatformBlock;
 
-@Mixin(targets = "net/minecraft/world/block/ChainRestrictedNeighborUpdater\$StateReplacementEntry")
+@Mixin(targets = "net/minecraft/world/block/ChainRestrictedNeighborUpdater$StateReplacementEntry")
 public class ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms {
 
 	@Shadow private @Final Direction direction;
@@ -32,7 +32,7 @@ public class ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms {
 			BlockState upState = world.getBlockState(upPos);
 			if (upState.getBlock() instanceof CatwalkPlatformBlock) {
 				BlockPos neighbor = this.neighborPos.up();
-				NeighborUpdater.replaceWithStateForNeighborUpdate(world, this.direction, world.getBlockState(neighbor), upPos, neighbor, this.updateFlags, this.updateLimit);
+				NeighborUpdater.replaceWithStateForNeighborUpdate(world, this.direction, upPos, neighbor, this.neighborState, this.updateFlags, this.updateLimit);
 			}
 		}
 	}

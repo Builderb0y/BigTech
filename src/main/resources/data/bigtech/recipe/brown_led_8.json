@@ -3,15 +3,15 @@
 	"category": "redstone",
 	"group": "bigtech:leds",
 	"ingredients": [
-		{ "tag": "bigtech:leds" },
-		{ "tag": "bigtech:leds" },
-		{ "tag": "bigtech:leds" },
-		{ "tag": "bigtech:leds" },
-		{ "tag": "c:dyes/brown" },
-		{ "tag": "bigtech:leds" },
-		{ "tag": "bigtech:leds" },
-		{ "tag": "bigtech:leds" },
-		{ "tag": "bigtech:leds" }
+		"#bigtech:leds",
+		"#bigtech:leds",
+		"#bigtech:leds",
+		"#bigtech:leds",
+		"#c:dyes/brown",
+		"#bigtech:leds",
+		"#bigtech:leds",
+		"#bigtech:leds",
+		"#bigtech:leds"
 	],
 	"result": {
 		"id": "bigtech:brown_led"

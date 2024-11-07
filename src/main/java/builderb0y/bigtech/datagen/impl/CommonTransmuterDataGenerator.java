@@ -14,7 +14,7 @@ public class CommonTransmuterDataGenerator implements DataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "tag":  "minecraft:logs" },
+				"input": "#minecraft:logs",
 				"output": { "item": "minecraft:charcoal" },
 				"energy": 40
 			}"""
@@ -25,7 +25,7 @@ public class CommonTransmuterDataGenerator implements DataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "item": "minecraft:chorus_fruit" },
+				"input": "minecraft:chorus_fruit",
 				"output": { "item": "minecraft:popped_chorus_fruit" },
 				"energy": 10
 			}"""
@@ -36,7 +36,7 @@ public class CommonTransmuterDataGenerator implements DataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input":  { "tag":  "minecraft:sand"  },
+				"input": "#minecraft:sand",
 				"output": { "item": "minecraft:glass" },
 				"energy": 40
 			}"""
@@ -47,7 +47,7 @@ public class CommonTransmuterDataGenerator implements DataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input": { "item": "bigtech:crystalline_sand" },
+				"input": "bigtech:crystalline_sand",
 				"output": [
 					{ "item": "bigtech:red_crystal_cluster"     },
 					{ "item": "bigtech:yellow_crystal_cluster"  },
@@ -67,7 +67,7 @@ public class CommonTransmuterDataGenerator implements DataGenerator {
 			"""
 			{
 				"type": "bigtech:transmute",
-				"input": { "tag": "c:dusts/redstone" },
+				"input": "#c:dusts/redstone",
 				"output": { "item": "minecraft:glowstone_dust" },
 				"energy": 100
 			}"""
