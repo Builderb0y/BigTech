@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:catwalk_platforms",
+	"pattern": [
+		"r r",
+		"bbb"
+	],
+	"key": {
+		"b": "minecraft:pale_oak_planks",
+		"r": "minecraft:stick"          
+	},
+	"result": {
+		"id": "bigtech:pale_oak_catwalk_platform",
+		"count": 4
+	}
+}

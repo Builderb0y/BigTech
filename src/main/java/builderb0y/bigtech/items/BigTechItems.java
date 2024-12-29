@@ -75,25 +75,6 @@ public class BigTechItems {
 		);
 	}
 
-	@Environment(EnvType.CLIENT)
-	public static void initClient() {
-		ColorProviderRegistry.ITEM.register(
-			(ItemStack stack, int tintIndex) -> {
-				if (tintIndex == 1) {
-					NbtCompound nbt = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT).getNbt();
-					if (nbt != null) {
-						int[] color = nbt.getIntArray("color");
-						if (color.length == 3) {
-							return ColorF.toInt(color[0], color[1], color[2]);
-						}
-					}
-				}
-				return -1;
-			},
-			FunctionalItems.BEAM_INTERCEPTOR
-		);
-	}
-
 	public static RegistryKey<Item> key(String name) {
 		return key(BigTechMod.modID(name));
 	}

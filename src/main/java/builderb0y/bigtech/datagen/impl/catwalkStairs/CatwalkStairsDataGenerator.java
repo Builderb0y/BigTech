@@ -102,6 +102,11 @@ public abstract class CatwalkStairsDataGenerator extends BasicBlockDataGenerator
 	}
 
 	@Override
+	public void writeItemDefinitions(DataGenContext context) {
+		this.writeDefaultItemDefinition(context, context.prefixPath("item/", this.getId()));
+	}
+
+	@Override
 	public abstract void writeItemModels(DataGenContext context);
 
 	public void writeCatwalkStairsItemModels(DataGenContext context, Identifier baseTexture, Identifier stairsTexture) {

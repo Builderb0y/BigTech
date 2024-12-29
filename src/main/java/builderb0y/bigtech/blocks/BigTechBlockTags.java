@@ -29,6 +29,7 @@ public class BigTechBlockTags {
 		STICKS_TO_DARK_OAK_FRAME  = of("sticks_to_dark_oak_frame"),
 		STICKS_TO_CHERRY_FRAME    = of("sticks_to_cherry_frame"),
 		STICKS_TO_MANGROVE_FRAME  = of("sticks_to_mangrove_frame"),
+		STICKS_TO_PALE_OAK_FRAME  = of("sticks_to_pale_oak_frame"),
 		STICKS_TO_CRIMSON_FRAME   = of("sticks_to_crimson_frame"),
 		STICKS_TO_WARPED_FRAME    = of("sticks_to_warped_frame"),
 		COPPER_LADDERS            = of("copper_ladders"),

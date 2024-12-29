@@ -23,7 +23,7 @@ public class MagnetiteArmorDataGenerator implements DataGenerator {
 			FunctionalItems.MAGNETITE_BOOTS
 		);
 		context.writeToFile(
-			context.modelPath(BigTechMod.modID("equipment/magnetite")),
+			context.genericAssetsPath(BigTechMod.modID("magnetite"), "equipment"),
 			//language=json
 			"""
 			{

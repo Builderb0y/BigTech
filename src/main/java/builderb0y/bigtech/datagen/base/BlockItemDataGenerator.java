@@ -36,6 +36,7 @@ public interface BlockItemDataGenerator extends BlockDataGenerator, ItemDataGene
 		this.setupMiningLevelTags(context);
 		this.setupOtherBlockTags(context);
 
+		this.writeItemDefinitions(context);
 		this.writeItemModels(context);
 		this.writeRecipes(context);
 		this.setupOtherItemTags(context);

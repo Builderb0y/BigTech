@@ -1,0 +1,6 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "bigtech:block/red_led_on"
+	}
+}

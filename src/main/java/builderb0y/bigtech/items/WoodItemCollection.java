@@ -16,6 +16,7 @@ public class WoodItemCollection extends WoodRegistrableCollection<Item> {
 		Item dark_oak,
 		Item mangrove,
 		Item cherry,
+		Item pale_oak,
 		Item crimson,
 		Item warped
 	) {
@@ -29,6 +30,7 @@ public class WoodItemCollection extends WoodRegistrableCollection<Item> {
 			dark_oak,
 			mangrove,
 			cherry,
+			pale_oak,
 			crimson,
 			warped
 		);
@@ -48,6 +50,7 @@ public class WoodItemCollection extends WoodRegistrableCollection<Item> {
 		BigTechItems.register(this.dark_oak);
 		BigTechItems.register(this.mangrove);
 		BigTechItems.register(this.cherry);
+		BigTechItems.register(this.pale_oak);
 		BigTechItems.register(this.crimson);
 		BigTechItems.register(this.warped);
 	}

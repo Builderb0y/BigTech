@@ -15,4 +15,26 @@ public class MinerDataGenerator extends InventoryDataGenerator {
 	public String getLangKey(DataGenContext context) {
 		return Util.createTranslationKey("entity", this.getId());
 	}
+
+	@Override
+	public void run(DataGenContext context) {
+		super.run(context);
+		this.genDynamicLightsConfig(context);
+	}
+
+	public void genDynamicLightsConfig(DataGenContext context) {
+		context.writeToFile(
+			"assets/bigtech/dynamiclights/entity/miner.json",
+			//language=json
+			"""
+			{
+				"match": {
+					"type": "bigtech:miner"
+				},
+				"luminance": {
+					"type": "bigtech:miner"
+				}
+			}"""
+		);
+	}
 }

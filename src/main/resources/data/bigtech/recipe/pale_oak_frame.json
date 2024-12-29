@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:frames",
+	"pattern": [
+		"ini",
+		"n n",
+		"ini"
+	],
+	"key": {
+		"i": "minecraft:pale_oak_planks",
+		"n": "#c:rods/wooden"           
+	},
+	"result": {
+		"id": "bigtech:pale_oak_frame",
+		"count": 4
+	}
+}

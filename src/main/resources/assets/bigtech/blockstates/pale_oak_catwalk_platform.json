@@ -1,0 +1,9 @@
+{
+	"multipart": [
+		{ "apply": { "model": "bigtech:block/pale_oak_catwalk_platform_base"           }                              },
+		{ "apply": { "model": "bigtech:block/pale_oak_catwalk_platform_rail", "y":   0 }, "when": { "north": "true" } },
+		{ "apply": { "model": "bigtech:block/pale_oak_catwalk_platform_rail", "y":  90 }, "when": { "east":  "true" } },
+		{ "apply": { "model": "bigtech:block/pale_oak_catwalk_platform_rail", "y": 180 }, "when": { "south": "true" } },
+		{ "apply": { "model": "bigtech:block/pale_oak_catwalk_platform_rail", "y": 270 }, "when": { "west":  "true" } }
+	]
+}

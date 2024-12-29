@@ -15,7 +15,8 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		mangrove,
 		cherry,
 		crimson,
-		warped;
+		warped,
+		pale_oak;
 
 	public WoodRegistrableCollection(
 		boolean register,
@@ -27,6 +28,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		T dark_oak,
 		T mangrove,
 		T cherry,
+		T pale_oak,
 		T crimson,
 		T warped
 	) {
@@ -38,6 +40,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		this.dark_oak = dark_oak;
 		this.mangrove = mangrove;
 		this.cherry   = cherry;
+		this.pale_oak = pale_oak;
 		this.crimson  = crimson;
 		this.warped   = warped;
 
@@ -55,6 +58,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 			factory.create(Type.DARK_OAK),
 			factory.create(Type.MANGROVE),
 			factory.create(Type.CHERRY),
+			factory.create(Type.PALE_OAK),
 			factory.create(Type.CRIMSON),
 			factory.create(Type.WARPED)
 		);
@@ -78,6 +82,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 			case DARK_OAK -> this.dark_oak;
 			case MANGROVE -> this.mangrove;
 			case CHERRY   -> this.cherry;
+			case PALE_OAK -> this.pale_oak;
 			case CRIMSON  -> this.crimson;
 			case WARPED   -> this.warped;
 		};
@@ -94,6 +99,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 			this.dark_oak,
 			this.mangrove,
 			this.cherry,
+			this.pale_oak,
 			this.crimson,
 			this.warped
 		);
@@ -109,6 +115,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		action.accept(this.dark_oak);
 		action.accept(this.mangrove);
 		action.accept(this.cherry);
+		action.accept(this.pale_oak);
 		action.accept(this.crimson);
 		action.accept(this.warped);
 	}
@@ -125,6 +132,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 				this.dark_oak,
 				this.mangrove,
 				this.cherry,
+				this.pale_oak,
 				this.crimson,
 				this.warped
 			},
@@ -143,6 +151,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 			this.dark_oak == object ||
 			this.mangrove == object ||
 			this.cherry   == object ||
+			this.pale_oak == object ||
 			this.crimson  == object ||
 			this.warped   == object
 		);
@@ -152,16 +161,17 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 	@SuppressWarnings("unchecked") //generic array.
 	public RegistrableVariant<T>[] getRegistrableVariants() {
 		return new RegistrableVariant[] {
-			new RegistrableVariant<>(this.oak, Type.OAK),
-			new RegistrableVariant<>(this.spruce, Type.SPRUCE),
-			new RegistrableVariant<>(this.birch, Type.BIRCH),
-			new RegistrableVariant<>(this.jungle, Type.JUNGLE),
-			new RegistrableVariant<>(this.acacia, Type.ACACIA),
+			new RegistrableVariant<>(this.oak,      Type.OAK     ),
+			new RegistrableVariant<>(this.spruce,   Type.SPRUCE  ),
+			new RegistrableVariant<>(this.birch,    Type.BIRCH   ),
+			new RegistrableVariant<>(this.jungle,   Type.JUNGLE  ),
+			new RegistrableVariant<>(this.acacia,   Type.ACACIA  ),
 			new RegistrableVariant<>(this.dark_oak, Type.DARK_OAK),
 			new RegistrableVariant<>(this.mangrove, Type.MANGROVE),
-			new RegistrableVariant<>(this.cherry, Type.CHERRY),
-			new RegistrableVariant<>(this.crimson, Type.CRIMSON),
-			new RegistrableVariant<>(this.warped, Type.WARPED)
+			new RegistrableVariant<>(this.cherry,   Type.CHERRY  ),
+			new RegistrableVariant<>(this.pale_oak, Type.PALE_OAK),
+			new RegistrableVariant<>(this.crimson,  Type.CRIMSON ),
+			new RegistrableVariant<>(this.warped,   Type.WARPED  )
 		};
 	}
 
@@ -174,6 +184,7 @@ public abstract class WoodRegistrableCollection<T> implements RegistrableCollect
 		DARK_OAK,
 		MANGROVE,
 		CHERRY,
+		PALE_OAK,
 		CRIMSON,
 		WARPED;
 

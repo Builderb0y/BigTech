@@ -1,0 +1,8 @@
+{
+	"match": {
+		"type": "bigtech:miner"
+	},
+	"luminance": {
+		"type": "bigtech:miner"
+	}
+}

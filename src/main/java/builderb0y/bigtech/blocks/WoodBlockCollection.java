@@ -18,6 +18,7 @@ public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 		Block dark_oak,
 		Block mangrove,
 		Block cherry,
+		Block pale_oak,
 		Block crimson,
 		Block warped
 	) {
@@ -31,6 +32,7 @@ public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 			dark_oak,
 			mangrove,
 			cherry,
+			pale_oak,
 			crimson,
 			warped
 		);
@@ -50,6 +52,7 @@ public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 		BigTechBlocks.register(this.dark_oak);
 		BigTechBlocks.register(this.mangrove);
 		BigTechBlocks.register(this.cherry);
+		BigTechBlocks.register(this.pale_oak);
 		BigTechBlocks.register(this.crimson);
 		BigTechBlocks.register(this.warped);
 
@@ -61,6 +64,7 @@ public class WoodBlockCollection extends WoodRegistrableCollection<Block> {
 		FlammableBlockRegistry.getDefaultInstance().add(this.dark_oak, 5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(this.mangrove, 5, 20);
 		FlammableBlockRegistry.getDefaultInstance().add(this.cherry,   5, 20);
+		FlammableBlockRegistry.getDefaultInstance().add(this.pale_oak, 5, 20);
 		//FlammableBlockRegistry.getDefaultInstance().add(this.crimson,  5, 20);
 		//FlammableBlockRegistry.getDefaultInstance().add(this.warped,   5, 20);
 	}

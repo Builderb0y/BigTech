@@ -1,0 +1,9 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "bigtech:block/beam_interceptor_off",
+		"tints": [{
+			"type": "bigtech:beam_interceptor"
+		}]
+	}
+}

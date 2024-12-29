@@ -7,7 +7,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
@@ -17,7 +21,10 @@ import builderb0y.bigtech.blocks.MagnetiteBlock;
 
 public class MagnetiteArmorMaterial {
 
-	public static final Identifier MODEL = BigTechMod.modID("magnetite");
+	public static final RegistryKey<EquipmentAsset> MODEL = RegistryKey.of(
+		EquipmentAssetKeys.REGISTRY_KEY,
+		BigTechMod.modID("magnetite")
+	);
 	public static final ArmorMaterial INSTANCE;
 	static {
 		EnumMap<EquipmentType, Integer> defense = new EnumMap<>(EquipmentType.class);

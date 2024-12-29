@@ -27,7 +27,7 @@ public class ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms {
 
 	@Inject(method = "update", at = @At("RETURN"))
 	private void bigtech_updateDiagonalForCatwalkPlatforms(World world, CallbackInfoReturnable<Boolean> callback) {
-		if (this.direction.getHorizontal() >= 0) {
+		if (this.direction.getHorizontalQuarterTurns() >= 0) {
 			BlockPos upPos = this.pos.up();
 			BlockState upState = world.getBlockState(upPos);
 			if (upState.getBlock() instanceof CatwalkPlatformBlock) {

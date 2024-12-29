@@ -238,6 +238,9 @@ public class CommonCatwalkStairsDataGenerator implements DataGenerator {
 			"""
 			{
 				"parent": "block/block",
+				"textures": {
+					"particle": "#base"
+				},
 				"elements": [
 					{
 						"from": [  0, 7,  8 ],

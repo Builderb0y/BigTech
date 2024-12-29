@@ -18,8 +18,7 @@ public class CommonBarsDataGenerator implements DataGenerator {
 			"""
 			{
 				"textures": {
-					"bars":     "bigtech:block/copper_bars",
-					"particle": "bigtech:block/copper_bars"
+					"particle": "#bars"
 				},
 				"elements": [
 					{

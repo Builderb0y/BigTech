@@ -189,12 +189,10 @@ public abstract class BasicBlockDataGenerator implements BlockItemDataGenerator 
 	}
 
 	@Override
-	public void writeItemModels(DataGenContext context) {
-		context.writeToFile(
-			context.itemModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.blockParent(this.getItemModelParent(context))
-			.toString()
-		);
+	public void writeItemDefinitions(DataGenContext context) {
+		this.writeDefaultItemDefinition(context, context.prefixPath("block/", this.getItemModelParent(context)));
 	}
+
+	@Override
+	public void writeItemModels(DataGenContext context) {}
 }

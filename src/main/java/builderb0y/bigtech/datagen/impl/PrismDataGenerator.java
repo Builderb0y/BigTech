@@ -165,8 +165,9 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 			"""
 			{
 				"textures": {
-					"edge":   "bigtech:block/prism_lens_edge",
-					"center": "bigtech:block/prism_lens_center"
+					"edge":     "bigtech:block/prism_lens_edge",
+					"center":   "bigtech:block/prism_lens_center",
+					"particle": "bigtech:block/prism_lens_edge"
 				},
 				"elements": [
 					{
@@ -309,6 +310,22 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 
 	public static boolean isInside(double x, double y, double z) {
 		return x * x + y * y + z * z < RADIUS_SQUARED;
+	}
+
+	@Override
+	public void writeItemDefinitions(DataGenContext context) {
+		context.writeToFile(
+			context.itemDefinitionPath(this.getId()),
+			//language=json
+			"""
+			{
+				"model": {
+					"type": "bigtech:prism",
+					"prism": "bigtech:block/prism_base",
+					"lens": "bigtech:block/prism_lens"
+				}
+			}"""
+		);
 	}
 
 	@Override

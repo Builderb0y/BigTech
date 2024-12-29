@@ -15,12 +15,22 @@ compatibility:
 
 testing:
 
+1.21.4:
+	some kind of config saving problem involving en_us.json.
+		probably file doesn't exist when config queries localizations in it.
+		probably only an issue with data gen.
+
 features:
 	general:
 	decoration:
 		fancier 3D models for things.
 			more vanilla stuff?
 				beacons?
+				cauldrons (inventory)
+				brewing stands (inventory)
+		cast iron.
+			can be made into blocks and slabs.
+			used for making tesla coil and lightning transmitters.
 	transport:
 		hoppers:
 			copper hopper: ??? maybe filterable somehow?
@@ -36,6 +46,15 @@ features:
 			slowly though. like 1 unit per 10 ticks or something.
 	automation:
 		XP storage device: not sure about the details yet.
+	machines:
+		arc furnace:
+			vanilla cauldron stores items.
+				maybe for simplicity it'd be better to have a "crucible"
+				block crafted with nether quartz instead of iron.
+				might also want an electrode block placed on top of the cauldron/crucible.
+			upon lightning pulse, melt the items.
+			items slowly cool over the course of 15 seconds.
+			after cooling, items can be extracted via a hopper.
 	tools:
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.

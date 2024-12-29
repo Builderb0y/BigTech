@@ -1,23 +1,22 @@
 package builderb0y.bigtech.models;
 
+import java.awt.image.renderable.RenderContext;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
-import net.minecraft.client.render.model.json.ModelOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.ItemStack;
@@ -35,8 +34,8 @@ public class CrystalBakedModel implements BakedModel {
 
 	public static final RenderMaterial TRANSLUCENT_MATERIAL;
 	static {
-		Renderer renderer = RendererAccess.INSTANCE.getRenderer();
-		TRANSLUCENT_MATERIAL = renderer != null ? renderer.materialFinder().blendMode(BlendMode.TRANSLUCENT).find() : null;
+		Renderer renderer = Renderer.get();
+		TRANSLUCENT_MATERIAL = renderer.materialFinder().blendMode(BlendMode.TRANSLUCENT).find();
 	}
 
 	public final Sprite sprite;
@@ -70,11 +69,6 @@ public class CrystalBakedModel implements BakedModel {
 	}
 
 	@Override
-	public boolean isBuiltin() {
-		return false;
-	}
-
-	@Override
 	public Sprite getParticleSprite() {
 		return this.sprite;
 	}
@@ -82,11 +76,6 @@ public class CrystalBakedModel implements BakedModel {
 	@Override
 	public ModelTransformation getTransformation() {
 		return this.transformation;
-	}
-
-	@Override
-	public ModelOverrideList getOverrides() {
-		return ModelOverrideList.EMPTY;
 	}
 
 	@Override
@@ -191,19 +180,19 @@ public class CrystalBakedModel implements BakedModel {
 	}
 
 	@Override
-	public void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
+	public void emitBlockQuads(QuadEmitter emitter, BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, Predicate<@Nullable Direction> cullTest) {
 		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 		for (Direction direction : Directions.ALL) {
 			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
 			if (!adjacentState.isOpaqueFullCube()) {
-				this.emitQuads(this.getSeedForPosition(pos), context.getEmitter());
+				this.emitQuads(this.getSeedForPosition(pos), emitter);
 				return;
 			}
 		}
 	}
 
 	@Override
-	public void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-		this.emitQuads(this.spriteHash, context.getEmitter());
+	public void emitItemQuads(QuadEmitter emitter, Supplier<Random> randomSupplier) {
+		this.emitQuads(this.spriteHash, emitter);
 	}
 }

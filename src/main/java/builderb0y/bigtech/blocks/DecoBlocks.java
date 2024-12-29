@@ -65,6 +65,7 @@ public class DecoBlocks {
 				case DARK_OAK -> BigTechBlockTags.STICKS_TO_DARK_OAK_FRAME;
 				case MANGROVE -> BigTechBlockTags.STICKS_TO_MANGROVE_FRAME;
 				case CHERRY   -> BigTechBlockTags.STICKS_TO_CHERRY_FRAME;
+				case PALE_OAK -> BigTechBlockTags.STICKS_TO_PALE_OAK_FRAME;
 				case CRIMSON  -> BigTechBlockTags.STICKS_TO_CRIMSON_FRAME;
 				case WARPED   -> BigTechBlockTags.STICKS_TO_WARPED_FRAME;
 			}

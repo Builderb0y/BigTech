@@ -20,11 +20,13 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.*;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 
 import builderb0y.autocodec.AutoCodec;
 import builderb0y.autocodec.coders.AutoCoder;
 import builderb0y.autocodec.coders.CoderFactoryList;
 import builderb0y.autocodec.coders.LookupCoderFactory;
+import builderb0y.autocodec.coders.PrimitiveCoders;
 import builderb0y.autocodec.reflection.PseudoField;
 import builderb0y.autocodec.reflection.ReflectionManager;
 import builderb0y.autocodec.reflection.memberViews.FieldLikeMemberView;
@@ -50,6 +52,7 @@ public class BigTechAutoCodec {
 						@Override
 						public void setup() {
 							super.setup();
+							this.addRaw(Identifier.class, PrimitiveCoders.stringBased("IdentifierCodec", Identifier::of, Identifier::toString));
 							this.addRaw(AbstractBlock.Settings.class, autoCodec.wrapDFUCodec(AbstractBlock.Settings.CODEC));
 							this.addRaw(Block.class, autoCodec.wrapDFUCodec(Registries.BLOCK.getCodec()));
 							this.addRaw(Item.class, autoCodec.wrapDFUCodec(Registries.ITEM.getCodec()));

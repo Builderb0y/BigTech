@@ -47,10 +47,10 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 		VoxelShape west  = VoxelShapes.cuboid(0.0D,    0.0625D, 0.0D,    0.0625D, 0.75D,   1.0D   );
 		for (int index = 0; index < 16; index++) {
 			VoxelShape shape = base;
-			if ((index & (1 << Direction.NORTH.getHorizontal())) != 0) shape = VoxelShapes.combine(shape, north, BooleanBiFunction.OR);
-			if ((index & (1 << Direction.EAST .getHorizontal())) != 0) shape = VoxelShapes.combine(shape, east,  BooleanBiFunction.OR);
-			if ((index & (1 << Direction.SOUTH.getHorizontal())) != 0) shape = VoxelShapes.combine(shape, south, BooleanBiFunction.OR);
-			if ((index & (1 << Direction.WEST .getHorizontal())) != 0) shape = VoxelShapes.combine(shape, west,  BooleanBiFunction.OR);
+			if ((index & (1 << Direction.NORTH.getHorizontalQuarterTurns())) != 0) shape = VoxelShapes.combine(shape, north, BooleanBiFunction.OR);
+			if ((index & (1 << Direction.EAST .getHorizontalQuarterTurns())) != 0) shape = VoxelShapes.combine(shape, east,  BooleanBiFunction.OR);
+			if ((index & (1 << Direction.SOUTH.getHorizontalQuarterTurns())) != 0) shape = VoxelShapes.combine(shape, south, BooleanBiFunction.OR);
+			if ((index & (1 << Direction.WEST .getHorizontalQuarterTurns())) != 0) shape = VoxelShapes.combine(shape, west,  BooleanBiFunction.OR);
 			SHAPES[index] = shape.simplify();
 		}
 	}
@@ -86,10 +86,10 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 
 	public static int getShapeIndex(BlockState state) {
 		int index = 0;
-		if (state.get(Properties.NORTH)) index |= 1 << Direction.NORTH.getHorizontal();
-		if (state.get(Properties.EAST )) index |= 1 << Direction.EAST .getHorizontal();
-		if (state.get(Properties.SOUTH)) index |= 1 << Direction.SOUTH.getHorizontal();
-		if (state.get(Properties.WEST )) index |= 1 << Direction.WEST .getHorizontal();
+		if (state.get(Properties.NORTH)) index |= 1 << Direction.NORTH.getHorizontalQuarterTurns();
+		if (state.get(Properties.EAST )) index |= 1 << Direction.EAST .getHorizontalQuarterTurns();
+		if (state.get(Properties.SOUTH)) index |= 1 << Direction.SOUTH.getHorizontalQuarterTurns();
+		if (state.get(Properties.WEST )) index |= 1 << Direction.WEST .getHorizontalQuarterTurns();
 		return index;
 	}
 
@@ -165,7 +165,7 @@ public class CatwalkPlatformBlock extends Block implements Waterloggable {
 	public Direction getPlacementDirection(BlockPos origin, BlockState state, ItemPlacementContext context) {
 		Vec3d hitVec = context.getHitPos();
 		double y = hitVec.y - origin.getY();
-		boolean useRotation = context.getSide().getHorizontal() < 0 && y < 0.5D;
+		boolean useRotation = context.getSide().getHorizontalQuarterTurns() < 0 && y < 0.5D;
 		if (useRotation) {
 			return context.getHorizontalPlayerFacing();
 		}

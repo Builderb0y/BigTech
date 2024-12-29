@@ -4,13 +4,13 @@ import java.util.function.Predicate;
 
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import org.jetbrains.annotations.ApiStatus.NonExtendable;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -84,35 +84,27 @@ public interface Harvestable {
 				return "Harvestable.SWEET_BERRY_BUSH";
 			}
 		},
-		NETHER_WART = Harvestables.crop(NetherWartBlock.AGE, 3),
-		COCOA = Harvestables.crop(CocoaBlock.AGE, CocoaBlock.MAX_AGE),
-		OAK_AZALEA_TREE = Harvestables.tree(
-			Harvestables.isIn(Blocks.OAK_LOG, Blocks.OAK_WOOD),
-			Harvestables.isIn(Blocks.OAK_LEAVES, Blocks.AZALEA_LEAVES, Blocks.FLOWERING_AZALEA_LEAVES)
-		),
-		SPRUCE_TREE = Harvestables.tree(Blocks.SPRUCE_LOG, Blocks.SPRUCE_WOOD, Blocks.SPRUCE_LEAVES),
-		BIRCH_TREE = Harvestables.tree(Blocks.BIRCH_LOG, Blocks.BIRCH_WOOD, Blocks.BIRCH_LEAVES),
-		JUNGLE_TREE = Harvestables.tree(Blocks.JUNGLE_LOG, Blocks.JUNGLE_WOOD, Blocks.JUNGLE_LEAVES),
-		ACACIA_TREE = Harvestables.tree(Blocks.ACACIA_LOG, Blocks.ACACIA_WOOD, Blocks.ACACIA_LEAVES),
-		DARK_OAK_TREE = Harvestables.tree(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD, Blocks.DARK_OAK_LEAVES),
-		CHERRY_TREE = Harvestables.tree(Blocks.CHERRY_LOG, Blocks.CHERRY_WOOD, Blocks.CHERRY_LEAVES),
-		MANGROVE_TREE = Harvestables.tree(Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD, Blocks.MANGROVE_LEAVES),
-		GENERIC_TREE = Harvestables.tree(
-			Harvestables.isIn(BlockTags.LOGS),
-			Harvestables.isIn(BlockTags.LEAVES)
-		),
-		VINES = Harvestables.downOnly(Blocks.VINE),
-		WEEPING_VINES = Harvestables.downOnly(state -> state.isOf(Blocks.WEEPING_VINES) || state.isOf(Blocks.WEEPING_VINES_PLANT)),
-		TWISTING_VINES = Harvestables.downOnly(state -> state.isOf(Blocks.TWISTING_VINES) || state.isOf(Blocks.TWISTING_VINES_PLANT)),
-		BAMBOO = Harvestables.upOnly(Blocks.BAMBOO),
-		SUGAR_CANE = Harvestables.upOnly(Blocks.SUGAR_CANE),
-		CACTUS = Harvestables.upOnly(Blocks.CACTUS),
-		KELP = Harvestables.upOnly(state -> state.isOf(Blocks.KELP) || state.isOf(Blocks.KELP_PLANT)),
-		HUGE_MUSHROOM = Harvestables.hugeMushroom(
-			Harvestables.isOf(Blocks.MUSHROOM_STEM),
-			Harvestables.isIn(Blocks.RED_MUSHROOM_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK)
-		),
-		CHORUS_TREE = Harvestables.chorusTree(Harvestables.isIn(Blocks.CHORUS_PLANT, Blocks.CHORUS_FLOWER));
+		NETHER_WART     = Harvestables.crop(NetherWartBlock.AGE, 3),
+		COCOA           = Harvestables.crop(CocoaBlock.AGE, CocoaBlock.MAX_AGE),
+		OAK_AZALEA_TREE = Harvestables.tree(Harvestables.isIn(Blocks.OAK_LOG, Blocks.OAK_WOOD), Harvestables.isIn(Blocks.OAK_LEAVES, Blocks.AZALEA_LEAVES, Blocks.FLOWERING_AZALEA_LEAVES)),
+		SPRUCE_TREE     = Harvestables.tree(Blocks.SPRUCE_LOG, Blocks.SPRUCE_WOOD, Blocks.SPRUCE_LEAVES),
+		BIRCH_TREE      = Harvestables.tree(Blocks.BIRCH_LOG, Blocks.BIRCH_WOOD, Blocks.BIRCH_LEAVES),
+		JUNGLE_TREE     = Harvestables.tree(Blocks.JUNGLE_LOG, Blocks.JUNGLE_WOOD, Blocks.JUNGLE_LEAVES),
+		ACACIA_TREE     = Harvestables.tree(Blocks.ACACIA_LOG, Blocks.ACACIA_WOOD, Blocks.ACACIA_LEAVES),
+		DARK_OAK_TREE   = Harvestables.tree(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD, Blocks.DARK_OAK_LEAVES),
+		CHERRY_TREE     = Harvestables.tree(Blocks.CHERRY_LOG, Blocks.CHERRY_WOOD, Blocks.CHERRY_LEAVES),
+		MANGROVE_TREE   = Harvestables.tree(Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD, Blocks.MANGROVE_LEAVES),
+		PALE_OAK_TREE   = Harvestables.tree(Harvestables.isIn(Blocks.PALE_OAK_LOG, Blocks.PALE_OAK_WOOD, Blocks.CREAKING_HEART), Harvestables.isOf(Blocks.PALE_OAK_LEAVES)),
+		GENERIC_TREE    = Harvestables.tree(Harvestables.isIn(BlockTags.LOGS), Harvestables.isIn(BlockTags.LEAVES)),
+		VINES           = Harvestables.downOnly(Blocks.VINE),
+		WEEPING_VINES   = Harvestables.downOnly(state -> state.isOf(Blocks.WEEPING_VINES) || state.isOf(Blocks.WEEPING_VINES_PLANT)),
+		TWISTING_VINES  = Harvestables.downOnly(state -> state.isOf(Blocks.TWISTING_VINES) || state.isOf(Blocks.TWISTING_VINES_PLANT)),
+		BAMBOO          = Harvestables.upOnly(Blocks.BAMBOO),
+		SUGAR_CANE      = Harvestables.upOnly(Blocks.SUGAR_CANE),
+		CACTUS          = Harvestables.upOnly(Blocks.CACTUS),
+		KELP            = Harvestables.upOnly((BlockState state) -> state.isOf(Blocks.KELP) || state.isOf(Blocks.KELP_PLANT)),
+		HUGE_MUSHROOM   = Harvestables.hugeMushroom(Harvestables.isOf(Blocks.MUSHROOM_STEM), Harvestables.isIn(Blocks.RED_MUSHROOM_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK)),
+		CHORUS_TREE     = Harvestables.chorusTree(Harvestables.isIn(Blocks.CHORUS_PLANT, Blocks.CHORUS_FLOWER));
 
 	public static Harvestable get(World world, BlockPos pos) {
 		Harvestable harvestable = LOOKUP.find(world, pos, null);
@@ -201,30 +193,31 @@ public interface Harvestable {
 			Blocks.RED_MUSHROOM,
 			Blocks.BROWN_MUSHROOM
 		);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(OAK_AZALEA_TREE), Blocks.OAK_LOG, Blocks.OAK_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(SPRUCE_TREE), Blocks.SPRUCE_LOG, Blocks.SPRUCE_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(BIRCH_TREE), Blocks.BIRCH_LOG, Blocks.BIRCH_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(JUNGLE_TREE), Blocks.JUNGLE_LOG, Blocks.JUNGLE_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(ACACIA_TREE), Blocks.ACACIA_LOG, Blocks.ACACIA_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(DARK_OAK_TREE), Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(CHERRY_TREE), Blocks.CHERRY_LOG, Blocks.CHERRY_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(MANGROVE_TREE), Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(CHORUS_TREE), Blocks.CHORUS_PLANT);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(HUGE_MUSHROOM), Blocks.MUSHROOM_STEM);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant( OAK_AZALEA_TREE), Blocks.     OAK_LOG, Blocks.     OAK_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(     SPRUCE_TREE), Blocks.  SPRUCE_LOG, Blocks.  SPRUCE_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(      BIRCH_TREE), Blocks.   BIRCH_LOG, Blocks.   BIRCH_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(     JUNGLE_TREE), Blocks.  JUNGLE_LOG, Blocks.  JUNGLE_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(     ACACIA_TREE), Blocks.  ACACIA_LOG, Blocks.  ACACIA_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(   DARK_OAK_TREE), Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(     CHERRY_TREE), Blocks.  CHERRY_LOG, Blocks.  CHERRY_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(   MANGROVE_TREE), Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(   PALE_OAK_TREE), Blocks.PALE_OAK_LOG, Blocks.PALE_OAK_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(     CHORUS_TREE), Blocks.CHORUS_PLANT);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(   HUGE_MUSHROOM), Blocks.MUSHROOM_STEM);
 
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(VINES), Blocks.VINE);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(WEEPING_VINES), Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(TWISTING_VINES), Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(BAMBOO), Blocks.BAMBOO);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(SUGAR_CANE), Blocks.SUGAR_CANE);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(CACTUS), Blocks.CACTUS);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(KELP), Blocks.KELP, Blocks.KELP_PLANT);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(           VINES), Blocks.VINE);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(   WEEPING_VINES), Blocks.WEEPING_VINES,  Blocks.WEEPING_VINES_PLANT);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(  TWISTING_VINES), Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(          BAMBOO), Blocks.BAMBOO);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(      SUGAR_CANE), Blocks.SUGAR_CANE);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(          CACTUS), Blocks.CACTUS);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(            KELP), Blocks.KELP, Blocks.KELP_PLANT);
 
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(NETHER_WART), Blocks.NETHER_WART);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(COCOA), Blocks.COCOA);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(     NETHER_WART), Blocks.NETHER_WART);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(           COCOA), Blocks.COCOA);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(SWEET_BERRY_BUSH), Blocks.SWEET_BERRY_BUSH);
 
-		LOOKUP.registerFallback((world, pos, state, blockEntity, context) -> {
+		LOOKUP.registerFallback((World world, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Void context) -> {
 			if (state.getBlock() instanceof CropBlock) {
 				return GENERIC_CROP;
 			}

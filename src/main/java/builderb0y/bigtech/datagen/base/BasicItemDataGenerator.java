@@ -1,5 +1,7 @@
 package builderb0y.bigtech.datagen.base;
 
+import java.util.Map;
+
 import net.minecraft.item.Item;
 
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
@@ -36,5 +38,10 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 			.itemTexture("layer0", this.getId())
 			.toString()
 		);
+	}
+
+	@Override
+	public void writeItemDefinitions(DataGenContext context) {
+		this.writeDefaultItemDefinition(context, context.prefixPath("item/", this.getId()));
 	}
 }

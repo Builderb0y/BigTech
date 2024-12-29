@@ -52,7 +52,7 @@ public class DislocatorItem extends Item {
 				@Override
 				public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
 					Direction facing = context.getSide().getOpposite();
-					Direction horizontal = facing.getHorizontal() >= 0 ? facing : player.getHorizontalFacing();
+					Direction horizontal = facing.getHorizontalQuarterTurns() >= 0 ? facing : player.getHorizontalFacing();
 					return new DislocatorScreenHandler(
 						BigTechScreenHandlerTypes.DISLOCATOR,
 						syncId,

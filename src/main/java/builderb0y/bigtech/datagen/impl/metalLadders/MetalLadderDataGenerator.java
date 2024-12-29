@@ -45,6 +45,11 @@ public abstract class MetalLadderDataGenerator extends BasicBlockDataGenerator {
 	}
 
 	@Override
+	public void writeItemDefinitions(DataGenContext context) {
+		this.writeDefaultItemDefinition(context, context.prefixPath("item/", this.getId()));
+	}
+
+	@Override
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
 			context.itemModelPath(this.getId()),

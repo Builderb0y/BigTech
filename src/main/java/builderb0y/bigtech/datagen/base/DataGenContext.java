@@ -152,6 +152,7 @@ public class DataGenContext {
 	}
 
 	public String     blockstatePath(Identifier identifier) { return this.genericAssetsPath   (identifier, "blockstates"      ); }
+	public String itemDefinitionPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "items"            ); }
 	public String          modelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models"           ); }
 	public String     blockModelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models/block"     ); }
 	public String      itemModelPath(Identifier identifier) { return this.genericAssetsPath   (identifier, "models/item"      ); }

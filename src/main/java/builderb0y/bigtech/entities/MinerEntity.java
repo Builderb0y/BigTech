@@ -163,7 +163,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 			terracottaPos1.getX() + 0.5D + backDirection.getOffsetX() * 0.5D + sideDirection.getOffsetX() * 0.5D,
 			terracottaPos1.getY(),
 			terracottaPos1.getZ() + 0.5D + backDirection.getOffsetZ() * 0.5D + sideDirection.getOffsetZ() * 0.5D,
-			backDirection.asRotation(),
+			backDirection.getPositiveHorizontalDegrees(),
 			0.0F
 		);
 		ChestBlockEntity chest1 = WorldHelper.getBlockEntity(world, chestPos1, ChestBlockEntity.class);

@@ -49,10 +49,9 @@ dependencies() {
 		transitive = false
 	})
 
-	//include(modImplementation('maven.modrinth:jmxl:1.5+mc1.21'))
-	modCompileOnly('maven.modrinth:lambdynamiclights:3.2.1+1.21.3')
-	modImplementation('maven.modrinth:cloth-config:16.0.141+fabric')
-	modImplementation('maven.modrinth:modmenu:12.0.0-beta.1')
+	modImplementation('maven.modrinth:lambdynamiclights:4.0.1+1.21.4')
+	modImplementation('maven.modrinth:cloth-config:17.0.144+fabric')
+	modImplementation('maven.modrinth:modmenu:13.0.0-beta.1')
 	modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric-api:1.113.1")
 
 	//modImplementation('maven.modrinth:sodium:mc1.21-0.5.11')
@@ -64,13 +63,12 @@ dependencies() {
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.2.0'))
 
 	//manifold.
-	String manifoldVersion = '2024.1.37'
+	String manifoldVersion = '2024.1.43'
 	annotationProcessor("systems.manifold:manifold-strings:$manifoldVersion")
-	for (String name : [ 'ext' /*, 'props', 'tuple' */ ]) {
-		annotationProcessor("systems.manifold:manifold-$name:$manifoldVersion")
-		implementation("systems.manifold:manifold-$name-rt:$manifoldVersion")
-		include("systems.manifold:manifold-$name-rt:$manifoldVersion")
-	}
+
+	annotationProcessor("systems.manifold:manifold-ext:$manifoldVersion")
+	include(implementation("systems.manifold:manifold-ext-rt:$manifoldVersion"))
+
 	include(implementation("systems.manifold:manifold-rt:$manifoldVersion"))
 	include(implementation("systems.manifold:manifold-util:$manifoldVersion"))
 

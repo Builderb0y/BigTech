@@ -6,7 +6,12 @@ import java.util.Map;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelModifier.OnLoad;
+import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.client.render.item.model.ItemModelTypes;
+import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.util.Identifier;
 
@@ -33,9 +38,12 @@ public class BigTechModels {
 	}
 
 	public static void init() {
-		ModelLoadingPlugin.register(pluginContext -> {
-			pluginContext.resolveModel().register(resolutionContext -> {
-				return LOOKUP.get(resolutionContext.id());
+		ItemModelTypes.ID_MAPPER.put(BigTechMod.modID("prism"), PrismItemModel.Unbaked.CODEC);
+		TintSourceTypes.ID_MAPPER.put(BigTechMod.modID("beam_interceptor"), BeamInterceptorTintSource.CODEC);
+		ModelLoadingPlugin.register((ModelLoadingPlugin.Context pluginContext) -> {
+			pluginContext.modifyModelOnLoad().register(ModelModifier.OVERRIDE_PHASE, (UnbakedModel model, OnLoad.Context context) -> {
+				if (model != null) return model;
+				return LOOKUP.get(context.id());
 			});
 		});
 	}

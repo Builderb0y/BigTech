@@ -1,0 +1,6 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "bigtech:block/redstone_transmitter_off"
+	}
+}

@@ -65,7 +65,7 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 		VoxelShape[] shapes = new VoxelShape[32];
 		DoubleBlockHalf[] halves = DoubleBlockHalf.values();
 		for (int index = 0; index < 32; index++) {
-			Direction facing = Direction.fromHorizontal(index >>> 3);
+			Direction facing = Direction.fromHorizontalQuarterTurns(index >>> 3);
 			DoubleBlockHalf half = halves[(index & 4) >>> 2];
 			boolean left  = (index & 2) != 0;
 			boolean right = (index & 1) != 0;
@@ -98,7 +98,7 @@ public class CatwalkStairsBlock extends Block implements Waterloggable, PistonIn
 	}
 
 	public static int getShapeIndex(BlockState state) {
-		int index = state.get(Properties.HORIZONTAL_FACING).getHorizontal() << 3;
+		int index = state.get(Properties.HORIZONTAL_FACING).getHorizontalQuarterTurns() << 3;
 		index |= state.get(Properties.DOUBLE_BLOCK_HALF).ordinal() << 2;
 		if (state.get(BigTechProperties.LEFT)) index |= 2;
 		if (state.get(BigTechProperties.RIGHT)) index |= 1;

@@ -76,6 +76,7 @@ public class BigTechBlocks {
 		Blocks.DARK_OAK_PLANKS,
 		Blocks.MANGROVE_PLANKS,
 		Blocks.CHERRY_PLANKS,
+		Blocks.PALE_OAK_PLANKS,
 		Blocks.CRIMSON_PLANKS,
 		Blocks.WARPED_PLANKS
 	);
@@ -147,7 +148,7 @@ public class BigTechBlocks {
 		ColorProviderRegistry.BLOCK.register(
 			(BlockState state, BlockRenderView world, BlockPos pos, int tintIndex) -> {
 				BeamInterceptorBlockEntity blockEntity;
-				if (tintIndex == 1 && world != null && pos != null && (blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class)) != null && blockEntity.color != null) {
+				if (tintIndex == 0 && world != null && pos != null && (blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class)) != null && blockEntity.color != null) {
 					return BeamSegment.packRgb(blockEntity.color) | 0xFF000000;
 				}
 				return -1;

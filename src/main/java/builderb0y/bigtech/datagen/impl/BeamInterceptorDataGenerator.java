@@ -1,5 +1,6 @@
 package builderb0y.bigtech.datagen.impl;
 
+import java.util.Map;
 import java.util.Objects;
 
 import net.minecraft.block.BlockState;
@@ -120,11 +121,11 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 						"from": [ 7, 7, 7 ],
 						"to":   [ 9, 9, 9 ],
 						"faces": {
-							"up":    { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
-							"north": { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
-							"south": { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
-							"east":  { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 },
-							"west":  { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 1 }
+							"up":    { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 0 },
+							"north": { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 0 },
+							"south": { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 0 },
+							"east":  { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 0 },
+							"west":  { "uv": [ 9, 7, 11, 9 ], "texture": "#detector", "tintindex": 0 }
 						}
 					}
 				]
@@ -169,8 +170,8 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 						"to":   [ 10, 10, 9 ],
 						"shade": false,
 						"faces": {
-							"north": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 1 },
-							"south": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 1 }
+							"north": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 0 },
+							"south": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 0 }
 						}
 					},
 					{
@@ -178,8 +179,8 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 						"to":   [ 9, 10, 10 ],
 						"shade": false,
 						"faces": {
-							"east": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 1 },
-							"west": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 1 }
+							"east": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 0 },
+							"west": { "uv": [ 12, 6, 16, 10 ], "texture": "#detector", "tintindex": 0 }
 						}
 					},
 					{
@@ -187,7 +188,7 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 						"to":   [ 9, 9, 9 ],
 						"shade": false,
 						"faces": {
-							"up": { "uv": [ 13, 7, 15, 9 ], "texture": "#detector", "tintindex": 1 }
+							"up": { "uv": [ 13, 7, 15, 9 ], "texture": "#detector", "tintindex": 0 }
 						}
 					}
 				]
@@ -198,6 +199,29 @@ public class BeamInterceptorDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public Identifier getItemModelParent(DataGenContext context) {
 		return context.suffixPath(this.getId(), "_off");
+	}
+
+	@Override
+	public void writeItemDefinitions(DataGenContext context) {
+		context.writeToFile(
+			context.itemDefinitionPath(this.getId()),
+			context.replace(
+				//language=json
+				"""
+				{
+					"model": {
+						"type": "minecraft:model",
+						"model": "%PATH",
+						"tints": [{
+							"type": "bigtech:beam_interceptor"
+						}]
+					}
+				}""",
+				Map.of(
+					"PATH", context.prefixPath("block/", this.getItemModelParent(context)).toString()
+				)
+			)
+		);
 	}
 
 	@Override

@@ -10,9 +10,9 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
+import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
-import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
+import net.fabricmc.fabric.api.renderer.v1.mesh.MutableMesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -35,7 +35,7 @@ import builderb0y.bigtech.util.Directions;
 public class BeamMeshBuilder {
 
 	public static final float r = 0.0625F - 1.0F / 1024.0F;
-	public static final Mesh EMPTY_MESH = RendererAccess.INSTANCE.getRenderer().meshBuilder().build();
+	public static final Mesh EMPTY_MESH = Renderer.get().mutableMesh().immutableCopy();
 	public static final EnumMap<BeamDirection, Extrusion[]> EXTRUSIONS = new EnumMap<>(BeamDirection.class);
 	static {
 		Point[] corners = computeCorners();
@@ -93,8 +93,8 @@ public class BeamMeshBuilder {
 	//	(meaning on a per-quad basis, not a per-vertex basis).
 	public static <T_Storage extends BasicSectionBeamStorage> Mesh build(T_Storage storage, AdjacentSegmentLoader<T_Storage> loader) {
 		if (!storage.isEmpty()) {
-			MeshBuilder builder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
-			QuadEmitter emitter = builder.getEmitter();
+			MutableMesh builder = Renderer.get().mutableMesh();
+			QuadEmitter emitter = builder.emitter();
 			EnumMap<BeamDirection, AdjacentColorAccumulator> directionToColor = new EnumMap<>(BeamDirection.class);
 			for (BeamDirection direction : BeamDirection.VALUES) {
 				directionToColor.put(direction, new AdjacentColorAccumulator());
@@ -243,7 +243,7 @@ public class BeamMeshBuilder {
 					);
 				}
 			}
-			return builder.build();
+			return builder.immutableCopy();
 		}
 		else {
 			return EMPTY_MESH;
