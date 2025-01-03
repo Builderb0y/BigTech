@@ -1,5 +1,4 @@
 {
-	"jmxl": true,
 	"parent": "bigtech:block/template_ascender",
 	"textures": {
 		"translucent": "bigtech:block/descender_translucent"

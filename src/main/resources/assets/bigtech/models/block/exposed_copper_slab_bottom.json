@@ -1,8 +1,8 @@
 {
 	"parent": "minecraft:block/slab",
 	"textures": {
-		"top":    "minecraft:block/exposed_copper",
 		"bottom": "minecraft:block/exposed_copper",
+		"top":    "minecraft:block/exposed_copper",
 		"side":   "bigtech:block/exposed_copper_slab"
 	}
 }

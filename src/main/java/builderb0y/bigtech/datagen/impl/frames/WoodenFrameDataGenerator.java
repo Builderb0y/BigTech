@@ -51,11 +51,6 @@ public class WoodenFrameDataGenerator extends FrameDataGenerator {
 	}
 
 	@Override
-	public void run(DataGenContext context) {
-		super.run(context);
-		this.genTextures(context);
-	}
-
 	public void genTextures(DataGenContext context) {
 		context.writeToFile(
 			context.blockTexturePath(context.suffixPath(this.getId(), "_outer")),
@@ -67,11 +62,8 @@ public class WoodenFrameDataGenerator extends FrameDataGenerator {
 			.fillGrayscaleNoise(0)
 			.blurConcentric(GAUSSIAN_BLUR_1, OOBHandler.THROW)
 			.mul(0.5F)
+			.hollowRegion(1, 1, 15, 15, 1)
 			.add(0.5F)
-			.hollowRegion(0, 0, 16, 16, 1)
-			.add(-0.5F)
-			.hollowRegion(2, 2, 14, 14, 1)
-			.add(-0.5F)
 			.hollowRegion(0, 0, 16, 16, 3)
 			.channels(RGB_CHANNELS)
 			.swizzle(RED_OFFSET, RED_OFFSET, RED_OFFSET, ALPHA_OFFSET)

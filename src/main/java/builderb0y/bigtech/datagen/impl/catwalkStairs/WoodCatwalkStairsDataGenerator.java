@@ -68,11 +68,6 @@ public class WoodCatwalkStairsDataGenerator extends CatwalkStairsDataGenerator {
 	}
 
 	@Override
-	public void run(DataGenContext context) {
-		super.run(context);
-		this.genTextures(context);
-	}
-
 	public void genTextures(DataGenContext context) {
 		context.writeToFile(
 			context.blockTexturePath(this.getId()),

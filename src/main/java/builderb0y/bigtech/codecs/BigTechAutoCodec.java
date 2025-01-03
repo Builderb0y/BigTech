@@ -23,10 +23,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 import builderb0y.autocodec.AutoCodec;
-import builderb0y.autocodec.coders.AutoCoder;
-import builderb0y.autocodec.coders.CoderFactoryList;
-import builderb0y.autocodec.coders.LookupCoderFactory;
-import builderb0y.autocodec.coders.PrimitiveCoders;
+import builderb0y.autocodec.coders.*;
 import builderb0y.autocodec.reflection.PseudoField;
 import builderb0y.autocodec.reflection.ReflectionManager;
 import builderb0y.autocodec.reflection.memberViews.FieldLikeMemberView;
@@ -46,6 +43,12 @@ public class BigTechAutoCodec {
 			return new CoderFactoryList(this) {
 
 				@Override
+				public void setup() {
+					super.setup();
+					this.addFactoryAfter(DefaultEmptyCoder.Factory.class, new ItemStackCoder.Factory());
+				}
+
+				@Override
 				public @NotNull AutoCoder.CoderFactory createLookupFactory() {
 					return new LookupCoderFactory() {
 
@@ -56,7 +59,6 @@ public class BigTechAutoCodec {
 							this.addRaw(AbstractBlock.Settings.class, autoCodec.wrapDFUCodec(AbstractBlock.Settings.CODEC));
 							this.addRaw(Block.class, autoCodec.wrapDFUCodec(Registries.BLOCK.getCodec()));
 							this.addRaw(Item.class, autoCodec.wrapDFUCodec(Registries.ITEM.getCodec()));
-							this.addRaw(ItemStack.class, autoCodec.wrapDFUCodec(ItemStack.CODEC));
 							this.addRaw(Ingredient.class, autoCodec.wrapDFUCodec(Ingredient.CODEC));
 							this.addRaw(NbtCompound.class, NbtAutoCoder.INSTANCE);
 							this.addGeneric(ReifiedType.parameterize(TagKey.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(TagKey.codec(RegistryKeys.BLOCK)));

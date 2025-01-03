@@ -112,6 +112,11 @@ public class BigTechBlockEntityTypes {
 		TechnoCrafterBlockEntity::new,
 		FunctionalBlocks.TECHNO_CRAFTER
 	);
+	public static final BlockEntityType<CrucibleBlockEntity> CRUCIBLE = register(
+		"crucible",
+		CrucibleBlockEntity::new,
+		FunctionalBlocks.CRUCIBLE
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), BlockEntityType_ConstructorAccess.bigtech_create(factory, Set.of(blocks)));
@@ -126,5 +131,6 @@ public class BigTechBlockEntityTypes {
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
 		BlockEntityRendererFactories.register(TESLA_COIL, TeslaCoilBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(CRUCIBLE, CrucibleBlockEntityRenderer::new);
 	}
 }

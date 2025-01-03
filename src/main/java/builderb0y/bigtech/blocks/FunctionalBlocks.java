@@ -8,6 +8,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
+import builderb0y.bigtech.datagen.impl.CrucibleDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
@@ -276,6 +277,18 @@ public class FunctionalBlocks {
 				: new OxidizableConductiveAnvilBlock(settings, type.level)
 			);
 		}
+	);
+	@UseDataGen(CrucibleDataGenerator.class)
+	public static final CrucibleBlock CRUCIBLE = register(
+		new CrucibleBlock(
+			copySettings(Blocks.CAULDRON, "crucible")
+		)
+	);
+	@UseDataGen(void.class)
+	public static final ArcFurnaceElectrodeBlock ARC_FURNACE_ELECTRODE = register(
+		new ArcFurnaceElectrodeBlock(
+			copySettings(Blocks.CAULDRON, "arc_furnace_electrode")
+		)
 	);
 
 	//////////////////////////////// lasers ////////////////////////////////

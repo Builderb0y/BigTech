@@ -25,7 +25,7 @@ public abstract class ProjectileEntity_MakeMagnetiteAttractable implements Magne
 
 	@Inject(method = "tick()V", at = @At("HEAD"))
 	private void bigtech_attractToMagnets(CallbackInfo callback) {
-		this.attractToNearbyMagnetiteBlocks(2.5D, false);
+		this.attractToNearbyMagnetiteBlocks(2.0D, false);
 	}
 
 	@Override

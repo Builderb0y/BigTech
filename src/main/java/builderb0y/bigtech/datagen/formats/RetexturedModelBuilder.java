@@ -1,6 +1,6 @@
 package builderb0y.bigtech.datagen.formats;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraft.util.Identifier;
@@ -11,13 +11,7 @@ import builderb0y.bigtech.datagen.tables.Table;
 public class RetexturedModelBuilder {
 
 	public String parent;
-	public Map<String, String> textures = new HashMap<>(4);
-	public boolean jmxl;
-
-	public RetexturedModelBuilder jmxl(boolean jmxl) {
-		this.jmxl = jmxl;
-		return this;
-	}
+	public Map<String, String> textures = new LinkedHashMap<>(4);
 
 	public RetexturedModelBuilder parent(String parent) {
 		this.parent = parent;
@@ -57,7 +51,6 @@ public class RetexturedModelBuilder {
 	public String toString() {
 		StringBuilder builder = new StringBuilder(256);
 		builder.append("{\n");
-		if (this.jmxl) builder.append("\t\"jmxl\": true,\n");
 		builder.append("\t\"parent\": \"").append(this.parent).append('"');
 		if (!this.textures.isEmpty()) {
 			builder.append(",\n\t\"textures\": {\n");

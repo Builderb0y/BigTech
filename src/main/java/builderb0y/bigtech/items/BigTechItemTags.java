@@ -60,7 +60,10 @@ public class BigTechItemTags {
 		REPAIRS_MAGNETITE_ARMOR   = of("repairs_magnetite_armor"),
 		MAGNETIC_ARMOR            = of("magnetic_armor"),
 		SHOCK_PROTECTIVE_ARMOR    = of("shock_protective_armor"),
-		COLORLESS_GLASS_MATERIALS = of("colorless_glass_materials");
+		COLORLESS_GLASS_MATERIALS = of("colorless_glass_materials"),
+		IRON_DOUBLEABLES          = of("iron_doubleables"),
+		COPPER_DOUBLEABLES        = of("copper_doubleables"),
+		GOLD_DOUBLEABLES          = of("gold_doubleables");
 
 	public static TagKey<Item> of(String name) {
 		return TagKey.of(RegistryKeys.ITEM, BigTechMod.modID(name));

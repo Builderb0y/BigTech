@@ -10,6 +10,7 @@ import builderb0y.bigtech.BigTechMod;
 public class BigTechRecipeTypes {
 
 	public static final RecipeType<TransmuteRecipe> TRANSMUTE = register("transmute");
+	public static final RecipeType<ArcFurnaceRecipe> ARC_FURNACE = register("arc_furnace");
 
 	public static void init() {}
 

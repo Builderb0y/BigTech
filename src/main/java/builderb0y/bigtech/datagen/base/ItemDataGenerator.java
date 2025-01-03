@@ -23,6 +23,7 @@ public interface ItemDataGenerator extends LocalizedDataGenerator {
 		this.writeItemModels(context);
 		this.setupOtherItemTags(context);
 		this.writeRecipes(context);
+		this.genTextures(context);
 	}
 
 	public abstract void writeItemDefinitions(DataGenContext context);
@@ -51,4 +52,6 @@ public interface ItemDataGenerator extends LocalizedDataGenerator {
 	public abstract void setupOtherItemTags(DataGenContext context);
 
 	public abstract void writeRecipes(DataGenContext context);
+
+	public abstract void genTextures(DataGenContext context);
 }

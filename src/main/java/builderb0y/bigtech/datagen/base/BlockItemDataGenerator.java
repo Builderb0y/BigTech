@@ -40,5 +40,7 @@ public interface BlockItemDataGenerator extends BlockDataGenerator, ItemDataGene
 		this.writeItemModels(context);
 		this.writeRecipes(context);
 		this.setupOtherItemTags(context);
+
+		this.genTextures(context);
 	}
 }

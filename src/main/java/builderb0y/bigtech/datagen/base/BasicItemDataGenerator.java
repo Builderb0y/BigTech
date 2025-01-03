@@ -44,4 +44,7 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 	public void writeItemDefinitions(DataGenContext context) {
 		this.writeDefaultItemDefinition(context, context.prefixPath("item/", this.getId()));
 	}
+
+	@Override
+	public void genTextures(DataGenContext context) {}
 }

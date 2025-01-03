@@ -1,0 +1,7 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [ "#bigtech:copper_doubleables" ],
+	"slow_cool_result": { "id": "minecraft:copper_ingot", "count": 2 },
+	"energy": 1000,
+	"cooling_rate": 10
+}

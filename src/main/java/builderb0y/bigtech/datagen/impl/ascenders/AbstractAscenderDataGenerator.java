@@ -22,7 +22,6 @@ public abstract class AbstractAscenderDataGenerator extends BasicBlockDataGenera
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.jmxl(true)
 			.blockParent(BigTechMod.modID("template_ascender"))
 			.blockTexture("translucent", translucentLayer)
 			.toString()

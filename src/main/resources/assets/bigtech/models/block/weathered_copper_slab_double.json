@@ -1,8 +1,8 @@
 {
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
-		"top":    "minecraft:block/weathered_copper",
 		"bottom": "minecraft:block/weathered_copper",
+		"top":    "minecraft:block/weathered_copper",
 		"side":   "bigtech:block/weathered_copper_slab"
 	}
 }

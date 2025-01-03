@@ -28,6 +28,7 @@ public interface BlockDataGenerator extends LocalizedDataGenerator {
 		this.setupMiningToolTags(context);
 		this.setupMiningLevelTags(context);
 		this.setupOtherBlockTags(context);
+		this.genTextures(context);
 	}
 
 	public abstract void writeBlockstateJson(DataGenContext context);
@@ -41,6 +42,8 @@ public interface BlockDataGenerator extends LocalizedDataGenerator {
 	public abstract void setupMiningLevelTags(DataGenContext context);
 
 	public abstract void setupOtherBlockTags(DataGenContext context);
+
+	public abstract void genTextures(DataGenContext context);
 
 	public static class MiningToolTags {
 

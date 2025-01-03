@@ -1,5 +1,7 @@
 package builderb0y.bigtech.datagen.impl;
 
+import java.util.Map;
+
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.tag.BiomeTags;
@@ -16,6 +18,45 @@ import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.worldgen.BigTechBiomeTags;
 
 public class VanillaTweaksDataGenerator implements DataGenerator {
+
+	//language=json
+	public static final String transforms = """
+	{
+		"parent": "%PARENT",
+		"gui_light": "side",
+		"display": {
+			"gui": {
+				"rotation":    [ 30,   225,     0     ],
+				"translation": [  0,     0,     0     ],
+				"scale":       [  0.625, 0.625, 0.625 ]
+			},
+			"ground": {
+				"rotation":    [ 0,    0,    0    ],
+				"translation": [ 0,    3,    0    ],
+				"scale":       [ 0.25, 0.25, 0.25 ]
+			},
+			"fixed": {
+				"rotation":    [ 0,   0,   0   ],
+				"translation": [ 0,   0,   0   ],
+				"scale":       [ 0.5, 0.5, 0.5 ]
+			},
+			"thirdperson_righthand": {
+				"rotation":    [ 75,    45,     0     ],
+				"translation": [  0,     2.5,   0     ],
+				"scale":       [  0.375, 0.375, 0.375 ]
+			},
+			"firstperson_righthand": {
+				"rotation":    [ 0,   45,    0    ],
+				"translation": [ 0,    0,    0    ],
+				"scale":       [ 0.40, 0.40, 0.40 ]
+			},
+			"firstperson_lefthand": {
+				"rotation":    [ 0,  225,    0    ],
+				"translation": [ 0,    0,    0    ],
+				"scale":       [ 0.40, 0.40, 0.40 ]
+			}
+		}
+	}""";
 
 	@Override
 	public void run(DataGenContext context) {
@@ -80,44 +121,11 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 		);
 		context.writeToFile(
 			context.itemModelPath(Identifier.ofVanilla("hopper")),
-			//language=json
-			"""
-			{
-				"parent": "minecraft:block/hopper",
-				"gui_light": "side",
-				"display": {
-					"gui": {
-						"rotation":    [ 30,   225,     0     ],
-						"translation": [  0,     0,     0     ],
-						"scale":       [  0.625, 0.625, 0.625 ]
-					},
-					"ground": {
-						"rotation":    [ 0,    0,    0    ],
-						"translation": [ 0,    3,    0    ],
-						"scale":       [ 0.25, 0.25, 0.25 ]
-					},
-					"fixed": {
-						"rotation":    [ 0,   0,   0   ],
-						"translation": [ 0,   0,   0   ],
-						"scale":       [ 0.5, 0.5, 0.5 ]
-					},
-					"thirdperson_righthand": {
-						"rotation":    [ 75,    45,     0     ],
-						"translation": [  0,     2.5,   0     ],
-						"scale":       [  0.375, 0.375, 0.375 ]
-					},
-					"firstperson_righthand": {
-						"rotation":    [ 0,   45,    0    ],
-						"translation": [ 0,    0,    0    ],
-						"scale":       [ 0.40, 0.40, 0.40 ]
-					},
-					"firstperson_lefthand": {
-						"rotation":    [ 0,  225,    0    ],
-						"translation": [ 0,    0,    0    ],
-						"scale":       [ 0.40, 0.40, 0.40 ]
-					}
-				}
-			}"""
+			context.replace(transforms, Map.of("PARENT", "minecraft:block/hopper"))
+		);
+		context.writeToFile(
+			context.itemModelPath(Identifier.ofVanilla("cauldron")),
+			context.replace(transforms, Map.of("PARENT", "minecraft:block/cauldron"))
 		);
 		context.getTags(BigTechBiomeTags.CRYSTAL_CLUSTER_SPAWNABLE).add(BiomeTags.IS_OVERWORLD);
 	}

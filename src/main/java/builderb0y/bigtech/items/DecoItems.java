@@ -23,10 +23,9 @@ import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.Cr
 import builderb0y.bigtech.registrableCollections.LedRegistrableCollection.LedColor;
 import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
-import static builderb0y.bigtech.items.BigTechItems.register;
-import static builderb0y.bigtech.items.BigTechItems.registerPlacer;
-import static builderb0y.bigtech.items.BigTechItems.settings;
+import static builderb0y.bigtech.items.BigTechItems.*;
 
+@SuppressWarnings("unused")
 public class DecoItems {
 
 	//////////////////////////////// frames ////////////////////////////////
@@ -44,7 +43,7 @@ public class DecoItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_FRAMES.get(type),
-			settings(type.copperPrefix + "frame")
+			settings(type.copperPrefix + "frame", true)
 		)
 	);
 	@UseDataGen(WoodenFrameDataGenerator.class)
@@ -52,7 +51,7 @@ public class DecoItems {
 		true,
 		(WoodRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.WOOD_FRAMES.get(type),
-			settings(type.prefix + "frame")
+			settings(type.prefix + "frame", true)
 		)
 	);
 
@@ -67,7 +66,7 @@ public class DecoItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_CATWALK_PLATFORMS.get(type),
-			settings(type.copperPrefix + "catwalk_platform")
+			settings(type.copperPrefix + "catwalk_platform", true)
 		)
 	);
 	@UseDataGen(WoodCatwalkPlatformDataGenerator.class)
@@ -75,7 +74,7 @@ public class DecoItems {
 		true,
 		(WoodRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.WOOD_CATWALK_PLATFORMS.get(type),
-			settings(type.prefix + "catwalk_platform")
+			settings(type.prefix + "catwalk_platform", true)
 		)
 	);
 
@@ -85,7 +84,7 @@ public class DecoItems {
 	public static final CatwalkStairsBlockItem IRON_CATWALK_STAIRS = register(
 		new CatwalkStairsBlockItem(
 			DecoBlocks.IRON_CATWALK_STAIRS,
-			settings("iron_catwalk_stairs")
+			settings("iron_catwalk_stairs", true)
 		)
 	);
 	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
@@ -93,7 +92,7 @@ public class DecoItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.COPPER_CATWALK_STAIRS.get(type),
-			settings(type.copperPrefix + "catwalk_stairs")
+			settings(type.copperPrefix + "catwalk_stairs", true)
 		)
 	);
 	@UseDataGen(WoodCatwalkStairsDataGenerator.class)
@@ -101,7 +100,7 @@ public class DecoItems {
 		true,
 		(WoodRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.WOOD_CATWALK_STAIRS.get(type),
-			settings(type.prefix + "catwalk_stairs")
+			settings(type.prefix + "catwalk_stairs", true)
 		)
 	);
 
@@ -116,7 +115,7 @@ public class DecoItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_LADDERS.get(type),
-			settings(type.copperPrefix + "ladder")
+			settings(type.copperPrefix + "ladder", true)
 		)
 	);
 	@UseDataGen(CopperBarsDataGenerator.class)
@@ -124,7 +123,7 @@ public class DecoItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_BARS.get(type),
-			settings(type.copperPrefix + "bars")
+			settings(type.copperPrefix + "bars", true)
 		)
 	);
 	@UseDataGen(CopperSlabDataGenerator.class)
@@ -132,7 +131,7 @@ public class DecoItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			DecoBlocks.COPPER_SLABS.get(type),
-			settings(type.copperPrefix + "slab")
+			settings(type.copperPrefix + "slab", true)
 		)
 	);
 	@UseDataGen(SmoothObsidianDataGenerator.class)
@@ -144,7 +143,7 @@ public class DecoItems {
 		true,
 		(LedColor color) -> new BlockItem(
 			DecoBlocks.LEDS.get(color),
-			settings(color.prefix + "led")
+			settings(color.prefix + "led", true)
 		)
 	);
 	@UseDataGen(CrystalLampDataGenerator.class)
@@ -152,7 +151,7 @@ public class DecoItems {
 		true,
 		(CrystalColor color) -> new BlockItem(
 			DecoBlocks.CRYSTAL_LAMPS.get(color),
-			settings(color.prefix + "crystal_lamp")
+			settings(color.prefix + "crystal_lamp", true)
 		)
 	);
 

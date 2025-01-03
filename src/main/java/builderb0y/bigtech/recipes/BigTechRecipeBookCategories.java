@@ -8,7 +8,17 @@ import builderb0y.bigtech.BigTechMod;
 
 public class BigTechRecipeBookCategories {
 
-	public static final RecipeBookCategory TRANSMUTING = Registry.register(Registries.RECIPE_BOOK_CATEGORY, BigTechMod.modID("transmuting"), new RecipeBookCategory());
+	public static final RecipeBookCategory
+		TRANSMUTING = register("transmuting"),
+		ARC_FURNACE = register("arc_furnace");
+
+	public static RecipeBookCategory register(String name) {
+		return Registry.register(
+			Registries.RECIPE_BOOK_CATEGORY,
+			BigTechMod.modID(name),
+			new RecipeBookCategory()
+		);
+	}
 
 	public static void init() {}
 }

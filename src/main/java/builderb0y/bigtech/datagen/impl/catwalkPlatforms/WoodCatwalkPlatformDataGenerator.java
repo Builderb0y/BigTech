@@ -78,11 +78,6 @@ public class WoodCatwalkPlatformDataGenerator extends CatwalkPlatformDataGenerat
 	}
 
 	@Override
-	public void run(DataGenContext context) {
-		super.run(context);
-		this.genTextures(context);
-	}
-
 	public void genTextures(DataGenContext context) {
 		context.writeToFile(
 			context.blockTexturePath(context.suffixPath(this.getId(), "_rail")),

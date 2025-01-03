@@ -5,16 +5,20 @@ import builderb0y.bigtech.registrableCollections.WoodRegistrableCollection;
 
 public class WoodColors {
 
-	public static float red(int rgb) {
-		return (rgb >>> 16) / 255.0F;
+	public static float red(int argb) {
+		return ((argb >>> 16) & 255) / 255.0F;
 	}
 
-	public static float green(int rgb) {
-		return ((rgb >>> 8) & 255) / 255.0F;
+	public static float green(int argb) {
+		return ((argb >>> 8) & 255) / 255.0F;
 	}
 
-	public static float blue(int rgb) {
-		return (rgb & 255) / 255.0F;
+	public static float blue(int argb) {
+		return (argb & 255) / 255.0F;
+	}
+
+	public static float alpha(int argb) {
+		return (argb >>> 24) / 255.0F;
 	}
 
 	public static int getBrightestColor(WoodRegistrableCollection.Type type) {

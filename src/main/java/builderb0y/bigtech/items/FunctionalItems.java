@@ -30,10 +30,9 @@ import builderb0y.bigtech.datagen.impl.technoCrafters.TechnoCrafterDataGenerator
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
-import static builderb0y.bigtech.items.BigTechItems.register;
-import static builderb0y.bigtech.items.BigTechItems.registerPlacer;
-import static builderb0y.bigtech.items.BigTechItems.settings;
+import static builderb0y.bigtech.items.BigTechItems.*;
 
+@SuppressWarnings("unused")
 public class FunctionalItems {
 
 	//////////////////////////////// belts ////////////////////////////////
@@ -85,14 +84,14 @@ public class FunctionalItems {
 	public static final AscenderBlockItem ASCENDER = register(
 		new AscenderBlockItem(
 			FunctionalBlocks.ASCENDER,
-			settings("ascender")
+			settings("ascender", true)
 		)
 	);
 	@UseDataGen(DescenderDataGenerator.class)
 	public static final AscenderBlockItem DESCENDER = register(
 		new AscenderBlockItem(
 			FunctionalBlocks.DESCENDER,
-			settings("descender")
+			settings("descender", true)
 		)
 	);
 
@@ -163,16 +162,16 @@ public class FunctionalItems {
 	);
 	@UseDataGen(LightningElectrodeDataGenerator.class)
 	public static final Item LIGHTNING_ELECTRODE = register(
-		new Item(settings("lightning_electrode"))
+		new Item(settings("lightning_electrode", false))
 	);
 	@UseDataGen(QuadLightningElectrodeDataGenerator.class)
 	public static final Item QUAD_LIGHTNING_ELECTRODE = register(
-		new Item(settings("quad_lightning_electrode"))
+		new Item(settings("quad_lightning_electrode", false))
 	);
 	@UseDataGen(LightningBatteryDataGenerator.class)
 	public static final LightningBatteryItem LIGHTNING_BATTERY = register(
 		new LightningBatteryItem(
-			settings("lightning_battery")
+			settings("lightning_battery", false)
 			.component(BigTechDataComponents.LIGHTNING_CAPACITY, 1000)
 			.component(BigTechDataComponents.LIGHTNING_ENERGY, 0)
 		)
@@ -198,8 +197,12 @@ public class FunctionalItems {
 		true,
 		(CopperRegistrableCollection.Type type) -> new BlockItem(
 			FunctionalBlocks.CONDUCTIVE_ANVILS.get(type),
-			settings(type.noCopperPrefix + "conductive_anvil")
+			settings(type.noCopperPrefix + "conductive_anvil", true)
 		)
+	);
+	@UseDataGen(ArcFurnaceElectrodeDataGenerator.class)
+	public static final BlockItem ARC_FURNACE_ELECTRODE = registerPlacer(
+		FunctionalBlocks.ARC_FURNACE_ELECTRODE
 	);
 
 	//////////////////////////////// lasers ////////////////////////////////
@@ -220,7 +223,7 @@ public class FunctionalItems {
 	public static final BlockItem BEAM_INTERCEPTOR = register(
 		new ClientNbtCopyingBlockItem(
 			FunctionalBlocks.BEAM_INTERCEPTOR,
-			settings("beam_interceptor")
+			settings("beam_interceptor", true)
 		)
 	);
 	@UseDataGen(TripwireDataGenerator.class)
@@ -259,12 +262,12 @@ public class FunctionalItems {
 	public static final BlockItem PRISM = register(
 		new ClientNbtCopyingBlockItem(
 			FunctionalBlocks.PRISM,
-			settings("prism")
+			settings("prism", true)
 		)
 	);
 	@UseDataGen(LensDataGenerator.class)
 	public static final Item LENS = register(
-		new Item(settings("lens"))
+		new Item(settings("lens", false))
 	);
 	@UseDataGen(PhaseScramblerDataGenerator.class)
 	public static final BlockItem PHASE_SCRAMBLER = registerPlacer(
@@ -282,12 +285,12 @@ public class FunctionalItems {
 		true,
 		(CrystalColor color) -> new BlockItem(
 			FunctionalBlocks.CRYSTAl_ClUSTERS.get(color),
-			settings(color.prefix + "crystal_cluster")
+			settings(color.prefix + "crystal_cluster", true)
 		)
 	);
 	@UseDataGen(CrystalDebrisDataGenerator.class)
 	public static final Item CRYSTAL_DEBRIS = register(
-		new Item(settings("crystal_debris"))
+		new Item(settings("crystal_debris", false))
 	);
 	@UseDataGen(CrystallineSandDataGenerator.class)
 	public static final BlockItem CRYSTALLINE_SAND = registerPlacer(
@@ -298,11 +301,11 @@ public class FunctionalItems {
 
 	@UseDataGen(MagnetiteNuggetDataGenerator.class)
 	public static final Item MAGNETITE_NUGGET = register(
-		new Item(settings("magnetite_nugget"))
+		new Item(settings("magnetite_nugget", false))
 	);
 	@UseDataGen(MagnetiteIngotDataGenerator.class)
 	public static final Item MAGNETITE_INGOT = register(
-		new Item(settings("magnetite_ingot"))
+		new Item(settings("magnetite_ingot", false))
 	);
 	@UseDataGen(MagnetiteBlockDataGenerator.class)
 	public static final BlockItem MAGNETITE_BLOCK = registerPlacer(
@@ -313,7 +316,7 @@ public class FunctionalItems {
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
 			EquipmentType.HELMET,
-			settings("magnetite_helmet")
+			settings("magnetite_helmet", false)
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Chestplate.class)
@@ -321,7 +324,7 @@ public class FunctionalItems {
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
 			EquipmentType.CHESTPLATE,
-			settings("magnetite_chestplate")
+			settings("magnetite_chestplate", false)
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Leggings.class)
@@ -329,7 +332,7 @@ public class FunctionalItems {
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
 			EquipmentType.LEGGINGS,
-			settings("magnetite_leggings")
+			settings("magnetite_leggings", false)
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Boots.class)
@@ -337,12 +340,12 @@ public class FunctionalItems {
 		new ArmorItem(
 			MagnetiteArmorMaterial.INSTANCE,
 			EquipmentType.BOOTS,
-			settings("magnetite_boots")
+			settings("magnetite_boots", false)
 		)
 	);
 	@UseDataGen(CopperNuggetDataGenerator.class)
 	public static final Item COPPER_NUGGET = register(
-		new Item(settings("copper_nugget"))
+		new Item(settings("copper_nugget", false))
 	);
 	@UseDataGen(MediumWeightedPressurePlateDataGenerator.class)
 	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = registerPlacer(
@@ -350,7 +353,7 @@ public class FunctionalItems {
 	);
 	@UseDataGen(MinerToolDataGenerator.class)
 	public static final Item MINER_TOOL = register(
-		new MinerToolItem(settings("miner_tool"))
+		new MinerToolItem(settings("miner_tool", false))
 	);
 	@UseDataGen(StoneCraftingTableDataGenerator.class)
 	public static final BlockItem STONE_CRAFTING_TABLE = registerPlacer(
@@ -362,16 +365,16 @@ public class FunctionalItems {
 	);
 	@UseDataGen(PortableTechnoCrafterDataGenerator.class)
 	public static final PortableTechnoCrafterItem PORTABLE_TECHNO_CRAFTER = register(
-		new PortableTechnoCrafterItem(settings("portable_techno_crafter").maxCount(1))
+		new PortableTechnoCrafterItem(settings("portable_techno_crafter", false).maxCount(1))
 	);
 	@UseDataGen(MagneticArrowDataGenerator.class)
 	public static final MagneticArrowItem MAGNETIC_ARROW = register(
-		new MagneticArrowItem(settings("magnetic_arrow"))
+		new MagneticArrowItem(settings("magnetic_arrow", false))
 	);
 	@UseDataGen(DislocatorDataGenerator.class)
 	public static final DislocatorItem DISLOCATOR = register(
 		new DislocatorItem(
-			settings("dislocator").maxDamage(64).enchantable(15)
+			settings("dislocator", false).maxDamage(64).enchantable(15)
 		)
 	);
 
@@ -387,6 +390,6 @@ public class FunctionalItems {
 
 	public static BeltBlockItem registerBelt(Block block) {
 		Identifier id = Registries.BLOCK.getId(block);
-		return register(id, new BeltBlockItem(block, settings(id)));
+		return register(id, new BeltBlockItem(block, settings(id, true)));
 	}
 }

@@ -10,6 +10,22 @@ where I left off:
 things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
 	JEI support for transmuter (recipe lookup).
+	arc furnace:
+		more recipes:
+			sand -> silicon
+				used for redstone logic gates.
+			iron + quick cool -> cast iron
+				can be made into blocks and slabs.
+				used for making tesla coil and lightning transmitters.
+				also magnets?
+			iron + coal -> steel
+				steel anvil: never breaks.
+			iron + redstone -> redstone ingot?
+	magnet expansion:
+		attracting and repelling magnet variants.
+		directional magnet (need better name).
+			moves entities in a specific direction.
+		electromagnets (toggleable by redstone).
 
 compatibility:
 
@@ -22,15 +38,18 @@ testing:
 
 features:
 	general:
+		chunk loader.
+	materials:
+		silver?
+			mirrors.
+			silver iodide cannon.
+			electrum.
+				electrum lightning cables.
 	decoration:
 		fancier 3D models for things.
 			more vanilla stuff?
 				beacons?
-				cauldrons (inventory)
 				brewing stands (inventory)
-		cast iron.
-			can be made into blocks and slabs.
-			used for making tesla coil and lightning transmitters.
 	transport:
 		hoppers:
 			copper hopper: ??? maybe filterable somehow?
@@ -47,18 +66,19 @@ features:
 	automation:
 		XP storage device: not sure about the details yet.
 	machines:
-		arc furnace:
-			vanilla cauldron stores items.
-				maybe for simplicity it'd be better to have a "crucible"
-				block crafted with nether quartz instead of iron.
-				might also want an electrode block placed on top of the cauldron/crucible.
-			upon lightning pulse, melt the items.
-			items slowly cool over the course of 15 seconds.
-			after cooling, items can be extracted via a hopper.
+		pump?
+	redstone:
+		logic gate crafting table.
+			crafted with silicon plates.
+			uses silicon plates and redstone to make logic gates.
+			powered by firing a redstone transmitter downwards at it.
 	tools:
 		snow cannon: shoots snowballs every tick while you hold down right click
 		rail gun: shoots nuggets fast and accurately compared to bows and arrows. consumes power from lightning electrodes.
 		power tools: can mine multiple blocks? kind of similar to the destroyer?
+		nightvision goggles.
+		infrared goggles?
+		glowing goggles?
 
 done:
 	lightning power:

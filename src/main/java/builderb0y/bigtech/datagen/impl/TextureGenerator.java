@@ -29,9 +29,9 @@ public class TextureGenerator implements Cloneable {
 		GREEN_OFFSET  = 1,
 		BLUE_OFFSET   = 2,
 		ALPHA_OFFSET  = 3,
-		RED_CHANNEL   = 1 << RED_OFFSET,
+		RED_CHANNEL   = 1 <<   RED_OFFSET,
 		GREEN_CHANNEL = 1 << GREEN_OFFSET,
-		BLUE_CHANNEL  = 1 << BLUE_OFFSET,
+		BLUE_CHANNEL  = 1 <<  BLUE_OFFSET,
 		ALPHA_CHANNEL = 1 << ALPHA_OFFSET,
 		RGB_CHANNELS  = RED_CHANNEL  | GREEN_CHANNEL | BLUE_CHANNEL,
 		RGBA_CHANNELS = RGB_CHANNELS | ALPHA_CHANNEL ;
@@ -445,15 +445,28 @@ public class TextureGenerator implements Cloneable {
 			return (int x, int y, int channel, float oldValue) -> oldValue * texture.pixels[baseIndex(x, y) | channel];
 		}
 
+		public static ChannelProcessor lerp(int argb0, int argb1) {
+			return lerp(
+				WoodColors.red(argb0),
+				WoodColors.green(argb0),
+				WoodColors.blue(argb0),
+				WoodColors.alpha(argb0),
+				WoodColors.red(argb1),
+				WoodColors.green(argb1),
+				WoodColors.blue(argb1),
+				WoodColors.alpha(argb1)
+			);
+		}
+
 		public static ChannelProcessor lerp(
-			float r1, float g1, float b1, float a1,
-			float r2, float g2, float b2, float a2
+			float r0, float g0, float b0, float a0,
+			float r1, float g1, float b1, float a1
 		) {
 			return (int x, int y, int channel, float oldValue) -> {
 				return MathHelper.lerp(
 					oldValue,
-					select(channel, r1, g1, b1, a1),
-					select(channel, r2, g2, b2, a2)
+					select(channel, r0, g0, b0, a0),
+					select(channel, r1, g1, b1, a1)
 				);
 			};
 		}

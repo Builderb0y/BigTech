@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		" c ",
+		"cic",
+		"iri"
+	],
+	"key": {
+		"c": "#bigtech:lightning_cables",
+		"i": "#c:ingots/iron"           ,
+		"r": "minecraft:blaze_rod"      
+	},
+	"result": {
+		"id": "bigtech:arc_furnace_electrode"
+	}
+}
