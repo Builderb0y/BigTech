@@ -7,6 +7,8 @@ import net.minecraft.item.BlockItem;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
+import builderb0y.bigtech.items.BigTechItemTags;
+import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.items.FunctionalItems;
 
 public class TechnoCrafterDataGenerator extends BasicBlockDataGenerator {
@@ -67,7 +69,7 @@ public class TechnoCrafterDataGenerator extends BasicBlockDataGenerator {
 			.pattern("trt", "rir", "rcr")
 			.where('t', FunctionalItems.STONE_CRAFTING_TABLE)
 			.where('r', ConventionalItemTags.REDSTONE_DUSTS)
-			.where('i', ConventionalItemTags.STORAGE_BLOCKS_IRON)
+			.where('i', DecoItems.IRON_FRAME)
 			.where('c', ConventionalItemTags.CHESTS)
 			.result(this.getId())
 			.toString()

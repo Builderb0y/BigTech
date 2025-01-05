@@ -299,6 +299,14 @@ public class FunctionalItems {
 
 	//////////////////////////////// misc ////////////////////////////////
 
+	@UseDataGen(CastIronIngotDataGenerator.class)
+	public static final Item CAST_IRON_INGOT = register(
+		new Item(settings("cast_iron_ingot", false))
+	);
+	@UseDataGen(CastIronBlockDataGenerator.class)
+	public static final BlockItem CAST_IRON_BLOCK = registerPlacer(
+		FunctionalBlocks.CAST_IRON_BLOCK
+	);
 	@UseDataGen(MagnetiteNuggetDataGenerator.class)
 	public static final Item MAGNETITE_NUGGET = register(
 		new Item(settings("magnetite_nugget", false))

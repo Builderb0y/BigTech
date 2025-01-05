@@ -151,6 +151,20 @@ public class CrucibleBlock extends BlockWithEntity implements FluidFillable {
 	}
 
 	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		CrucibleBlockEntity crucible = WorldHelper.getBlockEntity(world, pos, CrucibleBlockEntity.class);
+		if (crucible != null) {
+			return crucible.getComparatorOutput();
+		}
+		return 0;
+	}
+
+	@Override
 	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new CrucibleBlockEntity(pos, state);
 	}

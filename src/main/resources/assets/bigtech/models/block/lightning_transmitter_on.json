@@ -1,7 +1,7 @@
 {
 	"parent": "bigtech:block/beam_emitter_base_transforms",
 	"textures": {
-		"base_bottom": "bigtech:block/lightning_transmitter_base_bottom",
+		"base_bottom": "bigtech:block/cast_iron_block",
 		"base_side":   "bigtech:block/lightning_transmitter_base_side",
 		"body_top":    "bigtech:block/lightning_transmitter_side",
 		"body_front":  "bigtech:block/lightning_transmitter_front",

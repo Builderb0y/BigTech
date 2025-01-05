@@ -2,6 +2,8 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.List;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 
@@ -45,7 +47,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 		context.getTags(BigTechItemTags .WAXED_COPPER_SLABS       ).addAll(DecoItems.COPPER_SLABS.waxed_copper,   DecoItems.COPPER_SLABS.waxed_exposed_copper,  DecoItems.COPPER_SLABS.waxed_weathered_copper,  DecoItems.COPPER_SLABS.waxed_oxidized_copper);
 
 		context.getTags(BigTechBlockTags.CONDUCTS_LIGHTNING).addAll(List.of(
-			new TagOrItem(Blocks.IRON_BLOCK),
+			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_IRON),
 			new TagOrItem(Blocks.IRON_BARS),
 			new TagOrItem(Blocks.IRON_DOOR),
 			new TagOrItem(Blocks.IRON_TRAPDOOR),
@@ -53,17 +55,18 @@ public class CommonLightningDataGenerator implements DataGenerator {
 			new TagOrItem(Blocks.CHIPPED_ANVIL),
 			new TagOrItem(Blocks.DAMAGED_ANVIL),
 			new TagOrItem(Blocks.CHAIN),
-			new TagOrItem(Blocks.GOLD_BLOCK),
+			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_GOLD),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_BLOCKS),
 			new TagOrItem(BigTechBlockTags.WAXED_CUT_COPPER_BLOCKS),
 			new TagOrItem(BigTechBlockTags.WAXED_CUT_COPPER_STAIRS),
 			new TagOrItem(BigTechBlockTags.WAXED_CUT_COPPER_SLABS),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_BARS),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_SLABS),
-			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
+			new TagOrItem(BigTechBlockTags.METAL_FRAMES),
+			new TagOrItem(BigTechBlockTags.MAGNETITE_BLOCKS)
 		));
 		context.getTags(BigTechBlockTags.SHOCKS_ENTITIES).addAll(List.of(
-			new TagOrItem(Blocks.IRON_BLOCK),
+			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_IRON),
 			new TagOrItem(Blocks.IRON_BARS),
 			new TagOrItem(Blocks.IRON_DOOR),
 			new TagOrItem(Blocks.IRON_TRAPDOOR),
@@ -71,14 +74,15 @@ public class CommonLightningDataGenerator implements DataGenerator {
 			new TagOrItem(Blocks.CHIPPED_ANVIL),
 			new TagOrItem(Blocks.DAMAGED_ANVIL),
 			new TagOrItem(Blocks.CHAIN),
-			new TagOrItem(Blocks.GOLD_BLOCK),
+			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_GOLD),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_BLOCKS),
 			new TagOrItem(BigTechBlockTags.WAXED_CUT_COPPER_BLOCKS),
 			new TagOrItem(BigTechBlockTags.WAXED_CUT_COPPER_STAIRS),
 			new TagOrItem(BigTechBlockTags.WAXED_CUT_COPPER_SLABS),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_BARS),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_SLABS),
-			new TagOrItem(BigTechBlockTags.METAL_FRAMES)
+			new TagOrItem(BigTechBlockTags.METAL_FRAMES),
+			new TagOrItem(BigTechBlockTags.MAGNETITE_BLOCKS)
 		));
 		context.writeToFile(
 			context.blockModelPath(BigTechMod.modID("template_lightning_cable_center")),

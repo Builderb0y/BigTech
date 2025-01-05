@@ -466,6 +466,12 @@ public class FunctionalBlocks {
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(void.class)
+	public static final Block CAST_IRON_BLOCK = register(
+		new Block(
+			copySettings(Blocks.IRON_BLOCK, "cast_iron_block")
+		)
+	);
+	@UseDataGen(void.class)
 	public static final MagnetiteBlock MAGNETITE_BLOCK = register(
 		new MagnetiteBlock(
 			copySettings(Blocks.IRON_BLOCK, "magnetite_block")

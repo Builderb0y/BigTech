@@ -1,0 +1,8 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [ "#c:storage_blocks/iron" ],
+	"slow_cool_result": { "id": "minecraft:iron_block" },
+	"fast_cool_result": { "id": "bigtech:cast_iron_block" },
+	"energy": 4000,
+	"cooling_rate": 10
+}

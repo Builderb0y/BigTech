@@ -22,7 +22,34 @@ public class ArcFurnaceRecipesDataGenerator implements DataGenerator {
 				"type": "bigtech:arc_furnace",
 				"inputs": [ "#bigtech:iron_doubleables" ],
 				"slow_cool_result": { "id": "minecraft:iron_ingot", "count": 2 },
+				"fast_cool_result": { "id": "bigtech:cast_iron_ingot", "count": 2 },
 				"energy": 1000,
+				"cooling_rate": 10
+			}"""
+		);
+		context.writeToFile(
+			context.recipePath(BigTechMod.modID("iron_ingot_conversion")),
+			//language=json
+			"""
+			{
+				"type": "bigtech:arc_furnace",
+				"inputs": [ "#c:ingots/iron" ],
+				"slow_cool_result": { "id": "minecraft:iron_ingot" },
+				"fast_cool_result": { "id": "bigtech:cast_iron_ingot" },
+				"energy": 500,
+				"cooling_rate": 10
+			}"""
+		);
+		context.writeToFile(
+			context.recipePath(BigTechMod.modID("iron_block_conversion")),
+			//language=json
+			"""
+			{
+				"type": "bigtech:arc_furnace",
+				"inputs": [ "#c:storage_blocks/iron" ],
+				"slow_cool_result": { "id": "minecraft:iron_block" },
+				"fast_cool_result": { "id": "bigtech:cast_iron_block" },
+				"energy": 4000,
 				"cooling_rate": 10
 			}"""
 		);

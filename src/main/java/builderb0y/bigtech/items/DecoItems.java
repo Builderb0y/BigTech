@@ -1,7 +1,6 @@
 package builderb0y.bigtech.items;
 
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 
 import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.datagen.base.UseDataGen;

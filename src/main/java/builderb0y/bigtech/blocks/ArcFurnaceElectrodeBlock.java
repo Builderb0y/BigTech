@@ -135,7 +135,13 @@ public class ArcFurnaceElectrodeBlock extends Block implements LightningPulseInt
 
 	@Override
 	public boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
-		return false;
+		Direction forward = state.get(Properties.HORIZONTAL_FACING);
+		return side == Direction.UP || side == forward.rotateYClockwise() || side == forward.rotateYCounterclockwise();
+	}
+
+	@Override
+	public void spreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+		this.forceSpreadOut(world, pos, state, pulse);
 	}
 
 	@Override

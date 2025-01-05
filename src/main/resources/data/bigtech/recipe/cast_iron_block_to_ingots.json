@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"b"
+	],
+	"key": {
+		"b": "bigtech:cast_iron_ingot"
+	},
+	"result": {
+		"id": "bigtech:cast_iron_ingot",
+		"count": 9
+	}
+}

@@ -8,7 +8,7 @@
 	"key": {
 		"t": "bigtech:stone_crafting_table",
 		"r": "#c:dusts/redstone"           ,
-		"i": "#c:storage_blocks/iron"      ,
+		"i": "bigtech:iron_frame"          ,
 		"c": "#c:chests"                   
 	},
 	"result": {

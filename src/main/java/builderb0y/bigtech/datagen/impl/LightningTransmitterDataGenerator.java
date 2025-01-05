@@ -3,7 +3,6 @@ package builderb0y.bigtech.datagen.impl;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Items;
 
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
@@ -25,7 +24,7 @@ public class LightningTransmitterDataGenerator extends RedstoneTransceiverDataGe
 			{
 				"parent": "bigtech:block/beam_emitter_base_transforms",
 				"textures": {
-					"base_bottom": "bigtech:block/lightning_transmitter_base_bottom",
+					"base_bottom": "bigtech:block/cast_iron_block",
 					"base_side":   "bigtech:block/lightning_transmitter_base_side",
 					"body_top":    "bigtech:block/lightning_transmitter_side",
 					"body_front":  "bigtech:block/lightning_transmitter_front",
@@ -119,7 +118,7 @@ public class LightningTransmitterDataGenerator extends RedstoneTransceiverDataGe
 			{
 				"parent": "bigtech:block/beam_emitter_base_transforms",
 				"textures": {
-					"base_bottom": "bigtech:block/lightning_transmitter_base_bottom",
+					"base_bottom": "bigtech:block/cast_iron_block",
 					"base_side":   "bigtech:block/lightning_transmitter_base_side",
 					"body_top":    "bigtech:block/lightning_transmitter_side",
 					"body_front":  "bigtech:block/lightning_transmitter_front",

@@ -63,7 +63,7 @@ dependencies() {
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.2.0'))
 
 	//manifold.
-	String manifoldVersion = '2024.1.43'
+	String manifoldVersion = '2024.1.45'
 	annotationProcessor("systems.manifold:manifold-strings:$manifoldVersion")
 
 	annotationProcessor("systems.manifold:manifold-ext:$manifoldVersion")

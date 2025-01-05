@@ -140,7 +140,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 	public ItemStack removeItem() {
 		if (this.progress == null) {
-			for (int slot = 0; slot < this.size(); slot++) {
+			for (int slot = this.size(); --slot >= 0;) {
 				ItemStack taken = this.stacks.get(slot);
 				if (!taken.isEmpty()) {
 					this.stacks.set(slot, ItemStack.EMPTY);
@@ -169,14 +169,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction side) {
-		if (this.world instanceof ServerWorld serverWorld) {
-			for (RecipeEntry<ArcFurnaceRecipe> entry : serverWorld.getRecipeManager().<ServerRecipeManager_PreparedRecipesAccess>as().bigtech_getPreparedRecipes().getAll(BigTechRecipeTypes.ARC_FURNACE)) {
-				if (ItemStack.areItemsAndComponentsEqual(stack, entry.value().slow_cool_result) || ItemStack.areItemsAndComponentsEqual(stack, entry.value().fast_cool_result)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return this.progress == null;
 	}
 
 	@Override
@@ -204,6 +197,10 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 			if (!this.stacks.get(slot).isEmpty()) count++;
 		}
 		return count;
+	}
+
+	public int getComparatorOutput() {
+		return this.countItems();
 	}
 
 	@Override
@@ -265,6 +262,9 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 		if (nbt.get("progress") instanceof NbtCompound compound) {
 			this.progress = CrucibleProgress.fromNbt(compound, registries);
 		}
+		else {
+			this.progress = null;
+		}
 	}
 
 	@Override
@@ -275,14 +275,9 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 	}
 
 	public Storage<FluidVariant> fluidStorage(ServerWorld serverWorld) {
-		if (this.progress != null) {
-			return new CrucibleFluidStorage(
-				new HeatSnapshot(serverWorld, this, this.progress)
-			);
-		}
-		else {
-			return Storage.empty();
-		}
+		return new CrucibleFluidStorage(
+			new HeatSnapshot(serverWorld, this)
+		);
 	}
 
 	public static class HeatSnapshot extends SnapshotParticipant<Integer> {
@@ -292,11 +287,11 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 		public final CrucibleProgress progress;
 		public int heat;
 
-		public HeatSnapshot(ServerWorld serverWorld, CrucibleBlockEntity crucible, CrucibleProgress progress) {
+		public HeatSnapshot(ServerWorld serverWorld, CrucibleBlockEntity crucible) {
 			this.serverWorld = serverWorld;
 			this.crucible = crucible;
-			this.progress = progress;
-			this.heat = progress.heat;
+			this.progress = crucible.progress;
+			if (this.progress != null) this.heat = this.progress.heat;
 		}
 
 		public void setHeat(TransactionContext transaction, int heat) {
@@ -324,14 +319,17 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 		@Override
 		public void onFinalCommit() {
+			if (this.progress == null) return;
 			if (this.heat < this.progress.heat) {
 				this.serverWorld.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, this.crucible.pos, 0);
 			}
+			this.progress.heat = this.heat;
 			if (this.heat == 0) {
 				this.crucible.craft(this.serverWorld, true);
 			}
-			this.progress.heat = this.heat;
-			this.crucible.markDirty();
+			else {
+				this.crucible.syncAndSave();
+			}
 		}
 	}
 
@@ -348,6 +346,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 			if (maxAmount <= 0L) return 0L;
 			if (!resource.isOf(Fluids.WATER)) return 0L;
 			CrucibleProgress progress = this.snapshot.progress;
+			if (progress == null) return 0L;
 			int coolingRate = progress.coolingRate;
 			long scaled = maxAmount * coolingRate / FluidConstants2.MILLIBUCKET;
 			int inserted = (int)(Math.min(scaled, this.snapshot.heat));

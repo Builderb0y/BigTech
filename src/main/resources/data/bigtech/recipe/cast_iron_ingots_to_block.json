@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"iii",
+		"iii",
+		"iii"
+	],
+	"key": {
+		"i": "bigtech:cast_iron_ingot"
+	},
+	"result": {
+		"id": "bigtech:cast_iron_block"
+	}
+}
