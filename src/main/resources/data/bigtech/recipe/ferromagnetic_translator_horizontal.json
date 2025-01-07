@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"group": "bigtech:magnets",
+	"pattern": [
+		"fff",
+		"iii",
+		"fff"
+	],
+	"key": {
+		"f": "bigtech:ferromagnetic_ingot",
+		"i": "#c:ingots/iron"             
+	},
+	"result": {
+		"id": "bigtech:ferromagnetic_translator"
+	}
+}

@@ -20,7 +20,7 @@ public abstract class ItemEntity_MakeMagnetiteAttractable implements MagnetiteAt
 
 	@Override
 	public double getMagnetiteAttractionForce() {
-		return 0.075D;
+		return 0.0625D;
 	}
 
 	@Inject(method = "tick()V", at = @At("HEAD"))

@@ -14,18 +14,14 @@ things to finish for existing features:
 		more recipes:
 			sand -> silicon
 				used for redstone logic gates.
-			iron + quick cool -> cast iron
-				can be made into blocks and slabs.
-				used for making tesla coil and lightning transmitters.
-				also magnets?
 			iron + coal -> steel
+				steel frame.
 				steel anvil: never breaks.
 			iron + redstone -> redstone ingot?
-	magnet expansion:
-		attracting and repelling magnet variants.
-		directional magnet (need better name).
-			moves entities in a specific direction.
-		electromagnets (toggleable by redstone).
+			iron + lapis -> lapis ingot?
+				what would this be used for?
+			iron + lapis -> glowing ingot?
+				what would this be used for?
 
 compatibility:
 
@@ -39,12 +35,16 @@ testing:
 features:
 	general:
 		chunk loader.
+		better block placement.
+			shift + scroll wheel to change orientation.
+			preview of block you're about to place.
 	materials:
 		silver?
 			mirrors.
 			silver iodide cannon.
 			electrum.
 				electrum lightning cables.
+			silver lightning cables?
 	decoration:
 		fancier 3D models for things.
 			more vanilla stuff?
@@ -67,6 +67,9 @@ features:
 		XP storage device: not sure about the details yet.
 	machines:
 		pump?
+		proximitor?
+			alternate name: radar.
+			detects nearby entities.
 	redstone:
 		logic gate crafting table.
 			crafted with silicon plates.

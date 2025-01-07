@@ -48,8 +48,11 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 		VoxelShapes.cuboidUnchecked(0.25D, 0.25D, 0.0D,  0.75D, 0.75D, 1.0D ),
 	};
 
-	public LightningCableBlock(Settings settings) {
+	public final float resistance;
+
+	public LightningCableBlock(Settings settings, float resistance) {
 		super(0.25F, settings);
+		this.resistance = resistance;
 		this.setDefaultState(
 			this
 			.getDefaultState()
@@ -106,6 +109,11 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 		);
 	}
 
+	@Override
+	public float getResistance(WorldView world, BlockPos pos, BlockState state, Direction side) {
+		return this.resistance;
+	}
+
 	public boolean canConnect(World world, BlockPos pos, BlockState state, Direction direction) {
 		BlockPos adjacentPos = pos.offset(direction);
 		BlockState adjacentState = world.getBlockState(adjacentPos);
@@ -132,15 +140,8 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	}
 
 	@Override
-	public void forceSpreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
-		for (Direction direction : Directions.ALL) {
-			if (!state.get(FACING_PROPERTIES.get(direction))) continue;
-			LinkedBlockPos adjacentPos = pos.offset(direction);
-			if (pulse.hasNode(adjacentPos)) continue;
-			BlockState adjacentState = world.getBlockState(adjacentPos);
-			LightningPulseInteractor adjacentInteractor = LightningPulseInteractor.get(world, adjacentPos, adjacentState);
-			adjacentInteractor.spreadIn(world, adjacentPos, adjacentState, pulse);
-		}
+	public boolean canConductOut(WorldView world, BlockPos pos, BlockState state, Direction side) {
+		return state.get(FACING_PROPERTIES.get(side));
 	}
 
 	@Override

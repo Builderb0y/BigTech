@@ -95,6 +95,14 @@ public interface LightningPulseInteractor {
 	}
 
 	/**
+	every block traversed will subtract this number from the number of remaining traversable blocks.
+	when the number of remaining traversable blocks reaches 0, the pulse stops spreading.
+	*/
+	public default float getResistance(WorldView world, BlockPos pos, BlockState state, Direction side) {
+		return 1.0F;
+	}
+
+	/**
 	returns true if a lightning pulse can spread to this block, false otherwise.
 
 	the provided side may be null if the pulse is not coming from an adjacent block.
@@ -169,7 +177,9 @@ public interface LightningPulseInteractor {
 	public default void forceSpreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
 		for (Direction direction : Directions.ALL) {
 			if (!this.canConductOut(world, pos, state, direction)) continue;
-			LinkedBlockPos adjacentPos = pos.offset(direction);
+			float resistance = this.getResistance(world, pos, state, direction);
+			if (!(resistance <= pos.distanceRemaining)) continue;
+			LinkedBlockPos adjacentPos = pos.offset(direction, resistance);
 			if (pulse.hasNode(adjacentPos)) continue;
 			BlockState adjacentState = world.getBlockState(adjacentPos);
 			LightningPulseInteractor adjacentInteractor = get(world, adjacentPos, adjacentState);

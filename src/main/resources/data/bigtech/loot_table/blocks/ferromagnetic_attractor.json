@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:block",
+	"pools": [{
+		"rolls": 1,
+		"entries": [{
+			"type": "minecraft:item",
+			"name": "bigtech:ferromagnetic_attractor"
+		}],
+		"conditions": [{
+			"condition": "minecraft:survives_explosion"
+		}]
+	}]
+}

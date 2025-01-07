@@ -1,8 +1,0 @@
-{
-	"parent": "minecraft:block/cube_bottom_top",
-	"textures": {
-		"top":    "bigtech:block/magnetite_block_top",
-		"bottom": "bigtech:block/magnetite_block_bottom",
-		"side":   "bigtech:block/magnetite_block_side"
-	}
-}

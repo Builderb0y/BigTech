@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"#bigtech:magnetic_blocks",
 		"#bigtech:metal_catwalk_platforms",
 		"#bigtech:metal_catwalk_stairs",
 		"#bigtech:metal_frames",
@@ -8,7 +9,6 @@
 		"#bigtech:waxed_copper_slabs",
 		"#c:storage_blocks/gold",
 		"#c:storage_blocks/iron",
-		"#c:storage_blocks/magnetite",
 		"#c:waxed_copper_blocks",
 		"#c:waxed_cut_copper_blocks",
 		"#c:waxed_cut_copper_slabs",

@@ -1,6 +1,0 @@
-{
-	"type": "bigtech:transmute",
-	"input": "#c:storage_blocks/iron",
-	"output": { "item": "bigtech:magnetite_block" },
-	"energy": 810
-}

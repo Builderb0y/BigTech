@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"group": "bigtech:magnets",
+	"pattern": [
+		"a"
+	],
+	"key": {
+		"a": "bigtech:electromagnetic_attractor"
+	},
+	"result": {
+		"id": "bigtech:electromagnetic_repulsor"
+	}
+}

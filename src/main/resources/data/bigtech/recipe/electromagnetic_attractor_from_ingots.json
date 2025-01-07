@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"group": "bigtech:magnets",
+	"pattern": [
+		"fff",
+		"fwf",
+		"fff"
+	],
+	"key": {
+		"f": "#c:ingots/iron"   ,
+		"w": "#minecraft:planks"
+	},
+	"result": {
+		"id": "bigtech:electromagnetic_attractor"
+	}
+}

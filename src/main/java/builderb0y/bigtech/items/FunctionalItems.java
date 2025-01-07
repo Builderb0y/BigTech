@@ -11,6 +11,7 @@ import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.dataComponents.BigTechDataComponents;
 import builderb0y.bigtech.datagen.impl.TripwireDataGenerator;
@@ -25,6 +26,7 @@ import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDeployerDataGenerato
 import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
 import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
+import builderb0y.bigtech.datagen.impl.magnets.*;
 import builderb0y.bigtech.datagen.impl.technoCrafters.PortableTechnoCrafterDataGenerator;
 import builderb0y.bigtech.datagen.impl.technoCrafters.TechnoCrafterDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
@@ -297,6 +299,50 @@ public class FunctionalItems {
 		FunctionalBlocks.CRYSTALLINE_SAND
 	);
 
+	//////////////////////////////// magnets ////////////////////////////////
+
+	@UseDataGen(MagnetiteNuggetDataGenerator.class)
+	public static final Item FERROMAGNETIC_NUGGET = register(
+		new Item(settings("ferromagnetic_nugget", false))
+	);
+	static {
+		Registries.ITEM.addAlias(BigTechMod.modID("magnetite_nugget"), BigTechMod.modID("ferromagnetic_nugget"));
+	}
+	@UseDataGen(MagnetiteIngotDataGenerator.class)
+	public static final Item FERROMAGNETIC_INGOT = register(
+		new Item(settings("ferromagnetic_ingot", false))
+	);
+	static {
+		Registries.ITEM.addAlias(BigTechMod.modID("magnetite_ingot"), BigTechMod.modID("ferromagnetic_ingot"));
+	}
+	@UseDataGen(FerromagneticAttractorDataGenerator.class)
+	public static final BlockItem FERROMAGNETIC_ATTRACTOR = registerPlacer(
+		FunctionalBlocks.FERROMAGNETIC_ATTRACTOR
+	);
+	static {
+		Registries.ITEM.addAlias(BigTechMod.modID("magnetite_block"), BigTechMod.modID("ferromagnetic_attractor"));
+	}
+	@UseDataGen(FerromagneticRepulsorDataGenerator.class)
+	public static final BlockItem FERROMAGNETIC_REPULSOR = registerPlacer(
+		FunctionalBlocks.FERROMAGNETIC_REPULSOR
+	);
+	@UseDataGen(FerromagneticTranslatorDataGenerator.class)
+	public static final BlockItem FERROMAGNETIC_TRANSLATOR = registerPlacer(
+		FunctionalBlocks.FERROMAGNETIC_TRANSLATOR
+	);
+	@UseDataGen(ElectromagneticAttractorDataGenerator.class)
+	public static final BlockItem ELECTROMAGNETIC_ATTRACTOR = registerPlacer(
+		FunctionalBlocks.ELECTROMAGNETIC_ATTRACTOR
+	);
+	@UseDataGen(ElectromagneticRepulsorDataGenerator.class)
+	public static final BlockItem ELECTROMAGNETIC_REPULSOR = registerPlacer(
+		FunctionalBlocks.ELECTROMAGNETIC_REPULSOR
+	);
+	@UseDataGen(ElectromagneticTranslatorDataGenerator.class)
+	public static final BlockItem ELECTROMAGNETIC_TRANSLATOR = registerPlacer(
+		FunctionalBlocks.ELECTROMAGNETIC_TRANSLATOR
+	);
+
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(CastIronIngotDataGenerator.class)
@@ -306,18 +352,6 @@ public class FunctionalItems {
 	@UseDataGen(CastIronBlockDataGenerator.class)
 	public static final BlockItem CAST_IRON_BLOCK = registerPlacer(
 		FunctionalBlocks.CAST_IRON_BLOCK
-	);
-	@UseDataGen(MagnetiteNuggetDataGenerator.class)
-	public static final Item MAGNETITE_NUGGET = register(
-		new Item(settings("magnetite_nugget", false))
-	);
-	@UseDataGen(MagnetiteIngotDataGenerator.class)
-	public static final Item MAGNETITE_INGOT = register(
-		new Item(settings("magnetite_ingot", false))
-	);
-	@UseDataGen(MagnetiteBlockDataGenerator.class)
-	public static final BlockItem MAGNETITE_BLOCK = registerPlacer(
-		FunctionalBlocks.MAGNETITE_BLOCK
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Helmet.class)
 	public static final ArmorItem MAGNETITE_HELMET = register(

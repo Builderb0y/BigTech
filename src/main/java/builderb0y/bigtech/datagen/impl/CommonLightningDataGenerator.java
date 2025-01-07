@@ -63,7 +63,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_BARS),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_SLABS),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES),
-			new TagOrItem(BigTechBlockTags.MAGNETITE_BLOCKS)
+			new TagOrItem(BigTechBlockTags.MAGNETIC_BLOCKS)
 		));
 		context.getTags(BigTechBlockTags.SHOCKS_ENTITIES).addAll(List.of(
 			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_IRON),
@@ -82,7 +82,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_BARS),
 			new TagOrItem(BigTechBlockTags.WAXED_COPPER_SLABS),
 			new TagOrItem(BigTechBlockTags.METAL_FRAMES),
-			new TagOrItem(BigTechBlockTags.MAGNETITE_BLOCKS)
+			new TagOrItem(BigTechBlockTags.MAGNETIC_BLOCKS)
 		));
 		context.writeToFile(
 			context.blockModelPath(BigTechMod.modID("template_lightning_cable_center")),

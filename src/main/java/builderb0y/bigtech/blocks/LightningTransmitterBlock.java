@@ -10,6 +10,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 
 import builderb0y.bigtech.api.LightningPulseInteractor;
@@ -45,9 +46,12 @@ public class LightningTransmitterBlock extends BeamBlock implements LightningPul
 
 	@Override
 	public void spreadOut(ServerWorld world, LinkedBlockPos pos, BlockState state, LightningPulse pulse) {
+		Direction facing = state.get(Properties.HORIZONTAL_FACING);
+		float resistance = this.getResistance(world, pos, state, facing);
+		if (!(resistance <= pos.distanceRemaining)) return;
 		LightningBeam beam = new LightningBeam(world, UUID.randomUUID());
 		beam.pulse = pulse;
-		beam.prepare(world, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 31.0D);
+		beam.prepare(world, pos, BeamDirection.from(facing), pos.distanceRemaining - resistance);
 		beam.fire(world);
 		pulse.lightningBeams.put(pos, beam);
 	}

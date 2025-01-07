@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"facing=up":    { "model": "bigtech:block/ferromagnetic_translator", "x":   0           },
+		"facing=down":  { "model": "bigtech:block/ferromagnetic_translator", "x": 180           },
+		"facing=north": { "model": "bigtech:block/ferromagnetic_translator", "x":  90, "y":   0 },
+		"facing=east":  { "model": "bigtech:block/ferromagnetic_translator", "x":  90, "y":  90 },
+		"facing=south": { "model": "bigtech:block/ferromagnetic_translator", "x":  90, "y": 180 },
+		"facing=west":  { "model": "bigtech:block/ferromagnetic_translator", "x":  90, "y": 270 }
+	}
+}

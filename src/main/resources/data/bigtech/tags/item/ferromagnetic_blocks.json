@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:ferromagnetic_attractor",
+		"bigtech:ferromagnetic_repulsor",
+		"bigtech:ferromagnetic_translator"
+	]
+}

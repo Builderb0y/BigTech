@@ -2,10 +2,12 @@ package builderb0y.bigtech.blocks;
 
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.CrucibleDataGenerator;
@@ -208,19 +210,22 @@ public class FunctionalBlocks {
 			settings("iron_lightning_cable")
 			.mapColor(MapColor.GRAY)
 			.strength(0.8F)
-			.sounds(BlockSoundGroup.WOOL)
+			.sounds(BlockSoundGroup.WOOL),
+			1.0F
 		)
 	);
 	@UseDataGen(void.class)
 	public static final LightningCableBlock COPPER_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
-			copySettings(IRON_LIGHTNING_CABLE, "copper_lightning_cable")
+			copySettings(IRON_LIGHTNING_CABLE, "copper_lightning_cable"),
+			0.75F
 		)
 	);
 	@UseDataGen(void.class)
 	public static final LightningCableBlock GOLD_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
-			copySettings(IRON_LIGHTNING_CABLE, "gold_lightning_cable")
+			copySettings(IRON_LIGHTNING_CABLE, "gold_lightning_cable"),
+			0.5F
 		)
 	);
 	@UseDataGen(void.class)
@@ -463,19 +468,68 @@ public class FunctionalBlocks {
 		)
 	);
 
+	//////////////////////////////// magnets ////////////////////////////////
+
+	@UseDataGen(void.class)
+	public static final FerromagneticAttractorBlock FERROMAGNETIC_ATTRACTOR = register(
+		new FerromagneticAttractorBlock(
+			copySettings(Blocks.IRON_BLOCK, "ferromagnetic_attractor")
+			.mapColor(MapColor.LAPIS_BLUE)
+		)
+	);
+	static {
+		Registries.BLOCK.addAlias(BigTechMod.modID("magnetite_block"), BigTechMod.modID("ferromagnetic_attractor"));
+	}
+	@UseDataGen(void.class)
+	public static final FerromagneticRepulsorBlock FERROMAGNETIC_REPULSOR = register(
+		new FerromagneticRepulsorBlock(
+			copySettings(Blocks.IRON_BLOCK, "ferromagnetic_repulsor")
+			.mapColor(MapColor.RED)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final FerromagneticTranslatorBlock FERROMAGNETIC_TRANSLATOR = register(
+		new FerromagneticTranslatorBlock(
+			copySettings(Blocks.IRON_BLOCK, "ferromagnetic_translator")
+			.mapColor((BlockState state) -> switch (state.get(Properties.FACING)) {
+				case UP   -> MapColor.RED;
+				case DOWN -> MapColor.BLUE;
+				default   -> MapColor.IRON_GRAY;
+			})
+		)
+	);
+	@UseDataGen(void.class)
+	public static final ElectromagneticAttractorBlock ELECTROMAGNETIC_ATTRACTOR = register(
+		new ElectromagneticAttractorBlock(
+			copySettings(Blocks.IRON_BLOCK, "electromagnetic_attractor")
+			.mapColor((BlockState state) -> state.get(Properties.POWERED) ? MapColor.BLUE : MapColor.IRON_GRAY)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final ElectromagneticRepulsorBlock ELECTROMAGNETIC_REPULSOR = register(
+		new ElectromagneticRepulsorBlock(
+			copySettings(Blocks.IRON_BLOCK, "electromagnetic_repulsor")
+			.mapColor((BlockState state) -> state.get(Properties.POWERED) ? MapColor.RED : MapColor.IRON_GRAY)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final ElectromagneticTranslatorBlock ELECTROMAGNETIC_TRANSLATOR = register(
+		new ElectromagneticTranslatorBlock(
+			copySettings(Blocks.IRON_BLOCK, "electromagnetic_translator")
+			.mapColor((BlockState state) -> switch (state.get(Properties.FACING)) {
+				case UP   -> state.get(Properties.POWERED) ? MapColor.RED  : MapColor.IRON_GRAY;
+				case DOWN -> state.get(Properties.POWERED) ? MapColor.BLUE : MapColor.IRON_GRAY;
+				default   -> MapColor.IRON_GRAY;
+			})
+		)
+	);
+
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(void.class)
 	public static final Block CAST_IRON_BLOCK = register(
 		new Block(
 			copySettings(Blocks.IRON_BLOCK, "cast_iron_block")
-		)
-	);
-	@UseDataGen(void.class)
-	public static final MagnetiteBlock MAGNETITE_BLOCK = register(
-		new MagnetiteBlock(
-			copySettings(Blocks.IRON_BLOCK, "magnetite_block")
-			.mapColor(MapColor.BRIGHT_RED)
 		)
 	);
 	@UseDataGen(void.class)

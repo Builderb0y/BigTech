@@ -25,14 +25,6 @@ public class MagnetiteIngotDataGenerator extends BasicItemDataGenerator {
 			.toString()
 		);
 		context.writeToFile(
-			context.recipePath(context.suffixPath(this.getId(), "_from_block")),
-			new ShapedRecipeBuilder()
-			.pattern("b")
-			.where('b', BigTechItemTags.MAGNETITE_BLOCKS)
-			.result(this.getId())
-			.toString()
-		);
-		context.writeToFile(
 			context.recipePath(context.suffixPath(this.getId(), "_from_transmute")),
 			//language=json
 			"""

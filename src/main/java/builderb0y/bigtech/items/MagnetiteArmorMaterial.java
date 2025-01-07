@@ -10,14 +10,13 @@ import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.api.MagnetiteAttractableEntity;
-import builderb0y.bigtech.blocks.MagnetiteBlock;
+import builderb0y.bigtech.blocks.FerromagneticAttractorBlock;
+import builderb0y.bigtech.blocks.MagneticBlock;
 
 public class MagnetiteArmorMaterial {
 
@@ -70,7 +69,7 @@ public class MagnetiteArmorMaterial {
 				);
 				if (!entities.isEmpty()) {
 					for (Entity entity : entities) {
-						MagnetiteBlock.attract(
+						MagneticBlock.attract(
 							entity,
 							living.getX(),
 							living.getY() + living.getHeight() * 0.5D,

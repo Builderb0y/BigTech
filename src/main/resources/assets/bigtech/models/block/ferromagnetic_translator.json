@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"bottom": "bigtech:block/ferromagnet_bottom",
+		"top":    "bigtech:block/ferromagnet_top",
+		"side":   "bigtech:block/ferromagnet_side"
+	}
+}

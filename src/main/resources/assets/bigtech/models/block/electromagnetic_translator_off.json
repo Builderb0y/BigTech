@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"bottom": "bigtech:block/iron_coil_end",
+		"top":    "bigtech:block/iron_coil_end",
+		"side":   "bigtech:block/iron_coil_side"
+	}
+}

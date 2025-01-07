@@ -24,7 +24,7 @@ public class LightningElectrodeDataGenerator extends BasicItemDataGenerator {
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("i", "i")
-			.where('i', FunctionalItems.MAGNETITE_INGOT)
+			.where('i', FunctionalItems.FERROMAGNETIC_INGOT)
 			.result(this.getId())
 			.toString()
 		);

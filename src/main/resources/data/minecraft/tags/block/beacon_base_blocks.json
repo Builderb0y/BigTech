@@ -1,7 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"bigtech:cast_iron_block",
-		"bigtech:magnetite_block"
+		"#bigtech:ferromagnetic_blocks",
+		"bigtech:cast_iron_block"
 	]
 }

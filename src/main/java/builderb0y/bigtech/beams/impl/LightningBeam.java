@@ -31,7 +31,8 @@ public class LightningBeam extends PulseBeam {
 	@Override
 	public void handleIntersection(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment, BlockHitResult hitResult) {
 		super.handleIntersection(world, pos, state, segment, hitResult);
-		LinkedBlockPos linked = new LinkedBlockPos(pos, (LinkedBlockPos)(this.origin));
+		LinkedBlockPos origin = (LinkedBlockPos)(this.origin);
+		LinkedBlockPos linked = new LinkedBlockPos(pos, origin.distanceRemaining - 1.0F, origin);
 		if (!this.pulse.hasNode(linked)) {
 			LightningPulseInteractor interactor = LightningPulseInteractor.get(world, linked, state);
 			if (interactor.canConductIn(world, linked, state, segment.direction().toVanilla())) {

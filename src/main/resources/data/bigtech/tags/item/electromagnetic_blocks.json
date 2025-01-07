@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:electromagnetic_attractor",
+		"bigtech:electromagnetic_repulsor",
+		"bigtech:electromagnetic_translator"
+	]
+}

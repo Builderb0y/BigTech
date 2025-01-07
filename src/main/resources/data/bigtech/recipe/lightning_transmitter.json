@@ -10,7 +10,7 @@
 		"l": "bigtech:lens"             ,
 		"c": "#bigtech:crystal_clusters",
 		"t": "bigtech:copper_coil"      ,
-		"b": "#c:ingots/iron"           
+		"b": "bigtech:cast_iron_ingot"  
 	},
 	"result": {
 		"id": "bigtech:lightning_transmitter"

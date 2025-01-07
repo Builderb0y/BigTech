@@ -6,7 +6,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 
-import builderb0y.bigtech.blocks.MagnetiteBlock;
+import builderb0y.bigtech.blocks.MagneticBlock;
 
 /**
 implement this interface on your entity and call
@@ -21,8 +21,8 @@ this interface is implemented via mixin onto the vanilla classes
 public interface MagnetiteAttractableEntity {
 
 	/**
-	for projectiles, this is 0.25.
-	for items and experience orbs, this is 0.075.
+	for projectiles, this is 0.25 (AKA 1/4).
+	for items and experience orbs, this is 0.0625 (AKA 1/16).
 	base your own value off of that.
 	*/
 	public abstract double getMagnetiteAttractionForce();
@@ -50,7 +50,7 @@ public interface MagnetiteAttractableEntity {
 	are doing the same calculations, so nothing gets out of sync.
 	*/
 	public default void attractToNearbyMagnetiteBlocks(double range, boolean markVelocityChanged) {
-		MagnetiteBlock.attract(this.as(), this.getMagnetiteAttractionForce(), range, markVelocityChanged);
+		MagneticBlock.attract(this.as(), this.getMagnetiteAttractionForce(), range, markVelocityChanged);
 	}
 
 	public default boolean isImmuneToMagnetiteArmor(LivingEntity wearer) {
