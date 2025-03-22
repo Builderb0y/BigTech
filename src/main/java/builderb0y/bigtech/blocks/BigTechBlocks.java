@@ -147,8 +147,7 @@ public class BigTechBlocks {
 		);
 		ColorProviderRegistry.BLOCK.register(
 			(BlockState state, BlockRenderView world, BlockPos pos, int tintIndex) -> {
-				BeamInterceptorBlockEntity blockEntity;
-				if (tintIndex == 0 && world != null && pos != null && (blockEntity = WorldHelper.getBlockEntity(world, pos, BeamInterceptorBlockEntity.class)) != null && blockEntity.color != null) {
+				if (tintIndex == 0 && world != null && pos != null && world.getBlockEntity(pos) instanceof BeamInterceptorBlockEntity blockEntity && blockEntity.color != null) {
 					return BeamSegment.packRgb(blockEntity.color) | 0xFF000000;
 				}
 				return -1;

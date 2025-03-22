@@ -1,6 +1,5 @@
 package builderb0y.bigtech.models;
 
-import java.awt.image.renderable.RenderContext;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -18,8 +17,6 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -27,7 +24,6 @@ import net.minecraft.world.BlockRenderView;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.blockEntities.PrismBlockEntity;
-import builderb0y.bigtech.util.WorldHelper;
 
 public class PrismBakedModel implements BakedModel {
 
@@ -82,8 +78,7 @@ public class PrismBakedModel implements BakedModel {
 	@Override
 	public void emitBlockQuads(QuadEmitter emitter, BlockRenderView world, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, Predicate<@Nullable Direction> cullTest) {
 		this.baseModel.emitBlockQuads(emitter, world, state, pos, randomSupplier, cullTest);
-		PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
-		if (prism != null && prism.hasAnyLenses()) {
+		if (world.getBlockEntity(pos) instanceof PrismBlockEntity prism && prism.hasAnyLenses()) {
 			Matrix4f matrix = new Matrix4f();
 			Vector4f position = new Vector4f();
 			emitter.pushTransform((MutableQuadView quad) -> {

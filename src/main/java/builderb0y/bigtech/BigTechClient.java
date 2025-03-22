@@ -16,6 +16,8 @@ import builderb0y.bigtech.gui.handledScreens.BigTechHandledScreens;
 import builderb0y.bigtech.models.BigTechModels;
 import builderb0y.bigtech.networking.BigTechNetwork;
 import builderb0y.bigtech.particles.BigTechParticles;
+import builderb0y.bigtech.tweaks.PlacementPreview;
+import builderb0y.bigtech.tweaks.PlacementSpeed;
 
 @Environment(EnvType.CLIENT)
 public class BigTechClient implements ClientModInitializer {
@@ -31,6 +33,8 @@ public class BigTechClient implements ClientModInitializer {
 		BigTechEntityRenderers.init();
 		BigTechParticles.initClient();
 		BeamRendering.initClient();
+		PlacementPreview.init();
+		PlacementSpeed.init();
 		if (DataGen.isEnabled()) DataGen.run();
 		BigTechMod.LOGGER.info("Done initializing on client.");
 		if (BigTechMod.audit) MinecraftClient.getInstance().execute(() -> MixinEnvironment.getCurrentEnvironment().audit());

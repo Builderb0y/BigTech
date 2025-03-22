@@ -29,6 +29,16 @@ public class BigTechConfig {
 	}
 
 	@DefaultIgnore
+	@Tooltip(count = 3)
+	@UseName("Block State Cycling")
+	@Tooltips({
+		"If true, the 'Cycle State' keybind + scrolling while holding a placeable item will modify the state of the block you're about to place, and shift clicking air with a block will revert to default logic.",
+		"If false, default placement logic will always be used.",
+		"Usually, the state modification consists of rotating the block in some way."
+	})
+	public boolean stateCycling = true;
+
+	@DefaultIgnore
 	@UseName("Client")
 	@Tooltip(count = 1)
 	@CollapsibleObject(startExpanded = true)
@@ -74,6 +84,16 @@ public class BigTechConfig {
 				throw new IllegalArgumentException("Tesla Coil Renderer Quality must be between 0 and 12.");
 			}
 		}
+
+		@DefaultIgnore
+		@Tooltip(count = 3)
+		@UseName("Placement Preview")
+		@Tooltips({
+			"If true, Big Tech will render a preview of the block you're about to place.",
+			"If false, Big Tech will use the default block outline.",
+			"Previewing is useful when cycling the state."
+		})
+		public boolean placementPreview = true;
 	}
 
 	@DefaultIgnore

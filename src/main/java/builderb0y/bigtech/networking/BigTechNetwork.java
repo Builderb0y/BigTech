@@ -74,6 +74,8 @@ public class BigTechNetwork implements
 		this.register(          UpdatePulsarPacket.INSTANCE);
 		/** sent when a player clicks one of the widgets in the dislocator screen. */
 		this.register(    DislocatorSetDepthPacket.INSTANCE);
+		/** sent when a player shift + scroll wheels while holding a BlockItem. */
+		this.register(       CycleBlockstatePacket.INSTANCE);
 	}
 
 	public static void init() {

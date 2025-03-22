@@ -91,15 +91,17 @@ public class CrucibleBlock extends BlockWithEntity implements FluidFillable {
 			CrucibleBlockEntity crucible = WorldHelper.getBlockEntity(world, pos, CrucibleBlockEntity.class);
 			if (crucible != null) {
 				if (stack.isEmpty()) {
-					player.getInventory().insertStack(crucible.removeItem());
+					ItemStack removed = crucible.removeItem();
+					if (!(player.isInCreativeMode() && player.getInventory().contains(removed))) {
+						player.getInventory().insertStack(removed);
+					}
 				}
 				else if (crucible.progress != null) {
 					this.tryWaterInteraction(serverWorld, crucible, stack, player, hand);
 				}
 				else {
-					crucible.addItem(stack, 1);
+					crucible.addItem(stack.splitUnlessCreative(1, player), 1);
 				}
-				return ActionResult.SUCCESS;
 			}
 		}
 		return ActionResult.SUCCESS;

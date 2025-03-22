@@ -18,10 +18,17 @@ things to finish for existing features:
 				steel frame.
 				steel anvil: never breaks.
 			iron + redstone -> redstone ingot?
-			iron + lapis -> lapis ingot?
+				redstone lasers?
+			gold + lapis -> lapis ingot?
 				what would this be used for?
-			iron + lapis -> glowing ingot?
+				lapis frame?
+			gold + glowstone dust -> glowing ingot?
 				what would this be used for?
+				spotlight.
+	better placement:
+		toggle for:
+			if you're looking at the block you just placed, don't place a new block.
+			if you're looking at a different block, place immediately.
 
 compatibility:
 
@@ -35,9 +42,6 @@ testing:
 features:
 	general:
 		chunk loader.
-		better block placement.
-			shift + scroll wheel to change orientation.
-			preview of block you're about to place.
 	materials:
 		silver?
 			mirrors.

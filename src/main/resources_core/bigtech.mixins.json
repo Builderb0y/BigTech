@@ -12,6 +12,7 @@
 		"BeaconBlockEntity_UseColorProviders",
 		"BigTechConfig_ImplementConfigData",
 		"BlockEntityType_ConstructorAccess",
+		"BlockItem_AdjustStateProperly",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"ChestBlock_CreateMiner",
 		"ChunkBlockLightProvider_AllowBeamsToEmitLight",
@@ -27,6 +28,7 @@
 		"EntityShapeContext_ImplementHeldItemGetter",
 		"ExperienceOrbEntity_MakeMagnetiteAttractable",
 		"FireworkRocket_ImplementSilverIodideProjectile",
+		"Item_RaycastAccess",
 		"ItemEnchantmentsComponentBuilder_BackingMapAccess",
 		"ItemEntity_DontMergeDuringTransport",
 		"ItemEntity_MakeMagnetiteAttractable",
@@ -47,7 +49,18 @@
 		"Slot_MutableInventory",
 		"WorldChunk_NotifyBeamsOfBlockChange"
 	],
-	"client": [ "WorldRenderer_FrustumGetter" ],
+	"client": [
+		"ClientPlayerInteractionManager_BreakingSpeed",
+		"GameOptions_SavePlaceAndBreakSpeed",
+		"KeyBinding_HandleConflictingKeybindsProperly",
+		"MinecraftClient_CooldownAccessor",
+		"MinecraftClient_PlacementSpeed",
+		"Mouse_PlacementTweaks",
+		"MultiPhase_PhasesAccess",
+		"MultiPhaseParameters_TextureAccess",
+		"RenderLayerTexture_IdAccess",
+		"WorldRenderer_FrustumGetter"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

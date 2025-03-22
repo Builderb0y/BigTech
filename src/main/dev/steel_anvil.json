@@ -1,0 +1,130 @@
+{
+	"version": 2,
+	"root_layer": {
+		"name": "masked",
+		"width": 16,
+		"height": 16,
+		"children": [
+			{
+				"name": "mask_top",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3PMQoAIAxD0dzMq/XoruKiKVQFfyBDp/RJXlo8Vg0NE5PIav/0Pf9WHfz48ePHjx8/fvz48eP/xm/s37530gFk+LhVABAAAA=="
+						}
+					}
+				},
+				"expanded": true
+			},
+			{
+				"name": "mask_side",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/2NgIA3YNwwyzICEG0j0DBmAkP305qO7jdZg1P+j/h/R/ifB/oHmDwYw2MtzWgNS8wu63qEORv0/wv3PQLz/hqP/hzqga1ueGpiBuvXHYGvv0Lv8GPH+J8H8wc7HBgA3AqO6ABAAAA=="
+						}
+					}
+				},
+				"expanded": true
+			},
+			{
+				"name": "mask_front",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2UWwoAIAgE92ZdraP3G9K7UMkd8GMRrIEyZSBFKlS10v8s19Cf/uH9J/1I+QTr/W2N9v+RZ1tD/+D+WL+fx/1Fxqjv99tC/z0+8RfzvWV5d/pf+m/M955bFLMlSqcAEAAA"
+						}
+					}
+				},
+				"expanded": true
+			},
+			{
+				"name": "mask_bottom",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3PsQkAMAgAQTfLao6eNggpLAIG7sHCRrwI6d7KzyaOyQf+cn/aXn/n5+fn5+fn5+dv+hv3p+9SbQPmjlftABAAAA=="
+						}
+					}
+				},
+				"expanded": true
+			},
+			{
+				"name": "grayscale",
+				"width": 16,
+				"height": 16,
+				"children": [
+					{
+						"name": "copper",
+						"width": 16,
+						"height": 16,
+						"children": [],
+						"sources": {
+							"tab": {
+								"type": "manual",
+								"image": {
+									"width": 16,
+									"height": 16,
+									"pixels": "H4sIAAAAAAAA/72XSU8UQRTH+SpqPLjGffeN+37QuF70M3j04AERERNERERERHZhWIRhGPZ9h2EbhkUERERExAQQERJF61XyOtUvzTTDoMd/qru6fm/512sLlJWDy9UJkZHPLP5+fhZLeQW43V0QFfVc6mM1tTA8/BFSUl5Lfby2TqcPV1ZBd3cPREe/kPpIVTX09r6FmJiXUp+sb4DR0c9gtaZLfc7ZAhMT3yA7O0fqK+Ld2dmfUFRULPWNwfewsPAHnM4W3XpBQaHUl8TZpqe/g92eJ/X59g65X1bWG6mPVtfI79N5DlVU6nh25xfg3hAe/sTw/HjekZFPkJqaZqhx/76+dxof15z3bLMTxse/aucz470mzj43Nw8lJaW65x2OfKkvdrphcnIKbLZcLR/9/QMQG/vKkHdnngMaGhohLOyxoeb5/N+8V3t6JS+tX+7qhpmZH8vm3WHPg7q6eggNfST19lw71IgaJr3LkQ9NTc1a/jm/t7xnxF4qLz//9YFBySu+aRgP3g8XOlySlzTnxf5U+5XzbcrMwtqBoKD7hvHg/c3r31te7EfkpX7k9crjwevjlKhFdX/+ffKniIinUm/MyMTYQWDgPanXW9PRGzTN43FAxKJdeAS9j/2v5t/Mr/h5OQ/n5fHg8eL78+8fLC3TnXdDeobkCwi4K/XqhETIEDG4OTmlravx2F9cAq2tbdr7vN+Jn9a97V9ezzweK827Kj4B39XxquvES/k04kW/p/35fbbc+4jWeby4f2J/qfeRr7z8fe4He8SzKi/5G53ndGMTjI19wRrS+S/dN77yoh+rfsLzQTxUr0b17ImX+/0+UfuYf+JHXvU8i/kzzROC1+Lnfwf3+Ce8W3NsUCVqPiTkoaFfcT/jvOTPxEvzDfXPCeHtnngN6lnHy+PhK+82W67Of5FPvY+4P6O/e8ov512peYPqnfeDr7xc8/vXbN7m9czz6y0v5tdTPeP+qh96W888v0vhVfXewqIl9S/lx2y+4rz4vppf9H9v5sct2TlQIZ4hXrpvF6tnPm/gvInxo/vJyJ898ZrNV7Su3r+cV52n6P6l/BIv5XddmhX30vx3TWIS1grcmpvX1TfFg/Oa3b/8PjLjpXyq/wPq/x/xkh9wXj5P4vrQ0AdISkqWerNgKxM1Ghz8QOq1ySk4C8DtX7+1/BrVs/o/qc6TfL7i8wb3G54//r/L803zitq/g6Ln4+LiDXl5f+O6wv8XBsNi8gAQAAA="
+								}
+							}
+						},
+						"expanded": true
+					}
+				],
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"float fraction = projectLineFrac(float3(0.631, 0.333, 0.235), float3(0.866, 0.498, 0.396), copper(UV).rgb);",
+							"return float4(...float3(fraction * 0.15625 + 0.15625), 1.0);"
+						]
+					}
+				},
+				"expanded": true
+			}
+		],
+		"sources": {
+			"tab": {
+				"type": "derived",
+				"code": [
+					"float3 steel = grayscale(UV).rgb;",
+					"float4 mask = mask_front(UV);",
+					"mask = float4(...(mask.rgb - 0.5) * 0.125, mask.a);",
+					"return float4(...steel + mask.rgb, mask.a);"
+				]
+			}
+		},
+		"expanded": true
+	},
+	"showing_layer": "masked",
+	"selected_layer": "masked",
+	"wrap": false,
+	"animation": {
+		"frames": 1
+	}
+}

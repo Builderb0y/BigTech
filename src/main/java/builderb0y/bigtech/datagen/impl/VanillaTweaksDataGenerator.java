@@ -128,5 +128,10 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 			context.replace(transforms, Map.of("PARENT", "minecraft:block/cauldron"))
 		);
 		context.getTags(BigTechBiomeTags.CRYSTAL_CLUSTER_SPAWNABLE).add(BiomeTags.IS_OVERWORLD);
+		context.lang.put("key.bigtech.cycle_state", "Cycle State");
+		context.lang.put("key.bigtech.place_delay", "Change Place Delay");
+		context.lang.put("key.bigtech.break_delay", "Change Break Delay");
+		context.lang.put("overlay.bigtech.place_delay", "Place delay: %s tick(s)");
+		context.lang.put("overlay.bigtech.break_delay", "Break delay: %s tick(s)");
 	}
 }
