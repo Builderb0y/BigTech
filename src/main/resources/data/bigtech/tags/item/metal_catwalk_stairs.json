@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"bigtech:iron_catwalk_stairs"
+		"bigtech:iron_catwalk_stairs",
+		"bigtech:steel_catwalk_stairs"
 	]
 }

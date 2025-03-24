@@ -208,24 +208,31 @@ public class FunctionalBlocks {
 	public static final LightningCableBlock IRON_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
 			settings("iron_lightning_cable")
-			.mapColor(MapColor.GRAY)
+			.mapColor(MapColor.LIGHT_GRAY)
 			.strength(0.8F)
 			.sounds(BlockSoundGroup.WOOL),
-			1.0F
+			2.0F
+		)
+	);
+	@UseDataGen(void.class)
+	public static final LightningCableBlock STEEL_LIGHTNINT_CABLE = register(
+		new LightningCableBlock(
+			copySettings(IRON_LIGHTNING_CABLE, "steel_lightning_cable"),
+			1.5F
 		)
 	);
 	@UseDataGen(void.class)
 	public static final LightningCableBlock COPPER_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
 			copySettings(IRON_LIGHTNING_CABLE, "copper_lightning_cable"),
-			0.75F
+			1.0F
 		)
 	);
 	@UseDataGen(void.class)
 	public static final LightningCableBlock GOLD_LIGHTNING_CABLE = register(
 		new LightningCableBlock(
 			copySettings(IRON_LIGHTNING_CABLE, "gold_lightning_cable"),
-			0.5F
+			0.75F
 		)
 	);
 	@UseDataGen(void.class)
@@ -543,6 +550,26 @@ public class FunctionalBlocks {
 			.noCollision()
 			.strength(0.5F)
 			.pistonBehavior(PistonBehavior.DESTROY)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final SteelPressurePlateBlock STEEL_PRESSURE_PLATE = register(
+		new SteelPressurePlateBlock(
+			BigTechBlocks.STEEL_BLOCK_SET_TYPE,
+			settings("steel_pressure_plate")
+			.mapColor(MapColor.GRAY)
+			.requiresTool()
+			.noCollision()
+			.strength(1.0F)
+			.pistonBehavior(PistonBehavior.DESTROY)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final DoorBlock STEEL_DOOR = register(
+		new DoorBlock(
+			BigTechBlocks.STEEL_BLOCK_SET_TYPE,
+			copySettings(Blocks.IRON_DOOR, "steel_door")
+			.mapColor(MapColor.GRAY)
 		)
 	);
 	@UseDataGen(void.class)

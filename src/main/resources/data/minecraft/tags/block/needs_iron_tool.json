@@ -1,0 +1,9 @@
+{
+	"replace": false,
+	"values": [
+		"bigtech:steel_bars",
+		"bigtech:steel_block",
+		"bigtech:steel_door",
+		"bigtech:steel_pressure_plate"
+	]
+}

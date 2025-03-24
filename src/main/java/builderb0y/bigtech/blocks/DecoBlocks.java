@@ -4,6 +4,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.DyeColor;
 
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
@@ -24,6 +25,14 @@ public class DecoBlocks {
 		new FrameBlock(
 			copySettings(Blocks.IRON_BLOCK, "iron_frame"),
 			BigTechBlockTags.STICKS_TO_IRON_FRAME
+		)
+	);
+	@UseDataGen(void.class)
+	public static final FrameBlock STEEL_FRAME = register(
+		new FrameBlock(
+			copySettings(Blocks.IRON_BLOCK, "steel_frame")
+			.mapColor(DyeColor.GRAY),
+			BigTechBlockTags.STICKS_TO_STEEL_FRAME
 		)
 	);
 	@UseDataGen(void.class)
@@ -96,6 +105,13 @@ public class DecoBlocks {
 		}
 	);
 	@UseDataGen(void.class)
+	public static final CatwalkPlatformBlock STEEL_CATWALK_PLATFORM = register(
+		new CatwalkPlatformBlock(
+			copySettings(Blocks.IRON_BLOCK, "steel_catwalk_platform")
+			.mapColor(DyeColor.GRAY)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_CATWALK_PLATFORMS = new WoodBlockCollection(
 		true,
 		(WoodRegistrableCollection.Type type) -> new CatwalkPlatformBlock(
@@ -130,6 +146,13 @@ public class DecoBlocks {
 		}
 	);
 	@UseDataGen(void.class)
+	public static final CatwalkStairsBlock STEEL_CATWALK_STAIRS = register(
+		new CatwalkStairsBlock(
+			copySettings(Blocks.IRON_BLOCK, "steel_catwalk_stairs")
+			.mapColor(DyeColor.GRAY)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final WoodBlockCollection WOOD_CATWALK_STAIRS = new WoodBlockCollection(
 		true,
 		(WoodRegistrableCollection.Type type) -> new CatwalkStairsBlock(
@@ -150,6 +173,13 @@ public class DecoBlocks {
 			.notSolid()
 			.nonOpaque()
 			.pistonBehavior(PistonBehavior.DESTROY)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final LadderBlock STEEL_LADDER = register(
+		new LadderBlock(
+			copySettings(IRON_LADDER, "steel_ladder")
+			.mapColor(MapColor.GRAY)
 		)
 	);
 	@UseDataGen(void.class)
@@ -198,6 +228,13 @@ public class DecoBlocks {
 		}
 	);
 	@UseDataGen(void.class)
+	public static final PaneBlock STEEL_BARS = register(
+		new PaneBlock(
+			copySettings(Blocks.IRON_BARS, "steel_bars")
+			.mapColor(DyeColor.GRAY)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_SLABS = new CopperBlockCollection(
 		true,
 		(CopperRegistrableCollection.Type type) -> {
@@ -222,6 +259,13 @@ public class DecoBlocks {
 			//in fact, obsidian doesn't even specify a piston behavior at all,
 			//so copying its properties won't automatically make it unpushable.
 			.pistonBehavior(PistonBehavior.BLOCK)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final Block STEEL_BLOCK = register(
+		new Block(
+			copySettings(Blocks.IRON_BLOCK, "steel_block")
+			.mapColor(MapColor.GRAY)
 		)
 	);
 	@UseDataGen(void.class)

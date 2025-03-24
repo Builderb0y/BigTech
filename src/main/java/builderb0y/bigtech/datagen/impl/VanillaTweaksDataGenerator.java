@@ -2,10 +2,13 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.Map;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
@@ -14,6 +17,8 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
+import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
+import builderb0y.bigtech.datagen.tables.Table;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.worldgen.BigTechBiomeTags;
 
@@ -133,5 +138,14 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 		context.lang.put("key.bigtech.break_delay", "Change Break Delay");
 		context.lang.put("overlay.bigtech.place_delay", "Place delay: %s tick(s)");
 		context.lang.put("overlay.bigtech.break_delay", "Break delay: %s tick(s)");
+		context.writeToFile(
+			context.recipePath(Identifier.ofVanilla("anvil")),
+			new ShapedRecipeBuilder()
+			.pattern("bbb", " i ", "iii")
+			.where('b', BigTechItemTags.STEEL_BLOCKS)
+			.where('i', BigTechItemTags.STEEL_INGOTS)
+			.result(Items.ANVIL)
+			.toString()
+		);
 	}
 }

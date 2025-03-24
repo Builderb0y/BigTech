@@ -40,9 +40,7 @@ public interface ItemDataGenerator extends LocalizedDataGenerator {
 						"model": "%PATH"
 					}
 				}""",
-				Map.of(
-					"PATH", identifier.toString()
-				)
+				Map.of("PATH", identifier.toString())
 			)
 		);
 	}

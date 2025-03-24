@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"powered=false": { "model": "bigtech:block/steel_pressure_plate_up"   },
+		"powered=true":  { "model": "bigtech:block/steel_pressure_plate_down" }
+	}
+}

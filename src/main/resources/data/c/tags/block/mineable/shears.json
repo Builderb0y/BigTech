@@ -4,6 +4,7 @@
 		"bigtech:copper_lightning_cable",
 		"bigtech:gold_lightning_cable",
 		"bigtech:iron_lightning_cable",
-		"bigtech:lightning_diode"
+		"bigtech:lightning_diode",
+		"bigtech:steel_lightning_cable"
 	]
 }

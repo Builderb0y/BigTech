@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"bigtech:medium_weighted_pressure_plate"
+		"bigtech:medium_weighted_pressure_plate",
+		"bigtech:steel_pressure_plate"
 	]
 }

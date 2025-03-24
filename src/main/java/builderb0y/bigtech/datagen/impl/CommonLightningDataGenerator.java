@@ -48,6 +48,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 
 		context.getTags(BigTechBlockTags.CONDUCTS_LIGHTNING).addAll(List.of(
 			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_IRON),
+			new TagOrItem(BigTechBlockTags.STEEL_BLOCKS),
 			new TagOrItem(Blocks.IRON_BARS),
 			new TagOrItem(Blocks.IRON_DOOR),
 			new TagOrItem(Blocks.IRON_TRAPDOOR),
@@ -67,6 +68,7 @@ public class CommonLightningDataGenerator implements DataGenerator {
 		));
 		context.getTags(BigTechBlockTags.SHOCKS_ENTITIES).addAll(List.of(
 			new TagOrItem(ConventionalBlockTags.STORAGE_BLOCKS_IRON),
+			new TagOrItem(BigTechBlockTags.STEEL_BLOCKS),
 			new TagOrItem(Blocks.IRON_BARS),
 			new TagOrItem(Blocks.IRON_DOOR),
 			new TagOrItem(Blocks.IRON_TRAPDOOR),

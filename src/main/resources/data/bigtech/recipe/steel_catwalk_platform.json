@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:catwalk_platforms",
+	"pattern": [
+		"r r",
+		"bbb"
+	],
+	"key": {
+		"b": "bigtech:steel_pressure_plate",
+		"r": "bigtech:steel_bars"          
+	},
+	"result": {
+		"id": "bigtech:steel_catwalk_platform",
+		"count": 4
+	}
+}

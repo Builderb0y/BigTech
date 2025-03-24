@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"ss",
+		"ss",
+		"ss"
+	],
+	"key": {
+		"s": "#c:ingots/steel"
+	},
+	"result": {
+		"id": "bigtech:steel_door",
+		"count": 3
+	}
+}

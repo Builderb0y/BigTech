@@ -2,6 +2,7 @@
 	"replace": false,
 	"values": [
 		"#bigtech:copper_ladders",
-		"bigtech:iron_ladder"
+		"bigtech:iron_ladder",
+		"bigtech:steel_ladder"
 	]
 }

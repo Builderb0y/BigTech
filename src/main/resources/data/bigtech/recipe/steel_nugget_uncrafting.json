@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"i"
+	],
+	"key": {
+		"i": "#c:ingots/steel"
+	},
+	"result": {
+		"id": "bigtech:steel_nugget"
+	}
+}

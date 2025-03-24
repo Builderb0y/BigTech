@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:ingots/iron",
+		"#minecraft:coals"
+	],
+	"slow_cool_result": { "id": "bigtech:steel_ingot" },
+	"energy": 2000,
+	"cooling_rate": 20
+}

@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:storage_blocks/iron",
+		"#c:storage_blocks/coal"
+	],
+	"slow_cool_result": { "id": "bigtech:steel_block" },
+	"energy": 16000,
+	"cooling_rate": 20
+}

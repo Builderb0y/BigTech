@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
+		"#c:ingots/steel",
 		"bigtech:cast_iron_ingot",
 		"bigtech:ferromagnetic_ingot"
 	]

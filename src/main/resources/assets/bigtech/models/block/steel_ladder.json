@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_ladder",
+	"textures": {
+		"ladder": "bigtech:block/steel_ladder"
+	}
+}

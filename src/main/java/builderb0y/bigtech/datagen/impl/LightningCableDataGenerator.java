@@ -2,13 +2,13 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.Arrays;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
@@ -27,9 +27,37 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 
 	public final TagKey<Item> ingot;
 
-	public LightningCableDataGenerator(BlockItem blockItem) {
+	public LightningCableDataGenerator(BlockItem blockItem, TagKey<Item> ingot) {
 		super(blockItem);
-		this.ingot = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ingots/" + this.getId().getPath().substring(0, this.getId().getPath().length() - "_lightning_cable".length())));
+		this.ingot = ingot;
+	}
+
+	public static class Iron extends LightningCableDataGenerator {
+
+		public Iron(BlockItem blockItem) {
+			super(blockItem, ConventionalItemTags.IRON_INGOTS);
+		}
+	}
+
+	public static class Steel extends LightningCableDataGenerator {
+
+		public Steel(BlockItem blockItem) {
+			super(blockItem, BigTechItemTags.STEEL_INGOTS);
+		}
+	}
+
+	public static class Copper extends LightningCableDataGenerator {
+
+		public Copper(BlockItem blockItem) {
+			super(blockItem, ConventionalItemTags.COPPER_INGOTS);
+		}
+	}
+
+	public static class Gold extends LightningCableDataGenerator {
+
+		public Gold(BlockItem blockItem) {
+			super(blockItem, ConventionalItemTags.GOLD_INGOTS);
+		}
 	}
 
 	@Override

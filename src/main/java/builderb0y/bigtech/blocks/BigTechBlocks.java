@@ -23,7 +23,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 
@@ -32,7 +31,6 @@ import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.mixins.AbstractBlockSettings_RegistryKeyAccessor;
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
-import builderb0y.bigtech.util.WorldHelper;
 
 /**
 welcome! the actual block declarations are in {@link FunctionalBlocks} and {@link DecoBlocks}.
@@ -45,6 +43,11 @@ public class BigTechBlocks {
 		.copyOf(BlockSetType.IRON)
 		.soundGroup(BlockSoundGroup.COPPER)
 		.build(BigTechMod.modID("copper"))
+	);
+	public static final BlockSetType STEEL_BLOCK_SET_TYPE = (
+		BlockSetTypeBuilder
+		.copyOf(BlockSetType.IRON)
+		.build(BigTechMod.modID("steel"))
 	);
 	public static final BlockSoundGroup CONDUCTIVE_ANVIL_SOUND_GROUP = new BlockSoundGroup(
 		1.0F,
@@ -102,8 +105,11 @@ public class BigTechBlocks {
 			RenderLayer.getCutout(),
 			FunctionalBlocks.TRAPDOOR_BELT,
 			DecoBlocks.IRON_FRAME,
+			DecoBlocks.STEEL_FRAME,
 			DecoBlocks.GOLD_FRAME,
 			DecoBlocks.IRON_LADDER,
+			DecoBlocks.STEEL_LADDER,
+			FunctionalBlocks.STEEL_DOOR,
 			FunctionalBlocks.TRANSMUTER,
 			FunctionalBlocks.SMALL_LIGHTNING_JAR,
 			FunctionalBlocks.LARGE_LIGHTNING_JAR,

@@ -3,10 +3,7 @@ package builderb0y.bigtech.items;
 import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.FuelRegistry;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -146,17 +143,21 @@ public class FunctionalItems {
 
 	//////////////////////////////// lightning stuff ////////////////////////////////
 
-	@UseDataGen(LightningCableDataGenerator.class)
+	@UseDataGen(LightningCableDataGenerator.Iron.class)
 	public static final BlockItem IRON_LIGHTNING_CAbLE = registerPlacer(
 		FunctionalBlocks.IRON_LIGHTNING_CABLE
 	);
-	@UseDataGen(LightningCableDataGenerator.class)
-	public static final BlockItem GOLD_LIGHTNING_CABLE = registerPlacer(
-		FunctionalBlocks.GOLD_LIGHTNING_CABLE
+	@UseDataGen(LightningCableDataGenerator.Steel.class)
+	public static final BlockItem STEEL_LIGHTNING_CABLE = registerPlacer(
+		FunctionalBlocks.STEEL_LIGHTNINT_CABLE
 	);
-	@UseDataGen(LightningCableDataGenerator.class)
+	@UseDataGen(LightningCableDataGenerator.Copper.class)
 	public static final BlockItem COPPER_LIGHTNING_CABLE = registerPlacer(
 		FunctionalBlocks.COPPER_LIGHTNING_CABLE
+	);
+	@UseDataGen(LightningCableDataGenerator.Gold.class)
+	public static final BlockItem GOLD_LIGHTNING_CABLE = registerPlacer(
+		FunctionalBlocks.GOLD_LIGHTNING_CABLE
 	);
 	@UseDataGen(LightningDiodeDataGenerator.class)
 	public static final BlockItem LIGHTNING_DIODE = registerPlacer(
@@ -392,6 +393,17 @@ public class FunctionalItems {
 	@UseDataGen(MediumWeightedPressurePlateDataGenerator.class)
 	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = registerPlacer(
 		FunctionalBlocks.MEDIUM_WEIGHTED_PRESSURE_PLATE
+	);
+	@UseDataGen(SteelPressurePlateDataGenerator.class)
+	public static final BlockItem STEEL_PRESSURE_PLATE = registerPlacer(
+		FunctionalBlocks.STEEL_PRESSURE_PLATE
+	);
+	@UseDataGen(SteelDoorDataGenerator.class)
+	public static final TallBlockItem STEEL_DOOR = register(
+		new TallBlockItem(
+			FunctionalBlocks.STEEL_DOOR,
+			settings("steel_door", true)
+		)
 	);
 	@UseDataGen(MinerToolDataGenerator.class)
 	public static final Item MINER_TOOL = register(

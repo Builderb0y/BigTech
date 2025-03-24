@@ -2,6 +2,7 @@
 	"replace": false,
 	"values": [
 		"#bigtech:ferromagnetic_blocks",
+		"#c:storage_blocks/steel",
 		"bigtech:cast_iron_block"
 	]
 }

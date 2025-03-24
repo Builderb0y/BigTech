@@ -3,8 +3,10 @@ package builderb0y.bigtech.mixins;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
@@ -35,5 +37,10 @@ public class BlockItem_AdjustStateProperly {
 			);
 		}
 		return state;
+	}
+
+	@ModifyArg(method = "placeFromNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"), index = 2)
+	private int bigtech_notifyNeighborsToo(int ignored) {
+		return Block.NOTIFY_ALL;
 	}
 }

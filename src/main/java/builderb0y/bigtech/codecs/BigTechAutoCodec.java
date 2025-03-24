@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,6 +67,7 @@ public class BigTechAutoCodec {
 							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Block.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.BLOCK)));
 							this.addGeneric(ReifiedType.parameterize(RegistryEntry.class, ReifiedType.from(Item.class)), autoCodec.wrapDFUCodec(RegistryFixedCodec.of(RegistryKeys.ITEM)));
 							this.addRaw(ComponentChanges.class, autoCodec.wrapDFUCodec(ComponentChanges.CODEC));
+							this.addRaw(BlockSetType.class, autoCodec.wrapDFUCodec(BlockSetType.CODEC));
 							this.addGeneric(
 								ReifiedType.parameterize(
 									RegistryEntryList.class,

@@ -29,7 +29,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.block.WireOrientation;
 
@@ -172,26 +171,28 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
 		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
-		world.scheduleBlockTick(pos, this, 2);
+		boolean powered = state.get(Properties.POWERED);
+		boolean shouldBePowered = world.isReceivingRedstonePower(pos);
+		if (powered != shouldBePowered) {
+			world.setBlockState(pos, state.with(Properties.POWERED, shouldBePowered));
+			if (shouldBePowered) {
+				world.scheduleBlockTick(pos, this, 2);
+			}
+		}
 	}
 
 	@Override
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		super.scheduledTick(state, world, pos, random);
-		boolean powered = state.get(Properties.POWERED);
 		int power = world.getReceivedRedstonePower(pos);
-		boolean shouldBePowered = power != 0;
-		if (powered != shouldBePowered) {
-			world.setBlockState(pos, state.with(Properties.POWERED, shouldBePowered));
-			if (shouldBePowered) {
-				LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
-				if (jar != null && jar.storedEnergy > 0) {
-					int subtracted = Math.min(this.getCapacity() * power / 15, jar.storedEnergy);
-					LightningPulse pulse = new LightningPulse(world, pos.down(), subtracted, this.getPulseSteps());
-					pulse.run();
-					LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
-					jar.setStoredEnergyAndSync(jar.storedEnergy - subtracted);
-				}
+		if (power > 0) {
+			LightningJarBlockEntity jar = WorldHelper.getBlockEntity(world, pos, LightningJarBlockEntity.class);
+			if (jar != null && jar.storedEnergy > 0) {
+				int subtracted = Math.min(this.getCapacity() * power / 15, jar.storedEnergy);
+				LightningPulse pulse = new LightningPulse(world, pos.down(), subtracted, this.getPulseSteps());
+				pulse.run();
+				LightningPulseInteractor.spawnLightningParticles(world, pos, state, pulse);
+				jar.setStoredEnergyAndSync(jar.storedEnergy - subtracted);
 			}
 		}
 	}

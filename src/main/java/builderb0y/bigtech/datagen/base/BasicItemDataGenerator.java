@@ -1,7 +1,5 @@
 package builderb0y.bigtech.datagen.base;
 
-import java.util.Map;
-
 import net.minecraft.item.Item;
 
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;

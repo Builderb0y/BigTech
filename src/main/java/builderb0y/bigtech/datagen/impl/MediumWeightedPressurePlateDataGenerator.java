@@ -39,14 +39,14 @@ public class MediumWeightedPressurePlateDataGenerator extends BasicBlockDataGene
 			context.blockModelPath(context.suffixPath(this.getId(), "_up")),
 			new RetexturedModelBuilder()
 			.blockParent(Identifier.ofVanilla("pressure_plate_up"))
-			.blockTexture("texture", BigTechMod.modID("medium_weighted_pressure_plate"))
+			.blockTexture("texture", this.getId())
 			.toString()
 		);
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_down")),
 			new RetexturedModelBuilder()
 			.blockParent(Identifier.ofVanilla("pressure_plate_down"))
-			.blockTexture("texture", BigTechMod.modID("medium_weighted_pressure_plate"))
+			.blockTexture("texture", this.getId())
 			.toString()
 		);
 	}

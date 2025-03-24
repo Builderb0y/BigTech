@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:catwalk_stairs",
+	"pattern": [
+		"r ",
+		"br",
+		" b"
+	],
+	"key": {
+		"b": "bigtech:steel_pressure_plate",
+		"r": "bigtech:steel_bars"          
+	},
+	"result": {
+		"id": "bigtech:steel_catwalk_stairs",
+		"count": 2
+	}
+}

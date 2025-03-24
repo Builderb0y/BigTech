@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"b"
+	],
+	"key": {
+		"b": "#c:storage_blocks/steel"
+	},
+	"result": {
+		"id": "bigtech:steel_ingot"
+	}
+}

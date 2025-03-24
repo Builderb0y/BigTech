@@ -14,16 +14,12 @@ things to finish for existing features:
 		more recipes:
 			sand -> silicon
 				used for redstone logic gates.
-			iron + coal -> steel
-				steel frame.
-				steel anvil: never breaks.
 			iron + redstone -> redstone ingot?
 				redstone lasers?
 			gold + lapis -> lapis ingot?
 				what would this be used for?
 				lapis frame?
 			gold + glowstone dust -> glowing ingot?
-				what would this be used for?
 				spotlight.
 	better placement:
 		toggle for:

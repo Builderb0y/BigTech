@@ -3,6 +3,7 @@
 	"values": [
 		"#bigtech:copper_frames",
 		"bigtech:gold_frame",
-		"bigtech:iron_frame"
+		"bigtech:iron_frame",
+		"bigtech:steel_frame"
 	]
 }
