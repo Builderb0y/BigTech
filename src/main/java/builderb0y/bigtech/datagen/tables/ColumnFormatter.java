@@ -29,7 +29,7 @@ public interface ColumnFormatter<R> {
 				case '\n' -> builder.append("\\n");
 				case '\r' -> builder.append("\\r");
 				case '\t' -> builder.append("\\t");
-				case '\'' -> builder.append("\\'");
+				//case '\'' -> builder.append("\\'");
 				case '"' -> builder.append("\\\"");
 				case '\\' -> builder.append("\\\\");
 				default -> {

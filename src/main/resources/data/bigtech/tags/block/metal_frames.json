@@ -2,8 +2,10 @@
 	"replace": false,
 	"values": [
 		"#bigtech:copper_frames",
+		"bigtech:electrum_frame",
 		"bigtech:gold_frame",
 		"bigtech:iron_frame",
+		"bigtech:silver_frame",
 		"bigtech:steel_frame"
 	]
 }

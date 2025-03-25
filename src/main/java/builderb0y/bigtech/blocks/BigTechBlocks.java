@@ -33,8 +33,9 @@ import builderb0y.bigtech.mixins.AbstractBlockSettings_RegistryKeyAccessor;
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
 
 /**
-welcome! the actual block declarations are in {@link FunctionalBlocks} and {@link DecoBlocks}.
-if I ever add a 3rd creative tab, that'll get its own class too.
+welcome! the actual block declarations are in
+{@link MaterialBlocks}, {@link DecoBlocks}, and {@link FunctionalBlocks}.
+if I ever add a 4th creative tab, that'll get its own class too.
 */
 public class BigTechBlocks {
 
@@ -85,8 +86,9 @@ public class BigTechBlocks {
 	);
 
 	public static void init() {
-		FunctionalBlocks.init();
+		MaterialBlocks.init();
 		DecoBlocks.init();
+		FunctionalBlocks.init();
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.         BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.  SPEEDY_BELT, PathNodeType.RAIL, null);
 		LandPathNodeTypesRegistry.register(FunctionalBlocks.   BRAKE_BELT, (BlockState state, boolean neighbor) -> !state.get(Properties.POWERED) && !neighbor ? PathNodeType.RAIL : null);
@@ -107,6 +109,8 @@ public class BigTechBlocks {
 			DecoBlocks.IRON_FRAME,
 			DecoBlocks.STEEL_FRAME,
 			DecoBlocks.GOLD_FRAME,
+			DecoBlocks.SILVER_FRAME,
+			DecoBlocks.ELECTRUM_FRAME,
 			DecoBlocks.IRON_LADDER,
 			DecoBlocks.STEEL_LADDER,
 			FunctionalBlocks.STEEL_DOOR,
@@ -147,7 +151,7 @@ public class BigTechBlocks {
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),
-			FunctionalBlocks.CRYSTAl_ClUSTERS
+			MaterialBlocks.CRYSTAL_CLUSTERS
 			.stream()
 			.toArray(Block[]::new)
 		);

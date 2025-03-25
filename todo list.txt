@@ -39,12 +39,6 @@ features:
 	general:
 		chunk loader.
 	materials:
-		silver?
-			mirrors.
-			silver iodide cannon.
-			electrum.
-				electrum lightning cables.
-			silver lightning cables?
 	decoration:
 		fancier 3D models for things.
 			more vanilla stuff?

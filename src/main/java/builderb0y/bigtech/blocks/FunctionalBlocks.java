@@ -236,6 +236,20 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final LightningCableBlock SILVER_LIGHTNING_CABLE = register(
+		new LightningCableBlock(
+			copySettings(IRON_LIGHTNING_CABLE, "silver_lightning_cable"),
+			0.75F
+		)
+	);
+	@UseDataGen(void.class)
+	public static final LightningCableBlock ELECTRUM_LIGHTNING_CABLE = register(
+		new LightningCableBlock(
+			copySettings(IRON_LIGHTNING_CABLE, "electrum_lightning_cable"),
+			0.5F
+		)
+	);
+	@UseDataGen(void.class)
 	public static final LightningDiodeBlock LIGHTNING_DIODE = register(
 		new LightningDiodeBlock(
 			copySettings(IRON_LIGHTNING_CABLE, "lightning_diode")
@@ -447,34 +461,6 @@ public class FunctionalBlocks {
 		)
 	);
 
-	//////////////////////////////// crystals ////////////////////////////////
-
-	@UseDataGen(void.class)
-	public static final CrystalBlockCollection CRYSTAl_ClUSTERS = new CrystalBlockCollection(
-		true,
-		(CrystalColor color) -> {
-			return new CrystalClusterBlock(
-				settings(color.prefix + "crystal_cluster")
-				.mapColor(color.closestDyeColor)
-				.strength(0.3F)
-				.sounds(BlockSoundGroup.AMETHYST_CLUSTER)
-				.nonOpaque()
-				.allowsSpawning(Blocks::never)
-				.solidBlock(Blocks::never)
-				.suffocates(Blocks::never)
-				.blockVision(Blocks::never)
-				.luminance((BlockState state) -> 7),
-				color
-			);
-		}
-	);
-	@UseDataGen(void.class)
-	public static final CrystallineSandBlock CRYSTALLINE_SAND = register(
-		new CrystallineSandBlock(
-			copySettings(Blocks.SAND, "crystalline_sand")
-		)
-	);
-
 	//////////////////////////////// magnets ////////////////////////////////
 
 	@UseDataGen(void.class)
@@ -533,12 +519,6 @@ public class FunctionalBlocks {
 
 	//////////////////////////////// misc ////////////////////////////////
 
-	@UseDataGen(void.class)
-	public static final Block CAST_IRON_BLOCK = register(
-		new Block(
-			copySettings(Blocks.IRON_BLOCK, "cast_iron_block")
-		)
-	);
 	@UseDataGen(void.class)
 	public static final WeightedPressurePlateBlock MEDIUM_WEIGHTED_PRESSURE_PLATE = register(
 		new WeightedPressurePlateBlock(

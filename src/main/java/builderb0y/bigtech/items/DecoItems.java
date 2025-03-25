@@ -34,9 +34,21 @@ public class DecoItems {
 	public static final BlockItem IRON_FRAME = registerPlacer(
 		DecoBlocks.IRON_FRAME
 	);
+	@UseDataGen(SteelFrameDataGenerator.class)
+	public static final BlockItem STEEL_FRAME = registerPlacer(
+		DecoBlocks.STEEL_FRAME
+	);
 	@UseDataGen(GoldFrameDataGenerator.class)
 	public static final BlockItem GOLD_FRAME = registerPlacer(
 		DecoBlocks.GOLD_FRAME
+	);
+	@UseDataGen(SilverFrameDataGenerator.class)
+	public static final BlockItem SILVER_FRAME = registerPlacer(
+		DecoBlocks.SILVER_FRAME
+	);
+	@UseDataGen(ElectrumFrameDataGenerator.class)
+	public static final BlockItem ELECTRUM_FRAME = registerPlacer(
+		DecoBlocks.ELECTRUM_FRAME
 	);
 	@UseDataGen(CopperFrameDataGenerator.class)
 	public static final CopperItemCollection COPPER_FRAMES = new CopperItemCollection(
@@ -45,10 +57,6 @@ public class DecoItems {
 			DecoBlocks.COPPER_FRAMES.get(type),
 			settings(type.copperPrefix + "frame", true)
 		)
-	);
-	@UseDataGen(SteelFrameDataGenerator.class)
-	public static final BlockItem STEEL_FRAME = registerPlacer(
-		DecoBlocks.STEEL_FRAME
 	);
 	@UseDataGen(WoodenFrameDataGenerator.class)
 	public static final WoodItemCollection WOOD_FRAMES = new WoodItemCollection(
@@ -65,6 +73,10 @@ public class DecoItems {
 	public static final BlockItem IRON_CATWALK_PLATFORM = registerPlacer(
 		DecoBlocks.IRON_CATWALK_PLATFORM
 	);
+	@UseDataGen(SteelCatwalkPlatformDataGenerator.class)
+	public static final BlockItem STEEL_CATWALK_PLATFORM = registerPlacer(
+		DecoBlocks.STEEL_CATWALK_PLATFORM
+	);
 	@UseDataGen(CopperCatwalkPlatformDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_PLATFORMS = new CopperItemCollection(
 		true,
@@ -72,10 +84,6 @@ public class DecoItems {
 			DecoBlocks.COPPER_CATWALK_PLATFORMS.get(type),
 			settings(type.copperPrefix + "catwalk_platform", true)
 		)
-	);
-	@UseDataGen(SteelCatwalkPlatformDataGenerator.class)
-	public static final BlockItem STEEL_CATWALK_PLATFORM = registerPlacer(
-		DecoBlocks.STEEL_CATWALK_PLATFORM
 	);
 	@UseDataGen(WoodCatwalkPlatformDataGenerator.class)
 	public static final WoodItemCollection WOOD_CATWALK_PLATFORMS = new WoodItemCollection(
@@ -95,19 +103,19 @@ public class DecoItems {
 			settings("iron_catwalk_stairs", true)
 		)
 	);
+	@UseDataGen(SteelCatwalkStairsDataGenerator.class)
+	public static final CatwalkStairsBlockItem STEEL_CATWALK_STAIRS = register(
+		new CatwalkStairsBlockItem(
+			DecoBlocks.STEEL_CATWALK_STAIRS,
+			settings("steel_catwalk_stairs", true)
+		)
+	);
 	@UseDataGen(CopperCatwalkStairsDataGenerator.class)
 	public static final CopperItemCollection COPPER_CATWALK_STAIRS = new CopperItemCollection(
 		true,
 		(CopperRegistrableCollection.Type type) -> new CatwalkStairsBlockItem(
 			DecoBlocks.COPPER_CATWALK_STAIRS.get(type),
 			settings(type.copperPrefix + "catwalk_stairs", true)
-		)
-	);
-	@UseDataGen(SteelCatwalkStairsDataGenerator.class)
-	public static final CatwalkStairsBlockItem STEEL_CATWALK_STAIRS = register(
-		new CatwalkStairsBlockItem(
-			DecoBlocks.STEEL_CATWALK_STAIRS,
-			settings("steel_catwalk_stairs", true)
 		)
 	);
 	@UseDataGen(WoodCatwalkStairsDataGenerator.class)
@@ -125,6 +133,10 @@ public class DecoItems {
 	public static final BlockItem IRON_LADDER = registerPlacer(
 		DecoBlocks.IRON_LADDER
 	);
+	@UseDataGen(SteelLadderDataGenerator.class)
+	public static final BlockItem STEEL_LADDER = registerPlacer(
+		DecoBlocks.STEEL_LADDER
+	);
 	@UseDataGen(CopperLadderDataGenerator.class)
 	public static final CopperItemCollection COPPER_LADDERS = new CopperItemCollection(
 		true,
@@ -133,9 +145,9 @@ public class DecoItems {
 			settings(type.copperPrefix + "ladder", true)
 		)
 	);
-	@UseDataGen(SteelLadderDataGenerator.class)
-	public static final BlockItem STEEL_LADDER = registerPlacer(
-		DecoBlocks.STEEL_LADDER
+	@UseDataGen(SteelBarsDataGenerator.class)
+	public static final BlockItem STEEL_BARS = registerPlacer(
+		DecoBlocks.STEEL_BARS
 	);
 	@UseDataGen(CopperBarsDataGenerator.class)
 	public static final CopperItemCollection COPPER_BARS = new CopperItemCollection(
@@ -145,10 +157,6 @@ public class DecoItems {
 			settings(type.copperPrefix + "bars", true)
 		)
 	);
-	@UseDataGen(SteelBarsDataGenerator.class)
-	public static final BlockItem STEEL_BARS = registerPlacer(
-		DecoBlocks.STEEL_BARS
-	);
 	@UseDataGen(CopperSlabDataGenerator.class)
 	public static final CopperItemCollection COPPER_SLABS = new CopperItemCollection(
 		true,
@@ -156,22 +164,6 @@ public class DecoItems {
 			DecoBlocks.COPPER_SLABS.get(type),
 			settings(type.copperPrefix + "slab", true)
 		)
-	);
-	@UseDataGen(SmoothObsidianDataGenerator.class)
-	public static final BlockItem SMOOTH_OBSIDIAN = registerPlacer(
-		DecoBlocks.SMOOTH_OBSIDIAN
-	);
-	@UseDataGen(SteelBlockDataGenerator.class)
-	public static final BlockItem STEEL_BLOCK = registerPlacer(
-		DecoBlocks.STEEL_BLOCK
-	);
-	@UseDataGen(SteelIngotDataGenerator.class)
-	public static final Item STEEL_INGOT = register(
-		new Item(settings("steel_ingot", false))
-	);
-	@UseDataGen(SteelNuggetDataGenerator.class)
-	public static final Item STEEL_NUGGET = register(
-		new Item(settings("steel_nugget", false))
 	);
 	@UseDataGen(LedDataGenerator.class)
 	public static final LedItemCollection LEDS = new LedItemCollection(

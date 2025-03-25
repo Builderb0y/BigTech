@@ -5,10 +5,7 @@ import java.util.List;
 import java.util.SplittableRandom;
 import java.util.random.RandomGenerator;
 
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -22,8 +19,8 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
+import builderb0y.bigtech.blocks.MaterialBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.lightning.LightningPulse;
 
@@ -138,7 +135,7 @@ public class TeslaCoilBlockEntity extends BlockEntity {
 		}
 		for (Vec3i offset : orientation.ironOffsets) {
 			tmpState = this.world.getBlockState(mutablePos.set(this.pos, offset));
-			if (!tmpState.isOf(FunctionalBlocks.CAST_IRON_BLOCK)) return false;
+			if (!tmpState.isOf(MaterialBlocks.CAST_IRON_BLOCK)) return false;
 		}
 		return true;
 	}

@@ -24,13 +24,15 @@ import builderb0y.bigtech.datagen.impl.ItemGroupDataGenerator;
 public class BigTechItemGroups {
 
 	public static final List<ItemStack>
-		FUNCTIONAL_ITEMS = collectItems(FunctionalItems.class),
-		DECO_ITEMS       = collectItems(DecoItems      .class);
+		MATERIAL_ITEMS   = collectItems(MaterialItems  .class),
+		DECO_ITEMS       = collectItems(DecoItems      .class),
+		FUNCTIONAL_ITEMS = collectItems(FunctionalItems.class);
 
 	@UseDataGen(ItemGroupDataGenerator.class)
 	public static final ItemGroup
-		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.PORTABLE_TECHNO_CRAFTER.getDefaultStack()),
-		DECO = register("deco", DECO_ITEMS, () -> DecoItems.IRON_FRAME.getDefaultStack());
+		MATERIAL = register("material", MATERIAL_ITEMS, () -> MaterialItems.CRYSTAL_CLUSTERS.red.getDefaultStack()),
+		DECO = register("deco", DECO_ITEMS, () -> DecoItems.IRON_FRAME.getDefaultStack()),
+		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.PORTABLE_TECHNO_CRAFTER.getDefaultStack());
 
 	public static void init() {}
 

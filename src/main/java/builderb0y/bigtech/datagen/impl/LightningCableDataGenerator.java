@@ -60,6 +60,20 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 		}
 	}
 
+	public static class Silver extends LightningCableDataGenerator {
+
+		public Silver(BlockItem blockItem) {
+			super(blockItem, BigTechItemTags.SILVER_INGOTS);
+		}
+	}
+
+	public static class Electrum extends LightningCableDataGenerator {
+
+		public Electrum(BlockItem blockItem) {
+			super(blockItem, BigTechItemTags.ELECTRUM_INGOTS);
+		}
+	}
+
 	@Override
 	public void writeBlockstateJson(DataGenContext context) {
 		context.writeToFile(

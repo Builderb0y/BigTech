@@ -18,6 +18,7 @@ import net.minecraft.screen.ScreenHandlerType;
 
 import builderb0y.bigtech.blocks.DecoBlocks;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
+import builderb0y.bigtech.blocks.MaterialBlocks;
 import builderb0y.bigtech.damageTypes.BigTechDamageTypes;
 import builderb0y.bigtech.datagen.formats.TableFormats.LangEntry;
 import builderb0y.bigtech.datagen.formats.TableFormats.TagElement;
@@ -28,6 +29,7 @@ import builderb0y.bigtech.entities.BigTechEntityTypes;
 import builderb0y.bigtech.items.BigTechItemGroups;
 import builderb0y.bigtech.items.DecoItems;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 import builderb0y.bigtech.particles.BigTechParticles;
 import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 
@@ -68,10 +70,12 @@ public class DataGen {
 		DataGenContext context = new DataGenContext();
 		context.generators.add(new ConfigDataGenerator());
 		context.generators.add(new VanillaTweaksDataGenerator());
-		context.collectGenerators(FunctionalBlocks         .class, Block            .class);
+		context.collectGenerators(MaterialBlocks           .class, Block            .class);
 		context.collectGenerators(DecoBlocks               .class, Block            .class);
-		context.collectGenerators(FunctionalItems          .class, Item             .class);
+		context.collectGenerators(FunctionalBlocks         .class, Block            .class);
+		context.collectGenerators(MaterialItems            .class, Item             .class);
 		context.collectGenerators(DecoItems                .class, Item             .class);
+		context.collectGenerators(FunctionalItems          .class, Item             .class);
 		context.collectGenerators(BigTechEntityTypes       .class, EntityType       .class);
 		context.collectGenerators(BigTechScreenHandlerTypes.class, ScreenHandlerType.class);
 		context.collectGenerators(BigTechDamageTypes       .class, RegistryKey      .class);

@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:ingots/gold",
+		"#c:ingots/silver"
+	],
+	"slow_cool_result": { "id": "bigtech:electrum_ingot", "count": 2 },
+	"energy": 1500,
+	"cooling_rate": 15
+}

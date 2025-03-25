@@ -14,6 +14,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 
 public class CastIronBlockDataGenerator extends BasicBlockDataGenerator {
 
@@ -65,7 +66,7 @@ public class CastIronBlockDataGenerator extends BasicBlockDataGenerator {
 			new ShapedRecipeBuilder()
 			.category(CraftingRecipeCategory.BUILDING)
 			.pattern("iii", "iii", "iii")
-			.where('i', FunctionalItems.CAST_IRON_INGOT)
+			.where('i', MaterialItems.CAST_IRON_INGOT)
 			.result(this.getId())
 			.toString()
 		);

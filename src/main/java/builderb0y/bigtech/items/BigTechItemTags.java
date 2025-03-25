@@ -37,6 +37,15 @@ public class BigTechItemTags {
 		ELECTROMAGNETIC_BLOCKS    = of("electromagnetic_blocks"),
 		MAGNETIC_BLOCKS           = of("magnetic_blocks"),
 		STEEL_BLOCKS              = common("storage_blocks/steel"),
+		SILVER_ORES               = common("ores/silver"),
+		RAW_SILVER_BLOCKS         = common("storage_blocks/raw_silver"),
+		RAW_SILVER                = common("raw_materials/silver"),
+		SILVER_BLOCKS             = common("storage_blocks/silver"),
+		SILVER_INGOTS             = common("ingots/silver"),
+		SILVER_NUGGETS            = common("nuggets/silver"),
+		ELECTRUM_BLOCKS           = common("storage_blocks/electrum"),
+		ELECTRUM_INGOTS           = common("ingots/electrum"),
+		ELECTRUM_NUGGETS          = common("nuggets/electrum"),
 		STEEL_INGOTS              = common("ingots/steel"),
 		STEEL_NUGGETS             = common("nuggets/steel"),
 		PRESSURE_PLATES           = common("pressure_plates"),
@@ -67,7 +76,8 @@ public class BigTechItemTags {
 		COLORLESS_GLASS_MATERIALS = of("colorless_glass_materials"),
 		IRON_DOUBLEABLES          = of("iron_doubleables"),
 		COPPER_DOUBLEABLES        = of("copper_doubleables"),
-		GOLD_DOUBLEABLES          = of("gold_doubleables");
+		GOLD_DOUBLEABLES          = of("gold_doubleables"),
+		SILVER_DOUBLEABLES        = of("silver_doubleables");
 
 	public static TagKey<Item> of(String name) {
 		return TagKey.of(RegistryKeys.ITEM, BigTechMod.modID(name));

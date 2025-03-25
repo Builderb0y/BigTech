@@ -43,6 +43,22 @@ public class DecoBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final FrameBlock SILVER_FRAME = register(
+		new FrameBlock(
+			copySettings(Blocks.GOLD_BLOCK, "silver_frame")
+			.mapColor(MapColor.LIGHT_BLUE_GRAY),
+			BigTechBlockTags.STICKS_TO_SILVER_FRAME
+		)
+	);
+	@UseDataGen(void.class)
+	public static final FrameBlock ELECTRUM_FRAME = register(
+		new FrameBlock(
+			copySettings(Blocks.GOLD_BLOCK, "electrum_frame")
+			.mapColor(MapColor.PALE_YELLOW),
+			BigTechBlockTags.STICKS_TO_ELECTRUM_FRAME
+		)
+	);
+	@UseDataGen(void.class)
 	public static final CopperBlockCollection COPPER_FRAMES = new CopperBlockCollection(
 		true,
 		(CopperRegistrableCollection.Type type) -> {
@@ -248,25 +264,6 @@ public class DecoBlocks {
 				: new OxidizableSlabBlock(type.level, settings)
 			);
 		}
-	);
-	@UseDataGen(void.class)
-	public static final Block SMOOTH_OBSIDIAN = register(
-		new Block(
-			copySettings(Blocks.OBSIDIAN, "smooth_obsidian")
-			.hardness(20.0F)
-			//did you know that pistons hard-code the check for
-			//obsidian instead of using the piston behavior on the block?
-			//in fact, obsidian doesn't even specify a piston behavior at all,
-			//so copying its properties won't automatically make it unpushable.
-			.pistonBehavior(PistonBehavior.BLOCK)
-		)
-	);
-	@UseDataGen(void.class)
-	public static final Block STEEL_BLOCK = register(
-		new Block(
-			copySettings(Blocks.IRON_BLOCK, "steel_block")
-			.mapColor(MapColor.GRAY)
-		)
 	);
 	@UseDataGen(void.class)
 	public static final LedBlockCollection LEDS = new LedBlockCollection(

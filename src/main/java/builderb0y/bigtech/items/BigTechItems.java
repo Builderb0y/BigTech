@@ -23,14 +23,16 @@ import net.minecraft.util.math.Direction;
 import builderb0y.bigtech.BigTechMod;
 
 /**
-welcome! the actual item declarations are in {@link FunctionalItems} and {@link DecoItems}.
-if I ever add a 3rd creative tab, it'll get a new class too.
+welcome! the actual item declarations are in
+{@link MaterialItems}, {@link DecoItems}, and {@link FunctionalItems}.
+if I ever add a 4th creative tab, it'll get a new class too.
 */
 public class BigTechItems {
 
 	public static void init() {
-		FunctionalItems.init();
+		MaterialItems.init();
 		DecoItems.init();
+		FunctionalItems.init();
 		DispenserBlock.registerBehavior(
 			FunctionalItems.LIGHTNING_BATTERY,
 			new ItemDispenserBehavior() {

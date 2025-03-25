@@ -28,6 +28,7 @@ import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.impl.CrystalLampDataGenerator.CommonCrystalLampDataGenerator;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 @Dependencies(CommonCrystalLampDataGenerator.class)
@@ -202,7 +203,7 @@ public class CrystalLampDataGenerator extends BasicBlockDataGenerator {
 			.pattern("ngn", "gcg", "ngn")
 			.where('n', ConventionalItemTags.IRON_NUGGETS)
 			.where('g', BigTechItemTags.COLORLESS_GLASS_MATERIALS)
-			.where('c', FunctionalItems.CRYSTAL_CLUSTERS.get(this.color))
+			.where('c', MaterialItems.CRYSTAL_CLUSTERS.get(this.color))
 			.result(this.getId())
 			.toString()
 		);

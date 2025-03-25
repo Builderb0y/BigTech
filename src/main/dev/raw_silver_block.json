@@ -1,0 +1,95 @@
+{
+	"version": 2,
+	"root_layer": {
+		"name": "tint",
+		"width": 16,
+		"height": 16,
+		"children": [
+			{
+				"name": "convolve",
+				"width": 16,
+				"height": 16,
+				"children": [
+					{
+						"name": "extract",
+						"width": 16,
+						"height": 16,
+						"children": [
+							{
+								"name": "gold",
+								"width": 16,
+								"height": 16,
+								"children": [],
+								"sources": {
+									"tab": {
+										"type": "manual",
+										"image": {
+											"width": 16,
+											"height": 16,
+											"pixels": "H4sIAAAAAAAA/7WXoRKBURCFPYAHUDRZVvy3KF5FUM1IHoBOIFGpdALpVylUZogMhTGj7Pwz3xx7BWHHvXv3nHvO7v1D+/EMjdM5qcwXoZPLBRvX15uQ7/aqh8PxE5ens2S32yeF/iAztuubl2sojSfVNN1m5rf/2/2Ur3W7h9pylbx/mbFdb+PvnuJw9FN9Fr83v41Vfgm/PZ/qo3y2HpuPYjW/qj/Cq+rF5rf7CS/5LTYfNlb9ouqd8hNe8r89n/hW+4tXb6QPL17Sm9pfiB/VP8QP4Se+Vf+o+ia8hF/lg/BSvXSfqt7+7VdVH6qfY/dLVb90nnd+/Hs+qPV719P7JLa/vfNLxav6kfjw4lXnk9f/3vvyziu1Xur/6ns99n3R94U6n4gftf7Y/Uf9vlD7R+z3Xuz91D8IL7wHXyLvu+cAEAAA"
+										}
+									}
+								},
+								"expanded": false
+							}
+						],
+						"sources": {
+							"tab": {
+								"type": "derived",
+								"code": [
+									"return gold(UV).ggga;"
+								]
+							}
+						},
+						"expanded": true
+					}
+				],
+				"sources": {
+					"tab": {
+						"type": "convolve",
+						"shape": "SQUARE",
+						"weight_type": "CUSTOM",
+						"radius": 1,
+						"custom_weights": [
+							0.0,
+							0.125,
+							0.0,
+							0.125,
+							0.5,
+							0.125,
+							0.0,
+							0.125,
+							0.0
+						]
+					}
+				},
+				"expanded": true
+			}
+		],
+		"sources": {
+			"tab": {
+				"type": "cliff",
+				"split_rgb": true,
+				"dual": false,
+				"linear": false,
+				"rgb_coefficient": 1.0,
+				"red_coefficient": 0.75,
+				"green_coefficient": 1.0,
+				"blue_coefficient": 2.0,
+				"alpha_coefficient": 1.0,
+				"rgb_mid": 0.5,
+				"red_mid": 0.5,
+				"green_mid": 0.5,
+				"blue_mid": 0.5,
+				"alpha_mid": 0.5
+			}
+		},
+		"expanded": true
+	},
+	"showing_layer": "tint",
+	"selected_layer": "tint",
+	"wrap": false,
+	"animation": {
+		"frames": 1
+	}
+}

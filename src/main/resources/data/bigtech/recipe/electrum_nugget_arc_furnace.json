@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:nuggets/gold",
+		"#c:nuggets/silver"
+	],
+	"slow_cool_result": { "id": "bigtech:electrum_nugget", "count": 2 },
+	"energy": 200,
+	"cooling_rate": 15
+}

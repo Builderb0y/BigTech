@@ -2,12 +2,13 @@
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
 		"m m",
-		"m m",
-		"mbm"
+		"s s",
+		"sbs"
 	],
 	"key": {
 		"m": "#c:ingots/magnetite",
-		"b": "minecraft:bow"      
+		"s": "#c:ingots/silver"   ,
+		"b": "minecraft:dispenser"
 	},
 	"result": {
 		"id": "bigtech:silver_iodide_cannon"

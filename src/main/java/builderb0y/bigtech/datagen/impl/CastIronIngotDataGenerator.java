@@ -11,6 +11,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 
 @Dependencies(ArcFurnaceRecipesDataGenerator.class)
 public class CastIronIngotDataGenerator extends BasicItemDataGenerator {
@@ -32,7 +33,7 @@ public class CastIronIngotDataGenerator extends BasicItemDataGenerator {
 			new ShapedRecipeBuilder()
 			.pattern("b")
 			.whereItem('b', this.getId())
-			.result(FunctionalItems.CAST_IRON_INGOT)
+			.result(MaterialItems.CAST_IRON_INGOT)
 			.count(9)
 			.toString()
 		);

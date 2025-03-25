@@ -1,6 +1,11 @@
 {
 	"replace": false,
 	"values": [
+		"bigtech:deepslate_silver_ore",
+		"bigtech:electrum_block",
+		"bigtech:raw_silver_block",
+		"bigtech:silver_block",
+		"bigtech:silver_ore",
 		"bigtech:steel_bars",
 		"bigtech:steel_block",
 		"bigtech:steel_door",

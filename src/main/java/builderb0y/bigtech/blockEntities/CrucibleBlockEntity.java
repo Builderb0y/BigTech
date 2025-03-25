@@ -95,7 +95,17 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 	public void craft(ServerWorld serverWorld, boolean fastCool) {
 		if (this.progress == null) return;
-		ItemStack output = (fastCool ? this.progress.fastCoolResult : this.progress.slowCoolResult).copy();
+		ItemStack output;
+		if (fastCool) {
+			output = this.progress.fastCoolResult;
+			if (output.isEmpty()) {
+				output = this.progress.slowCoolResult;
+			}
+		}
+		else {
+			output = this.progress.slowCoolResult;
+		}
+		output = output.copy();
 		this.clear();
 		this.addItem(output, output.getCount());
 		this.progress = null;
@@ -320,11 +330,12 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 		@Override
 		public void onFinalCommit() {
 			if (this.progress == null) return;
-			if (this.heat < this.progress.heat) {
+			int heat = Math.max(this.heat, 0);
+			if (heat < this.progress.heat) {
 				this.serverWorld.syncWorldEvent(WorldEvents.LAVA_EXTINGUISHED, this.crucible.pos, 0);
 			}
-			this.progress.heat = this.heat;
-			if (this.heat == 0) {
+			this.progress.heat = heat;
+			if (heat == 0) {
 				this.crucible.craft(this.serverWorld, true);
 			}
 			else {

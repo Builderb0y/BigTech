@@ -159,6 +159,14 @@ public class FunctionalItems {
 	public static final BlockItem GOLD_LIGHTNING_CABLE = registerPlacer(
 		FunctionalBlocks.GOLD_LIGHTNING_CABLE
 	);
+	@UseDataGen(LightningCableDataGenerator.Silver.class)
+	public static final BlockItem SILVER_LIGHTNING_CABLE = registerPlacer(
+		FunctionalBlocks.SILVER_LIGHTNING_CABLE
+	);
+	@UseDataGen(LightningCableDataGenerator.Electrum.class)
+	public static final BlockItem ELECTRUM_LIGHTNING_CABLE = registerPlacer(
+		FunctionalBlocks.ELECTRUM_LIGHTNING_CABLE
+	);
 	@UseDataGen(LightningDiodeDataGenerator.class)
 	public static final BlockItem LIGHTNING_DIODE = registerPlacer(
 		FunctionalBlocks.LIGHTNING_DIODE
@@ -281,41 +289,8 @@ public class FunctionalItems {
 		FunctionalBlocks.PHASE_ALIGNER
 	);
 
-	//////////////////////////////// crystals ////////////////////////////////
-
-	@UseDataGen(CrystalClusterDataGenerator.class)
-	public static final CrystalItemCollection CRYSTAL_CLUSTERS = new CrystalItemCollection(
-		true,
-		(CrystalColor color) -> new BlockItem(
-			FunctionalBlocks.CRYSTAl_ClUSTERS.get(color),
-			settings(color.prefix + "crystal_cluster", true)
-		)
-	);
-	@UseDataGen(CrystalDebrisDataGenerator.class)
-	public static final Item CRYSTAL_DEBRIS = register(
-		new Item(settings("crystal_debris", false))
-	);
-	@UseDataGen(CrystallineSandDataGenerator.class)
-	public static final BlockItem CRYSTALLINE_SAND = registerPlacer(
-		FunctionalBlocks.CRYSTALLINE_SAND
-	);
-
 	//////////////////////////////// magnets ////////////////////////////////
 
-	@UseDataGen(MagnetiteNuggetDataGenerator.class)
-	public static final Item FERROMAGNETIC_NUGGET = register(
-		new Item(settings("ferromagnetic_nugget", false))
-	);
-	static {
-		Registries.ITEM.addAlias(BigTechMod.modID("magnetite_nugget"), BigTechMod.modID("ferromagnetic_nugget"));
-	}
-	@UseDataGen(MagnetiteIngotDataGenerator.class)
-	public static final Item FERROMAGNETIC_INGOT = register(
-		new Item(settings("ferromagnetic_ingot", false))
-	);
-	static {
-		Registries.ITEM.addAlias(BigTechMod.modID("magnetite_ingot"), BigTechMod.modID("ferromagnetic_ingot"));
-	}
 	@UseDataGen(FerromagneticAttractorDataGenerator.class)
 	public static final BlockItem FERROMAGNETIC_ATTRACTOR = registerPlacer(
 		FunctionalBlocks.FERROMAGNETIC_ATTRACTOR
@@ -346,14 +321,6 @@ public class FunctionalItems {
 
 	//////////////////////////////// misc ////////////////////////////////
 
-	@UseDataGen(CastIronIngotDataGenerator.class)
-	public static final Item CAST_IRON_INGOT = register(
-		new Item(settings("cast_iron_ingot", false))
-	);
-	@UseDataGen(CastIronBlockDataGenerator.class)
-	public static final BlockItem CAST_IRON_BLOCK = registerPlacer(
-		FunctionalBlocks.CAST_IRON_BLOCK
-	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Helmet.class)
 	public static final ArmorItem MAGNETITE_HELMET = register(
 		new ArmorItem(
@@ -385,10 +352,6 @@ public class FunctionalItems {
 			EquipmentType.BOOTS,
 			settings("magnetite_boots", false)
 		)
-	);
-	@UseDataGen(CopperNuggetDataGenerator.class)
-	public static final Item COPPER_NUGGET = register(
-		new Item(settings("copper_nugget", false))
 	);
 	@UseDataGen(MediumWeightedPressurePlateDataGenerator.class)
 	public static final BlockItem MEDIUM_WEIGHTED_PRESSURE_PLATE = registerPlacer(
@@ -438,7 +401,6 @@ public class FunctionalItems {
 			builder.add(BigTechItemTags.WOODEN_FRAMES, total * 3 / 2);
 			builder.add(BigTechItemTags.WOODEN_CATWALK_PLATFORMS, total * 3 / 2);
 			builder.add(BigTechItemTags.WOODEN_CATWALK_STAIRS, total * 3 / 2);
-			builder.add(CRYSTAL_DEBRIS, total * 6);
 		});
 	}
 

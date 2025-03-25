@@ -6,6 +6,7 @@ import builderb0y.bigtech.datagen.base.BasicItemDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 
 public class LightningElectrodeDataGenerator extends BasicItemDataGenerator {
 
@@ -24,7 +25,7 @@ public class LightningElectrodeDataGenerator extends BasicItemDataGenerator {
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern("i", "i")
-			.where('i', FunctionalItems.FERROMAGNETIC_INGOT)
+			.where('i', MaterialItems.FERROMAGNETIC_INGOT)
 			.result(this.getId())
 			.toString()
 		);

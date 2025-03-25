@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"sss",
+		"sss",
+		"sss"
+	],
+	"key": {
+		"s": "#c:ingots/silver"
+	},
+	"result": {
+		"id": "bigtech:silver_block"
+	}
+}

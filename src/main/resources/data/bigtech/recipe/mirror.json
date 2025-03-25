@@ -7,8 +7,8 @@
 		" i "
 	],
 	"key": {
-		"g": "#c:glass_panes",
-		"i": "#c:ingots/iron"
+		"g": "#c:glass_panes"  ,
+		"i": "#c:ingots/silver"
 	},
 	"result": {
 		"id": "bigtech:mirror",

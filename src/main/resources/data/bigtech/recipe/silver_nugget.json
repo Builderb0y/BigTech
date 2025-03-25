@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"s"
+	],
+	"key": {
+		"s": "#c:ingots/silver"
+	},
+	"result": {
+		"id": "bigtech:silver_nugget",
+		"count": 9
+	}
+}

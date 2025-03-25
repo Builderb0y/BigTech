@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:storage_blocks/gold",
+		"#c:storage_blocks/silver"
+	],
+	"slow_cool_result": { "id": "bigtech:electrum_block", "count": 2 },
+	"energy": 12000,
+	"cooling_rate": 15
+}

@@ -16,6 +16,7 @@ import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 import builderb0y.bigtech.datagen.impl.magnets.MagneticBlockDataGenerator.FerromagneticBlockDataGenerator;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 
 public class FerromagneticTranslatorDataGenerator extends FerromagneticBlockDataGenerator {
 
@@ -55,7 +56,7 @@ public class FerromagneticTranslatorDataGenerator extends FerromagneticBlockData
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:magnets")
 			.pattern("fff", "iii", "fff")
-			.where('f', FunctionalItems.FERROMAGNETIC_INGOT)
+			.where('f', MaterialItems.FERROMAGNETIC_INGOT)
 			.where('i', ConventionalItemTags.IRON_INGOTS)
 			.result(this.getId())
 			.toString()
@@ -66,7 +67,7 @@ public class FerromagneticTranslatorDataGenerator extends FerromagneticBlockData
 			.category(CraftingRecipeCategory.REDSTONE)
 			.group("bigtech:magnets")
 			.pattern("fif", "fif", "fif")
-			.where('f', FunctionalItems.FERROMAGNETIC_INGOT)
+			.where('f', MaterialItems.FERROMAGNETIC_INGOT)
 			.where('i', ConventionalItemTags.IRON_INGOTS)
 			.result(this.getId())
 			.toString()

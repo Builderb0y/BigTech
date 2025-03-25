@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"sss",
+		"sss",
+		"sss"
+	],
+	"key": {
+		"s": "#c:raw_materials/silver"
+	},
+	"result": {
+		"id": "bigtech:raw_silver_block"
+	}
+}

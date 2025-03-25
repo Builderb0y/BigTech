@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:frames",
+	"pattern": [
+		"ini",
+		"n n",
+		"ini"
+	],
+	"key": {
+		"i": "#c:ingots/silver" ,
+		"n": "#c:nuggets/silver"
+	},
+	"result": {
+		"id": "bigtech:silver_frame",
+		"count": 4
+	}
+}

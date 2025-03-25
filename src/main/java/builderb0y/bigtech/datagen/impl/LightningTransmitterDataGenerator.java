@@ -8,6 +8,7 @@ import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.items.FunctionalItems;
+import builderb0y.bigtech.items.MaterialItems;
 
 public class LightningTransmitterDataGenerator extends RedstoneTransceiverDataGenerator {
 
@@ -223,7 +224,7 @@ public class LightningTransmitterDataGenerator extends RedstoneTransceiverDataGe
 			.where('l', FunctionalItems.LENS)
 			.where('c', BigTechItemTags.CRYSTAL_CLUSTERS)
 			.where('t', FunctionalItems.COPPER_COIL)
-			.where('b', FunctionalItems.CAST_IRON_INGOT)
+			.where('b', MaterialItems.CAST_IRON_INGOT)
 			.result(this.getId())
 			.toString()
 		);

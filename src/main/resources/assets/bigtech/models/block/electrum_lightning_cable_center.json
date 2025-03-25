@@ -1,0 +1,6 @@
+{
+	"parent": "bigtech:block/template_lightning_cable_center",
+	"textures": {
+		"cable": "bigtech:block/electrum_lightning_cable"
+	}
+}

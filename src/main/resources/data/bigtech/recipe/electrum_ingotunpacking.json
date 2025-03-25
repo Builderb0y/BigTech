@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"s"
+	],
+	"key": {
+		"s": "#c:storage_blocks/electrum"
+	},
+	"result": {
+		"id": "bigtech:electrum_ingot",
+		"count": 9
+	}
+}

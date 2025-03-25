@@ -1,0 +1,7 @@
+{
+	"replace": false,
+	"values": [
+		"#c:ores/silver",
+		"#c:raw_materials/silver"
+	]
+}

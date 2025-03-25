@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"group": "bigtech:frames",
+	"pattern": [
+		"ini",
+		"n n",
+		"ini"
+	],
+	"key": {
+		"i": "#c:ingots/electrum" ,
+		"n": "#c:nuggets/electrum"
+	},
+	"result": {
+		"id": "bigtech:electrum_frame",
+		"count": 4
+	}
+}

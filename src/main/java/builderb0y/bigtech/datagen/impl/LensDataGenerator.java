@@ -21,7 +21,7 @@ public class LensDataGenerator extends BasicItemDataGenerator {
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
 			.pattern(" i ", "igi", " i ")
-			.where('i', BigTechItemTags.IRON_NUGGETS)
+			.where('i', BigTechItemTags.SILVER_NUGGETS)
 			.where('g', ConventionalItemTags.GLASS_PANES)
 			.result(this.getId())
 			.toString()

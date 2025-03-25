@@ -94,9 +94,10 @@ public class SilverIodideCannonDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.recipePath(this.getId()),
 			new ShapedRecipeBuilder()
-			.pattern("m m", "m m", "mbm")
+			.pattern("m m", "s s", "sbs")
 			.where('m', BigTechItemTags.MAGNETITE_INGOTS)
-			.where('b', Items.BOW)
+			.where('s', BigTechItemTags.SILVER_INGOTS)
+			.where('b', Items.DISPENSER)
 			.result(this.getId())
 			.toString()
 		);

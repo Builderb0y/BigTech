@@ -15,6 +15,7 @@ import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
+import builderb0y.bigtech.items.BigTechItemTags;
 
 public class MirrorDataGenerator extends BasicBlockDataGenerator {
 
@@ -276,7 +277,7 @@ public class MirrorDataGenerator extends BasicBlockDataGenerator {
 			.category(CraftingRecipeCategory.REDSTONE)
 			.pattern("ggg", "ggg", " i ")
 			.where('g', ConventionalItemTags.GLASS_PANES)
-			.where('i', ConventionalItemTags.IRON_INGOTS)
+			.where('i', BigTechItemTags.SILVER_INGOTS)
 			.result(this.getId())
 			.count(6)
 			.toString()

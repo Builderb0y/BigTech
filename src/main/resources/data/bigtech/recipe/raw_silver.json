@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"s"
+	],
+	"key": {
+		"s": "#c:storage_blocks/raw_silver"
+	},
+	"result": {
+		"id": "bigtech:raw_silver",
+		"count": 9
+	}
+}

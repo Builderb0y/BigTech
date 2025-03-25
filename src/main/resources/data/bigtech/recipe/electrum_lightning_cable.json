@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"group": "bigtech:lightning_cables",
+	"pattern": [
+		"www",
+		"iii",
+		"www"
+	],
+	"key": {
+		"w": "#minecraft:wool"   ,
+		"i": "#c:ingots/electrum"
+	},
+	"result": {
+		"id": "bigtech:electrum_lightning_cable",
+		"count": 6
+	}
+}

@@ -6,8 +6,8 @@
 		" i "
 	],
 	"key": {
-		"i": "#c:nuggets/iron",
-		"g": "#c:glass_panes" 
+		"i": "#c:nuggets/silver",
+		"g": "#c:glass_panes"   
 	},
 	"result": {
 		"id": "bigtech:lens"

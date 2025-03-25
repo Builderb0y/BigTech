@@ -2,9 +2,11 @@
 	"replace": false,
 	"values": [
 		"bigtech:copper_lightning_cable",
+		"bigtech:electrum_lightning_cable",
 		"bigtech:gold_lightning_cable",
 		"bigtech:iron_lightning_cable",
 		"bigtech:lightning_diode",
+		"bigtech:silver_lightning_cable",
 		"bigtech:steel_lightning_cable"
 	]
 }

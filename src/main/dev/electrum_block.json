@@ -1,0 +1,56 @@
+{
+	"version": 2,
+	"root_layer": {
+		"name": "cliff",
+		"width": 16,
+		"height": 16,
+		"children": [
+			{
+				"name": "New image",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"float2 p = (uv * 2.0 - 1.0) ^ 3;",
+							"float s = p.y - p.x;",
+							"float c = s / sqrt(s^2 + 1.0);",
+							"c = c * 0.5 + 0.5;",
+							"float r = rng(...UV, 5).nextPositiveFloat();",
+							"c = mix(c, r, 1.0 / 16.0);",
+							"return float4(c, c, c, 1.0);"
+						]
+					}
+				},
+				"expanded": true
+			}
+		],
+		"sources": {
+			"tab": {
+				"type": "cliff",
+				"split_rgb": true,
+				"dual": false,
+				"linear": false,
+				"rgb_coefficient": 1.0,
+				"red_coefficient": 4.0,
+				"green_coefficient": 4.0,
+				"blue_coefficient": 0.25,
+				"alpha_coefficient": 1.0,
+				"rgb_mid": 0.5,
+				"red_mid": 0.5,
+				"green_mid": 0.5,
+				"blue_mid": 0.5,
+				"alpha_mid": 0.5
+			}
+		},
+		"expanded": true
+	},
+	"showing_layer": "cliff",
+	"selected_layer": "New image",
+	"wrap": false,
+	"animation": {
+		"frames": 1
+	}
+}
