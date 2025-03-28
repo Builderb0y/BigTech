@@ -44,16 +44,6 @@ public class TechnoCrafterBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.isOf(newState.getBlock())) {
-			return;
-		}
-		TechnoCrafterBlockEntity craftingTable = WorldHelper.getBlockEntity(world, pos, TechnoCrafterBlockEntity.class);
-		if (craftingTable != null) ItemScatterer.spawn(world, pos, craftingTable);
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
-	@Override
 	public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new TechnoCrafterBlockEntity(pos, state);
 	}

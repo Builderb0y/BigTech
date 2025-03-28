@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.joml.Matrix4f;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -27,20 +26,21 @@ public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCo
 	@Override
 	public void render(
 		TeslaCoilBlockEntity blockEntity,
-		float tickDelta,
+		float tickProgress,
 		MatrixStack matrices,
 		VertexConsumerProvider vertexConsumers,
 		int light,
-		int overlay
+		int overlay,
+		Vec3d camera
 	) {
 		VertexConsumer buffer = vertexConsumers.getBuffer(LightningRenderer.LIGHTNING_LAYER);
 		Matrix4f matrix = matrices.peek().getPositionMatrix();
 		BlockPos blockEntityPos = blockEntity.getPos();
-		Vec3d camera = MinecraftClient.getInstance().gameRenderer.getCamera().getPos().subtract(blockEntityPos.toCenterPos());
+		Vec3d relativeCameraPos = camera.subtract(blockEntityPos.getX(), blockEntityPos.getY(), blockEntityPos.getZ());
 		for (int index = 0; index < 8; index++) {
 			Target target = blockEntity.targets[index];
 			if (target == null) continue;
-			float age = index + tickDelta;
+			float age = index + tickProgress;
 			LightningRenderer.generatePoints(
 				new SplittableRandom(target.seed),
 				target.startX - blockEntityPos.getX(),
@@ -67,9 +67,9 @@ public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCo
 					LightningRenderer.addQuads(
 						buffer,
 						matrix,
-						camera.x,
-						camera.y,
-						camera.z,
+						relativeCameraPos.x,
+						relativeCameraPos.y,
+						relativeCameraPos.z,
 						startX,
 						startY,
 						startZ,

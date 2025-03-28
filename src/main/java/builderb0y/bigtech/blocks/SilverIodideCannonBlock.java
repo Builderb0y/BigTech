@@ -74,15 +74,6 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!BigTechBlockEntityTypes.SILVER_IODIDE_CANNON.supports(newState)) {
-			SilverIodideCannonBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, SilverIodideCannonBlockEntity.class);
-			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
-	@Override
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof SilverIodideCannonBlockEntity blockEntity ? blockEntity : null;
 	}

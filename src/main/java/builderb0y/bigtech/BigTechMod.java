@@ -34,7 +34,7 @@ public class BigTechMod implements ModInitializer {
 		MODID = "bigtech";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MODNAME);
-	public static final boolean audit = Boolean.getBoolean("bigtech.mixinAudit");
+	public static final boolean AUDIT = Boolean.getBoolean("bigtech.mixinAudit");
 
 	@Override
 	public void onInitialize() {

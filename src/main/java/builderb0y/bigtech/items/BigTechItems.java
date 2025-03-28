@@ -1,5 +1,8 @@
 package builderb0y.bigtech.items;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
@@ -94,6 +97,11 @@ public class BigTechItems {
 	public static BlockItem registerPlacer(Block block) {
 		Identifier id = Registries.BLOCK.getId(block);
 		return register(id, new BlockItem(block, settings(id, true)));
+	}
+
+	public static <B extends Block, I extends Item> I registerPlacer(B block, BiFunction<? super B, Item.Settings, ? extends I> constructor) {
+		Identifier id = Registries.BLOCK.getId(block);
+		return register(id, constructor.apply(block, settings(id, true)));
 	}
 
 	public static <I extends Item> I register(I item) {

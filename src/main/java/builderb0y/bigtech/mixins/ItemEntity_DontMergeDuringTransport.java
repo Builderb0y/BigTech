@@ -19,7 +19,7 @@ public abstract class ItemEntity_DontMergeDuringTransport extends Entity {
 
 	@Inject(method = "canMerge()Z", at = @At("HEAD"), cancellable = true)
 	private void bigtech_dontMergeDuringTransport(CallbackInfoReturnable<Boolean> callback) {
-		if (this.getPos().squaredDistanceTo(this.prevX, this.prevY, this.prevZ) > 0.00001D) {
+		if (this.getPos().squaredDistanceTo(this.lastX, this.lastY, this.lastZ) > 0.00001D) {
 			callback.setReturnValue(Boolean.FALSE);
 		}
 	}

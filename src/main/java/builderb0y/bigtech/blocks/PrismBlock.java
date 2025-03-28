@@ -214,15 +214,6 @@ public class PrismBlock extends Block implements BeamInteractor, BlockEntityProv
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		PrismBlockEntity prism = WorldHelper.getBlockEntity(world, pos, PrismBlockEntity.class);
-		if (prism != null && prism.hasAnyLenses()) {
-			ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FunctionalItems.LENS, prism.countLenses()));
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
-	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
 	}

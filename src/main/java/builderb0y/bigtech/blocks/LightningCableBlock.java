@@ -21,16 +21,14 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
+import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.lightning.LightningPulse.LinkedBlockPos;
-import builderb0y.bigtech.api.LightningPulseInteractor;
-import builderb0y.bigtech.util.Directions;
 
 public class LightningCableBlock extends ConnectingBlock implements LightningPulseInteractor, Waterloggable {
 
@@ -51,7 +49,7 @@ public class LightningCableBlock extends ConnectingBlock implements LightningPul
 	public final float resistance;
 
 	public LightningCableBlock(Settings settings, float resistance) {
-		super(0.25F, settings);
+		super(8.0F, settings);
 		this.resistance = resistance;
 		this.setDefaultState(
 			this

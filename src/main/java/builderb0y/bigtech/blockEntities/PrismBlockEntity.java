@@ -8,16 +8,19 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.beams.base.BeamDirection;
 import builderb0y.bigtech.beams.base.PersistentBeam;
+import builderb0y.bigtech.items.FunctionalItems;
 
 public class PrismBlockEntity extends BlockEntity {
 
@@ -76,6 +79,13 @@ public class PrismBlockEntity extends BlockEntity {
 		return Integer.bitCount(this.lenses);
 	}
 
+	@Override
+	public void onBlockReplaced(BlockPos pos, BlockState oldState) {
+		if (this.world != null && this.hasAnyLenses()) {
+			ItemScatterer.spawn(this.world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FunctionalItems.LENS, this.countLenses()));
+		}
+	}
+
 	public void lensesChanged() {
 		if (this.world instanceof ServerWorld serverWorld) {
 			serverWorld.getChunkManager().markForUpdate(this.pos);
@@ -91,7 +101,7 @@ public class PrismBlockEntity extends BlockEntity {
 	@Override
 	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		this.lenses = nbt.getInt("lenses") & FLAG_MASK;
+		this.lenses = nbt.getInt("lenses", 0) & FLAG_MASK;
 		if (this.world != null && this.world.isClient) {
 			this.reRender();
 		}

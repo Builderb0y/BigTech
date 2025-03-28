@@ -47,9 +47,9 @@ public class CopperBarsDataGenerator extends BasicBlockDataGenerator {
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
 				.map((Direction direction) -> new BlockStateJsonMultipart(
-					direction.getName(),
+					direction.asString(),
 					"true",
-					"bigtech:block/${this.type.notWaxed().copperPrefix}bars_${direction.getName()}",
+					"bigtech:block/${this.type.notWaxed().copperPrefix}bars_${direction.asString()}",
 					null,
 					null
 				))

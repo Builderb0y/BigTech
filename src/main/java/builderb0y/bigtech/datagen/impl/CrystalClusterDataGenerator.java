@@ -1,5 +1,7 @@
 package builderb0y.bigtech.datagen.impl;
 
+import java.util.Map;
+
 import net.minecraft.item.BlockItem;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
@@ -25,6 +27,24 @@ public class CrystalClusterDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		//no-op.
+	}
+
+	@Override
+	public void writeItemDefinitions(DataGenContext context) {
+		context.writeToFile(
+			context.itemDefinitionPath(this.getId()),
+			context.replace(
+				//language=json
+				"""
+				{
+					"model": {
+						"type": "bigtech:crystal_cluster",
+						"texture": "%ID"
+					}
+				}""",
+				Map.of("ID", context.prefixPath("block/", this.getId()).toString())
+			)
+		);
 	}
 
 	@Override

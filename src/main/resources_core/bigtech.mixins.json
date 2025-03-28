@@ -47,6 +47,7 @@
 		"ServerWorld_SilentBlocks",
 		"ShearsItem_FastBreakingTag",
 		"Slot_MutableInventory",
+		"WorldChunk_CallLegacyOnStateReplaced",
 		"WorldChunk_NotifyBeamsOfBlockChange"
 	],
 	"client": [

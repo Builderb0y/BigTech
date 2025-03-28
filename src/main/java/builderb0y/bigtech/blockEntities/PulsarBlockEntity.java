@@ -55,10 +55,10 @@ public class PulsarBlockEntity extends BlockEntity {
 	@Override
 	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		if ((this.onTime = nbt.getInt("onTime")) <= 0) this.onTime = 2;
-		if ((this.offTime = nbt.getInt("offTime")) <= 0) this.offTime = 8;
-		this.offset = nbt.getInt("offset");
-		this.relativeTo = TimeGetter.VALUES[nbt.getByte("relativeTo")];
+		if ((this.onTime = nbt.getInt("onTime", 2)) <= 0) this.onTime = 2;
+		if ((this.offTime = nbt.getInt("offTime", 8)) <= 0) this.offTime = 8;
+		this.offset = nbt.getInt("offset", 0);
+		this.relativeTo = nbt.getArray("relativeTo", TimeGetter.VALUES).orElse(TimeGetter.WORLD_AGE);
 	}
 
 	@Override

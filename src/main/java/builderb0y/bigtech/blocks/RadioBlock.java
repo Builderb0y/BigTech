@@ -58,17 +58,6 @@ public class RadioBlock extends Block {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType options) {
-		super.appendTooltip(stack, context, tooltip, options);
-		if (ComputercraftCompat.INSTALLED) {
-			tooltip.add(Text.translatable("tooltip.bigtech.radio.usage"));
-		}
-		else {
-			tooltip.add(Text.translatable("tooltip.bigtech.radio.computercraft_not_installed"));
-		}
-	}
-
-	@Override
 	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(Properties.HORIZONTAL_FACING);

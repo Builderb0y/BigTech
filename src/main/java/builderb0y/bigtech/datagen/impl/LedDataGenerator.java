@@ -100,7 +100,7 @@ public class LedDataGenerator extends BasicBlockDataGenerator {
 						return new ModelFace("up", startX, startY, startX + 2, startY + 2, "#led", null, null);
 					}
 					else {
-						return new ModelFace(face.getName(), startX, startY + 2, startX + 2, startY + 3, "#led", null, null);
+						return new ModelFace(face.asString(), startX, startY + 2, startX + 2, startY + 3, "#led", null, null);
 					}
 				})
 				::iterator
@@ -156,7 +156,7 @@ public class LedDataGenerator extends BasicBlockDataGenerator {
 						return new ModelFace("up", startX, startY, startX + 2, startY + 2, "#led", null, null);
 					}
 					else {
-						return new ModelFace(face.getName(), startX, startY + 2, startX + 2, startY + 3, "#led", null, null);
+						return new ModelFace(face.asString(), startX, startY + 2, startX + 2, startY + 3, "#led", null, null);
 					}
 				})
 				::iterator

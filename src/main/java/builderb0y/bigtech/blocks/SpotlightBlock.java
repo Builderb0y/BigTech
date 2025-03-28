@@ -14,6 +14,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.block.WireOrientation;
@@ -24,7 +25,7 @@ import builderb0y.bigtech.beams.impl.SpotlightBeam;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
-public class SpotlightBlock extends Block {
+public class SpotlightBlock extends Block implements LegacyOnStateReplaced {
 
 	public static final MapCodec<SpotlightBlock> CODEC = BigTechAutoCodec.callerMapCodec();
 
@@ -89,19 +90,26 @@ public class SpotlightBlock extends Block {
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
-		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
-			PersistentBeam beam = new SpotlightBeam(world, UUID.randomUUID());
-			beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.FACING)), 31.0D);
+		if (world instanceof ServerWorld serverWorld) {
+			Direction direction = this.getFiringDirection(state);
+			if (direction != null && direction != this.getFiringDirection(oldState)) {
+				PersistentBeam beam = new SpotlightBeam(world, UUID.randomUUID());
+				beam.fire(serverWorld, pos, BeamDirection.from(direction), 31.0D);
+			}
 		}
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		super.onStateReplaced(state, world, pos, newState, moved);
-		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
+	public void legacyOnStateReplaced(ServerWorld world, BlockPos pos, BlockState state, BlockState newState, boolean moved) {
+		Direction direction = this.getFiringDirection(state);
+		if (direction != null && direction != this.getFiringDirection(newState)) {
 			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-			if (beam != null) beam.removeFromWorld(serverWorld);
+			if (beam != null) beam.removeFromWorld(world);
 		}
+	}
+
+	public Direction getFiringDirection(BlockState state) {
+		return state.isOf(this) && state.get(Properties.POWERED) ? state.get(Properties.FACING) : null;
 	}
 
 	@Override

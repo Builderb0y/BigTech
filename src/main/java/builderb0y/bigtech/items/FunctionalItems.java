@@ -27,7 +27,6 @@ import builderb0y.bigtech.datagen.impl.magnets.*;
 import builderb0y.bigtech.datagen.impl.technoCrafters.PortableTechnoCrafterDataGenerator;
 import builderb0y.bigtech.datagen.impl.technoCrafters.TechnoCrafterDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
-import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 import static builderb0y.bigtech.items.BigTechItems.*;
 
@@ -123,7 +122,8 @@ public class FunctionalItems {
 
 	@UseDataGen(RadioDataGenerator.class)
 	public static final BlockItem RADIO = registerPlacer(
-		FunctionalBlocks.RADIO
+		FunctionalBlocks.RADIO,
+		RadioBlockItem::new
 	);
 
 	//////////////////////////////// encased blocks ////////////////////////////////
@@ -189,11 +189,13 @@ public class FunctionalItems {
 	);
 	@UseDataGen(SmallLightningJarDataGenerator.class)
 	public static final BlockItem SMALL_LIGHTNING_JAR = registerPlacer(
-		FunctionalBlocks.SMALL_LIGHTNING_JAR
+		FunctionalBlocks.SMALL_LIGHTNING_JAR,
+		LightningJarBlockItem::new
 	);
 	@UseDataGen(LargeLightningJarDataGenerator.class)
 	public static final BlockItem LARGE_LIGHTNING_JAR = registerPlacer(
-		FunctionalBlocks.LARGE_LIGHTNING_JAR
+		FunctionalBlocks.LARGE_LIGHTNING_JAR,
+		LightningJarBlockItem::new
 	);
 	@UseDataGen(TransmuterDataGenerator.class)
 	public static final BlockItem TRANSMUTER = registerPlacer(
@@ -231,11 +233,9 @@ public class FunctionalItems {
 		FunctionalBlocks.REDSTONE_RECEIVER
 	);
 	@UseDataGen(BeamInterceptorDataGenerator.class)
-	public static final BlockItem BEAM_INTERCEPTOR = register(
-		new ClientNbtCopyingBlockItem(
-			FunctionalBlocks.BEAM_INTERCEPTOR,
-			settings("beam_interceptor", true)
-		)
+	public static final BlockItem BEAM_INTERCEPTOR = registerPlacer(
+		FunctionalBlocks.BEAM_INTERCEPTOR,
+		ClientNbtCopyingBlockItem::new
 	);
 	@UseDataGen(TripwireDataGenerator.class)
 	public static final BlockItem TRIPWIRE = registerPlacer(
@@ -270,11 +270,9 @@ public class FunctionalItems {
 		FunctionalBlocks.MIRROR
 	);
 	@UseDataGen(PrismDataGenerator.class)
-	public static final BlockItem PRISM = register(
-		new ClientNbtCopyingBlockItem(
-			FunctionalBlocks.PRISM,
-			settings("prism", true)
-		)
+	public static final BlockItem PRISM = registerPlacer(
+		FunctionalBlocks.PRISM,
+		ClientNbtCopyingBlockItem::new
 	);
 	@UseDataGen(LensDataGenerator.class)
 	public static final Item LENS = register(
@@ -322,35 +320,39 @@ public class FunctionalItems {
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(MagnetiteArmorDataGenerator.Helmet.class)
-	public static final ArmorItem MAGNETITE_HELMET = register(
-		new ArmorItem(
-			MagnetiteArmorMaterial.INSTANCE,
-			EquipmentType.HELMET,
-			settings("magnetite_helmet", false)
+	public static final Item MAGNETITE_HELMET = register(
+		new Item(
+			settings("magnetite_helmet", false).armor(
+				MagnetiteArmorMaterial.INSTANCE,
+				EquipmentType.HELMET
+			)
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Chestplate.class)
-	public static final ArmorItem MAGNETITE_CHESTPLATE = register(
-		new ArmorItem(
-			MagnetiteArmorMaterial.INSTANCE,
-			EquipmentType.CHESTPLATE,
-			settings("magnetite_chestplate", false)
+	public static final Item MAGNETITE_CHESTPLATE = register(
+		new Item(
+			settings("magnetite_chestplate", false).armor(
+				MagnetiteArmorMaterial.INSTANCE,
+				EquipmentType.CHESTPLATE
+			)
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Leggings.class)
-	public static final ArmorItem MAGNETITE_LEGGINGS = register(
-		new ArmorItem(
-			MagnetiteArmorMaterial.INSTANCE,
-			EquipmentType.LEGGINGS,
-			settings("magnetite_leggings", false)
+	public static final Item MAGNETITE_LEGGINGS = register(
+		new Item(
+			settings("magnetite_leggings", false).armor(
+				MagnetiteArmorMaterial.INSTANCE,
+				EquipmentType.LEGGINGS
+			)
 		)
 	);
 	@UseDataGen(MagnetiteArmorDataGenerator.Boots.class)
-	public static final ArmorItem MAGNETITE_BOOTS = register(
-		new ArmorItem(
-			MagnetiteArmorMaterial.INSTANCE,
-			EquipmentType.BOOTS,
-			settings("magnetite_boots", false)
+	public static final Item MAGNETITE_BOOTS = register(
+		new Item(
+			settings("magnetite_boots", false).armor(
+				MagnetiteArmorMaterial.INSTANCE,
+				EquipmentType.BOOTS
+			)
 		)
 	);
 	@UseDataGen(MediumWeightedPressurePlateDataGenerator.class)
@@ -362,11 +364,9 @@ public class FunctionalItems {
 		FunctionalBlocks.STEEL_PRESSURE_PLATE
 	);
 	@UseDataGen(SteelDoorDataGenerator.class)
-	public static final TallBlockItem STEEL_DOOR = register(
-		new TallBlockItem(
-			FunctionalBlocks.STEEL_DOOR,
-			settings("steel_door", true)
-		)
+	public static final TallBlockItem STEEL_DOOR = registerPlacer(
+		FunctionalBlocks.STEEL_DOOR,
+		TallBlockItem::new
 	);
 	@UseDataGen(MinerToolDataGenerator.class)
 	public static final Item MINER_TOOL = register(

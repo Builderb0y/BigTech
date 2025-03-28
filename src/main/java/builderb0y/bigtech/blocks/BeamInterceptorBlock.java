@@ -307,8 +307,8 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		super.onStateReplaced(state, world, pos, newState, moved);
+	public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+		super.onStateReplaced(state, world, pos, moved);
 		if (state.get(Properties.POWERED)) {
 			world.updateNeighbors(pos.offset(state.get(Properties.FACING)), this);
 		}

@@ -155,12 +155,11 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 	@Override
 	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		this.distributionIndex = nbt.getInt("index");
-		this.inventory.readNbtList(nbt.getList("items", NbtElement.COMPOUND_TYPE), registryLookup);
+		this.distributionIndex = nbt.getInt("index", 0);
+		this.inventory.readNbtList(nbt.getListOrEmpty("items"), registryLookup);
 		this.lock = ContainerLock.fromNbt(nbt, registryLookup);
-		if (nbt.contains("CustomName", NbtElement.STRING_TYPE)) {
-			this.customName = Text.Serialization.fromJson(nbt.getString("CustomName"), registryLookup);
-		}
+		String customName = nbt.getString("CustomName").orElse(null);
+		this.customName = customName != null ? Text.Serialization.fromJson(customName, registryLookup) : null;
 	}
 
 	@Override

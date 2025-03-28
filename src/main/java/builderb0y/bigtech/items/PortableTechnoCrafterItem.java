@@ -37,7 +37,7 @@ public class PortableTechnoCrafterItem extends Item {
 		ItemStack heldStack = player.getStackInHand(hand);
 		if (!world.isClient) {
 			int heldSlot = switch (hand) {
-				case MAIN_HAND -> player.getInventory().selectedSlot;
+				case MAIN_HAND -> player.getInventory().getSelectedSlot();
 				case OFF_HAND -> 40;
 			};
 			player.openHandledScreen(new ExtendedScreenHandlerFactory<Byte>() {

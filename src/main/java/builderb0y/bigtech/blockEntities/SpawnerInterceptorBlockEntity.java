@@ -73,11 +73,9 @@ public class SpawnerInterceptorBlockEntity extends BlockEntity implements NamedS
 	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
 		this.lock = ContainerLock.fromNbt(nbt, registryLookup);
-		if (nbt.get("CustomName") instanceof NbtString string) {
-			this.customName = tryParseCustomName(string.asString(), registryLookup);
-		}
+		this.customName = tryParseCustomName(nbt.get("CustomName"), registryLookup);
 		this.inventory.clear();
-		Inventories2.readItems(nbt.getList("Items", NbtElement.COMPOUND_TYPE), registryLookup).forEach(Inventories2.setter(this.inventory));
+		Inventories2.readItems(nbt.getListOrEmpty("Items"), registryLookup).forEach(Inventories2.setter(this.inventory));
 	}
 
 	@Override

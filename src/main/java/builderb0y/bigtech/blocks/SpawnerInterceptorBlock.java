@@ -116,15 +116,6 @@ public class SpawnerInterceptorBlock extends Block implements BlockEntityProvide
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!newState.isOf(this)) {
-			SpawnerInterceptorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, SpawnerInterceptorBlockEntity.class);
-			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity.inventory);
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
-	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new SpawnerInterceptorBlockEntity(pos, state);
 	}

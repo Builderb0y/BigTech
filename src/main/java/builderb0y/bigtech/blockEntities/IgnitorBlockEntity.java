@@ -189,16 +189,17 @@ public class IgnitorBlockEntity extends LockableContainerBlockEntity implements 
 	@Override
 	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
 		super.writeNbt(nbt, registryLookup);
-		nbt.put("stack", this.getStack().toNbtAllowEmpty(registryLookup));
+		ItemStack stack = this.getStack();
+		if (!stack.isEmpty()) nbt.putItemStack("stack", stack, registryLookup);
 		nbt.putInt("fuel", this.remainingBurnTime.get());
-		nbt.putInt("maxFuel", this.remainingBurnTime.get());
+		nbt.putInt("maxFuel", this.totalBurnTime.get());
 	}
 
 	@Override
 	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		this.setStack(ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound("stack")));
-		this.remainingBurnTime.set(nbt.getInt("fuel"));
-		this.remainingBurnTime.set(nbt.getInt("maxFuel"));
+		this.setStack(nbt.getItemStack("stack", registryLookup).orElse(ItemStack.EMPTY));
+		this.remainingBurnTime.set(nbt.getInt("fuel", 0));
+		this.totalBurnTime.set(nbt.getInt("maxFuel", 0));
 	}
 }

@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -61,8 +62,8 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		super.onEntityCollision(state, world, pos, entity);
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+		super.onEntityCollision(state, world, pos, entity, handler);
 		if (world instanceof ServerWorld serverWorld) {
 			IgnitorBlockEntity ignitor = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
 			if (ignitor != null) ignitor.onEntityCollision(serverWorld, entity);
@@ -81,15 +82,6 @@ public class IgnitorBlock extends Block implements BlockEntityProvider {
 	@Override
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof IgnitorBlockEntity blockEntity ? blockEntity : null;
-	}
-
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!BigTechBlockEntityTypes.IGNITOR.supports(newState)) {
-			IgnitorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
-			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
 	}
 
 	@Override

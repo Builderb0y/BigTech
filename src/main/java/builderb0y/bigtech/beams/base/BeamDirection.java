@@ -86,10 +86,6 @@ public enum BeamDirection {
 		return number + (number << 1);
 	}
 
-	public static @Nullable BeamDirection get(int index) {
-		return index >= 0 && index < VALUES.length ? VALUES[index] : null;
-	}
-
 	public BeamDirection getOpposite() {
 		return VALUES[26 - this.ordinal()];
 	}

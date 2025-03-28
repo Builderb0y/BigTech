@@ -25,8 +25,9 @@ import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.*;
+import net.minecraft.client.render.WorldRenderer.BrightnessGetter;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.BlockStateModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BlockStateComponent;
@@ -138,7 +139,7 @@ public class PlacementPreview {
 			}
 		}
 		final BlockState placementState_ = placementState;
-		int light = WorldRenderer.getLightmapCoordinates(world, placementState, placementPos);
+		int light = WorldRenderer.getLightmapCoordinates(BrightnessGetter.DEFAULT, world, placementState, placementPos);
 		VertexConsumer buffer = renderContext.consumers().getBuffer(RenderLayer.getTranslucent());
 		MatrixStack matrixStack = renderContext.matrixStack();
 		IntUnaryOperator color = (int tintIndex) -> (
@@ -153,7 +154,7 @@ public class PlacementPreview {
 				+
 				renderContext
 				.tickCounter()
-				.getTickDelta(false),
+				.getTickProgress(false),
 				8.0F
 			)
 			* (127.0F / 8.0F)
@@ -177,14 +178,14 @@ public class PlacementPreview {
 				placementPos.getZ() - renderContext.camera().getPos().z
 			);
 			MatrixStack.Entry matrices = matrixStack.peek();
-			BakedModel model = MinecraftClient.getInstance().getBlockRenderManager().getModel(placementState);
+			BlockStateModel model = MinecraftClient.getInstance().getBlockRenderManager().getModel(placementState);
 			long seed = placementState.getRenderingSeed(placementPos);
-			model.emitBlockQuads(
+			model.emitQuads(
 				mesh.emitter(),
 				world,
-				placementState,
 				placementPos,
-				Suppliers.memoize(() -> Random.create(seed)),
+				placementState,
+				Random.create(seed),
 				Predicates.alwaysFalse()
 			);
 			skipDouble:
@@ -208,7 +209,7 @@ public class PlacementPreview {
 						break skipDouble;
 					}
 				}
-				BakedModel altModel = MinecraftClient.getInstance().getBlockRenderManager().getModel(altState);
+				BlockStateModel altModel = MinecraftClient.getInstance().getBlockRenderManager().getModel(altState);
 				long altSeed = altState.getRenderingSeed(altPos);
 				mesh.emitter().pushTransform((MutableQuadView quad) -> {
 					quad
@@ -219,12 +220,12 @@ public class PlacementPreview {
 					return true;
 				});
 				try {
-					altModel.emitBlockQuads(
+					altModel.emitQuads(
 						mesh.emitter(),
 						world,
-						altState,
 						altPos,
-						Suppliers.memoize(() -> Random.create(altSeed)),
+						altState,
+						Random.create(altSeed),
 						Predicates.alwaysFalse()
 					);
 				}
@@ -248,7 +249,7 @@ public class PlacementPreview {
 				if (renderer == null) break doneWithBlockEntity;
 				renderer.render(
 					blockEntity,
-					renderContext.tickCounter().getTickDelta(false),
+					renderContext.tickCounter().getTickProgress(false),
 					matrixStack,
 					(RenderLayer layer) -> {
 						//this is probably not the best way to do this.
@@ -274,7 +275,8 @@ public class PlacementPreview {
 						};
 					},
 					light,
-					OverlayTexture.DEFAULT_UV
+					OverlayTexture.DEFAULT_UV,
+					renderContext.camera().getPos()
 				);
 			}
 		}

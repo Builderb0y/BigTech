@@ -59,7 +59,7 @@ public class DislocatorItem extends Item {
 						new WorldInventory(
 							player,
 							switch (context.getHand()) {
-								case MAIN_HAND -> player.getInventory().selectedSlot;
+								case MAIN_HAND -> player.getInventory().getSelectedSlot();
 								case  OFF_HAND -> 40;
 							},
 							context.getBlockPos(),
@@ -74,7 +74,7 @@ public class DislocatorItem extends Item {
 				@Override
 				public Byte getScreenOpeningData(ServerPlayerEntity player) {
 					return switch (context.getHand()) {
-						case MAIN_HAND -> (byte)(player.getInventory().selectedSlot);
+						case MAIN_HAND -> (byte)(player.getInventory().getSelectedSlot());
 						case OFF_HAND -> 40;
 					};
 				}

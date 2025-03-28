@@ -146,7 +146,7 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 			.append(" ],")
 			.append("\n\t\t\t\"faces\": {")
 			.append("\n\t\t\t\t\"")
-			.append(quad.facing.getName())
+			.append(quad.facing.asString())
 			.append("\": { \"texture\": \"#texture\" }")
 			.append("\n\t\t\t}")
 			.append("\n\t\t},");

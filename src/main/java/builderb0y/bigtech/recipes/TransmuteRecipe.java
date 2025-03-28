@@ -43,7 +43,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 		this.input  = input;
 		this.output = output;
 		this.energy = energy;
-		this.outputWeight = Weighting.getWeightSum(output);
+		this.outputWeight = Weighting.getWeightSum(output, Output::weight);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 	public ItemStack craft(TransmuteRecipeInventory inventory, WrapperLookup lookup) {
 		double scaledEnergy = ((double)(inventory.slotEnergy)) / ((double)(this.energy));
 		if (inventory.random.nextDouble() >= 1.0D / (scaledEnergy * scaledEnergy + 1.0D)) {
-			return Weighting.getAt(this.output, inventory.random.nextInt(this.outputWeight)).orElseThrow().toStack();
+			return Weighting.getAt(this.output, inventory.random.nextInt(this.outputWeight), Output::weight).orElseThrow().toStack();
 		}
 		return ItemStack.EMPTY;
 	}
@@ -80,7 +80,7 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 		return BigTechRecipeTypes.TRANSMUTE;
 	}
 
-	public static class Output implements Weighted {
+	public static class Output {
 
 		public static final PacketCodec<RegistryByteBuf, Output> PACKET_CODEC = PacketCodec.tuple(
 			PacketCodecs.registryEntry(RegistryKeys.ITEM),          (Output output) -> output.item,
@@ -92,18 +92,15 @@ public class TransmuteRecipe implements Recipe<TransmuteRecipeInventory> {
 		public final RegistryEntry<Item> item;
 		public final @VerifyNullable ComponentChanges components;
 		public final @DefaultInt(1) @VerifyIntRange(min = 1) int weight;
-		public final transient Weight weightObject;
 
 		public Output(RegistryEntry<Item> item, @VerifyNullable ComponentChanges components, int weight) {
 			this.item = item;
 			this.weight = weight;
 			this.components = components;
-			this.weightObject = Weight.of(weight);
 		}
 
-		@Override
-		public Weight getWeight() {
-			return this.weightObject;
+		public int weight() {
+			return this.weight;
 		}
 
 		public ItemStack toStack() {

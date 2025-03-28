@@ -1,5 +1,6 @@
 package builderb0y.bigtech.util;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,29 +19,31 @@ import net.minecraft.util.collection.DefaultedList;
 public class Inventories2 {
 
 	public static Stream<SlotStack> readItems(NbtList list, RegistryWrapper.WrapperLookup registryLookup) {
-		if (list.getHeldType() == NbtElement.COMPOUND_TYPE) {
-			return (
-				list
-				.stream()
-				.map(NbtCompound.class::cast)
-				.map((NbtCompound compound) -> new SlotStack(
-					Byte.toUnsignedInt(compound.getByte("Slot")),
-					ItemStack.fromNbtOrEmpty(registryLookup, compound)
-				))
-			);
-		}
-		else {
-			return Stream.empty();
-		}
+		return (
+			list
+			.stream()
+			.map((NbtElement element) -> {
+				if (element instanceof NbtCompound compound) {
+					Byte slot = compound.getByte("Slot").orElse(null);
+					ItemStack stack = ItemStack.fromNbt(registryLookup, compound).orElse(null);
+					if (slot != null && stack != null) {
+						return new SlotStack(slot, stack);
+					}
+				}
+				return null;
+			})
+			.filter(Objects::nonNull)
+		);
 	}
 
 	public static NbtList writeItems(Stream<SlotStack> items, RegistryWrapper.WrapperLookup registryLookup) {
 		return (
 			items
+			.filter((SlotStack slotStack) -> !slotStack.stack.isEmpty())
 			.map((SlotStack slotStack) ->
 				slotStack
 				.stack
-				.toNbtAllowEmpty(registryLookup)
+				.toNbt(registryLookup)
 				.<NbtCompound>as()
 				.withInt("Slot", slotStack.slot)
 			)

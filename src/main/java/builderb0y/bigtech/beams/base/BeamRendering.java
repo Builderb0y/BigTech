@@ -100,7 +100,7 @@ public class BeamRendering {
 								(pulse.sectionZ << 4) - cameraPos.z
 							);
 							helper.transform(matrixStack.peek());
-							int alpha = (int)((pulse.timeRemaining - context.tickCounter().getTickDelta(false)) * (255.0F / PulseRenderState.MAX_TIME)) << 24;
+							int alpha = (int)((pulse.timeRemaining - context.tickCounter().getTickProgress(false)) * (255.0F / PulseRenderState.MAX_TIME)) << 24;
 							pulse.getMesh().forEach((QuadView quad) -> {
 								helper.quad(
 									quad.x(0), quad.x(1), quad.x(2), quad.x(3),

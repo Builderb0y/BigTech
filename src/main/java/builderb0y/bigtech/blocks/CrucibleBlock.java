@@ -13,6 +13,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -125,7 +126,7 @@ public class CrucibleBlock extends BlockWithEntity implements FluidFillable {
 	}
 
 	@Override
-	public boolean canFillWithFluid(@Nullable PlayerEntity player, BlockView world, BlockPos pos, BlockState state, Fluid fluid) {
+	public boolean canFillWithFluid(@Nullable LivingEntity filler, BlockView world, BlockPos pos, BlockState state, Fluid fluid) {
 		if (fluid == Fluids.WATER) {
 			CrucibleBlockEntity crucible = WorldHelper.getBlockEntity(world, pos, CrucibleBlockEntity.class);
 			if (crucible != null) {

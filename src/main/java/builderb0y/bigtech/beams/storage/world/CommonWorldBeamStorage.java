@@ -23,6 +23,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamType;
 import builderb0y.bigtech.beams.base.PersistentBeam;
+import builderb0y.bigtech.util.NbtReadingException;
 
 public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 
@@ -70,21 +71,37 @@ public abstract class CommonWorldBeamStorage implements AutoSyncedComponent {
 	@Override
 	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
 		this.clear();
-		for (NbtCompound beamTag : tag.getList("beams", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
-			Identifier typeID = beamTag.getIdentifier("type");
-			BeamType type = BeamType.REGISTRY.get(typeID);
-			if (type == null) {
-				BigTechMod.LOGGER.warn("Skipping beam with unknown type ${typeID}");
-				continue;
-			}
-			UUID uuid = beamTag.getUuid("uuid");
-			Beam beam = type.factory.create(this.world, uuid);
-			if (beam instanceof PersistentBeam persistentBeam) {
-				persistentBeam.readFromNbt(beamTag);
+		NbtList beams = tag.getList("beams").orElse(null);
+		if (beams != null) {
+			for (NbtCompound beamTag : beams.<Iterable<NbtCompound>>as()) {
+				Identifier typeID = beamTag.getIdentifier("type").orElse(null);
+				if (typeID == null) {
+					BigTechMod.LOGGER.warn("Skipping beam with no type");
+					continue;
+				}
+				BeamType type = BeamType.REGISTRY.get(typeID);
+				if (type == null) {
+					BigTechMod.LOGGER.warn("Skipping beam with unknown type: ${typeID}");
+					continue;
+				}
+				UUID uuid = beamTag.getUuid("uuid").orElse(null);
+				if (uuid == null) {
+					BigTechMod.LOGGER.warn("Skipping beam with no UUID: ${typeID}");
+					continue;
+				}
+				Beam beam = type.factory.create(this.world, uuid);
+				if (!(beam instanceof PersistentBeam persistentBeam)) {
+					BigTechMod.LOGGER.warn("Skipping non-persistent beam ${typeID}");
+					continue;
+				}
+				try {
+					persistentBeam.readFromNbt(beamTag);
+				}
+				catch (NbtReadingException exception) {
+					BigTechMod.LOGGER.warn("Skipping beam with malformed data:", exception);
+					continue;
+				}
 				this.addBeamNoSync(persistentBeam);
-			}
-			else {
-				BigTechMod.LOGGER.warn("Skipping non-persistent beam ${typeID}");
 			}
 		}
 	}

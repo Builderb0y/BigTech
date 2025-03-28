@@ -270,7 +270,7 @@
 	"item.bigtech.steel_nugget":                                                         "Steel Nugget",
 	"itemGroup.bigtech.deco":                                                            "Big Tech (Deco)",
 	"itemGroup.bigtech.functional":                                                      "Big Tech (Functional)",
-	"itemGroup.bigtech.material":                                                        "Big Tech (Material)",
+	"itemGroup.bigtech.materials":                                                       "Big Tech (Materials)",
 	"key.bigtech.break_delay":                                                           "Change Break Delay",
 	"key.bigtech.cycle_state":                                                           "Cycle State",
 	"key.bigtech.place_delay":                                                           "Change Place Delay",

@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -108,8 +109,8 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		super.onStateReplaced(state, world, pos, newState, moved);
+	public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+		super.onStateReplaced(state, world, pos, moved);
 		SortingCache.invalidate(world, pos, state);
 	}
 
@@ -168,8 +169,8 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		super.onEntityCollision(state, world, pos, entity);
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+		super.onEntityCollision(state, world, pos, entity, handler);
 		if (
 			this.canMove(world, pos, state, entity) &&
 			entity.getBlockPos().equals(pos)

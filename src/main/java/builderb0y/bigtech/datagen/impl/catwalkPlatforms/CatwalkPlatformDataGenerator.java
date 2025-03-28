@@ -5,6 +5,7 @@ import java.util.Arrays;
 import net.minecraft.item.BlockItem;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
@@ -43,8 +44,8 @@ public abstract class CatwalkPlatformDataGenerator extends BasicBlockDataGenerat
 			.addRows(
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
-				.map(direction -> new BlockStateJsonMultipart(
-					direction.getName(),
+				.map((Direction direction) -> new BlockStateJsonMultipart(
+					direction.asString(),
 					"true",
 					context.prefixSuffixPath("block/", this.getBlockModelIdentifier(), "_rail").toString(),
 					null,

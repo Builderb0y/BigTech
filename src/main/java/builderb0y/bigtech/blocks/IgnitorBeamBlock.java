@@ -38,7 +38,7 @@ import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.Directions;
 import builderb0y.bigtech.util.WorldHelper;
 
-public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
+public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider, LegacyOnStateReplaced {
 
 	public static final MapCodec<IgnitorBeamBlock> CODEC = BigTechAutoCodec.callerMapCodec();
 
@@ -129,24 +129,25 @@ public class IgnitorBeamBlock extends BeamBlock implements BlockEntityProvider {
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
 		if (world instanceof ServerWorld serverWorld) {
-			if (state.get(Properties.POWERED) && state.get(Properties.LIT)) {
+			Direction direction = this.getFiringDirection(state);
+			if (direction != null && direction != this.getFiringDirection(oldState)) {
 				PersistentBeam beam = new IgnitorBeam(serverWorld, UUID.randomUUID());
-				beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+				beam.fire(serverWorld, pos, BeamDirection.from(direction), 15.0D);
 			}
 		}
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!BigTechBlockEntityTypes.IGNITOR.supports(newState)) {
-			IgnitorBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, IgnitorBlockEntity.class);
-			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
-		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
+	public void legacyOnStateReplaced(ServerWorld world, BlockPos pos, BlockState state, BlockState newState, boolean moved) {
+		Direction direction = this.getFiringDirection(state);
+		if (direction != null && direction != this.getFiringDirection(newState)) {
 			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
-			if (beam != null) beam.removeFromWorld(serverWorld);
+			if (beam != null) beam.removeFromWorld(world);
 		}
+	}
+
+	public @Nullable Direction getFiringDirection(BlockState state) {
+		return state.isOf(this) && state.get(Properties.POWERED) && state.get(Properties.LIT) ? state.get(Properties.FACING) : null;
 	}
 
 	@Override

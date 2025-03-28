@@ -27,7 +27,7 @@ import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.TripwireBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
-public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider {
+public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider, LegacyOnStateReplaced {
 
 	public static final MapCodec<TripwireBeamBlock> CODEC = BigTechAutoCodec.callerMapCodec();
 
@@ -62,8 +62,11 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moved) {
 		super.onBlockAdded(state, world, pos, oldState, moved);
 		if (world instanceof ServerWorld serverWorld) {
-			PersistentBeam beam = new TripwireBeam(serverWorld, UUID.randomUUID());
-			beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+			Direction direction = this.getFiringDirection(state);
+			if (direction != null && direction != this.getFiringDirection(oldState)) {
+				PersistentBeam beam = new TripwireBeam(serverWorld, UUID.randomUUID());
+				beam.fire(serverWorld, pos, BeamDirection.from(state.get(Properties.HORIZONTAL_FACING)), 15.0D);
+			}
 			if (state.get(Properties.POWERED)) {
 				serverWorld.updateNeighbors(pos.down(), this);
 			}
@@ -71,14 +74,23 @@ public class TripwireBeamBlock extends BeamBlock implements BlockEntityProvider 
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		super.onStateReplaced(state, world, pos, newState, moved);
-		if (world instanceof ServerWorld serverWorld) {
-			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(serverWorld).getBeam(pos);
-			if (beam != null) beam.removeFromWorld(serverWorld);
-			if (state.get(Properties.POWERED)) {
-				serverWorld.updateNeighbors(pos.down(), this);
-			}
+	public void legacyOnStateReplaced(ServerWorld world, BlockPos pos, BlockState state, BlockState newState, boolean moved) {
+		Direction direction = this.getFiringDirection(state);
+		if (direction != null && direction != this.getFiringDirection(newState)) {
+			PersistentBeam beam = CommonWorldBeamStorage.KEY.get(world).getBeam(pos);
+			if (beam != null) beam.removeFromWorld(world);
+		}
+	}
+
+	public Direction getFiringDirection(BlockState state) {
+		return state.isOf(this) ? state.get(Properties.HORIZONTAL_FACING) : null;
+	}
+
+	@Override
+	public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+		super.onStateReplaced(state, world, pos, moved);
+		if (state.get(Properties.POWERED)) {
+			world.updateNeighbors(pos.down(), this);
 		}
 	}
 

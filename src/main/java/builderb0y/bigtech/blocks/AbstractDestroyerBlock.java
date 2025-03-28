@@ -72,15 +72,6 @@ public abstract class AbstractDestroyerBlock extends Block implements BlockEntit
 		}
 	}
 
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!newState.isOf(this)) {
-			AbstractDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, AbstractDestroyerBlockEntity.class);
-			if (blockEntity != null) ItemScatterer.spawn(world, pos, blockEntity);
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {

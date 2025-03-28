@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.CreeperEntity;
@@ -24,6 +25,7 @@ import builderb0y.bigtech.api.LightningPulseInteractor;
 import builderb0y.bigtech.beams.impl.LightningBeam;
 import builderb0y.bigtech.items.BigTechItemTags;
 import builderb0y.bigtech.mixins.CreeperEntity_ChargedAccessor;
+import builderb0y.bigtech.util.EquipmentSlots;
 
 public class LightningPulse {
 
@@ -74,7 +76,8 @@ public class LightningPulse {
 	public static void shockEntity(ServerWorld serverWorld, Entity entity, float amount, DamageSource source) {
 		float multiplier = 1.0F;
 		if (entity instanceof LivingEntity living) {
-			for (ItemStack stack : living.getAllArmorItems()) {
+			for (EquipmentSlot slot : EquipmentSlots.ALL_ARMOR) {
+				ItemStack stack = living.getEquippedStack(slot);
 				if (stack.isIn(BigTechItemTags.SHOCK_PROTECTIVE_ARMOR)) {
 					multiplier -= 0.25F;
 				}

@@ -15,6 +15,7 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import builderb0y.bigtech.BigTechMod;
 
@@ -28,7 +29,15 @@ public class CrucibleBlockEntityRenderer implements BlockEntityRenderer<Crucible
 	public CrucibleBlockEntityRenderer(BlockEntityRendererFactory.Context context) {}
 
 	@Override
-	public void render(CrucibleBlockEntity crucible, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+	public void render(
+		CrucibleBlockEntity crucible,
+		float tickProgress,
+		MatrixStack matrices,
+		VertexConsumerProvider vertexConsumers,
+		int light,
+		int overlay,
+		Vec3d cameraPos
+	) {
 		int itemCount = crucible.countItems();
 		if (itemCount != 0) {
 			float heightFraction = ((float)(itemCount)) / ((float)(crucible.size()));

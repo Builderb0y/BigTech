@@ -59,22 +59,24 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 
 	public void readFromNbt(NbtCompound tag) {
 		this.clear();
-		NbtList sectionsNbt = tag.getList("sections", NbtElement.COMPOUND_TYPE);
-		if (!sectionsNbt.isEmpty()) try (AsyncRunner async = new AsyncRunner()) {
-			for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
-				NbtElement coord = sectionNbt.get("coord");
-				if (!(coord instanceof AbstractNbtNumber)) {
-					BigTechMod.LOGGER.warn("Skipping beam section storage with unknown coord");
-					continue;
-				}
-				int actualCoord = coord.<AbstractNbtNumber>as().intValue();
-				CommonSectionBeamStorage section = this.newSection(actualCoord);
-				CommonSectionBeamStorage old = this.putIfAbsent(actualCoord, section);
-				if (old == null) {
-					async.submit(() -> section.readFromNbt(sectionNbt));
-				}
-				else {
-					BigTechMod.LOGGER.warn("Skipping beam section storage with duplicate coord: ${actualCoord}");
+		NbtList sectionsNbt = tag.getList("sections").orElse(null);
+		if (sectionsNbt != null && !sectionsNbt.isEmpty()) {
+			try (AsyncRunner async = new AsyncRunner()) {
+				for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
+					NbtElement coord = sectionNbt.get("coord");
+					if (!(coord instanceof AbstractNbtNumber)) {
+						BigTechMod.LOGGER.warn("Skipping beam section storage with unknown coord");
+						continue;
+					}
+					int actualCoord = coord.<AbstractNbtNumber>as().intValue();
+					CommonSectionBeamStorage section = this.newSection(actualCoord);
+					CommonSectionBeamStorage old = this.putIfAbsent(actualCoord, section);
+					if (old == null) {
+						async.submit(() -> section.readFromNbt(sectionNbt));
+					}
+					else {
+						BigTechMod.LOGGER.warn("Skipping beam section storage with duplicate coord: ${actualCoord}");
+					}
 				}
 			}
 		}

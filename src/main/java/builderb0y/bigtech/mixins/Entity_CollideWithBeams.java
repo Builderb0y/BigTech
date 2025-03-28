@@ -6,7 +6,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -26,13 +25,13 @@ public abstract class Entity_CollideWithBeams {
 	@Shadow public abstract World getWorld();
 
 	@Inject(
-		method = "checkBlockCollision",
+		method = "method_67632(Lit/unimi/dsi/fastutil/longs/LongSet;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/EntityCollisionHandler$Impl;Lnet/minecraft/util/math/BlockPos;I)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/block/BlockState;isAir()Z"
 		)
 	)
-	private void bigtech_collideWithBeams(CallbackInfo callback, @Local(index = 10) BlockPos mutablePos) {
+	private void bigtech_collideWithBeams(CallbackInfo callback, @Local(argsOnly = true) BlockPos mutablePos) {
 		if (this.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(this.getWorld().getChunk(mutablePos)).require().get(mutablePos.getY() >> 4);
 			if (sectionStorage != null) {

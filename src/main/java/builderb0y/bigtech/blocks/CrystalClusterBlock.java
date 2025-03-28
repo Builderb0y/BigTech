@@ -11,7 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.BlockStateModel;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -35,9 +35,8 @@ import builderb0y.bigtech.api.BeaconBeamColorProvider;
 import builderb0y.bigtech.api.BeamInteractor;
 import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
-import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.items.MaterialItems;
-import builderb0y.bigtech.models.CrystalBakedModel;
+import builderb0y.bigtech.models.CrystalClusterRenderer;
 import builderb0y.bigtech.particles.SparkleParticleEffect;
 import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
@@ -116,10 +115,10 @@ public class CrystalClusterBlock extends Block implements Waterloggable, BeaconB
 	@Environment(EnvType.CLIENT)
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
 		super.randomDisplayTick(state, world, pos, random);
-		BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
-		if (model instanceof CrystalBakedModel crystal) {
+		BlockStateModel model = MinecraftClient.getInstance().getBakedModelManager().getBlockModels().getModel(state);
+		if (model instanceof CrystalClusterRenderer crystal) {
 			Vec3d position = crystal.getParticlePosition(crystal.getSeedForPosition(pos), pos, world.random);
-			world.addParticle(
+			world.addParticleClient(
 				new SparkleParticleEffect(this.color.colorVector, 1.0F),
 				position.x,
 				position.y,

@@ -1,11 +1,9 @@
 package builderb0y.bigtech.models;
 
-import java.awt.image.renderable.RenderContext;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -15,11 +13,21 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.BakedQuad;
+import net.minecraft.client.item.ItemModelManager;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.item.ItemRenderState;
+import net.minecraft.client.render.item.ItemRenderState.LayerRenderState;
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.model.*;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -27,60 +35,62 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.Directions;
 
 @Environment(EnvType.CLIENT)
-public class CrystalBakedModel implements BakedModel {
+public class CrystalClusterRenderer implements BlockStateModel, ItemModel {
 
-	public static final RenderMaterial TRANSLUCENT_MATERIAL;
-	static {
-		Renderer renderer = Renderer.get();
-		TRANSLUCENT_MATERIAL = renderer.materialFinder().blendMode(BlendMode.TRANSLUCENT).find();
-	}
+	public static final RenderMaterial TRANSLUCENT_MATERIAL = Renderer.get().materialFinder().blendMode(BlendMode.TRANSLUCENT).find();
 
 	public final Sprite sprite;
 	public final ModelTransformation transformation;
 	public final int spriteHash;
 
-	public CrystalBakedModel(Sprite sprite, ModelTransformation transformation) {
+	public CrystalClusterRenderer(Sprite sprite, ModelTransformation transformation) {
 		this.sprite = sprite;
 		this.transformation = transformation;
 		this.spriteHash = sprite.getContents().getId().hashCode();
 	}
 
 	@Override
-	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction face, Random random) {
-		return Collections.emptyList();
+	public void addParts(Random random, List<BlockModelPart> parts) {
+
 	}
 
 	@Override
-	public boolean useAmbientOcclusion() {
-		return false;
-	}
-
-	@Override
-	public boolean hasDepth() {
-		return true;
-	}
-
-	@Override
-	public boolean isSideLit() {
-		return true;
-	}
-
-	@Override
-	public Sprite getParticleSprite() {
+	public Sprite particleSprite() {
 		return this.sprite;
 	}
 
 	@Override
-	public ModelTransformation getTransformation() {
-		return this.transformation;
+	public void emitQuads(
+		QuadEmitter emitter,
+		BlockRenderView blockView,
+		BlockPos pos,
+		BlockState state,
+		Random random,
+		Predicate<@Nullable Direction> cullTest
+	) {
+		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+		for (Direction direction : Directions.ALL) {
+			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
+			if (!adjacentState.isOpaqueFullCube()) {
+				this.emitQuads(this.getSeedForPosition(pos), emitter);
+				return;
+			}
+		}
 	}
 
 	@Override
-	public boolean isVanillaAdapter() {
-		return false;
+	public void update(ItemRenderState state, ItemStack stack, ItemModelManager resolver, ItemDisplayContext displayContext, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed) {
+		LayerRenderState layer = state.newLayer();
+		layer.setRenderLayer(RenderLayer.getTranslucent());
+		layer.setTransform(this.transformation.getTransformation(displayContext));
+		if (stack.hasGlint()) {
+			layer.setGlint(ItemRenderState.Glint.STANDARD);
+		}
+		this.emitQuads(this.spriteHash, layer.emitter());
 	}
 
 	public Vec3d getParticlePosition(int seed, BlockPos pos, Random random) {
@@ -179,20 +189,66 @@ public class CrystalBakedModel implements BakedModel {
 		return IntRng.permute(this.spriteHash, pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	@Override
-	public void emitBlockQuads(QuadEmitter emitter, BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, Predicate<@Nullable Direction> cullTest) {
-		BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-		for (Direction direction : Directions.ALL) {
-			BlockState adjacentState = blockView.getBlockState(mutablePos.set(pos, direction));
-			if (!adjacentState.isOpaqueFullCube()) {
-				this.emitQuads(this.getSeedForPosition(pos), emitter);
-				return;
-			}
+	@Environment(EnvType.CLIENT)
+	public static class UnbakedItemModel implements ItemModel.Unbaked, SimpleModel {
+
+		public static final MapCodec<UnbakedItemModel> CODEC = BigTechAutoCodec.callerMapCodec();
+
+		public final Identifier texture;
+
+		public UnbakedItemModel(Identifier texture) {
+			this.texture = texture;
+		}
+
+		@Override
+		public ItemModel bake(BakeContext context) {
+			return new CrystalClusterRenderer(
+				context.blockModelBaker().getSpriteGetter().get(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, this.texture), this),
+				context.blockModelBaker().getModel(Identifier.ofVanilla("block/block")).getTransformations()
+			);
+		}
+
+		@Override
+		public MapCodec<? extends ItemModel.Unbaked> getCodec() {
+			return CODEC;
+		}
+
+		@Override
+		public void resolve(Resolver resolver) {
+			resolver.markDependency(Identifier.ofVanilla("block/block"));
+		}
+
+		@Override
+		public String name() {
+			return this.texture.toString();
 		}
 	}
 
-	@Override
-	public void emitItemQuads(QuadEmitter emitter, Supplier<Random> randomSupplier) {
-		this.emitQuads(this.spriteHash, emitter);
+	@Environment(EnvType.CLIENT)
+	public static class UnbakedBlockModel implements UnbakedGrouped {
+
+		public final Identifier texture;
+
+		public UnbakedBlockModel(Identifier texture) {
+			this.texture = texture;
+		}
+
+		@Override
+		public void resolve(Resolver resolver) {
+			resolver.markDependency(Identifier.ofVanilla("block/block"));
+		}
+
+		@Override
+		public BlockStateModel bake(BlockState state, Baker baker) {
+			BakedSimpleModel block = baker.getModel(Identifier.ofVanilla("block/block"));
+			Sprite sprite = baker.getSpriteGetter().get(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, this.texture), block);
+			ModelTransformation transformations = block.getTransformations();
+			return new CrystalClusterRenderer(sprite, transformations);
+		}
+
+		@Override
+		public Object getEqualityGroup(BlockState state) {
+			return this;
+		}
 	}
 }

@@ -31,7 +31,7 @@ public class CopperCoilDataGenerator extends BasicBlockDataGenerator {
 				Arrays
 				.stream(BlockStateJsonVariant.FACING_ORDER)
 				.map(direction -> new BlockStateJsonVariant(
-					"facing=${direction.getName()}",
+					"facing=${direction.asString()}",
 					context.prefixPath("block/", this.getId()).toString(),
 					BlockStateJsonVariant.xFromUp(direction),
 					Objects.requireNonNullElse(BlockStateJsonVariant.yFromNorth(direction), 0)

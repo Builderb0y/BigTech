@@ -41,7 +41,7 @@ public class DestructionManager {
 		WeakReference<FakePlayer> holder = this.fakePlayer;
 		FakePlayer player = holder.get();
 		if (player == null) {
-			this.fakePlayer = new WeakReference<>(player = FakePlayer.get(this.world.as()));
+			this.fakePlayer = new WeakReference<>(player = FakePlayer.get(this.world.<ServerWorld>as()));
 		}
 		return player;
 	}

@@ -61,20 +61,6 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 		return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
 	}
 
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (world instanceof ServerWorld serverWorld && state.get(Properties.POWERED)) {
-			ShortRangeDestroyerBlockEntity destroyer = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
-			if (destroyer != null) {
-				if (destroyer.queue != null && destroyer.queue.populated && !destroyer.queue.inactive.isEmpty()) {
-					DestructionManager.forWorld(serverWorld).resetProgress(destroyer.queue.inactive.lastKey());
-				}
-				if (!newState.isOf(this)) destroyer.queue = null;
-			}
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
 	@Nullable
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {

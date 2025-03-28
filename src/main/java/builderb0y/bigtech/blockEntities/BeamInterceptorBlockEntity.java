@@ -50,14 +50,14 @@ public class BeamInterceptorBlockEntity extends BlockEntity {
 	@Override
 	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		float[] color = nbt.getFloatArray("color");
-		if (color.length == 3) {
+		float[] color = nbt.getFloatArray("color").orElse(null);
+		if (color != null && color.length == 3) {
 			this.color = new Vector3f(color);
 		}
 		else {
 			this.color = null;
 		}
-		this.locked = nbt.getBoolean("locked");
+		this.locked = nbt.getBoolean("locked", false);
 		if (this.world != null && this.world.isClient) {
 			this.reRender();
 		}

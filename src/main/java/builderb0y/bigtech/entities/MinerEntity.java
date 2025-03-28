@@ -108,9 +108,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	public short number;
 	public float angularMomentum;
 
-	public double lerpX, lerpY, lerpZ;
-	public float lerpYaw;
-	public int lerpTicks;
+	public PositionInterpolator lerper = new PositionInterpolator(this, 10);
 
 	public Map<BlockPos, BlockState> lastTickBreakingBlocks = Collections.emptyMap();
 
@@ -451,14 +449,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		else {
 			this.spawnBreakingParticles(currBreakingPositions);
 		}
-		if (this.isLogicalSideForUpdatingMovement()) {
-			this.lerpTicks = 0;
-			this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
-		}
-		else if (this.lerpTicks > 0) {
-			this.lerpPosAndRotation(this.lerpTicks, this.lerpX, this.lerpY, this.lerpZ, this.lerpYaw, this.getPitch());
-			this.lerpTicks--;
-		}
+		this.lerper.tick();
 	}
 
 	//on today's episode of hacky code: collisions with blocks outside our bounding box.
@@ -520,7 +511,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 		super.setRotation(yaw, pitch);
 		//it took hours to find this vanilla (?) bug.
 		if (this.getYaw() != yaw) {
-			this.prevYaw += this.getYaw() - yaw;
+			this.lastYaw += this.getYaw() - yaw;
 		}
 	}
 
@@ -696,7 +687,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	public void updatePassengerPosition(Entity passenger, PositionUpdater positionUpdater) {
 		super.updatePassengerPosition(passenger, positionUpdater);
 		passenger.horizontalCollision = false; //fix passenger randomly stopping sprinting.
-		passenger.setYaw(passenger.getYaw() + this.getYaw() - this.prevYaw);
+		passenger.setYaw(passenger.getYaw() + this.getYaw() - this.lastYaw);
 		passenger.setBodyYaw(this.getYaw());
 		this.clampPassengerYaw(passenger);
 	}
@@ -710,38 +701,14 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	public void clampPassengerYaw(Entity passenger) {
 		float offset = MathHelper.wrapDegrees(passenger.getYaw() - this.getYaw());
 		float clampedOffset = MathHelper.clamp(offset, -105.0F, 105.0F);
-		passenger.prevYaw += clampedOffset - offset;
+		passenger.lastYaw += clampedOffset - offset;
 		passenger.setYaw(passenger.getYaw() + clampedOffset - offset);
 		passenger.setHeadYaw(passenger.getYaw());
 	}
 
 	@Override
-	public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
-		this.lerpX = x;
-		this.lerpY = y;
-		this.lerpZ = z;
-		this.lerpYaw = yaw;
-		this.lerpTicks = 10;
-	}
-
-	@Override
-	public double getLerpTargetX() {
-		return this.lerpTicks > 0 ? this.lerpX : this.getX();
-	}
-
-	@Override
-	public double getLerpTargetY() {
-		return this.lerpTicks > 0 ? this.lerpY : this.getY();
-	}
-
-	@Override
-	public double getLerpTargetZ() {
-		return this.lerpTicks > 0 ? this.lerpZ : this.getZ();
-	}
-
-	@Override
-	public float getLerpTargetYaw() {
-		return this.lerpTicks > 0 ? this.lerpYaw : this.getYaw();
+	public @Nullable PositionInterpolator getInterpolator() {
+		return this.lerper;
 	}
 
 	@Override
@@ -780,15 +747,15 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 
 	@Override
 	public void readCustomDataFromNbt(NbtCompound nbt) {
-		if (nbt.contains("number", NbtElement.NUMBER_TYPE)) {
-			this.number = nbt.getShort("number");
+		if (nbt.contains("number")) {
+			this.number = nbt.getShort("number", (short)(0));
 		}
 		this.inventory.clear();
 		Inventories.readNbt(nbt, this.inventory, this.getWorld().getRegistryManager());
-		this.angularMomentum = nbt.getFloat("angular_momentum");
+		this.angularMomentum = nbt.getFloat("angular_momentum", 0.0F);
 		if (!Float.isFinite(this.angularMomentum)) this.angularMomentum = 0.0F;
-		this.fuelTicks.set(nbt.getInt("fuel_ticks"));
-		this.smeltingTicks = nbt.getInt("smelting_ticks");
+		this.fuelTicks.set(nbt.getInt("fuel_ticks", 0));
+		this.smeltingTicks = nbt.getInt("smelting_ticks", 0);
 	}
 
 	@Override

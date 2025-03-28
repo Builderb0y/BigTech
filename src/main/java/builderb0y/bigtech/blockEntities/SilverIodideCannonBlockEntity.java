@@ -100,13 +100,14 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 	@Override
 	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
 		super.writeNbt(nbt, registryLookup);
-		nbt.put("stack", this.getStack().toNbtAllowEmpty(registryLookup));
+		ItemStack stack = this.getStack();
+		if (!stack.isEmpty()) nbt.putItemStack("stack", stack, registryLookup);
 	}
 
 	@Override
 	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
 		super.readNbt(nbt, registryLookup);
-		this.setStack(ItemStack.fromNbtOrEmpty(registryLookup, nbt.getCompound("stack")));
+		this.setStack(nbt.getItemStack("stack", registryLookup).orElse(ItemStack.EMPTY));
 	}
 
 	@Override

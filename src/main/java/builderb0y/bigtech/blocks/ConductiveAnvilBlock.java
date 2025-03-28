@@ -69,17 +69,6 @@ public class ConductiveAnvilBlock extends AnvilBlock implements LightningPulseIn
 		return WorldHelper.getBlockEntity(world, pos, ConductiveAnvilBlockEntity.class);
 	}
 
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!BigTechBlockEntityTypes.CONDUCTIVE_ANVIL.supports(newState)) {
-			ConductiveAnvilBlockEntity anvil = WorldHelper.getBlockEntity(world, pos, ConductiveAnvilBlockEntity.class);
-			if (anvil != null) {
-				ItemScatterer.spawn(world, pos, anvil);
-				world.removeBlockEntity(pos);
-			}
-		}
-	}
-
 	@Nullable
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {

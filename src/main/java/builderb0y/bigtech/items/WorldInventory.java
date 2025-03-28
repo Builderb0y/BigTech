@@ -85,7 +85,7 @@ public class WorldInventory implements HeldItemInventory {
 
 	public void transferToPlayer(int slot) {
 		BlockPos pos = this.getPos(slot);
-		if (!this.player.getWorld().canPlayerModifyAt(this.player, pos)) {
+		if (!this.player.getWorld().canEntityModifyAt(this.player, pos)) {
 			return;
 		}
 		BlockState state = this.player.getWorld().getBlockState(pos);
@@ -112,7 +112,7 @@ public class WorldInventory implements HeldItemInventory {
 
 	public void drop(int slot) {
 		BlockPos pos = this.getPos(slot);
-		if (!this.player.getWorld().canPlayerModifyAt(this.player, pos)) {
+		if (!this.player.getWorld().canEntityModifyAt(this.player, pos)) {
 			return;
 		}
 		BlockState state = this.player.getWorld().getBlockState(pos);
@@ -178,7 +178,7 @@ public class WorldInventory implements HeldItemInventory {
 			}
 		}
 		BlockPos pos = this.getPos(slot);
-		if (!this.player.getWorld().canPlayerModifyAt(this.player, pos)) {
+		if (!this.player.getWorld().canEntityModifyAt(this.player, pos)) {
 			return ItemStack.EMPTY;
 		}
 		BlockState state = this.player.getWorld().getBlockState(pos);
@@ -193,7 +193,7 @@ public class WorldInventory implements HeldItemInventory {
 	@Override
 	public void setStack(int slot, ItemStack stack) {
 		BlockPos pos = this.getPos(slot);
-		if (!this.player.getWorld().canPlayerModifyAt(this.player, pos)) {
+		if (!this.player.getWorld().canEntityModifyAt(this.player, pos)) {
 			return;
 		}
 		this.player.getWorld().removeBlock(pos, false);

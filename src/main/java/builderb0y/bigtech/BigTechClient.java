@@ -37,6 +37,6 @@ public class BigTechClient implements ClientModInitializer {
 		PlacementSpeed.init();
 		if (DataGen.isEnabled()) DataGen.run();
 		BigTechMod.LOGGER.info("Done initializing on client.");
-		if (BigTechMod.audit) MinecraftClient.getInstance().execute(() -> MixinEnvironment.getCurrentEnvironment().audit());
+		if (BigTechMod.AUDIT) MinecraftClient.getInstance().execute(() -> MixinEnvironment.getCurrentEnvironment().audit());
 	}
 }

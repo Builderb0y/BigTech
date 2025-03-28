@@ -30,6 +30,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -81,34 +82,30 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 				return;
 			}
 
-			if (world.getBlockEntity(pos.up()) instanceof SpawnerInterceptorBlockEntity interceptor && interceptor.intercept(optional.get())) {
-				this.updateSpawns(world, pos);
-				return;
-			}
-
-			NbtList nbtList = nbtCompound.getList("Pos", NbtElement.DOUBLE_TYPE);
-			int j = nbtList.size();
-			double d = j >= 1 ? nbtList.getDouble(0) : (double)pos.getX() + (random.nextDouble() - random.nextDouble()) * (double)this.spawnRange + 0.5;
-			double e = j >= 2 ? nbtList.getDouble(1) : (double)(pos.getY() + random.nextInt(3) - 1);
-			double f = j >= 3 ? nbtList.getDouble(2) : (double)pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double)this.spawnRange + 0.5;
-			if (world.isSpaceEmpty(optional.get().getSpawnBox(d, e, f))) {
-				BlockPos blockPos = BlockPos.ofFloored(d, e, f);
+			Vec3d vec3d = (Vec3d)nbtCompound.get("Pos", Vec3d.CODEC).orElseGet(
+				() -> new Vec3d(
+					pos.getX() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5,
+					pos.getY() + random.nextInt(3) - 1,
+					pos.getZ() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5
+				)
+			);
+			if (world.isSpaceEmpty(((EntityType)optional.get()).getSpawnBox(vec3d.x, vec3d.y, vec3d.z))) {
+				BlockPos blockPos = BlockPos.ofFloored(vec3d);
 				if (mobSpawnerEntry.getCustomSpawnRules().isPresent()) {
-					if (!optional.get().getSpawnGroup().isPeaceful() && world.getDifficulty() == Difficulty.PEACEFUL) {
+					if (!((EntityType)optional.get()).getSpawnGroup().isPeaceful() && world.getDifficulty() == Difficulty.PEACEFUL) {
 						continue;
 					}
 
-					MobSpawnerEntry.CustomSpawnRules customSpawnRules = mobSpawnerEntry.getCustomSpawnRules().get();
+					MobSpawnerEntry.CustomSpawnRules customSpawnRules = (MobSpawnerEntry.CustomSpawnRules)mobSpawnerEntry.getCustomSpawnRules().get();
 					if (!customSpawnRules.canSpawn(blockPos, world)) {
 						continue;
 					}
-				}
-				else if (!SpawnRestriction.canSpawn(optional.get(), world, SpawnReason.SPAWNER, blockPos, world.getRandom())) {
+				} else if (!SpawnRestriction.canSpawn((EntityType)optional.get(), world, SpawnReason.SPAWNER, blockPos, world.getRandom())) {
 					continue;
 				}
 
-				Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, SpawnReason.SPAWNER, (Entity entityx) -> {
-					entityx.refreshPositionAndAngles(d, e, f, entityx.getYaw(), entityx.getPitch());
+				Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, SpawnReason.SPAWNER, entityx -> {
+					entityx.refreshPositionAndAngles(vec3d.x, vec3d.y, vec3d.z, entityx.getYaw(), entityx.getPitch());
 					return entityx;
 				});
 				if (entity == null) {
@@ -116,13 +113,13 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 					return;
 				}
 
-				int k = world.getEntitiesByType(
-					TypeFilter.equals(entity.getClass()),
-					new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).expand(this.spawnRange),
-					EntityPredicates.EXCEPT_SPECTATOR
-				)
-				.size();
-				if (k >= this.maxNearbyEntities) {
+				int j = world.getEntitiesByType(
+						TypeFilter.equals(entity.getClass()),
+						new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).expand(this.spawnRange),
+						EntityPredicates.EXCEPT_SPECTATOR
+					)
+							.size();
+				if (j >= this.maxNearbyEntities) {
 					this.updateSpawns(world, pos);
 					return;
 				}
@@ -133,7 +130,7 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 						continue;
 					}
 
-					boolean bl2 = mobSpawnerEntry.getNbt().getSize() == 1 && mobSpawnerEntry.getNbt().contains("id", NbtElement.STRING_TYPE);
+					boolean bl2 = mobSpawnerEntry.getNbt().getSize() == 1 && mobSpawnerEntry.getNbt().getString("id").isPresent();
 					if (bl2) {
 						((MobEntity)entity).initialize(world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.SPAWNER, null);
 					}
@@ -161,7 +158,7 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 		}
 	}
 
-	@Inject(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtCompound;getList(Ljava/lang/String;I)Lnet/minecraft/nbt/NbtList;"), cancellable = true)
+	@Inject(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtCompound;get(Ljava/lang/String;Lcom/mojang/serialization/Codec;)Ljava/util/Optional;"), cancellable = true)
 	private void bigtech_intercept(ServerWorld world, BlockPos pos, CallbackInfo callback, @Local(index = 8) Optional<EntityType<?>> entityType) {
 		if (world.getBlockEntity(pos.up()) instanceof SpawnerInterceptorBlockEntity interceptor && interceptor.intercept(entityType.get())) {
 			this.updateSpawns(world, pos);

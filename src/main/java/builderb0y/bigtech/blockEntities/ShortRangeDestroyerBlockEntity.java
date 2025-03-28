@@ -2,10 +2,12 @@ package builderb0y.bigtech.blockEntities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
+import builderb0y.bigtech.beams.impl.DestructionManager;
 import builderb0y.bigtech.beams.impl.DestructionManager.DestroyQueue;
 
 public class ShortRangeDestroyerBlockEntity extends AbstractDestroyerBlockEntity {
@@ -18,6 +20,17 @@ public class ShortRangeDestroyerBlockEntity extends AbstractDestroyerBlockEntity
 
 	public ShortRangeDestroyerBlockEntity(BlockPos pos, BlockState state) {
 		super(BigTechBlockEntityTypes.SHORT_RANGE_DESTROYER, pos, state);
+	}
+
+	@Override
+	public void onBlockReplaced(BlockPos pos, BlockState oldState) {
+		super.onBlockReplaced(pos, oldState);
+		if (this.world instanceof ServerWorld serverWorld) {
+			if (this.queue != null && this.queue.populated && !this.queue.inactive.isEmpty()) {
+				DestructionManager.forWorld(serverWorld).resetProgress(this.queue.inactive.lastKey());
+			}
+			this.queue = null;
+		}
 	}
 
 	@Override

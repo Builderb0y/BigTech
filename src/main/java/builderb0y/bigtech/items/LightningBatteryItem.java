@@ -1,8 +1,10 @@
 package builderb0y.bigtech.items;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,12 +31,14 @@ public class LightningBatteryItem extends Item implements InventoryVariants, Lig
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-		super.appendTooltip(stack, context, tooltip, type);
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+		super.appendTooltip(stack, context, displayComponent, textConsumer, type);
 		Integer stored = stack.get(BigTechDataComponents.LIGHTNING_ENERGY);
 		if (stored != null) {
 			int maxEnergy = this.getMaxCharge(stack);
-			tooltip.add(Text.translatable("bigtech.lightning_battery.stored", stored, maxEnergy, stored * 100 / maxEnergy));
+			textConsumer.accept(Text.translatable("bigtech.lightning_battery.stored", stored, maxEnergy, stored * 100 / maxEnergy));
 		}
 	}
 

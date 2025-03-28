@@ -57,15 +57,6 @@ public abstract class AbstractLightningJarBlock extends Block implements BlockEn
 	public abstract int getPulseSteps();
 
 	@Override
-	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType options) {
-		super.appendTooltip(stack, context, tooltip, options);
-		Integer stored = stack.get(BigTechDataComponents.LIGHTNING_ENERGY);
-		if (stored != null) {
-			tooltip.add(Text.translatable("bigtech.lightning_jar.stored", stored, this.getCapacity(), stored * 100 / this.getCapacity()));
-		}
-	}
-
-	@Override
 	public abstract VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context);
 
 	@Override

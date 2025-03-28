@@ -33,7 +33,7 @@ public abstract class AbstractDestroyerDataGenerator extends BasicBlockDataGener
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
 				.map((Direction direction) -> new BlockStateJsonVariant(
-					"facing=${direction.getName()}",
+					"facing=${direction.asString()}",
 					context.prefixPath("block/", this.getId()).toString(),
 					null,
 					BlockStateJsonVariant.yFromNorth(direction)

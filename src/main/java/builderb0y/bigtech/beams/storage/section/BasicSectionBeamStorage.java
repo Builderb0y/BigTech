@@ -18,6 +18,7 @@ import builderb0y.bigtech.beams.base.Beam;
 import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
+import builderb0y.bigtech.util.NbtReadingException;
 
 public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<BeamSegment>> {
 
@@ -157,19 +158,27 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<LinkedList<
 
 	public void readFromNbt(NbtCompound tag, CommonWorldBeamStorage world) {
 		this.clear();
-		for (NbtCompound compound : tag.getList("segments", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
-			short position = compound.getShort("pos");
-			BeamSegment segment = BeamSegment.fromNbt(compound, world);
-			if (segment != null) this.addSegment(position, segment, true);
+		NbtList segments = tag.getList("segments").orElse(null);
+		if (segments != null) {
+			for (NbtCompound compound : segments.<Iterable<NbtCompound>>as()) {
+				Short position = compound.getShort("pos").orElse(null);
+				if (position == null) continue;
+				BeamSegment segment = BeamSegment.fromNbt(compound, world);
+				if (segment != null) this.addSegment(position, segment, true);
+			}
 		}
 	}
 
 	public void readFromNbt(NbtCompound tag, Beam beam) {
 		this.clear();
-		for (NbtCompound compound : tag.getList("segments", NbtElement.COMPOUND_TYPE).<Iterable<NbtCompound>>as()) {
-			short position = compound.getShort("pos");
-			BeamSegment segment = BeamSegment.fromNbt(compound, beam);
-			if (segment != null) this.addSegment(position, segment, true);
+		NbtList segments = tag.getList("segments").orElse(null);
+		if (segments != null) {
+			for (NbtCompound compound : segments.<Iterable<NbtCompound>>as()) {
+				Short position = compound.getShort("pos").orElse(null);
+				if (position == null) continue;
+				BeamSegment segment = BeamSegment.fromNbt(compound, beam);
+				if (segment != null) this.addSegment(position, segment, true);
+			}
 		}
 	}
 }

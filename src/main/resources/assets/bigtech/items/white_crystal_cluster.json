@@ -1,6 +1,6 @@
 {
 	"model": {
-		"type": "minecraft:model",
-		"model": "bigtech:block/white_crystal_cluster"
+		"type": "bigtech:crystal_cluster",
+		"texture": "bigtech:block/white_crystal_cluster"
 	}
 }

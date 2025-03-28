@@ -142,16 +142,6 @@ public class TransmuterBlock extends BlockWithEntity implements LightningPulseIn
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.isOf(newState.getBlock())) {
-			return;
-		}
-		TransmuterBlockEntity transmuter = WorldHelper.getBlockEntity(world, pos, TransmuterBlockEntity.class);
-		if (transmuter != null) ItemScatterer.spawn(world, pos, transmuter);
-		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
-	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (!world.isClient) {
 			NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);

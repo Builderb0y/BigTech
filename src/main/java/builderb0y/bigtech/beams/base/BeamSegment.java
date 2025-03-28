@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.util.ColorF;
+import builderb0y.bigtech.util.NbtReadingException;
 
 public record BeamSegment(
 	Beam beam,
@@ -44,34 +45,36 @@ public record BeamSegment(
 	}
 
 	public static @Nullable BeamSegment fromNbt(NbtCompound tag, CommonWorldBeamStorage storage) {
-		UUID uuid = tag.getUuid("uuid");
+		UUID uuid = tag.getUuid("uuid").orElse(null);
+		if (uuid == null) {
+			BigTechMod.LOGGER.warn("Loaded beam segment from NBT which has no UUID");
+			return null;
+		}
 		Beam beam = storage.getBeam(uuid);
 		if (beam == null) {
-			BigTechMod.LOGGER.warn("Loaded segment from NBT which references non-existent beam: ${uuid}");
+			BigTechMod.LOGGER.warn("Loaded beam segment from NBT which references non-existent beam: ${uuid}");
 			return null;
 		}
-		byte dir = tag.getByte("dir");
-		BeamDirection direction = BeamDirection.get(dir);
+		BeamDirection direction = tag.getArray("dir", BeamDirection.VALUES).orElse(null);
 		if (direction == null) {
-			BigTechMod.LOGGER.warn("Loaded beam segment with invalid direction: ${dir}");
+			BigTechMod.LOGGER.warn("Loaded beam segment with invalid direction");
 			return null;
 		}
-		boolean visible = tag.getBoolean("vis");
-		float[] color = tag.getFloatArray("color");
-		Vector3f actualColor = color.length == 3 ? new Vector3f(color[0], color[1], color[2]) : null;
+		boolean visible = tag.getBoolean("vis", true);
+		float[] color = tag.getFloatArray("color").orElse(null);
+		Vector3f actualColor = color != null && color.length == 3 ? new Vector3f(color[0], color[1], color[2]) : null;
 		return new BeamSegment(beam, direction, visible, actualColor);
 	}
 
 	public static @Nullable BeamSegment fromNbt(NbtCompound tag, Beam beam) {
-		byte dir = tag.getByte("dir");
-		BeamDirection direction = BeamDirection.get(dir);
+		BeamDirection direction = tag.getArray("dir", BeamDirection.VALUES).orElse(null);
 		if (direction == null) {
-			BigTechMod.LOGGER.warn("Loaded beam segment with invalid direction: ${dir}");
+			BigTechMod.LOGGER.warn("Loaded beam segment with invalid direction");
 			return null;
 		}
-		boolean visible = tag.getBoolean("vis");
-		float[] color = tag.getFloatArray("color");
-		Vector3f actualColor = color.length == 3 ? new Vector3f(color[0], color[1], color[2]) : null;
+		boolean visible = tag.getBoolean("vis").orElse(true);
+		float[] color = tag.getFloatArray("color").orElse(null);
+		Vector3f actualColor = color != null && color.length == 3 ? new Vector3f(color[0], color[1], color[2]) : null;
 		return new BeamSegment(beam, direction, visible, actualColor);
 	}
 

@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
@@ -20,7 +21,7 @@ public abstract class ServerWorld_SilentBlocks extends World {
 	}
 
 	@Inject(method = "syncWorldEvent", at = @At("HEAD"), cancellable = true)
-	private void bigtech_cancelSoundsWithWool(PlayerEntity player, int eventId, BlockPos pos, int data, CallbackInfo callback) {
+	private void bigtech_cancelSoundsWithWool(Entity source, int eventId, BlockPos pos, int data, CallbackInfo callback) {
 		switch (eventId) {
 			case
 				WorldEvents.DISPENSER_DISPENSES,

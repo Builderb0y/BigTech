@@ -1,9 +1,6 @@
 package builderb0y.bigtech.beams.base;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -36,6 +33,7 @@ import builderb0y.bigtech.networking.AddBeamPacket;
 import builderb0y.bigtech.networking.RemoveBeamPacket;
 import builderb0y.bigtech.util.AsyncConsumer;
 import builderb0y.bigtech.util.AsyncRunner;
+import builderb0y.bigtech.util.NbtReadingException;
 
 /**
 a laser beam which stays in the world until manually removed.
@@ -206,16 +204,20 @@ public abstract class PersistentBeam extends Beam {
 		});
 	}
 
-	public void readFromNbt(NbtCompound nbt) {
-		this.origin = nbt.getBlockPos("origin");
-		NbtList sectionsNbt = nbt.getList("segment_sections", NbtElement.COMPOUND_TYPE);
-		try (AsyncRunner async = new AsyncRunner()) {
-			for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
-				long sectionPos = sectionNbt.getLong("pos");
-				BasicSectionBeamStorage section = this.seen.getSegments(sectionPos);
-				async.submit(() -> section.readFromNbt(sectionNbt, this));
+	public void readFromNbt(NbtCompound nbt) throws NbtReadingException {
+		this.origin = nbt.requireBlockPos("origin");
+		NbtList sectionsNbt = nbt.getList("segment_sections").orElse(null);
+		if (sectionsNbt != null) {
+			try (AsyncRunner async = new AsyncRunner()) {
+				for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
+					Long sectionPos = sectionNbt.getLong("pos").orElse(null);
+					if (sectionPos == null) continue;
+					BasicSectionBeamStorage section = this.seen.getSegments(sectionPos);
+					async.submit(() -> section.readFromNbt(sectionNbt, this));
+				}
 			}
 		}
-		Arrays.stream(nbt.getLongArray("callbacks")).mapToObj(BlockPos::fromLong).forEach(this.callbacks::add);
+		long[] callbacks = nbt.getLongArray("callbacks").orElse(null);
+		if (callbacks != null) Arrays.stream(callbacks).mapToObj(BlockPos::fromLong).forEach(this.callbacks::add);
 	}
 }

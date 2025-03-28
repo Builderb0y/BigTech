@@ -1,6 +1,8 @@
 package builderb0y.bigtech.models;
 
 import com.mojang.serialization.MapCodec;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.render.item.tint.TintSource;
@@ -16,6 +18,7 @@ import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.ColorF;
 
 @RecordLike({})
+@Environment(EnvType.CLIENT)
 public class BeamInterceptorTintSource implements TintSource {
 
 	public static final MapCodec<BeamInterceptorTintSource> CODEC = BigTechAutoCodec.callerMapCodec();
@@ -29,8 +32,8 @@ public class BeamInterceptorTintSource implements TintSource {
 	public int getTint(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user) {
 		NbtCompound nbt = stack.getOrDefault(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT).getNbt();
 		if (nbt != null) {
-			int[] color = nbt.getIntArray("color");
-			if (color.length == 3) {
+			int[] color = nbt.getIntArray("color").orElse(null);
+			if (color != null && color.length == 3) {
 				return ColorF.toInt(
 					Float.intBitsToFloat(color[0]),
 					Float.intBitsToFloat(color[1]),

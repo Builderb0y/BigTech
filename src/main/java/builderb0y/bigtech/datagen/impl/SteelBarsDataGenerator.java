@@ -48,9 +48,9 @@ public class SteelBarsDataGenerator extends BasicBlockDataGenerator {
 				Arrays
 				.stream(BlockStateJsonVariant.HORIZONTAL_FACING_ORDER)
 				.map((Direction direction) -> new BlockStateJsonMultipart(
-					direction.getName(),
+					direction.asString(),
 					"true",
-					"bigtech:block/steel_bars_${direction.getName()}",
+					"bigtech:block/steel_bars_${direction.asString()}",
 					null,
 					null
 				))

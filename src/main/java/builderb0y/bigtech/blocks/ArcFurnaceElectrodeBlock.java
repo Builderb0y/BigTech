@@ -98,8 +98,8 @@ public class ArcFurnaceElectrodeBlock extends Block implements LightningPulseInt
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		super.onStateReplaced(state, world, pos, newState, moved);
+	public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
+		super.onStateReplaced(state, world, pos, moved);
 		BlockPos downPos = pos.down();
 		if (world.getBlockState(downPos).isOf(FunctionalBlocks.CRUCIBLE)) {
 			world.setBlockState(downPos, Blocks.CAULDRON.getDefaultState());

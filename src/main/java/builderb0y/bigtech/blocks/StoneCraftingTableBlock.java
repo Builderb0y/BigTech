@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
@@ -41,16 +42,6 @@ public class StoneCraftingTableBlock extends Block implements BlockEntityProvide
 			player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
 		}
 		return ActionResult.SUCCESS;
-	}
-
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.isOf(newState.getBlock())) {
-			return;
-		}
-		StoneCraftingTableBlockEntity craftingTable = WorldHelper.getBlockEntity(world, pos, StoneCraftingTableBlockEntity.class);
-		if (craftingTable != null) ItemScatterer.spawn(world, pos, craftingTable);
-		super.onStateReplaced(state, world, pos, newState, moved);
 	}
 
 	@Override

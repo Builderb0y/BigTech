@@ -43,7 +43,7 @@ public class DetectorBeltBlock extends DirectionalBeltBlock {
 
 			@Override
 			public int getCount(ExperienceOrbEntity entity) {
-				return entity.getExperienceAmount();
+				return entity.getValue();
 			}
 
 			@Override

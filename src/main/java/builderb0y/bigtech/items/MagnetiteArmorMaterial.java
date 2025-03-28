@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.ArmorMaterial;
@@ -17,6 +18,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.api.MagnetiteAttractableEntity;
 import builderb0y.bigtech.blocks.FerromagneticAttractorBlock;
 import builderb0y.bigtech.blocks.MagneticBlock;
+import builderb0y.bigtech.util.EquipmentSlots;
 
 public class MagnetiteArmorMaterial {
 
@@ -47,8 +49,8 @@ public class MagnetiteArmorMaterial {
 	public static void onEntityTick(LivingEntity living) {
 		if (!living.getWorld().isClient) {
 			int itemCount = 0;
-			for (ItemStack stack : living.getArmorItems()) {
-				if (stack.isIn(BigTechItemTags.MAGNETIC_ARMOR)) {
+			for (EquipmentSlot slot : EquipmentSlots.ARMOR) {
+				if (living.getEquippedStack(slot).isIn(BigTechItemTags.MAGNETIC_ARMOR)) {
 					itemCount++;
 				}
 			}

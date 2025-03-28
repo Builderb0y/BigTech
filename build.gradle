@@ -1,5 +1,5 @@
 plugins() {
-	id('fabric-loom') version('1.8-SNAPSHOT')
+	id('fabric-loom') version('1.10-SNAPSHOT')
 	//id('maven-publish')
 }
 
@@ -41,7 +41,8 @@ repositories() {
 
 dependencies() {
 	minecraft("com.mojang:minecraft:${project.minecraft_version}")
-	mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
+	//mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
+	mappings(fileTree('dependencies/1.21.5/mappings'))
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
@@ -49,18 +50,12 @@ dependencies() {
 		transitive = false
 	})
 
-	modImplementation('maven.modrinth:lambdynamiclights:4.0.1+1.21.4')
-	modImplementation('maven.modrinth:cloth-config:17.0.144+fabric')
-	modImplementation('maven.modrinth:modmenu:13.0.0-beta.1')
 	modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric-api:1.113.1")
 
-	//modImplementation('maven.modrinth:sodium:mc1.21-0.5.11')
-	//modRuntimeOnly('maven.modrinth:indium:1.0.34+mc1.21')
-
 	//cardinal components.
-	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:6.2.0'))
-	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-world:6.2.0'))
-	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.2.0'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:6.3.0'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-world:6.3.0'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.3.0'))
 
 	//manifold.
 	String manifoldVersion = '2025.1.5'

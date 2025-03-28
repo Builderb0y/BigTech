@@ -66,6 +66,6 @@ public abstract class FireworkRocket_ImplementSilverIodideProjectile extends Ent
 
 	@Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
 	private void bigtech_readType(NbtCompound nbt, CallbackInfo callback) {
-		this.bigtech_type = Type.VALUES[nbt.getByte("bigtech_type")];
+		this.bigtech_type = nbt.getArray("bigtech_type", Type.VALUES).orElse(Type.NONE);
 	}
 }

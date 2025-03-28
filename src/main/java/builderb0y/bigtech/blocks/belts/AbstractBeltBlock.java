@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCollisionHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -57,15 +58,15 @@ public abstract class AbstractBeltBlock extends Block implements Waterloggable, 
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		super.onEntityCollision(state, world, pos, entity);
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler) {
+		super.onEntityCollision(state, world, pos, entity, handler);
 		if (this.canMove(world, pos, state, entity) && this.isOnBelt(world, pos, state, entity)) {
 			this.move(world, pos, state, entity);
 		}
 		BlockPos downPos = pos.down();
 		BlockState downState = world.getBlockState(downPos);
 		if (!(downState.getBlock() instanceof AbstractBeltBlock)) {
-			downState.onEntityCollision(world, downPos, entity);
+			downState.onEntityCollision(world, downPos, entity, handler);
 		}
 	}
 

@@ -25,15 +25,14 @@ things to finish for existing features:
 		toggle for:
 			if you're looking at the block you just placed, don't place a new block.
 			if you're looking at a different block, place immediately.
+	electrum:
+		use in lightning transmitter recipe somewhere.
 
 compatibility:
 
 testing:
 
-1.21.4:
-	some kind of config saving problem involving en_us.json.
-		probably file doesn't exist when config queries localizations in it.
-		probably only an issue with data gen.
+1.21.5:
 
 features:
 	general:
