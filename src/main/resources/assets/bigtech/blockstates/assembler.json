@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"active=false,powered=false": { "model": "bigtech:block/assembler_off" },
+		"active=false,powered=true":  { "model": "bigtech:block/assembler_off" },
+		"active=true,powered=false":  { "model": "bigtech:block/assembler_on"  },
+		"active=true,powered=true":   { "model": "bigtech:block/assembler_on"  }
+	}
+}

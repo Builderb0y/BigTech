@@ -11,7 +11,6 @@ import net.minecraft.nbt.NbtCompound;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.util.ColorF;
-import builderb0y.bigtech.util.NbtReadingException;
 
 public record BeamSegment(
 	Beam beam,

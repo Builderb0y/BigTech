@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:circuit_components",
+	"ingredients": [
+		"bigtech:subtracter_circuit"
+	],
+	"result": {
+		"id": "bigtech:comparator_circuit"
+	}
+}

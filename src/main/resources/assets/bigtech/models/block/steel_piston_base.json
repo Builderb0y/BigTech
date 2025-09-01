@@ -1,0 +1,8 @@
+{
+	"parent": "block/piston_extended",
+	"textures": {
+		"bottom": "bigtech:block/steel_piston_bottom",
+		"side": "bigtech:block/steel_piston_side",
+		"inside": "bigtech:block/steel_piston_inner"
+	}
+}

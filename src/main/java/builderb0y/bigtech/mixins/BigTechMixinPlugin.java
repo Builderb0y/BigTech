@@ -50,7 +50,7 @@ public class BigTechMixinPlugin implements IMixinConfigPlugin {
 		defaults.put(mixinPackage + ".LightningRod_EmitLightningPulse",                                  Boolean.TRUE);
 		defaults.put(mixinPackage + ".LivingEntity_AttractStuffWhenWearingMagnetiteArmor",               Boolean.TRUE);
 		defaults.put(mixinPackage + ".LivingEntity_MakePlayersNotClimbWhileFlying",                      Boolean.TRUE);
-		defaults.put(mixinPackage + ".PistonHandler_AdvancedStickyBlocks",                               Boolean.TRUE);
+		defaults.put(mixinPackage + ".PistonHandler_MakeMoreFlexible",                               Boolean.TRUE);
 		defaults.put(mixinPackage + ".ProjectileEntity_MakeMagnetiteAttractable",                        Boolean.TRUE);
 		defaults.put(mixinPackage + ".RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",     Boolean.TRUE);
 		defaults.put(mixinPackage + ".ServerWorld_SilentBlocks",                                         Boolean.TRUE);
@@ -61,9 +61,9 @@ public class BigTechMixinPlugin implements IMixinConfigPlugin {
 
 	//copy-pasted from my other mod, big globe.
 	public Properties loadProperties() {
-		Path bigGlobeConfigFolder = FabricLoader.getInstance().getConfigDir().resolve("bigtech");
-		Path path = bigGlobeConfigFolder.resolve("mixins.properties");
-		Path tmp  = bigGlobeConfigFolder.resolve("mixins.tmp");
+		Path bigTechConfigFolder = FabricLoader.getInstance().getConfigDir().resolve("bigtech");
+		Path path = bigTechConfigFolder.resolve("mixins.properties");
+		Path tmp  = bigTechConfigFolder.resolve("mixins.tmp");
 		Properties properties = new Properties();
 		if (Files.exists(path)) try {
 			//file exists, so try loading it.

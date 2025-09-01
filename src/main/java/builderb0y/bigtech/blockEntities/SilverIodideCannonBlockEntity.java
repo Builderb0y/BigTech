@@ -35,7 +35,8 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 
 	//I used to just have an ItemStack here,
 	//but then getHeldStacks() was added,
-	//so now I need a full DefaultedList.
+	//so now I need a full DefaultedList
+	//with a size of 1.
 	public DefaultedList<ItemStack> stacks = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 	public SilverIodideCannonBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {

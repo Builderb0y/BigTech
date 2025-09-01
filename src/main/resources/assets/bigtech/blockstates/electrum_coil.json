@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"facing=up":    { "model": "bigtech:block/electrum_coil", "x":   0, "y":   0 },
+		"facing=down":  { "model": "bigtech:block/electrum_coil", "x": 180, "y":   0 },
+		"facing=north": { "model": "bigtech:block/electrum_coil", "x":  90, "y":   0 },
+		"facing=east":  { "model": "bigtech:block/electrum_coil", "x":  90, "y":  90 },
+		"facing=south": { "model": "bigtech:block/electrum_coil", "x":  90, "y": 180 },
+		"facing=west":  { "model": "bigtech:block/electrum_coil", "x":  90, "y": 270 }
+	}
+}

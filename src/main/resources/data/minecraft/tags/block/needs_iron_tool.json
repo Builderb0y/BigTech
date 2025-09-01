@@ -1,9 +1,13 @@
 {
 	"replace": false,
 	"values": [
+		"bigtech:assembler",
 		"bigtech:deepslate_silver_ore",
 		"bigtech:electrum_block",
+		"bigtech:glowstone_alloy_block",
+		"bigtech:lapis_alloy_block",
 		"bigtech:raw_silver_block",
+		"bigtech:redstone_alloy_block",
 		"bigtech:silver_block",
 		"bigtech:silver_ore",
 		"bigtech:steel_bars",

@@ -10,12 +10,13 @@ import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.text.TextCodecs;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.*;
-import builderb0y.bigtech.datagen.impl.technoCrafters.PlacedTechnoCrafterContainerDataGenerator;
-import builderb0y.bigtech.datagen.impl.technoCrafters.PortableTechnoCrafterContainerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.technoCrafters.PlacedTechnoCrafterContainerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.technoCrafters.PortableTechnoCrafterContainerDataGenerator;
 import builderb0y.bigtech.networking.PacketCodecs2;
 
 public class BigTechScreenHandlerTypes {
@@ -30,6 +31,11 @@ public class BigTechScreenHandlerTypes {
 		"transmuter",
 		TransmuterScreenHandler::new
 	);
+	@UseDataGen(void.class) //handled by LongRangeDeployerDataGenerator
+	public static final ScreenHandlerType<LongRangeDeployerScreenHandler> LONG_RANGE_DEPLOYER = register(
+		"long_range_deployer",
+		LongRangeDeployerScreenHandler::new
+	);
 	@UseDataGen(InventoryDataGenerator.class)
 	public static final ScreenHandlerType<DestroyerScreenHandler> DESTROYER = register(
 		"destroyer",
@@ -41,9 +47,9 @@ public class BigTechScreenHandlerTypes {
 		MinerScreenHandler::new
 	);
 	@UseDataGen(InventoryDataGenerator.class)
-	public static final ScreenHandlerType<IgnitorScreenHandler> IGNITOR = register(
-		"ignitor",
-		IgnitorScreenHandler::new
+	public static final ScreenHandlerType<IgniterScreenHandler> IGNITER = register(
+		"igniter",
+		IgniterScreenHandler::new
 	);
 	@UseDataGen(InventoryDataGenerator.class)
 	public static final ScreenHandlerType<SilverIodideCannonScreenHandler> SILVER_IODIDE_CANNON = registerExtended(
@@ -82,6 +88,17 @@ public class BigTechScreenHandlerTypes {
 		"dislocator",
 		PacketCodecs.BYTE,
 		DislocatorScreenHandler::new
+	);
+	@UseDataGen(InventoryDataGenerator.class)
+	public static final ScreenHandlerType<AssemblerScreenHandler> ASSEMBLER = registerExtended(
+		"assembler",
+		TextCodecs.PACKET_CODEC,
+		AssemblerScreenHandler::new
+	);
+	@UseDataGen(void.class)
+	public static final ScreenHandlerType<CircuitDebuggerScreenHandler> CIRCUIT_DEBUGGER = register(
+		"circuit_debugger",
+		CircuitDebuggerScreenHandler::new
 	);
 
 	public static <H extends ScreenHandler> ScreenHandlerType<H> register(String name, ScreenHandlerType.Factory<H> factory) {

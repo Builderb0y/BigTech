@@ -1,0 +1,8 @@
+{
+	"parent": "bigtech:item/photovoltaic_cell",
+	"textures": {
+		"top":      "bigtech:item/photovoltaic_receiver",
+		"back":     "bigtech:item/photovoltaic_cell_back",
+		"particle": "bigtech:item/photovoltaic_receiver"
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": "bigtech:silicon_block",
+	"result": {
+		"id": "bigtech:silicon",
+		"count": 16
+	}
+}

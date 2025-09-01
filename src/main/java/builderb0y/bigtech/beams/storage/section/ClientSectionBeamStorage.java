@@ -12,6 +12,7 @@ import net.minecraft.world.chunk.WorldChunk;
 import builderb0y.bigtech.beams.base.BeamMeshBuilder;
 import builderb0y.bigtech.beams.base.BeamMeshBuilder.AdjacentSegmentLoader;
 import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.util.Lockable;
 
 public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 
@@ -40,7 +41,7 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 	}
 
 	@Override
-	public LinkedList<BeamSegment> getSegments(int index) {
+	public Lockable<LinkedList<BeamSegment>> getSegments(int index) {
 		this.invalidate();
 		return super.getSegments(index);
 	}

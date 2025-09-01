@@ -1,0 +1,196 @@
+{
+	"version": 2,
+	"root_layer": {
+		"name": "apply_edge",
+		"width": 16,
+		"height": 16,
+		"children": [
+			{
+				"name": "edge",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3QQQoAIAhEUS9WdjSP3iYIXCgttT8QNJSLp5qInjPXvXftPtH/YfV7lGxf2Xy1eA9+/Pjx48ePHz9+/L/7X+ar98zr3zv2DZ1UouMAEAAA"
+						}
+					}
+				},
+				"expanded": true
+			},
+			{
+				"name": "red",
+				"width": 16,
+				"height": 16,
+				"children": [
+					{
+						"name": "brighter",
+						"width": 16,
+						"height": 16,
+						"children": [
+							{
+								"name": "centered",
+								"width": 16,
+								"height": 16,
+								"children": [
+									{
+										"name": "center",
+										"width": 16,
+										"height": 16,
+										"children": [],
+										"sources": {
+											"tab": {
+												"type": "derived",
+												"code": [
+													"float2 uv2 = abs(uv * 2.0 - 1.0);",
+													"float b = max(uv2.x, uv2.y);",
+													"b = b ^ 2 * (3.0 - 2.0 * b);",
+													"return float4(...float3(b), 0.5);"
+												]
+											}
+										},
+										"expanded": true
+									},
+									{
+										"name": "gray",
+										"width": 16,
+										"height": 16,
+										"children": [
+											{
+												"name": "copper_frame_base.png",
+												"width": 16,
+												"height": 16,
+												"children": [],
+												"sources": {
+													"tab": {
+														"type": "manual",
+														"image": {
+															"width": 16,
+															"height": 16,
+															"pixels": "H4sIAAAAAAAA/72XSU8UQRTH+SpqPLjGffeN+37QuF70M3j04AERERNERERERHZhWIRhGPZ9h2EbhkUERERExAQQERJF61XyOtUvzTTDoMd/qru6fm/512sLlJWDy9UJkZHPLP5+fhZLeQW43V0QFfVc6mM1tTA8/BFSUl5Lfby2TqcPV1ZBd3cPREe/kPpIVTX09r6FmJiXUp+sb4DR0c9gtaZLfc7ZAhMT3yA7O0fqK+Ld2dmfUFRULPWNwfewsPAHnM4W3XpBQaHUl8TZpqe/g92eJ/X59g65X1bWG6mPVtfI79N5DlVU6nh25xfg3hAe/sTw/HjekZFPkJqaZqhx/76+dxof15z3bLMTxse/aucz470mzj43Nw8lJaW65x2OfKkvdrphcnIKbLZcLR/9/QMQG/vKkHdnngMaGhohLOyxoeb5/N+8V3t6JS+tX+7qhpmZH8vm3WHPg7q6eggNfST19lw71IgaJr3LkQ9NTc1a/jm/t7xnxF4qLz//9YFBySu+aRgP3g8XOlySlzTnxf5U+5XzbcrMwtqBoKD7hvHg/c3r31te7EfkpX7k9crjwevjlKhFdX/+ffKniIinUm/MyMTYQWDgPanXW9PRGzTN43FAxKJdeAS9j/2v5t/Mr/h5OQ/n5fHg8eL78+8fLC3TnXdDeobkCwi4K/XqhETIEDG4OTmlravx2F9cAq2tbdr7vN+Jn9a97V9ezzweK827Kj4B39XxquvES/k04kW/p/35fbbc+4jWeby4f2J/qfeRr7z8fe4He8SzKi/5G53ndGMTjI19wRrS+S/dN77yoh+rfsLzQTxUr0b17ImX+/0+UfuYf+JHXvU8i/kzzROC1+Lnfwf3+Ce8W3NsUCVqPiTkoaFfcT/jvOTPxEvzDfXPCeHtnngN6lnHy+PhK+82W67Of5FPvY+4P6O/e8ov512peYPqnfeDr7xc8/vXbN7m9czz6y0v5tdTPeP+qh96W888v0vhVfXewqIl9S/lx2y+4rz4vppf9H9v5sct2TlQIZ4hXrpvF6tnPm/gvInxo/vJyJ898ZrNV7Su3r+cV52n6P6l/BIv5XddmhX30vx3TWIS1grcmpvX1TfFg/Oa3b/8PjLjpXyq/wPq/x/xkh9wXj5P4vrQ0AdISkqWerNgKxM1Ghz8QOq1ySk4C8DtX7+1/BrVs/o/qc6TfL7i8wb3G54//r/L803zitq/g6Ln4+LiDXl5f+O6wv8XBsNi8gAQAAA="
+														}
+													}
+												},
+												"expanded": true
+											}
+										],
+										"sources": {
+											"tab": {
+												"type": "gradient_remap",
+												"from_start": [
+													0.6313725709915161,
+													0.3333333432674408,
+													0.23529411852359772,
+													1.0
+												],
+												"from_end": [
+													0.8705882430076599,
+													0.501960813999176,
+													0.40392157435417175,
+													1.0
+												],
+												"to_start": [
+													0.0,
+													0.0,
+													0.0,
+													1.0
+												],
+												"to_end": [
+													1.0,
+													1.0,
+													1.0,
+													1.0
+												],
+												"per_channel": false,
+												"preserve_alpha": false
+											}
+										},
+										"expanded": true
+									}
+								],
+								"sources": {
+									"tab": {
+										"type": "alpha"
+									}
+								},
+								"expanded": true
+							}
+						],
+						"sources": {
+							"tab": {
+								"type": "gradient_remap",
+								"from_start": [
+									0.0,
+									0.0,
+									0.0,
+									1.0
+								],
+								"from_end": [
+									1.0,
+									1.0,
+									1.0,
+									1.0
+								],
+								"to_start": [
+									0.25,
+									0.25,
+									0.25,
+									1.0
+								],
+								"to_end": [
+									0.75,
+									0.75,
+									0.75,
+									1.0
+								],
+								"per_channel": false,
+								"preserve_alpha": false
+							}
+						},
+						"expanded": true
+					}
+				],
+				"sources": {
+					"tab": {
+						"type": "cliff",
+						"split_rgb": true,
+						"dual": false,
+						"linear": false,
+						"rgb_coefficient": 1.0,
+						"red_coefficient": 2.0,
+						"green_coefficient": 0.125,
+						"blue_coefficient": 0.125,
+						"alpha_coefficient": 1.0,
+						"rgb_mid": 0.5,
+						"red_mid": 1.0,
+						"green_mid": 1.0,
+						"blue_mid": 1.0,
+						"alpha_mid": 0.5
+					}
+				},
+				"expanded": true
+			}
+		],
+		"sources": {
+			"tab": {
+				"type": "derived",
+				"code": [
+					"float4 red = red(UV);",
+					"float4 edge = edge(UV);",
+					"return red.rgb(...red.rgb + (edge.rgb * 2.0 - 1.0) * edge.a);"
+				]
+			}
+		},
+		"expanded": true
+	},
+	"showing_layer": "apply_edge",
+	"selected_layer": "apply_edge",
+	"wrap": false,
+	"animation": {
+		"frames": 1
+	}
+}

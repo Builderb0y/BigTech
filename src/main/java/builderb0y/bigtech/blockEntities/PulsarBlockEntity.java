@@ -14,13 +14,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import builderb0y.bigtech.datagen.impl.PulsarDataGenerator.PulsarTexts;
+import builderb0y.bigtech.datagen.impl.functional.PulsarDataGenerator.PulsarTexts;
 import builderb0y.bigtech.util.BigTechMath;
 import builderb0y.bigtech.util.Directions;
 
 public class PulsarBlockEntity extends BlockEntity {
 
 	public static final BlockEntityTicker<PulsarBlockEntity> TICKER = (World world, BlockPos pos, BlockState state, PulsarBlockEntity blockEntity) -> blockEntity.tick();
+
+	public static final int
+		MIN_ON_TIME  =  1,
+		MAX_ON_TIME  =  1_000_000,
+		MIN_OFF_TIME =  1,
+		MAX_OFF_TIME =  1_000_000,
+		MIN_OFFSET   = -1_000_000,
+		MAX_OFFSET   =  1_000_000;
 
 	public int onTime = 2, offTime = 8, offset = 0;
 	public TimeGetter relativeTo = TimeGetter.WORLD_AGE;

@@ -81,9 +81,8 @@ public class BeamInterceptorBlockEntity extends BlockEntity {
 		return nbt;
 	}
 
-	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+	public @Nullable Packet<ClientPlayPacketListener> toUpdatePacket() {
 		return BlockEntityUpdateS2CPacket.create(this);
 	}
 }

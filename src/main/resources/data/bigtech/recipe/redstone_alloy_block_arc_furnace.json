@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:storage_blocks/redstone",
+		"#c:storage_blocks/copper"
+	],
+	"slow_cool_result": { "id": "bigtech:redstone_alloy_block" },
+	"energy": 4000,
+	"cooling_rate": 10
+}

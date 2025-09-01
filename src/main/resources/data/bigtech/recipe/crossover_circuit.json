@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:circuit_components",
+	"ingredients": [
+		"#c:dusts/redstone",
+		"#c:dusts/redstone",
+		"bigtech:silicon"  
+	],
+	"result": {
+		"id": "bigtech:crossover_circuit"
+	}
+}

@@ -10,9 +10,8 @@ import net.minecraft.util.math.Direction;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.belts.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
-import builderb0y.bigtech.datagen.impl.CrucibleDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.arcFurnace.CrucibleDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
-import builderb0y.bigtech.registrableCollections.CrystalRegistrableCollection.CrystalColor;
 
 import static builderb0y.bigtech.blocks.BigTechBlocks.register;
 import static builderb0y.bigtech.blocks.BigTechBlocks.settings;
@@ -124,11 +123,17 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
-	public static final IgnitorBlock IGNITOR = register(
-		new IgnitorBlock(
-			copySettings(Blocks.FURNACE, "ignitor")
+	public static final IgniterBlock IGNITER = register(
+		new IgniterBlock(
+			copySettings(Blocks.FURNACE, "igniter")
 		)
 	);
+	static {
+		Registries.BLOCK.addAlias(
+			BigTechMod.modID("ignitor"),
+			BigTechMod.modID("igniter")
+		);
+	}
 
 	@UseDataGen(void.class)
 	public static final SilverIodideCannonBlock SILVER_IODIDE_CANNON = register(
@@ -151,6 +156,17 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
+	public static final RadioBlock RADIO = register(
+		new RadioBlock(
+			settings("radio")
+			.mapColor(MapColor.BLACK)
+			.breakInstantly()
+		)
+	);
+
+	//////////////////////////////// redstone ////////////////////////////////
+
+	@UseDataGen(void.class)
 	public static final PulsarBlock PULSAR = register(
 		new PulsarBlock(
 			settings("pulsar")
@@ -162,11 +178,21 @@ public class FunctionalBlocks {
 	);
 
 	@UseDataGen(void.class)
-	public static final RadioBlock RADIO = register(
-		new RadioBlock(
-			settings("radio")
-			.mapColor(MapColor.BLACK)
-			.breakInstantly()
+	public static final AssemblerBlock ASSEMBLER = register(
+		new AssemblerBlock(
+			settings("assembler")
+			.mapColor(MapColor.GRAY)
+			.strength(5.0F, 6.0F)
+			.sounds(BlockSoundGroup.IRON)
+		)
+	);
+
+	@UseDataGen(void.class)
+	public static final MicroProcessorBlock MICRO_PROCESSOR = register(
+		new MicroProcessorBlock(
+			settings("micro_processor")
+			.mapColor(MapColor.GRAY)
+			.strength(0.25F)
 		)
 	);
 
@@ -199,6 +225,22 @@ public class FunctionalBlocks {
 			.strength(3.0F, 6.0F)
 			.requiresTool(),
 			true
+		)
+	);
+	@UseDataGen(void.class)
+	public static final SteelPistonBlock STEEL_PISTON = register(
+		new SteelPistonBlock(
+			24,
+			false,
+			copySettings(Blocks.PISTON, "steel_piston")
+		)
+	);
+	@UseDataGen(void.class)
+	public static final SteelPistonBlock STICKY_STEEL_PISTON = register(
+		new SteelPistonBlock(
+			24,
+			true,
+			copySettings(Blocks.PISTON, "sticky_steel_piston")
 		)
 	);
 
@@ -286,6 +328,13 @@ public class FunctionalBlocks {
 	public static final CopperCoilBlock COPPER_COIL = register(
 		new CopperCoilBlock(
 			copySettings(Blocks.COPPER_BLOCK, "copper_coil")
+		)
+	);
+	@UseDataGen(void.class)
+	public static final ElectrumCoilBlock ELECTRUM_COIL = register(
+		new ElectrumCoilBlock(
+			copySettings(Blocks.COPPER_BLOCK, "electrum_coil")
+			.mapColor(MapColor.PALE_YELLOW)
 		)
 	);
 	@UseDataGen(void.class)
@@ -412,14 +461,20 @@ public class FunctionalBlocks {
 		)
 	);
 	@UseDataGen(void.class)
-	public static final IgnitorBeamBlock IGNITOR_BEAM = register(
-		new IgnitorBeamBlock(
-			settings("ignitor_beam")
+	public static final IgniterBeamBlock IGNITER_BEAM = register(
+		new IgniterBeamBlock(
+			settings("igniter_beam")
 			.mapColor(MapColor.STONE_GRAY)
 			.requiresTool()
 			.strength(3.0F)
 		)
 	);
+	static {
+		Registries.BLOCK.addAlias(
+			BigTechMod.modID("ignitor_beam"),
+			BigTechMod.modID("igniter_beam")
+		);
+	}
 	@UseDataGen(void.class)
 	public static final MirrorBlock MIRROR = register(
 		new MirrorBlock(

@@ -3,6 +3,8 @@
 	"values": [
 		"#bigtech:ferromagnetic_blocks",
 		"#c:storage_blocks/steel",
-		"bigtech:cast_iron_block"
+		"bigtech:cast_iron_block",
+		"bigtech:electrum_block",
+		"bigtech:silver_block"
 	]
 }

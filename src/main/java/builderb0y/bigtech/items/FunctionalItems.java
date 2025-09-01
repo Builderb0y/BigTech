@@ -11,21 +11,30 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
 import builderb0y.bigtech.dataComponents.BigTechDataComponents;
-import builderb0y.bigtech.datagen.impl.TripwireDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.lasers.*;
 import builderb0y.bigtech.datagen.base.UseDataGen;
 import builderb0y.bigtech.datagen.impl.*;
-import builderb0y.bigtech.datagen.impl.ascenders.AscenderDataGenerator;
-import builderb0y.bigtech.datagen.impl.ascenders.DescenderDataGenerator;
-import builderb0y.bigtech.datagen.impl.belts.*;
-import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDeployerDataGenerator;
-import builderb0y.bigtech.datagen.impl.destroyers.LongRangeDestroyerDataGenerator;
-import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDeployerDataGenerator;
-import builderb0y.bigtech.datagen.impl.destroyers.ShortRangeDestroyerDataGenerator;
-import builderb0y.bigtech.datagen.impl.lightningJars.LargeLightningJarDataGenerator;
-import builderb0y.bigtech.datagen.impl.lightningJars.SmallLightningJarDataGenerator;
-import builderb0y.bigtech.datagen.impl.magnets.*;
-import builderb0y.bigtech.datagen.impl.technoCrafters.PortableTechnoCrafterDataGenerator;
-import builderb0y.bigtech.datagen.impl.technoCrafters.TechnoCrafterDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.*;
+import builderb0y.bigtech.datagen.impl.functional.arcFurnace.ArcFurnaceElectrodeDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.ascenders.AscenderDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.ascenders.DescenderDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.SteelDoorDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.SteelPressurePlateDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.destroyers.LongRangeDeployerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.destroyers.LongRangeDestroyerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.destroyers.ShortRangeDeployerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.destroyers.ShortRangeDestroyerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.belts.*;
+import builderb0y.bigtech.datagen.impl.functional.lasers.phase.PhaseAlignerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.lasers.phase.PhaseScramblerDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.lightning.*;
+import builderb0y.bigtech.datagen.impl.functional.ConductiveAnvilDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.lightning.jars.LargeLightningJarDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.lightning.jars.SmallLightningJarDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.magnets.*;
+import builderb0y.bigtech.datagen.impl.functional.technoCrafters.PortableTechnoCrafterDataGenerator;
+import builderb0y.bigtech.datagen.impl.functional.technoCrafters.TechnoCrafterDataGenerator;
+import builderb0y.bigtech.datagen.impl.material.circuits.MicroProcessorDataGenerator;
 import builderb0y.bigtech.registrableCollections.CopperRegistrableCollection;
 
 import static builderb0y.bigtech.items.BigTechItems.*;
@@ -100,10 +109,16 @@ public class FunctionalItems {
 		FunctionalBlocks.WOODEN_HOPPER
 	);
 
-	@UseDataGen(IgnitorDataGenerator.class)
-	public static final BlockItem IGNITOR = registerPlacer(
-		FunctionalBlocks.IGNITOR
+	@UseDataGen(IgniterDataGenerator.class)
+	public static final BlockItem IGNITER = registerPlacer(
+		FunctionalBlocks.IGNITER
 	);
+	static {
+		Registries.ITEM.addAlias(
+			BigTechMod.modID("ignitor"),
+			BigTechMod.modID("igniter")
+		);
+	}
 
 	@UseDataGen(SilverIodideCannonDataGenerator.class)
 	public static final BlockItem SILVER_IODIDE_CANNON = registerPlacer(
@@ -115,15 +130,33 @@ public class FunctionalItems {
 		FunctionalBlocks.SPAWNER_INTERCEPTOR
 	);
 
+	@UseDataGen(RadioDataGenerator.class)
+	public static final BlockItem RADIO = registerPlacer(
+		FunctionalBlocks.RADIO,
+		RadioBlockItem::new
+	);
+
+	//////////////////////////////// redstone ////////////////////////////////
+
 	@UseDataGen(PulsarDataGenerator.class)
 	public static final BlockItem PULSAR = registerPlacer(
 		FunctionalBlocks.PULSAR
 	);
 
-	@UseDataGen(RadioDataGenerator.class)
-	public static final BlockItem RADIO = registerPlacer(
-		FunctionalBlocks.RADIO,
-		RadioBlockItem::new
+	@UseDataGen(AssemblerDataGenerator.class)
+	public static final BlockItem ASSEMBLER = registerPlacer(
+		FunctionalBlocks.ASSEMBLER
+	);
+
+	@UseDataGen(MicroProcessorDataGenerator.class)
+	public static final MicroProcessorBlockItem MICRO_PROCESSOR = registerPlacer(
+		FunctionalBlocks.MICRO_PROCESSOR,
+		MicroProcessorBlockItem::new
+	);
+
+	@UseDataGen(MagnifyingGlassDataGenerator.class)
+	public static final Item MAGNIFYING_GLASS = register(
+		new Item(settings("magnifying_glass", false).maxCount(1))
 	);
 
 	//////////////////////////////// encased blocks ////////////////////////////////
@@ -139,6 +172,14 @@ public class FunctionalItems {
 	@UseDataGen(EncasedSlimeBlockDataGenerator.class)
 	public static final BlockItem ENCASED_HONEY_BLOCK = registerPlacer(
 		FunctionalBlocks.ENCASED_HONEY_BLOCK
+	);
+	@UseDataGen(SteelPistonDataGenerator.class)
+	public static final BlockItem STEEL_PISTON = registerPlacer(
+		FunctionalBlocks.STEEL_PISTON
+	);
+	@UseDataGen(SteelPistonDataGenerator.class)
+	public static final BlockItem STICKY_STEEL_PISTON = registerPlacer(
+		FunctionalBlocks.STICKY_STEEL_PISTON
 	);
 
 	//////////////////////////////// lightning stuff ////////////////////////////////
@@ -205,6 +246,10 @@ public class FunctionalItems {
 	public static final BlockItem COPPER_COIL = registerPlacer(
 		FunctionalBlocks.COPPER_COIL
 	);
+	@UseDataGen(ElectrumCoilDataGenerator.class)
+	public static final BlockItem ELECTRUM_COIL = registerPlacer(
+		FunctionalBlocks.ELECTRUM_COIL
+	);
 	@UseDataGen(ConductiveAnvilDataGenerator.class)
 	public static final CopperItemCollection CONDUCTIVE_ANVILS = new CopperItemCollection(
 		true,
@@ -261,10 +306,16 @@ public class FunctionalItems {
 	public static final BlockItem LONG_RANGE_DESTROYER = registerPlacer(
 		FunctionalBlocks.LONG_RANGE_DESTROYER
 	);
-	@UseDataGen(IgnitorBeamDataGenerator.class)
-	public static final BlockItem IGNITOR_BEAM = registerPlacer(
-		FunctionalBlocks.IGNITOR_BEAM
+	@UseDataGen(IgniterBeamDataGenerator.class)
+	public static final BlockItem IGNITER_BEAM = registerPlacer(
+		FunctionalBlocks.IGNITER_BEAM
 	);
+	static {
+		Registries.ITEM.addAlias(
+			BigTechMod.modID("ignitor_beam"),
+			BigTechMod.modID("igniter_beam")
+		);
+	}
 	@UseDataGen(MirrorDataGenerator.class)
 	public static final BlockItem MIRROR = registerPlacer(
 		FunctionalBlocks.MIRROR

@@ -18,6 +18,8 @@ import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 @Mixin(Entity.class)
 public abstract class Entity_CollideWithBeams {
@@ -35,10 +37,12 @@ public abstract class Entity_CollideWithBeams {
 		if (this.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(this.getWorld().getChunk(mutablePos)).require().get(mutablePos.getY() >> 4);
 			if (sectionStorage != null) {
-				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(mutablePos);
+				Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(mutablePos);
 				if (segments != null) {
-					for (BeamSegment segment : segments) {
-						segment.beam().<PersistentBeam>as().onEntityCollision(serverWorld, mutablePos, this.as());
+					try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+						for (BeamSegment segment : locked.value) {
+							segment.beam().<PersistentBeam>as().onEntityCollision(serverWorld, mutablePos, this.as());
+						}
 					}
 				}
 			}

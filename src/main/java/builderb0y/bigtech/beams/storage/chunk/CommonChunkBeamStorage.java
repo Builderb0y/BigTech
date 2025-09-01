@@ -24,6 +24,8 @@ import builderb0y.bigtech.beams.base.BeamSegment;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.util.AsyncRunner;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<CommonSectionBeamStorage> {
 
@@ -113,16 +115,18 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 			int countPosition = buffer.writerIndex();
 			int count = 0;
 			buffer.writeInt(0); //allocate space to hold count.
-			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
+			ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
 			while (blockIterator.hasNext()) {
-				Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-				for (BeamSegment segment : blockEntry.getValue()) {
-					if (segment.visible()) {
-						buffer.writeShort(blockEntry.getShortKey());
-						buffer.writeByte(segment.direction().ordinal());
-						buffer.writeUuid(segment.beam().uuid);
-						buffer.writeMedium(BeamSegment.packRgb(segment.getEffectiveColor()));
-						count++;
+				Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = blockIterator.next();
+				try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+					for (BeamSegment segment : locked.value) {
+						if (segment.visible()) {
+							buffer.writeShort(blockEntry.getShortKey());
+							buffer.writeByte(segment.direction().ordinal());
+							buffer.writeUuid(segment.beam().uuid);
+							buffer.writeMedium(BeamSegment.packRgb(segment.getEffectiveColor()));
+							count++;
+						}
 					}
 				}
 			}

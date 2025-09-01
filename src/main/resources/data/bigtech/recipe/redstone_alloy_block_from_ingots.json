@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"iii",
+		"iii",
+		"iii"
+	],
+	"key": {
+		"i": "#c:ingots/redstone_alloy"
+	},
+	"result": {
+		"id": "bigtech:redstone_alloy_block"
+	}
+}

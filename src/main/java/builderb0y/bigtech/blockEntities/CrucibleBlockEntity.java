@@ -19,6 +19,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -86,10 +87,11 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 		};
 	}
 
-	public void syncAndSave() {
+	@Override
+	public void markDirty() {
+		super.markDirty();
 		if (this.world instanceof ServerWorld serverWorld) {
 			serverWorld.getChunkManager().markForUpdate(this.getPos());
-			this.markDirty();
 		}
 	}
 
@@ -109,7 +111,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 		this.clear();
 		this.addItem(output, output.getCount());
 		this.progress = null;
-		this.syncAndSave();
+		this.markDirty();
 	}
 
 	public void tick() {
@@ -133,7 +135,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 		if (this.progress.heat >= this.progress.maxHeat) {
 			this.progress.cooling = true;
 		}
-		this.syncAndSave();
+		this.markDirty();
 	}
 
 	public int addItem(ItemStack stack, int maxCount) {
@@ -144,7 +146,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 				added++;
 			}
 		}
-		if (added != 0) this.syncAndSave();
+		if (added != 0) this.markDirty();
 		return added;
 	}
 
@@ -154,7 +156,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 				ItemStack taken = this.stacks.get(slot);
 				if (!taken.isEmpty()) {
 					this.stacks.set(slot, ItemStack.EMPTY);
-					this.syncAndSave();
+					this.markDirty();
 					return taken;
 				}
 			}
@@ -164,7 +166,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 	@Override
 	public boolean canPlayerUse(PlayerEntity player) {
-		return true;
+		return Inventory.canPlayerUse(this, player, 4.0F);
 	}
 
 	@Override
@@ -228,28 +230,31 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 	@Override
 	public ItemStack removeStack(int slot, int amount) {
-		ItemStack stack = this.stacks.get(slot).split(amount);
-		if (!stack.isEmpty()) this.syncAndSave();
+		ItemStack stack = this.stacks.get(slot);
+		if (!stack.isEmpty()) {
+			stack = stack.split(amount);
+			this.markDirty();
+		}
 		return stack;
 	}
 
 	@Override
 	public ItemStack removeStack(int slot) {
 		ItemStack stack = this.stacks.set(slot, ItemStack.EMPTY);
-		if (!stack.isEmpty()) this.syncAndSave();
+		if (!stack.isEmpty()) this.markDirty();
 		return stack;
 	}
 
 	@Override
 	public void setStack(int slot, ItemStack stack) {
 		this.stacks.set(slot, stack);
-		this.syncAndSave();
+		this.markDirty();
 	}
 
 	@Override
 	public void clear() {
 		this.stacks.clear();
-		this.syncAndSave();
+		this.markDirty();
 	}
 
 	@Override
@@ -339,7 +344,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 				this.crucible.craft(this.serverWorld, true);
 			}
 			else {
-				this.crucible.syncAndSave();
+				this.crucible.markDirty();
 			}
 		}
 	}

@@ -1,0 +1,105 @@
+{
+	"version": 2,
+	"root_layer": {
+		"name": "colorize",
+		"width": 16,
+		"height": 16,
+		"children": [
+			{
+				"name": "normalize",
+				"width": 16,
+				"height": 16,
+				"children": [
+					{
+						"name": "blur",
+						"width": 16,
+						"height": 16,
+						"children": [
+							{
+								"name": "noise",
+								"width": 16,
+								"height": 16,
+								"children": [],
+								"sources": {
+									"tab": {
+										"type": "derived",
+										"code": [
+											"return float4(...float3(rng(...UV, 9).nextPositiveFloat()), 1.0);"
+										]
+									}
+								},
+								"expanded": true
+							}
+						],
+						"sources": {
+							"tab": {
+								"type": "convolve",
+								"shape": "CONCENTRIC",
+								"weight_type": "GAUSSIAN",
+								"radius": 3,
+								"custom_weights": [
+									0.015625,
+									0.09375,
+									0.234375,
+									0.3125,
+									0.234375,
+									0.09375,
+									0.015625
+								]
+							}
+						},
+						"expanded": true
+					}
+				],
+				"sources": {
+					"tab": {
+						"type": "normalize",
+						"per_channel": false,
+						"red": true,
+						"green": true,
+						"blue": true,
+						"alpha": false
+					}
+				},
+				"expanded": true
+			}
+		],
+		"sources": {
+			"tab": {
+				"type": "gradient_remap",
+				"from_start": [
+					0.0,
+					0.0,
+					0.0,
+					1.0
+				],
+				"from_end": [
+					1.0,
+					1.0,
+					1.0,
+					1.0
+				],
+				"to_start": [
+					0.125,
+					0.125,
+					0.125,
+					1.0
+				],
+				"to_end": [
+					0.25,
+					0.25,
+					0.25,
+					1.0
+				],
+				"preserve_alpha": false
+			}
+		},
+		"expanded": true
+	},
+	"showing_layer": "colorize",
+	"selected_layer": "colorize",
+	"wrap": false,
+	"animation": {
+		"frames": 1
+	}
+}

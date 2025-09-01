@@ -11,6 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 public class ColorAccumulator implements Consumer<BeamSegment> {
 
@@ -19,9 +21,11 @@ public class ColorAccumulator implements Consumer<BeamSegment> {
 
 	public void acceptAll(BlockPos pos, BasicSectionBeamStorage sectionStorage) {
 		if (sectionStorage != null) {
-			LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
+			Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 			if (segments != null) {
-				segments.forEach(this);
+				try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+					locked.value.forEach(this);
+				}
 			}
 		}
 	}

@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"nnn",
+		"nnn",
+		"nnn"
+	],
+	"key": {
+		"n": "#c:nuggets/lapis_alloy"
+	},
+	"result": {
+		"id": "bigtech:lapis_alloy_ingot"
+	}
+}

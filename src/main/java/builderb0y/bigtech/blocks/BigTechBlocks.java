@@ -28,6 +28,7 @@ import net.minecraft.world.BlockRenderView;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.beams.base.BeamSegment;
+import builderb0y.bigtech.blockEntities.AssemblerBlockEntity;
 import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.mixins.AbstractBlockSettings_RegistryKeyAccessor;
 import builderb0y.bigtech.registrableCollections.RegistrableCollection;
@@ -119,7 +120,8 @@ public class BigTechBlocks {
 			FunctionalBlocks.LARGE_LIGHTNING_JAR,
 			DecoBlocks.IRON_CATWALK_PLATFORM,
 			DecoBlocks.IRON_CATWALK_STAIRS,
-			FunctionalBlocks.BEAM_INTERCEPTOR
+			FunctionalBlocks.BEAM_INTERCEPTOR,
+			FunctionalBlocks.ASSEMBLER
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getCutout(),
@@ -146,8 +148,7 @@ public class BigTechBlocks {
 			FunctionalBlocks.ASCENDER,
 			FunctionalBlocks.DESCENDER,
 			FunctionalBlocks.PHASE_SCRAMBLER,
-			FunctionalBlocks.PHASE_ALIGNER,
-			FunctionalBlocks.PRISM
+			FunctionalBlocks.PHASE_ALIGNER
 		);
 		BlockRenderLayerMap.INSTANCE.putBlocks(
 			RenderLayer.getTranslucent(),
@@ -163,6 +164,15 @@ public class BigTechBlocks {
 				return -1;
 			},
 			FunctionalBlocks.BEAM_INTERCEPTOR
+		);
+		ColorProviderRegistry.BLOCK.register(
+			(BlockState state, BlockRenderView world, BlockPos pos, int tintIndex) -> {
+				if (tintIndex == 0 && world != null && pos != null && world.getBlockEntity(pos) instanceof AssemblerBlockEntity assembler && assembler.color != null) {
+					return BeamSegment.packRgb(assembler.color) | 0xFF000000;
+				}
+				return -1;
+			},
+			FunctionalBlocks.ASSEMBLER
 		);
 	}
 

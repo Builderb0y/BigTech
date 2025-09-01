@@ -13,6 +13,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -73,7 +74,7 @@ public interface Harvestable {
 				int age = state.get(SweetBerryBushBlock.AGE);
 				boolean fullyGrown = age == 3;
 				int drops = 1 + world.random.nextInt(2);
-				SweetBerryBushBlock.dropStack(world, pos, new ItemStack(Items.SWEET_BERRIES, drops + (fullyGrown ? 1 : 0)));
+				Block.dropStack(world, pos, new ItemStack(Items.SWEET_BERRIES, drops + (fullyGrown ? 1 : 0)));
 				world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
 				BlockState blockState = state.with(SweetBerryBushBlock.AGE, 1);
 				world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
@@ -93,7 +94,7 @@ public interface Harvestable {
 		ACACIA_TREE     = Harvestables.tree(Blocks.ACACIA_LOG, Blocks.ACACIA_WOOD, Blocks.ACACIA_LEAVES),
 		DARK_OAK_TREE   = Harvestables.tree(Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD, Blocks.DARK_OAK_LEAVES),
 		CHERRY_TREE     = Harvestables.tree(Blocks.CHERRY_LOG, Blocks.CHERRY_WOOD, Blocks.CHERRY_LEAVES),
-		MANGROVE_TREE   = Harvestables.tree(Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD, Blocks.MANGROVE_LEAVES),
+		MANGROVE_TREE   = Harvestables.tree(Harvestables.isIn(Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD, Blocks.MANGROVE_ROOTS, Blocks.MUDDY_MANGROVE_ROOTS), Harvestables.isOf(Blocks.MANGROVE_LEAVES), Harvestables.isOf(Blocks.VINE), Direction.DOWN, Harvestables.isOf(Blocks.MOSS_CARPET), (BlockState state) -> state.isOf(Blocks.MANGROVE_PROPAGULE) && state.get(Properties.HANGING)),
 		PALE_OAK_TREE   = Harvestables.tree(Harvestables.isIn(Blocks.PALE_OAK_LOG, Blocks.PALE_OAK_WOOD, Blocks.CREAKING_HEART), Harvestables.isOf(Blocks.PALE_OAK_LEAVES)),
 		GENERIC_TREE    = Harvestables.tree(Harvestables.isIn(BlockTags.LOGS), Harvestables.isIn(BlockTags.LEAVES)),
 		VINES           = Harvestables.downOnly(Blocks.VINE),
@@ -200,7 +201,7 @@ public interface Harvestable {
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(     ACACIA_TREE), Blocks.  ACACIA_LOG, Blocks.  ACACIA_WOOD);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(   DARK_OAK_TREE), Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(     CHERRY_TREE), Blocks.  CHERRY_LOG, Blocks.  CHERRY_WOOD);
-		LOOKUP.registerForBlocks(BlockApiLookups.constant(   MANGROVE_TREE), Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD);
+		LOOKUP.registerForBlocks(BlockApiLookups.constant(   MANGROVE_TREE), Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD, Blocks.MANGROVE_ROOTS, Blocks.MUDDY_MANGROVE_ROOTS);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(   PALE_OAK_TREE), Blocks.PALE_OAK_LOG, Blocks.PALE_OAK_WOOD);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(     CHORUS_TREE), Blocks.CHORUS_PLANT);
 		LOOKUP.registerForBlocks(BlockApiLookups.constant(   HUGE_MUSHROOM), Blocks.MUSHROOM_STEM);

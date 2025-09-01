@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:ingots/copper",
+		"#c:dusts/redstone"
+	],
+	"slow_cool_result": { "id": "bigtech:redstone_alloy_ingot" },
+	"energy": 500,
+	"cooling_rate": 10
+}

@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:circuit_components",
+	"ingredients": [
+		"minecraft:repeater",
+		"bigtech:silicon"   
+	],
+	"result": {
+		"id": "bigtech:diode_circuit"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"iii",
+		"iii",
+		"iii"
+	],
+	"key": {
+		"i": "#c:ingots/lapis_alloy"
+	},
+	"result": {
+		"id": "bigtech:lapis_alloy_block"
+	}
+}

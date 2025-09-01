@@ -17,9 +17,10 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blockEntities.PulsarBlockEntity;
-import builderb0y.bigtech.blockEntities.PulsarBlockEntity.TimeGetter;
-import builderb0y.bigtech.datagen.impl.PulsarDataGenerator.PulsarTexts;
+import builderb0y.bigtech.datagen.impl.functional.PulsarDataGenerator.PulsarTexts;
 import builderb0y.bigtech.networking.UpdatePulsarPacket;
+
+import static builderb0y.bigtech.blockEntities.PulsarBlockEntity.*;
 
 public class PulsarEditScreen extends Screen {
 
@@ -64,7 +65,15 @@ public class PulsarEditScreen extends Screen {
 			)
 		);
 		this.onTime.setText(String.valueOf(this.pulsar.onTime));
-		this.onTime.setChangedListener((String text) -> this.setValidFlag(ON_TIME_VALID, parseInt(text) > 0));
+		this.onTime.setChangedListener((String text) -> {
+			try {
+				int onTime = Integer.parseInt(text);
+				this.setValidFlag(ON_TIME_VALID, onTime >= MIN_ON_TIME && onTime <= PulsarBlockEntity.MAX_ON_TIME);
+			}
+			catch (NumberFormatException ignored) {
+				this.setValidFlag(ON_TIME_VALID, false);
+			}
+		});
 		this.onTime.setRenderTextProvider((String text, Integer what) -> {
 			return OrderedText.styledForwardsVisitedString(text, (this.validFlags & ON_TIME_VALID) != 0 ? Style.EMPTY : Style.EMPTY.withColor(Formatting.RED));
 		});
@@ -79,7 +88,15 @@ public class PulsarEditScreen extends Screen {
 			)
 		);
 		this.offTime.setText(String.valueOf(this.pulsar.offTime));
-		this.offTime.setChangedListener((String text) -> this.setValidFlag(OFF_TIME_VALID, parseInt(text) > 0));
+		this.offTime.setChangedListener((String text) -> {
+			try {
+				int offTime = Integer.parseInt(text);
+				this.setValidFlag(OFF_TIME_VALID, offTime >= MIN_OFF_TIME && offTime <= MAX_OFF_TIME);
+			}
+			catch (NumberFormatException ignored) {
+				this.setValidFlag(OFF_TIME_VALID, false);
+			}
+		});
 		this.offTime.setRenderTextProvider((String text, Integer what) -> {
 			return OrderedText.styledForwardsVisitedString(text, (this.validFlags & OFF_TIME_VALID) != 0 ? Style.EMPTY : Style.EMPTY.withColor(Formatting.RED));
 		});
@@ -109,7 +126,15 @@ public class PulsarEditScreen extends Screen {
 			)
 		);
 		this.offset.setText(String.valueOf(this.pulsar.offset));
-		this.offset.setChangedListener((String text) -> this.setValidFlag(OFFSET_VALID, parseInt(text) >= 0));
+		this.offset.setChangedListener((String text) -> {
+			try {
+				int offset = Integer.parseInt(text);
+				this.setValidFlag(OFFSET_VALID, offset >= PulsarBlockEntity.MIN_OFFSET && offset <= PulsarBlockEntity.MAX_OFFSET);
+			}
+			catch (NumberFormatException ignored) {
+				this.setValidFlag(OFFSET_VALID, false);
+			}
+		});
 		this.offset.setRenderTextProvider((String text, Integer what) -> {
 			return OrderedText.styledForwardsVisitedString(text, (this.validFlags & OFFSET_VALID) != 0 ? Style.EMPTY : Style.EMPTY.withColor(Formatting.RED));
 		});
@@ -144,38 +169,22 @@ public class PulsarEditScreen extends Screen {
 	}
 
 	public void done() {
-		cancel: {
-			int onTime = parseInt(this.onTime.getText());
-			if (onTime <= 0) break cancel;
-			int offTime = parseInt(this.offTime.getText());
-			if (offTime <= 0) break cancel;
-			int offset = parseInt(this.offset.getText());
-			if (offset < 0) break cancel;
+		cancel: try {
+			int onTime = Integer.parseInt(this.onTime.getText());
+			if (onTime < MIN_ON_TIME || onTime > MAX_ON_TIME) break cancel;
+			int offTime = Integer.parseInt(this.offTime.getText());
+			if (offTime < MIN_OFF_TIME || offTime > MAX_OFF_TIME) break cancel;
+			int offset = Integer.parseInt(this.offset.getText());
+			if (offset < MIN_OFFSET || offset > MAX_OFFSET) break cancel;
 			TimeGetter relativeTo = this.relativeTo.getValue();
 			UpdatePulsarPacket.INSTANCE.send(this.pulsar.getPos(), onTime, offTime, relativeTo, offset);
 		}
+		catch (NumberFormatException ignored) {}
 		this.close();
 	}
 
 	public void cancel() {
 		this.close();
-	}
-
-	public static int parseInt(String text) {
-		int value = 0;
-		for (int index = 0, length = text.length(); index < length; index++) {
-			char c = text.charAt(index);
-			if (c >= '0' && c <= '9') {
-				value = value * 10 + (c - '0');
-				if (value > 1_000_000) {
-					return -1;
-				}
-			}
-			else {
-				return -1;
-			}
-		}
-		return value;
 	}
 
 	@Override

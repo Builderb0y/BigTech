@@ -14,8 +14,8 @@ public class BigTechDamageTypes {
 	public static final RegistryKey<DamageType> SHOCKING   = of("shocking");
 	@UseDataGen(DamageTypeDataGenerator.TeslaCoil.class)
 	public static final RegistryKey<DamageType> TESLA_COIL = of("tesla_coil");
-	@UseDataGen(DamageTypeDataGenerator.Ignitor.class)
-	public static final RegistryKey<DamageType> IGNITOR    = of("ignitor");
+	@UseDataGen(DamageTypeDataGenerator.Igniter.class)
+	public static final RegistryKey<DamageType> IGNITER    = of("igniter");
 
 	public static RegistryKey<DamageType> of(String name) {
 		return RegistryKey.of(RegistryKeys.DAMAGE_TYPE, BigTechMod.modID(name));

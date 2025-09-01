@@ -69,22 +69,24 @@ public interface IBigTechScreenHandler {
 
 	public default void insertStack(ItemStack stack, int slotIndex, boolean onlyWithExisting) {
 		Slot slot = this.getSlots().get(slotIndex);
-		ItemStack existingStack = slot.getStack();
-		if (onlyWithExisting) {
-			if (ItemStack.areItemsAndComponentsEqual(stack, existingStack)) {
-				int toMove = Math.min(stack.getCount(), slot.getMaxItemCount(stack) - existingStack.getCount());
-				if (toMove > 0) {
-					existingStack.increment(toMove);
-					stack.decrement(toMove);
-					slot.markDirty();
+		if (slot.canInsert(stack)) {
+			ItemStack existingStack = slot.getStack();
+			if (onlyWithExisting) {
+				if (ItemStack.areItemsAndComponentsEqual(stack, existingStack)) {
+					int toMove = Math.min(stack.getCount(), slot.getMaxItemCount(stack) - existingStack.getCount());
+					if (toMove > 0) {
+						existingStack.increment(toMove);
+						stack.decrement(toMove);
+						slot.markDirty();
+					}
 				}
 			}
-		}
-		else {
-			if (existingStack.isEmpty()) {
-				int toMove = slot.getMaxItemCount(stack);
-				if (toMove > 0) {
-					slot.setStack(stack.split(toMove));
+			else {
+				if (existingStack.isEmpty()) {
+					int toMove = slot.getMaxItemCount(stack);
+					if (toMove > 0) {
+						slot.setStack(stack.split(toMove));
+					}
 				}
 			}
 		}
@@ -142,7 +144,6 @@ public interface IBigTechScreenHandler {
 			int endIndex = slots.size();
 			return new SlotRange(startIndex, endIndex);
 		}
-
 	}
 
 	@FunctionalInterface

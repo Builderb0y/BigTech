@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"cpc",
+		"cpc",
+		"cpc"
+	],
+	"key": {
+		"c": "#c:ingots/electrum",
+		"p": "#minecraft:planks" 
+	},
+	"result": {
+		"id": "bigtech:electrum_coil"
+	}
+}

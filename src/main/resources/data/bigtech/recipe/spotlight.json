@@ -2,15 +2,15 @@
 	"type": "minecraft:crafting_shaped",
 	"category": "misc",
 	"pattern": [
-		"iii",
-		"lcg",
-		"iii"
+		"ili",
+		"igi",
+		"iri"
 	],
 	"key": {
-		"i": "#c:ingots/iron"           ,
-		"l": "bigtech:lens"             ,
-		"c": "#bigtech:crystal_clusters",
-		"g": "minecraft:glowstone"      
+		"i": "#c:ingots/iron"                   ,
+		"l": "bigtech:lens"                     ,
+		"g": "#c:storage_blocks/glowstone_alloy",
+		"r": "#c:ingots/redstone_alloy"         
 	},
 	"result": {
 		"id": "bigtech:spotlight"

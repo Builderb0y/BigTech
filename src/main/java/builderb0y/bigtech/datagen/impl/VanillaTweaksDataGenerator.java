@@ -2,24 +2,24 @@ package builderb0y.bigtech.datagen.impl;
 
 import java.util.Map;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.state.property.Properties;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
+import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BlockDataGenerator.MiningToolTags;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.DataGenerator;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
-import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
-import builderb0y.bigtech.datagen.tables.Table;
+import builderb0y.bigtech.entities.BigTechEntityTags;
 import builderb0y.bigtech.items.BigTechItemTags;
+import builderb0y.bigtech.items.MaterialItems;
 import builderb0y.bigtech.worldgen.BigTechBiomeTags;
 
 public class VanillaTweaksDataGenerator implements DataGenerator {
@@ -82,6 +82,8 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 			Items.CHAINMAIL_LEGGINGS,
 			Items.CHAINMAIL_BOOTS
 		);
+		context.getTags(BigTechEntityTags.INVALID_TRANSPORT_DESPAWN).addAll(EntityType.ITEM.getRegistryEntry(), EntityType.EXPERIENCE_ORB.getRegistryEntry());
+		context.getTags(BigTechBlockTags.INVALID_TRANSPORT_DESPAWN).addAll(BigTechBlockTags.BELTS, BigTechBlockTags.ASCENDERS);
 		context.writeToFile(
 			context.blockModelPath(Identifier.ofVanilla("ladder")),
 			new RetexturedModelBuilder()
@@ -133,6 +135,7 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 			context.replace(transforms, Map.of("PARENT", "minecraft:block/cauldron"))
 		);
 		context.getTags(BigTechBiomeTags.CRYSTAL_CLUSTER_SPAWNABLE).add(BiomeTags.IS_OVERWORLD);
+		context.getTags(BlockTags.REPLACEABLE_BY_TREES).add(BlockTags.SAPLINGS);
 		context.lang.put("key.bigtech.cycle_state", "Cycle State");
 		context.lang.put("key.bigtech.place_delay", "Change Place Delay");
 		context.lang.put("key.bigtech.break_delay", "Change Break Delay");
@@ -145,6 +148,16 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 			.where('b', BigTechItemTags.STEEL_BLOCKS)
 			.where('i', BigTechItemTags.STEEL_INGOTS)
 			.result(Items.ANVIL)
+			.toString()
+		);
+		context.writeToFile(
+			context.recipePath(Identifier.ofVanilla("daylight_detector")),
+			new ShapedRecipeBuilder()
+			.category(CraftingRecipeCategory.REDSTONE)
+			.pattern("ppp", "www")
+			.where('p', MaterialItems.PHOTOVOLTAIC_RECEIVER)
+			.where('w', ItemTags.PLANKS)
+			.result(Items.DAYLIGHT_DETECTOR)
 			.toString()
 		);
 	}

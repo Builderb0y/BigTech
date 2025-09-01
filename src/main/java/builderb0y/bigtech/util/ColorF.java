@@ -31,8 +31,8 @@ public class ColorF {
 		return ColorHelper.getBlue(color) / 255.0F;
 	}
 
-	public static Vector3f toVector(int color, Vector3f vector) {
-		return vector.set(red(color), green(color), blue(color));
+	public static Vector3f toVector(int color, Vector3f destination) {
+		return destination.set(red(color), green(color), blue(color));
 	}
 
 	public static Vector3f toVector(int color) {

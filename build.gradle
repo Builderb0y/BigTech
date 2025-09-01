@@ -46,11 +46,11 @@ dependencies() {
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
-	include(implementation('builderb0y:autocodec:5.0.0') {
+	include(implementation('builderb0y:autocodec:6.0.2') {
 		transitive = false
 	})
 
-	modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric-api:1.113.1")
+	modCompileOnly("cc.tweaked:cc-tweaked-1.21.8-fabric-api:1.116.1")
 
 	//cardinal components.
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:6.3.0'))
@@ -58,7 +58,7 @@ dependencies() {
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.3.0'))
 
 	//manifold.
-	String manifoldVersion = '2025.1.5'
+	String manifoldVersion = '2025.1.25'
 	annotationProcessor("systems.manifold:manifold-strings:$manifoldVersion")
 
 	annotationProcessor("systems.manifold:manifold-ext:$manifoldVersion")

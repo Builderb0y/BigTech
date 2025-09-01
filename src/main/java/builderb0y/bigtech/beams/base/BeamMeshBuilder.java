@@ -30,6 +30,8 @@ import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.compatibility.SodiumCompatibility;
 import builderb0y.bigtech.util.Directions;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 @Environment(EnvType.CLIENT)
 public class BeamMeshBuilder {
@@ -102,27 +104,31 @@ public class BeamMeshBuilder {
 			ColorAccumulator averageColor = new ColorAccumulator();
 			Sprite sprite = MinecraftClient.getInstance().getBakedModelManager().getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).getSprite(BigTechMod.modID("block/beam"));
 			SodiumCompatibility.markSpriteActive(sprite);
-			ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> iterator = storage.short2ObjectEntrySet().fastIterator();
+			ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> iterator = storage.short2ObjectEntrySet().fastIterator();
 			while (iterator.hasNext()) {
-				Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = iterator.next();
+				Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = iterator.next();
 				short packedPos = blockEntry.getShortKey();
 				int x = BasicSectionBeamStorage.unpackX(packedPos);
 				int y = BasicSectionBeamStorage.unpackY(packedPos);
 				int z = BasicSectionBeamStorage.unpackZ(packedPos);
-				for (BeamSegment segment : blockEntry.getValue()) {
-					AdjacentColorAccumulator accumulator = directionToColor.get(segment.direction());
-					accumulator.accept(segment.color());
-					averageColor.accept(segment.color());
-					if (segment.direction() != BeamDirection.CENTER) {
-						int adjacentX = x + segment.direction().x;
-						int adjacentY = y + segment.direction().y;
-						int adjacentZ = z + segment.direction().z;
-						LinkedList<BeamSegment> adjacentSegments = loader.getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
-						if (adjacentSegments != null) {
-							for (BeamSegment adjacentSegment : adjacentSegments) {
-								if (adjacentSegment.direction() == segment.direction().getOpposite()) {
-									accumulator.accept(adjacentSegment.color());
-									accumulator.containsAdjacents = true;
+				try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+					for (BeamSegment segment : locked.value) {
+						AdjacentColorAccumulator accumulator = directionToColor.get(segment.direction());
+						accumulator.accept(segment.color());
+						averageColor.accept(segment.color());
+						if (segment.direction() != BeamDirection.CENTER) {
+							int adjacentX = x + segment.direction().x;
+							int adjacentY = y + segment.direction().y;
+							int adjacentZ = z + segment.direction().z;
+							Lockable<LinkedList<BeamSegment>> adjacentSegments = loader.getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
+							if (adjacentSegments != null) {
+								try (Locked<LinkedList<BeamSegment>> adjacentLocked = adjacentSegments.read()) {
+									for (BeamSegment adjacentSegment : adjacentLocked.value) {
+										if (adjacentSegment.direction() == segment.direction().getOpposite()) {
+											accumulator.accept(adjacentSegment.color());
+											accumulator.containsAdjacents = true;
+										}
+									}
 								}
 							}
 						}
@@ -165,11 +171,13 @@ public class BeamMeshBuilder {
 						}
 					}
 					if ((faceFlags & FACE_FLAGS[direction.ordinal()]) != 0) {
-						LinkedList<BeamSegment> adjacentSegments = loader.getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
+						Lockable<LinkedList<BeamSegment>> adjacentSegments = loader.getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
 						if (adjacentSegments != null) {
-							for (BeamSegment segment : adjacentSegments) {
-								if (segment.direction() == direction.getOpposite()) {
-									faceFlags &= ~FACE_FLAGS[direction.ordinal()];
+							try (Locked<LinkedList<BeamSegment>> locked = adjacentSegments.read()) {
+								for (BeamSegment segment : locked.value) {
+									if (segment.direction() == direction.getOpposite()) {
+										faceFlags &= ~FACE_FLAGS[direction.ordinal()];
+									}
 								}
 							}
 						}
@@ -288,7 +296,7 @@ public class BeamMeshBuilder {
 			};
 		}
 
-		public default @Nullable LinkedList<BeamSegment> getAdjacentSegments(T_Storage storage, int adjacentX, int adjacentY, int adjacentZ) {
+		public default @Nullable Lockable<LinkedList<BeamSegment>> getAdjacentSegments(T_Storage storage, int adjacentX, int adjacentY, int adjacentZ) {
 			T_Storage adjacentStorage = this.getAdjacentStorage(storage, adjacentX, adjacentY, adjacentZ);
 			return adjacentStorage != null ? adjacentStorage.checkSegments(adjacentX, adjacentY, adjacentZ) : null;
 		}

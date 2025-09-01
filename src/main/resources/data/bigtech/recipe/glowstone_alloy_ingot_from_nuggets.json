@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"nnn",
+		"nnn",
+		"nnn"
+	],
+	"key": {
+		"n": "#c:nuggets/glowstone_alloy"
+	},
+	"result": {
+		"id": "bigtech:glowstone_alloy_ingot"
+	}
+}

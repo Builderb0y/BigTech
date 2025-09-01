@@ -1,7 +1,5 @@
 package builderb0y.bigtech.blocks;
 
-import java.util.LinkedList;
-
 import com.mojang.serialization.MapCodec;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,17 +10,14 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
+import builderb0y.bigtech.beams.BeamUtil;
 import builderb0y.bigtech.beams.base.*;
-import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
-import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
-import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
@@ -77,38 +72,12 @@ public class RedstoneReceiverBlock extends BeamBlock implements BeamCallback {
 
 	public boolean shouldBePowered(World world, BlockPos pos, BlockState state) {
 		Direction direction = state.get(Properties.HORIZONTAL_FACING);
-		BlockPos query = pos.offset(direction);
-		CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(query)).require().get(query.getY() >> 4);
-		if (sectionStorage != null) {
-			LinkedList<BeamSegment> segments = sectionStorage.checkSegments(query);
-			if (segments != null) {
-				BeamDirection beamDirection = BeamDirection.from(direction.getOpposite());
-				for (BeamSegment segment : segments) {
-					if (segment.visible() && segment.direction() == beamDirection) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+		return BeamUtil.hasSegmentLeadingInto(world, pos, BeamDirection.from(direction), BeamUtil.VISIBLE);
 	}
 
 	public boolean shouldBePoweredBy(Beam beam, BlockPos pos, BlockState state) {
 		Direction direction = state.get(Properties.HORIZONTAL_FACING);
-		BlockPos query = pos.offset(direction);
-		BasicSectionBeamStorage sectionStorage = beam.seen.get(ChunkSectionPos.toLong(query));
-		if (sectionStorage != null) {
-			LinkedList<BeamSegment> segments = sectionStorage.checkSegments(query);
-			if (segments != null) {
-				BeamDirection beamDirection = BeamDirection.from(direction.getOpposite());
-				for (BeamSegment segment : segments) {
-					if (segment.visible() && segment.direction() == beamDirection) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+		return BeamUtil.hasSegmentLeadingInto(beam, pos, BeamDirection.from(direction), BeamUtil.VISIBLE);
 	}
 
 	@Override

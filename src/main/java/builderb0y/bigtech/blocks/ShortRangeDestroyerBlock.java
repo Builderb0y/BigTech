@@ -50,8 +50,7 @@ public class ShortRangeDestroyerBlock extends AbstractDestroyerBlock {
 		Random random
 	) {
 		if (direction == state.get(Properties.HORIZONTAL_FACING)) {
-			ShortRangeDestroyerBlockEntity blockEntity = WorldHelper.getBlockEntity(world, pos, ShortRangeDestroyerBlockEntity.class);
-			if (blockEntity != null && blockEntity.queue != null) {
+			if (world.getBlockEntity(pos) instanceof ShortRangeDestroyerBlockEntity blockEntity && blockEntity.queue != null) {
 				if (world instanceof ServerWorld serverWorld && blockEntity.queue.populated && !blockEntity.queue.inactive.isEmpty()) {
 					DestructionManager.forWorld(serverWorld).resetProgress(blockEntity.queue.inactive.lastKey());
 				}

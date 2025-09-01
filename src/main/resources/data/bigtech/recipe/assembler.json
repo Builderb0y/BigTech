@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"fsf",
+		"lcl",
+		"frf"
+	],
+	"key": {
+		"f": "bigtech:steel_frame"      ,
+		"s": "#c:silicon"               ,
+		"l": "bigtech:lens"             ,
+		"c": "#bigtech:crystal_clusters",
+		"r": "#c:ingots/redstone_alloy" 
+	},
+	"result": {
+		"id": "bigtech:assembler"
+	}
+}

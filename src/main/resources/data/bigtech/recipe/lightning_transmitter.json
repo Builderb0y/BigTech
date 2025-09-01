@@ -9,7 +9,7 @@
 		"i": "#c:ingots/copper"         ,
 		"l": "bigtech:lens"             ,
 		"c": "#bigtech:crystal_clusters",
-		"t": "bigtech:copper_coil"      ,
+		"t": "bigtech:electrum_coil"    ,
 		"b": "bigtech:cast_iron_ingot"  
 	},
 	"result": {

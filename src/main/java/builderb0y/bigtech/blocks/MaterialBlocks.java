@@ -1,9 +1,6 @@
 package builderb0y.bigtech.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
+import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 
@@ -58,6 +55,27 @@ public class MaterialBlocks {
 		)
 	);
 	@UseDataGen(void.class)
+	public static final RedstoneBlock REDSTONE_ALLOY_BLOCK = register(
+		new RedstoneBlock(
+			copySettings(Blocks.REDSTONE_BLOCK, "redstone_alloy_block")
+		)
+	);
+	@UseDataGen(void.class)
+	public static final Block LAPIS_ALLOY_BLOCK = register(
+		new Block(
+			copySettings(Blocks.GOLD_BLOCK, "lapis_alloy_block")
+			.mapColor(MapColor.LAPIS_BLUE)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final Block GLOWSTONE_ALLOY_BLOCK = register(
+		new Block(
+			copySettings(Blocks.GOLD_BLOCK, "glowstone_alloy_block")
+			.mapColor(MapColor.PALE_YELLOW)
+			.luminance((BlockState state) -> 15)
+		)
+	);
+	@UseDataGen(void.class)
 	public static final Block STEEL_BLOCK = register(
 		new Block(
 			copySettings(Blocks.IRON_BLOCK, "steel_block")
@@ -95,6 +113,12 @@ public class MaterialBlocks {
 		new Block(
 			copySettings(Blocks.GOLD_BLOCK, "electrum_block")
 			.mapColor(MapColor.PALE_YELLOW)
+		)
+	);
+	@UseDataGen(void.class)
+	public static final Block SILICON_BLOCK = register(
+		new Block(
+			copySettings(Blocks.STONE, "silicon_block")
 		)
 	);
 

@@ -1,0 +1,580 @@
+{
+	"version": 4,
+	"layer_graph": {
+		"showing_layer": "merged",
+		"selected_layer": "merged",
+		"layers": [
+			{
+				"name": "noise",
+				"gridX": 0,
+				"gridY": 0,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"return float4(...float3(rng(UV.x, UV.y + 1, 6).nextPositiveFloat()), 1.0);"
+						],
+						"dependencies": {}
+					}
+				}
+			},
+			{
+				"name": "crossoverV",
+				"gridX": 0,
+				"gridY": 3,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3UsQ0AMAgDQW+W1Rg9bZQBoOBecs81JL2d+pZn1XzMQPy7/ZL2tv3/8fPz8/Pz88/7LyAc790AEAAA"
+						}
+					}
+				}
+			},
+			{
+				"name": "crossoverH",
+				"gridX": 0,
+				"gridY": 5,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3SQQoAIAhE0blZV/PobYMgKRML/gMXbmIckgAgR7PY/Ga6QcOc7PZ2H9694feV20f0f96+182rdR/R/Lt7td/zAwBQoQM+RDoiABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "horizontal",
+				"gridX": 1,
+				"gridY": 0,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "convolve",
+						"shape": "HORIZONTAL",
+						"weight_type": "GAUSSIAN",
+						"radius": 12,
+						"dependencies": {
+							"main": {
+								"type": "layer",
+								"layer": "noise"
+							},
+							"mask": {
+								"type": "color",
+								"color": [
+									1.0,
+									1.0,
+									1.0,
+									1.0
+								]
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "vertical",
+				"gridX": 1,
+				"gridY": 1,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "convolve",
+						"shape": "VERTICAL",
+						"weight_type": "GAUSSIAN",
+						"radius": 12,
+						"dependencies": {
+							"main": {
+								"type": "layer",
+								"layer": "noise"
+							},
+							"mask": {
+								"type": "color",
+								"color": [
+									1.0,
+									1.0,
+									1.0,
+									1.0
+								]
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "wireEnds",
+				"gridX": 1,
+				"gridY": 2,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3WsQ0AIAwDwWzGahmdFjFAQPKd5D7fpWrW6mt1rIePeUB/dj8AAFnS/1/9f/VvG4OaZAAQAAA="
+						}
+					}
+				}
+			},
+			{
+				"name": "wire",
+				"gridX": 1,
+				"gridY": 3,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2UwQkAIQwEU0o6uSvFUlL64S9uQD9G5dyFeSzkkSGiyNo8BojDFi+zIfSnP/3pf4t/8C2O2tVR++uwDfvNpoAv+IWO89lI+/6md+3fN3ScT94vO8P7at/3b7nt/8PQn/70p/8p/h9om1KDABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "crossover",
+				"gridX": 1,
+				"gridY": 4,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "alpha",
+						"linear": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "crossoverV",
+									"enabled": true
+								},
+								{
+									"type": "layer",
+									"layer": "crossoverH",
+									"enabled": true
+								}
+							]
+						}
+					}
+				}
+			},
+			{
+				"name": "source",
+				"gridX": 1,
+				"gridY": 5,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/2NgoC+wb0DDDEi4gc6OGQAw6v9R/w8n/2P4hxBOQMIgvgMSJkY/mvqBBoTcR3U+w+BKL0Pd/ySnX3ScQCA905pPKWZADU+S+fT2rwISpoL7KQVDPf1TCka8/x3wu49gflGgLD0PNUCo/BnuYNT/o/4fTP4HAMWpCy4AEAAA"
+						}
+					}
+				}
+			},
+			{
+				"name": "notGate",
+				"gridX": 1,
+				"gridY": 6,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/2NgGAWjYBSMAvoA+wAk3ADEBki4YaBdR31gn4CEG4hQr4CEiVA/2IF9ARJuIEK9ABImQv1QA+A0j4wZkHDDwLmLXmCk+R/Dv2j5AT29D/XwIOjfBNTyEL28G2rhQbJ/CdR/Qz08RsEoGAVDBwAAy5ML0AAQAAA="
+						}
+					}
+				}
+			},
+			{
+				"name": "repeater",
+				"gridX": 1,
+				"gridY": 7,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/2NgGAWjYBSMAvoA+wY0zICEGwbOXbQCGP4tQMIgvgASbhj64UHQvwlIGMRXQMINQy88SPZvABIG8Q2QcMPQDw9CYDT/j+b/0fw/cvP/KBgFo2DwAAA5yAEtABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "comparator",
+				"gridX": 1,
+				"gridY": 8,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"float x = unmix(8.0, 12.0, float(UV.x) + 0.5);",
+							"float y = unmix(12.0, 4.0, float(UV.y) + 0.5);",
+							"float threshold = sqrt(y);",
+							"if (y > 0.0 && y < 1.0 && abs(x) <= threshold) {",
+							"\treturn float4(...float3(x / threshold * -0.25 + 0.75), 1.0);",
+							"}",
+							"return float4(0.0);"
+						],
+						"dependencies": {}
+					}
+				}
+			},
+			{
+				"name": "subtracter",
+				"gridX": 1,
+				"gridY": 9,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"float x = unmix(8.0, 12.0, float(UV.x) + 0.5);",
+							"float y = unmix(12.0, 4.0, float(UV.y) + 0.5);",
+							"float threshold = sqrt(y);",
+							"if (y > 0.0 && y < 1.0 && abs(x) <= threshold) {",
+							"\tfloat x2 = unmix(8.0, 10.0, float(UV.x) + 0.5);",
+							"\tfloat y2 = unmix(7.5, 4.0, float(UV.y) + 0.5);",
+							"\tfloat threshold2 = sqrt(y2);",
+							"\tif (y2 < 0.0 || y2 > 1.0 || abs(x2) > threshold2) {",
+							"\t\treturn float4(...float3(x / threshold * -0.25 + 0.75), 1.0);",
+							"\t}",
+							"}",
+							"return float4(0.0);"
+						],
+						"dependencies": {}
+					}
+				}
+			},
+			{
+				"name": "silicon",
+				"gridX": 2,
+				"gridY": 1,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"return ((horizontal(UV) + vertical(UV)) * 0.25).a(1.0);"
+						],
+						"dependencies": {}
+					}
+				}
+			},
+			{
+				"name": "whitestone",
+				"gridX": 2,
+				"gridY": 2,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "alpha",
+						"linear": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "wireEnds",
+									"enabled": true
+								},
+								{
+									"type": "layer",
+									"layer": "subtracter",
+									"enabled": true
+								}
+							]
+						}
+					}
+				}
+			},
+			{
+				"name": "wireShade",
+				"gridX": 2,
+				"gridY": 3,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2UOw4AIAhDPZlejaO7Kkv9Ipi+xKFJjbxBUrIjC+6U5oz0I0F/3KE//X/xzzoLvvPSX793Ou/ifT4SD/3fTuff55thZf91+d5oJnjf/7ehP+7Qn/6W/hXIcsa8ABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "crossoverShade",
+				"gridX": 2,
+				"gridY": 4,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2VUQ6AIAxDORlejaP7ayqxzsEc2iZ8LJRtbwlQSpxq457tsO74V5L4uedL/BXjZjwPfsyXTV5emh/yvT2P2by0PtTzzuOUzxiPkOf+Z+//yfuX/T287Be8bv7Ovlds3qaY1Brx/7F5WONI/e3/R4mfe8QvfvHH8e+hSf1gABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "sourceShade",
+				"gridX": 2,
+				"gridY": 5,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/2NgoB+wayCsxh4JE6N+KIFR/xNWM5T8j+4+UvnUto/eYKDtB4GBTC/Dzf/0Ts+0BkPd/aOA9gA9/xDiDzZAqvtpWV4MBBgt/wc2fVI7fQ1keqY1GG7tX1LBqP8Jq6G3/wGrEz9IABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "notGateShade",
+				"gridX": 2,
+				"gridY": 6,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2WSwrAMAgFc7L0ah4921ZCpi35aOKDLB4oOCqSlOYpC8dct/cm3pOCn2OCfx/+rL1wjuZ/+K7VjVeP+Xneh+P5tRfO2Wr/tRfO8cz/h5dkuR8jeEmW+mHhHq28jzR/8jU150v+Q+0rdNr/Tyv4OWY2fwHz8xxKABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "repeaterShade",
+				"gridX": 2,
+				"gridY": 7,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2WQQ6AIAwEeRl+rU/3qg1xxFAsupNw2GQJbJsSSplHNfZsh3XHvxLKzx7l/07+6rXxHp//pIfebjxP8hKZ6xGRl8hUjwzz+eZ7Qf0n3eKyv6Q77h6B5j/+zEz10Pw7bX26xcrzT/zt/+dRfvbMzr8D73OIJgAQAAA="
+						}
+					}
+				}
+			},
+			{
+				"name": "comparatorShade",
+				"gridX": 2,
+				"gridY": 8,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2WUQrAIAxDPZlerUeX/bkyjA5tre0DPwIRjI1gSnJkwp7SrBG/JSI/9kT+e/Jnrgnv4flfeunp9rNifpb68GfeCEt9kJjPyX3wln9H3xEnvQft+3/Q7IP7/FzTnP6i22+kJ86ugbf/HyfyY490/gqRJkbdABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "subtracterShade",
+				"gridX": 2,
+				"gridY": 9,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2WSw7AIAhEORm9Gt68q6YRm05LGwVlEhYmaHgyfoj6iUUKytlIyhFP8iMp+ZMf5czEz1TXb+GvxhRrP/7oXyQ/WPqNFMkPPfrj2Q+r8dvutzNY2jGe7+c8fOaF6+MaRvrBwv9ufZwzlB/4H9Wj+a54b/3u/D3QWu3/p5X8/vh3ASCtCgAQAAA="
+						}
+					}
+				}
+			},
+			{
+				"name": "shade",
+				"gridX": 3,
+				"gridY": 3,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "passthrough",
+						"dependencies": {
+							"main": {
+								"type": "layer",
+								"layer": "subtracterShade"
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "shaded",
+				"gridX": 4,
+				"gridY": 1,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "alpha",
+						"linear": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "shade",
+									"enabled": true
+								},
+								{
+									"type": "layer",
+									"layer": "silicon",
+									"enabled": true
+								}
+							]
+						}
+					}
+				}
+			},
+			{
+				"name": "redstone",
+				"gridX": 4,
+				"gridY": 2,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "mul",
+						"alpha_weighting": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "whitestone",
+									"enabled": true
+								},
+								{
+									"type": "color",
+									"color": [
+										1.0,
+										0.0,
+										0.0,
+										1.0
+									],
+									"enabled": true
+								}
+							]
+						}
+					}
+				}
+			},
+			{
+				"name": "excluded",
+				"gridX": 5,
+				"gridY": 1,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"return shaded(UV).a(1.0 - redstone(UV).a);"
+						],
+						"dependencies": {}
+					}
+				}
+			},
+			{
+				"name": "merged",
+				"gridX": 5,
+				"gridY": 2,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "alpha",
+						"linear": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "redstone",
+									"enabled": true
+								},
+								{
+									"type": "layer",
+									"layer": "shaded",
+									"enabled": true
+								}
+							]
+						}
+					}
+				}
+			}
+		]
+	},
+	"animation": {
+		"frames": 1
+	},
+	"wrap": false
+}

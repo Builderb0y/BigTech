@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "bigtech:item/wire_circuit_base",
+		"layer1": "bigtech:item/wire_circuit_tint"
+	}
+}

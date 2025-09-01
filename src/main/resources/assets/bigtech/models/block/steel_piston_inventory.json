@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"bottom": "bigtech:block/steel_piston_bottom",
+		"side": "bigtech:block/steel_piston_side",
+		"top": "minecraft:block/piston_top"
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [ "#minecraft:sand" ],
+	"slow_cool_result": { "id": "bigtech:silicon_block" },
+	"fast_cool_result": { "id": "minecraft:stone" },
+	"energy": 1000,
+	"cooling_rate": 5
+}

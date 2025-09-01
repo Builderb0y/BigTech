@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:block",
+	"pools": [{
+		"rolls": 1,
+		"entries": [{
+			"type": "minecraft:item",
+			"name": "bigtech:micro_processor"
+		}],
+		"conditions": [{
+			"condition": "minecraft:survives_explosion"
+		}],
+		"functions": [{
+			"function": "minecraft:copy_components",
+			"source": "block_entity",
+			"include": [
+				"minecraft:item_name",
+				"bigtech:circuit"
+			]
+		}]
+	}]
+}

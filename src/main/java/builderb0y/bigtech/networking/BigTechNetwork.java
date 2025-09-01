@@ -67,15 +67,25 @@ public class BigTechNetwork implements
 		//client-to-server packets
 
 		/** sent every tick while the player is controlling a miner. */
-		this.register(          ControlMinerPacket.INSTANCE);
+		this.register(               ControlMinerPacket.INSTANCE);
+		/** sent when a player clicks the "everywhere" checkbox in a long range deployer GUI. */
+		this.register(LongRangeDeployerEverywherePacket.INSTANCE);
 		/** sent when a player attempts to fire a silver iodide cannon. */
-		this.register(SilverIodideCannonFirePacket.INSTANCE);
+		this.register(     SilverIodideCannonFirePacket.INSTANCE);
 		/** sent when a player clicks "done" in a pulsar config screen. */
-		this.register(          UpdatePulsarPacket.INSTANCE);
+		this.register(               UpdatePulsarPacket.INSTANCE);
 		/** sent when a player clicks one of the widgets in the dislocator screen. */
-		this.register(    DislocatorSetDepthPacket.INSTANCE);
+		this.register(         DislocatorSetDepthPacket.INSTANCE);
 		/** sent when a player shift + scroll wheels while holding a BlockItem. */
-		this.register(       CycleBlockstatePacket.INSTANCE);
+		this.register(            CycleBlockstatePacket.INSTANCE);
+		/** sent when a player scrolls on an item in an assembler. */
+		this.register(               CycleCircuitPacket.INSTANCE);
+		/** sent when a player types in the output name text field in an assembler GUI. */
+		this.register(        AssemblerOutputNamePacket.INSTANCE);
+		/** sent when a player changes the size sliders in an assembler GUI. */
+		this.register(              AssemblerSizePacket.INSTANCE);
+		/** sent when a player closes a circuit debugger GUI. */
+		this.register(               ExitDebuggerPacket.INSTANCE);
 	}
 
 	public static void init() {
@@ -144,7 +154,7 @@ public class BigTechNetwork implements
 		PacketHandler<?> handler = this.getHandler(buffer.readByte());
 		BigTechPayload<?> result = handler.decode(buffer);
 		if (buffer.readableBytes() > 0) {
-			System.out.println("buffer fail!");
+			BigTechMod.LOGGER.warn("Extra data at the end of a " + handler.getClass().getSimpleName() + " packet.");
 		}
 		return result;
 	}

@@ -1,0 +1,90 @@
+{
+	"model": {
+		"type": "minecraft:select",
+		"property": "bigtech:circuit_rotation",
+		"cases": [
+			{
+				"when": "default",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/diode_circuit_0",
+					"tints": [
+						{
+							"type": "minecraft:constant",
+							"value": -1
+						},
+						{
+							"type": "bigtech:circuit",
+							"index": 1
+						}
+					]
+				}
+			},
+			{
+				"when": "rotate_right",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/diode_circuit_90",
+					"tints": [
+						{
+							"type": "minecraft:constant",
+							"value": -1
+						},
+						{
+							"type": "bigtech:circuit",
+							"index": 1
+						}
+					]
+				}
+			},
+			{
+				"when": "rotate_180",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/diode_circuit_180",
+					"tints": [
+						{
+							"type": "minecraft:constant",
+							"value": -1
+						},
+						{
+							"type": "bigtech:circuit",
+							"index": 1
+						}
+					]
+				}
+			},
+			{
+				"when": "rotate_left",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/diode_circuit_270",
+					"tints": [
+						{
+							"type": "minecraft:constant",
+							"value": -1
+						},
+						{
+							"type": "bigtech:circuit",
+							"index": 1
+						}
+					]
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "bigtech:item/diode_circuit_0",
+			"tints": [
+				{
+					"type": "minecraft:constant",
+					"value": -1
+				},
+				{
+					"type": "bigtech:circuit",
+					"index": 1
+				}
+			]
+		}
+	}
+}

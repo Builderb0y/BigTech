@@ -1,5 +1,8 @@
 accessWidener v2 named
 
+accessible class net/minecraft/block/entity/BlockEntityType$BlockEntityFactory
+accessible method net/minecraft/block/entity/BlockEntityType <init> (Lnet/minecraft/block/entity/BlockEntityType$BlockEntityFactory;Ljava/util/Set;)V
+
 #used to get a list of loaded chunks, so that beams can render in all loaded chunks.
 accessible class net/minecraft/client/world/ClientChunkManager$ClientChunkMap
 accessible field net/minecraft/client/world/ClientChunkManager chunks Lnet/minecraft/client/world/ClientChunkManager$ClientChunkMap;
@@ -12,3 +15,6 @@ extendable method net/minecraft/entity/vehicle/VehicleEntity asItem ()Lnet/minec
 accessible field net/minecraft/util/collection/DefaultedList delegate Ljava/util/List;
 accessible method net/minecraft/util/collection/DefaultedList <init> (Ljava/util/List;Ljava/lang/Object;)V
 accessible method net/minecraft/inventory/CraftingInventory <init> (Lnet/minecraft/screen/ScreenHandler;IILnet/minecraft/util/collection/DefaultedList;)V
+
+#need to keep this synced with the server.
+accessible field net/minecraft/client/gui/widget/CheckboxWidget checked Z

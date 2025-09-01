@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blockEntities;
 
+import java.util.stream.IntStream;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
@@ -19,12 +21,7 @@ import builderb0y.bigtech.gui.screenHandlers.PlacedTechnoCrafterScreenHandler;
 
 public class TechnoCrafterBlockEntity extends LootableBlockEntityThatReadsAndWritesToNbtProperly implements TechnoCrafterAccess, SidedInventory {
 
-	public static final int[] ACCESSIBLE_SLOTS = new int[27];
-	static {
-		for (int index = 0; index < 27; index++) {
-			ACCESSIBLE_SLOTS[index] = index;
-		}
-	}
+	public static final int[] ACCESSIBLE_SLOTS = IntStream.range(0, 27).toArray();
 
 	public boolean interactedRight;
 	public SplitStackList stacks;

@@ -27,6 +27,8 @@ import net.minecraft.util.math.random.Random;
 
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 
@@ -118,17 +120,19 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 				int sectionStartX = ChunkSectionPos.unpackX(sectionEntry.getLongKey()) << 4;
 				int sectionStartY = ChunkSectionPos.unpackY(sectionEntry.getLongKey()) << 4;
 				int sectionStartZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey()) << 4;
-				ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
+				ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
 				while (blockIterator.hasNext()) {
-					Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
+					Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = blockIterator.next();
 					int x = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.getShortKey());
 					int y = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.getShortKey());
 					int z = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.getShortKey());
-					for (BeamSegment segment : blockEntry.getValue()) {
-						buffer.writeInt(x).writeInt(y).writeInt(z);
-						buffer.writeByte(segment.direction().ordinal());
-						buffer.writeMedium(BeamSegment.packRgb(segment.getEffectiveColor()));
-						size++;
+					try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+						for (BeamSegment segment : locked.value) {
+							buffer.writeInt(x).writeInt(y).writeInt(z);
+							buffer.writeByte(segment.direction().ordinal());
+							buffer.writeMedium(BeamSegment.packRgb(segment.getEffectiveColor()));
+							size++;
+						}
 					}
 				}
 			}

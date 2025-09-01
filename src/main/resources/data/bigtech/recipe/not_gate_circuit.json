@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"group": "bigtech:circuit_components",
+	"ingredients": [
+		"minecraft:redstone_torch",
+		"bigtech:silicon"         
+	],
+	"result": {
+		"id": "bigtech:not_gate_circuit"
+	}
+}

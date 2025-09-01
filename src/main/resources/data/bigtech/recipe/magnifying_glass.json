@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" l",
+		"s "
+	],
+	"key": {
+		"l": "bigtech:lens"  ,
+		"s": "#c:rods/wooden"
+	},
+	"result": {
+		"id": "bigtech:magnifying_glass"
+	}
+}

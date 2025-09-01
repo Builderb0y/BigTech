@@ -1,0 +1,40 @@
+{
+	"model": {
+		"type": "minecraft:select",
+		"property": "bigtech:circuit_rotation",
+		"cases": [
+			{
+				"when": "default",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/micro_processor_0"
+				}
+			},
+			{
+				"when": "rotate_right",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/micro_processor_90"
+				}
+			},
+			{
+				"when": "rotate_180",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/micro_processor_180"
+				}
+			},
+			{
+				"when": "rotate_left",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:item/micro_processor_270"
+				}
+			}
+		],
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "bigtech:item/micro_processor_0"
+		}
+	}
+}

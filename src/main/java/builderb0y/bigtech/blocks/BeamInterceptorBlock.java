@@ -33,6 +33,7 @@ import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
 import builderb0y.bigtech.api.BeamInteractor.BeamCallback;
+import builderb0y.bigtech.beams.BeamUtil;
 import builderb0y.bigtech.beams.base.*;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
@@ -40,7 +41,7 @@ import builderb0y.bigtech.blockEntities.BeamInterceptorBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
 
-public class BeamInterceptorBlock extends Block implements BeamCallback, Waterloggable, BlockEntityProvider {
+public class BeamInterceptorBlock extends Block implements BeamCallback, Waterloggable, BlockEntityProvider, LegacyOnStateReplaced {
 
 	public static EnumMap<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 	static {
@@ -145,17 +146,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	@Override
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
 		if (state.get(Properties.POWERED)) {
-			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(pos)).require().get(pos.getY() >> 4);
-			if (sectionStorage != null) {
-				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
-				if (segments != null) {
-					int sum = 0;
-					for (BeamSegment segment : segments) {
-						if (segment.visible()) sum++;
-					}
-					return sum;
-				}
-			}
+			return Math.clamp(BeamUtil.getSegmentsLeadingOutOf(world, pos, BeamUtil.VISIBLE).count(), 0, 15);
 		}
 		return 0;
 	}
@@ -186,7 +177,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 		}
 	}
 
-	public boolean setPowered(World world, BlockPos pos, BlockState state, @Nullable Beam beam) {
+	public boolean setPowered(ServerWorld world, BlockPos pos, BlockState state, @Nullable Beam beam) {
 		boolean powered = state.get(Properties.POWERED);
 		boolean shouldBePowered = this.checkPowered(world, pos, state, beam);
 		if (powered != shouldBePowered) {
@@ -307,8 +298,7 @@ public class BeamInterceptorBlock extends Block implements BeamCallback, Waterlo
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, boolean moved) {
-		super.onStateReplaced(state, world, pos, moved);
+	public void legacyOnStateReplaced(ServerWorld world, BlockPos pos, BlockState state, BlockState newState, boolean moved) {
 		if (state.get(Properties.POWERED)) {
 			world.updateNeighbors(pos.offset(state.get(Properties.FACING)), this);
 		}

@@ -1,11 +1,11 @@
 package builderb0y.bigtech.items;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
+import net.minecraft.client.render.item.tint.TintSourceTypes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -72,6 +72,11 @@ public class BigTechItems {
 				}
 			}
 		);
+	}
+
+	public static void initClient() {
+		TintSourceTypes.ID_MAPPER.put(BigTechMod.modID("beam_interceptor"), BeamInterceptorTintSource.CODEC);
+		TintSourceTypes.ID_MAPPER.put(BigTechMod.modID("circuit"), CircuitTintSource.CODEC);
 	}
 
 	public static RegistryKey<Item> key(String name) {

@@ -1,0 +1,14 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "bigtech:item/diode_circuit_base",
+		"layer1": "bigtech:item/diode_circuit_tint"
+	},
+	"display": {
+		"gui": {
+			"rotation":    [ 0, 0, 180 ],
+			"translation": [ 0, 0, 0 ],
+			"scale":       [ 1, 1, 1 ]
+		}
+	}
+}

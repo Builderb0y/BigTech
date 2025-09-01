@@ -15,4 +15,6 @@ public class BigTechProperties {
 		RIGHT = BooleanProperty.of("right");
 	public static final IntProperty
 		ROTATION_0_7 = IntProperty.of("rotation", 0, 7);
+	public static final BooleanProperty
+		ACTIVE = BooleanProperty.of("active");
 }

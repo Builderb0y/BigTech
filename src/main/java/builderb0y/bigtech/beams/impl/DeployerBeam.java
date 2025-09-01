@@ -28,6 +28,7 @@ public class DeployerBeam extends PulseBeam {
 	public static final Vector3fc COLOR = new Vector3f(0.03125F, 0.5F, 1.0F);
 
 	public Set<BlockPos> placementPositions;
+	public boolean everywhere;
 
 	public DeployerBeam(World world, UUID uuid) {
 		super(world, uuid);
@@ -35,14 +36,19 @@ public class DeployerBeam extends PulseBeam {
 	}
 
 	@Override
-	public VoxelShape getShape(BlockPos pos, BlockState state) {
-		return state.isAir() ? VoxelShapes.empty() : VoxelShapes.fullCube();
+	public void handleIntersection(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment, BlockHitResult hitResult) {
+		super.handleIntersection(world, pos, state, segment, hitResult);
+		if (!this.everywhere) {
+			this.placementPositions.add(segment.startPos());
+		}
 	}
 
 	@Override
-	public void handleIntersection(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment, BlockHitResult hitResult) {
-		super.handleIntersection(world, pos, state, segment, hitResult);
-		this.placementPositions.add(segment.startPos());
+	public void handleNonIntersection(ServerWorld world, BlockPos pos, BlockState state, SpreadingBeamSegment segment) {
+		super.handleNonIntersection(world, pos, state, segment);
+		if (this.everywhere) {
+			this.placementPositions.add(segment.endPos());
+		}
 	}
 
 	@Override

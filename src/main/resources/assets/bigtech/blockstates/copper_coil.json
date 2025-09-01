@@ -1,10 +1,16 @@
 {
 	"variants": {
-		"facing=up":    { "model": "bigtech:block/copper_coil", "x":   0, "y":   0 },
-		"facing=down":  { "model": "bigtech:block/copper_coil", "x": 180, "y":   0 },
-		"facing=north": { "model": "bigtech:block/copper_coil", "x":  90, "y":   0 },
-		"facing=east":  { "model": "bigtech:block/copper_coil", "x":  90, "y":  90 },
-		"facing=south": { "model": "bigtech:block/copper_coil", "x":  90, "y": 180 },
-		"facing=west":  { "model": "bigtech:block/copper_coil", "x":  90, "y": 270 }
+		"facing=up,powered=false":    { "model": "bigtech:block/copper_coil", "x":   0, "y":   0 },
+		"facing=up,powered=true":     { "model": "bigtech:block/copper_coil", "x":   0, "y":   0 },
+		"facing=down,powered=false":  { "model": "bigtech:block/copper_coil", "x": 180, "y":   0 },
+		"facing=down,powered=true":   { "model": "bigtech:block/copper_coil", "x": 180, "y":   0 },
+		"facing=north,powered=false": { "model": "bigtech:block/copper_coil", "x":  90, "y":   0 },
+		"facing=north,powered=true":  { "model": "bigtech:block/copper_coil", "x":  90, "y":   0 },
+		"facing=east,powered=false":  { "model": "bigtech:block/copper_coil", "x":  90, "y":  90 },
+		"facing=east,powered=true":   { "model": "bigtech:block/copper_coil", "x":  90, "y":  90 },
+		"facing=south,powered=false": { "model": "bigtech:block/copper_coil", "x":  90, "y": 180 },
+		"facing=south,powered=true":  { "model": "bigtech:block/copper_coil", "x":  90, "y": 180 },
+		"facing=west,powered=false":  { "model": "bigtech:block/copper_coil", "x":  90, "y": 270 },
+		"facing=west,powered=true":   { "model": "bigtech:block/copper_coil", "x":  90, "y": 270 }
 	}
 }

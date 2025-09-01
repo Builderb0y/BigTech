@@ -30,6 +30,8 @@ import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.chunk.CommonChunkBeamStorage;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 public class RemoveBeamPacket implements S2CPlayPacket<RemoveBeamPacket.Payload> {
 
@@ -116,9 +118,14 @@ public class RemoveBeamPacket implements S2CPlayPacket<RemoveBeamPacket.Payload>
 			};
 			while (blockIterator.hasNext()) {
 				short position = blockIterator.nextShort();
-				LinkedList<BeamSegment> segments = sectionStorage.getSegments(position);
+				Lockable<LinkedList<BeamSegment>> segments = sectionStorage.getSegments(position);
 				needLightUpdate.setFalse();
-				if (!segments.removeIf(lambda)) {
+				boolean removed, empty;
+				try (Locked<LinkedList<BeamSegment>> locked = segments.write()) {
+					removed = locked.value.removeIf(lambda);
+					empty = locked.value.isEmpty();
+				}
+				if (!removed) {
 					BigTechMod.LOGGER.warn("No segments removed at ${this.sectionX}, ${this.sectionY}, ${this.sectionZ} position index ${position}");
 				}
 				else if (needLightUpdate.booleanValue()) {
@@ -127,7 +134,7 @@ public class RemoveBeamPacket implements S2CPlayPacket<RemoveBeamPacket.Payload>
 					int z = (this.sectionZ << 4) | BasicSectionBeamStorage.unpackZ(position);
 					lightingProvider.checkBlock(mutablePos.set(x, y, z));
 				}
-				if (segments.isEmpty()) {
+				if (empty) {
 					sectionStorage.remove(position);
 				}
 			}

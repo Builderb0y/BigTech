@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"side": "bigtech:block/electrum_coil_side",
+		"end":  "bigtech:block/electrum_coil_end"
+	}
+}

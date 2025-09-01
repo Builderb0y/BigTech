@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "bigtech:item/crossover_circuit_base",
+		"layer1": "bigtech:item/crossover_circuit_tint_horizontal",
+		"layer2": "bigtech:item/crossover_circuit_tint_vertical"
+	}
+}

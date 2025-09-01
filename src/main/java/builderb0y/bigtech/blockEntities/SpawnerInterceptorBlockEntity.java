@@ -188,8 +188,8 @@ public class SpawnerInterceptorBlockEntity extends BlockEntity implements NamedS
 
 		@Override
 		public void clear() {
-			this.markDirty();
 			this.egg = this.spawnEgg = ItemStack.EMPTY;
+			this.markDirty();
 		}
 	}
 }

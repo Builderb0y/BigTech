@@ -64,8 +64,24 @@ public class Harvestables {
 		return tree(isLog, isLeaf, isOf(Blocks.VINE), Direction.DOWN);
 	}
 
-	public static Harvestable tree(Predicate<BlockState> isLog, Predicate<BlockState> isLeaf, Predicate<BlockState> isVines, Direction vineGrowDirection) {
-		Harvestable vines = new Harvestable() {
+	public static Harvestable tree(
+		Predicate<BlockState> isLog,
+		Predicate<BlockState> isLeaf,
+		Predicate<BlockState> isVines,
+		Direction vineGrowDirection
+	) {
+		return tree(isLog, isLeaf, isVines, vineGrowDirection, Predicates.alwaysFalse(), Predicates.alwaysFalse());
+	}
+
+	public static Harvestable tree(
+		Predicate<BlockState> isLog,
+		Predicate<BlockState> isLeaf,
+		Predicate<BlockState> isVines,
+		Direction vineGrowDirection,
+		Predicate<BlockState> isMoss,
+		Predicate<BlockState> isHangingSapling
+	) {
+		Harvestable vines = vineGrowDirection == null ? Harvestable.SIMPLE_HARVEST : new Harvestable() {
 
 			@Override
 			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
@@ -95,6 +111,9 @@ public class Harvestables {
 					else if (isVines.test(adjacentState)) {
 						context.queueNeighbor(adjacentPos, adjacentState, vines);
 					}
+					else if (direction == Direction.DOWN && isHangingSapling.test(adjacentState)) {
+						context.queueNeighbor(adjacentPos, adjacentState, Harvestable.SIMPLE_HARVEST);
+					}
 				}
 			}
 
@@ -103,7 +122,7 @@ public class Harvestables {
 				return "Harvestables.tree(leaves part: ${isLeaf})";
 			}
 		};
-		Harvestable log = new Harvestable() {
+		return new Harvestable() {
 
 			@Override
 			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
@@ -119,32 +138,15 @@ public class Harvestables {
 					else if (isVines.test(adjacentState)) {
 						context.queueNeighbor(adjacentPos, adjacentState, vines);
 					}
+					else if (direction == BeamDirection.UP && isMoss.test(adjacentState)) {
+						context.queueNeighbor(adjacentPos, adjacentState, Harvestable.SIMPLE_HARVEST);
+					}
 				}
 			}
 
 			@Override
 			public String toString() {
 				return "Harvestables.tree(log part: ${isLog})";
-			}
-		};
-		return new Harvestable() {
-
-			@Override
-			public void queueNeighbors(World world, BlockPos pos, BlockState state, MultiHarvestContext context) {
-				if (isLog.test(state)) {
-					log.queueNeighbors(world, pos, state, context);
-				}
-				else if (isLeaf.test(state)) {
-					leaves.queueNeighbors(world, pos, state, context);
-				}
-				else if (isVines.test(state)) {
-					vines.queueNeighbors(world, pos, state, context);
-				}
-			}
-
-			@Override
-			public String toString() {
-				return "Harvestables.tree(${isLog}, ${isLeaf}, ${isVines})";
 			}
 		};
 	}

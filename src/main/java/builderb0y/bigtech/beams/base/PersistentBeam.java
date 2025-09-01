@@ -31,9 +31,7 @@ import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.networking.AddBeamPacket;
 import builderb0y.bigtech.networking.RemoveBeamPacket;
-import builderb0y.bigtech.util.AsyncConsumer;
-import builderb0y.bigtech.util.AsyncRunner;
-import builderb0y.bigtech.util.NbtReadingException;
+import builderb0y.bigtech.util.*;
 
 /**
 a laser beam which stays in the world until manually removed.
@@ -55,10 +53,12 @@ public abstract class PersistentBeam extends Beam {
 		if (chunk.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().get(pos.getY() >> 4);
 			if (sectionStorage != null) {
-				LinkedList<BeamSegment> segments = sectionStorage.checkSegments(pos);
+				Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 				if (segments != null) {
-					for (BeamSegment segment : segments) {
-						segment.beam().<PersistentBeam>as().onBlockChanged(serverWorld, pos, oldState, newState);
+					try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+						for (BeamSegment segment : locked.value) {
+							segment.beam().<PersistentBeam>as().onBlockChanged(serverWorld, pos, oldState, newState);
+						}
 					}
 				}
 			}
@@ -127,36 +127,38 @@ public abstract class PersistentBeam extends Beam {
 			}
 		}
 		try (AsyncConsumer<SyncResult> syncer = new AsyncConsumer<>(SyncResult::send)) {
-			ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> sectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
-			while (sectionIterator.hasNext()) {
-				Long2ObjectMap.Entry<BasicSectionBeamStorage> sectionEntry = sectionIterator.next();
-				int sectionX = ChunkSectionPos.unpackX(sectionEntry.getLongKey());
-				int sectionY = ChunkSectionPos.unpackY(sectionEntry.getLongKey());
-				int sectionZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey());
+			ObjectIterator<Long2ObjectMap.Entry<BasicSectionBeamStorage>> seenSectionIterator = this.seen.long2ObjectEntrySet().fastIterator();
+			while (seenSectionIterator.hasNext()) {
+				Long2ObjectMap.Entry<BasicSectionBeamStorage> seenSectionEntry = seenSectionIterator.next();
+				int seenSectionX = ChunkSectionPos.unpackX(seenSectionEntry.getLongKey());
+				int seenSectionY = ChunkSectionPos.unpackY(seenSectionEntry.getLongKey());
+				int seenSectionZ = ChunkSectionPos.unpackZ(seenSectionEntry.getLongKey());
 				CommonSectionBeamStorage existing = (
 					ChunkBeamStorageHolder.KEY.get(
-						world.getChunk(sectionX, sectionZ)
+						world.getChunk(seenSectionX, seenSectionZ)
 					)
 					.require()
-					.getSection(sectionY)
+					.getSection(seenSectionY)
 				);
-				BasicSectionBeamStorage newStorage = sectionEntry.getValue();
+				BasicSectionBeamStorage seenStorage = seenSectionEntry.getValue();
 				syncer.submit(() -> {
-					existing.removeAll(newStorage);
-					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(world, new ChunkPos(sectionX, sectionZ));
+					existing.removeAll(seenStorage);
+					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(world, new ChunkPos(seenSectionX, seenSectionZ));
 					if (tracking.isEmpty()) return null;
-					ShortList positions = new ShortArrayList(newStorage.size());
-					ObjectIterator<Short2ObjectMap.Entry<LinkedList<BeamSegment>>> blockIterator = newStorage.short2ObjectEntrySet().fastIterator();
+					ShortList positions = new ShortArrayList(seenStorage.size());
+					ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> blockIterator = seenStorage.short2ObjectEntrySet().fastIterator();
 					while (blockIterator.hasNext()) {
-						Short2ObjectMap.Entry<LinkedList<BeamSegment>> blockEntry = blockIterator.next();
-						for (BeamSegment segment : blockEntry.getValue()) {
-							if (segment.visible()) {
-								positions.add(blockEntry.getShortKey());
-								break;
+						Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = blockIterator.next();
+						try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+							for (BeamSegment segment : locked.value) {
+								if (segment.visible()) {
+									positions.add(blockEntry.getShortKey());
+									break;
+								}
 							}
 						}
 					}
-					return new SyncResult(tracking, sectionX, sectionY, sectionZ, this.uuid, positions);
+					return new SyncResult(tracking, seenSectionX, seenSectionY, seenSectionZ, this.uuid, positions);
 				});
 			}
 		}

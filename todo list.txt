@@ -11,28 +11,60 @@ things to finish for existing features:
 	JEI support for sorter belt (click and dragging items into the GUI).
 	JEI support for transmuter (recipe lookup).
 	arc furnace:
-		more recipes:
-			sand -> silicon
-				used for redstone logic gates.
-			iron + redstone -> redstone ingot?
-				redstone lasers?
-			gold + lapis -> lapis ingot?
-				what would this be used for?
-				lapis frame?
-			gold + glowstone dust -> glowing ingot?
-				spotlight.
 	better placement:
 		toggle for:
 			if you're looking at the block you just placed, don't place a new block.
 			if you're looking at a different block, place immediately.
-	electrum:
-		use in lightning transmitter recipe somewhere.
+	silver iodide cannon:
+		localized weather.
+			hook into WeatherRendering.getPrecipitationAt().
+			also hook into sky and fog color code.
+				evaluate how to do this when updating to 1.21.8.
+			manually spawn lightning.
+		automatic firing.
+
+more material tiers:
+	stone (vanilla):
+		can't mine iron.
+		can mine copper.
+	copper (vanilla):
+		copper tools.
+			oxidize.
+			can mine tin.
+		copper armor.
+			also oxidizes.
+	bronze:
+		need to craft a stone crucible for it.
+			requires fire under it to function.
+				fire needs to be maintained kind of manually,
+				seeing as the player does not have netherrack yet.
+			gains heat slowly while fire is present.
+			loses heat slightly faster while fire is absent.
+		bronze tools:
+			don't oxidize.
+			can mine iron.
+		bronze armor:
+			also doesn't oxidize.
+	iron (vanilla):
+		can't mine diamond.
+		can mine gold/redstone.
+		does lapis require iron? idk. leave this unchanged too.
+	steel:
+		made in iron crucible, powered by lightning.
+			blaze rods required to make electrode,
+			but you can get to the nether with buckets too.
+			don't need diamonds for that.
+			basically make the nether a prerequisite for diamonds.
+		steel tools.
+			can mine diamond.
+		steel armor.
+	diamond (vanilla).
 
 compatibility:
 
 testing:
 
-1.21.5:
+1.21.6:
 
 features:
 	general:
@@ -56,6 +88,9 @@ features:
 			when walking across carpet or wool while wearing them,
 			charges lightning electrodes in your inventory.
 			slowly though. like 1 unit per 10 ticks or something.
+		EMP:
+			made with electrum coils.
+			randomly toggles the redstone state of nearby blocks when it receives a redstone pulse.
 	automation:
 		XP storage device: not sure about the details yet.
 	machines:

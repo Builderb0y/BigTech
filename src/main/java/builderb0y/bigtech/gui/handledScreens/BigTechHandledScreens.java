@@ -14,9 +14,10 @@ public class BigTechHandledScreens {
 	public static void initClient() {
 		HandledScreens.register(BigTechScreenHandlerTypes.SORTER_BELT,                        SorterBeltHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.TRANSMUTER,                         TransmuterHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.LONG_RANGE_DEPLOYER,         LongRangeDeployerHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.DESTROYER,                           DestroyerHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.MINER,                                   MinerHandledScreen::new);
-		HandledScreens.register(BigTechScreenHandlerTypes.IGNITOR,                               IgnitorHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.IGNITER,                               IgniterHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON,       SilverIodideCannonHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.STONE_CRAFTING_TABLE,                        CraftingScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.SPAWNER_INTERCEPTOR,        SpawnerInterceptorHandledScreen::new);
@@ -24,5 +25,7 @@ public class BigTechHandledScreens {
 		HandledScreens.register(BigTechScreenHandlerTypes.PLACED_TECHNO_CRAFTER,     PlacedTechnoCrafterHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.PORTABLE_TECHNO_CRAFTER, PortableTechnoCrafterHandledScreen::new);
 		HandledScreens.register(BigTechScreenHandlerTypes.DISLOCATOR,                         DislocatorHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.ASSEMBLER,                           AssemblerHandledScreen::new);
+		HandledScreens.register(BigTechScreenHandlerTypes.CIRCUIT_DEBUGGER,              CircuitDebuggerHandledScreen::new);
 	}
 }

@@ -30,8 +30,8 @@ public class BigTechItemGroups {
 
 	@UseDataGen(ItemGroupDataGenerator.class)
 	public static final ItemGroup
-		MATERIALS = register("materials", MATERIAL_ITEMS, () -> MaterialItems.CRYSTAL_CLUSTERS.red.getDefaultStack()),
-		DECO = register("deco", DECO_ITEMS, () -> DecoItems.IRON_FRAME.getDefaultStack()),
+		MATERIALS  = register("materials",  MATERIAL_ITEMS,   () -> MaterialItems.CRYSTAL_CLUSTERS.red.getDefaultStack()),
+		DECO       = register("deco",       DECO_ITEMS,       () -> DecoItems.IRON_FRAME.getDefaultStack()),
 		FUNCTIONAL = register("functional", FUNCTIONAL_ITEMS, () -> FunctionalItems.PORTABLE_TECHNO_CRAFTER.getDefaultStack());
 
 	public static void init() {}

@@ -19,6 +19,8 @@ import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.storage.chunk.ChunkBeamStorageHolder;
 import builderb0y.bigtech.beams.storage.chunk.CommonChunkBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 @Mixin(ChunkBlockLightProvider.class)
 public abstract class ChunkBlockLightProvider_AllowBeamsToEmitLight extends ChunkLightProvider {
@@ -38,11 +40,13 @@ public abstract class ChunkBlockLightProvider_AllowBeamsToEmitLight extends Chun
 			if (chunkStorage != null) {
 				CommonSectionBeamStorage sectionStorage = chunkStorage.get(y >> 4);
 				if (sectionStorage != null) {
-					LinkedList<BeamSegment> segments = sectionStorage.checkSegments(x, y, z);
+					Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(x, y, z);
 					if (segments != null) {
-						for (BeamSegment segment : segments) {
-							oldValue = Math.max(oldValue, segment.beam().<PersistentBeam>as().getLightLevel(segment));
-							if (oldValue >= 15) return oldValue;
+						try (Locked<LinkedList<BeamSegment>> lockedSegments = segments.read()) {
+							for (BeamSegment segment : lockedSegments.value) {
+								oldValue = Math.max(oldValue, segment.beam().<PersistentBeam>as().getLightLevel(segment));
+								if (oldValue >= 15) return oldValue;
+							}
 						}
 					}
 				}

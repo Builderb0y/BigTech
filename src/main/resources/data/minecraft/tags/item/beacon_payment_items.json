@@ -3,6 +3,8 @@
 	"values": [
 		"#c:ingots/steel",
 		"bigtech:cast_iron_ingot",
-		"bigtech:ferromagnetic_ingot"
+		"bigtech:electrum_ingot",
+		"bigtech:ferromagnetic_ingot",
+		"bigtech:silver_ingot"
 	]
 }

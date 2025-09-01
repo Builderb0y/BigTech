@@ -40,7 +40,7 @@ public class SorterBeltBlock extends DirectionalBeltBlock implements BlockEntity
 	public int getAscenderPriority(World world, BlockPos pos, BlockState state, Direction face) {
 		if (face == Direction.UP) return AscenderInteractor.BELT_TOP;
 		if (face == Direction.DOWN) return AscenderInteractor.BLOCKED;
-		Direction facing = state.get(Properties.FACING);
+		Direction facing = state.get(Properties.HORIZONTAL_FACING);
 		if (face == facing.getOpposite()) return AscenderInteractor.BELT_BACK;
 		return AscenderInteractor.BLOCKED;
 	}

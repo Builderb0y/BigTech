@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"extended=false,facing=up":    { "model": "bigtech:block/steel_piston",      "x": 270           },
+		"extended=false,facing=down":  { "model": "bigtech:block/steel_piston",      "x":  90           },
+		"extended=false,facing=north": { "model": "bigtech:block/steel_piston",      "x":   0, "y":   0 },
+		"extended=false,facing=east":  { "model": "bigtech:block/steel_piston",      "x":   0, "y":  90 },
+		"extended=false,facing=south": { "model": "bigtech:block/steel_piston",      "x":   0, "y": 180 },
+		"extended=false,facing=west":  { "model": "bigtech:block/steel_piston",      "x":   0, "y": 270 },
+		"extended=true,facing=up":     { "model": "bigtech:block/steel_piston_base", "x": 270           },
+		"extended=true,facing=down":   { "model": "bigtech:block/steel_piston_base", "x":  90           },
+		"extended=true,facing=north":  { "model": "bigtech:block/steel_piston_base", "x":   0, "y":   0 },
+		"extended=true,facing=east":   { "model": "bigtech:block/steel_piston_base", "x":   0, "y":  90 },
+		"extended=true,facing=south":  { "model": "bigtech:block/steel_piston_base", "x":   0, "y": 180 },
+		"extended=true,facing=west":   { "model": "bigtech:block/steel_piston_base", "x":   0, "y": 270 }
+	}
+}

@@ -29,6 +29,8 @@ import builderb0y.bigtech.beams.storage.chunk.CommonChunkBeamStorage;
 import builderb0y.bigtech.beams.storage.section.BasicSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.section.CommonSectionBeamStorage;
 import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
+import builderb0y.bigtech.util.Lockable;
+import builderb0y.bigtech.util.Locked;
 
 public class AddBeamPacket implements S2CPlayPacket<AddBeamPacket.Payload> {
 
@@ -89,13 +91,17 @@ public class AddBeamPacket implements S2CPlayPacket<AddBeamPacket.Payload> {
 				storage
 				.short2ObjectEntrySet()
 				.stream()
-				.flatMap((Short2ObjectMap.Entry<LinkedList<BeamSegment>> entry) ->
-					entry
-					.getValue()
-					.stream()
-					.filter(BeamSegment::visible)
-					.map((BeamSegment segment) -> MinimalBeamSegment.from(entry.getShortKey(), segment))
-				)
+				.flatMap((Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> entry) -> {
+					Locked<LinkedList<BeamSegment>> locked = entry.getValue().read();
+					return (
+						locked
+						.value
+						.stream()
+						.filter(BeamSegment::visible)
+						.map((BeamSegment segment) -> MinimalBeamSegment.from(entry.getShortKey(), segment))
+						.onClose(locked::close)
+					);
+				})
 				.toList()
 			);
 		}

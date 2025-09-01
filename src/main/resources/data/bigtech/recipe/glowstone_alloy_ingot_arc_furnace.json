@@ -1,0 +1,10 @@
+{
+	"type": "bigtech:arc_furnace",
+	"inputs": [
+		"#c:dusts/glowstone",
+		"#c:ingots/gold"
+	],
+	"slow_cool_result": { "id": "bigtech:glowstone_alloy_ingot" },
+	"energy": 500,
+	"cooling_rate": 10
+}

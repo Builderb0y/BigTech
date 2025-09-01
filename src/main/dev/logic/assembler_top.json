@@ -1,0 +1,60 @@
+{
+	"version": 2,
+	"root_layer": {
+		"name": "alpha",
+		"width": 16,
+		"height": 16,
+		"children": [
+			{
+				"name": "chip",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+2WwQoAIAhD92V+W5/e3Q4hc1Tmu8lwspIIaLIwUlf7qbHB6Wo/NdXy+/3y856roWU3L3yewf5s6Ptn+7P9oIXOQ/qdplr+3v8Y/f5dXkNLtf9PlO/zk7rar1mZjooJLgAQAAA="
+						}
+					}
+				},
+				"expanded": false
+			},
+			{
+				"name": "steel_door",
+				"width": 16,
+				"height": 16,
+				"children": [],
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"float2 uv2 = uv * 2.0 - 1.0;",
+							"uv2 = float2(uv2.x ^ 2, uv2.y ^ 4);",
+							"uv2 = 1.0 - uv2;",
+							"float b = uv2.x * uv2.y;",
+							"b = b * 0.75 + rng(...UV).nextPositiveFloat() * 0.25;",
+							"b = b * (40.0 / 256.0) + (40.0 / 256.0);",
+							"return float4(b, b, b, 1.0);"
+						]
+					}
+				},
+				"expanded": true
+			}
+		],
+		"sources": {
+			"tab": {
+				"type": "alpha"
+			}
+		},
+		"expanded": true
+	},
+	"showing_layer": "alpha",
+	"selected_layer": "chip",
+	"wrap": false,
+	"animation": {
+		"frames": 1
+	}
+}

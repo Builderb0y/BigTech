@@ -77,9 +77,9 @@ public abstract class DamageTypeDataGenerator implements LocalizedDataGenerator 
 		}
 	}
 
-	public static class Ignitor extends DamageTypeDataGenerator {
+	public static class Igniter extends DamageTypeDataGenerator {
 
-		public Ignitor(RegistryKey<DamageType> key) {
+		public Igniter(RegistryKey<DamageType> key) {
 			super(key, DamageTypeTags.IS_FIRE);
 		}
 

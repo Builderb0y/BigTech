@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"group": "bigtech:photovoltaics",
+	"pattern": [
+		"l",
+		"g",
+		"r"
+	],
+	"key": {
+		"l": "bigtech:lens"             ,
+		"g": "#c:ingots/glowstone_alloy",
+		"r": "#c:ingots/redstone_alloy" 
+	},
+	"result": {
+		"id": "bigtech:photovoltaic_emitter"
+	}
+}

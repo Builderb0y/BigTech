@@ -1,0 +1,137 @@
+{
+	"version": 3,
+	"layer_graph": {
+		"showing_layer": "alpha",
+		"selected_layer": "noise",
+		"layers": [
+			{
+				"name": "mask",
+				"gridX": 0,
+				"gridY": 0,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/+3PMQoAMAgEQX+Wr+Xpqa1ETCPMwFZXXQQAP5ybq/aqbbp/pjsAAD0PeudsnQAQAAA="
+						}
+					}
+				}
+			},
+			{
+				"name": "noise",
+				"gridX": 0,
+				"gridY": 1,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "derived",
+						"code": [
+							"return float4(...float3(rng(...UV, 3).nextPositiveFloat() * 0.5 + 0.5), 1.0);"
+						],
+						"dependencies": {}
+					}
+				}
+			},
+			{
+				"name": "writing",
+				"gridX": 1,
+				"gridY": 0,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "mul",
+						"alpha_weighting": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "noise"
+								},
+								{
+									"type": "layer",
+									"layer": "mask"
+								}
+							]
+						}
+					}
+				}
+			},
+			{
+				"name": "chip",
+				"gridX": 1,
+				"gridY": 1,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/2NgGAWjgHxg3wDEDgwMdg0QNqnytDaP2sBuAQKD7B9wPhKmRXighzch++nOd0Bg+wbap4/B7n9qg9H4RwWD3f+0BiPN/6PpHxUMdv9TG4zGPyogZP9A8+kNCIU3qfFBbfNGwSjABwDUBcCYABAAAA=="
+						}
+					}
+				}
+			},
+			{
+				"name": "stone_slab_top.png",
+				"gridX": 1,
+				"gridY": 2,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "manual",
+						"dependencies": {},
+						"image": {
+							"width": 16,
+							"height": 16,
+							"pixels": "H4sIAAAAAAAA/81XIRLCQAysw+NRGCQv4L5WFGjQxYAABz8rP2AQjdi7mZ1tEgYRsdNemtxm93plcTiWKfquK12/t5iDMd/ydLZo4N04vqdovp9dH+LN/WHxxdvnyyIDr683iznrV8PFolU/YrYfmA/rQ6y+z/rF56wfxhc+Z/yz9QwzPtT86n4yrPbP+MnGwXqr/Ab14J0/tT91ftTvYT7mz975V/lT8zv9ueKf+X+2HqP9lM2XV/9YX7Z/R2P2f5HNb7bemf68/z9ev1bnXeWX7R/0W/mB1++i5z04H/W/fzvfo7+n+h+rN1u/TB/qPDD/+/X5F60PlX/nfZLeX9l+qzj4vvsBgjq1uQAQAAA="
+						}
+					}
+				}
+			},
+			{
+				"name": "alpha",
+				"gridX": 2,
+				"gridY": 0,
+				"width": 16,
+				"height": 16,
+				"sources": {
+					"tab": {
+						"type": "alpha",
+						"linear": false,
+						"dependencies": {
+							"main": [
+								{
+									"type": "layer",
+									"layer": "writing"
+								},
+								{
+									"type": "layer",
+									"layer": "chip"
+								},
+								{
+									"type": "layer",
+									"layer": "stone_slab_top.png"
+								}
+							]
+						}
+					}
+				}
+			}
+		]
+	},
+	"animation": {
+		"frames": 1
+	},
+	"wrap": false
+}

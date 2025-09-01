@@ -5,6 +5,7 @@ import java.util.Set;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,10 +14,10 @@ import net.minecraft.block.entity.BlockEntityType.BlockEntityFactory;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
-import builderb0y.bigtech.mixins.BlockEntityType_ConstructorAccess;
 
 public class BigTechBlockEntityTypes {
 
@@ -76,12 +77,18 @@ public class BigTechBlockEntityTypes {
 		FunctionalBlocks.SMALL_LIGHTNING_JAR,
 		FunctionalBlocks.LARGE_LIGHTNING_JAR
 	);
-	public static final BlockEntityType<IgnitorBlockEntity> IGNITOR = register(
-		"ignitor",
-		IgnitorBlockEntity::new,
-		FunctionalBlocks.IGNITOR,
-		FunctionalBlocks.IGNITOR_BEAM
+	public static final BlockEntityType<IgniterBlockEntity> IGNITER = register(
+		"igniter",
+		IgniterBlockEntity::new,
+		FunctionalBlocks.IGNITER,
+		FunctionalBlocks.IGNITER_BEAM
 	);
+	static {
+		Registries.BLOCK_ENTITY_TYPE.addAlias(
+			BigTechMod.modID("ignitor"),
+			BigTechMod.modID("igniter")
+		);
+	}
 	public static final BlockEntityType<SilverIodideCannonBlockEntity> SILVER_IODIDE_CANNON = register(
 		"silver_iodide_cannon",
 		SilverIodideCannonBlockEntity::new,
@@ -117,20 +124,36 @@ public class BigTechBlockEntityTypes {
 		CrucibleBlockEntity::new,
 		FunctionalBlocks.CRUCIBLE
 	);
+	public static final BlockEntityType<AssemblerBlockEntity> ASSEMBLER = register(
+		"assembler",
+		AssemblerBlockEntity::new,
+		FunctionalBlocks.ASSEMBLER
+	);
+	public static final BlockEntityType<MicroProcessorBlockEntity> MICRO_PROCESSOR = register(
+		"micro_processor",
+		MicroProcessorBlockEntity::new,
+		FunctionalBlocks.MICRO_PROCESSOR
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
-		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), BlockEntityType_ConstructorAccess.bigtech_create(factory, Set.of(blocks)));
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks)));
 	}
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Collection<Block> blocks) {
-		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), BlockEntityType_ConstructorAccess.bigtech_create(factory, Set.copyOf(blocks)));
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.copyOf(blocks)));
 	}
 
-	public static void init() {}
+	public static void init() {
+		ItemStorage.SIDED.registerForBlockEntity(
+			(AssemblerBlockEntity assembler, Direction direction) -> new AssemblerBlockEntity.MainStorage(assembler),
+			ASSEMBLER
+		);
+	}
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
-		BlockEntityRendererFactories.register(TESLA_COIL, TeslaCoilBlockEntityRenderer::new);
-		BlockEntityRendererFactories.register(CRUCIBLE, CrucibleBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(TESLA_COIL,           TeslaCoilBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(CRUCIBLE,              CrucibleBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(MICRO_PROCESSOR, MicroProcessorBlockEntityRenderer::new);
 	}
 }

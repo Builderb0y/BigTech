@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"ppp",
+		"dsd",
+		"drd"
+	],
+	"key": {
+		"p": "#minecraft:planks"          ,
+		"d": "minecraft:cobbled_deepslate",
+		"s": "#c:ingots/steel"            ,
+		"r": "#c:dusts/redstone"          
+	},
+	"result": {
+		"id": "bigtech:steel_piston"
+	}
+}
