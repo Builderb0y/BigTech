@@ -1,5 +1,6 @@
 package builderb0y.bigtech.gui.handledScreens;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
@@ -28,7 +29,7 @@ public class MinerHandledScreen extends BigTechHandledScreen<MinerScreenHandler>
 		if (burn > 0) {
 			burn = (burn * 13 + (MinerEntity.SLOWDOWN_THRESHOLD - 1)) / MinerEntity.SLOWDOWN_THRESHOLD;
 			context.drawTexture(
-				RenderLayer::getGuiTextured,
+				RenderPipelines.GUI_TEXTURED,
 				BACKGROUND,
 				this.x + 177,
 				this.y + 173 - burn,

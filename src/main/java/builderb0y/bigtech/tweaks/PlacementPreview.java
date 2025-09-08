@@ -140,7 +140,7 @@ public class PlacementPreview {
 		}
 		final BlockState placementState_ = placementState;
 		int light = WorldRenderer.getLightmapCoordinates(BrightnessGetter.DEFAULT, world, placementState, placementPos);
-		VertexConsumer buffer = renderContext.consumers().getBuffer(RenderLayer.getTranslucent());
+		VertexConsumer buffer = renderContext.consumers().getBuffer(RenderLayer.getTranslucentMovingBlock());
 		MatrixStack matrixStack = renderContext.matrixStack();
 		IntUnaryOperator color = (int tintIndex) -> (
 			MinecraftClient
@@ -255,7 +255,7 @@ public class PlacementPreview {
 						//this is probably not the best way to do this.
 						//if anyone knows a better way, please tell me.
 						if (layer.getVertexFormat() == VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL) {
-							layer = RenderLayer.getTranslucent();
+							layer = TexturedRenderLayers.getItemEntityTranslucentCull();
 						}
 						else if (
 							layer.getVertexFormat() == VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL &&
@@ -307,6 +307,7 @@ public class PlacementPreview {
 		.color(color)
 		.texture(quad.u(index), quad.v(index))
 		.light(light)
+		.overlay(OverlayTexture.DEFAULT_UV)
 		.normal(quad.normalX(index), quad.normalY(index), quad.normalZ(index));
 	}
 

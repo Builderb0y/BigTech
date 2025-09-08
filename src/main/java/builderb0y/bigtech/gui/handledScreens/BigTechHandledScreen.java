@@ -1,8 +1,8 @@
 package builderb0y.bigtech.gui.handledScreens;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -26,7 +26,7 @@ public class BigTechHandledScreen<T_Handler extends ScreenHandler> extends Handl
 	@Override
 	public void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		context.drawTexture(
-			RenderLayer::getGuiTextured,
+			RenderPipelines.GUI_TEXTURED,
 			this.backgroundTexture,
 			(this.width - this.backgroundWidth) >> 1,
 			(this.height - this.backgroundHeight) >> 1,

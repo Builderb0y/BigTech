@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ContainerLock;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
@@ -21,7 +22,10 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -70,22 +74,22 @@ public class SpawnerInterceptorBlockEntity extends BlockEntity implements NamedS
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.lock = ContainerLock.fromNbt(nbt, registryLookup);
-		this.customName = tryParseCustomName(nbt.get("CustomName"), registryLookup);
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.lock = ContainerLock.read(view);
+		this.customName = tryParseCustomName(view, "CustomName");
 		this.inventory.clear();
-		Inventories2.readItems(nbt.getListOrEmpty("Items"), registryLookup).forEach(Inventories2.setter(this.inventory));
+		Inventories2.readItems(view, "Items").forEach(Inventories2.setter(this.inventory));
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		this.lock.writeNbt(nbt, registryLookup);
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		this.lock.write(view);
 		if (this.customName != null) {
-			nbt.putString("CustomName", Text.Serialization.toJsonString(this.customName, registryLookup));
+			view.put("CustomName", TextCodecs.CODEC, this.customName);
 		}
-		nbt.put("Items", Inventories2.writeItems(Inventories2.stream(this.inventory, true), registryLookup));
+		Inventories2.writeItems(view, "Items", Inventories2.stream(this.inventory, true));
 	}
 
 	@Nullable

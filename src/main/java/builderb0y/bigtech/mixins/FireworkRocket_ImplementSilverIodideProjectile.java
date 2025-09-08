@@ -10,6 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 
 import builderb0y.bigtech.mixinterfaces.SilverIodideProjectile;
 
@@ -59,13 +61,13 @@ public abstract class FireworkRocket_ImplementSilverIodideProjectile extends Ent
 		this.bigtech_type = type;
 	}
 
-	@Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
-	private void bigtech_writeType(NbtCompound nbt, CallbackInfo callback) {
-		nbt.putByte("bigtech_type", (byte)(this.bigtech_getProjectileType().ordinal()));
+	@Inject(method = "writeCustomData", at = @At("RETURN"))
+	private void bigtech_writeType(WriteView view, CallbackInfo callback) {
+		view.putByte("bigtech_type", (byte)(this.bigtech_getProjectileType().ordinal()));
 	}
 
-	@Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
-	private void bigtech_readType(NbtCompound nbt, CallbackInfo callback) {
-		this.bigtech_type = nbt.getArray("bigtech_type", Type.VALUES).orElse(Type.NONE);
+	@Inject(method = "readCustomData", at = @At("RETURN"))
+	private void bigtech_readType(ReadView view, CallbackInfo callback) {
+		this.bigtech_type = view.getArray("bigtech_type", Type.VALUES).orElse(Type.NONE);
 	}
 }

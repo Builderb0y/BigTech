@@ -1,5 +1,6 @@
 package builderb0y.bigtech.gui.handledScreens;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
@@ -27,7 +28,7 @@ public class IgniterHandledScreen extends BigTechHandledScreen<IgniterScreenHand
 		if (totalTicks > 0 && remainingTicks > 0) {
 			int pixels = (remainingTicks * 14 + (totalTicks - 1)) / totalTicks;
 			context.drawTexture(
-				RenderLayer::getGuiTextured,
+				RenderPipelines.GUI_TEXTURED,
 				BACKGROUND,
 				this.x + 81,
 				this.y + 32 - pixels,

@@ -17,9 +17,11 @@ things to finish for existing features:
 			if you're looking at a different block, place immediately.
 	silver iodide cannon:
 		localized weather.
-			hook into WeatherRendering.getPrecipitationAt().
-			also hook into sky and fog color code.
-				evaluate how to do this when updating to 1.21.8.
+			hook into:
+				WeatherRendering.getPrecipitationAt().
+				ClientWorld.getSkyColor(). camera is provided.
+				ClientWorld.getCloudColor(). will need to fetch camera from client.
+				FogRenderer (add new FogModifier)
 			manually spawn lightning.
 		automatic firing.
 
@@ -65,6 +67,8 @@ compatibility:
 testing:
 
 1.21.6:
+	items despawn on belts when the world loads due to mixin.
+		I suspect entities start moving before all chunks are loaded or something.
 
 features:
 	general:

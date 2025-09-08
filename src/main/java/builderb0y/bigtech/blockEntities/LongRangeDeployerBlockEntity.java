@@ -8,6 +8,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
@@ -37,14 +39,14 @@ public class LongRangeDeployerBlockEntity extends AbstractDeployerBlockEntity {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		if (nbt.get("everywhere") instanceof AbstractNbtNumber everywhere) this.everywhere.set(everywhere.intValue());
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.everywhere.set(view.getBoolean("everywhere", false) ? 1 : 0);
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		nbt.putBoolean("everywhere", this.everywhere.get() != 0);
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		view.putBoolean("everywhere", this.everywhere.get() != 0);
 	}
 }

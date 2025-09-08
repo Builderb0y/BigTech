@@ -26,6 +26,7 @@
 		"Entity_MakeMinerEntityCollideWithBreakingBlocks",
 		"Entity_MakeRoutable",
 		"EntityShapeContext_ImplementHeldItemGetter",
+		"EntityTrackerEntry_FixVanillaBug",
 		"ExperienceOrbEntity_MakeMagnetiteAttractable",
 		"FireworkRocket_ImplementSilverIodideProjectile",
 		"Item_RaycastAccess",

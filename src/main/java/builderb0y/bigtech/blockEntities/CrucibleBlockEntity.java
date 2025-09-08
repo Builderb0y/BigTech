@@ -33,12 +33,15 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 
+import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.lightning.LightningPulse;
 import builderb0y.bigtech.mixins.ServerRecipeManager_PreparedRecipesAccess;
 import builderb0y.bigtech.recipes.ArcFurnaceRecipe;
@@ -259,9 +262,7 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 
 	@Override
 	public NbtCompound toInitialChunkDataNbt(WrapperLookup registries) {
-		NbtCompound nbt = super.toInitialChunkDataNbt(registries);
-		this.writeNbt(nbt, registries);
-		return nbt;
+		return this.createNbt(registries);
 	}
 
 	@Override
@@ -270,23 +271,18 @@ public class CrucibleBlockEntity extends BlockEntity implements SidedInventory {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registries) {
-		super.readNbt(nbt, registries);
+	public void readData(ReadView view) {
+		super.readData(view);
 		this.stacks.clear();
-		Inventories.readNbt(nbt, this.stacks, registries);
-		if (nbt.get("progress") instanceof NbtCompound compound) {
-			this.progress = CrucibleProgress.fromNbt(compound, registries);
-		}
-		else {
-			this.progress = null;
-		}
+		Inventories.readData(view, this.stacks);
+		this.progress = view.read("progress", CrucibleProgress.CODEC).orElse(null);
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registries) {
-		super.writeNbt(nbt, registries);
-		Inventories.writeNbt(nbt, this.stacks, registries);
-		if (this.progress != null) nbt.put("progress", this.progress.toNbt(registries));
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		Inventories.writeData(view, this.stacks);
+		if (this.progress != null) view.put("progress", CrucibleProgress.CODEC, this.progress);
 	}
 
 	public Storage<FluidVariant> fluidStorage(ServerWorld serverWorld) {

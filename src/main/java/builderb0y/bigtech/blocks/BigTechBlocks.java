@@ -7,13 +7,14 @@ import java.util.stream.Stream;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.block.*;
+import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.registry.Registries;
@@ -104,8 +105,8 @@ public class BigTechBlocks {
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
-		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.getCutout(),
+		BlockRenderLayerMap.putBlocks(
+			BlockRenderLayer.CUTOUT,
 			FunctionalBlocks.TRAPDOOR_BELT,
 			DecoBlocks.IRON_FRAME,
 			DecoBlocks.STEEL_FRAME,
@@ -123,8 +124,8 @@ public class BigTechBlocks {
 			FunctionalBlocks.BEAM_INTERCEPTOR,
 			FunctionalBlocks.ASSEMBLER
 		);
-		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.getCutout(),
+		BlockRenderLayerMap.putBlocks(
+			BlockRenderLayer.CUTOUT,
 			Stream.of(
 				DecoBlocks.COPPER_FRAMES,
 				DecoBlocks.WOOD_FRAMES,
@@ -138,20 +139,24 @@ public class BigTechBlocks {
 			.flatMap(RegistrableCollection::stream)
 			.toArray(Block[]::new)
 		);
-		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.getCutoutMipped(),
+		BlockRenderLayerMap.putBlocks(
+			BlockRenderLayer.CUTOUT_MIPPED,
 			FunctionalBlocks.SILVER_IODIDE_CANNON,
 			FunctionalBlocks.WOODEN_HOPPER
 		);
-		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.getTranslucent(),
+		BlockRenderLayerMap.putBlocks(
+			BlockRenderLayer.TRANSLUCENT,
 			FunctionalBlocks.ASCENDER,
 			FunctionalBlocks.DESCENDER,
 			FunctionalBlocks.PHASE_SCRAMBLER,
 			FunctionalBlocks.PHASE_ALIGNER
 		);
-		BlockRenderLayerMap.INSTANCE.putBlocks(
-			RenderLayer.getTranslucent(),
+		BlockRenderLayerMap.putBlocks(
+			BlockRenderLayer.TRIPWIRE,
+			FunctionalBlocks.PRISM
+		);
+		BlockRenderLayerMap.putBlocks(
+			BlockRenderLayer.TRANSLUCENT,
 			MaterialBlocks.CRYSTAL_CLUSTERS
 			.stream()
 			.toArray(Block[]::new)

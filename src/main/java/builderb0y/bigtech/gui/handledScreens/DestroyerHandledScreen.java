@@ -1,7 +1,7 @@
 package builderb0y.bigtech.gui.handledScreens;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -24,7 +24,7 @@ public class DestroyerHandledScreen extends BigTechHandledScreen<DestroyerScreen
 		super.drawBackground(context, delta, mouseX, mouseY);
 		if (this.handler.inventory.getStack(0).isEmpty()) {
 			context.drawTexture(
-				RenderLayer::getGuiTextured,
+				RenderPipelines.GUI_TEXTURED,
 				BACKGROUND,
 				((this.width - this.backgroundWidth) >> 1) + 80,
 				((this.height - this.backgroundHeight) >> 1) + 17,

@@ -20,6 +20,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -99,16 +101,16 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		ItemStack stack = this.getStack();
-		if (!stack.isEmpty()) nbt.putItemStack("stack", stack, registryLookup);
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.setStack(view.read("stack", ItemStack.CODEC).orElse(ItemStack.EMPTY));
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.setStack(nbt.getItemStack("stack", registryLookup).orElse(ItemStack.EMPTY));
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		ItemStack stack = this.getStack();
+		if (!stack.isEmpty()) view.put("stack", ItemStack.CODEC, stack);
 	}
 
 	@Override

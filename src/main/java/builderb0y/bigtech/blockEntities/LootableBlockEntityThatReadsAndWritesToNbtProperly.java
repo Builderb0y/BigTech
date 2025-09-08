@@ -4,8 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class LootableBlockEntityThatReadsAndWritesToNbtProperly extends LootableContainerBlockEntity {
@@ -20,19 +20,19 @@ public abstract class LootableBlockEntityThatReadsAndWritesToNbtProperly extends
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
+	public void readData(ReadView view) {
+		super.readData(view);
 		this.getHeldStacks().clear();
-		if (!this.readLootTable(nbt)) {
-			Inventories.readNbt(nbt, this.getHeldStacks(), registryLookup);
+		if (!this.readLootTable(view)) {
+			Inventories.readData(view, this.getHeldStacks());
 		}
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		if (!this.writeLootTable(nbt)) {
-			Inventories.writeNbt(nbt, this.getHeldStacks(), registryLookup);
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		if (!this.writeLootTable(view)) {
+			Inventories.writeData(view, this.getHeldStacks());
 		}
 	}
 }

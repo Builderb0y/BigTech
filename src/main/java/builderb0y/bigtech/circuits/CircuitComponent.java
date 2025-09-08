@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
 
+import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
@@ -50,6 +51,7 @@ public interface CircuitComponent extends Dispatchable<CircuitComponent> {
 		.attribute(RegistryAttribute.SYNCED)
 		.buildAndRegister()
 	);
+	public static final Codec<CircuitComponent> CODEC = CODER.autoCodec.createDFUCodec(CODER);
 	public static final Object INITIALIZER = new Object() {{
 		CODER.register("empty",           EmptyCircuitComponent.class,      EmptyCircuitComponent.PACKET_CODEC);
 		CODER.register("source",         SourceCircuitComponent.class,     SourceCircuitComponent.CANONICALIZER.packetCodec);

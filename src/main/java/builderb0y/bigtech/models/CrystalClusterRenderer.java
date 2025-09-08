@@ -7,14 +7,13 @@ import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
-import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.render.item.ItemRenderState.LayerRenderState;
 import net.minecraft.client.render.item.model.ItemModel;
@@ -40,8 +39,6 @@ import builderb0y.bigtech.util.Directions;
 
 @Environment(EnvType.CLIENT)
 public class CrystalClusterRenderer implements BlockStateModel, ItemModel {
-
-	public static final RenderMaterial TRANSLUCENT_MATERIAL = Renderer.get().materialFinder().blendMode(BlendMode.TRANSLUCENT).find();
 
 	public final Sprite sprite;
 	public final ModelTransformation transformation;
@@ -85,7 +82,7 @@ public class CrystalClusterRenderer implements BlockStateModel, ItemModel {
 	@Override
 	public void update(ItemRenderState state, ItemStack stack, ItemModelManager resolver, ItemDisplayContext displayContext, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed) {
 		LayerRenderState layer = state.newLayer();
-		layer.setRenderLayer(RenderLayer.getTranslucent());
+		layer.setRenderLayer(TexturedRenderLayers.getItemEntityTranslucentCull());
 		layer.setTransform(this.transformation.getTransformation(displayContext));
 		if (stack.hasGlint()) {
 			layer.setGlint(ItemRenderState.Glint.STANDARD);
@@ -161,9 +158,6 @@ public class CrystalClusterRenderer implements BlockStateModel, ItemModel {
 			normalX = direction.getOffsetX(),
 			normalY = direction.getOffsetY(),
 			normalZ = direction.getOffsetZ();
-		if (TRANSLUCENT_MATERIAL != null) {
-			quadEmitter.material(TRANSLUCENT_MATERIAL);
-		}
 		quadEmitter
 		.pos(0, x0, y0, z0)
 		.pos(1, x1, y1, z1)

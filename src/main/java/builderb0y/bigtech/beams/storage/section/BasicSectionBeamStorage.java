@@ -11,6 +11,10 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.ReadView.ListReadView;
+import net.minecraft.storage.WriteView;
+import net.minecraft.storage.WriteView.ListView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 
@@ -152,39 +156,36 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<Li
 		public abstract void accept(short packedPos, BeamSegment segment);
 	}
 
-	public void writeToNbt(NbtCompound tag, boolean includeUUID) {
-		tag.putSubList("segments", (NbtList segmentsTag) -> {
-			this.forEachSegment((short pos, BeamSegment segment) -> {
-				segmentsTag.addCompound((NbtCompound segmentTag) -> {
-					segment.toNbt(segmentTag.withShort("pos", pos), includeUUID);
-				});
-			});
+	public void write(WriteView view, boolean includeUUID) {
+		ListView segments = view.getList("segments");
+		this.forEachSegment((short pos, BeamSegment segment) -> {
+			segment.write(segments.add().withShort("pos", pos), includeUUID);
 		});
 	}
 
-	public void readFromNbt(NbtCompound tag, CommonWorldBeamStorage world) {
+	public void read(ReadView tag, CommonWorldBeamStorage world) {
 		this.clear();
-		NbtList segments = tag.getList("segments").orElse(null);
-		if (segments != null) {
-			for (NbtCompound compound : segments.<Iterable<NbtCompound>>as()) {
-				Short position = compound.getShort("pos").orElse(null);
-				if (position == null) continue;
-				BeamSegment segment = BeamSegment.fromNbt(compound, world);
+		ListReadView segmentsView = tag.getOptionalListReadView("segments").orElse(null);
+		if (segmentsView != null && !segmentsView.isEmpty()) {
+			segmentsView.stream().forEach((ReadView segmentView) -> {
+				short position = (short)(segmentView.getShort("pos", (short)(-1)));
+				if (position < 0 || position >= 4096) return;
+				BeamSegment segment = BeamSegment.read(segmentView, world);
 				if (segment != null) this.addSegment(position, segment, true);
-			}
+			});
 		}
 	}
 
-	public void readFromNbt(NbtCompound tag, Beam beam) {
+	public void read(ReadView view, Beam beam) {
 		this.clear();
-		NbtList segments = tag.getList("segments").orElse(null);
-		if (segments != null) {
-			for (NbtCompound compound : segments.<Iterable<NbtCompound>>as()) {
-				Short position = compound.getShort("pos").orElse(null);
-				if (position == null) continue;
-				BeamSegment segment = BeamSegment.fromNbt(compound, beam);
+		ListReadView segments = view.getOptionalListReadView("segments").orElse(null);
+		if (segments != null && !segments.isEmpty()) {
+			segments.stream().forEach((ReadView segmentView) -> {
+				short position = segmentView.getShortProperly("pos", (short)(-1));
+				if (position < 0 || position >= 4096) return;
+				BeamSegment segment = BeamSegment.read(segmentView, beam);
 				if (segment != null) this.addSegment(position, segment, true);
-			}
+			});
 		}
 	}
 }

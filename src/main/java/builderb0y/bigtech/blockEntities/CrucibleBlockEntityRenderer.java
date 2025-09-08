@@ -4,10 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
@@ -56,7 +53,7 @@ public class CrucibleBlockEntityRenderer implements BlockEntityRenderer<Crucible
 				float alpha = ((float)(crucible.progress.heat)) / ((float)(crucible.progress.maxHeat));
 				vertices(
 					matrices,
-					vertexConsumers.getBuffer(RenderLayer.getTranslucent()),
+					vertexConsumers.getBuffer(TexturedRenderLayers.getItemEntityTranslucentCull()),
 					atlas.getSprite(LAVA),
 					centerY + 0.0001F,
 					alpha,

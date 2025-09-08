@@ -17,6 +17,8 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 
 public class BeamInterceptorBlockEntity extends BlockEntity {
@@ -41,26 +43,34 @@ public class BeamInterceptorBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		if (this.color != null) nbt.putFloatArray("color", new float[] { this.color.x, this.color.y, this.color.z });
-		nbt.putBoolean("locked", this.locked);
-	}
-
-	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		float[] color = nbt.getFloatArray("color").orElse(null);
+	public void readData(ReadView view) {
+		super.readData(view);
+		int[] color = view.getOptionalIntArray("color").orElse(null);
 		if (color != null && color.length == 3) {
-			this.color = new Vector3f(color);
+			this.color = new Vector3f(
+				Float.intBitsToFloat(color[0]),
+				Float.intBitsToFloat(color[1]),
+				Float.intBitsToFloat(color[2])
+			);
 		}
 		else {
 			this.color = null;
 		}
-		this.locked = nbt.getBoolean("locked", false);
+		this.locked = view.getBoolean("locked", false);
 		if (this.world != null && this.world.isClient) {
 			this.reRender();
 		}
+	}
+
+	@Override
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		if (this.color != null) view.putIntArray("color", new int[] {
+			Float.floatToRawIntBits(this.color.x),
+			Float.floatToRawIntBits(this.color.y),
+			Float.floatToRawIntBits(this.color.z)
+		});
+		view.putBoolean("locked", this.locked);
 	}
 
 	@Environment(EnvType.CLIENT)

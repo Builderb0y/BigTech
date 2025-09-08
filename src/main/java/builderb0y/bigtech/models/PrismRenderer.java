@@ -7,9 +7,6 @@ import java.util.function.Predicate;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.renderer.v1.Renderer;
-import net.fabricmc.fabric.api.renderer.v1.material.BlendMode;
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.MeshBakedGeometry;
@@ -47,7 +44,6 @@ import builderb0y.bigtech.util.Directions;
 @Environment(EnvType.CLIENT)
 public class PrismRenderer implements BlockStateModel, ItemModel {
 
-	public static final RenderMaterial TRANSLUCENT = Renderer.get().materialFinder().blendMode(BlendMode.TRANSLUCENT).find();
 	public static final EnumMap<BeamDirection, Matrix4f> ROTATIONS = new EnumMap<>(BeamDirection.class);
 	static {
 		initMatrices();
@@ -69,16 +65,16 @@ public class PrismRenderer implements BlockStateModel, ItemModel {
 		ROTATIONS.put(
 			BeamDirection.UP,
 			new Matrix4f()
-				.translation(0.5F, 0.5F, 0.5F)
-				.rotateX((float)(Math.PI * 0.5D))
-				.translate(-0.5F, -0.5F, -0.5F)
+			.translation(0.5F, 0.5F, 0.5F)
+			.rotateX((float)(Math.PI * 0.5D))
+			.translate(-0.5F, -0.5F, -0.5F)
 		);
 		ROTATIONS.put(
 			BeamDirection.DOWN,
 			new Matrix4f()
-				.translation(0.5F, 0.5F, 0.5F)
-				.rotateX((float)(Math.PI * -0.5D))
-				.translate(-0.5F, -0.5F, -0.5F)
+			.translation(0.5F, 0.5F, 0.5F)
+			.rotateX((float)(Math.PI * -0.5D))
+			.translate(-0.5F, -0.5F, -0.5F)
 		);
 	}
 
@@ -136,17 +132,23 @@ public class PrismRenderer implements BlockStateModel, ItemModel {
 	@Override
 	public void update(ItemRenderState state, ItemStack stack, ItemModelManager resolver, ItemDisplayContext displayContext, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed) {
 		LayerRenderState layer = state.newLayer();
-		layer.setRenderLayer(RenderLayer.getTranslucent());
+		layer.setRenderLayer(RenderLayer.getTripwire());
 		layer.setTransform(this.baseModel.getTransformations().getTransformation(displayContext));
 		if (stack.hasGlint()) {
 			layer.setGlint(ItemRenderState.Glint.STANDARD);
 		}
-		QuadEmitter emitter = layer.emitter();
-		pipe(emitter, this.baseGeometry);
+		pipe(layer.emitter(), this.baseGeometry);
+
 		NbtComponent data = stack.get(DataComponentTypes.BLOCK_ENTITY_DATA);
 		int lenses = data != null ? data.getNbt().getInt("lenses", 0) & PrismBlockEntity.FLAG_MASK : 0;
 		if (lenses != 0) {
-			pipeRotations(emitter, this.lensGeometry, lenses);
+			layer = state.newLayer();
+			layer.setRenderLayer(RenderLayer.getCutout());
+			layer.setTransform(this.baseModel.getTransformations().getTransformation(displayContext));
+			if (stack.hasGlint()) {
+				layer.setGlint(ItemRenderState.Glint.STANDARD);
+			}
+			pipeRotations(layer.emitter(), this.lensGeometry, lenses);
 		}
 	}
 
@@ -185,7 +187,7 @@ public class PrismRenderer implements BlockStateModel, ItemModel {
 		else {
 			for (Direction side : Directions.ALL_INCLUDING_NULL) {
 				for (BakedQuad quad : geometry.getQuads(side)) {
-					emitter.fromVanilla(quad, TRANSLUCENT, side);
+					emitter.fromBakedQuad(quad);
 					emitter.emit();
 				}
 			}

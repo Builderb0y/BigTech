@@ -27,8 +27,11 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 	@Override
 	public void writeBlockModels(DataGenContext context) {
 		//before 1.15, alpha testing would allow me to do the sphere in layers.
-		//but now alpha testing no longer exists for translucents.
-		//so, have a greedy mesh instead.
+		//but after that, alpha testing no longer exists for translucents.
+		//so, I went with a greedy mesh instead, which meant *way* more quads.
+		//now in 1.21.6, blocks can use the "tripwire" layer, which has alpha testing again.
+		//but for some reason it doesn't seem to work. so now I'm using a greedy mesh again.
+		//*
 		Set<VoxelQuad> rawMesh = new LinkedHashSet<>(1024);
 		for (int voxelZ = 0; voxelZ < 16; voxelZ++) {
 			double centerZ = (voxelZ + 0.5D) * 0.0625D - 0.5D;
@@ -159,6 +162,202 @@ public class PrismDataGenerator extends BasicBlockDataGenerator {
 			context.blockModelPath(context.suffixPath(this.getId(), "_base")),
 			model.toString()
 		);
+		/*/
+		context.writeToFile(
+			context.blockModelPath(context.suffixPath(this.getId(), "_base")),
+			//language=json
+			"""
+			{
+				"parent": "block/block",
+				"textures": {
+					"particle": "bigtech:block/prism_base_particle",
+					"layer1": "bigtech:block/prism_base_layer_1",
+					"layer2": "bigtech:block/prism_base_layer_2",
+					"layer3": "bigtech:block/prism_base_layer_3",
+					"layer4": "bigtech:block/prism_base_layer_4",
+					"layer5": "bigtech:block/prism_base_layer_5",
+					"layer6": "bigtech:block/prism_base_layer_6",
+					"layer7": "bigtech:block/prism_base_layer_7"
+				},
+				"elements": [
+					{
+						"from": [ 7,  1,  1 ],
+						"to":   [ 9, 15, 15 ],
+						"faces": {
+							"east": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer1" },
+							"west": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer1" }
+						}
+					},
+					{
+						"from": [  1, 7,  1 ],
+						"to":   [ 15, 9, 15 ],
+						"faces": {
+							"up":   { "uv": [ 1, 1, 15, 15 ], "texture": "#layer1" },
+							"down": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer1" }
+						}
+					},
+					{
+						"from": [  1,  1, 7 ],
+						"to":   [ 15, 15, 9 ],
+						"faces": {
+							"north": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer1" },
+							"south": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer1" }
+						}
+					},
+
+
+
+					{
+						"from": [  6,  1,  1 ],
+						"to":   [ 10, 15, 15 ],
+						"faces": {
+							"east": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer2" },
+							"west": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer2" }
+						}
+					},
+					{
+						"from": [  1,  6,  1 ],
+						"to":   [ 15, 10, 15 ],
+						"faces": {
+							"up":   { "uv": [ 1, 1, 15, 15 ], "texture": "#layer2" },
+							"down": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer2" }
+						}
+					},
+					{
+						"from": [  1,  1,  6 ],
+						"to":   [ 15, 15, 10 ],
+						"faces": {
+							"north": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer2" },
+							"south": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer2" }
+						}
+					},
+
+
+
+					{
+						"from": [  5,  1,  1 ],
+						"to":   [ 11, 15, 15 ],
+						"faces": {
+							"east": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer3" },
+							"west": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer3" }
+						}
+					},
+					{
+						"from": [  1,  5,  1 ],
+						"to":   [ 15, 11, 15 ],
+						"faces": {
+							"up":   { "uv": [ 1, 1, 15, 15 ], "texture": "#layer3" },
+							"down": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer3" }
+						}
+					},
+					{
+						"from": [  1,  1,  5 ],
+						"to":   [ 15, 15, 11 ],
+						"faces": {
+							"north": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer3" },
+							"south": { "uv": [ 1, 1, 15, 15 ], "texture": "#layer3" }
+						}
+					},
+
+
+
+					{
+						"from": [  4,  2,  2 ],
+						"to":   [ 12, 14, 14 ],
+						"faces": {
+							"east": { "uv": [ 2, 2, 14, 14 ], "texture": "#layer4" },
+							"west": { "uv": [ 2, 2, 14, 14 ], "texture": "#layer4" }
+						}
+					},
+					{
+						"from": [  2,  4,  2 ],
+						"to":   [ 14, 12, 14 ],
+						"faces": {
+							"up":   { "uv": [ 2, 2, 14, 14 ], "texture": "#layer4" },
+							"down": { "uv": [ 2, 2, 14, 14 ], "texture": "#layer4" }
+						}
+					},
+					{
+						"from": [  2,  2,  4 ],
+						"to":   [ 14, 14, 12 ],
+						"faces": {
+							"north": { "uv": [ 2, 2, 14, 14 ], "texture": "#layer4" },
+							"south": { "uv": [ 2, 2, 14, 14 ], "texture": "#layer4" }
+						}
+					},
+
+
+
+					{
+						"from": [  3,  3,  3 ],
+						"to":   [ 13, 13, 13 ],
+						"faces": {
+							"up":    { "uv": [ 3, 3, 13, 13 ], "texture": "#layer5" },
+							"down":  { "uv": [ 3, 3, 13, 13 ], "texture": "#layer5" },
+							"north": { "uv": [ 3, 3, 13, 13 ], "texture": "#layer5" },
+							"south": { "uv": [ 3, 3, 13, 13 ], "texture": "#layer5" },
+							"east":  { "uv": [ 3, 3, 13, 13 ], "texture": "#layer5" },
+							"west":  { "uv": [ 3, 3, 13, 13 ], "texture": "#layer5" }
+						}
+					},
+
+
+
+					{
+						"from": [  2,  4,  4 ],
+						"to":   [ 14, 12, 12 ],
+						"faces": {
+							"east": { "uv": [ 4, 4, 12, 12 ], "texture": "#layer6" },
+							"west": { "uv": [ 4, 4, 12, 12 ], "texture": "#layer6" }
+						}
+					},
+					{
+						"from": [  4,  2,  4 ],
+						"to":   [ 12, 14, 12 ],
+						"faces": {
+							"up":   { "uv": [ 4, 4, 12, 12 ], "texture": "#layer6" },
+							"down": { "uv": [ 4, 4, 12, 12 ], "texture": "#layer6" }
+						}
+					},
+					{
+						"from": [  4,  4,  2 ],
+						"to":   [ 12, 12, 14 ],
+						"faces": {
+							"north": { "uv": [ 4, 4, 12, 12 ], "texture": "#layer6" },
+							"south": { "uv": [ 4, 4, 12, 12 ], "texture": "#layer6" }
+						}
+					},
+
+
+
+					{
+						"from": [  1,  5,  5 ],
+						"to":   [ 15, 11, 11 ],
+						"faces": {
+							"east": { "uv": [ 5, 5, 11, 11 ], "texture": "#layer7" },
+							"west": { "uv": [ 5, 5, 11, 11 ], "texture": "#layer7" }
+						}
+					},
+					{
+						"from": [  5,  1,  5 ],
+						"to":   [ 11, 15, 11 ],
+						"faces": {
+							"up":   { "uv": [ 5, 5, 11, 11 ], "texture": "#layer7" },
+							"down": { "uv": [ 5, 5, 11, 11 ], "texture": "#layer7" }
+						}
+					},
+					{
+						"from": [  5,  5,  1 ],
+						"to":   [ 11, 11, 15 ],
+						"faces": {
+							"north": { "uv": [ 5, 5, 11, 11 ], "texture": "#layer7" },
+							"south": { "uv": [ 5, 5, 11, 11 ], "texture": "#layer7" }
+						}
+					}
+				]
+			}"""
+		);
+		//*/
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_lens")),
 			//language=json

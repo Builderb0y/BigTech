@@ -21,7 +21,7 @@ public class LoadBeamPacket implements S2CPlayPacket<LoadBeamPacket.Payload> {
 	public static final LoadBeamPacket INSTANCE = new LoadBeamPacket();
 
 	public void send(int chunkX, int chunkZ, CommonChunkBeamStorage storage, ServerPlayerEntity player) {
-		RegistryByteBuf buffer = new RegistryByteBuf(Unpooled.buffer(), player.getServerWorld().getRegistryManager());
+		RegistryByteBuf buffer = new RegistryByteBuf(Unpooled.buffer(), player.getWorld().getRegistryManager());
 		storage.writeSyncPacket(buffer, player);
 		BigTechNetwork.sendToClient(player, new Payload(chunkX, chunkZ, buffer));
 	}

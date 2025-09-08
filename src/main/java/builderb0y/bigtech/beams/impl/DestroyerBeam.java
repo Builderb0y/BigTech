@@ -14,6 +14,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.ReadView.ListReadView;
+import net.minecraft.storage.WriteView;
+import net.minecraft.storage.WriteView.ListView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,7 +28,6 @@ import builderb0y.bigtech.beams.base.PersistentBeam;
 import builderb0y.bigtech.beams.base.SpreadingBeamSegment;
 import builderb0y.bigtech.beams.impl.DestructionManager.DestroyQueue;
 import builderb0y.bigtech.blocks.FunctionalBlocks;
-import builderb0y.bigtech.util.NbtReadingException;
 
 public class DestroyerBeam extends PersistentBeam {
 
@@ -104,23 +107,24 @@ public class DestroyerBeam extends PersistentBeam {
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound nbt) {
-		super.writeToNbt(nbt);
-		nbt.putSubList("destroy_queues", (NbtList destroyQueuesNbt) -> {
+	public void write(WriteView view) {
+		super.write(view);
+		view.putSubList("destroy_queues", (ListView destroyQueuesView) -> {
 			this.toDestroy.values().forEach((DestroyQueue queue) -> {
-				destroyQueuesNbt.addCompound((NbtCompound queueNbt) -> queueNbt
+				destroyQueuesView.add((WriteView queueView) -> {
+					queueView
 					.withBlockPos("origin", queue.origin)
 					.withInt("dist", queue.maxDistanceSquared)
-					.withFloat("speed", queue.destroySpeed)
-				);
+					.withFloat("speed", queue.destroySpeed);
+				});
 			});
 		});
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound nbt) throws NbtReadingException {
-		super.readFromNbt(nbt);
-		NbtList queues = nbt.getList("destroy_queues").orElse(null);
+	public void read(ReadView view) {
+		super.read(view);
+		ListReadView queues = view.getOptionalListReadView("destroy_queues").orElse(null);
 		this.toDestroy = (
 			queues == null
 			? new HashMap<>()
@@ -131,29 +135,19 @@ public class DestroyerBeam extends PersistentBeam {
 			.collect(Collectors.toMap(
 				(DestroyQueue queue) -> queue.origin,
 				Function.identity(),
-				(DestroyQueue queue1, DestroyQueue queue2) -> {
-					throw AutoCodecUtil.rethrow(new NbtReadingException("Multiple queues at ${queue1.origin}"));
-				},
+				(DestroyQueue queue1, DestroyQueue queue2) -> queue1,
 				HashMap::new //ensure mutable.
 			))
 		);
 	}
 
-	public @Nullable DestroyQueue parseQueue(NbtElement element) {
-		try {
-			if (!(element instanceof NbtCompound compound)) {
-				throw new NbtReadingException("Expected compound, but found " + element);
-			}
-			return new DestroyQueue(
-				this.world.as(),
-				compound.requireBlockPos("origin"),
-				compound.requireInt("dist"),
-				compound.requireFloat("speed")
-			);
-		}
-		catch (NbtReadingException exception) {
-			BigTechMod.LOGGER.warn("Failed to parse queue for destroyer beam:", exception);
-			return null;
-		}
+	public @Nullable DestroyQueue parseQueue(ReadView view) {
+		BlockPos pos = view.getBlockPos("origin").orElse(null);
+		if (pos == null) return null;
+		int dist = view.getInt("dist", -1);
+		if (dist < 0) return null;
+		float speed = view.getFloat("speed", Float.NaN);
+		if (Float.isNaN(speed)) return null;
+		return new DestroyQueue(this.world.as(), pos, dist, speed);
 	}
 }

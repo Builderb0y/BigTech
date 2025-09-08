@@ -13,6 +13,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.dataComponents.BigTechDataComponents;
@@ -40,15 +42,15 @@ public class LightningJarBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.storedEnergy = nbt.getInt("energy", 0);
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.storedEnergy = view.getInt("energy", 0);
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		nbt.putInt("energy", this.storedEnergy);
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		view.putInt("energy", this.storedEnergy);
 	}
 
 	@Override
@@ -66,14 +68,6 @@ public class LightningJarBlockEntity extends BlockEntity {
 	public void readComponents(ComponentsAccess components) {
 		super.readComponents(components);
 		this.storedEnergy = components.getOrDefault(BigTechDataComponents.LIGHTNING_ENERGY, 0);
-	}
-
-	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public void removeFromCopiedStackNbt(NbtCompound nbt) {
-		super.removeFromCopiedStackNbt(nbt);
-		nbt.remove("energy");
 	}
 
 	@Nullable

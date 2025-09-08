@@ -13,6 +13,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.WorldChunk;
 
@@ -61,14 +63,14 @@ public class ChunkBeamStorageHolder implements Supplier<CommonChunkBeamStorage>,
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+	public void readData(ReadView view) {
 		CommonChunkBeamStorage storage = this.get();
-		if (storage != null) storage.readFromNbt(tag);
+		if (storage != null) storage.read(view);
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+	public void writeData(WriteView view) {
 		CommonChunkBeamStorage storage = this.get();
-		if (storage != null) storage.writeToNbt(tag);
+		if (storage != null) storage.write(view);
 	}
 }

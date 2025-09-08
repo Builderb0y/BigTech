@@ -46,6 +46,8 @@ import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -68,6 +70,7 @@ import builderb0y.bigtech.items.FunctionalItems;
 import builderb0y.bigtech.mixins.Entity_AdjustMovementForCollisionsAccess;
 import builderb0y.bigtech.networking.ControlMinerPacket;
 import builderb0y.bigtech.util.BigTechMath;
+import builderb0y.bigtech.util.Inventories2;
 import builderb0y.bigtech.util.WorldHelper;
 
 public class MinerEntity extends VehicleEntity implements VehicleInventory, SidedInventory, RideableInventory {
@@ -712,7 +715,7 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	}
 
 	@Override
-	public boolean isCollidable() {
+	public boolean isCollidable(@Nullable Entity entity) {
 		return true;
 	}
 
@@ -746,25 +749,23 @@ public class MinerEntity extends VehicleEntity implements VehicleInventory, Side
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		if (nbt.contains("number")) {
-			this.number = nbt.getShort("number", (short)(0));
-		}
+	public void readCustomData(ReadView view) {
+		this.number = (short)(view.getShort("number", (short)(0)));
 		this.inventory.clear();
-		Inventories.readNbt(nbt, this.inventory, this.getWorld().getRegistryManager());
-		this.angularMomentum = nbt.getFloat("angular_momentum", 0.0F);
+		Inventories.readData(view, this.inventory);
+		this.angularMomentum = view.getFloat("angular_momentum", 0.0F);
 		if (!Float.isFinite(this.angularMomentum)) this.angularMomentum = 0.0F;
-		this.fuelTicks.set(nbt.getInt("fuel_ticks", 0));
-		this.smeltingTicks = nbt.getInt("smelting_ticks", 0);
+		this.fuelTicks.set(view.getInt("fuel_ticks", 0));
+		this.smeltingTicks = view.getInt("smelting_ticks", 0);
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		nbt.putShort("number", this.number);
-		Inventories.writeNbt(nbt, this.inventory, this.getWorld().getRegistryManager());
-		nbt.putFloat("angular_momentum", this.angularMomentum);
-		nbt.putInt("fuel_ticks", this.fuelTicks.get());
-		nbt.putInt("smelting_ticks", this.smeltingTicks);
+	public void writeCustomData(WriteView view) {
+		view.putShort("number", this.number);
+		Inventories.writeData(view, this.inventory);
+		view.putFloat("angular_momentum", this.angularMomentum);
+		view.putInt("fuel_ticks", this.fuelTicks.get());
+		view.putInt("smelting_ticks", this.smeltingTicks);
 	}
 
 	@Override

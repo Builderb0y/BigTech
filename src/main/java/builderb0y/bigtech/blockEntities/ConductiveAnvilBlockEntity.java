@@ -20,6 +20,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -172,14 +174,14 @@ public class ConductiveAnvilBlockEntity extends LockableContainerBlockEntity {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		Inventories.readNbt(nbt, this.heldStacks, registryLookup);
+	public void readData(ReadView view) {
+		super.readData(view);
+		Inventories.readData(view, this.heldStacks);
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		Inventories.writeNbt(nbt, this.heldStacks, registryLookup);
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		Inventories.writeData(view, this.heldStacks);
 	}
 }

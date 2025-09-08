@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.QuadView;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
@@ -88,7 +89,7 @@ public class BeamRendering {
 						}
 					}
 				}
-				helper.vertexConsumer(context.consumers().getBuffer(RenderLayer.getTranslucent()));
+				helper.vertexConsumer(context.consumers().getBuffer(TexturedRenderLayers.getItemEntityTranslucentCull()));
 				for (int index = 0, size = PULSES.size(); index < size; index++) {
 					PulseRenderState pulse = PULSES.get(index);
 					if (context.frustum().isVisible(pulse.box)) {

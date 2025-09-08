@@ -10,6 +10,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -61,22 +63,21 @@ public class PulsarBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		if ((this.onTime = nbt.getInt("onTime", 2)) <= 0) this.onTime = 2;
-		if ((this.offTime = nbt.getInt("offTime", 8)) <= 0) this.offTime = 8;
-		this.offset = nbt.getInt("offset", 0);
-		this.relativeTo = nbt.getArray("relativeTo", TimeGetter.VALUES).orElse(TimeGetter.WORLD_AGE);
+	public void readData(ReadView view) {
+		super.readData(view);
+		if ((this.onTime = view.getInt("onTime", 2)) <= 0) this.onTime = 2;
+		if ((this.offTime = view.getInt("offTime", 8)) <= 0) this.offTime = 8;
+		this.offset = view.getInt("offset", 0);
+		this.relativeTo = view.getArray("relativeTo", TimeGetter.VALUES).orElse(TimeGetter.WORLD_AGE);
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		nbt
-		.withInt("onTime", this.onTime)
-		.withInt("offTime", this.offTime)
-		.withInt("offset", this.offset)
-		.withByte("relativeTo", (byte)(this.relativeTo.ordinal()));
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		view.putInt("onTime", this.onTime);
+		view.putInt("offTime", this.offTime);
+		view.putInt("offset", this.offset);
+		view.putByte("relativeTo", (byte)(this.relativeTo.ordinal()));
 	}
 
 	public static enum TimeGetter {

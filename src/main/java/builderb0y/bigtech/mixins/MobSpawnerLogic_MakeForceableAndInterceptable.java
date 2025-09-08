@@ -7,6 +7,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,6 +29,9 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.NbtReadView;
+import net.minecraft.storage.ReadView;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -66,6 +71,8 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 
 	@Shadow private double rotation;
 
+	@Shadow @Final private static Logger LOGGER;
+
 	//copy-paste of the portion of vanilla logic I actually care about.
 	//java does not allow you to only call part of a method.
 	@Override
@@ -75,81 +82,84 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 		MobSpawnerEntry mobSpawnerEntry = this.getSpawnEntry(world, random, pos);
 
 		for (int i = 0; i < this.spawnCount; i++) {
-			NbtCompound nbtCompound = mobSpawnerEntry.getNbt();
-			Optional<EntityType<?>> optional = EntityType.fromNbt(nbtCompound);
-			if (optional.isEmpty()) {
-				this.updateSpawns(world, pos);
-				return;
-			}
-
-			Vec3d vec3d = (Vec3d)nbtCompound.get("Pos", Vec3d.CODEC).orElseGet(
-				() -> new Vec3d(
-					pos.getX() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5,
-					pos.getY() + random.nextInt(3) - 1,
-					pos.getZ() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5
-				)
-			);
-			if (world.isSpaceEmpty(((EntityType)optional.get()).getSpawnBox(vec3d.x, vec3d.y, vec3d.z))) {
-				BlockPos blockPos = BlockPos.ofFloored(vec3d);
-				if (mobSpawnerEntry.getCustomSpawnRules().isPresent()) {
-					if (!((EntityType)optional.get()).getSpawnGroup().isPeaceful() && world.getDifficulty() == Difficulty.PEACEFUL) {
-						continue;
-					}
-
-					MobSpawnerEntry.CustomSpawnRules customSpawnRules = (MobSpawnerEntry.CustomSpawnRules)mobSpawnerEntry.getCustomSpawnRules().get();
-					if (!customSpawnRules.canSpawn(blockPos, world)) {
-						continue;
-					}
-				} else if (!SpawnRestriction.canSpawn((EntityType)optional.get(), world, SpawnReason.SPAWNER, blockPos, world.getRandom())) {
-					continue;
-				}
-
-				Entity entity = EntityType.loadEntityWithPassengers(nbtCompound, world, SpawnReason.SPAWNER, entityx -> {
-					entityx.refreshPositionAndAngles(vec3d.x, vec3d.y, vec3d.z, entityx.getYaw(), entityx.getPitch());
-					return entityx;
-				});
-				if (entity == null) {
+			try (ErrorReporter.Logging logging = new ErrorReporter.Logging(this::toString, LOGGER)) {
+				ReadView readView = NbtReadView.create(logging, world.getRegistryManager(), mobSpawnerEntry.getNbt());
+				Optional<EntityType<?>> optional = EntityType.fromData(readView);
+				if (optional.isEmpty()) {
 					this.updateSpawns(world, pos);
 					return;
 				}
 
-				int j = world.getEntitiesByType(
-						TypeFilter.equals(entity.getClass()),
-						new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).expand(this.spawnRange),
-						EntityPredicates.EXCEPT_SPECTATOR
-					)
-							.size();
-				if (j >= this.maxNearbyEntities) {
-					this.updateSpawns(world, pos);
-					return;
-				}
+				Vec3d vec3d = (Vec3d)readView.read("Pos", Vec3d.CODEC)
+					.orElseGet(
+						() -> new Vec3d(
+							pos.getX() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5,
+							pos.getY() + random.nextInt(3) - 1,
+							pos.getZ() + (random.nextDouble() - random.nextDouble()) * this.spawnRange + 0.5
+						)
+					);
+				if (world.isSpaceEmpty(((EntityType)optional.get()).getSpawnBox(vec3d.x, vec3d.y, vec3d.z))) {
+					BlockPos blockPos = BlockPos.ofFloored(vec3d);
+					if (mobSpawnerEntry.getCustomSpawnRules().isPresent()) {
+						if (!((EntityType)optional.get()).getSpawnGroup().isPeaceful() && world.getDifficulty() == Difficulty.PEACEFUL) {
+							continue;
+						}
 
-				entity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(), random.nextFloat() * 360.0F, 0.0F);
-				if (entity instanceof MobEntity mobEntity) {
-					if (mobSpawnerEntry.getCustomSpawnRules().isEmpty() && !mobEntity.canSpawn(world, SpawnReason.SPAWNER) || !mobEntity.canSpawn(world)) {
+						MobSpawnerEntry.CustomSpawnRules customSpawnRules = (MobSpawnerEntry.CustomSpawnRules)mobSpawnerEntry.getCustomSpawnRules().get();
+						if (!customSpawnRules.canSpawn(blockPos, world)) {
+							continue;
+						}
+					} else if (!SpawnRestriction.canSpawn((EntityType)optional.get(), world, SpawnReason.SPAWNER, blockPos, world.getRandom())) {
 						continue;
 					}
 
-					boolean bl2 = mobSpawnerEntry.getNbt().getSize() == 1 && mobSpawnerEntry.getNbt().getString("id").isPresent();
-					if (bl2) {
-						((MobEntity)entity).initialize(world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.SPAWNER, null);
+					Entity entity = EntityType.loadEntityWithPassengers(readView, world, SpawnReason.SPAWNER, entityx -> {
+						entityx.refreshPositionAndAngles(vec3d.x, vec3d.y, vec3d.z, entityx.getYaw(), entityx.getPitch());
+						return entityx;
+					});
+					if (entity == null) {
+						this.updateSpawns(world, pos);
+						return;
 					}
 
-					mobSpawnerEntry.getEquipment().ifPresent(mobEntity::setEquipmentFromTable);
-				}
+					int j = world.getEntitiesByType(
+							TypeFilter.equals(entity.getClass()),
+							new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).expand(this.spawnRange),
+							EntityPredicates.EXCEPT_SPECTATOR
+						)
+						.size();
+					if (j >= this.maxNearbyEntities) {
+						this.updateSpawns(world, pos);
+						return;
+					}
 
-				if (!world.spawnNewEntityAndPassengers(entity)) {
-					this.updateSpawns(world, pos);
-					return;
-				}
+					entity.refreshPositionAndAngles(entity.getX(), entity.getY(), entity.getZ(), random.nextFloat() * 360.0F, 0.0F);
+					if (entity instanceof MobEntity mobEntity) {
+						if (mobSpawnerEntry.getCustomSpawnRules().isEmpty() && !mobEntity.canSpawn(world, SpawnReason.SPAWNER) || !mobEntity.canSpawn(world)) {
+							continue;
+						}
 
-				world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
-				world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
-				if (entity instanceof MobEntity) {
-					((MobEntity)entity).playSpawnEffects();
-				}
+						boolean bl2 = mobSpawnerEntry.getNbt().getSize() == 1 && mobSpawnerEntry.getNbt().getString("id").isPresent();
+						if (bl2) {
+							((MobEntity)entity).initialize(world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.SPAWNER, null);
+						}
 
-				bl = true;
+						mobSpawnerEntry.getEquipment().ifPresent(mobEntity::setEquipmentFromTable);
+					}
+
+					if (!world.spawnNewEntityAndPassengers(entity)) {
+						this.updateSpawns(world, pos);
+						return;
+					}
+
+					world.syncWorldEvent(WorldEvents.SPAWNER_SPAWNS_MOB, pos, 0);
+					world.emitGameEvent(entity, GameEvent.ENTITY_PLACE, blockPos);
+					if (entity instanceof MobEntity) {
+						((MobEntity)entity).playSpawnEffects();
+					}
+
+					bl = true;
+				}
 			}
 		}
 
@@ -158,8 +168,8 @@ public abstract class MobSpawnerLogic_MakeForceableAndInterceptable implements F
 		}
 	}
 
-	@Inject(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtCompound;get(Ljava/lang/String;Lcom/mojang/serialization/Codec;)Ljava/util/Optional;"), cancellable = true)
-	private void bigtech_intercept(ServerWorld world, BlockPos pos, CallbackInfo callback, @Local(index = 8) Optional<EntityType<?>> entityType) {
+	@Inject(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/storage/ReadView;read(Ljava/lang/String;Lcom/mojang/serialization/Codec;)Ljava/util/Optional;"), cancellable = true)
+	private void bigtech_intercept(ServerWorld world, BlockPos pos, CallbackInfo callback, @Local(index = 9) Optional<EntityType<?>> entityType) {
 		if (world.getBlockEntity(pos.up()) instanceof SpawnerInterceptorBlockEntity interceptor && interceptor.intercept(entityType.get())) {
 			this.updateSpawns(world, pos);
 			callback.cancel();

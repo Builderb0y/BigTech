@@ -172,7 +172,7 @@ public class AssemblerBlock extends BlockWithEntity implements BeamCallback {
 	}
 
 	@Override
-	protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
 		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
 		world.scheduleBlockTick(pos, FunctionalBlocks.ASSEMBLER, 2);
 	}

@@ -2,6 +2,7 @@ package builderb0y.bigtech.gui.handledScreens;
 
 import org.lwjgl.glfw.*;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -88,7 +89,7 @@ public class AssemblerHandledScreen extends BigTechHandledScreen<AssemblerScreen
 			int complexity = this.handler.assemblerProperties.get(AssemblerBlockEntity.PROPERTY_COMPLEXITY);
 			progress = (progress * 18 + (complexity - 1)) / complexity;
 			context.drawTexture(
-				RenderLayer::getGuiTextured,
+				RenderPipelines.GUI_TEXTURED,
 				BACKGROUND,
 				this.x + 123,
 				this.y + 112,

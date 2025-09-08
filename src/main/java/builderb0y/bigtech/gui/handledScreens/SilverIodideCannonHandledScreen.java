@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -106,7 +107,7 @@ public class SilverIodideCannonHandledScreen extends BigTechHandledScreen<Silver
 					texture = this.hovered ? MAKE_SUNNY_HOVERED : MAKE_SUNNY;
 				}
 			}
-			context.drawGuiTexture(RenderLayer::getGuiTextured, texture, this.getX(), this.getY(), this.width, this.height);
+			context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.width, this.height);
 		}
 
 		@Override

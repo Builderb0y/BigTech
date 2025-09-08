@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.storage.ReadView;
 import net.minecraft.world.chunk.WorldChunk;
 
 import builderb0y.bigtech.beams.base.BeamSegment;
@@ -19,8 +20,8 @@ public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {
 		this.chunk = chunk;
 	}
 
-	public void readFromNbt(NbtCompound tag) {
-		this.readFromNbt(tag, CommonWorldBeamStorage.KEY.get(this.chunk.getWorld()));
+	public void read(ReadView view) {
+		this.read(view, CommonWorldBeamStorage.KEY.get(this.chunk.getWorld()));
 	}
 
 	@Override

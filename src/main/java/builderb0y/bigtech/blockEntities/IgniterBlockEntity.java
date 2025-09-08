@@ -21,6 +21,8 @@ import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -189,19 +191,19 @@ public class IgniterBlockEntity extends LockableContainerBlockEntity implements 
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
+	public void writeData(WriteView view) {
+		super.writeData(view);
 		ItemStack stack = this.getStack();
-		if (!stack.isEmpty()) nbt.putItemStack("stack", stack, registryLookup);
-		nbt.putInt("fuel", this.remainingBurnTime.get());
-		nbt.putInt("maxFuel", this.totalBurnTime.get());
+		if (!stack.isEmpty()) view.put("stack", ItemStack.CODEC, stack);
+		view.putInt("fuel", this.remainingBurnTime.get());
+		view.putInt("maxFuel", this.totalBurnTime.get());
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.setStack(nbt.getItemStack("stack", registryLookup).orElse(ItemStack.EMPTY));
-		this.remainingBurnTime.set(nbt.getInt("fuel", 0));
-		this.totalBurnTime.set(nbt.getInt("maxFuel", 0));
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.setStack(view.read("stack", ItemStack.CODEC).orElse(ItemStack.EMPTY));
+		this.remainingBurnTime.set(view.getInt("fuel", 0));
+		this.totalBurnTime.set(view.getInt("maxFuel", 0));
 	}
 }

@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DataResult.Error;
 import com.mojang.serialization.DataResult.Success;
 import com.mojang.serialization.DynamicOps;
@@ -319,15 +318,17 @@ public class NbtCompoundExtensions {
 	}
 
 	public static Optional<BlockPos> getBlockPos(@This NbtCompound thiz, String key) {
-		return thiz.getIntArray(key).flatMap((int[] array) -> {
-			if (array.length == 3) {
-				return Optional.of(new BlockPos(array[0], array[1], array[2]));
-			}
-			else {
-				BigTechMod.LOGGER.warn("Expected block pos tag to be of length 3, but it was ${array.length}");
-				return Optional.empty();
-			}
-		});
+		return thiz.getIntArray(key).flatMap(NbtCompoundExtensions::toBlockPos);
+	}
+
+	public static Optional<? extends BlockPos> toBlockPos(int[] array) {
+		if (array.length == 3) {
+			return Optional.of(new BlockPos(array[0], array[1], array[2]));
+		}
+		else {
+			BigTechMod.LOGGER.warn("Expected block pos tag to be of length 3, but it was ${array.length}");
+			return Optional.empty();
+		}
 	}
 
 	public static BlockPos requireBlockPos(@This NbtCompound thiz, String key) throws NbtReadingException {

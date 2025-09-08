@@ -15,6 +15,10 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.ReadView.ListReadView;
+import net.minecraft.storage.WriteView;
+import net.minecraft.storage.WriteView.ListView;
 import net.minecraft.world.chunk.WorldChunk;
 
 import builderb0y.bigtech.BigTechMod;
@@ -42,42 +46,41 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 		return this.computeIfAbsent(sectionCoordY, this::newSection);
 	}
 
-	public void writeToNbt(NbtCompound tag) {
+	public void read(ReadView view) {
+		this.clear();
+		ListReadView sectionsView = view.getOptionalListReadView("sections").orElse(null);
+		if (sectionsView != null && !sectionsView.isEmpty()) {
+			try (AsyncRunner async = new AsyncRunner()) {
+				sectionsView.stream().forEach((ReadView sectionView) -> {
+					Integer coord = sectionView.getOptionalInt("coord").orElse(null);
+					if (coord == null) {
+						BigTechMod.LOGGER.warn("Skipping beam section storage with unknown coord");
+						return;
+					}
+					CommonSectionBeamStorage section = this.newSection(coord.intValue());
+					CommonSectionBeamStorage old = this.putIfAbsent(coord.intValue(), section);
+					if (old == null) {
+						async.submit(() -> section.read(sectionView));
+					}
+					else {
+						BigTechMod.LOGGER.warn("Skipping beam section storage with duplicate coord: ${coord}");
+					}
+				});
+			}
+		}
+	}
+
+	public void write(WriteView view) {
 		if (!this.isEmpty()) {
-			NbtList sectionsNbt = tag.createSubList("sections");
+			ListView sectionsView = view.getList("sections");
 			try (AsyncRunner async = new AsyncRunner()) {
 				ObjectIterator<Int2ObjectMap.Entry<CommonSectionBeamStorage>> iterator = this.int2ObjectEntrySet().fastIterator();
 				while (iterator.hasNext()) {
 					Int2ObjectMap.Entry<CommonSectionBeamStorage> entry = iterator.next();
 					CommonSectionBeamStorage sectionStorage = entry.getValue();
 					if (!sectionStorage.isEmpty()) {
-						NbtCompound compound = sectionsNbt.createCompound().withInt("coord", entry.getIntKey());
-						async.submit(() -> sectionStorage.writeToNbt(compound, true));
-					}
-				}
-			}
-		}
-	}
-
-	public void readFromNbt(NbtCompound tag) {
-		this.clear();
-		NbtList sectionsNbt = tag.getList("sections").orElse(null);
-		if (sectionsNbt != null && !sectionsNbt.isEmpty()) {
-			try (AsyncRunner async = new AsyncRunner()) {
-				for (NbtCompound sectionNbt : sectionsNbt.<Iterable<NbtCompound>>as()) {
-					NbtElement coord = sectionNbt.get("coord");
-					if (!(coord instanceof AbstractNbtNumber)) {
-						BigTechMod.LOGGER.warn("Skipping beam section storage with unknown coord");
-						continue;
-					}
-					int actualCoord = coord.<AbstractNbtNumber>as().intValue();
-					CommonSectionBeamStorage section = this.newSection(actualCoord);
-					CommonSectionBeamStorage old = this.putIfAbsent(actualCoord, section);
-					if (old == null) {
-						async.submit(() -> section.readFromNbt(sectionNbt));
-					}
-					else {
-						BigTechMod.LOGGER.warn("Skipping beam section storage with duplicate coord: ${actualCoord}");
+						WriteView sectionView = sectionsView.add().withInt("coord", entry.getIntKey());
+						async.submit(() -> sectionStorage.write(sectionView, true));
 					}
 				}
 			}

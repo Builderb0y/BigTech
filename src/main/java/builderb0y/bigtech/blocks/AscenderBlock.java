@@ -195,7 +195,7 @@ public class AscenderBlock extends Block implements AscenderInteractor {
 	}
 
 	@Override
-	protected boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+	public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
 		return stateFrom.getBlock() instanceof AscenderBlock;
 	}
 

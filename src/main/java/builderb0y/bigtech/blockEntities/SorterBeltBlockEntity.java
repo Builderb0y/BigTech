@@ -30,7 +30,10 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -39,7 +42,7 @@ import builderb0y.bigtech.gui.screenHandlers.BigTechScreenHandlerTypes;
 import builderb0y.bigtech.gui.screenHandlers.SorterBeltScreenHandler;
 import builderb0y.bigtech.util.FairSharing;
 import builderb0y.bigtech.util.Inventories2;
-import builderb0y.bigtech.util.Inventories2.SlotStack;
+import net.minecraft.inventory.StackWithSlot;
 
 public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
 
@@ -153,25 +156,22 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.distributionIndex = nbt.getInt("index", 0);
-		this.inventory.readNbtList(nbt.getListOrEmpty("items"), registryLookup);
-		this.lock = ContainerLock.fromNbt(nbt, registryLookup);
-		String customName = nbt.getString("CustomName").orElse(null);
-		this.customName = customName != null ? Text.Serialization.fromJson(customName, registryLookup) : null;
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.distributionIndex = view.getInt("index", 0);
+		this.inventory.clear();
+		Inventories2.readItems(view, "items").forEach(Inventories2.setter(this.inventory));
+		this.lock = ContainerLock.read(view);
+		this.customName = tryParseCustomName(view, "CustomName");
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		nbt
-		.withInt("index", this.distributionIndex)
-		.with("items", this.inventory.toNbtList(registryLookup));
-		this.lock.writeNbt(nbt, registryLookup);
-		if (this.customName != null) {
-			nbt.putString("CustomName", Text.Serialization.toJsonString(this.customName, registryLookup));
-		}
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		view.putInt("index", this.distributionIndex);
+		Inventories2.writeItems(view, "items", Inventories2.stream(this.inventory, true));
+		this.lock.write(view);
+		if (this.customName != null) view.put("CustomName", TextCodecs.CODEC, this.customName);
 	}
 
 	@Override
@@ -192,26 +192,6 @@ public class SorterBeltBlockEntity extends BlockEntity implements NamedScreenHan
 		@Override
 		public int getMaxCountPerStack() {
 			return 1;
-		}
-
-		@Override
-		public void readNbtList(NbtList nbtList, RegistryWrapper.WrapperLookup registryLookup) {
-			this.clear();
-			Inventories2
-			.readItems(nbtList, registryLookup)
-			.filter((SlotStack slotStack) -> slotStack.slot() >= 0 && slotStack.slot() < 18)
-			.forEach((SlotStack slotStack) -> this.setStack(slotStack.slot(), slotStack.stack()));
-		}
-
-		@Override
-		public NbtList toNbtList(RegistryWrapper.WrapperLookup registryLookup) {
-			return Inventories2.writeItems(
-				IntStream
-				.range(0, 18)
-				.mapToObj((int slot) -> new SlotStack(slot, this.getStack(slot)))
-				.filter((SlotStack slotStack) -> !slotStack.stack().isEmpty()),
-				registryLookup
-			);
 		}
 
 		@Override

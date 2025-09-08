@@ -1,5 +1,9 @@
+import java.nio.file.Files
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
+
 plugins() {
-	id('fabric-loom') version('1.10-SNAPSHOT')
+	id('fabric-loom') version('1.11-SNAPSHOT')
 	//id('maven-publish')
 }
 
@@ -37,12 +41,53 @@ repositories() {
 			includeGroup("cc.tweaked")
 		}
 	}
+
+	//loom does this automatically, but does it too late.
+	//we need to ensure this gets added as a repository before
+	//all the hacks below that make JIJ dependencies work.
+	maven() {
+		name = 'MavenCentralLWJGL' //loom checks for this name, so it cannot be changed.
+		url(ArtifactRepositoryContainer.MAVEN_CENTRAL_URL)
+		content() {
+			includeGroup('org.lwjgl')
+		}
+	}
 }
 
+configurations() {
+	jijModImplementation() {
+		canBeResolved = true
+	}
+	jijModRuntimeOnly() {
+		canBeResolved = true
+	}
+	jijModCompileOnly() {
+		canBeResolved = true
+	}
+}
+
+static void extractNestedJars(File dependenciesFolder, File toUnpack) {
+	try (JarFile jar = new JarFile(toUnpack)) {
+		Enumeration<JarEntry> entries = jar.entries()
+		while (entries.hasMoreElements()) {
+			JarEntry entry = entries.nextElement()
+			String name = entry.getName()
+			if (name.startsWith('META-INF/jars/') && name.endsWith('.jar')) {
+				name = name.substring('META-INF/jars'.length())
+				File unpacked = new File(dependenciesFolder, name)
+				if (unpacked.exists()) continue
+				try (FileOutputStream out = new FileOutputStream(unpacked)) {
+					jar.getInputStream(entry).transferTo(out)
+				}
+				extractNestedJars(dependenciesFolder, unpacked)
+			}
+		}
+	}
+}
 dependencies() {
 	minecraft("com.mojang:minecraft:${project.minecraft_version}")
 	//mappings("net.fabricmc:yarn:${project.yarn_mappings}:v2")
-	mappings(fileTree('dependencies/1.21.5/mappings'))
+	mappings(fileTree("dependencies/${project.minecraft_version}/mappings"))
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
@@ -50,12 +95,20 @@ dependencies() {
 		transitive = false
 	})
 
-	modCompileOnly("cc.tweaked:cc-tweaked-1.21.8-fabric-api:1.116.1")
+	modImplementation("cc.tweaked:cc-tweaked-1.21.8-fabric-api:1.116.1")
 
 	//cardinal components.
-	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:6.3.0'))
-	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-world:6.3.0'))
-	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:6.3.0'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:7.0.0-beta.1'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-world:7.0.0-beta.1'))
+	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:7.0.0-beta.1'))
+
+	jijModImplementation("maven.modrinth:cloth-config:19.0.147+fabric")
+	jijModImplementation("maven.modrinth:modmenu:15.0.0")
+	jijModImplementation("maven.modrinth:lambdynamiclights:4.3.3+1.21.8")
+
+	//not necessary, I just like playing with these.
+	jijModRuntimeOnly("maven.modrinth:logical-zoom:0.0.32")
+	jijModRuntimeOnly("maven.modrinth:sodium:mc1.21.6-0.6.13-fabric")
 
 	//manifold.
 	String manifoldVersion = '2025.1.25'
@@ -69,10 +122,25 @@ dependencies() {
 
 	testImplementation('junit:junit:4.13.2')
 
-	//everything else that's not required but I like to use in-game.
-	modImplementation(fileTree("dependencies/${project.minecraft_version}/implementation"))
-	modCompileOnly(fileTree("dependencies/${project.minecraft_version}/compileOnly"))
-	modRuntimeOnly(fileTree("dependencies/${project.minecraft_version}/runtimeOnly"))
+	File dependenciesFolder = file('jijDependencies')
+	dependenciesFolder.deleteDir()
+	dependenciesFolder.mkdir()
+	for (String dependencyType : [ 'implementation', 'runtimeOnly', 'compileOnly' ]) {
+		File specificDependenciesFolder = new File(dependenciesFolder, dependencyType)
+		specificDependenciesFolder.mkdir()
+		for (File from : getConfigurations().getByName("jijMod${ dependencyType.capitalize() }").getResolvedConfiguration().getResolvedArtifacts().file) {
+			String fileName = from.getName()
+			File to = new File(specificDependenciesFolder, fileName)
+			if (!to.exists()) {
+				Files.copy(from.toPath(), to.toPath())
+				extractNestedJars(specificDependenciesFolder, to)
+			}
+		}
+	}
+
+	modImplementation(fileTree(file('jijDependencies/implementation')))
+	modCompileOnly(fileTree(file('jijDependencies/compileOnly')))
+	modRuntimeOnly(fileTree(file('jijDependencies/runtimeOnly')))
 }
 
 test() {

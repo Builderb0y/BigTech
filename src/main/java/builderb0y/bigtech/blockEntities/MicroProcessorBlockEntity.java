@@ -16,6 +16,8 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextCodecs;
 import net.minecraft.util.BlockRotation;
@@ -165,44 +167,28 @@ public class MicroProcessorBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registries) {
-		super.readNbt(nbt, registries);
-		if (nbt.get("active") instanceof AbstractNbtNumber active) this.active = active.byteValue() != 0;
-		NbtElement circuitNBT = nbt.get("circuit");
-		if (circuitNBT != null) try {
-			if (
-				BigTechAutoCodec.AUTO_CODEC.decode(
-					CircuitComponent.CODER,
-					circuitNBT,
-					RegistryOps.of(NbtOps.INSTANCE, registries)
-				)
-				instanceof MicroProcessorCircuitComponent circuit
-			) {
-				this.circuit = circuit;
-			}
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.active = view.getBoolean("active", true);
+		if (view.read("circuit", CircuitComponent.CODEC).orElse(null) instanceof MicroProcessorCircuitComponent circuit) {
+			this.circuit = circuit;
 		}
-		catch (DecodeException exception) {
-			BigTechMod.LOGGER.error("Exception reading microprocessor from NBT data:", exception);
-		}
-		Text name = tryParseCustomName(nbt.get("name"), registries);
+		Text name = tryParseCustomName(view, "name");
 		if (name == null) name = Text.empty();
 		this.name = name;
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registries) {
-		super.writeNbt(nbt, registries);
-		nbt.putBoolean("active", this.active);
-		if (this.circuit != null) nbt.put(
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		view.putBoolean("active", this.active);
+		if (this.circuit != null) view.put(
 			"circuit",
-			BigTechAutoCodec.AUTO_CODEC.encode(
-				CircuitComponent.CODER,
-				this.circuit,
-				RegistryOps.of(NbtOps.INSTANCE, registries)
-			)
+			CircuitComponent.CODEC,
+			this.circuit
 		);
 		if (!this.name.getString().isBlank()) {
-			nbt.put("name", TextCodecs.CODEC, registries.getOps(NbtOps.INSTANCE), this.name);
+			view.put("name", TextCodecs.CODEC, this.name);
 		}
 	}
 

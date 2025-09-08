@@ -15,6 +15,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 
@@ -99,18 +101,18 @@ public class PrismBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
-		this.lenses = nbt.getInt("lenses", 0) & FLAG_MASK;
+	public void readData(ReadView view) {
+		super.readData(view);
+		this.lenses = view.getInt("lenses", 0) & FLAG_MASK;
 		if (this.world != null && this.world.isClient) {
 			this.reRender();
 		}
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		nbt.putInt("lenses", this.lenses);
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		view.putInt("lenses", this.lenses);
 	}
 
 	@Override

@@ -42,6 +42,8 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextCodecs;
 import net.minecraft.util.ItemScatterer;
@@ -279,28 +281,20 @@ public class AssemblerBlockEntity extends BlockEntity implements ExtendedScreenH
 	}
 
 	@Override
-	public void writeNbt(NbtCompound nbt, WrapperLookup registries) {
-		super.writeNbt(nbt, registries);
-		if (this.customName != null) nbt.put("custom_name", TextCodecs.CODEC.encodeStart(registries.getOps(NbtOps.INSTANCE), this.customName).getOrThrow());
-		if (this.outputName != null) nbt.put("output_name", TextCodecs.CODEC.encodeStart(registries.getOps(NbtOps.INSTANCE), this.outputName).getOrThrow());
-		Inventories.writeNbt(nbt, this.inventory.items, registries);
-		if (this.color != null) nbt.putFloatArray("color", new float[] { this.color.x, this.color.y, this.color.z });
-		nbt.putByte("width", (byte)(this.width()));
-		nbt.putByte("height", (byte)(this.height()));
-		if (this.recipe != null) nbt.putInt("progress", this.recipe.progress);
-		nbt.putInt("beam_count", this.beamCount);
-	}
-
-	@Override
-	public void readNbt(NbtCompound nbt, WrapperLookup registries) {
+	public void readData(ReadView view) {
 		this.recipe = null;
-		super.readNbt(nbt, registries);
-		this.customName = tryParseCustomName(nbt.get("custom_name"), registries);
-		this.outputName = tryParseCustomName(nbt.get("output_name"), registries);
-		Inventories.readNbt(nbt, this.inventory.items, registries);
-		float[] color = nbt.getFloatArray("color").orElse(null);
-		if (color != null && color.length == 3) {
-			this.color = new Vector3f(color);
+		super.readData(view);
+		this.customName = tryParseCustomName(view, "custom_name");
+		this.outputName = tryParseCustomName(view, "output_name");
+		if (this.outputName == null) this.outputName = Text.empty();
+		Inventories.readData(view, this.inventory.items);
+		int[] colorBits = view.getOptionalIntArray("color").orElse(null);
+		if (colorBits != null && colorBits.length == 3) {
+			this.color = new Vector3f(
+				Float.intBitsToFloat(colorBits[0]),
+				Float.intBitsToFloat(colorBits[1]),
+				Float.intBitsToFloat(colorBits[2])
+			);
 		}
 		else {
 			this.color = null;
@@ -308,11 +302,30 @@ public class AssemblerBlockEntity extends BlockEntity implements ExtendedScreenH
 		if (this.world != null && this.world.isClient) {
 			this.reRender();
 		}
-		if (nbt.get("width") instanceof AbstractNbtNumber width) this.setWidth(width.byteValue());
-		if (nbt.get("height") instanceof AbstractNbtNumber height) this.setHeight(height.byteValue());
-		if (nbt.get("progress") instanceof AbstractNbtNumber progress) this.getRecipeData().progress = progress.intValue();
-		if (nbt.get("beam_count") instanceof AbstractNbtNumber beamCount) this.beamCount = beamCount.intValue();
-		if (this.recipe != null) this.recipe.update();
+		int width = view.getByte("width", (byte)(0));
+		if (width > 0 && width <= 8) this.setWidth(width);
+		int height = view.getByte("height", (byte)(0));
+		if (height > 0 && height <= 8) this.setHeight(height);
+		this.getRecipeData().progress = view.getInt("progress", 0);
+		this.beamCount = view.getInt("beam_count", 0);
+		this.recipe.update();
+	}
+
+	@Override
+	public void writeData(WriteView view) {
+		super.writeData(view);
+		if (this.customName != null) view.put("custom_name", TextCodecs.CODEC, this.customName);
+		if (this.outputName != null) view.put("output_name", TextCodecs.CODEC, this.outputName);
+		Inventories.writeData(view, this.inventory.items);
+		if (this.color != null) view.putIntArray("color", new int[] {
+			Float.floatToRawIntBits(this.color.x),
+			Float.floatToRawIntBits(this.color.y),
+			Float.floatToRawIntBits(this.color.z)
+		});
+		view.putByte("width", (byte)(this.width()));
+		view.putByte("height", (byte)(this.height()));
+		if (this.recipe != null) view.putInt("progress", this.recipe.progress);
+		view.putInt("beam_count", this.beamCount);
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -454,7 +467,7 @@ public class AssemblerBlockEntity extends BlockEntity implements ExtendedScreenH
 		public ItemStack removeStack(int slot) {
 			ItemStack removed = this.items.set(slot, ItemStack.EMPTY);
 			if (!removed.isEmpty()) {
-				AssemblerBlockEntity.this.slotChanged(slot, removed, ItemStack.EMPTY);
+				AssemblerBlockEntity.this.slotChanged(slot, removed, net.minecraft.item.ItemStack.EMPTY);
 			}
 			return removed;
 		}

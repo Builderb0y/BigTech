@@ -1,5 +1,7 @@
 package builderb0y.bigtech.blockEntities;
 
+import com.mojang.serialization.Codec;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
@@ -15,6 +17,7 @@ import builderb0y.bigtech.recipes.ArcFurnaceRecipe;
 public class CrucibleProgress {
 
 	public static final AutoCoder<CrucibleProgress> CODER = BigTechAutoCodec.callerCoder();
+	public static final Codec<CrucibleProgress> CODEC = BigTechAutoCodec.AUTO_CODEC.createDFUCodec(CODER);
 
 	public @VerifyEmptyable ItemStack slowCoolResult;
 	public @VerifyEmptyable ItemStack fastCoolResult;
