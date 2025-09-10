@@ -1,7 +1,5 @@
 package builderb0y.bigtech.blockEntities;
 
-import java.util.SplittableRandom;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.joml.Matrix4f;
@@ -15,8 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import builderb0y.bigtech.blockEntities.TeslaCoilBlockEntity.Target;
-import builderb0y.bigtech.config.BigTechConfig;
-import builderb0y.bigtech.util.LightningRenderer;
+import builderb0y.fractallightning.LightningRenderer;
+import builderb0y.fractallightning.LightningRendererImpl;
 
 @Environment(EnvType.CLIENT)
 public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCoilBlockEntity> {
@@ -36,49 +34,25 @@ public class TeslaCoilBlockEntityRenderer implements BlockEntityRenderer<TeslaCo
 		VertexConsumer buffer = vertexConsumers.getBuffer(LightningRenderer.LIGHTNING_LAYER);
 		Matrix4f matrix = matrices.peek().getPositionMatrix();
 		BlockPos blockEntityPos = blockEntity.getPos();
-		Vec3d relativeCameraPos = camera.subtract(blockEntityPos.getX(), blockEntityPos.getY(), blockEntityPos.getZ());
 		for (int index = 0; index < 8; index++) {
 			Target target = blockEntity.targets[index];
 			if (target == null) continue;
-			float age = index + tickProgress;
-			LightningRenderer.generatePoints(
-				new SplittableRandom(target.seed),
-				target.startX - blockEntityPos.getX(),
-				target.startY - blockEntityPos.getY(),
-				target.startZ - blockEntityPos.getZ(),
-				target.endX   - blockEntityPos.getX(),
-				target.endY   - blockEntityPos.getY(),
-				target.endZ   - blockEntityPos.getZ(),
-				BigTechConfig.INSTANCE.get().client.teslaCoilRendererQuality,
-				0.0625D,
-				(
-					double startX,
-					double startY,
-					double startZ,
-					float startFrac,
-					double endX,
-					double endY,
-					double endZ,
-					float endFrac,
-					double thickness
-				) -> {
-					double renderedThickness = thickness - age * (0.125F * 0.0625F);
-					if (renderedThickness <= 0.0D) return;
-					LightningRenderer.addQuads(
-						buffer,
-						matrix,
-						relativeCameraPos.x,
-						relativeCameraPos.y,
-						relativeCameraPos.z,
-						startX,
-						startY,
-						startZ,
-						endX,
-						endY,
-						endZ,
-						renderedThickness
-					);
+			new LightningRendererImpl(matrix, buffer, index + tickProgress) {
+
+				@Override
+				public float adjustWidth(float width, float startFrac, float endFrac) {
+					return width - this.age * eighthWidth;
 				}
+			}
+			.generatePoints(
+				target.seed,
+				(float)(target.startX - blockEntityPos.getX()),
+				(float)(target.startY - blockEntityPos.getY()),
+				(float)(target.startZ - blockEntityPos.getZ()),
+				(float)(target.endX   - blockEntityPos.getX()),
+				(float)(target.endY   - blockEntityPos.getY()),
+				(float)(target.endZ   - blockEntityPos.getZ()),
+				LightningRendererImpl.baseWidth
 			);
 		}
 	}

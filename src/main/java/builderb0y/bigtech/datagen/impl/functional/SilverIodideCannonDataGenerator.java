@@ -22,9 +22,15 @@ public class SilverIodideCannonDataGenerator extends BasicBlockDataGenerator {
 		context.lang.put("bigtech.silver_iodide_cannon.no_ammunition",    Formatting.RED   + "No ammunition.");
 		context.lang.put("bigtech.silver_iodide_cannon.not_a_firework",   Formatting.RED   + "Not a firework rocket.");
 		context.lang.put("bigtech.silver_iodide_cannon.no_stars",         Formatting.RED   + "No stars.");
+		context.lang.put("bigtech.silver_iodide_cannon.select_mode",      Formatting.RED   + "Select mode.");
 		context.lang.put("bigtech.silver_iodide_cannon.ready_to_launch",  Formatting.GREEN + "Ready to launch!");
 		context.lang.put("container.bigtech.silver_iodide_cannon.make_less_rainy", "Make less rainy");
 		context.lang.put("container.bigtech.silver_iodide_cannon.make_more_rainy", "Make more rainy");
+	}
+
+	@Override
+	public void writeBlockstateJson(DataGenContext context) {
+		this.writeDefaultBlockstateJson(context, this.getId());
 	}
 
 	@Override

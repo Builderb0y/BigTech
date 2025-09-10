@@ -8,9 +8,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import builderb0y.bigtech.blockEntities.SilverIodideCannonBlockEntity;
 import builderb0y.bigtech.gui.screenHandlers.SilverIodideCannonScreenHandler;
 
-public class SilverIodideCannonFirePacket implements C2SPlayPacket<SilverIodideCannonFirePacket.Payload> {
+public class SilverIodideCannonSetSelectedButtonPacket implements C2SPlayPacket<SilverIodideCannonSetSelectedButtonPacket.Payload> {
 
-	public static final SilverIodideCannonFirePacket INSTANCE = new SilverIodideCannonFirePacket();
+	public static final SilverIodideCannonSetSelectedButtonPacket INSTANCE = new SilverIodideCannonSetSelectedButtonPacket();
 
 	public void send(boolean moreRainy) {
 		BigTechNetwork.sendToServer(moreRainy ? Payload.MORE_RAINY : Payload.LESS_RAINY);
@@ -41,7 +41,7 @@ public class SilverIodideCannonFirePacket implements C2SPlayPacket<SilverIodideC
 		public void process(ServerPlayNetworking.Context context) {
 			ServerPlayerEntity player = context.player();
 			if (player.currentScreenHandler instanceof SilverIodideCannonScreenHandler handler && handler.inventory instanceof SilverIodideCannonBlockEntity blockEntity) {
-				blockEntity.fire(player, this.moreRainy);
+				blockEntity.setSelectedButton(this.moreRainy);
 			}
 		}
 	}

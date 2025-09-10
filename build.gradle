@@ -97,10 +97,11 @@ dependencies() {
 
 	modImplementation("cc.tweaked:cc-tweaked-1.21.8-fabric-api:1.116.1")
 
-	//cardinal components.
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-base:7.0.0-beta.1'))
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-world:7.0.0-beta.1'))
 	include(modImplementation('org.ladysnake.cardinal-components-api:cardinal-components-chunk:7.0.0-beta.1'))
+
+	include(modImplementation('maven.modrinth:fractal-lightning:LqXhZ6tG'))
 
 	jijModImplementation("maven.modrinth:cloth-config:19.0.147+fabric")
 	jijModImplementation("maven.modrinth:modmenu:15.0.0")

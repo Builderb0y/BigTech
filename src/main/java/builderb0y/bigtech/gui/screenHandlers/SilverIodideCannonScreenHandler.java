@@ -6,16 +6,19 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Items;
+import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.math.BlockPos;
 
 public class SilverIodideCannonScreenHandler extends BigTechScreenHandler {
 
 	public final BlockPos pos;
+	public final Property selectedButton;
 
-	public SilverIodideCannonScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, Inventory inventory, PlayerInventory playerInventory, BlockPos pos) {
+	public SilverIodideCannonScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, Inventory inventory, PlayerInventory playerInventory, BlockPos pos, Property selectedButton) {
 		super(type, syncId, inventory, playerInventory);
 		this.pos = pos;
+		this.selectedButton = this.addProperty(selectedButton);
 
 		SlotGrid grid = this.slotGrid();
 		SlotRange
@@ -31,6 +34,6 @@ public class SilverIodideCannonScreenHandler extends BigTechScreenHandler {
 	}
 
 	public SilverIodideCannonScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
-		this(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, syncId, new SimpleInventory(1), playerInventory, pos);
+		this(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, syncId, new SimpleInventory(1), playerInventory, pos, Property.create());
 	}
 }

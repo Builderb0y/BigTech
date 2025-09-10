@@ -1,10 +1,7 @@
 package builderb0y.bigtech.networking;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Supplier;
 
 import it.unimi.dsi.fastutil.objects.Reference2ByteMap;
 import it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap;
@@ -50,19 +47,21 @@ public class BigTechNetwork implements
 		//server-to-client packets
 
 		/** updates an entity's routing info {@link RoutableEntity#bigtech_getRoutingInfo()}. */
-		this.register(EntityRoutePacket.INSTANCE);
+		this.register(          EntityRoutePacket.INSTANCE);
 		/** spawns a pulse beam. */
-		this.register(  PulseBeamPacket.INSTANCE);
+		this.register(            PulseBeamPacket.INSTANCE);
 		/** syncs the segments of a persistent beam when a chunk is sent to the player. */
-		this.register(   LoadBeamPacket.INSTANCE);
+		this.register(             LoadBeamPacket.INSTANCE);
 		/** adds new beam segments to chunks already loaded on the client. */
-		this.register(    AddBeamPacket.INSTANCE);
+		this.register(              AddBeamPacket.INSTANCE);
 		/** removes beam segments from chunks already loaded on the client. */
-		this.register( RemoveBeamPacket.INSTANCE);
+		this.register(           RemoveBeamPacket.INSTANCE);
 		/** registers or unregisters a beam's UUID. */
-		this.register( ToggleBeamPacket.INSTANCE);
+		this.register(           ToggleBeamPacket.INSTANCE);
 		/** opens a screen to configure a pulsar when a player right clicks on one. */
-		this.register( OpenPulsarPacket.INSTANCE);
+		this.register(           OpenPulsarPacket.INSTANCE);
+		/** sent every so often to keep storm clouds in sync. */
+		this.register(StormCloudStateUpdatePacket.INSTANCE);
 
 		//client-to-server packets
 
@@ -71,7 +70,7 @@ public class BigTechNetwork implements
 		/** sent when a player clicks the "everywhere" checkbox in a long range deployer GUI. */
 		this.register(LongRangeDeployerEverywherePacket.INSTANCE);
 		/** sent when a player attempts to fire a silver iodide cannon. */
-		this.register(     SilverIodideCannonFirePacket.INSTANCE);
+		this.register(     SilverIodideCannonSetSelectedButtonPacket.INSTANCE);
 		/** sent when a player clicks "done" in a pulsar config screen. */
 		this.register(               UpdatePulsarPacket.INSTANCE);
 		/** sent when a player clicks one of the widgets in the dislocator screen. */

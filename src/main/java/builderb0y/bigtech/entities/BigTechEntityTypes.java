@@ -61,6 +61,46 @@ public class BigTechEntityTypes {
 			FeatureSet.empty()
 		)
 	);
+	@UseDataGen(EntityLocalizationDataGenerator.class)
+	public static final EntityType<StormCloudEntity> STORM_CLOUD = register(
+		"storm_cloud",
+		new EntityType<>(
+			StormCloudEntity::new,
+			SpawnGroup.MISC,
+			true,
+			true,
+			true,
+			true,
+			ImmutableSet.of(),
+			EntityDimensions.fixed(1.0F, 1.0F),
+			1.0F,
+			16,
+			Integer.MAX_VALUE,
+			Util.createTranslationKey("entity", BigTechMod.modID("storm_cloud")),
+			Optional.empty(),
+			FeatureSet.empty()
+		)
+	);
+	@UseDataGen(EntityLocalizationDataGenerator.class)
+	public static final EntityType<StormLightningEntity> STORM_LIGHTNING = register(
+		"storm_lightning",
+		new EntityType<>(
+			StormLightningEntity::new,
+			SpawnGroup.MISC,
+			false,
+			true,
+			true,
+			true,
+			ImmutableSet.of(),
+			EntityDimensions.fixed(0.0F, 0.0F),
+			1.0F,
+			16,
+			Integer.MAX_VALUE,
+			Util.createTranslationKey("entity", BigTechMod.modID("storm_lightning")),
+			Optional.empty(),
+			FeatureSet.empty()
+		)
+	);
 
 	public static RegistryKey<EntityType<?>> key(String name) {
 		return RegistryKey.of(RegistryKeys.ENTITY_TYPE, BigTechMod.modID(name));

@@ -17,6 +17,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -40,6 +41,7 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 	//so now I need a full DefaultedList
 	//with a size of 1.
 	public DefaultedList<ItemStack> stacks = DefaultedList.ofSize(1, ItemStack.EMPTY);
+	public Property selectedButton = Property.create();
 
 	public SilverIodideCannonBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
 		super(blockEntityType, blockPos, blockState);
@@ -54,7 +56,18 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 		return this.pos;
 	}
 
-	public void fire(PlayerEntity player, boolean moreRainy) {
+	public void setSelectedButton(boolean moreRainy) {
+		this.selectedButton.set(moreRainy ? 2 : 1);
+		this.markDirty();
+	}
+
+	public void fire() {
+		boolean moreRainy;
+		switch (this.selectedButton.get()) {
+			default -> { return; }
+			case 1  -> { moreRainy = false; }
+			case 2  -> { moreRainy = true;  }
+		}
 		World world = this.world;
 		BlockPos pos = this.pos;
 		ItemStack stack = this.getStack();
@@ -62,7 +75,7 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 			ItemStack split = stack.split(1);
 			FireworkRocketEntity entity = new FireworkRocketEntity(
 				world,
-				player,
+				null,
 				pos.getX() + 0.5D,
 				pos.getY() + 0.5D,
 				pos.getZ() + 0.5D,
@@ -87,7 +100,7 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 		else {
 			world.syncWorldEvent(WorldEvents.DISPENSER_FAILS, pos, 0);
 		}
-		world.emitGameEvent(GameEvent.BLOCK_ACTIVATE, pos, GameEvent.Emitter.of(player, this.getCachedState()));
+		world.emitGameEvent(GameEvent.BLOCK_ACTIVATE, pos, GameEvent.Emitter.of(null, this.getCachedState()));
 	}
 
 	@Override
@@ -97,13 +110,16 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 
 	@Override
 	public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-		return new SilverIodideCannonScreenHandler(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, syncId, this, playerInventory, this.pos);
+		return new SilverIodideCannonScreenHandler(BigTechScreenHandlerTypes.SILVER_IODIDE_CANNON, syncId, this, playerInventory, this.pos, this.selectedButton);
 	}
 
 	@Override
 	public void readData(ReadView view) {
 		super.readData(view);
 		this.setStack(view.read("stack", ItemStack.CODEC).orElse(ItemStack.EMPTY));
+		int button = view.getInt("button", 0);
+		if (button < 0 || button > 2) button = 0;
+		this.selectedButton.set(button);
 	}
 
 	@Override
@@ -111,6 +127,7 @@ public class SilverIodideCannonBlockEntity extends LockableContainerBlockEntity 
 		super.writeData(view);
 		ItemStack stack = this.getStack();
 		if (!stack.isEmpty()) view.put("stack", ItemStack.CODEC, stack);
+		view.putInt("button", this.selectedButton.get());
 	}
 
 	@Override

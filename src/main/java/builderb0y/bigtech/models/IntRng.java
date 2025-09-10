@@ -59,4 +59,20 @@ public class IntRng {
 	public static int nextRangedIntInclusive(int seed, int min, int max) {
 		return nextBoundedInt(seed, max - min + 1) + min;
 	}
+
+	public static float toUniformFloat(int seed) {
+		return (seed >> (32 - 25)) * 0x1.0p-24F;
+	}
+
+	public static float toPositiveFloat(int seed) {
+		return (seed >>> (32 - 24)) * 0x1.0p-24F;
+	}
+
+	public static float nextUniformFloat(int seed) {
+		return toUniformFloat(HashCommon.murmurHash3(seed));
+	}
+
+	public static float nextPositiveFloat(int seed) {
+		return toPositiveFloat(HashCommon.murmurHash3(seed));
+	}
 }

@@ -14,8 +14,9 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.Tooltip;
 import builderb0y.autocodec.annotations.Mirror;
 import builderb0y.autocodec.annotations.UseName;
 import builderb0y.autocodec.annotations.VerifyNullable;
+import builderb0y.bigtech.BigTechMod;
 
-@Config(name = "bigtech")
+@Config(name = BigTechMod.MODID)
 public class BigTechConfig {
 
 	@Excluded
@@ -46,44 +47,7 @@ public class BigTechConfig {
 	public final Client client = new Client();
 	public static class Client {
 
-		@DefaultIgnore
-		@Tooltip(count = 3)
-		@UseName("Replace Vanilla Lightning Renderer")
-		@Tooltips({
-			"If true, Big Tech will use its own custom renderer for vanilla lightning bolts.",
-			"If false, Big Tech will use the vanilla renderer for vanilla lightning bolts.",
-			"Changing this option requires a game restart."
-		})
-		public boolean replaceVanillaLightningRenderer = true;
-
-		@DefaultIgnore
-		@Tooltip(count = 3)
-		@UseName("Lightning Renderer Quality")
-		@Tooltips({
-			"Higher quality will result in more subdivisions of lightning geometry.",
-			"Lower quality will result in more straight edges in lightning geometry.",
-			"WARNING: Every time you increase this number by 1, it TRIPLES the amount of lightning geometry."
-		})
-		public int lightningRendererQuality = 8;
-
-		@DefaultIgnore
-		@Tooltip(count = 3)
-		@UseName("Tesla Coil Renderer Quality")
-		@Tooltips({
-			"Higher quality will result in more subdivisions of tesla coil geometry.",
-			"Lower quality will result in more straight edges in tesla coil geometry.",
-			"WARNING: Every time you increase this number by 1, it TRIPLES the amount of tesla coil geometry."
-		})
-		public int teslaCoilRendererQuality = 6;
-
-		public void validatePostLoad() {
-			if (this.lightningRendererQuality < 0 || this.lightningRendererQuality > 12) {
-				throw new IllegalArgumentException("Lightning Renderer Quality must be between 0 and 12.");
-			}
-			if (this.teslaCoilRendererQuality < 0 || this.teslaCoilRendererQuality > 12) {
-				throw new IllegalArgumentException("Tesla Coil Renderer Quality must be between 0 and 12.");
-			}
-		}
+		public void validatePostLoad() {}
 
 		@DefaultIgnore
 		@Tooltip(count = 3)

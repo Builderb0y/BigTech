@@ -48,14 +48,18 @@
 		"RedstoneWireBlock_ConnectToCorrectSideOfEncasedRedstoneBlock",
 		"ServerEntityManager_EntityAddedToWorldEventHook",
 		"ServerRecipeManager_PreparedRecipesAccess",
+		"ServerWorld_GetLightningPosInvoker",
 		"ServerWorld_SilentBlocks",
 		"ShearsItem_FastBreakingTag",
 		"Slot_MutableInventory",
+		"World_UseLocalWeather",
 		"WorldChunk_CallLegacyOnStateReplaced",
 		"WorldChunk_NotifyBeamsOfBlockChange"
 	],
 	"client": [
+		"AtmosphericFogModifier_UseLocalWeather",
 		"ClientPlayerInteractionManager_BreakingSpeed",
+		"ClientWorld_UseLocalWeather",
 		"GameOptions_SavePlaceAndBreakSpeed",
 		"KeyBinding_HandleConflictingKeybindsProperly",
 		"MinecraftClient_CooldownAccessor",
@@ -64,6 +68,8 @@
 		"MultiPhase_PhasesAccess",
 		"MultiPhaseParameters_TextureAccess",
 		"RenderLayerTexture_IdAccess",
+		"StandardFogModifier_UseLocalWeather",
+		"WeatherRendering_UseLocalWeather",
 		"WorldRenderer_FrustumGetter"
 	],
 	"injectors": {

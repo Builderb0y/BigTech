@@ -10,18 +10,20 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
 
-import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blockEntities.SilverIodideCannonBlockEntity;
 import builderb0y.bigtech.codecs.BigTechAutoCodec;
 import builderb0y.bigtech.util.WorldHelper;
@@ -46,6 +48,30 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 
 	public SilverIodideCannonBlock(Settings settings) {
 		super(settings);
+		this.setDefaultState(this.getDefaultState().with(Properties.POWERED, Boolean.FALSE));
+	}
+
+	@Override
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
+		boolean powered = state.get(Properties.POWERED);
+		boolean shouldBePowered = world.isReceivingRedstonePower(pos);
+		if (powered != shouldBePowered) {
+			world.setBlockState(pos, state.with(Properties.POWERED, shouldBePowered));
+			if (shouldBePowered) world.scheduleBlockTick(pos, this, 2);
+		}
+	}
+
+	@Override
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		super.scheduledTick(state, world, pos, random);
+		SilverIodideCannonBlockEntity cannon = WorldHelper.getBlockEntity(world, pos, SilverIodideCannonBlockEntity.class);
+		if (cannon != null) cannon.fire();
+	}
+
+	@Override
+	public boolean emitsRedstonePower(BlockState state) {
+		return true;
 	}
 
 	@Nullable
@@ -76,5 +102,11 @@ public class SilverIodideCannonBlock extends Block implements BlockEntityProvide
 	@Override
 	public @Nullable NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return world.getBlockEntity(pos) instanceof SilverIodideCannonBlockEntity blockEntity ? blockEntity : null;
+	}
+
+	@Override
+	public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		super.appendProperties(builder);
+		builder.add(Properties.POWERED);
 	}
 }

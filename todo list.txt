@@ -15,15 +15,6 @@ things to finish for existing features:
 		toggle for:
 			if you're looking at the block you just placed, don't place a new block.
 			if you're looking at a different block, place immediately.
-	silver iodide cannon:
-		localized weather.
-			hook into:
-				WeatherRendering.getPrecipitationAt().
-				ClientWorld.getSkyColor(). camera is provided.
-				ClientWorld.getCloudColor(). will need to fetch camera from client.
-				FogRenderer (add new FogModifier)
-			manually spawn lightning.
-		automatic firing.
 
 more material tiers:
 	stone (vanilla):
