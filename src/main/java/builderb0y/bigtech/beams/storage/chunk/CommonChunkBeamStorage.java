@@ -1,6 +1,6 @@
 package builderb0y.bigtech.beams.storage.chunk;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -9,10 +9,6 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import org.joml.Vector3f;
 
-import net.minecraft.nbt.AbstractNbtNumber;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.storage.ReadView;
@@ -118,10 +114,10 @@ public abstract class CommonChunkBeamStorage extends Int2ObjectOpenHashMap<Commo
 			int countPosition = buffer.writerIndex();
 			int count = 0;
 			buffer.writeInt(0); //allocate space to hold count.
-			ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
+			ObjectIterator<Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
 			while (blockIterator.hasNext()) {
-				Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = blockIterator.next();
-				try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+				Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>> blockEntry = blockIterator.next();
+				try (Locked<TreeSet<BeamSegment>> locked = blockEntry.getValue().read()) {
 					for (BeamSegment segment : locked.value) {
 						if (segment.visible()) {
 							buffer.writeShort(blockEntry.getShortKey());

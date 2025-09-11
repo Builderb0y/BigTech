@@ -1,6 +1,6 @@
 package builderb0y.bigtech.mixins;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -40,9 +40,9 @@ public abstract class ChunkBlockLightProvider_AllowBeamsToEmitLight extends Chun
 			if (chunkStorage != null) {
 				CommonSectionBeamStorage sectionStorage = chunkStorage.get(y >> 4);
 				if (sectionStorage != null) {
-					Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(x, y, z);
+					Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(x, y, z);
 					if (segments != null) {
-						try (Locked<LinkedList<BeamSegment>> lockedSegments = segments.read()) {
+						try (Locked<TreeSet<BeamSegment>> lockedSegments = segments.read()) {
 							for (BeamSegment segment : lockedSegments.value) {
 								oldValue = Math.max(oldValue, segment.beam().<PersistentBeam>as().getLightLevel(segment));
 								if (oldValue >= 15) return oldValue;

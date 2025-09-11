@@ -110,6 +110,7 @@ dependencies() {
 	//not necessary, I just like playing with these.
 	jijModRuntimeOnly("maven.modrinth:logical-zoom:0.0.32")
 	jijModRuntimeOnly("maven.modrinth:sodium:mc1.21.6-0.6.13-fabric")
+	jijModRuntimeOnly("maven.modrinth:lithium:mc1.21.8-0.18.0-fabric")
 
 	//manifold.
 	String manifoldVersion = '2025.1.25'

@@ -2,11 +2,11 @@ package builderb0y.bigtech.beams.base;
 
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Uuids;
@@ -20,7 +20,39 @@ public record BeamSegment(
 	BeamDirection direction,
 	boolean visible,
 	@Nullable Vector3fc color
-) {
+)
+implements Comparable<BeamSegment> {
+
+	@Override
+	public int compareTo(@NotNull BeamSegment that) {
+		if (this == that) return 0;
+		int compare = this.beam.uuid.compareTo(that.beam.uuid);
+		if (compare != 0) return compare;
+		compare = this.direction.compareTo(that.direction);
+		if (compare != 0) return compare;
+		compare = Boolean.compare(this.visible, that.visible);
+		if (compare != 0) return compare;
+		if (this.color != null) {
+			if (that.color != null) {
+				compare = Float.compare(this.color.x(), that.color.x());
+				if (compare != 0) return compare;
+				compare = Float.compare(this.color.y(), that.color.y());
+				if (compare != 0) return compare;
+				return Float.compare(this.color.z(), that.color.z());
+			}
+			else {
+				return 1;
+			}
+		}
+		else {
+			if (that.color != null) {
+				return -1;
+			}
+			else {
+				return 0;
+			}
+		}
+	}
 
 	public Vector3fc getEffectiveColor() {
 		return this.color != null ? this.color : this.beam.getInitialColor();

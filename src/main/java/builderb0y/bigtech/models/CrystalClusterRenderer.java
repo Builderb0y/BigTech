@@ -81,6 +81,7 @@ public class CrystalClusterRenderer implements BlockStateModel, ItemModel {
 
 	@Override
 	public void update(ItemRenderState state, ItemStack stack, ItemModelManager resolver, ItemDisplayContext displayContext, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed) {
+		state.addModelKey(this);
 		LayerRenderState layer = state.newLayer();
 		layer.setRenderLayer(TexturedRenderLayers.getItemEntityTranslucentCull());
 		layer.setTransform(this.transformation.getTransformation(displayContext));

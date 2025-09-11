@@ -17,6 +17,7 @@ import org.joml.Vector4f;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.render.item.ItemRenderState.LayerRenderState;
 import net.minecraft.client.render.item.model.ItemModel;
@@ -131,8 +132,9 @@ public class PrismRenderer implements BlockStateModel, ItemModel {
 
 	@Override
 	public void update(ItemRenderState state, ItemStack stack, ItemModelManager resolver, ItemDisplayContext displayContext, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed) {
+		state.addModelKey(this);
 		LayerRenderState layer = state.newLayer();
-		layer.setRenderLayer(RenderLayer.getTripwire());
+		layer.setRenderLayer(TexturedRenderLayers.getItemEntityTranslucentCull());
 		layer.setTransform(this.baseModel.getTransformations().getTransformation(displayContext));
 		if (stack.hasGlint()) {
 			layer.setGlint(ItemRenderState.Glint.STANDARD);

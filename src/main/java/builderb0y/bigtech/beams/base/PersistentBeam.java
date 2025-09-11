@@ -2,7 +2,7 @@ package builderb0y.bigtech.beams.base;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -88,9 +88,9 @@ public abstract class PersistentBeam extends Beam {
 		if (chunk.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(chunk).require().get(pos.getY() >> 4);
 			if (sectionStorage != null) {
-				Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
+				Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 				if (segments != null) {
-					try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+					try (Locked<TreeSet<BeamSegment>> locked = segments.read()) {
 						for (BeamSegment segment : locked.value) {
 							segment.beam().<PersistentBeam>as().onBlockChanged(serverWorld, pos, oldState, newState);
 						}
@@ -181,10 +181,10 @@ public abstract class PersistentBeam extends Beam {
 					Collection<ServerPlayerEntity> tracking = PlayerLookup.tracking(world, new ChunkPos(seenSectionX, seenSectionZ));
 					if (tracking.isEmpty()) return null;
 					ShortList positions = new ShortArrayList(seenStorage.size());
-					ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> blockIterator = seenStorage.short2ObjectEntrySet().fastIterator();
+					ObjectIterator<Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>>> blockIterator = seenStorage.short2ObjectEntrySet().fastIterator();
 					while (blockIterator.hasNext()) {
-						Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = blockIterator.next();
-						try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+						Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>> blockEntry = blockIterator.next();
+						try (Locked<TreeSet<BeamSegment>> locked = blockEntry.getValue().read()) {
 							for (BeamSegment segment : locked.value) {
 								if (segment.visible()) {
 									positions.add(blockEntry.getShortKey());

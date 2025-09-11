@@ -1,6 +1,6 @@
 package builderb0y.bigtech.beams.base;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
@@ -21,9 +21,9 @@ public class ColorAccumulator implements Consumer<BeamSegment> {
 
 	public void acceptAll(BlockPos pos, BasicSectionBeamStorage sectionStorage) {
 		if (sectionStorage != null) {
-			Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
+			Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 			if (segments != null) {
-				try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+				try (Locked<TreeSet<BeamSegment>> locked = segments.read()) {
 					locked.value.forEach(this);
 				}
 			}

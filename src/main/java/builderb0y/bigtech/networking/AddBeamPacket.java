@@ -91,8 +91,8 @@ public class AddBeamPacket implements S2CPlayPacket<AddBeamPacket.Payload> {
 				storage
 				.short2ObjectEntrySet()
 				.stream()
-				.flatMap((Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> entry) -> {
-					Locked<LinkedList<BeamSegment>> locked = entry.getValue().read();
+				.flatMap((Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>> entry) -> {
+					Locked<TreeSet<BeamSegment>> locked = entry.getValue().read();
 					return (
 						locked
 						.value

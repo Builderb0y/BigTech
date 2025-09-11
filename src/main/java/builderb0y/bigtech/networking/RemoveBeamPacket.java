@@ -1,7 +1,7 @@
 package builderb0y.bigtech.networking;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -118,10 +118,10 @@ public class RemoveBeamPacket implements S2CPlayPacket<RemoveBeamPacket.Payload>
 			};
 			while (blockIterator.hasNext()) {
 				short position = blockIterator.nextShort();
-				Lockable<LinkedList<BeamSegment>> segments = sectionStorage.getSegments(position);
+				Lockable<TreeSet<BeamSegment>> segments = sectionStorage.getSegments(position);
 				needLightUpdate.setFalse();
 				boolean removed, empty;
-				try (Locked<LinkedList<BeamSegment>> locked = segments.write()) {
+				try (Locked<TreeSet<BeamSegment>> locked = segments.write()) {
 					removed = locked.value.removeIf(lambda);
 					empty = locked.value.isEmpty();
 				}

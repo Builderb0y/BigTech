@@ -1,16 +1,13 @@
 package builderb0y.bigtech.beams.storage.section;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.Objects;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.ReadView.ListReadView;
 import net.minecraft.storage.WriteView;
@@ -26,7 +23,7 @@ import builderb0y.bigtech.beams.storage.world.CommonWorldBeamStorage;
 import builderb0y.bigtech.util.Lockable;
 import builderb0y.bigtech.util.Locked;
 
-public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<LinkedList<BeamSegment>>> {
+public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<TreeSet<BeamSegment>>> {
 
 	public final int sectionX, sectionY, sectionZ;
 
@@ -58,7 +55,7 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<Li
 	}
 
 	public boolean addSegment(int index, BeamSegment segment, boolean unique) {
-		try (Locked<LinkedList<BeamSegment>> segments = this.getSegments(index).write()) {
+		try (Locked<TreeSet<BeamSegment>> segments = this.getSegments(index).write()) {
 			if (unique && segments.value.contains(segment)) return false;
 			return segments.value.add(segment);
 		}
@@ -78,7 +75,7 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<Li
 
 	public void removeSegment(int index, BeamSegment segment) {
 		boolean empty;
-		try (Locked<LinkedList<BeamSegment>> segments = this.getSegments(index).write()) {
+		try (Locked<TreeSet<BeamSegment>> segments = this.getSegments(index).write()) {
 			if (!segments.value.remove(segment)) {
 				BigTechMod.LOGGER.warn("Attempt to remove a beam segment which doesn't exist.");
 			}
@@ -87,30 +84,30 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<Li
 		if (empty) this.remove((short)(index));
 	}
 
-	public Lockable<LinkedList<BeamSegment>> getSegments(BlockPos pos) {
+	public Lockable<TreeSet<BeamSegment>> getSegments(BlockPos pos) {
 		return this.getSegments(pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	public Lockable<LinkedList<BeamSegment>> getSegments(int x, int y, int z) {
+	public Lockable<TreeSet<BeamSegment>> getSegments(int x, int y, int z) {
 		return this.getSegments(packIndex(x, y, z));
 	}
 
-	public Lockable<LinkedList<BeamSegment>> getSegments(int index) {
+	public Lockable<TreeSet<BeamSegment>> getSegments(int index) {
 		return this.computeIfAbsent(
 			(short)(Objects.checkIndex(index, 4096)),
-			(short s) -> new Lockable<>(new LinkedList<>())
+			(short s) -> new Lockable<>(new TreeSet<>())
 		);
 	}
 
-	public @Nullable Lockable<LinkedList<BeamSegment>> checkSegments(BlockPos pos) {
+	public @Nullable Lockable<TreeSet<BeamSegment>> checkSegments(BlockPos pos) {
 		return this.checkSegments(pos.getX(), pos.getY(), pos.getZ());
 	}
 
-	public @Nullable Lockable<LinkedList<BeamSegment>> checkSegments(int x, int y, int z) {
+	public @Nullable Lockable<TreeSet<BeamSegment>> checkSegments(int x, int y, int z) {
 		return this.checkSegments(packIndex(x, y, z));
 	}
 
-	public @Nullable Lockable<LinkedList<BeamSegment>> checkSegments(int index) {
+	public @Nullable Lockable<TreeSet<BeamSegment>> checkSegments(int index) {
 		return this.get((short)(Objects.checkIndex(index, 4096)));
 	}
 
@@ -139,10 +136,10 @@ public class BasicSectionBeamStorage extends Short2ObjectOpenHashMap<Lockable<Li
 	}
 
 	public void forEachSegment(PackedPositionSegmentConsumer action) {
-		ObjectIterator<Entry<Lockable<LinkedList<BeamSegment>>>> iterator = this.short2ObjectEntrySet().fastIterator();
+		ObjectIterator<Entry<Lockable<TreeSet<BeamSegment>>>> iterator = this.short2ObjectEntrySet().fastIterator();
 		while (iterator.hasNext()) {
-			Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> entry = iterator.next();
-			try (Locked<LinkedList<BeamSegment>> segments = entry.getValue().read()) {
+			Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>> entry = iterator.next();
+			try (Locked<TreeSet<BeamSegment>> segments = entry.getValue().read()) {
 				for (BeamSegment segment : segments.value) {
 					action.accept(entry.getShortKey(), segment);
 				}

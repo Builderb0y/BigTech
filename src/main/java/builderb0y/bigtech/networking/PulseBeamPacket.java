@@ -1,7 +1,7 @@
 package builderb0y.bigtech.networking;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -120,13 +120,13 @@ public class PulseBeamPacket implements S2CPlayPacket<PulseBeamPacket.Payload> {
 				int sectionStartX = ChunkSectionPos.unpackX(sectionEntry.getLongKey()) << 4;
 				int sectionStartY = ChunkSectionPos.unpackY(sectionEntry.getLongKey()) << 4;
 				int sectionStartZ = ChunkSectionPos.unpackZ(sectionEntry.getLongKey()) << 4;
-				ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
+				ObjectIterator<Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>>> blockIterator = sectionEntry.getValue().short2ObjectEntrySet().fastIterator();
 				while (blockIterator.hasNext()) {
-					Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = blockIterator.next();
+					Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>> blockEntry = blockIterator.next();
 					int x = sectionStartX + ChunkSectionPos.unpackLocalX(blockEntry.getShortKey());
 					int y = sectionStartY + ChunkSectionPos.unpackLocalY(blockEntry.getShortKey());
 					int z = sectionStartZ + ChunkSectionPos.unpackLocalZ(blockEntry.getShortKey());
-					try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+					try (Locked<TreeSet<BeamSegment>> locked = blockEntry.getValue().read()) {
 						for (BeamSegment segment : locked.value) {
 							buffer.writeInt(x).writeInt(y).writeInt(z);
 							buffer.writeByte(segment.direction().ordinal());

@@ -1,6 +1,6 @@
 package builderb0y.bigtech.beams;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -64,9 +64,9 @@ public class BeamUtil {
 	public static boolean hasSegmentLeadingOutOf(Beam beam, BlockPos pos, Predicate<BeamSegment> predicate) {
 		BasicSectionBeamStorage sectionStorage = beam.seen.get(ChunkSectionPos.toLong(pos));
 		if (sectionStorage != null) {
-			Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
+			Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 			if (segments != null) {
-				try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+				try (Locked<TreeSet<BeamSegment>> locked = segments.read()) {
 					for (BeamSegment segment : locked.value) {
 						if (predicate.test(segment)) {
 							return true;
@@ -85,9 +85,9 @@ public class BeamUtil {
 	public static boolean hasSegmentLeadingOutOf(World world, BlockPos pos, Predicate<BeamSegment> predicate) {
 		CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(pos)).require().get(pos.getY() >> 4);
 		if (sectionStorage != null) {
-			Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
+			Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 			if (segments != null) {
-				try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+				try (Locked<TreeSet<BeamSegment>> locked = segments.read()) {
 					for (BeamSegment segment : locked.value) {
 						if (predicate.test(segment)) {
 							return true;
@@ -106,9 +106,9 @@ public class BeamUtil {
 	public static Stream<BeamSegment> getSegmentsLeadingOutOf(Beam beam, BlockPos pos, Predicate<BeamSegment> predicate) {
 		BasicSectionBeamStorage sectionStorage = beam.seen.get(ChunkSectionPos.toLong(pos));
 		if (sectionStorage != null) {
-			Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
+			Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 			if (segments != null) {
-				Locked<LinkedList<BeamSegment>> lock = segments.read();
+				Locked<TreeSet<BeamSegment>> lock = segments.read();
 				return segments.value.stream().filter(predicate).onClose(lock::close);
 			}
 		}
@@ -122,9 +122,9 @@ public class BeamUtil {
 	public static Stream<BeamSegment> getSegmentsLeadingOutOf(World world, BlockPos pos, Predicate<BeamSegment> predicate) {
 		CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(world.getChunk(pos)).require().get(pos.getY() >> 4);
 		if (sectionStorage != null) {
-			Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(pos);
+			Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(pos);
 			if (segments != null) {
-				Locked<LinkedList<BeamSegment>> lock = segments.read();
+				Locked<TreeSet<BeamSegment>> lock = segments.read();
 				return segments.value.stream().filter(predicate).onClose(lock::close);
 			}
 		}

@@ -1,8 +1,7 @@
 package builderb0y.bigtech.beams.storage.section;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.storage.ReadView;
 import net.minecraft.world.chunk.WorldChunk;
@@ -25,7 +24,7 @@ public abstract class CommonSectionBeamStorage extends BasicSectionBeamStorage {
 	}
 
 	@Override
-	public Lockable<LinkedList<BeamSegment>> getSegments(int index) {
+	public Lockable<TreeSet<BeamSegment>> getSegments(int index) {
 		MinecraftServer server = this.chunk.getWorld().getServer();
 		if (server != null) {
 			//apparently not thread-safe.

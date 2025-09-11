@@ -1,6 +1,6 @@
 package builderb0y.bigtech.beams.storage.section;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -41,7 +41,7 @@ public class ClientSectionBeamStorage extends CommonSectionBeamStorage {
 	}
 
 	@Override
-	public Lockable<LinkedList<BeamSegment>> getSegments(int index) {
+	public Lockable<TreeSet<BeamSegment>> getSegments(int index) {
 		this.invalidate();
 		return super.getSegments(index);
 	}

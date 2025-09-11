@@ -2,8 +2,7 @@ package builderb0y.bigtech.beams.base;
 
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.function.Consumer;
+import java.util.TreeSet;
 import java.util.stream.IntStream;
 
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -104,14 +103,14 @@ public class BeamMeshBuilder {
 			ColorAccumulator averageColor = new ColorAccumulator();
 			Sprite sprite = MinecraftClient.getInstance().getBakedModelManager().getAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).getSprite(BigTechMod.modID("block/beam"));
 			SodiumCompatibility.markSpriteActive(sprite);
-			ObjectIterator<Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>>> iterator = storage.short2ObjectEntrySet().fastIterator();
+			ObjectIterator<Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>>> iterator = storage.short2ObjectEntrySet().fastIterator();
 			while (iterator.hasNext()) {
-				Short2ObjectMap.Entry<Lockable<LinkedList<BeamSegment>>> blockEntry = iterator.next();
+				Short2ObjectMap.Entry<Lockable<TreeSet<BeamSegment>>> blockEntry = iterator.next();
 				short packedPos = blockEntry.getShortKey();
 				int x = BasicSectionBeamStorage.unpackX(packedPos);
 				int y = BasicSectionBeamStorage.unpackY(packedPos);
 				int z = BasicSectionBeamStorage.unpackZ(packedPos);
-				try (Locked<LinkedList<BeamSegment>> locked = blockEntry.getValue().read()) {
+				try (Locked<TreeSet<BeamSegment>> locked = blockEntry.getValue().read()) {
 					for (BeamSegment segment : locked.value) {
 						AdjacentColorAccumulator accumulator = directionToColor.get(segment.direction());
 						accumulator.accept(segment.color());
@@ -120,9 +119,9 @@ public class BeamMeshBuilder {
 							int adjacentX = x + segment.direction().x;
 							int adjacentY = y + segment.direction().y;
 							int adjacentZ = z + segment.direction().z;
-							Lockable<LinkedList<BeamSegment>> adjacentSegments = loader.getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
+							Lockable<TreeSet<BeamSegment>> adjacentSegments = loader.getAdjacentSegments(storage, adjacentX, adjacentY, adjacentZ);
 							if (adjacentSegments != null) {
-								try (Locked<LinkedList<BeamSegment>> adjacentLocked = adjacentSegments.read()) {
+								try (Locked<TreeSet<BeamSegment>> adjacentLocked = adjacentSegments.read()) {
 									for (BeamSegment adjacentSegment : adjacentLocked.value) {
 										if (adjacentSegment.direction() == segment.direction().getOpposite()) {
 											accumulator.accept(adjacentSegment.color());
@@ -171,9 +170,9 @@ public class BeamMeshBuilder {
 						}
 					}
 					if ((faceFlags & FACE_FLAGS[direction.ordinal()]) != 0) {
-						Lockable<LinkedList<BeamSegment>> adjacentSegments = loader.getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
+						Lockable<TreeSet<BeamSegment>> adjacentSegments = loader.getAdjacentSegments(storage, x + direction.x, y + direction.y, z + direction.z);
 						if (adjacentSegments != null) {
-							try (Locked<LinkedList<BeamSegment>> locked = adjacentSegments.read()) {
+							try (Locked<TreeSet<BeamSegment>> locked = adjacentSegments.read()) {
 								for (BeamSegment segment : locked.value) {
 									if (segment.direction() == direction.getOpposite()) {
 										faceFlags &= ~FACE_FLAGS[direction.ordinal()];
@@ -296,7 +295,7 @@ public class BeamMeshBuilder {
 			};
 		}
 
-		public default @Nullable Lockable<LinkedList<BeamSegment>> getAdjacentSegments(T_Storage storage, int adjacentX, int adjacentY, int adjacentZ) {
+		public default @Nullable Lockable<TreeSet<BeamSegment>> getAdjacentSegments(T_Storage storage, int adjacentX, int adjacentY, int adjacentZ) {
 			T_Storage adjacentStorage = this.getAdjacentStorage(storage, adjacentX, adjacentY, adjacentZ);
 			return adjacentStorage != null ? adjacentStorage.checkSegments(adjacentX, adjacentY, adjacentZ) : null;
 		}

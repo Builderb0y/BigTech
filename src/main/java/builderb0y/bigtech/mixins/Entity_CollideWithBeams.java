@@ -1,6 +1,6 @@
 package builderb0y.bigtech.mixins;
 
-import java.util.LinkedList;
+import java.util.TreeSet;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -40,9 +40,9 @@ public abstract class Entity_CollideWithBeams {
 		if (this.getWorld() instanceof ServerWorld serverWorld) {
 			CommonSectionBeamStorage sectionStorage = ChunkBeamStorageHolder.KEY.get(this.getWorld().getChunk(mutablePos)).require().get(mutablePos.getY() >> 4);
 			if (sectionStorage != null) {
-				Lockable<LinkedList<BeamSegment>> segments = sectionStorage.checkSegments(mutablePos);
+				Lockable<TreeSet<BeamSegment>> segments = sectionStorage.checkSegments(mutablePos);
 				if (segments != null) {
-					try (Locked<LinkedList<BeamSegment>> locked = segments.read()) {
+					try (Locked<TreeSet<BeamSegment>> locked = segments.read()) {
 						for (BeamSegment segment : locked.value) {
 							segment.beam().<PersistentBeam>as().onEntityCollision(serverWorld, mutablePos, this.as());
 						}
