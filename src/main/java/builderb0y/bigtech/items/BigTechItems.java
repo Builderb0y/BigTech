@@ -2,6 +2,9 @@ package builderb0y.bigtech.items;
 
 import java.util.function.BiFunction;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
@@ -74,6 +77,7 @@ public class BigTechItems {
 		);
 	}
 
+	@Environment(EnvType.CLIENT)
 	public static void initClient() {
 		TintSourceTypes.ID_MAPPER.put(BigTechMod.modID("beam_interceptor"), BeamInterceptorTintSource.CODEC);
 		TintSourceTypes.ID_MAPPER.put(BigTechMod.modID("circuit"), CircuitTintSource.CODEC);

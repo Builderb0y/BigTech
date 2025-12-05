@@ -15,10 +15,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.blocks.BigTechBlocks;
 import builderb0y.bigtech.blocks.DecoBlocks;
-import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
-import builderb0y.bigtech.datagen.base.DataGenContext;
-import builderb0y.bigtech.datagen.base.DataGenerator;
-import builderb0y.bigtech.datagen.base.Dependencies;
+import builderb0y.bigtech.datagen.base.*;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.ShapelessRecipeBuilder;
@@ -55,11 +52,10 @@ public class CopperSlabDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_double")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
-			.blockTexture("bottom", this.vanillaTexture())
-			.blockTexture("top", this.vanillaTexture())
-			.blockTexture("side", BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"))
+			new Models.block.cube_bottom_top()
+			.bottom(this.vanillaTexture())
+			.top(this.vanillaTexture())
+			.side(BigTechMod.modID(this.type.notWaxed().copperPrefix + "slab"))
 			.toString()
 		);
 		context.writeToFile(

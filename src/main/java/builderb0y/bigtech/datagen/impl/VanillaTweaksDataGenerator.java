@@ -160,5 +160,6 @@ public class VanillaTweaksDataGenerator implements DataGenerator {
 			.result(Items.DAYLIGHT_DETECTOR)
 			.toString()
 		);
+		context.lang.put("stat_type.bigtech.proficiency", "Proficiency Gained");
 	}
 }

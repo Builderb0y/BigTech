@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"fmf",
+		"ece",
+		"fmf"
+	],
+	"key": {
+		"f": "bigtech:steel_frame"      ,
+		"m": "#c:ingots/magnetite"      ,
+		"e": "#c:ender_pearls"          ,
+		"c": "#bigtech:crystal_clusters"
+	},
+	"result": {
+		"id": "bigtech:building_block"
+	}
+}

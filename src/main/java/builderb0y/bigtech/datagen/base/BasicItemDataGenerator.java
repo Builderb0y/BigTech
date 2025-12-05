@@ -31,9 +31,8 @@ public abstract class BasicItemDataGenerator implements ItemDataGenerator {
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
 			context.itemModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.parent("minecraft:item/generated")
-			.itemTexture("layer0", this.getId())
+			new Models.item.generated()
+			.layer0(this.getId())
 			.toString()
 		);
 	}

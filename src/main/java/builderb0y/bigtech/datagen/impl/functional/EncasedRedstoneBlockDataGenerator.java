@@ -7,9 +7,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -34,11 +36,10 @@ public class EncasedRedstoneBlockDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.parent("minecraft:block/cube_bottom_top")
-			.blockTexture("top",    context.suffixPath(this.getId(), "_front"))
-			.texture     ("bottom", "minecraft:block/furnace_top")
-			.blockTexture("side",   context.suffixPath(this.getId(), "_side"))
+			new Models.block.cube_bottom_top()
+			.top(context.suffixPath(this.getId(), "_front"))
+			.bottom(Identifier.ofVanilla("furnace_top"))
+			.side(context.suffixPath(this.getId(), "_side"))
 			.toString()
 		);
 	}

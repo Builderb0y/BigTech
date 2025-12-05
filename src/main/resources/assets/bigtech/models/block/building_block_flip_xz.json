@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"side": "bigtech:block/building_block_side",
+		"end":  "bigtech:block/building_block_flip_xz"
+	}
+}

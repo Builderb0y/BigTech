@@ -9,6 +9,7 @@ import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.ArcFurnaceRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
@@ -25,8 +26,8 @@ public class SiliconBlockDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.itemTexture("all", BigTechMod.modID("silicon"))
+			.parent(Models.block.cube_all.id)
+			.itemTexture(Models.block.cube_all.all, BigTechMod.modID("silicon"))
 			.toString()
 		);
 	}

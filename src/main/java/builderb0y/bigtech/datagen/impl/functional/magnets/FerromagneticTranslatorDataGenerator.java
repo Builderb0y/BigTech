@@ -11,6 +11,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -38,11 +39,10 @@ public class FerromagneticTranslatorDataGenerator extends FerromagneticBlockData
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
-			.blockTexture("bottom", BigTechMod.modID("ferromagnet_bottom"))
-			.blockTexture("top", BigTechMod.modID("ferromagnet_top"))
-			.blockTexture("side", BigTechMod.modID("ferromagnet_side"))
+			new Models.block.cube_bottom_top()
+			.bottom(BigTechMod.modID("ferromagnet_bottom"))
+			.top(BigTechMod.modID("ferromagnet_top"))
+			.side(BigTechMod.modID("ferromagnet_side"))
 			.toString()
 		);
 	}

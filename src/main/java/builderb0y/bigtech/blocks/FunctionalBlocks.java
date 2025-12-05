@@ -575,6 +575,14 @@ public class FunctionalBlocks {
 	//////////////////////////////// misc ////////////////////////////////
 
 	@UseDataGen(void.class)
+	public static final BuildingBlock BUILDING_BLOCK = register(
+		new BuildingBlock(
+			copySettings(Blocks.IRON_BLOCK, "building_block")
+			.mapColor(MapColor.GRAY)
+		)
+	);
+
+	@UseDataGen(void.class)
 	public static final WeightedPressurePlateBlock MEDIUM_WEIGHTED_PRESSURE_PLATE = register(
 		new WeightedPressurePlateBlock(
 			60,

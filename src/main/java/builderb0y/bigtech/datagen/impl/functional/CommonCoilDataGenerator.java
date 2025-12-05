@@ -10,6 +10,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
 
@@ -34,10 +35,9 @@ public abstract class CommonCoilDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_column"))
-			.blockTexture("side", context.suffixPath(this.getId(), "_side"))
-			.blockTexture("end", context.suffixPath(this.getId(), "_end"))
+			new Models.block.cube_column()
+			.side(context.suffixPath(this.getId(), "_side"))
+			.end(context.suffixPath(this.getId(), "_end"))
 			.toString()
 		);
 	}

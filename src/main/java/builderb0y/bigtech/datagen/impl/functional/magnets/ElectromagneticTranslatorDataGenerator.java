@@ -12,6 +12,7 @@ import net.minecraft.util.math.Direction;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -43,20 +44,18 @@ public class ElectromagneticTranslatorDataGenerator extends ElectromagneticBlock
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
-			.blockTexture("bottom", BigTechMod.modID("electromagnet_bottom"))
-			.blockTexture("top", BigTechMod.modID("electromagnet_top"))
-			.blockTexture("side", BigTechMod.modID("electromagnet_side"))
+			new Models.block.cube_bottom_top()
+			.bottom(BigTechMod.modID("electromagnet_bottom"))
+			.top(BigTechMod.modID("electromagnet_top"))
+			.side(BigTechMod.modID("electromagnet_side"))
 			.toString()
 		);
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
-			.blockTexture("bottom", BigTechMod.modID("iron_coil_end"))
-			.blockTexture("top", BigTechMod.modID("iron_coil_end"))
-			.blockTexture("side", BigTechMod.modID("iron_coil_side"))
+			new Models.block.cube_bottom_top()
+			.bottom(BigTechMod.modID("iron_coil_end"))
+			.top(BigTechMod.modID("iron_coil_end"))
+			.side(BigTechMod.modID("iron_coil_side"))
 			.toString()
 		);
 	}

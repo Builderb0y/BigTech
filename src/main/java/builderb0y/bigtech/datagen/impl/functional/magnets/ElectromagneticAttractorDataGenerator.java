@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -42,16 +43,14 @@ public class ElectromagneticAttractorDataGenerator extends ElectromagneticBlockD
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.blockTexture("all", BigTechMod.modID("electromagnet_bottom"))
+			new Models.block.cube_all()
+			.all(BigTechMod.modID("electromagnet_bottom"))
 			.toString()
 		);
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.blockTexture("all", BigTechMod.modID("iron_coil_end"))
+			new Models.block.cube_all()
+			.all(BigTechMod.modID("iron_coil_end"))
 			.toString()
 		);
 	}

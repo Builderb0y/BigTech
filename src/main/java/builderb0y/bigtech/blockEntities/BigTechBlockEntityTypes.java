@@ -134,6 +134,11 @@ public class BigTechBlockEntityTypes {
 		MicroProcessorBlockEntity::new,
 		FunctionalBlocks.MICRO_PROCESSOR
 	);
+	public static final BlockEntityType<BuildingBlockEntity> BUILDING_BLOCK = register(
+		"building_block",
+		BuildingBlockEntity::new,
+		FunctionalBlocks.BUILDING_BLOCK
+	);
 
 	public static <B extends BlockEntity> BlockEntityType<B> register(String name, BlockEntityFactory<B> factory, Block... blocks) {
 		return Registry.register(Registries.BLOCK_ENTITY_TYPE, BigTechMod.modID(name), new BlockEntityType<>(factory, Set.of(blocks)));
@@ -155,5 +160,6 @@ public class BigTechBlockEntityTypes {
 		BlockEntityRendererFactories.register(TESLA_COIL,           TeslaCoilBlockEntityRenderer::new);
 		BlockEntityRendererFactories.register(CRUCIBLE,              CrucibleBlockEntityRenderer::new);
 		BlockEntityRendererFactories.register(MICRO_PROCESSOR, MicroProcessorBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(BUILDING_BLOCK,        BuildingBlockEntityRenderer::new);
 	}
 }

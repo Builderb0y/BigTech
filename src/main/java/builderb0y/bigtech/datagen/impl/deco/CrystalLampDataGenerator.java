@@ -16,10 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 import builderb0y.bigtech.blocks.BigTechBlockTags;
-import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
-import builderb0y.bigtech.datagen.base.DataGenContext;
-import builderb0y.bigtech.datagen.base.DataGenerator;
-import builderb0y.bigtech.datagen.base.Dependencies;
+import builderb0y.bigtech.datagen.base.*;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -151,16 +148,14 @@ public class CrystalLampDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.blockTexture("all", context.suffixPath(this.getId(), "_on"))
+			new Models.block.cube_all()
+			.all(context.suffixPath(this.getId(), "_on"))
 			.toString()
 		);
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.blockTexture("all", context.suffixPath(this.getId(), "_off"))
+			new Models.block.cube_all()
+			.all(context.suffixPath(this.getId(), "_off"))
 			.toString()
 		);
 	}

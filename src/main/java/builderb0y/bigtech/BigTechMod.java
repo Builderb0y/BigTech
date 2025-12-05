@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.api.BigTechInitializer;
+import builderb0y.bigtech.api.ProficiencyCategory;
+import builderb0y.bigtech.api.ProficiencyItem;
+import builderb0y.bigtech.api.ProficiencyManager;
 import builderb0y.bigtech.beams.impl.BeamTypes;
 import builderb0y.bigtech.blockEntities.BigTechBlockEntityTypes;
 import builderb0y.bigtech.blocks.BigTechBlocks;
@@ -57,8 +60,12 @@ public class BigTechMod implements ModInitializer {
 		BigTechFeatures.init();
 		BigTechWorldgen.init();
 		ComputercraftCompat.init();
-		LOGGER.info("Done initializing.");
+		ProficiencyManager.init();
+		LOGGER.info("Running other mods' initializers...");
 		FabricLoader.getInstance().getEntrypoints(MODID, BigTechInitializer.class).forEach(BigTechInitializer::init);
+		ProficiencyCategory.init();
+		ProficiencyItem.init();
+		LOGGER.info("Done initializing.");
 	}
 
 	public static Identifier modID(String path) {

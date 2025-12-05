@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonVariant;
@@ -38,20 +39,18 @@ public class SpotlightDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_off")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
-			.blockTexture("top", BigTechMod.modID("spotlight_top_off"))
-			.blockTexture("bottom", BigTechMod.modID("spotlight_bottom"))
-			.blockTexture("side", BigTechMod.modID("spotlight_side"))
+			new Models.block.cube_bottom_top()
+			.top(BigTechMod.modID("spotlight_top_off"))
+			.bottom(BigTechMod.modID("spotlight_bottom"))
+			.side(BigTechMod.modID("spotlight_side"))
 			.toString()
 		);
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_on")),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_bottom_top"))
-			.blockTexture("top", BigTechMod.modID("spotlight_top_on"))
-			.blockTexture("bottom", BigTechMod.modID("spotlight_bottom"))
-			.blockTexture("side", BigTechMod.modID("spotlight_side"))
+			new Models.block.cube_bottom_top()
+			.top(BigTechMod.modID("spotlight_top_on"))
+			.bottom(BigTechMod.modID("spotlight_bottom"))
+			.side(BigTechMod.modID("spotlight_side"))
 			.toString()
 		);
 	}

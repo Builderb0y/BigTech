@@ -12,6 +12,7 @@ import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
 import builderb0y.bigtech.datagen.base.Dependencies;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.formats.TableFormats.BlockStateJsonMultipart;
@@ -83,8 +84,8 @@ public class SteelBarsDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.itemParent(Identifier.ofVanilla("generated"))
-			.blockTexture("layer0", BigTechMod.modID("steel_bars"))
+			.parent(Models.item.generated.id)
+			.blockTexture(Models.item.generated.layer0, BigTechMod.modID("steel_bars"))
 			.toString()
 		);
 	}

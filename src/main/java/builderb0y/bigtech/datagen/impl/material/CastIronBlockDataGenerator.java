@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.MaterialItems;
@@ -40,9 +41,8 @@ public class CastIronBlockDataGenerator extends BasicBlockDataGenerator {
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.blockTexture("all", this.getId())
+			new Models.block.cube_all()
+			.all(this.getId())
 			.toString()
 		);
 	}

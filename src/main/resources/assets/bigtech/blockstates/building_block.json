@@ -1,0 +1,11 @@
+{
+	"variants": {
+		"mode=flip_x":        { "model": "bigtech:block/building_block_flip_x"        },
+		"mode=flip_xz":       { "model": "bigtech:block/building_block_flip_xz"       },
+		"mode=flip_z":        { "model": "bigtech:block/building_block_flip_z"        },
+		"mode=rotate_2x180":  { "model": "bigtech:block/building_block_rotate_2x180"  },
+		"mode=rotate_4x90":   { "model": "bigtech:block/building_block_rotate_4x90"   },
+		"mode=rotate_8xflip": { "model": "bigtech:block/building_block_rotate_8xflip" },
+		"mode=stack":         { "model": "bigtech:block/building_block_stack"         }
+	}
+}

@@ -4,6 +4,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.IntProperty;
 
+import builderb0y.bigtech.blocks.BuildingBlock.BuildingBlockMode;
 import builderb0y.bigtech.blocks.belts.DirectorBeltBlock.DirectorBeltMode;
 
 public class BigTechProperties {
@@ -17,4 +18,6 @@ public class BigTechProperties {
 		ROTATION_0_7 = IntProperty.of("rotation", 0, 7);
 	public static final BooleanProperty
 		ACTIVE = BooleanProperty.of("active");
+	public static final EnumProperty<BuildingBlockMode>
+		BUILDING_BLOCK_MODE = EnumProperty.of("mode", BuildingBlockMode.class);
 }

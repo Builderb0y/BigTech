@@ -2,6 +2,7 @@
 	"replace": false,
 	"values": [
 		"bigtech:assembler",
+		"bigtech:building_block",
 		"bigtech:deepslate_silver_ore",
 		"bigtech:electrum_block",
 		"bigtech:glowstone_alloy_block",

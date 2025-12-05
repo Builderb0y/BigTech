@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.datagen.impl.functional.magnets.MagneticBlockDataGenerator.FerromagneticBlockDataGenerator;
@@ -24,9 +25,8 @@ public class FerromagneticAttractorDataGenerator extends FerromagneticBlockDataG
 	public void writeBlockModels(DataGenContext context) {
 		context.writeToFile(
 			context.blockModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.blockParent(Identifier.ofVanilla("cube_all"))
-			.blockTexture("all", BigTechMod.modID("ferromagnet_bottom"))
+			new Models.block.cube_all()
+			.all(BigTechMod.modID("ferromagnet_bottom"))
 			.toString()
 		);
 	}

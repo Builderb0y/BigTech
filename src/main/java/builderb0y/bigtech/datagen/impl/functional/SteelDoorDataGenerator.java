@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
+import builderb0y.bigtech.datagen.base.Models;
 import builderb0y.bigtech.datagen.formats.RetexturedModelBuilder;
 import builderb0y.bigtech.datagen.formats.ShapedRecipeBuilder;
 import builderb0y.bigtech.items.BigTechItemTags;
@@ -98,9 +99,8 @@ public class SteelDoorDataGenerator extends BasicBlockDataGenerator {
 	public void writeItemModels(DataGenContext context) {
 		context.writeToFile(
 			context.itemModelPath(this.getId()),
-			new RetexturedModelBuilder()
-			.parent("minecraft:item/generated")
-			.itemTexture("layer0", this.getId())
+			new Models.item.generated()
+			.layer0(this.getId())
 			.toString()
 		);
 	}

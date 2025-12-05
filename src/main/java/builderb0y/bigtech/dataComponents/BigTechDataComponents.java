@@ -5,10 +5,10 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.util.math.BlockPos;
 
 import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.circuits.CircuitComponent;
-import builderb0y.bigtech.codecs.BigTechAutoCodec;
 
 public class BigTechDataComponents {
 
@@ -34,6 +34,14 @@ public class BigTechDataComponents {
 		.<CircuitComponent>builder()
 		.codec(CircuitComponent.CODER.autoCodec.createDFUCodec(CircuitComponent.class))
 		.packetCodec(CircuitComponent.CODER.packetCodec)
+		.build()
+	);
+	public static final ComponentType<BlockPos> BUILDING_BLOCK_LINK = register(
+		"building_block_link",
+		ComponentType
+		.<BlockPos>builder()
+		.codec(BlockPos.CODEC)
+		.packetCodec(BlockPos.PACKET_CODEC)
 		.build()
 	);
 

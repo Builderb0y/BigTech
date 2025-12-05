@@ -370,6 +370,12 @@ public class FunctionalItems {
 
 	//////////////////////////////// misc ////////////////////////////////
 
+	@UseDataGen(BuildingBlockDataGenerator.class)
+	public static final BlockItem BUILDING_BLOCK = registerPlacer(
+		FunctionalBlocks.BUILDING_BLOCK,
+		BuildingBlockItem::new
+	);
+
 	@UseDataGen(MagnetiteArmorDataGenerator.Helmet.class)
 	public static final Item MAGNETITE_HELMET = register(
 		new Item(

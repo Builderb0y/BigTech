@@ -11,6 +11,7 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.Direction;
 
+import builderb0y.bigtech.BigTechMod;
 import builderb0y.bigtech.blocks.BigTechBlockTags;
 import builderb0y.bigtech.datagen.base.BasicBlockDataGenerator;
 import builderb0y.bigtech.datagen.base.DataGenContext;
@@ -112,14 +113,14 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_center")),
 			new RetexturedModelBuilder()
-			.parent("bigtech:block/template_lightning_cable_center")
+			.blockParent(BigTechMod.modID("template_lightning_cable_center"))
 			.blockTexture("cable", this.getId())
 			.toString()
 		);
 		context.writeToFile(
 			context.blockModelPath(context.suffixPath(this.getId(), "_connection")),
 			new RetexturedModelBuilder()
-			.parent("bigtech:block/template_lightning_cable_connection")
+			.blockParent(BigTechMod.modID("template_lightning_cable_connection"))
 			.blockTexture("cable", this.getId())
 			.toString()
 		);
@@ -135,7 +136,7 @@ public class LightningCableDataGenerator extends BasicBlockDataGenerator {
 		context.writeToFile(
 			context.itemModelPath(this.getId()),
 			new RetexturedModelBuilder()
-			.parent("bigtech:item/template_lightning_cable")
+			.itemParent(BigTechMod.modID("template_lightning_cable"))
 			.blockTexture("cable", this.getId())
 			.toString()
 		);

@@ -28,9 +28,12 @@ public abstract class Entity_DespawnOnInvalidTransport {
 
 	@Shadow public abstract void discard();
 
+	@Shadow protected boolean firstUpdate;
+
 	@Inject(method = "setPos", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;chunkPos:Lnet/minecraft/util/math/ChunkPos;", opcode = Opcodes.PUTFIELD, shift = Shift.AFTER))
 	private void bigtech_despawnOnInvalidTransport(double x, double y, double z, CallbackInfo callback) {
 		if (
+			!this.firstUpdate &&
 			this.getWorld() instanceof ServerWorld serverWorld &&
 			this.getType().isIn(BigTechEntityTags.INVALID_TRANSPORT_DESPAWN) &&
 			!serverWorld.shouldTickEntityAt(this.getBlockPos()) &&

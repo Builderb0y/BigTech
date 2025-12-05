@@ -58,8 +58,6 @@ compatibility:
 testing:
 
 1.21.6:
-	items despawn on belts when the world loads due to mixin.
-		I suspect entities start moving before all chunks are loaded or something.
 
 features:
 	general:

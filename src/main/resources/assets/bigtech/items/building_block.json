@@ -1,0 +1,62 @@
+{
+	"model": {
+		"type": "minecraft:select",
+		"property": "minecraft:block_state",
+		"block_state_property": "mode",
+		"fallback": {
+			"type": "minecraft:model",
+			"model": "bigtech:block/building_block_stack"
+		},
+		"cases": [
+			{
+				"when": "stack",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_stack"
+				}
+			},
+			{
+				"when": "flip_x",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_flip_x"
+				}
+			},
+			{
+				"when": "flip_z",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_flip_z"
+				}
+			},
+			{
+				"when": "flip_xz",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_flip_xz"
+				}
+			},
+			{
+				"when": "rotate_2x180",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_rotate_2x180"
+				}
+			},
+			{
+				"when": "rotate_4x90",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_rotate_4x90"
+				}
+			},
+			{
+				"when": "rotate_8xflip",
+				"model": {
+					"type": "minecraft:model",
+					"model": "bigtech:block/building_block_rotate_8xflip"
+				}
+			}
+		]
+	}
+}

@@ -38,6 +38,7 @@ public interface BlockStateCycleRule {
 		builder(Properties.ORIENTATION).values(DOWN_NORTH, DOWN_EAST, DOWN_SOUTH, DOWN_WEST).buildAndRegister();
 		builder(Properties.INVERTED).testPlacementState((BlockState state) -> state.isOf(Blocks.DAYLIGHT_DETECTOR)).buildAndRegister();
 		builder(Properties.SLAB_TYPE).values(SlabType.BOTTOM, SlabType.TOP).testBlock(SlabBlock.class::isInstance).buildAndRegister();
+		builder(BigTechProperties.BUILDING_BLOCK_MODE).buildAndRegister();
 	}};
 
 	public static void register(BlockStateCycleRule rule) {
