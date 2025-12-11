@@ -1,5 +1,6 @@
 package builderb0y.bigtech.blocks;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import com.mojang.serialization.MapCodec;
@@ -88,10 +89,11 @@ public class BuildingBlock extends BlockWithEntity {
 		public static final BuildingBlockMode[] VALUES = values();
 
 		public final String lowerCaseName = this.name().toLowerCase(Locale.ROOT);
-		public final Symmetry[] symmetries;
+		public final Symmetry[] symmetriesIncludingIdentity, symmetriesExcludingIdentity;
 
 		BuildingBlockMode(Symmetry... symmetries) {
-			this.symmetries = symmetries;
+			this.symmetriesIncludingIdentity = symmetries;
+			this.symmetriesExcludingIdentity = Arrays.copyOfRange(symmetries, 1, symmetries.length);
 		}
 
 		@Override

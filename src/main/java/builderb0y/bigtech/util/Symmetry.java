@@ -80,7 +80,7 @@ public enum Symmetry {
 		return new Vec3d(this.getX(pos.getX(), pos.getZ()), pos.getY(), this.getZ(pos.getX(), pos.getZ()));
 	}
 
-	public BlockState modifyState(BlockState state) {
+	public BlockState modifyBlockState(BlockState state) {
 		return switch (this) {
 			case IDENTITY -> state;
 			case ROTATE_90 -> state.rotate(BlockRotation.CLOCKWISE_90);

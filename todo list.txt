@@ -15,6 +15,8 @@ things to finish for existing features:
 		toggle for:
 			if you're looking at the block you just placed, don't place a new block.
 			if you're looking at a different block, place immediately.
+	test building blocks again.
+		placement attempts may be duplicated.
 
 more material tiers:
 	stone (vanilla):

@@ -12,6 +12,7 @@
 		"BeaconBlockEntity_UseColorProviders",
 		"BigTechConfig_ImplementConfigData",
 		"BlockItem_AdjustStateProperly",
+		"BlockItem_UseBuildingBlock",
 		"ChainRestrictedNeighborUpdater_UpdateDiagonalForCatwalkPlatforms",
 		"ChestBlock_CreateMiner",
 		"ChunkBlockLightProvider_AllowBeamsToEmitLight",
